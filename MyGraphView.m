@@ -3,7 +3,7 @@
 //  Peacock
 //
 //  Created by Johan Kool.
-//  Copyright (c) 2003-2005 Johan Kool. All rights reserved.
+//  Copyright (c) 2003-2006 Johan Kool. All rights reserved.
 //
 
 
