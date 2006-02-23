@@ -1,0 +1,2663 @@
+{
+    Elements = {
+        "-" = {
+            "Avrg Mass" = 0.000548579911; 
+            "Boiling Point" = 20.27; 
+            Configuration = 1; 
+            Density = "8.99e-05"; 
+            EN = 2.2; 
+            "Fusion Heat" = 0.0586; 
+            Group = Ia; 
+            Isotopes = (
+                {Abundance = 99.985; "Half Life" = stable; Mass = 0.000548579911; "Ord Num" = 1011; }
+            ); 
+            Kind = 1; 
+            "Melting Point" = 14.03; 
+            "Mono Mass" = 0.000548579911; 
+            Name = electron; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 1011; 
+            Period = 1; 
+            Radius = 0.32; 
+            "Spec. Heat" = 14.03; 
+            Symbol = "-"; 
+            "Vaporization Heat" = 0.4493; 
+            Volume = 11.21; 
+        };
+	"+" = {
+            "Avrg Mass" = -0.000548579911; 
+            "Boiling Point" = 20.27; 
+            Configuration = 1; 
+            Density = "8.99e-05"; 
+            EN = 2.2; 
+            "Fusion Heat" = 0.0586; 
+            Group = Ia; 
+            Isotopes = (
+                {Abundance = 99.985; "Half Life" = stable; Mass = -0.000548579911; "Ord Num" = 1012; }
+            ); 
+            Kind = 1; 
+            "Melting Point" = 14.03; 
+            "Mono Mass" = -0.000548579911; 
+            Name = electron; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 1012; 
+            Period = 1; 
+            Radius = 0.32; 
+            "Spec. Heat" = 14.03; 
+            Symbol = "+"; 
+            "Vaporization Heat" = 0.4493; 
+            Volume = 11.21; 
+        };
+        Ac = {
+            "Avrg Mass" = 227; 
+            "Boiling Point" = 3473; 
+            Configuration = "2-8-18-32-18-9-2"; 
+            Density = 10.07; 
+            EN = 1.1; 
+            "Fusion Heat" = 0; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 227.02775; "Ord Num" = 227; }); 
+            Kind = 5; 
+            "Melting Point" = 1323; 
+            "Mono Mass" = 227.02775; 
+            Name = Actinum; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 89; 
+            Period = 3; 
+            Radius = "-"; 
+            "Spec. Heat" = 0; 
+            Symbol = Ac; 
+            "Vaporization Heat" = 0; 
+            Volume = 22.54; 
+        }; 
+        Ag = {
+            "Avrg Mass" = 107.8628; 
+            "Boiling Point" = 2436; 
+            Configuration = "2-8-18-18-1"; 
+            Density = 10.5; 
+            EN = 1.93; 
+            "Fusion Heat" = 11.3; 
+            Group = Ib; 
+            Isotopes = (
+                {Abundance = 51.839; "Half Life" = 0; Mass = 106.905092; "Ord Num" = 107; }, 
+                {Abundance = 48.161; "Half Life" = 0; Mass = 108.904757; "Ord Num" = 109; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 1234; 
+            "Mono Mass" = 106.905092; 
+            Name = Silver; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 47; 
+            Period = 11; 
+            Radius = 1.34; 
+            "Spec. Heat" = 0.235; 
+            Symbol = Ag; 
+            "Vaporization Heat" = 250.6; 
+            Volume = 10.27; 
+        }; 
+        Al = {
+            "Avrg Mass" = 26.981539; 
+            "Boiling Point" = 2793; 
+            Configuration = "2-8-3"; 
+            Density = 2.7; 
+            EN = 1.61; 
+            "Fusion Heat" = 10.79; 
+            Group = IIIa; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 26.9815386; "Ord Num" = 27; }); 
+            Kind = 6; 
+            "Melting Point" = 933.2; 
+            "Mono Mass" = 26.9815386; 
+            Name = Aluminium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 13; 
+            Period = 13; 
+            Radius = 1.18; 
+            "Spec. Heat" = 0.9; 
+            Symbol = Al; 
+            "Vaporization Heat" = 293.4; 
+            Volume = 9.993; 
+        }; 
+        Am = {
+            "Avrg Mass" = 243.0614; 
+            "Boiling Point" = 2880; 
+            Configuration = "2-8-18-32-25-8-2"; 
+            Density = 13.6; 
+            EN = 1.3; 
+            "Fusion Heat" = 14.4; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 243.0614; "Ord Num" = 243; }); 
+            Kind = 5; 
+            "Melting Point" = 1268; 
+            "Mono Mass" = 243.0614; 
+            Name = Americium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 95; 
+            Period = 3; 
+            Radius = "-"; 
+            "Spec. Heat" = 0.11; 
+            Symbol = Am; 
+            "Vaporization Heat" = 0; 
+            Volume = 0; 
+        }; 
+        Ar = {
+            "Avrg Mass" = 39.948; 
+            "Boiling Point" = 87.3; 
+            Configuration = "2-8-8"; 
+            Density = 0.001784; 
+            EN = 22.39; 
+            "Fusion Heat" = 1.188; 
+            Group = VIIIa; 
+            Isotopes = (
+                {Abundance = 0.3365; "Half Life" = 0; Mass = 35.96754552; "Ord Num" = 36; }, 
+                {Abundance = 0.0632; "Half Life" = 0; Mass = 37.9627325; "Ord Num" = 38; }, 
+                {Abundance = 99.6003; "Half Life" = 0; Mass = 39.9623837; "Ord Num" = 40; }
+            ); 
+            Kind = 8; 
+            "Melting Point" = 83.81; 
+            "Mono Mass" = 39.9623837; 
+            Name = Argon; 
+            "Number of Isotopes" = 3; 
+            "Ord Num" = 18; 
+            Period = 18; 
+            Radius = 0.98; 
+            "Spec. Heat" = 0.52; 
+            Symbol = Ar; 
+            "Vaporization Heat" = 6.447; 
+            Volume = 22.39; 
+        }; 
+        As = {
+            "Avrg Mass" = 74.92159; 
+            "Boiling Point" = 876; 
+            Configuration = "2-8-18-5"; 
+            Density = 5.72; 
+            EN = 2.18; 
+            "Fusion Heat" = 0; 
+            Group = Va; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 74.9215942; "Ord Num" = 75; }); 
+            Kind = 9; 
+            "Melting Point" = 1081; 
+            "Mono Mass" = 74.9215942; 
+            Name = Arsenic; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 33; 
+            Period = 15; 
+            Radius = 1.2; 
+            "Spec. Heat" = 0.33; 
+            Symbol = As; 
+            "Vaporization Heat" = 34.76; 
+            Volume = 13.1; 
+        }; 
+        At = {
+            "Avrg Mass" = 210; 
+            "Boiling Point" = 610; 
+            Configuration = "2-8-18-32-18-7"; 
+            Density = 3.2; 
+            EN = 2.2; 
+            "Fusion Heat" = 0; 
+            Group = VIIa; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 209.987126; "Ord Num" = 210; }); 
+            Kind = 10; 
+            "Melting Point" = 575; 
+            "Mono Mass" = 209.987126; 
+            Name = Astatine; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 85; 
+            Period = 17; 
+            Radius = 1.45; 
+            "Spec. Heat" = 0; 
+            Symbol = At; 
+            "Vaporization Heat" = 0; 
+            Volume = 65.62; 
+        }; 
+        Au = {
+            "Avrg Mass" = 196.96654; 
+            "Boiling Point" = 3130; 
+            Configuration = "2-8-18-32-18-1"; 
+            Density = 19.3; 
+            EN = 2.54; 
+            "Fusion Heat" = 12.55; 
+            Group = Ib; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 196.966543; "Ord Num" = 197; }); 
+            Kind = 3; 
+            "Melting Point" = 1338; 
+            "Mono Mass" = 196.966543; 
+            Name = Gold; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 79; 
+            Period = 11; 
+            Radius = 1.34; 
+            "Spec. Heat" = 0.128; 
+            Symbol = Au; 
+            "Vaporization Heat" = 334.4; 
+            Volume = 10.21; 
+        }; 
+        B = {
+            "Avrg Mass" = 10.811; 
+            "Boiling Point" = 4275; 
+            Configuration = "2-3"; 
+            Density = 2.34; 
+            EN = 2.04; 
+            "Fusion Heat" = 50.2; 
+            Group = IIIa; 
+            Isotopes = (
+                {Abundance = 19.9; "Half Life" = stable; Mass = 10.0129369; "Ord Num" = 10; }, 
+                {Abundance = 80.1; "Half Life" = stable; Mass = 11.0093054; "Ord Num" = 11; }
+            ); 
+            Kind = 9; 
+            "Melting Point" = 2300; 
+            "Mono Mass" = 11.0093054; 
+            Name = Boron; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 5; 
+            Period = 13; 
+            Radius = 0.82; 
+            "Spec. Heat" = 1.02; 
+            Symbol = B; 
+            "Vaporization Heat" = 489.7; 
+            Volume = 4.62; 
+        }; 
+        Ba = {
+            "Avrg Mass" = 137.327; 
+            "Boiling Point" = 2171; 
+            Configuration = "2-8-18-18-8-2"; 
+            Density = 3.5; 
+            EN = 0.89; 
+            "Fusion Heat" = 7.75; 
+            Group = IIa; 
+            Isotopes = (
+                {Abundance = 0.106; "Half Life" = 0; Mass = 129.906282; "Ord Num" = 130; }, 
+                {Abundance = 0.101; "Half Life" = 0; Mass = 131.905042; "Ord Num" = 132; }, 
+                {Abundance = 2.417; "Half Life" = 0; Mass = 133.904486; "Ord Num" = 134; }, 
+                {Abundance = 6.592; "Half Life" = 0; Mass = 134.905665; "Ord Num" = 135; }, 
+                {Abundance = 7.854; "Half Life" = 0; Mass = 135.904553; "Ord Num" = 136; }, 
+                {Abundance = 11.23; "Half Life" = 0; Mass = 136.905812; "Ord Num" = 137; }, 
+                {Abundance = 71.7; "Half Life" = 0; Mass = 137.905232; "Ord Num" = 138; }
+            ); 
+            Kind = 2; 
+            "Melting Point" = 1002; 
+            "Mono Mass" = 137.905232; 
+            Name = Barium; 
+            "Number of Isotopes" = 7; 
+            "Ord Num" = 56; 
+            Period = 2; 
+            Radius = 1.98; 
+            "Spec. Heat" = 0.204; 
+            Symbol = Ba; 
+            "Vaporization Heat" = 142; 
+            Volume = 39.24; 
+        }; 
+        Be = {
+            "Avrg Mass" = 9.0121822; 
+            "Boiling Point" = 2745; 
+            Configuration = "2-2"; 
+            Density = 1.848; 
+            EN = 1.57; 
+            "Fusion Heat" = 12.2; 
+            Group = IIa; 
+            Isotopes = ({Abundance = 100; "Half Life" = stable; Mass = 9.0121822; "Ord Num" = 9; }); 
+            Kind = 2; 
+            "Melting Point" = 1560; 
+            "Mono Mass" = 9.0121822; 
+            Name = Beryllium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 4; 
+            Period = 2; 
+            Radius = 0.9; 
+            "Spec. Heat" = 1.82; 
+            Symbol = Be; 
+            "Vaporization Heat" = 292.4; 
+            Volume = 4.871; 
+        }; 
+        Bi = {
+            "Avrg Mass" = 208.98037; 
+            "Boiling Point" = 1837; 
+            Configuration = "2-8-18-32-18-5"; 
+            Density = 9.8; 
+            EN = 2.02; 
+            "Fusion Heat" = 11.3; 
+            Group = Va; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 208.980374; "Ord Num" = 209; }); 
+            Kind = 6; 
+            "Melting Point" = 544.5; 
+            "Mono Mass" = 208.980374; 
+            Name = Bismuth; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 83; 
+            Period = 15; 
+            Radius = 1.46; 
+            "Spec. Heat" = 0.12; 
+            Symbol = Bi; 
+            "Vaporization Heat" = 104.8; 
+            Volume = 21.32; 
+        }; 
+        Bk = {
+            "Avrg Mass" = 247; 
+            "Boiling Point" = 0; 
+            Configuration = "2-8-18-32-27-8-2"; 
+            Density = 0; 
+            EN = 1.3; 
+            "Fusion Heat" = 0; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 247.0702; "Ord Num" = 247; }); 
+            Kind = 5; 
+            "Melting Point" = 0; 
+            "Mono Mass" = 247; 
+            Name = Berkelium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 97; 
+            Period = 3; 
+            Radius = "-"; 
+            "Spec. Heat" = 0; 
+            Symbol = Bk; 
+            "Vaporization Heat" = 0; 
+            Volume = 0; 
+        }; 
+        Br = {
+            "Avrg Mass" = 79.904; 
+            "Boiling Point" = 332.2; 
+            Configuration = "2-8-18-7"; 
+            Density = 3.12; 
+            EN = 2.96; 
+            "Fusion Heat" = 5.286; 
+            Group = VIIa; 
+            Isotopes = (
+                {Abundance = 50.69; "Half Life" = 0; Mass = 78.9183361; "Ord Num" = 79; }, 
+                {Abundance = 49.31; "Half Life" = 0; Mass = 80.916289; "Ord Num" = 81; }
+            ); 
+            Kind = 10; 
+            "Melting Point" = 265.9; 
+            "Mono Mass" = 78.9183361; 
+            Name = Bromine; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 35; 
+            Period = 17; 
+            Radius = 1.14; 
+            "Spec. Heat" = 0.473; 
+            Symbol = Br; 
+            "Vaporization Heat" = 0; 
+            Volume = 25.61; 
+        }; 
+        C = {
+            "Avrg Mass" = 12.011; 
+            "Boiling Point" = 4470; 
+            Configuration = "2-4"; 
+            Density = 2.62; 
+            EN = 2.55; 
+            "Fusion Heat" = 0; 
+            Group = IVa; 
+            Isotopes = (
+                {Abundance = 98.9; "Half Life" = stable; Mass = 12.000000000; "Ord Num" = 12; }, 
+                {Abundance = 1.1; "Half Life" = stable; Mass = 13.003354826; "Ord Num" = 13; }, 
+                {Abundance = 0; "Half Life" = "5715 y"; Mass = 14.003241982; "Ord Num" = 14; }
+            ); 
+            Kind = 7; 
+            "Melting Point" = 4100; 
+            "Mono Mass" = 12.00000000; 
+            Name = Carbon; 
+            "Number of Isotopes" = 3; 
+            "Ord Num" = 6; 
+            Period = 14; 
+            Radius = 0.77; 
+            "Spec. Heat" = 0.71; 
+            Symbol = C; 
+            "Vaporization Heat" = 355.8; 
+            Volume = 4.584; 
+        }; 
+        Ca = {
+            "Avrg Mass" = 40.078; 
+            "Boiling Point" = 1757; 
+            Configuration = "2-8-8-2"; 
+            Density = 1.55; 
+            EN = 1; 
+            "Fusion Heat" = 8.54; 
+            Group = IIa; 
+            Isotopes = (
+                {Abundance = 96.941; "Half Life" = 0; Mass = 39.9625906; "Ord Num" = 40; }, 
+                {Abundance = 0.647; "Half Life" = 0; Mass = 41.9586176; "Ord Num" = 42; }, 
+                {Abundance = 0.135; "Half Life" = 0; Mass = 42.9587662; "Ord Num" = 43; }, 
+                {Abundance = 2.086; "Half Life" = 0; Mass = 43.9554806; "Ord Num" = 44; }, 
+                {Abundance = 0.004; "Half Life" = 0; Mass = 45.953689; "Ord Num" = 46; }, 
+                {Abundance = 0.187; "Half Life" = 0; Mass = 47.952533; "Ord Num" = 48; }
+            ); 
+            Kind = 2; 
+            "Melting Point" = 1112; 
+            "Mono Mass" = 39.9625906; 
+            Name = Calcium; 
+            "Number of Isotopes" = 6; 
+            "Ord Num" = 20; 
+            Period = 2; 
+            Radius = 1.74; 
+            "Spec. Heat" = 0.63; 
+            Symbol = Ca; 
+            "Vaporization Heat" = 153.6; 
+            Volume = 25.86; 
+        }; 
+        Cd = {
+            "Avrg Mass" = 112.411; 
+            "Boiling Point" = 1040; 
+            Configuration = "2-8-18-18-2"; 
+            Density = 8.65; 
+            EN = 1.69; 
+            "Fusion Heat" = 6.192; 
+            Group = IIb; 
+            Isotopes = (
+                {Abundance = 1.25; "Half Life" = 0; Mass = 105.906461; "Ord Num" = 106; }, 
+                {Abundance = 0.89; "Half Life" = 0; Mass = 107.904176; "Ord Num" = 108; }, 
+                {Abundance = 12.49; "Half Life" = 0; Mass = 109.903005; "Ord Num" = 110; }, 
+                {Abundance = 12.8; "Half Life" = 0; Mass = 110.904182; "Ord Num" = 111; }, 
+                {Abundance = 24.13; "Half Life" = 0; Mass = 111.902758; "Ord Num" = 112; }, 
+                {Abundance = 12.22; "Half Life" = 0; Mass = 112.9044; "Ord Num" = 113; }, 
+                {Abundance = 28.73; "Half Life" = 0; Mass = 113.903357; "Ord Num" = 114; }, 
+                {Abundance = 7.49; "Half Life" = 0; Mass = 115.904754; "Ord Num" = 116; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 594.2; 
+            "Mono Mass" = 113.903357; 
+            Name = Cadmium; 
+            "Number of Isotopes" = 8; 
+            "Ord Num" = 48; 
+            Period = 12; 
+            Radius = 1.48; 
+            "Spec. Heat" = 0.23; 
+            Symbol = Cd; 
+            "Vaporization Heat" = 99.57; 
+            Volume = 12.99; 
+        }; 
+        Ce = {
+            "Avrg Mass" = 140.115; 
+            "Boiling Point" = 3699; 
+            Configuration = "2-8-18-20-8-2"; 
+            Density = 6.78; 
+            EN = 1.12; 
+            "Fusion Heat" = 5.46; 
+            Group = IIIb; 
+            Isotopes = (
+                {Abundance = 0.19; "Half Life" = 0; Mass = 135.90714; "Ord Num" = 136; }, 
+                {Abundance = 0.25; "Half Life" = 0; Mass = 137.905985; "Ord Num" = 138; }, 
+                {Abundance = 88.48; "Half Life" = 0; Mass = 139.905433; "Ord Num" = 140; }, 
+                {Abundance = 11.08; "Half Life" = 0; Mass = 141.909241; "Ord Num" = 142; }
+            ); 
+            Kind = 4; 
+            "Melting Point" = 1071; 
+            "Mono Mass" = 139.905433; 
+            Name = Cerium; 
+            "Number of Isotopes" = 4; 
+            "Ord Num" = 58; 
+            Period = 3; 
+            Radius = 1.65; 
+            "Spec. Heat" = 0.19; 
+            Symbol = Ce; 
+            "Vaporization Heat" = 414; 
+            Volume = 20.67; 
+        }; 
+        Cf = {
+            "Avrg Mass" = 251; 
+            "Boiling Point" = 0; 
+            Configuration = "2-8-18-32-28-8-2"; 
+            Density = 0; 
+            EN = 1.3; 
+            "Fusion Heat" = 0; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 251; "Ord Num" = 251; }); 
+            Kind = 5; 
+            "Melting Point" = 900; 
+            "Mono Mass" = 251; 
+            Name = Californium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 98; 
+            Period = 3; 
+            Radius = "-"; 
+            "Spec. Heat" = 0; 
+            Symbol = Cf; 
+            "Vaporization Heat" = 0; 
+            Volume = 0; 
+        }; 
+        Cl = {
+            "Avrg Mass" = 35.4527; 
+            "Boiling Point" = 239.1; 
+            Configuration = "2-8-7"; 
+            Density = 0.00317; 
+            EN = 3.16; 
+            "Fusion Heat" = 3.203; 
+            Group = VIIa; 
+            Isotopes = (
+                {Abundance = 75.77; "Half Life" = 0; Mass = 34.96885272; "Ord Num" = 35; }, 
+                {Abundance = 24.23; "Half Life" = 0; Mass = 36.96590262; "Ord Num" = 37; }
+            ); 
+            Kind = 10; 
+            "Melting Point" = 172.2; 
+            "Mono Mass" = 34.96885272; 
+            Name = Chlor; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 17; 
+            Period = 17; 
+            Radius = 0.99; 
+            "Spec. Heat" = 0.48; 
+            Symbol = Cl; 
+            "Vaporization Heat" = 10.2; 
+            Volume = 11.18; 
+        }; 
+        Cm = {
+            "Avrg Mass" = 247; 
+            "Boiling Point" = 0; 
+            Configuration = "2-8-18-32-25-9-2"; 
+            Density = 13.51; 
+            EN = 1.3; 
+            "Fusion Heat" = 15; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 247; "Ord Num" = 247; }); 
+            Kind = 5; 
+            "Melting Point" = 1613; 
+            "Mono Mass" = 247; 
+            Name = Curium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 96; 
+            Period = 3; 
+            Radius = "-"; 
+            "Spec. Heat" = 0; 
+            Symbol = Cm; 
+            "Vaporization Heat" = 0; 
+            Volume = 0; 
+        }; 
+        Co = {
+            "Avrg Mass" = 58.9332; 
+            "Boiling Point" = 3201; 
+            Configuration = "2-8-15-2"; 
+            Density = 8.9; 
+            EN = 1.88; 
+            "Fusion Heat" = 16.19; 
+            Group = VIII; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 58.9331976; "Ord Num" = 59; }); 
+            Kind = 3; 
+            "Melting Point" = 1768; 
+            "Mono Mass" = 58.9331976; 
+            Name = Cobalt; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 27; 
+            Period = 9; 
+            Radius = 1.16; 
+            "Spec. Heat" = 0.42; 
+            Symbol = Co; 
+            "Vaporization Heat" = 376.5; 
+            Volume = 6.622; 
+        }; 
+        Cr = {
+            "Avrg Mass" = 51.9961; 
+            "Boiling Point" = 2945; 
+            Configuration = "2-8-13-1"; 
+            Density = 7.19; 
+            EN = 1.66; 
+            "Fusion Heat" = 16.9; 
+            Group = VIb; 
+            Isotopes = (
+                {Abundance = 4.345; "Half Life" = 0; Mass = 49.9460464; "Ord Num" = 50; }, 
+                {Abundance = 83.789; "Half Life" = 0; Mass = 51.9405098; "Ord Num" = 52; }, 
+                {Abundance = 9.501; "Half Life" = 0; Mass = 52.9406513; "Ord Num" = 53; }, 
+                {Abundance = 2.365; "Half Life" = 0; Mass = 53.9388825; "Ord Num" = 54; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 2130; 
+            "Mono Mass" = 51.9405098; 
+            Name = Chromium; 
+            "Number of Isotopes" = 4; 
+            "Ord Num" = 24; 
+            Period = 6; 
+            Radius = 1.18; 
+            "Spec. Heat" = 0.45; 
+            Symbol = Cr; 
+            "Vaporization Heat" = 344.3; 
+            Volume = 7.232; 
+        }; 
+        Cs = {
+            "Avrg Mass" = 132.90543; 
+            "Boiling Point" = 944; 
+            Configuration = "2-8-18-18-8-1"; 
+            Density = 1.87; 
+            EN = 0.79; 
+            "Fusion Heat" = 2.092; 
+            Group = Ia; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 132.905429; "Ord Num" = 133; }); 
+            Kind = 1; 
+            "Melting Point" = 301.6; 
+            "Mono Mass" = 132.905429; 
+            Name = Caesium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 55; 
+            Period = 1; 
+            Radius = 2.35; 
+            "Spec. Heat" = 0.24; 
+            Symbol = Cs; 
+            "Vaporization Heat" = 67.74; 
+            Volume = 71.07; 
+        }; 
+        Cu = {
+            "Avrg Mass" = 63.546; 
+            "Boiling Point" = 2836; 
+            Configuration = "2-8-18-1"; 
+            Density = 8.96; 
+            EN = 1.9; 
+            "Fusion Heat" = 13.05; 
+            Group = Ib; 
+            Isotopes = (
+                {Abundance = 69.17; "Half Life" = 0; Mass = 62.9295989; "Ord Num" = 63; }, 
+                {Abundance = 30.83; "Half Life" = 0; Mass = 64.9277929; "Ord Num" = 65; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 1358; 
+            "Mono Mass" = 62.9295989; 
+            Name = Copper; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 29; 
+            Period = 11; 
+            Radius = 1.17; 
+            "Spec. Heat" = 0.38; 
+            Symbol = Cu; 
+            "Vaporization Heat" = 300.3; 
+            Volume = 7.092; 
+        }; 
+        Dy = {
+            "Avrg Mass" = 162.5; 
+            "Boiling Point" = 2835; 
+            Configuration = "2-8-18-28-8-2"; 
+            Density = 8.54; 
+            EN = 1.22; 
+            "Fusion Heat" = 11.06; 
+            Group = IIIb; 
+            Isotopes = (
+                {Abundance = 0.06; "Half Life" = 0; Mass = 155.924277; "Ord Num" = 156; }, 
+                {Abundance = 0.1; "Half Life" = 0; Mass = 157.924403; "Ord Num" = 158; }, 
+                {Abundance = 2.34; "Half Life" = 0; Mass = 159.925193; "Ord Num" = 160; }, 
+                {Abundance = 18.9; "Half Life" = 0; Mass = 160.92693; "Ord Num" = 161; }, 
+                {Abundance = 25.5; "Half Life" = 0; Mass = 161.926795; "Ord Num" = 162; }, 
+                {Abundance = 24.9; "Half Life" = 0; Mass = 162.928728; "Ord Num" = 163; }, 
+                {Abundance = 28.2; "Half Life" = 0; Mass = 163.929171; "Ord Num" = 164; }
+            ); 
+            Kind = 4; 
+            "Melting Point" = 1682; 
+            "Mono Mass" = 163.929171; 
+            Name = Dysprosium; 
+            "Number of Isotopes" = 7; 
+            "Ord Num" = 66; 
+            Period = 3; 
+            Radius = 1.59; 
+            "Spec. Heat" = 0.17; 
+            Symbol = Dy; 
+            "Vaporization Heat" = 230; 
+            Volume = 19.03; 
+        }; 
+        Er = {
+            "Avrg Mass" = 167.26; 
+            "Boiling Point" = 3136; 
+            Configuration = "2-8-18-30-8-2"; 
+            Density = 9.05; 
+            EN = 1.24; 
+            "Fusion Heat" = 19.9; 
+            Group = IIIb; 
+            Isotopes = (
+                {Abundance = 0.14; "Half Life" = 0; Mass = 161.928775; "Ord Num" = 162; }, 
+                {Abundance = 1.61; "Half Life" = 0; Mass = 163.929198; "Ord Num" = 164; }, 
+                {Abundance = 33.6; "Half Life" = 0; Mass = 165.93029; "Ord Num" = 166; }, 
+                {Abundance = 22.95; "Half Life" = 0; Mass = 166.932046; "Ord Num" = 167; }, 
+                {Abundance = 26.8; "Half Life" = 0; Mass = 167.932368; "Ord Num" = 168; }, 
+                {Abundance = 14.9; "Half Life" = 0; Mass = 169.935461; "Ord Num" = 170; }
+            ); 
+            Kind = 4; 
+            "Melting Point" = 1795; 
+            "Mono Mass" = 167.932368; 
+            Name = Erbium; 
+            "Number of Isotopes" = 6; 
+            "Ord Num" = 68; 
+            Period = 3; 
+            Radius = 1.57; 
+            "Spec. Heat" = 0.17; 
+            Symbol = Er; 
+            "Vaporization Heat" = 261; 
+            Volume = 18.48; 
+        }; 
+        Es = {
+            "Avrg Mass" = 254; 
+            "Boiling Point" = 0; 
+            Configuration = "2-8-18-32-29-8-2"; 
+            Density = 0; 
+            EN = 1.3; 
+            "Fusion Heat" = 0; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 254.0881; "Ord Num" = 254; }); 
+            Kind = 5; 
+            "Melting Point" = 0; 
+            "Mono Mass" = 254; 
+            Name = Einsteinium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 99; 
+            Period = 3; 
+            Radius = "-"; 
+            "Spec. Heat" = 0; 
+            Symbol = Es; 
+            "Vaporization Heat" = 0; 
+            Volume = 0; 
+        }; 
+        Eu = {
+            "Avrg Mass" = 151.965; 
+            "Boiling Point" = 1870; 
+            Configuration = "2-8-18-25-8-2"; 
+            Density = 5.26; 
+            EN = 1.2; 
+            "Fusion Heat" = 9.21; 
+            Group = IIIb; 
+            Isotopes = (
+                {Abundance = 47.8; "Half Life" = 0; Mass = 150.919847; "Ord Num" = 151; }, 
+                {Abundance = 52.2; "Half Life" = 0; Mass = 152.921225; "Ord Num" = 153; }
+            ); 
+            Kind = 4; 
+            "Melting Point" = 1090; 
+            "Mono Mass" = 152.921225; 
+            Name = Europium; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 63; 
+            Period = 3; 
+            Radius = 1.85; 
+            "Spec. Heat" = 0.18; 
+            Symbol = Eu; 
+            "Vaporization Heat" = 143.5; 
+            Volume = 28.89; 
+        }; 
+        F = {
+            "Avrg Mass" = 18.99840322; 
+            "Boiling Point" = 84.95; 
+            Configuration = "2-7"; 
+            Density = 0.001696; 
+            EN = 3.98; 
+            "Fusion Heat" = 0.2552; 
+            Group = VIIa; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 18.99840322; "Ord Num" = 19; }); 
+            Kind = 10; 
+            "Melting Point" = 53.48; 
+            "Mono Mass" = 18.99840322; 
+            Name = Fluorine; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 9; 
+            Period = 17; 
+            Radius = 0.72; 
+            "Spec. Heat" = 0.82; 
+            Symbol = F; 
+            "Vaporization Heat" = 3.27; 
+            Volume = 11.2; 
+        }; 
+        Fe = {
+            "Avrg Mass" = 55.845; 
+            "Boiling Point" = 3135; 
+            Configuration = "2-8-14-2"; 
+            Density = 7.86; 
+            EN = 1.83; 
+            "Fusion Heat" = 13.8; 
+            Group = VIII; 
+            Isotopes = (
+                {Abundance = 5.8; "Half Life" = 0; Mass = 53.9396127; "Ord Num" = 54; }, 
+                {Abundance = 91.72; "Half Life" = 0; Mass = 55.9349393; "Ord Num" = 56; }, 
+                {Abundance = 2.2; "Half Life" = 0; Mass = 56.9353958; "Ord Num" = 57; }, 
+                {Abundance = 0.28; "Half Life" = 0; Mass = 57.9332773; "Ord Num" = 58; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 1809; 
+            "Mono Mass" = 55.9349393; 
+            Name = Iron; 
+            "Number of Isotopes" = 4; 
+            "Ord Num" = 26; 
+            Period = 8; 
+            Radius = 1.17; 
+            "Spec. Heat" = 0.44; 
+            Symbol = Fe; 
+            "Vaporization Heat" = 349.6; 
+            Volume = 7.105; 
+        }; 
+        Fm = {
+            "Avrg Mass" = 257; 
+            "Boiling Point" = 0; 
+            Configuration = "2-8-18-32-30-8-2"; 
+            Density = 0; 
+            EN = 1.3; 
+            "Fusion Heat" = 0; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 255; "Ord Num" = 255; }); 
+            Kind = 5; 
+            "Melting Point" = 0; 
+            "Mono Mass" = 257; 
+            Name = Fermium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 100; 
+            Period = 3; 
+            Radius = "-"; 
+            "Spec. Heat" = 0; 
+            Symbol = Fm; 
+            "Vaporization Heat" = 0; 
+            Volume = 0; 
+        }; 
+        Fr = {
+            "Avrg Mass" = 223; 
+            "Boiling Point" = 950; 
+            Configuration = "2-8-18-32-18-8-1"; 
+            Density = 1.87; 
+            EN = 0.7; 
+            "Fusion Heat" = 0; 
+            Group = Ia; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 223.019733; "Ord Num" = 223; }); 
+            Kind = 1; 
+            "Melting Point" = 300; 
+            "Mono Mass" = 223.019733; 
+            Name = Francium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 87; 
+            Period = 1; 
+            Radius = "-"; 
+            "Spec. Heat" = 0; 
+            Symbol = Fr; 
+            "Vaporization Heat" = 0; 
+            Volume = 0; 
+        }; 
+        Ga = {
+            "Avrg Mass" = 69.723; 
+            "Boiling Point" = 2478; 
+            Configuration = "2-8-18-3"; 
+            Density = 5.91; 
+            EN = 1.81; 
+            "Fusion Heat" = 5.59; 
+            Group = IIIa; 
+            Isotopes = (
+                {Abundance = 60.108; "Half Life" = 0; Mass = 68.92558; "Ord Num" = 69; }, 
+                {Abundance = 39.892; "Half Life" = 0; Mass = 70.9247005; "Ord Num" = 71; }
+            ); 
+            Kind = 6; 
+            "Melting Point" = 302.9; 
+            "Mono Mass" = 68.92558; 
+            Name = Gallium; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 31; 
+            Period = 13; 
+            Radius = 1.26; 
+            "Spec. Heat" = 0.37; 
+            Symbol = Ga; 
+            "Vaporization Heat" = 258.7; 
+            Volume = 11.8; 
+        }; 
+        Gd = {
+            "Avrg Mass" = 157.25; 
+            "Boiling Point" = 3539; 
+            Configuration = "2-8-18-25-9-2"; 
+            Density = 7.89; 
+            EN = 1.2; 
+            "Fusion Heat" = 10.05; 
+            Group = IIIb; 
+            Isotopes = (
+                {Abundance = 0.2; "Half Life" = 0; Mass = 151.919786; "Ord Num" = 152; }, 
+                {Abundance = 2.18; "Half Life" = 0; Mass = 153.920861; "Ord Num" = 154; }, 
+                {Abundance = 14.8; "Half Life" = 0; Mass = 154.922618; "Ord Num" = 155; }, 
+                {Abundance = 20.47; "Half Life" = 0; Mass = 155.922118; "Ord Num" = 156; }, 
+                {Abundance = 15.65; "Half Life" = 0; Mass = 156.923956; "Ord Num" = 157; }, 
+                {Abundance = 24.84; "Half Life" = 0; Mass = 157.924019; "Ord Num" = 158; }, 
+                {Abundance = 21.86; "Half Life" = 0; Mass = 159.927049; "Ord Num" = 160; }
+            ); 
+            Kind = 4; 
+            "Melting Point" = 1585; 
+            "Mono Mass" = 157.924019; 
+            Name = Gadolinium; 
+            "Number of Isotopes" = 7; 
+            "Ord Num" = 64; 
+            Period = 3; 
+            Radius = 1.61; 
+            "Spec. Heat" = 0.23; 
+            Symbol = Gd; 
+            "Vaporization Heat" = 359.4; 
+            Volume = 19.93; 
+        }; 
+        Ge = {
+            "Avrg Mass" = 72.61; 
+            "Boiling Point" = 3107; 
+            Configuration = "2-8-18-4"; 
+            Density = 5.32; 
+            EN = 2.01; 
+            "Fusion Heat" = 36.94; 
+            Group = IVa; 
+            Isotopes = (
+                {Abundance = 21.23; "Half Life" = 0; Mass = 69.9242497; "Ord Num" = 70; }, 
+                {Abundance = 27.66; "Half Life" = 0; Mass = 71.9220789; "Ord Num" = 72; }, 
+                {Abundance = 7.73; "Half Life" = 0; Mass = 72.9234626; "Ord Num" = 73; }, 
+                {Abundance = 35.94; "Half Life" = 0; Mass = 73.9211774; "Ord Num" = 74; }, 
+                {Abundance = 7.44; "Half Life" = 0; Mass = 75.9214016; "Ord Num" = 76; }
+            ); 
+            Kind = 9; 
+            "Melting Point" = 1210; 
+            "Mono Mass" = 73.9211774; 
+            Name = Germanium; 
+            "Number of Isotopes" = 5; 
+            "Ord Num" = 32; 
+            Period = 14; 
+            Radius = 1.22; 
+            "Spec. Heat" = 0.32; 
+            Symbol = Ge; 
+            "Vaporization Heat" = 330.9; 
+            Volume = 13.64; 
+        }; 
+        H = {
+            "Avrg Mass" = 1.00794; 
+            "Boiling Point" = 20.27; 
+            Configuration = 1; 
+            Density = "8.99e-05"; 
+            EN = 2.2; 
+            "Fusion Heat" = 0.0586; 
+            Group = Ia; 
+            Isotopes = (
+                {Abundance = 99.985; "Half Life" = stable; Mass = 1.007825035; "Ord Num" = 1; }, 
+                {Abundance = 0.015; "Half Life" = stable; Mass = 2.01410179; "Ord Num" = 2; }, 
+                {Abundance = 0; "Half Life" = "12.32 y"; Mass = 3.01604927; "Ord Num" = 3; }
+            ); 
+            Kind = 1; 
+            "Melting Point" = 14.03; 
+            "Mono Mass" = 1.00782503; 
+            Name = Hydrogen; 
+            "Number of Isotopes" = 3; 
+            "Ord Num" = 1; 
+            Period = 1; 
+            Radius = 0.32; 
+            "Spec. Heat" = 14.03; 
+            Symbol = H; 
+            "Vaporization Heat" = 0.4493; 
+            Volume = 11.21; 
+        }; 
+        He = {
+            "Avrg Mass" = 4.002602; 
+            "Boiling Point" = 4.215; 
+            Configuration = 2; 
+            Density = 0.0001787; 
+            EN = 0; 
+            "Fusion Heat" = 0; 
+            Group = VIIIa; 
+            Isotopes = (
+                {
+                    Abundance = 0.000137; 
+                    "Half Life" = stable; 
+                    Mass = 3.01602931; 
+                    "Ord Num" = 3; 
+                }, 
+                {
+                    Abundance = 99.999863; 
+                    "Half Life" = stable; 
+                    Mass = 4.00260324; 
+                    "Ord Num" = 4; 
+                }
+            ); 
+            Kind = 8; 
+            "Melting Point" = 0.95; 
+            "Mono Mass" = 4.00260324; 
+            Name = Helium; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 2; 
+            Period = 18; 
+            Radius = 0.93; 
+            "Spec. Heat" = 5.193; 
+            Symbol = He; 
+            "Vaporization Heat" = 0.0845; 
+            Volume = 22.4; 
+        }; 
+        Hf = {
+            "Avrg Mass" = 178.49; 
+            "Boiling Point" = 4876; 
+            Configuration = "2-8-18-32-10-2"; 
+            Density = 13.1; 
+            EN = 1.3; 
+            "Fusion Heat" = 24.06; 
+            Group = IVb; 
+            Isotopes = (
+                {Abundance = 0.162; "Half Life" = 0; Mass = 173.940044; "Ord Num" = 174; }, 
+                {Abundance = 5.206; "Half Life" = 0; Mass = 175.941406; "Ord Num" = 176; }, 
+                {Abundance = 18.606; "Half Life" = 0; Mass = 176.943217; "Ord Num" = 177; }, 
+                {Abundance = 27.297; "Half Life" = 0; Mass = 177.943696; "Ord Num" = 178; }, 
+                {Abundance = 13.629; "Half Life" = 0; Mass = 178.9458122; "Ord Num" = 179; }, 
+                {Abundance = 35.1; "Half Life" = 0; Mass = 179.9465457; "Ord Num" = 180; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 2500; 
+            "Mono Mass" = 179.9465457; 
+            Name = Hafnium; 
+            "Number of Isotopes" = 6; 
+            "Ord Num" = 72; 
+            Period = 4; 
+            Radius = 1.44; 
+            "Spec. Heat" = 0.14; 
+            Symbol = Hf; 
+            "Vaporization Heat" = 575; 
+            Volume = 13.62; 
+        }; 
+        Hg = {
+            "Avrg Mass" = 200.59; 
+            "Boiling Point" = 630; 
+            Configuration = "2-8-18-32-18-2"; 
+            Density = 13.53; 
+            EN = 2; 
+            "Fusion Heat" = 2.295; 
+            Group = IIb; 
+            Isotopes = (
+                {Abundance = 0.15; "Half Life" = 0; Mass = 195.965807; "Ord Num" = 196; }, 
+                {Abundance = 9.97; "Half Life" = 0; Mass = 197.966743; "Ord Num" = 198; }, 
+                {Abundance = 16.87; "Half Life" = 0; Mass = 198.968254; "Ord Num" = 199; }, 
+                {Abundance = 23.1; "Half Life" = 0; Mass = 199.9683; "Ord Num" = 200; }, 
+                {Abundance = 13.18; "Half Life" = 0; Mass = 200.970277; "Ord Num" = 201; }, 
+                {Abundance = 29.86; "Half Life" = 0; Mass = 201.970617; "Ord Num" = 202; }, 
+                {Abundance = 6.87; "Half Life" = 0; Mass = 203.973467; "Ord Num" = 204; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 234.6; 
+            "Mono Mass" = 201.970617; 
+            Name = Mercury; 
+            "Number of Isotopes" = 7; 
+            "Ord Num" = 80; 
+            Period = 12; 
+            Radius = 1.49; 
+            "Spec. Heat" = 0.139; 
+            Symbol = Hg; 
+            "Vaporization Heat" = 59.23; 
+            Volume = 14.83; 
+        }; 
+        Ho = {
+            "Avrg Mass" = 164.93032; 
+            "Boiling Point" = 2968; 
+            Configuration = "2-8-18-29-8-2"; 
+            Density = 8.8; 
+            EN = 1.23; 
+            "Fusion Heat" = 12.2; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 164.930319; "Ord Num" = 165; }); 
+            Kind = 4; 
+            "Melting Point" = 1743; 
+            "Mono Mass" = 164.930319; 
+            Name = Holmium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 67; 
+            Period = 3; 
+            Radius = 1.58; 
+            "Spec. Heat" = 0.16; 
+            Symbol = Ho; 
+            "Vaporization Heat" = 241; 
+            Volume = 18.74; 
+        }; 
+        I = {
+            "Avrg Mass" = 126.90447; 
+            "Boiling Point" = 458.4; 
+            Configuration = "2-8-18-18-7"; 
+            Density = 4.92; 
+            EN = 2.66; 
+            "Fusion Heat" = 7.824; 
+            Group = VIIa; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 126.904473; "Ord Num" = 127; }); 
+            Kind = 10; 
+            "Melting Point" = 386.7; 
+            "Mono Mass" = 126.904473; 
+            Name = Iodine; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 53; 
+            Period = 17; 
+            Radius = 1.33; 
+            "Spec. Heat" = 0.214; 
+            Symbol = I; 
+            "Vaporization Heat" = 20.75; 
+            Volume = 25.79; 
+        }; 
+        In = {
+            "Avrg Mass" = 114.818; 
+            "Boiling Point" = 2346; 
+            Configuration = "2-8-18-18-3"; 
+            Density = 7.31; 
+            EN = 1.78; 
+            "Fusion Heat" = 3.263; 
+            Group = IIIa; 
+            Isotopes = (
+                {Abundance = 4.3; "Half Life" = 0; Mass = 112.904061; "Ord Num" = 113; }, 
+                {Abundance = 95.7; "Half Life" = 0; Mass = 114.90388; "Ord Num" = 115; }
+            ); 
+            Kind = 6; 
+            "Melting Point" = 429.8; 
+            "Mono Mass" = 114.90388; 
+            Name = Indium; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 49; 
+            Period = 13; 
+            Radius = 1.44; 
+            "Spec. Heat" = 0.23; 
+            Symbol = In; 
+            "Vaporization Heat" = 231.5; 
+            Volume = 15.71; 
+        }; 
+        Ir = {
+            "Avrg Mass" = 192.217; 
+            "Boiling Point" = 4701; 
+            Configuration = "2-8-18-32-15-2"; 
+            Density = 22.5; 
+            EN = 2.2; 
+            "Fusion Heat" = 26.1; 
+            Group = VIII; 
+            Isotopes = (
+                {Abundance = 37.3; "Half Life" = 0; Mass = 190.960584; "Ord Num" = 191; }, 
+                {Abundance = 62.7; "Half Life" = 0; Mass = 192.962917; "Ord Num" = 193; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 2716; 
+            "Mono Mass" = 192.962917; 
+            Name = Iridium; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 77; 
+            Period = 9; 
+            Radius = 1.27; 
+            "Spec. Heat" = 0.13; 
+            Symbol = Ir; 
+            "Vaporization Heat" = 604; 
+            Volume = 8.543; 
+        }; 
+        K = {
+            "Avrg Mass" = 39.0983; 
+            "Boiling Point" = 1032; 
+            Configuration = "2-8-8-1"; 
+            Density = 0.86; 
+            EN = 0.82; 
+            "Fusion Heat" = 2.334; 
+            Group = Ia; 
+            Isotopes = (
+                {Abundance = 93.2581; "Half Life" = 0; Mass = 38.9637074; "Ord Num" = 39; }, 
+                {Abundance = 0.0117; "Half Life" = 0; Mass = 39.9639992; "Ord Num" = 40; }, 
+                {Abundance = 6.7302; "Half Life" = 0; Mass = 40.9618254; "Ord Num" = 41; }
+            ); 
+            Kind = 1; 
+            "Melting Point" = 336.4; 
+            "Mono Mass" = 38.9637074; 
+            Name = Potassium; 
+            "Number of Isotopes" = 3; 
+            "Ord Num" = 19; 
+            Period = 1; 
+            Radius = 2.03; 
+            "Spec. Heat" = 0.75; 
+            Symbol = K; 
+            "Vaporization Heat" = 79.87; 
+            Volume = 45.46; 
+        }; 
+        Kr = {
+            "Avrg Mass" = 83.8; 
+            "Boiling Point" = 119.8; 
+            Configuration = "2-8-18-8"; 
+            Density = 0.003708; 
+            EN = 0; 
+            "Fusion Heat" = 1.638; 
+            Group = VIIIa; 
+            Isotopes = (
+                {Abundance = 0.35; "Half Life" = 0; Mass = 77.920396; "Ord Num" = 78; }, 
+                {Abundance = 2.25; "Half Life" = 0; Mass = 79.91638; "Ord Num" = 80; }, 
+                {Abundance = 11.6; "Half Life" = 0; Mass = 81.913482; "Ord Num" = 82; }, 
+                {Abundance = 11.5; "Half Life" = 0; Mass = 82.914135; "Ord Num" = 83; }, 
+                {Abundance = 57; "Half Life" = 0; Mass = 83.911507; "Ord Num" = 84; }, 
+                {Abundance = 17.3; "Half Life" = 0; Mass = 85.910616; "Ord Num" = 86; }
+            ); 
+            Kind = 8; 
+            "Melting Point" = 115.8; 
+            "Mono Mass" = 83.911507; 
+            Name = Krypton; 
+            "Number of Isotopes" = 6; 
+            "Ord Num" = 36; 
+            Period = 18; 
+            Radius = 1.12; 
+            "Spec. Heat" = 0.248; 
+            Symbol = Kr; 
+            "Vaporization Heat" = 9.029; 
+            Volume = 22.41; 
+        }; 
+        La = {
+            "Avrg Mass" = 138.9055; 
+            "Boiling Point" = 3730; 
+            Configuration = "2-8-18-18-9-2"; 
+            Density = 6.7; 
+            EN = 1.1; 
+            "Fusion Heat" = 6.2; 
+            Group = IIIb; 
+            Isotopes = (
+                {Abundance = 0.0902; "Half Life" = 0; Mass = 137.907105; "Ord Num" = 138; }, 
+                {Abundance = 99.9098; "Half Life" = 0; Mass = 138.906347; "Ord Num" = 139; }
+            ); 
+            Kind = 4; 
+            "Melting Point" = 1193; 
+            "Mono Mass" = 138.906347; 
+            Name = Lanthanum; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 57; 
+            Period = 3; 
+            Radius = 1.69; 
+            "Spec. Heat" = 0.19; 
+            Symbol = La; 
+            "Vaporization Heat" = 414; 
+            Volume = 20.73; 
+        }; 
+        Li = {
+            "Avrg Mass" = 6.941; 
+            "Boiling Point" = 1615; 
+            Configuration = "2-1"; 
+            Density = 0.53; 
+            EN = 0; 
+            "Fusion Heat" = 3; 
+            Group = Ia; 
+            Isotopes = (
+                {Abundance = 7.5; "Half Life" = stable; Mass = 6.0151214; "Ord Num" = 6; }, 
+                {Abundance = 92.5; "Half Life" = stable; Mass = 7.016003; "Ord Num" = 7; }
+            ); 
+            Kind = 1; 
+            "Melting Point" = 453.7; 
+            "Mono Mass" = 7.016003; 
+            Name = Lithium; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 3; 
+            Period = 1; 
+            Radius = 1.23; 
+            "Spec. Heat" = 3.6; 
+            Symbol = Li; 
+            "Vaporization Heat" = 146; 
+            Volume = 13.1; 
+        }; 
+        Lr = {
+            "Avrg Mass" = 257; 
+            "Boiling Point" = 0; 
+            Configuration = "2-8-18-32-32-9-2"; 
+            Density = 0; 
+            EN = 0; 
+            "Fusion Heat" = 0; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 260; "Ord Num" = 260; }); 
+            Kind = 5; 
+            "Melting Point" = 0; 
+            "Mono Mass" = 257; 
+            Name = Lawrencium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 103; 
+            Period = 3; 
+            Radius = "-"; 
+            "Spec. Heat" = 0; 
+            Symbol = Lr; 
+            "Vaporization Heat" = 0; 
+            Volume = 0; 
+        }; 
+        Lu = {
+            "Avrg Mass" = 174.967; 
+            "Boiling Point" = 3668; 
+            Configuration = "2-8-18-32-9-2"; 
+            Density = 9.84; 
+            EN = 1.27; 
+            "Fusion Heat" = 18.6; 
+            Group = IIIb; 
+            Isotopes = (
+                {Abundance = 97.41; "Half Life" = 0; Mass = 174.94077; "Ord Num" = 175; }, 
+                {Abundance = 2.59; "Half Life" = 0; Mass = 175.942679; "Ord Num" = 176; }
+            ); 
+            Kind = 4; 
+            "Melting Point" = 1936; 
+            "Mono Mass" = 174.94077; 
+            Name = Lutetium; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 71; 
+            Period = 3; 
+            Radius = 1.56; 
+            "Spec. Heat" = 0.15; 
+            Symbol = Lu; 
+            "Vaporization Heat" = 355.9; 
+            Volume = 17.78; 
+        }; 
+        Md = {
+            "Avrg Mass" = 256; 
+            "Boiling Point" = 0; 
+            Configuration = "2-8-18-32-31-8-2"; 
+            Density = 0; 
+            EN = 1.3; 
+            "Fusion Heat" = 0; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 256; "Ord Num" = 256; }); 
+            Kind = 5; 
+            "Melting Point" = 0; 
+            "Mono Mass" = 256; 
+            Name = Mendelevium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 101; 
+            Period = 3; 
+            Radius = "-"; 
+            "Spec. Heat" = 0; 
+            Symbol = Md; 
+            "Vaporization Heat" = 0; 
+            Volume = 0; 
+        }; 
+        Mg = {
+            "Avrg Mass" = 24.305; 
+            "Boiling Point" = 1363; 
+            Configuration = "2-8-2"; 
+            Density = 1.74; 
+            EN = 1.31; 
+            "Fusion Heat" = 8.954; 
+            Group = IIa; 
+            Isotopes = (
+                {Abundance = 78.99; "Half Life" = 0; Mass = 23.9850423; "Ord Num" = 24; }, 
+                {Abundance = 10; "Half Life" = 0; Mass = 24.9858374; "Ord Num" = 25; }, 
+                {Abundance = 11.01; "Half Life" = 0; Mass = 25.9825937; "Ord Num" = 26; }
+            ); 
+            Kind = 2; 
+            "Melting Point" = 922; 
+            "Mono Mass" = 23.9850423; 
+            Name = Magnesium; 
+            "Number of Isotopes" = 3; 
+            "Ord Num" = 12; 
+            Period = 2; 
+            Radius = 1.36; 
+            "Spec. Heat" = 1.02; 
+            Symbol = Mg; 
+            "Vaporization Heat" = 127.4; 
+            Volume = 13.97; 
+        }; 
+        Mn = {
+            "Avrg Mass" = 54.93805; 
+            "Boiling Point" = 2335; 
+            Configuration = "2-8-13-2"; 
+            Density = 7.43; 
+            EN = 1.55; 
+            "Fusion Heat" = 12.05; 
+            Group = VIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 54.9380471; "Ord Num" = 55; }); 
+            Kind = 3; 
+            "Melting Point" = 1517; 
+            "Mono Mass" = 54.9380471; 
+            Name = Manganese; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 25; 
+            Period = 7; 
+            Radius = 1.17; 
+            "Spec. Heat" = 0.48; 
+            Symbol = Mn; 
+            "Vaporization Heat" = 226; 
+            Volume = 7.394; 
+        }; 
+        Mo = {
+            "Avrg Mass" = 95.94; 
+            "Boiling Point" = 4912; 
+            Configuration = "2-8-18-13-1"; 
+            Density = 10.2; 
+            EN = 2.16; 
+            "Fusion Heat" = 32; 
+            Group = VIb; 
+            Isotopes = (
+                {Abundance = 14.84; "Half Life" = 0; Mass = 91.906808; "Ord Num" = 92; }, 
+                {Abundance = 9.25; "Half Life" = 0; Mass = 93.9050853; "Ord Num" = 94; }, 
+                {Abundance = 15.92; "Half Life" = 0; Mass = 94.9058411; "Ord Num" = 95; }, 
+                {Abundance = 16.68; "Half Life" = 0; Mass = 95.9046785; "Ord Num" = 96; }, 
+                {Abundance = 9.55; "Half Life" = 0; Mass = 96.9060205; "Ord Num" = 97; }, 
+                {Abundance = 24.13; "Half Life" = 0; Mass = 97.9054073; "Ord Num" = 98; }, 
+                {Abundance = 9.63; "Half Life" = 0; Mass = 99.907477; "Ord Num" = 100; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 2890; 
+            "Mono Mass" = 97.9054073; 
+            Name = Molybdenum; 
+            "Number of Isotopes" = 7; 
+            "Ord Num" = 42; 
+            Period = 6; 
+            Radius = 1.3; 
+            "Spec. Heat" = 0.25; 
+            Symbol = Mo; 
+            "Vaporization Heat" = 598; 
+            Volume = 9.406; 
+        }; 
+        N = {
+            "Avrg Mass" = 14.00674; 
+            "Boiling Point" = 77.35; 
+            Configuration = "2-5"; 
+            Density = 0.001251; 
+            EN = 3.04; 
+            "Fusion Heat" = 0.3604; 
+            Group = Va; 
+            Isotopes = (
+                {
+                    Abundance = 99.634; 
+                    "Half Life" = stable; 
+                    Mass = 14.003074002; 
+                    "Ord Num" = 14; 
+                }, 
+                {Abundance = 0.366; "Half Life" = stable; Mass = 15.00010897; "Ord Num" = 15; }
+            ); 
+            Kind = 7; 
+            "Melting Point" = 63.14; 
+            "Mono Mass" = 14.003074002; 
+            Name = Nitrogen; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 7; 
+            Period = 15; 
+            Radius = 0.75; 
+            "Spec. Heat" = 1.04; 
+            Symbol = N; 
+            "Vaporization Heat" = 2.793; 
+            Volume = 11.2; 
+        }; 
+        Na = {
+            "Avrg Mass" = 22.989768; 
+            "Boiling Point" = 1156; 
+            Configuration = "2-8-1"; 
+            Density = 0.97; 
+            EN = 0.93; 
+            "Fusion Heat" = 2.598; 
+            Group = Ia; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 22.9897677; "Ord Num" = 23; }); 
+            Kind = 1; 
+            "Melting Point" = 371; 
+            "Mono Mass" = 22.9897677; 
+            Name = Sodium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 11; 
+            Period = 1; 
+            Radius = 1.54; 
+            "Spec. Heat" = 1.23; 
+            Symbol = Na; 
+            "Vaporization Heat" = 96.96; 
+            Volume = 23.7; 
+        }; 
+        Nb = {
+            "Avrg Mass" = 92.90638; 
+            "Boiling Point" = 5017; 
+            Configuration = "2-8-18-12-1"; 
+            Density = 8.55; 
+            EN = 1.6; 
+            "Fusion Heat" = 26.4; 
+            Group = Vb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 92.9063772; "Ord Num" = 93; }); 
+            Kind = 3; 
+            "Melting Point" = 2740; 
+            "Mono Mass" = 92.9063772; 
+            Name = Niobium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 41; 
+            Period = 5; 
+            Radius = 1.34; 
+            "Spec. Heat" = 0.26; 
+            Symbol = Nb; 
+            "Vaporization Heat" = 682; 
+            Volume = 0.468; 
+        }; 
+        Nd = {
+            "Avrg Mass" = 144.24; 
+            "Boiling Point" = 3341; 
+            Configuration = "2-8-18-22-8-2"; 
+            Density = 7; 
+            EN = 1.14; 
+            "Fusion Heat" = 7.14; 
+            Group = IIIb; 
+            Isotopes = (
+                {Abundance = 27.13; "Half Life" = 0; Mass = 141.907719; "Ord Num" = 142; }, 
+                {Abundance = 12.18; "Half Life" = 0; Mass = 142.90981; "Ord Num" = 143; }, 
+                {Abundance = 23.8; "Half Life" = 0; Mass = 143.910083; "Ord Num" = 144; }, 
+                {Abundance = 8.3; "Half Life" = 0; Mass = 144.91257; "Ord Num" = 145; }, 
+                {Abundance = 17.19; "Half Life" = 0; Mass = 145.913113; "Ord Num" = 146; }, 
+                {Abundance = 5.76; "Half Life" = 0; Mass = 147.916889; "Ord Num" = 148; }, 
+                {Abundance = 5.64; "Half Life" = 0; Mass = 149.920887; "Ord Num" = 150; }
+            ); 
+            Kind = 4; 
+            "Melting Point" = 1289; 
+            "Mono Mass" = 141.907719; 
+            Name = Neodymium; 
+            "Number of Isotopes" = 7; 
+            "Ord Num" = 60; 
+            Period = 3; 
+            Radius = 1.64; 
+            "Spec. Heat" = 0.19; 
+            Symbol = Nd; 
+            "Vaporization Heat" = 273; 
+            Volume = 20.61; 
+        }; 
+        Ne = {
+            "Avrg Mass" = 20.1797; 
+            "Boiling Point" = 27.1; 
+            Configuration = "2-8"; 
+            Density = 0.000901; 
+            EN = 22.4; 
+            "Fusion Heat" = 0.3317; 
+            Group = VIIIa; 
+            Isotopes = (
+                {Abundance = 90.48; "Half Life" = 0; Mass = 19.9924356; "Ord Num" = 20; }, 
+                {Abundance = 0.27; "Half Life" = 0; Mass = 20.9924356; "Ord Num" = 21; }, 
+                {Abundance = 9.25; "Half Life" = 0; Mass = 21.9913831; "Ord Num" = 22; }
+            ); 
+            Kind = 8; 
+            "Melting Point" = 24.53; 
+            "Mono Mass" = 19.9924356; 
+            Name = Neon; 
+            "Number of Isotopes" = 3; 
+            "Ord Num" = 10; 
+            Period = 18; 
+            Radius = 0.71; 
+            "Spec. Heat" = 0.904; 
+            Symbol = Ne; 
+            "Vaporization Heat" = 1.733; 
+            Volume = 22.4; 
+        }; 
+        Ni = {
+            "Avrg Mass" = 58.6934; 
+            "Boiling Point" = 3187; 
+            Configuration = "2-8-16-2"; 
+            Density = 8.9; 
+            EN = 1.91; 
+            "Fusion Heat" = 17.47; 
+            Group = VIII; 
+            Isotopes = (
+                {Abundance = 68.077; "Half Life" = 0; Mass = 57.9353462; "Ord Num" = 58; }, 
+                {Abundance = 26.223; "Half Life" = 0; Mass = 59.9307884; "Ord Num" = 60; }, 
+                {Abundance = 1.14; "Half Life" = 0; Mass = 60.9310579; "Ord Num" = 61; }, 
+                {Abundance = 3.634; "Half Life" = 0; Mass = 61.9283461; "Ord Num" = 62; }, 
+                {Abundance = 0.926; "Half Life" = 0; Mass = 63.9279679; "Ord Num" = 64; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 1726; 
+            "Mono Mass" = 57.9353462; 
+            Name = Nickel; 
+            "Number of Isotopes" = 5; 
+            "Ord Num" = 28; 
+            Period = 10; 
+            Radius = 1.15; 
+            "Spec. Heat" = 0.44; 
+            Symbol = Ni; 
+            "Vaporization Heat" = 370.4; 
+            Volume = 6.596; 
+        }; 
+        No = {
+            "Avrg Mass" = 254; 
+            "Boiling Point" = 0; 
+            Configuration = "2-8-18-32-32-8-2"; 
+            Density = 0; 
+            EN = 1.3; 
+            "Fusion Heat" = 0; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 259; "Ord Num" = 259; }); 
+            Kind = 5; 
+            "Melting Point" = 0; 
+            "Mono Mass" = 254; 
+            Name = Nobelium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 102; 
+            Period = 3; 
+            Radius = "-"; 
+            "Spec. Heat" = 0; 
+            Symbol = No; 
+            "Vaporization Heat" = 0; 
+            Volume = 0; 
+        }; 
+        Np = {
+            "Avrg Mass" = 237; 
+            "Boiling Point" = 4175; 
+            Configuration = "2-8-18-32-22-9-2"; 
+            Density = 20.4; 
+            EN = 1.36; 
+            "Fusion Heat" = 5.19; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 237.0481678; "Ord Num" = 237; }); 
+            Kind = 5; 
+            "Melting Point" = 910; 
+            "Mono Mass" = 237.0481678; 
+            Name = Neptunium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 93; 
+            Period = 3; 
+            Radius = "-"; 
+            "Spec. Heat" = 0.12; 
+            Symbol = Np; 
+            "Vaporization Heat" = 0; 
+            Volume = 11060; 
+        }; 
+        O = {
+            "Avrg Mass" = 15.9994; 
+            "Boiling Point" = 90.18; 
+            Configuration = "2-6"; 
+            Density = 0.001429; 
+            EN = 3.44; 
+            "Fusion Heat" = 0.2225; 
+            Group = VIa; 
+            Isotopes = (
+                {Abundance = 99.762; "Half Life" = 0; Mass = 15.99491463; "Ord Num" = 16; }, 
+                {Abundance = 0.038; "Half Life" = 0; Mass = 16.9991312; "Ord Num" = 17; }, 
+                {Abundance = 0.2; "Half Life" = 0; Mass = 17.9991603; "Ord Num" = 18; }
+            ); 
+            Kind = 7; 
+            "Melting Point" = 50.35; 
+            "Mono Mass" = 15.99491463; 
+            Name = Oxygen; 
+            "Number of Isotopes" = 3; 
+            "Ord Num" = 8; 
+            Period = 16; 
+            Radius = 0.73; 
+            "Spec. Heat" = 0.92; 
+            Symbol = O; 
+            "Vaporization Heat" = 3.41; 
+            Volume = 0; 
+        }; 
+        Os = {
+            "Avrg Mass" = 190.23; 
+            "Boiling Point" = 5285; 
+            Configuration = "2-8-18-32-14-2"; 
+            Density = 22.4; 
+            EN = 2.2; 
+            "Fusion Heat" = 31.8; 
+            Group = VIII; 
+            Isotopes = (
+                {Abundance = 0.02; "Half Life" = 0; Mass = 183.952448; "Ord Num" = 184; }, 
+                {Abundance = 1.58; "Half Life" = 0; Mass = 185.95383; "Ord Num" = 186; }, 
+                {Abundance = 1.6; "Half Life" = 0; Mass = 186.955741; "Ord Num" = 187; }, 
+                {Abundance = 13.3; "Half Life" = 0; Mass = 187.95586; "Ord Num" = 188; }, 
+                {Abundance = 16.1; "Half Life" = 0; Mass = 188.958137; "Ord Num" = 189; }, 
+                {Abundance = 26.4; "Half Life" = 0; Mass = 189.958436; "Ord Num" = 190; }, 
+                {Abundance = 41; "Half Life" = 0; Mass = 191.961467; "Ord Num" = 192; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 3300; 
+            "Mono Mass" = 191.961467; 
+            Name = Osmium; 
+            "Number of Isotopes" = 7; 
+            "Ord Num" = 76; 
+            Period = 8; 
+            Radius = 1.26; 
+            "Spec. Heat" = 0.13; 
+            Symbol = Os; 
+            "Vaporization Heat" = 746; 
+            Volume = 8.491; 
+        }; 
+        P = {
+            "Avrg Mass" = 30.973762; 
+            "Boiling Point" = 550; 
+            Configuration = "2-8-5"; 
+            Density = 1.82; 
+            EN = 2.19; 
+            "Fusion Heat" = 0.657; 
+            Group = Va; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 30.973762; "Ord Num" = 31; }); 
+            Kind = 7; 
+            "Melting Point" = 317.3; 
+            "Mono Mass" = 30.973762; 
+            Name = Phosphorus; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 15; 
+            Period = 15; 
+            Radius = 1.06; 
+            "Spec. Heat" = 0.77; 
+            Symbol = P; 
+            "Vaporization Heat" = 12.13; 
+            Volume = 17.02; 
+        }; 
+        Pa = {
+            "Avrg Mass" = 231; 
+            "Boiling Point" = 0; 
+            Configuration = "2-8-18-32-20-9-2"; 
+            Density = 15.4; 
+            EN = 1.5; 
+            "Fusion Heat" = 12.3; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 231.03588; "Ord Num" = 231; }); 
+            Kind = 5; 
+            "Melting Point" = 1873; 
+            "Mono Mass" = 231.03588; 
+            Name = Proactinium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 91; 
+            Period = 3; 
+            Radius = "-"; 
+            "Spec. Heat" = 0; 
+            Symbol = Pa; 
+            "Vaporization Heat" = 0; 
+            Volume = 15; 
+        }; 
+        Pb = {
+            "Avrg Mass" = 207.2; 
+            "Boiling Point" = 2023; 
+            Configuration = "2-8-18-32-18-4"; 
+            Density = 11.4; 
+            EN = 2.33; 
+            "Fusion Heat" = 4.799; 
+            Group = IVa; 
+            Isotopes = (
+                {Abundance = 1.4; "Half Life" = 0; Mass = 203.97302; "Ord Num" = 204; }, 
+                {Abundance = 24.1; "Half Life" = 0; Mass = 205.97444; "Ord Num" = 206; }, 
+                {Abundance = 22.1; "Half Life" = 0; Mass = 206.975872; "Ord Num" = 207; }, 
+                {Abundance = 52.4; "Half Life" = 0; Mass = 207.976627; "Ord Num" = 208; }
+            ); 
+            Kind = 6; 
+            "Melting Point" = 600.6; 
+            "Mono Mass" = 207.976627; 
+            Name = Lead; 
+            "Number of Isotopes" = 4; 
+            "Ord Num" = 82; 
+            Period = 14; 
+            Radius = 1.47; 
+            "Spec. Heat" = 0.13; 
+            Symbol = Pb; 
+            "Vaporization Heat" = 177.7; 
+            Volume = 18.18; 
+        }; 
+        Pd = {
+            "Avrg Mass" = 106.42; 
+            "Boiling Point" = 3237; 
+            Configuration = "2-8-18-18-0"; 
+            Density = 12; 
+            EN = 2.2; 
+            "Fusion Heat" = 17.6; 
+            Group = VIII; 
+            Isotopes = (
+                {Abundance = 1.02; "Half Life" = 0; Mass = 101.905634; "Ord Num" = 102; }, 
+                {Abundance = 11.14; "Half Life" = 0; Mass = 103.904029; "Ord Num" = 104; }, 
+                {Abundance = 22.33; "Half Life" = 0; Mass = 104.905079; "Ord Num" = 105; }, 
+                {Abundance = 27.33; "Half Life" = 0; Mass = 105.903478; "Ord Num" = 106; }, 
+                {Abundance = 26.46; "Half Life" = 0; Mass = 107.903895; "Ord Num" = 108; }, 
+                {Abundance = 11.72; "Half Life" = 0; Mass = 109.905167; "Ord Num" = 110; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 1825; 
+            "Mono Mass" = 106.90592; 
+            Name = Palladium; 
+            "Number of Isotopes" = 6; 
+            "Ord Num" = 46; 
+            Period = 10; 
+            Radius = 1.28; 
+            "Spec. Heat" = 0.24; 
+            Symbol = Pd; 
+            "Vaporization Heat" = 357; 
+            Volume = 8.867; 
+        }; 
+        Pm = {
+            "Avrg Mass" = 145; 
+            "Boiling Point" = 2733; 
+            Configuration = "2-8-18-23-8-2"; 
+            Density = 6.48; 
+            EN = 1.13; 
+            "Fusion Heat" = 0; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 144.912743; "Ord Num" = 145; }); 
+            Kind = 4; 
+            "Melting Point" = 1441; 
+            "Mono Mass" = 144.912743; 
+            Name = Promethium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 61; 
+            Period = 3; 
+            Radius = 1.63; 
+            "Spec. Heat" = 0; 
+            Symbol = Pm; 
+            "Vaporization Heat" = 0; 
+            Volume = 22.39; 
+        }; 
+        Po = {
+            "Avrg Mass" = 209; 
+            "Boiling Point" = 1235; 
+            Configuration = "2-8-18-32-18-6"; 
+            Density = 9.4; 
+            EN = 2; 
+            "Fusion Heat" = 0; 
+            Group = VIa; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 208.982404; "Ord Num" = 209; }); 
+            Kind = 9; 
+            "Melting Point" = 527; 
+            "Mono Mass" = 208.982404; 
+            Name = Polonium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 84; 
+            Period = 16; 
+            Radius = 1.46; 
+            "Spec. Heat" = 0; 
+            Symbol = Po; 
+            "Vaporization Heat" = 0; 
+            Volume = 22.23; 
+        }; 
+        Pr = {
+            "Avrg Mass" = 140.90765; 
+            "Boiling Point" = 3785; 
+            Configuration = "2-8-18-21-8-2"; 
+            Density = 6.77; 
+            EN = 1.13; 
+            "Fusion Heat" = 6.89; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 140.907647; "Ord Num" = 141; }); 
+            Kind = 4; 
+            "Melting Point" = 1204; 
+            "Mono Mass" = 140.907647; 
+            Name = Praseodymium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 59; 
+            Period = 3; 
+            Radius = 1.65; 
+            "Spec. Heat" = 0.19; 
+            Symbol = Pr; 
+            "Vaporization Heat" = 296.8; 
+            Volume = 20.81; 
+        }; 
+        Pt = {
+            "Avrg Mass" = 195.08; 
+            "Boiling Point" = 4100; 
+            Configuration = "2-8-18-32-16-2"; 
+            Density = 21.4; 
+            EN = 2.28; 
+            "Fusion Heat" = 19.6; 
+            Group = VIII; 
+            Isotopes = (
+                {Abundance = 0.01; "Half Life" = 0; Mass = 189.959917; "Ord Num" = 190; }, 
+                {Abundance = 0.79; "Half Life" = 0; Mass = 191.961019; "Ord Num" = 192; }, 
+                {Abundance = 32.9; "Half Life" = 0; Mass = 193.962655; "Ord Num" = 194; }, 
+                {Abundance = 33.8; "Half Life" = 0; Mass = 194.964766; "Ord Num" = 195; }, 
+                {Abundance = 25.3; "Half Life" = 0; Mass = 195.964926; "Ord Num" = 196; }, 
+                {Abundance = 7.2; "Half Life" = 0; Mass = 197.967869; "Ord Num" = 198; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 2045; 
+            "Mono Mass" = 194.964766; 
+            Name = Platinum; 
+            "Number of Isotopes" = 6; 
+            "Ord Num" = 78; 
+            Period = 10; 
+            Radius = 1.3; 
+            "Spec. Heat" = 0.13; 
+            Symbol = Pt; 
+            "Vaporization Heat" = 510; 
+            Volume = 9.116; 
+        }; 
+        Pu = {
+            "Avrg Mass" = 244; 
+            "Boiling Point" = 3503; 
+            Configuration = "2-8-18-32-24-8-2"; 
+            Density = 19.8; 
+            EN = 1.28; 
+            "Fusion Heat" = 2.84; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 244; "Ord Num" = 244; }); 
+            Kind = 5; 
+            "Melting Point" = 913; 
+            "Mono Mass" = 244; 
+            Name = Plutonium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 94; 
+            Period = 3; 
+            Radius = "-"; 
+            "Spec. Heat" = 0.13; 
+            Symbol = Pu; 
+            "Vaporization Heat" = 344; 
+            Volume = 12.32; 
+        }; 
+        Ra = {
+            "Avrg Mass" = 226; 
+            "Boiling Point" = 1809; 
+            Configuration = "2-8-18-32-18-8-2"; 
+            Density = 5; 
+            EN = 0.9; 
+            "Fusion Heat" = 0; 
+            Group = IIa; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 226.025402; "Ord Num" = 226; }); 
+            Kind = 2; 
+            "Melting Point" = 973; 
+            "Mono Mass" = 226.025402; 
+            Name = Radium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 88; 
+            Period = 2; 
+            Radius = "-"; 
+            "Spec. Heat" = 0; 
+            Symbol = Ra; 
+            "Vaporization Heat" = 0; 
+            Volume = 45.2; 
+        }; 
+        Rb = {
+            "Avrg Mass" = 85.4678; 
+            "Boiling Point" = 961; 
+            Configuration = "2-8-18-8-1"; 
+            Density = 1.53; 
+            EN = 0.82; 
+            "Fusion Heat" = 2.192; 
+            Group = Ia; 
+            Isotopes = (
+                {Abundance = 72.165; "Half Life" = 0; Mass = 84.911794; "Ord Num" = 85; }, 
+                {Abundance = 27.835; "Half Life" = 0; Mass = 86.909187; "Ord Num" = 87; }
+            ); 
+            Kind = 1; 
+            "Melting Point" = 312.6; 
+            "Mono Mass" = 84.911794; 
+            Name = Rubidium; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 37; 
+            Period = 1; 
+            Radius = 2.16; 
+            "Spec. Heat" = 0.363; 
+            Symbol = Rb; 
+            "Vaporization Heat" = 72.22; 
+            Volume = 55.86; 
+        }; 
+        Re = {
+            "Avrg Mass" = 186.207; 
+            "Boiling Point" = 5869; 
+            Configuration = "2-8-18-32-13-2"; 
+            Density = 21; 
+            EN = 1.9; 
+            "Fusion Heat" = 33.2; 
+            Group = VIIb; 
+            Isotopes = (
+                {Abundance = 37.4; "Half Life" = 0; Mass = 184.952951; "Ord Num" = 185; }, 
+                {Abundance = 62.6; "Half Life" = 0; Mass = 186.955744; "Ord Num" = 187; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 3453; 
+            "Mono Mass" = 186.955744; 
+            Name = Rhenium; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 75; 
+            Period = 7; 
+            Radius = 1.28; 
+            "Spec. Heat" = 0.13; 
+            Symbol = Re; 
+            "Vaporization Heat" = 715; 
+            Volume = 8.867; 
+        }; 
+        Rh = {
+            "Avrg Mass" = 102.9055; 
+            "Boiling Point" = 3970; 
+            Configuration = "2-8-18-16-1"; 
+            Density = 12.4; 
+            EN = 2.2; 
+            "Fusion Heat" = 21.5; 
+            Group = VIII; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 102.9055; "Ord Num" = 103; }); 
+            Kind = 3; 
+            "Melting Point" = 2236; 
+            "Mono Mass" = 102.9055; 
+            Name = Rhodium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 45; 
+            Period = 9; 
+            Radius = 1.25; 
+            "Spec. Heat" = 0.242; 
+            Symbol = Rh; 
+            "Vaporization Heat" = 493; 
+            Volume = 8.299; 
+        }; 
+        Rn = {
+            "Avrg Mass" = 222; 
+            "Boiling Point" = 211; 
+            Configuration = "2-8-18-32-18-8"; 
+            Density = 0.00973; 
+            EN = 0; 
+            "Fusion Heat" = 2.89; 
+            Group = VIIIa; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 222.01757; "Ord Num" = 222; }); 
+            Kind = 8; 
+            "Melting Point" = 202; 
+            "Mono Mass" = 222.01757; 
+            Name = Radon; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 86; 
+            Period = 18; 
+            Radius = "-"; 
+            "Spec. Heat" = 0.09; 
+            Symbol = Rn; 
+            "Vaporization Heat" = 16.04; 
+            Volume = 22.4; 
+        }; 
+        Ru = {
+            "Avrg Mass" = 101.07; 
+            "Boiling Point" = 4423; 
+            Configuration = "2-8-18-15-1"; 
+            Density = 12.2; 
+            EN = 2.28; 
+            "Fusion Heat" = 24; 
+            Group = VIII; 
+            Isotopes = (
+                {Abundance = 5.52; "Half Life" = 0; Mass = 95.907599; "Ord Num" = 96; }, 
+                {Abundance = 1.88; "Half Life" = 0; Mass = 97.905287; "Ord Num" = 98; }, 
+                {Abundance = 12.7; "Half Life" = 0; Mass = 98.9059389; "Ord Num" = 99; }, 
+                {Abundance = 12.6; "Half Life" = 0; Mass = 99.9042192; "Ord Num" = 100; }, 
+                {Abundance = 17; "Half Life" = 0; Mass = 100.9055819; "Ord Num" = 101; }, 
+                {Abundance = 31.6; "Half Life" = 0; Mass = 101.9043485; "Ord Num" = 102; }, 
+                {Abundance = 18.7; "Half Life" = 0; Mass = 103.905424; "Ord Num" = 104; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 2523; 
+            "Mono Mass" = 101.9043485; 
+            Name = Ruthenium; 
+            "Number of Isotopes" = 7; 
+            "Ord Num" = 44; 
+            Period = 8; 
+            Radius = 1.25; 
+            "Spec. Heat" = 0.238; 
+            Symbol = Ru; 
+            "Vaporization Heat" = 595; 
+            Volume = 8.284; 
+        }; 
+        S = {
+            "Avrg Mass" = 32.066; 
+            "Boiling Point" = 717.8; 
+            Configuration = "2-8-6"; 
+            Density = 2.07; 
+            EN = 2.58; 
+            "Fusion Heat" = 1.718; 
+            Group = VIa; 
+            Isotopes = (
+                {Abundance = 95.02; "Half Life" = 0; Mass = 31.9720707; "Ord Num" = 32; }, 
+                {Abundance = 0.75; "Half Life" = 0; Mass = 32.97145854; "Ord Num" = 33; }, 
+                {Abundance = 4.21; "Half Life" = 0; Mass = 33.96786665; "Ord Num" = 34; }, 
+                {Abundance = 0.02; "Half Life" = 0; Mass = 35.96708062; "Ord Num" = 36; }
+            ); 
+            Kind = 7; 
+            "Melting Point" = 388.4; 
+            "Mono Mass" = 31.9720707; 
+            Name = Sulfur; 
+            "Number of Isotopes" = 4; 
+            "Ord Num" = 16; 
+            Period = 16; 
+            Radius = 1.02; 
+            "Spec. Heat" = 0.71; 
+            Symbol = S; 
+            "Vaporization Heat" = 0; 
+            Volume = 15.49; 
+        }; 
+        Sb = {
+            "Avrg Mass" = 121.76; 
+            "Boiling Point" = 1860; 
+            Configuration = "2-8-18-18-5"; 
+            Density = 6.68; 
+            EN = 2.05; 
+            "Fusion Heat" = 19.87; 
+            Group = Va; 
+            Isotopes = (
+                {Abundance = 57.36; "Half Life" = 0; Mass = 120.9038212; "Ord Num" = 121; }, 
+                {Abundance = 42.64; "Half Life" = 0; Mass = 122.904216; "Ord Num" = 123; }
+            ); 
+            Kind = 9; 
+            "Melting Point" = 904; 
+            "Mono Mass" = 120.9038212; 
+            Name = Antimony; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 51; 
+            Period = 15; 
+            Radius = 1.4; 
+            "Spec. Heat" = 0.21; 
+            Symbol = Sb; 
+            "Vaporization Heat" = 77.14; 
+            Volume = 18.23; 
+        }; 
+        Sc = {
+            "Avrg Mass" = 44.95591; 
+            "Boiling Point" = 3104; 
+            Configuration = "2-8-9-2"; 
+            Density = 3; 
+            EN = 1.36; 
+            "Fusion Heat" = 14.1; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 44.95591; "Ord Num" = 45; }); 
+            Kind = 3; 
+            "Melting Point" = 1812; 
+            "Mono Mass" = 44.95591; 
+            Name = Scandium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 21; 
+            Period = 3; 
+            Radius = 1.36; 
+            "Spec. Heat" = 0.6; 
+            Symbol = Sc; 
+            "Vaporization Heat" = 314.2; 
+            Volume = 14.98; 
+        }; 
+        Se = {
+            "Avrg Mass" = 78.96; 
+            "Boiling Point" = 958; 
+            Configuration = "2-8-18-6"; 
+            Density = 4.8; 
+            EN = 2.55; 
+            "Fusion Heat" = 6.694; 
+            Group = VIa; 
+            Isotopes = (
+                {Abundance = 0.89; "Half Life" = 0; Mass = 73.9224746; "Ord Num" = 74; }, 
+                {Abundance = 9.36; "Half Life" = 0; Mass = 75.919212; "Ord Num" = 76; }, 
+                {Abundance = 7.63; "Half Life" = 0; Mass = 76.9199125; "Ord Num" = 77; }, 
+                {Abundance = 23.78; "Half Life" = 0; Mass = 77.9173076; "Ord Num" = 78; }, 
+                {Abundance = 49.61; "Half Life" = 0; Mass = 79.9165196; "Ord Num" = 80; }, 
+                {Abundance = 8.73; "Half Life" = 0; Mass = 81.9166978; "Ord Num" = 82; }
+            ); 
+            Kind = 7; 
+            "Melting Point" = 494; 
+            "Mono Mass" = 79.9165196; 
+            Name = Selenium; 
+            "Number of Isotopes" = 6; 
+            "Ord Num" = 34; 
+            Period = 16; 
+            Radius = 1.16; 
+            "Spec. Heat" = 0.32; 
+            Symbol = Se; 
+            "Vaporization Heat" = 37.3; 
+            Volume = 16.45; 
+        }; 
+        Si = {
+            "Avrg Mass" = 28.0855; 
+            "Boiling Point" = 3540; 
+            Configuration = "2-8-4"; 
+            Density = 2.33; 
+            EN = 1.9; 
+            "Fusion Heat" = 50.55; 
+            Group = IVa; 
+            Isotopes = (
+                {Abundance = 92.23; "Half Life" = 0; Mass = 27.9769271; "Ord Num" = 28; }, 
+                {Abundance = 4.67; "Half Life" = 0; Mass = 28.9764949; "Ord Num" = 29; }, 
+                {Abundance = 3.1; "Half Life" = 0; Mass = 29.9737707; "Ord Num" = 30; }
+            ); 
+            Kind = 9; 
+            "Melting Point" = 1685; 
+            "Mono Mass" = 27.9769271; 
+            Name = Silicon; 
+            "Number of Isotopes" = 3; 
+            "Ord Num" = 14; 
+            Period = 14; 
+            Radius = 1.11; 
+            "Spec. Heat" = 0.71; 
+            Symbol = Si; 
+            "Vaporization Heat" = 384.2; 
+            Volume = 12.05; 
+        }; 
+        Sm = {
+            "Avrg Mass" = 150.36; 
+            "Boiling Point" = 2064; 
+            Configuration = "2-8-18-24-8-2"; 
+            Density = 7.54; 
+            EN = 1.17; 
+            "Fusion Heat" = 8.63; 
+            Group = IIIb; 
+            Isotopes = (
+                {Abundance = 3.1; "Half Life" = 0; Mass = 143.911998; "Ord Num" = 144; }, 
+                {Abundance = 15; "Half Life" = 0; Mass = 146.914895; "Ord Num" = 147; }, 
+                {Abundance = 11.3; "Half Life" = 0; Mass = 147.914819; "Ord Num" = 148; }, 
+                {Abundance = 13.8; "Half Life" = 0; Mass = 148.917181; "Ord Num" = 149; }, 
+                {Abundance = 7.4; "Half Life" = 0; Mass = 149.917273; "Ord Num" = 150; }, 
+                {Abundance = 26.7; "Half Life" = 0; Mass = 151.919729; "Ord Num" = 152; }, 
+                {Abundance = 22.7; "Half Life" = 0; Mass = 153.922206; "Ord Num" = 154; }
+            ); 
+            Kind = 4; 
+            "Melting Point" = 1345; 
+            "Mono Mass" = 151.919729; 
+            Name = Samarium; 
+            "Number of Isotopes" = 7; 
+            "Ord Num" = 62; 
+            Period = 3; 
+            Radius = 1.62; 
+            "Spec. Heat" = 0.2; 
+            Symbol = Sm; 
+            "Vaporization Heat" = 166.4; 
+            Volume = 19.94; 
+        }; 
+        Sn = {
+            "Avrg Mass" = 118.71; 
+            "Boiling Point" = 2876; 
+            Configuration = "2-8-18-18-4"; 
+            Density = 7.3; 
+            EN = 1.96; 
+            "Fusion Heat" = 7.029; 
+            Group = IVa; 
+            Isotopes = (
+                {Abundance = 0.97; "Half Life" = 0; Mass = 111.904826; "Ord Num" = 112; }, 
+                {Abundance = 0.65; "Half Life" = 0; Mass = 113.902784; "Ord Num" = 114; }, 
+                {Abundance = 0.34; "Half Life" = 0; Mass = 114.903348; "Ord Num" = 115; }, 
+                {Abundance = 14.53; "Half Life" = 0; Mass = 115.901747; "Ord Num" = 116; }, 
+                {Abundance = 7.68; "Half Life" = 0; Mass = 116.902956; "Ord Num" = 117; }, 
+                {Abundance = 24.23; "Half Life" = 0; Mass = 117.901609; "Ord Num" = 118; }, 
+                {Abundance = 8.59; "Half Life" = 0; Mass = 118.90331; "Ord Num" = 119; }, 
+                {Abundance = 32.59; "Half Life" = 0; Mass = 119.9021991; "Ord Num" = 120; }, 
+                {Abundance = 4.63; "Half Life" = 0; Mass = 121.9034404; "Ord Num" = 122; }, 
+                {Abundance = 5.79; "Half Life" = 0; Mass = 123.9052743; "Ord Num" = 124; }
+            ); 
+            Kind = 6; 
+            "Melting Point" = 505.1; 
+            "Mono Mass" = 119.9021991; 
+            Name = Tin; 
+            "Number of Isotopes" = 10; 
+            "Ord Num" = 50; 
+            Period = 14; 
+            Radius = 1.41; 
+            "Spec. Heat" = 0.227; 
+            Symbol = Sn; 
+            "Vaporization Heat" = 295.8; 
+            Volume = 16.26; 
+        }; 
+        Sr = {
+            "Avrg Mass" = 87.62; 
+            "Boiling Point" = 1650; 
+            Configuration = "2-8-18-8-2"; 
+            Density = 2.6; 
+            EN = 0.95; 
+            "Fusion Heat" = 8.3; 
+            Group = IIa; 
+            Isotopes = (
+                {Abundance = 0.56; "Half Life" = 0; Mass = 83.91343; "Ord Num" = 84; }, 
+                {Abundance = 9.86; "Half Life" = 0; Mass = 85.9092672; "Ord Num" = 86; }, 
+                {Abundance = 7; "Half Life" = 0; Mass = 86.9088841; "Ord Num" = 87; }, 
+                {Abundance = 82.58; "Half Life" = 0; Mass = 87.9056188; "Ord Num" = 88; }
+            ); 
+            Kind = 2; 
+            "Melting Point" = 1041; 
+            "Mono Mass" = 87.9056188; 
+            Name = Strontium; 
+            "Number of Isotopes" = 4; 
+            "Ord Num" = 38; 
+            Period = 2; 
+            Radius = 1.91; 
+            "Spec. Heat" = 0.3; 
+            Symbol = Sr; 
+            "Vaporization Heat" = 144; 
+            Volume = 33.7; 
+        }; 
+        Ta = {
+            "Avrg Mass" = 180.9479; 
+            "Boiling Point" = 5731; 
+            Configuration = "2-8-18-32-11-2"; 
+            Density = 16.6; 
+            EN = 1.5; 
+            "Fusion Heat" = 31.6; 
+            Group = Vb; 
+            Isotopes = (
+                {Abundance = 0.012; "Half Life" = 0; Mass = 179.947462; "Ord Num" = 180; }, 
+                {Abundance = 99.988; "Half Life" = 0; Mass = 180.947992; "Ord Num" = 181; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 3287; 
+            "Mono Mass" = 180.947992; 
+            Name = Tantalum; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 73; 
+            Period = 5; 
+            Radius = 1.34; 
+            "Spec. Heat" = 0.13; 
+            Symbol = Ta; 
+            "Vaporization Heat" = 743; 
+            Volume = 10.9; 
+        }; 
+        Tb = {
+            "Avrg Mass" = 158.92534; 
+            "Boiling Point" = 3496; 
+            Configuration = "2-8-18-27-8-2"; 
+            Density = 8.27; 
+            EN = 1.2; 
+            "Fusion Heat" = 10.8; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 158.925342; "Ord Num" = 159; }); 
+            Kind = 4; 
+            "Melting Point" = 1630; 
+            "Mono Mass" = 158.925342; 
+            Name = Terbium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 65; 
+            Period = 3; 
+            Radius = 1.59; 
+            "Spec. Heat" = 0.18; 
+            Symbol = Tb; 
+            "Vaporization Heat" = 330.9; 
+            Volume = 19.22; 
+        }; 
+        Tc = {
+            "Avrg Mass" = 97; 
+            "Boiling Point" = 4538; 
+            Configuration = "2-8-18-13-2"; 
+            Density = 11.5; 
+            EN = 1.9; 
+            "Fusion Heat" = 24; 
+            Group = VIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 97.9054073; "Ord Num" = 98; }); 
+            Kind = 3; 
+            "Melting Point" = 2473; 
+            "Mono Mass" = 97.907215; 
+            Name = Technetium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 43; 
+            Period = 7; 
+            Radius = 1.27; 
+            "Spec. Heat" = 0.21; 
+            Symbol = Tc; 
+            "Vaporization Heat" = 660; 
+            Volume = 8.435; 
+        }; 
+        Te = {
+            "Avrg Mass" = 127.6; 
+            "Boiling Point" = 1261; 
+            Configuration = "2-8-18-18-6"; 
+            Density = 6.24; 
+            EN = 2.1; 
+            "Fusion Heat" = 17.49; 
+            Group = VIa; 
+            Isotopes = (
+                {Abundance = 0.096; "Half Life" = 0; Mass = 119.904048; "Ord Num" = 120; }, 
+                {Abundance = 2.603; "Half Life" = 0; Mass = 121.903054; "Ord Num" = 122; }, 
+                {Abundance = 0.908; "Half Life" = 0; Mass = 122.904271; "Ord Num" = 123; }, 
+                {Abundance = 4.816; "Half Life" = 0; Mass = 123.902823; "Ord Num" = 124; }, 
+                {Abundance = 7.139; "Half Life" = 0; Mass = 124.904433; "Ord Num" = 125; }, 
+                {Abundance = 18.95; "Half Life" = 0; Mass = 125.903314; "Ord Num" = 126; }, 
+                {Abundance = 31.69; "Half Life" = 0; Mass = 127.904463; "Ord Num" = 128; }, 
+                {Abundance = 33.8; "Half Life" = 0; Mass = 129.906229; "Ord Num" = 130; }
+            ); 
+            Kind = 9; 
+            "Melting Point" = 722.6; 
+            "Mono Mass" = 129.906229; 
+            Name = Tellurium; 
+            "Number of Isotopes" = 8; 
+            "Ord Num" = 52; 
+            Period = 16; 
+            Radius = 1.36; 
+            "Spec. Heat" = 0.2; 
+            Symbol = Te; 
+            "Vaporization Heat" = 52.55; 
+            Volume = 20.45; 
+        }; 
+        Th = {
+            "Avrg Mass" = 232.0381; 
+            "Boiling Point" = 5061; 
+            Configuration = "2-8-18-32-18-10-2"; 
+            Density = 11.7; 
+            EN = 1.3; 
+            "Fusion Heat" = 16.1; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 232.038054; "Ord Num" = 232; }); 
+            Kind = 5; 
+            "Melting Point" = 2028; 
+            "Mono Mass" = 232.038054; 
+            Name = Thorium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 90; 
+            Period = 3; 
+            Radius = 1.65; 
+            "Spec. Heat" = 0.12; 
+            Symbol = Th; 
+            "Vaporization Heat" = 514.4; 
+            Volume = 19.83; 
+        }; 
+        Ti = {
+            "Avrg Mass" = 47.867; 
+            "Boiling Point" = 3562; 
+            Configuration = "2-8-10-2"; 
+            Density = 4.5; 
+            EN = 1.54; 
+            "Fusion Heat" = 15.45; 
+            Group = IVb; 
+            Isotopes = (
+                {Abundance = 8; "Half Life" = 0; Mass = 45.9526294; "Ord Num" = 46; }, 
+                {Abundance = 7.3; "Half Life" = 0; Mass = 46.951764; "Ord Num" = 47; }, 
+                {Abundance = 73.8; "Half Life" = 0; Mass = 47.9479473; "Ord Num" = 48; }, 
+                {Abundance = 5.5; "Half Life" = 0; Mass = 48.9478711; "Ord Num" = 49; }, 
+                {Abundance = 5.4; "Half Life" = 0; Mass = 49.9447921; "Ord Num" = 50; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 1943; 
+            "Mono Mass" = 47.9479473; 
+            Name = Titanium; 
+            "Number of Isotopes" = 5; 
+            "Ord Num" = 22; 
+            Period = 4; 
+            Radius = 1.32; 
+            "Spec. Heat" = 0.52; 
+            Symbol = Ti; 
+            "Vaporization Heat" = 421; 
+            Volume = 10.64; 
+        }; 
+        Tl = {
+            "Avrg Mass" = 204.3833; 
+            "Boiling Point" = 1746; 
+            Configuration = "2-8-18-32-18-3"; 
+            Density = 11.85; 
+            EN = 2.04; 
+            "Fusion Heat" = 4.142; 
+            Group = IIIa; 
+            Isotopes = (
+                {Abundance = 29.524; "Half Life" = 0; Mass = 202.97232; "Ord Num" = 203; }, 
+                {Abundance = 70.476; "Half Life" = 0; Mass = 204.974401; "Ord Num" = 205; }
+            ); 
+            Kind = 6; 
+            "Melting Point" = 577; 
+            "Mono Mass" = 204.974401; 
+            Name = Thallium; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 81; 
+            Period = 13; 
+            Radius = 1.48; 
+            "Spec. Heat" = 0.13; 
+            Symbol = Tl; 
+            "Vaporization Heat" = 164.1; 
+            Volume = 17.25; 
+        }; 
+        Tm = {
+            "Avrg Mass" = 168.93421; 
+            "Boiling Point" = 2220; 
+            Configuration = "2-8-18-31-8-2"; 
+            Density = 9.33; 
+            EN = 1.25; 
+            "Fusion Heat" = 16.84; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 168.934212; "Ord Num" = 169; }); 
+            Kind = 4; 
+            "Melting Point" = 1818; 
+            "Mono Mass" = 168.934212; 
+            Name = Thulium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 69; 
+            Period = 3; 
+            Radius = 1.56; 
+            "Spec. Heat" = 0.16; 
+            Symbol = Tm; 
+            "Vaporization Heat" = 191; 
+            Volume = 18.11; 
+        }; 
+        U = {
+            "Avrg Mass" = 238.0289; 
+            "Boiling Point" = 4407; 
+            Configuration = "2-8-18-32-21-9-2"; 
+            Density = 18.9; 
+            EN = 1.38; 
+            "Fusion Heat" = 8.52; 
+            Group = IIIb; 
+            Isotopes = (
+                {Abundance = 0.0055; "Half Life" = 0; Mass = 234.0409468; "Ord Num" = 234; }, 
+                {Abundance = 0.72; "Half Life" = 0; Mass = 235.0439242; "Ord Num" = 235; }, 
+                {Abundance = 99.2745; "Half Life" = 0; Mass = 238.0507847; "Ord Num" = 238; }
+            ); 
+            Kind = 5; 
+            "Melting Point" = 1405; 
+            "Mono Mass" = 238.0507847; 
+            Name = Uranium; 
+            "Number of Isotopes" = 3; 
+            "Ord Num" = 92; 
+            Period = 3; 
+            Radius = 1.42; 
+            "Spec. Heat" = 0.12; 
+            Symbol = U; 
+            "Vaporization Heat" = 477; 
+            Volume = 12.59; 
+        }; 
+        V = {
+            "Avrg Mass" = 50.9415; 
+            "Boiling Point" = 3682; 
+            Configuration = "2-8-11-2"; 
+            Density = 5.8; 
+            EN = 1.63; 
+            "Fusion Heat" = 20.9; 
+            Group = Vb; 
+            Isotopes = (
+                {Abundance = 0.25; "Half Life" = 0; Mass = 49.9471609; "Ord Num" = 50; }, 
+                {Abundance = 99.75; "Half Life" = 0; Mass = 50.9439617; "Ord Num" = 51; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 2175; 
+            "Mono Mass" = 50.9439617; 
+            Name = Vanadium; 
+            "Number of Isotopes" = 2; 
+            "Ord Num" = 23; 
+            Period = 5; 
+            Radius = 1.22; 
+            "Spec. Heat" = 0.49; 
+            Symbol = V; 
+            "Vaporization Heat" = 0.452; 
+            Volume = 8.783; 
+        }; 
+        W = {
+            "Avrg Mass" = 183.84; 
+            "Boiling Point" = 5828; 
+            Configuration = "2-8-18-32-12-2"; 
+            Density = 19.3; 
+            EN = 2.36; 
+            "Fusion Heat" = 35.4; 
+            Group = VIb; 
+            Isotopes = (
+                {Abundance = 0.13; "Half Life" = 0; Mass = 179.946701; "Ord Num" = 180; }, 
+                {Abundance = 26.3; "Half Life" = 0; Mass = 181.948202; "Ord Num" = 182; }, 
+                {Abundance = 14.3; "Half Life" = 0; Mass = 182.95022; "Ord Num" = 183; }, 
+                {Abundance = 30.67; "Half Life" = 0; Mass = 183.950928; "Ord Num" = 184; }, 
+                {Abundance = 28.6; "Half Life" = 0; Mass = 185.954357; "Ord Num" = 186; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 3680; 
+            "Mono Mass" = 183.950928; 
+            Name = Tungsten; 
+            "Number of Isotopes" = 5; 
+            "Ord Num" = 74; 
+            Period = 6; 
+            Radius = 1.3; 
+            "Spec. Heat" = 0.13; 
+            Symbol = W; 
+            "Vaporization Heat" = 824; 
+            Volume = 9.526; 
+        }; 
+        Xe = {
+            "Avrg Mass" = 131.29; 
+            "Boiling Point" = 165; 
+            Configuration = "2-8-18-18-8"; 
+            Density = 0.00588; 
+            EN = 0; 
+            "Fusion Heat" = 2.279; 
+            Group = VIIIa; 
+            Isotopes = (
+                {Abundance = 0.1; "Half Life" = 0; Mass = 123.9058942; "Ord Num" = 124; }, 
+                {Abundance = 0.09; "Half Life" = 0; Mass = 125.904281; "Ord Num" = 126; }, 
+                {Abundance = 1.91; "Half Life" = 0; Mass = 127.9035312; "Ord Num" = 128; }, 
+                {Abundance = 26.4; "Half Life" = 0; Mass = 128.9047801; "Ord Num" = 129; }, 
+                {Abundance = 4.1; "Half Life" = 0; Mass = 129.9035094; "Ord Num" = 130; }, 
+                {Abundance = 21.2; "Half Life" = 0; Mass = 130.905072; "Ord Num" = 131; }, 
+                {Abundance = 26.9; "Half Life" = 0; Mass = 131.904144; "Ord Num" = 132; }, 
+                {Abundance = 10.4; "Half Life" = 0; Mass = 133.905395; "Ord Num" = 134; }, 
+                {Abundance = 8.9; "Half Life" = 0; Mass = 135.907214; "Ord Num" = 136; }
+            ); 
+            Kind = 8; 
+            "Melting Point" = 161.4; 
+            "Mono Mass" = 132.905429; 
+            Name = Xenon; 
+            "Number of Isotopes" = 9; 
+            "Ord Num" = 54; 
+            Period = 18; 
+            Radius = 1.31; 
+            "Spec. Heat" = 0.158; 
+            Symbol = Xe; 
+            "Vaporization Heat" = 12.64; 
+            Volume = 22.29; 
+        }; 
+        Y = {
+            "Avrg Mass" = 88.9059; 
+            "Boiling Point" = 3611; 
+            Configuration = "2-8-18-9-2"; 
+            Density = 4.5; 
+            EN = 1.22; 
+            "Fusion Heat" = 11.4; 
+            Group = IIIb; 
+            Isotopes = ({Abundance = 100; "Half Life" = 0; Mass = 88.905849; "Ord Num" = 89; }); 
+            Kind = 3; 
+            "Melting Point" = 1799; 
+            "Mono Mass" = 88.905849; 
+            Name = Yttrium; 
+            "Number of Isotopes" = 1; 
+            "Ord Num" = 39; 
+            Period = 3; 
+            Radius = 1.62; 
+            "Spec. Heat" = 0.3; 
+            Symbol = Y; 
+            "Vaporization Heat" = 363; 
+            Volume = 19.76; 
+        }; 
+        Yb = {
+            "Avrg Mass" = 173.04; 
+            "Boiling Point" = 1467; 
+            Configuration = "2-8-18-32-8-2"; 
+            Density = 6.98; 
+            EN = 1.1; 
+            "Fusion Heat" = 7.66; 
+            Group = IIIb; 
+            Isotopes = (
+                {Abundance = 0.13; "Half Life" = 0; Mass = 167.933894; "Ord Num" = 168; }, 
+                {Abundance = 3.05; "Half Life" = 0; Mass = 169.934759; "Ord Num" = 170; }, 
+                {Abundance = 14.3; "Half Life" = 0; Mass = 170.936323; "Ord Num" = 171; }, 
+                {Abundance = 21.9; "Half Life" = 0; Mass = 171.936378; "Ord Num" = 172; }, 
+                {Abundance = 16.12; "Half Life" = 0; Mass = 172.938208; "Ord Num" = 173; }, 
+                {Abundance = 31.8; "Half Life" = 0; Mass = 173.938859; "Ord Num" = 174; }, 
+                {Abundance = 12.7; "Half Life" = 0; Mass = 175.942564; "Ord Num" = 176; }
+            ); 
+            Kind = 4; 
+            "Melting Point" = 1097; 
+            "Mono Mass" = 173.938859; 
+            Name = Ytterbium; 
+            "Number of Isotopes" = 7; 
+            "Ord Num" = 70; 
+            Period = 3; 
+            Radius = 1.74; 
+            "Spec. Heat" = 0.15; 
+            Symbol = Yb; 
+            "Vaporization Heat" = 128.9; 
+            Volume = 24.79; 
+        }; 
+        Zn = {
+            "Avrg Mass" = 65.39; 
+            "Boiling Point" = 1180; 
+            Configuration = "2-8-18-2"; 
+            Density = 7.14; 
+            EN = 1.65; 
+            "Fusion Heat" = 7.322; 
+            Group = IIb; 
+            Isotopes = (
+                {Abundance = 48.6; "Half Life" = 0; Mass = 63.9291448; "Ord Num" = 64; }, 
+                {Abundance = 27.9; "Half Life" = 0; Mass = 65.9260347; "Ord Num" = 66; }, 
+                {Abundance = 4.1; "Half Life" = 0; Mass = 66.9271291; "Ord Num" = 67; }, 
+                {Abundance = 18.8; "Half Life" = 0; Mass = 67.9248459; "Ord Num" = 68; }, 
+                {Abundance = 0.6; "Half Life" = 0; Mass = 69.925325; "Ord Num" = 70; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 692.7; 
+            "Mono Mass" = 63.9291448; 
+            Name = Zinc; 
+            "Number of Isotopes" = 5; 
+            "Ord Num" = 30; 
+            Period = 12; 
+            Radius = 1.25; 
+            "Spec. Heat" = 0.39; 
+            Symbol = Zn; 
+            "Vaporization Heat" = 115.3; 
+            Volume = 9.157; 
+        }; 
+        Zr = {
+            "Avrg Mass" = 91.224; 
+            "Boiling Point" = 4682; 
+            Configuration = "2-8-18-10-2"; 
+            Density = 6.49; 
+            EN = 1.33; 
+            "Fusion Heat" = 16.9; 
+            Group = IVb; 
+            Isotopes = (
+                {Abundance = 51.45; "Half Life" = 0; Mass = 89.9047026; "Ord Num" = 90; }, 
+                {Abundance = 11.22; "Half Life" = 0; Mass = 90.9056439; "Ord Num" = 91; }, 
+                {Abundance = 17.15; "Half Life" = 0; Mass = 91.9050386; "Ord Num" = 92; }, 
+                {Abundance = 17.38; "Half Life" = 0; Mass = 93.9063148; "Ord Num" = 94; }, 
+                {Abundance = 2.8; "Half Life" = 0; Mass = 95.908275; "Ord Num" = 96; }
+            ); 
+            Kind = 3; 
+            "Melting Point" = 2125; 
+            "Mono Mass" = 89.9047026; 
+            Name = Zirconium; 
+            "Number of Isotopes" = 5; 
+            "Ord Num" = 40; 
+            Period = 4; 
+            Radius = 1.45; 
+            "Spec. Heat" = 0.27; 
+            Symbol = Zr; 
+            "Vaporization Heat" = 58.2; 
+            Volume = 14.05; 
+        }; 
+    }; 
+}

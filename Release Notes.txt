@@ -1,0 +1,13 @@
+Version 0.1.1 (Wed, 25 Jan 2006 12:00:00 +0000)
+
+Changes in this build:
+- universal binary
+- temporarily disabled Growl and Smart Crash Reports
+- menus for Spectrum and Summary now functional
+- Summary tableviews have better synchronized scrolling
+
+Feedback is always welcome. This build is not tested on Intel-based Macs.
+
+Version 0.1.0 (Thu, 19 Jan 2006 17:00:00 +0000)
+
+First public release.

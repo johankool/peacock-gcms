@@ -1,0 +1,59 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = JKFileWell; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            ACTIONS = {
+                abort = id; 
+                autopilotAction = id; 
+                closeAddSheet = id; 
+                closeAutopilotSheet = id; 
+                closeSearchOptionsSheet = id; 
+                confirm = id; 
+                displayAutopilotSheet = id; 
+                myAction = id; 
+                next = id; 
+                other = id; 
+                previous = id; 
+                search = id; 
+                searchOptions = id; 
+            }; 
+            CLASS = JKPeakIdentificationWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addSheet = NSWindow; 
+                autopilotSheet = NSWindow; 
+                nextButton = NSButton; 
+                previousButton = NSButton; 
+                progressBar = NSProgressIndicator; 
+                progressSheet = NSWindow; 
+                resultsDataSeriesController = NSArrayController; 
+                resultsPopup = NSPopUpButton; 
+                resultsTable = NSTableView; 
+                resultsView = MyGraphView; 
+                searchOptionsSheet = NSWindow; 
+                searchResultsController = NSArrayController; 
+                searchingIndicator = id; 
+                spectrumDataSeriesController = NSArrayController; 
+                spectrumPopup = NSPopUpButton; 
+                spectrumView = MyGraphView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {identifyPeaks = id; }; 
+            CLASS = JKPeakRecord; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {dataModel = JKDataModel; }; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {
+            ACTIONS = {centerOrigin = id; lowerLeftOrigin = id; showAll = id; squareAxes = id; }; 
+            CLASS = MyGraphView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSView; 
+        }, 
+        {ACTIONS = {identifyPeaks = id; }; CLASS = NSObject; LANGUAGE = ObjC; }
+    ); 
+    IBVersion = 1; 
+}

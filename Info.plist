@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>jdx</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>LIBRARY</string>
+			<key>CFBundleTypeName</key>
+			<string>JCAMP Library</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>JKLibrary</string>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>Binary</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>msl</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>LIBRARY</string>
+			<key>CFBundleTypeName</key>
+			<string>AMDIS Target Library</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>JKLibrary</string>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>Binary</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>peacock</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>PEACOCK</string>
+			<key>CFBundleTypeName</key>
+			<string>Peacock File</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<true/>
+			<key>NSDocumentClass</key>
+			<string>JKMainDocument</string>
+			<key>NSExportableAs</key>
+			<array>
+				<string>Tab Delimited Text File</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>cdf</string>
+				<string>nc</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>NETCDF</string>
+			<key>CFBundleTypeName</key>
+			<string>NetCDF File</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>????</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>JKMainDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>txt</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>PEACOCK</string>
+			<key>CFBundleTypeName</key>
+			<string>Tab Delimited Text File</string>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>JKMainDocument</string>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>Binary</string>
+		</dict>
+	</array>
+	<key>CFBundleExecutable</key>
+	<string>Peacock</string>
+	<key>CFBundleGetInfoString</key>
+	<string>0.1.2 Copyright © 2003-2006 Johan Kool ea</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>Peacock Help</string>
+	<key>CFBundleHelpBookName</key>
+	<string>Peacock Help</string>
+	<key>CFBundleIconFile</key>
+	<string>PeacockAppIcon</string>
+	<key>CFBundleIdentifier</key>
+	<string>nl.vu.geo.kool.Peacock</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Peacock</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.1.2</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array/>
+	<key>CFBundleVersion</key>
+	<string>0.1.2</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.4.2</string>
+	<key>NSMainNibFile</key>
+	<string>JKMainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>JKAppDelegate</string>
+	<key>SUFeedURL</key>
+	<string>http://www.geo.vu.nl/~jkool/peacock/peacock.xml</string>
+	<key>SUScheduledCheckInterval</key>
+	<integer>86400</integer>
+	<key>SmartCrashReports_CommentsTemplate</key>
+	<string>Please include your e-mail address if you wish to be contacted in regard to this crash.</string>
+	<key>SmartCrashReports_CompanyName</key>
+	<string>Johan Kool</string>
+	<key>SmartCrashReports_EmailTicket</key>
+	<string>SCR-9841B93DF2</string>
+</dict>
+</plist>

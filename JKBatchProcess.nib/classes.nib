@@ -1,0 +1,31 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                addButtonAction = id; 
+                runBatchButtonAction = id; 
+                searchOptionsButtonAction = id; 
+                searchOptionsDoneAction = id; 
+                stopButtonAction = id; 
+            }; 
+            CLASS = JKBatchProcessWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addButton = NSButton; 
+                detailStatusTextField = NSTextField; 
+                doneButton = NSButton; 
+                fileProgressIndicator = NSProgressIndicator; 
+                fileStatusTextField = NSTextField; 
+                filesTableView = NSTableView; 
+                progressSheet = NSWindow; 
+                runBatchButton = NSButton; 
+                searchOptionsButton = NSButton; 
+                searchOptionsSheet = NSWindow; 
+                stopButton = NSButton; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

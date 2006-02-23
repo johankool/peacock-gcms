@@ -1,0 +1,64 @@
+{
+    IBClasses = (
+        {CLASS = DeleteTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {
+            ACTIONS = {removeSpectrum = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = JKMainDocument; LANGUAGE = ObjC; SUPERCLASS = NSDocument; }, 
+        {
+            ACTIONS = {
+                abort = id; 
+                autopilotAction = id; 
+                browseForDefaultLibrary = id; 
+                closeAddSheet = id; 
+                closeAutopilotSheet = id; 
+                closeSearchOptionsSheet = id; 
+                confirm = id; 
+                displayAutopilotSheet = id; 
+                editLibrary = id; 
+                fitChromatogramDataToView = id; 
+                fitSpectrumDataToView = id; 
+                identifyPeaks = id; 
+                next = id; 
+                other = id; 
+                previous = id; 
+                renumberPeaks = id; 
+                search = id; 
+                searchOptions = id; 
+                showMassChromatogram = id; 
+            }; 
+            CLASS = JKMainWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addSheet = NSWindow; 
+                baselineController = NSArrayController; 
+                chromatogramDataSeriesController = NSArrayController; 
+                chromatogramView = MyGraphView; 
+                mainController = NSObjectController; 
+                mainWindowSplitView = NSView; 
+                peakController = NSArrayController; 
+                peaksTable = NSTableView; 
+                printAccessoryView = NSView; 
+                progressBar = NSProgressIndicator; 
+                progressSheet = NSWindow; 
+                resultsTable = NSTableView; 
+                searchOptionsSheet = NSWindow; 
+                searchResultsController = NSArrayController; 
+                spectrumDataSeriesController = NSArrayController; 
+                spectrumView = MyGraphView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {centerOrigin = id; lowerLeftOrigin = id; showAll = id; squareAxes = id; }; 
+            CLASS = MyGraphView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }
+    ); 
+    IBVersion = 1; 
+}

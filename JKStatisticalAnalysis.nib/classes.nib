@@ -1,0 +1,38 @@
+{
+    IBClasses = (
+        {
+            CLASS = FilteringDNDArrayController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {tableView = NSTableView; }; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                cancelEditRatios = id; 
+                doneOptions = id; 
+                editRatios = id; 
+                options = id; 
+                refetch = id; 
+                saveEditRatios = id; 
+            }; 
+            CLASS = JKStatisticsWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                combinedPeaksController = NSArrayController; 
+                metadataController = NSArrayController; 
+                metadataTable = NSTableView; 
+                optionsSheet = NSWindow; 
+                ratiosController = NSArrayController; 
+                ratiosEditor = NSWindow; 
+                ratiosScrollView = NSScrollView; 
+                ratiosTable = NSTableView; 
+                ratiosValuesController = NSArrayController; 
+                resultsScrollView = NSScrollView; 
+                resultsTable = NSTableView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

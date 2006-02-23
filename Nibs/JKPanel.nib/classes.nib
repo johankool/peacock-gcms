@@ -1,0 +1,59 @@
+{
+    IBClasses = (
+        {
+            CLASS = CSnappingPanel; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {snappingInfoDelegate = id; }; 
+            SUPERCLASS = NSPanel; 
+        }, 
+        {
+            CLASS = CSnappingWindow; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {snappingInfoDelegate = id; }; 
+            SUPERCLASS = NSWindow; 
+        }, 
+        {
+            ACTIONS = {showPanel = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {showInspector = id; }; 
+            CLASS = JKPanelController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                deleteSheet = NSWindow; 
+                infoPanelView = NSView; 
+                infoTableView = NSTableView; 
+                objectController = NSObjectController; 
+                panelView = NSView; 
+                plotViewTabView = NSTabView; 
+                saveSheet = NSWindow; 
+                subTitleTextField = NSTextField; 
+                templatePullDownMenu = NSPopUpButton; 
+                titleTextField = NSTextField; 
+                xAxisTextField = NSTextField; 
+                yAxisTextField = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {
+            ACTIONS = {changePanes = id; }; 
+            CLASS = UJKPanel; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {tabView = NSTabView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {changePanes = id; }; 
+            CLASS = UKPrefsPanel; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {tabView = NSTabView; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

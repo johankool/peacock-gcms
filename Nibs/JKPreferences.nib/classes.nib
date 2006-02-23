@@ -1,0 +1,28 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                browseForCustomLibrary = id; 
+                browseForDefaultLibrary = id; 
+                closeButtonAction = id; 
+            }; 
+            CLASS = JKPreferencesWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {changePanes = id; }; 
+            CLASS = UKPrefsPanel; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {tabView = NSTabView; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

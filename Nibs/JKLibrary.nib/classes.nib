@@ -1,0 +1,32 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {tableViewSelectionDidChangeAction = id; }; 
+            CLASS = FilteringDNDArrayController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {tableView = NSTableView; }; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {save = id; }; 
+            CLASS = JKLibraryWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {libraryController = NSArrayController; spectrumView = MyGraphView; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {centerOrigin = id; lowerLeftOrigin = id; showAll = id; squareAxes = id; }; 
+            CLASS = MyGraphView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,40 @@
+{
+    IBClasses = (
+        {
+            CLASS = CSnappingWindow; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {snappingInfoDelegate = id; }; 
+            SUPERCLASS = NSWindow; 
+        }, 
+        {CLASS = DeleteTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = JKPeakArrayController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {CLASS = JKPeakModel; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                filteredPeaksAction = id; 
+                identifyComponents = id; 
+                identifyPeaks = id; 
+                savePeaks = id; 
+                showSpectrum = id; 
+            }; 
+            CLASS = JKPeakWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {peakController = NSArrayController; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            CLASS = PeakViewDelegate; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {tableView = NSTableView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = PeakViewListItem; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}
