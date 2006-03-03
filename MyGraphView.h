@@ -105,7 +105,7 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 - (void)moveRight;
 - (void)moveUp;
 - (void)moveDown;
-- (double)unitsPerMajorGridLine:(double)pixelsPerUnit;
+- (float)unitsPerMajorGridLine:(float)pixelsPerUnit;
 
 #pragma mark BINDINGS
 - (NSMutableArray *)dataSeries;

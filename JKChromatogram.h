@@ -15,18 +15,18 @@
     int ncid;
     int numberOfPoints;
     
-    double *time;
-    double *totalIntensity;
+    float *time;
+    float *totalIntensity;
 
-    double maxTime;
-    double minTime;
-    double maxTotalIntensity;
-    double minTotalIntensity;
+    float maxTime;
+    float minTime;
+    float maxTotalIntensity;
+    float minTotalIntensity;
     
-    double maxXValuesSpectrum;
-    double minXValuesSpectrum;
-    double maxYValuesSpectrum;
-    double minYValuesSpectrum;   
+    float maxXValuesSpectrum;
+    float minXValuesSpectrum;
+    float maxYValuesSpectrum;
+    float minYValuesSpectrum;   
 
 }
 
@@ -50,37 +50,37 @@
 -(int)ncid;
 -(int)numberOfPoints;
 
--(void)setTime:(double *)inArray withCount:(int)inValue;
-/*! Returns array of doubles for the time. */
--(double *)time;
+-(void)setTime:(float *)inArray withCount:(int)inValue;
+/*! Returns array of floats for the time. */
+-(float *)time;
 
--(void)setTotalIntensity:(double *)inArray withCount:(int)inValue;
--(double *)totalIntensity;
+-(void)setTotalIntensity:(float *)inArray withCount:(int)inValue;
+-(float *)totalIntensity;
 
 -(unsigned int)countOfSpectra;
 -(JKSpectrum *)objectInSpectraAtIndex:(unsigned int)index;
 
 #pragma mark PROPERTIES 
 
--(double)timeForScan:(int)scan;
+-(float)timeForScan:(int)scan;
 
--(double)maxTime;
--(double)minTime;
--(double)maxTotalIntensity;
--(double)minTotalIntensity;
+-(float)maxTime;
+-(float)minTime;
+-(float)maxTotalIntensity;
+-(float)minTotalIntensity;
 
--(double)maxXValuesSpectrum;
--(double)minXValuesSpectrum;
--(double)maxYValuesSpectrum;
--(double)minYValuesSpectrum;
+-(float)maxXValuesSpectrum;
+-(float)minXValuesSpectrum;
+-(float)maxYValuesSpectrum;
+-(float)minYValuesSpectrum;
 
 
 
 #pragma mark ACTIONS
 
 -(void)getChromatogramData;
--(double *)xValuesSpectrum:(int)scan;
--(double *)yValuesSpectrum:(int)scan;
+-(float *)xValuesSpectrum:(int)scan;
+-(float *)yValuesSpectrum:(int)scan;
 -(int)startValuesSpectrum:(int)scan;
 -(int)endValuesSpectrum:(int)scan;
 

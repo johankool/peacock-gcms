@@ -242,16 +242,16 @@
 		if ([[[libraryArray objectAtIndex:i] valueForKey:@"formula"] isNotEqualTo:@""])[outStr appendFormat:@"##MOLFORM= %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"formula"]];
 //		if ([[[libraryArray objectAtIndex:i] valueForKey:@"name"] isNotEqualTo:@""]) [outStr appendFormat:@"##CAS NAME= %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"name"]];
 		if ([[[libraryArray objectAtIndex:i] valueForKey:@"CASNumber"] isNotEqualTo:@""])[outStr appendFormat:@"##CAS REGISTRY NO= %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"CASNumber"]];
-		if (![[[libraryArray objectAtIndex:i] valueForKey:@"massWeight"] isEqualToNumber:[NSNumber numberWithDouble:0.0]])[outStr appendFormat:@"##MW= %.0f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"massWeight"] doubleValue]];
-		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionIndex"] isEqualToNumber:[NSNumber numberWithDouble:0.0]])[outStr appendFormat:@"##RI= %.3f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"retentionIndex"] doubleValue]];
-		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] isEqualToNumber:[NSNumber numberWithDouble:0.0]])[outStr appendFormat:@"##RTI= %.3f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] doubleValue]];
+		if (![[[libraryArray objectAtIndex:i] valueForKey:@"massWeight"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"##MW= %.0f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"massWeight"] floatValue]];
+		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionIndex"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"##RI= %.3f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"retentionIndex"] floatValue]];
+		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"##RTI= %.3f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] floatValue]];
 		if ([[[libraryArray objectAtIndex:i] valueForKey:@"source"] isNotEqualTo:@""])[outStr appendFormat:@"##SOURCE= %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"source"]];
 		if ([[[libraryArray objectAtIndex:i] valueForKey:@"comment"] isNotEqualTo:@""])[outStr appendFormat:@"##COMMENT= %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"comment"]];
 		array = [[libraryArray objectAtIndex:i] valueForKey:@"points"];
 		count2 = [array count];
 		[outStr appendFormat:@"##DATA TYPE= MASS SPECTRUM\r\n##NPOINTS= %i\r\n##XYDATA= (XY..XY)\r\n", count2];
 		for (j=0; j < count2; j++) {
-			[outStr appendFormat:@" %.0f, %.0f", [[[array objectAtIndex:j] valueForKey:@"Mass"] doubleValue], [[[array objectAtIndex:j] valueForKey:@"Intensity"] doubleValue]];
+			[outStr appendFormat:@" %.0f, %.0f", [[[array objectAtIndex:j] valueForKey:@"Mass"] floatValue], [[[array objectAtIndex:j] valueForKey:@"Intensity"] floatValue]];
 			if (fmod(j,8) == 7 && j != count2-1){
 				[outStr appendString:@"\r\n"];
 			}
@@ -279,11 +279,11 @@
     NSString *CASNO = @"CASNO:";
     NSString *CASNumber = @"";
     NSString *RETINDEX = @"RI:";
-    double retentionIndex = 0.0;
+    float retentionIndex = 0.0;
 	NSString *RETWIDTH = @"RW:";
-	double retentionWidth = 0.0;
+	float retentionWidth = 0.0;
     NSString *RETTIME = @"RT:";
-    double retentionTime;
+    float retentionTime;
     NSString *SRC = @"SOURCE:";
     NSString *sourceStr = @"";
     NSString *CMT = @"COMMENT:";
@@ -291,7 +291,7 @@
     NSString *XY = @"NUM PEAKS:";
 	int numPeaks = 0;
     NSString *xyData;
-	double mass, intensity;
+	float mass, intensity;
 
 	count = [array count];
 	for (i=0; i < count; i++) {
@@ -341,32 +341,32 @@
 		[theScanner setScanLocation:0];
 		if ([theScanner scanUpToString:@"MW:" intoString:NULL]) {
 			[theScanner scanString:@"MW:" intoString:NULL]; 
-			[theScanner scanDouble:&retentionIndex];
-			[mutDict setValue:[NSNumber numberWithDouble:retentionIndex] forKey:@"massWeight"];			
+			[theScanner scanFloat:&retentionIndex];
+			[mutDict setValue:[NSNumber numberWithFloat:retentionIndex] forKey:@"massWeight"];			
 		}
 		
 		// Retention Index
 		[theScanner setScanLocation:0];
 		if ([theScanner scanUpToString:RETINDEX intoString:NULL]) {
 			[theScanner scanString:RETINDEX intoString:NULL]; 
-			[theScanner scanDouble:&retentionIndex];
-			[mutDict setValue:[NSNumber numberWithDouble:retentionIndex] forKey:@"retentionIndex"];			
+			[theScanner scanFloat:&retentionIndex];
+			[mutDict setValue:[NSNumber numberWithFloat:retentionIndex] forKey:@"retentionIndex"];			
 		}
 		
 		// Retention Width
 		[theScanner setScanLocation:0];
 		if ([theScanner scanUpToString:RETWIDTH intoString:NULL]) {
 			[theScanner scanString:RETWIDTH intoString:NULL]; 
-			[theScanner scanDouble:&retentionWidth];
-			[mutDict setValue:[NSNumber numberWithDouble:retentionWidth] forKey:@"retentionWidth"];
+			[theScanner scanFloat:&retentionWidth];
+			[mutDict setValue:[NSNumber numberWithFloat:retentionWidth] forKey:@"retentionWidth"];
 		}
 		
 		// Retention Time
 		[theScanner setScanLocation:0];
 		if ([theScanner scanUpToString:RETTIME intoString:NULL]) {
 			[theScanner scanString:RETTIME intoString:NULL]; 
-			[theScanner scanDouble:&retentionTime];
-			[mutDict setValue:[NSNumber numberWithDouble:retentionTime] forKey:@"retentionTime"];			
+			[theScanner scanFloat:&retentionTime];
+			[mutDict setValue:[NSNumber numberWithFloat:retentionTime] forKey:@"retentionTime"];			
 		}
 		
 		// Comment
@@ -397,14 +397,14 @@
 			for (j=0; j <  numPeaks; j++) {
 				[theScannerXY scanUpToString:@"(" intoString:NULL];
 				[theScannerXY scanString:@"(" intoString:NULL];
-				[theScannerXY scanDouble:&mass];
-				[theScannerXY scanString:@"," intoString:NULL]; // occurs sometimes in msl files and can trip the scandouble function
-				[theScannerXY scanDouble:&intensity];
+				[theScannerXY scanFloat:&mass];
+				[theScannerXY scanString:@"," intoString:NULL]; // occurs sometimes in msl files and can trip the scanfloat function
+				[theScannerXY scanFloat:&intensity];
 				[theScannerXY scanUpToString:@")" intoString:NULL];
 				
 				NSMutableDictionary *mutDict2 = [[NSMutableDictionary alloc] init];
-				[mutDict2 setValue:[NSNumber numberWithDouble:mass] forKey:@"Mass"];
-				[mutDict2 setValue:[NSNumber numberWithDouble:intensity] forKey:@"Intensity"];
+				[mutDict2 setValue:[NSNumber numberWithFloat:mass] forKey:@"Mass"];
+				[mutDict2 setValue:[NSNumber numberWithFloat:intensity] forKey:@"Intensity"];
 				[arrayOut addObject:mutDict2];
 				[mutDict2 release];
 			}
@@ -428,28 +428,28 @@
 	NSArray *array;
 	int i,j,count2;
 	int count = [libraryArray count];
-//	double retentionTime, retentionIndex;
+//	float retentionTime, retentionIndex;
 	
 	for (i=0; i < count; i++) {
 		if ([[[libraryArray objectAtIndex:i] valueForKey:@"name"] isNotEqualTo:@""]) [outStr appendFormat:@"NAME: %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"name"]];
 		if ([[[libraryArray objectAtIndex:i] valueForKey:@"formula"] isNotEqualTo:@""])[outStr appendFormat:@"FORM: %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"formula"]];
 		if ([[[libraryArray objectAtIndex:i] valueForKey:@"CASNumber"] isNotEqualTo:@""])[outStr appendFormat:@"CASNO: %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"CASNumber"]];
-		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionIndex"] isEqualToNumber:[NSNumber numberWithDouble:0.0]])[outStr appendFormat:@"RI: %.3f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"retentionIndex"] doubleValue]];
-//		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] isEqualToNumber:[NSNumber numberWithDouble:0.0]]) {
-//			retentionTime = [[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] doubleValue];
+		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionIndex"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"RI: %.3f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"retentionIndex"] floatValue]];
+//		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] isEqualToNumber:[NSNumber numberWithFloat:0.0]]) {
+//			retentionTime = [[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] floatValue];
 //			retentionIndex = 0.0119 * pow(retentionTime,2) + 0.1337 * retentionTime + 8.1505;
 //			[outStr appendFormat:@"RI: %.3f\r\n", retentionIndex*100];
 //		}
-		if (![[[libraryArray objectAtIndex:i] valueForKey:@"massWeight"] isEqualToNumber:[NSNumber numberWithDouble:0.0]])[outStr appendFormat:@"MW: %.0f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"massWeight"] doubleValue]];
-		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionWidth"] isEqualToNumber:[NSNumber numberWithDouble:0.0]])[outStr appendFormat:@"RW: %.3f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"retentionWidth"] doubleValue]];
-		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] isEqualToNumber:[NSNumber numberWithDouble:0.0]])[outStr appendFormat:@"RT: %.3f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] doubleValue]];
+		if (![[[libraryArray objectAtIndex:i] valueForKey:@"massWeight"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"MW: %.0f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"massWeight"] floatValue]];
+		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionWidth"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"RW: %.3f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"retentionWidth"] floatValue]];
+		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"RT: %.3f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] floatValue]];
 		if ([[[libraryArray objectAtIndex:i] valueForKey:@"comment"] isNotEqualTo:@""])[outStr appendFormat:@"COMMENT: %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"comment"]];
 		if ([[[libraryArray objectAtIndex:i] valueForKey:@"source"] isNotEqualTo:@""])[outStr appendFormat:@"SOURCE: %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"source"]];
 		array = [[libraryArray objectAtIndex:i] valueForKey:@"points"];
 		count2 = [array count];
 		[outStr appendFormat:@"NUM PEAKS: %i\r\n", count2];
 		for (j=0; j < count2; j++) {
-			[outStr appendFormat:@"(%4.f, %4.f) ", [[[array objectAtIndex:j] valueForKey:@"Mass"] doubleValue], [[[array objectAtIndex:j] valueForKey:@"Intensity"] doubleValue]];
+			[outStr appendFormat:@"(%4.f, %4.f) ", [[[array objectAtIndex:j] valueForKey:@"Mass"] floatValue], [[[array objectAtIndex:j] valueForKey:@"Intensity"] floatValue]];
 			if (fmod(j,5) == 4 && j != count2-1){
 				[outStr appendString:@"\r\n"];
 			}

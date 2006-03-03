@@ -46,55 +46,55 @@
     return numberOfPoints;
 }
 
--(void)setTime:(double *)inArray withCount:(int)inValue {
+-(void)setTime:(float *)inArray withCount:(int)inValue {
     numberOfPoints = inValue;
-    time = (double *) realloc(time, numberOfPoints*sizeof(double));
-    memcpy(time, inArray, numberOfPoints*sizeof(double));
+    time = (float *) realloc(time, numberOfPoints*sizeof(float));
+    memcpy(time, inArray, numberOfPoints*sizeof(float));
 }
 
--(double *)time {
+-(float *)time {
     return time;
 }
 
--(void)setTotalIntensity:(double *)inArray withCount:(int)inValue {
+-(void)setTotalIntensity:(float *)inArray withCount:(int)inValue {
     numberOfPoints = inValue;
-    totalIntensity = (double *) realloc(totalIntensity, numberOfPoints*sizeof(double));
-    memcpy(totalIntensity, inArray, numberOfPoints*sizeof(double));
+    totalIntensity = (float *) realloc(totalIntensity, numberOfPoints*sizeof(float));
+    memcpy(totalIntensity, inArray, numberOfPoints*sizeof(float));
 }
 
--(double *)totalIntensity {
+-(float *)totalIntensity {
     return totalIntensity;
 }
 
--(double)maxTime {
+-(float)maxTime {
     return maxTime;
 }
 
--(double)minTime {
+-(float)minTime {
     return minTime;
 }
 
--(double)maxTotalIntensity {
+-(float)maxTotalIntensity {
     return maxTotalIntensity;
 }
 
--(double)minTotalIntensity {
+-(float)minTotalIntensity {
     return minTotalIntensity;
 }
 
--(double)maxXValuesSpectrum {
+-(float)maxXValuesSpectrum {
     return maxXValuesSpectrum;
 }
 
--(double)minXValuesSpectrum {
+-(float)minXValuesSpectrum {
     return minXValuesSpectrum;
 }
 
--(double)maxYValuesSpectrum {
+-(float)maxYValuesSpectrum {
     return maxYValuesSpectrum;
 }
 
--(double)minYValuesSpectrum {
+-(float)minYValuesSpectrum {
     return minYValuesSpectrum;
 }
 
@@ -104,8 +104,8 @@
 //-(void)getChromatogramData
 //{
 //    int		num_pts;
-//    double	*x;
-//    double 	*y;
+//    float	*x;
+//    float 	*y;
 //    int     	dummy, dimid, varid_scanaqtime, varid_totintens;
 //    BOOL	hasVarid_scanaqtime;
 //    
@@ -142,15 +142,15 @@
 //        if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting ordinate_values variable failed. Report error #%d.", dummy);            return;}
 //    }
 //
-//    // stored as doubles in file, but I need doubles which can be converted automatically by NetCDF so no worry!
-//    x = (double *) malloc(num_pts*sizeof(double));
-//    y = (double *) malloc(num_pts*sizeof(double));
+//    // stored as floats in file, but I need floats which can be converted automatically by NetCDF so no worry!
+//    x = (float *) malloc(num_pts*sizeof(float));
+//    y = (float *) malloc(num_pts*sizeof(float));
 //
-//     dummy = nc_get_var_double([self ncid], varid_scanaqtime, x);
+//     dummy = nc_get_var_float([self ncid], varid_scanaqtime, x);
 //     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scanaqtime variables failed. Report error #%d.", dummy); return;}
 //     minTime = 0.0; maxTime = 3600.0; // replace with sensible times
 //     
-//     dummy = nc_get_var_double([self ncid], varid_totintens, y);
+//     dummy = nc_get_var_float([self ncid], varid_totintens, y);
 //     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting totintens variables failed. Report error #%d.", dummy); return;}
 //     minTotalIntensity = 0.0; maxTotalIntensity = 1e8; // replace with sensible values
 //
@@ -160,22 +160,22 @@
 //    //    JKLogDebug(@"Read time: %g seconds", -[startT timeIntervalSinceNow]);
 //}
 
--(double)timeForScan:(int)scan {
+-(float)timeForScan:(int)scan {
     int dummy, varid_scanaqtime;
-    double   x;
+    float   x;
     
     dummy = nc_inq_varid([self ncid], "scan_acquisition_time", &varid_scanaqtime);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_acquisition_time variable failed. Report error #%d.", dummy); return -1.0;}
         
-    dummy = nc_get_var1_double([self ncid], varid_scanaqtime, (void *) &scan, &x);
+    dummy = nc_get_var1_float([self ncid], varid_scanaqtime, (void *) &scan, &x);
     
     return x;
 }
 
--(double *)xValuesSpectrum:(int)scan {
+-(float *)xValuesSpectrum:(int)scan {
     int i, dummy, start, end, varid_mass_value;
-    double 	xx;
-    double 	*x;
+    float 	xx;
+    float 	*x;
     int		num_pts;
 
     dummy = nc_inq_varid([self ncid], "mass_values", &varid_mass_value);
@@ -186,10 +186,10 @@
     num_pts = end - start;
     
     JKLogDebug(@"start= %d, end = %d, count = %d",start, end, num_pts);
-    x = (double *) malloc((num_pts+1)*sizeof(double));
+    x = (float *) malloc((num_pts+1)*sizeof(float));
 
     for(i = start; i < end; i++) {
-        dummy = nc_get_var1_double([self ncid], varid_mass_value, (void *) &i, &xx);
+        dummy = nc_get_var1_float([self ncid], varid_mass_value, (void *) &i, &xx);
         *(x + (i-start)) = xx;
         if(maxXValuesSpectrum < xx) {
             maxXValuesSpectrum = xx;
@@ -203,10 +203,10 @@
     return x;    
 }
 
--(double *)yValuesSpectrum:(int)scan {
+-(float *)yValuesSpectrum:(int)scan {
     int i, dummy, start, end, varid_intensity_value;
-    double     	yy;
-    double 	*y;
+    float     	yy;
+    float 	*y;
     int		num_pts;
 
     dummy = nc_inq_varid([self ncid], "intensity_values", &varid_intensity_value);
@@ -217,13 +217,13 @@
     num_pts = end - start;
     
     JKLogDebug(@"start= %d, end = %d, count = %d",start, end, num_pts);
-    y = (double *) malloc((num_pts)*sizeof(double));
+    y = (float *) malloc((num_pts)*sizeof(float));
     
-//    dummy = nc_get_vara_double([self ncid], varid_intensity_value, start, num_pts, y);
+//    dummy = nc_get_vara_float([self ncid], varid_intensity_value, start, num_pts, y);
 //    minYValuesSpectrum = 0.0; minYValuesSpectrum = 80000.0;
  
     for(i = start; i < end; i++) {
-        dummy = nc_get_var1_double([self ncid], varid_intensity_value, (void *) &i, &yy);
+        dummy = nc_get_var1_float([self ncid], varid_intensity_value, (void *) &i, &yy);
         *(y + (i-start)) = yy;
         if(maxYValuesSpectrum < yy) {
             maxYValuesSpectrum = yy;

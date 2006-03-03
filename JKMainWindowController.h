@@ -72,7 +72,7 @@ enum JKPeakSelection {
 -(void)displayResult:(JKLibraryEntry *)libraryEntry;
 
 #pragma mark HELPER ACTIONS
--(double)baselineValueAtScan:(int)inValue;
+-(float)baselineValueAtScan:(int)inValue;
 
 #pragma mark IBACTIONS
 -(IBAction)identifyPeaks:(id)sender;

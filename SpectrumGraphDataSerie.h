@@ -27,7 +27,7 @@
 
 #pragma mark MISC
 -(NSArray *)dataArrayKeys;
--(void)loadDataPoints:(int)npts withXValues:(float *)xpts andYValues:(float *)ypts ;
+//-(void)loadDataPoints:(int)npts withXValues:(float *)xpts andYValues:(float *)ypts ;
 
 #pragma mark ACCESSORS
 

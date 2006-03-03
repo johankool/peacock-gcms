@@ -61,9 +61,9 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 
         // Defaults
 		[self setOrigin:NSMakePoint(50.,50.)];
-		[self setPixelsPerXUnit:[NSNumber numberWithDouble:20.0]];
-		[self setPixelsPerYUnit:[NSNumber numberWithDouble:10]];
-		[self setMinimumPixelsPerMajorGridLine:[NSNumber numberWithDouble:25]];
+		[self setPixelsPerXUnit:[NSNumber numberWithFloat:20.0]];
+		[self setPixelsPerYUnit:[NSNumber numberWithFloat:10]];
+		[self setMinimumPixelsPerMajorGridLine:[NSNumber numberWithFloat:25]];
 		[self setPlottingArea:NSMakeRect(50,20,[self bounds].size.width-60,[self bounds].size.height-25)];
 		[self setLegendArea:NSMakeRect([self bounds].size.width-90-60,[self bounds].size.height-90-120,60,120)];
 		[self setSelectedRect:NSMakeRect(0,0,0,0)];
@@ -261,12 +261,12 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 
 - (void)drawGrid {
 	int i, start, end;
-	double stepInUnits, stepInPixels;
+	float stepInUnits, stepInPixels;
 	NSBezierPath *gridPath = [[NSBezierPath alloc] init];
 		
 	// Verticale gridlijnen
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] doubleValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerXUnit] doubleValue];
+	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
+	stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
 	
 	start = -[self origin].x/stepInPixels;
 	end = start + [self frame].size.width/stepInPixels+1;
@@ -276,8 +276,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	}
 	
 	// En de horizontale gridlijnen
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] doubleValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerYUnit] doubleValue];
+	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
+	stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
 	
 	start = -[self origin].y/stepInPixels;
 	end = start + [self frame].size.height/stepInPixels +1;
@@ -299,14 +299,14 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 
 - (void)drawMajorTickMarks {
 	int i, start, end;
-	double stepInUnits, stepInPixels;
-	double tickMarksWidth = 2.5;
+	float stepInUnits, stepInPixels;
+	float tickMarksWidth = 2.5;
 	int tickMarksPerUnit = 5;
 	NSBezierPath *tickMarksPath = [[NSBezierPath alloc] init];
 	
 	// Verticale tickmarks
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] doubleValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerXUnit] doubleValue];
+	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
+	stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
 	
 	start = (-[self origin].x/stepInPixels)*tickMarksPerUnit;
 	end = start + ([self frame].size.width/stepInPixels)*tickMarksPerUnit+1;
@@ -316,8 +316,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	}
 	
 	// En de horizontale tickmarks
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] doubleValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerYUnit] doubleValue];
+	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
+	stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
 	
 	start = (-[self origin].y/stepInPixels)*tickMarksPerUnit;
 	end = start + ([self frame].size.height/stepInPixels)*tickMarksPerUnit +1;
@@ -339,14 +339,14 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 
 - (void)drawMinorTickMarks {
 	int i, start, end;
-	double stepInUnits, stepInPixels;
-	double tickMarksWidth = 5.0;
+	float stepInUnits, stepInPixels;
+	float tickMarksWidth = 5.0;
 	int tickMarksPerUnit = 1;
 	NSBezierPath *tickMarksPath = [[NSBezierPath alloc] init];
 	
 	// Verticale tickmarks
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] doubleValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerXUnit] doubleValue];
+	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
+	stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
 	
 	start = (-[self origin].x/stepInPixels)*tickMarksPerUnit;
 	end = start + ([self frame].size.width/stepInPixels)*tickMarksPerUnit+1;
@@ -356,8 +356,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	}
 	
 	// En de horizontale tickmarks
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] doubleValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerYUnit] doubleValue];
+	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
+	stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
 	
 	start = (-[self origin].y/stepInPixels)*tickMarksPerUnit;
 	end = start + ([self frame].size.height/stepInPixels)*tickMarksPerUnit +1;
@@ -455,7 +455,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	NSMutableAttributedString *string;// = [[NSMutableAttributedString alloc] init];
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
 	int i, start, end;
-	double stepInUnits, stepInPixels;
+	float stepInUnits, stepInPixels;
 	NSSize stringSize;
 	NSPoint pointToDraw;
 	NSString *formatString = @"%.f";
@@ -463,8 +463,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[attrs setValue:[NSFont systemFontOfSize:10] forKey:NSFontAttributeName];
 
 	// Labels op X-as
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] doubleValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerXUnit] doubleValue];
+	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
+	stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
 	
 	// Toegegeven, dit is niet erg doorzichtig. Het is een dubbelgenestte printf string die ervoor zorgt dat er altijd net genoeg cijfers achter de komma worden gezet om te weten hoe groot de stap tussen de gridlijnen is.
 	if (floor(log10(stepInUnits)) < 0) {
@@ -494,8 +494,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	}
 
 	// Labels op Y-as
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] doubleValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerYUnit] doubleValue];
+	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
+	stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
 
 	// Toegegeven, dit is niet erg doorzichtig. Het is een dubbelgenestte printf string die ervoor zorgt dat er altijd net genoeg cijfers achter de komma worden gezet om te weten hoe groot de stap tussen de gridlijnen is.
 	if (floor(log10(stepInUnits)) < 0) {
@@ -521,7 +521,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	NSMutableAttributedString *string;// = [[NSMutableAttributedString alloc] init];
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
 	int i, start, end;
-	double stepInUnits, stepInPixels;
+	float stepInUnits, stepInPixels;
 	NSSize stringSize;
 	NSPoint pointToDraw;
 	NSString *formatString = @"%.f";
@@ -529,8 +529,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[attrs setValue:[NSFont systemFontOfSize:10] forKey:NSFontAttributeName];
 	
 	// Labels op X-as
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] doubleValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerXUnit] doubleValue];
+	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
+	stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
 	
 	// Toegegeven, dit is niet erg doorzichtig. Het is een dubbelgenestte printf string die ervoor zorgt dat er altijd net genoeg cijfers achter de komma worden gezet om te weten hoe groot de stap tussen de gridlijnen is.
 	if (floor(log10(stepInUnits)) < 0) {
@@ -560,8 +560,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	}
 	
 	// Labels op Y-as
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] doubleValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerYUnit] doubleValue];
+	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
+	stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
 	
 	// Toegegeven, dit is niet erg doorzichtig. Het is een dubbelgenestte printf string die ervoor zorgt dat er altijd net genoeg cijfers achter de komma worden gezet om te weten hoe groot de stap tussen de gridlijnen is.
 	if (floor(log10(stepInUnits)) < 0) {
@@ -676,12 +676,12 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     [self setOrigin:[self plottingArea].origin];
 }
 - (void)squareAxes:(id)sender {
-	double x,y,avg;
-	x = [[self pixelsPerXUnit] doubleValue];
-	y = [[self pixelsPerYUnit] doubleValue];
+	float x,y,avg;
+	x = [[self pixelsPerXUnit] floatValue];
+	y = [[self pixelsPerYUnit] floatValue];
 	avg = (x+y)/2;
-	[self setPixelsPerXUnit:[NSNumber numberWithDouble:avg]];
-	[self setPixelsPerYUnit:[NSNumber numberWithDouble:avg]];
+	[self setPixelsPerXUnit:[NSNumber numberWithFloat:avg]];
+	[self setPixelsPerYUnit:[NSNumber numberWithFloat:avg]];
 }
 - (void)showAll:(id)sender {
 	int i, count;
@@ -733,6 +733,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	
 	// De waarden omrekeningen naar pixels op het scherm.
      scalingMatrix = [NSAffineTransform transform];
+	 NSAssert([[self pixelsPerXUnit] floatValue] > 0, @"pixelsPerXUnit = 0");
+	 NSAssert([[self pixelsPerYUnit] floatValue] > 0, @"pixelsPerYUnit = 0");
     [scalingMatrix scaleXBy:[[self pixelsPerXUnit] floatValue] yBy:[[self pixelsPerYUnit] floatValue]];
 	
 	// In transformationMatrix combineren we de matrices. Eerst de verplaatsing, dan schalen.
@@ -748,10 +750,10 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	
 }
 
-- (double)unitsPerMajorGridLine:(double)pixelsPerUnit {
-	double amountAtMinimum, orderOfMagnitude, fraction;
+- (float)unitsPerMajorGridLine:(float)pixelsPerUnit {
+	float amountAtMinimum, orderOfMagnitude, fraction;
 	
-	amountAtMinimum = [[self minimumPixelsPerMajorGridLine] doubleValue]/pixelsPerUnit;	
+	amountAtMinimum = [[self minimumPixelsPerMajorGridLine] floatValue]/pixelsPerUnit;	
 	orderOfMagnitude = floor(log10(amountAtMinimum));
 	fraction = amountAtMinimum / pow(10.0, orderOfMagnitude);
 	
@@ -767,11 +769,11 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 - (void)zoomToRect:(NSRect)aRect { // aRect in grafiek coördinaten
 	NSPoint newOrig;
 
-	[self setPixelsPerXUnit:[NSNumber numberWithDouble:(([self plottingArea].size.width  )/aRect.size.width)]];
-	[self setPixelsPerYUnit:[NSNumber numberWithDouble:(([self plottingArea].size.height )/aRect.size.height)]];
+	[self setPixelsPerXUnit:[NSNumber numberWithFloat:(([self plottingArea].size.width  )/aRect.size.width)]];
+	[self setPixelsPerYUnit:[NSNumber numberWithFloat:(([self plottingArea].size.height )/aRect.size.height)]];
 
-	newOrig.x = [self plottingArea].origin.x - aRect.origin.x * [[self pixelsPerXUnit] doubleValue];
-	newOrig.y = [self plottingArea].origin.y - aRect.origin.y * [[self pixelsPerYUnit] doubleValue];
+	newOrig.x = [self plottingArea].origin.x - aRect.origin.x * [[self pixelsPerXUnit] floatValue];
+	newOrig.y = [self plottingArea].origin.y - aRect.origin.y * [[self pixelsPerYUnit] floatValue];
 	[self setOrigin:newOrig];
 	[self calculateCoordinateConversions];
 }
@@ -787,37 +789,37 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 
 - (void)zoomOut {
-	double xWidth = [[self xMaximum] doubleValue] - [[self xMinimum] doubleValue];
-	[self setXMaximum:[NSNumber numberWithDouble:[[self xMaximum] doubleValue] + xWidth/4]];
-	[self setXMinimum:[NSNumber numberWithDouble:[[self xMinimum] doubleValue] - xWidth/4]];
+	float xWidth = [[self xMaximum] floatValue] - [[self xMinimum] floatValue];
+	[self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] + xWidth/4]];
+	[self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] - xWidth/4]];
 	
-	double yWidth = [[self yMaximum] doubleValue] - [[self yMinimum] doubleValue];
-	[self setYMaximum:[NSNumber numberWithDouble:[[self yMaximum] doubleValue] + yWidth/4]];
-	[self setYMinimum:[NSNumber numberWithDouble:[[self yMinimum] doubleValue] - yWidth/4]];
+	float yWidth = [[self yMaximum] floatValue] - [[self yMinimum] floatValue];
+	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] + yWidth/4]];
+	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] - yWidth/4]];
 }
 
 - (void)moveLeft {
-	double xWidth = [[self xMaximum] doubleValue] - [[self xMinimum] doubleValue];
-	[self setXMaximum:[NSNumber numberWithDouble:[[self xMaximum] doubleValue] - xWidth/4]];
-	[self setXMinimum:[NSNumber numberWithDouble:[[self xMinimum] doubleValue] - xWidth/4]];
+	float xWidth = [[self xMaximum] floatValue] - [[self xMinimum] floatValue];
+	[self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] - xWidth/4]];
+	[self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] - xWidth/4]];
 }
 
 - (void)moveRight {
-	double xWidth = [[self xMaximum] doubleValue] - [[self xMinimum] doubleValue];
-	[self setXMaximum:[NSNumber numberWithDouble:[[self xMaximum] doubleValue] + xWidth/4]];
-	[self setXMinimum:[NSNumber numberWithDouble:[[self xMinimum] doubleValue] + xWidth/4]];
+	float xWidth = [[self xMaximum] floatValue] - [[self xMinimum] floatValue];
+	[self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] + xWidth/4]];
+	[self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] + xWidth/4]];
 }
 
 - (void)moveUp {
-	double yWidth = [[self yMaximum] doubleValue] - [[self yMinimum] doubleValue];
-	[self setYMaximum:[NSNumber numberWithDouble:[[self yMaximum] doubleValue] + yWidth/4]];
-	[self setYMinimum:[NSNumber numberWithDouble:[[self yMinimum] doubleValue] + yWidth/4]];
+	float yWidth = [[self yMaximum] floatValue] - [[self yMinimum] floatValue];
+	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] + yWidth/4]];
+	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] + yWidth/4]];
 }
 
 - (void)moveDown {
-	double yWidth = [[self yMaximum] doubleValue] - [[self yMinimum] doubleValue];
-	[self setYMaximum:[NSNumber numberWithDouble:[[self yMaximum] doubleValue] - yWidth/4]];
-	[self setYMinimum:[NSNumber numberWithDouble:[[self yMinimum] doubleValue] - yWidth/4]];
+	float yWidth = [[self yMaximum] floatValue] - [[self yMinimum] floatValue];
+	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] - yWidth/4]];
+	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] - yWidth/4]];
 }
 
 #pragma mark MOUSE INTERACTION MANAGEMENT
@@ -917,7 +919,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 				//  select peak/select baseline point/select scan 
 				JKLogDebug(@"select peak/select baseline point/select scan");
 			}
-		} else if ([theEvent clickCount] == 2) { // Double click
+		} else if ([theEvent clickCount] == 2) { // Float click
 			if (([theEvent modifierFlags] & NSCommandKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
 				//   combine spectrum for peak
 				JKLogDebug(@"combine spectrum for peak");
@@ -1768,15 +1770,15 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 - (NSNumber *)xMinimum {
 	NSPoint plotCorner;
 	plotCorner = [[self inverseTrans] transformPoint:[self plottingArea].origin];
-	return [NSNumber numberWithDouble:plotCorner.x];
+	return [NSNumber numberWithFloat:plotCorner.x];
 }
 - (void)setXMinimum:(NSNumber *)inValue {
 	NSPoint newOrigin;
 	newOrigin = [self origin];
 	
-	[self setPixelsPerXUnit:[NSNumber numberWithDouble:([self plottingArea].size.width)/([[self xMaximum] doubleValue] - [inValue doubleValue])]];
+	[self setPixelsPerXUnit:[NSNumber numberWithFloat:([self plottingArea].size.width)/([[self xMaximum] floatValue] - [inValue floatValue])]];
 	
-	newOrigin.x = [self plottingArea].origin.x - [inValue doubleValue] * [[self pixelsPerXUnit] doubleValue];
+	newOrigin.x = [self plottingArea].origin.x - [inValue floatValue] * [[self pixelsPerXUnit] floatValue];
 	[self setOrigin:newOrigin];
 	[self calculateCoordinateConversions];
 }
@@ -1785,15 +1787,15 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	NSSize plotSize;
 	plotCorner = [[self inverseTrans] transformPoint:[self plottingArea].origin];
 	plotSize = [[self inverseTrans] transformSize:[self plottingArea].size];
-	return [NSNumber numberWithDouble:(plotCorner.x + plotSize.width)];	
+	return [NSNumber numberWithFloat:(plotCorner.x + plotSize.width)];	
 }
 - (void)setXMaximum:(NSNumber *)inValue {
 	NSPoint newOrigin;
 	newOrigin = [self origin];
 	
-	[self setPixelsPerXUnit:[NSNumber numberWithDouble:([self plottingArea].size.width)/([inValue doubleValue] - [[self xMinimum] doubleValue])]];
+	[self setPixelsPerXUnit:[NSNumber numberWithFloat:([self plottingArea].size.width)/([inValue floatValue] - [[self xMinimum] floatValue])]];
 	
-	newOrigin.x = [self plottingArea].origin.x + [self plottingArea].size.width - [inValue doubleValue] * [[self pixelsPerXUnit] doubleValue];
+	newOrigin.x = [self plottingArea].origin.x + [self plottingArea].size.width - [inValue floatValue] * [[self pixelsPerXUnit] floatValue];
 	[self setOrigin:newOrigin];
 	[self calculateCoordinateConversions];
 	
@@ -1801,15 +1803,15 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 - (NSNumber *)yMinimum {
 	NSPoint plotCorner;
 	plotCorner = [[self inverseTrans] transformPoint:[self plottingArea].origin];
-	return [NSNumber numberWithDouble:plotCorner.y];	
+	return [NSNumber numberWithFloat:plotCorner.y];	
 }
 - (void)setYMinimum:(NSNumber *)inValue {
 	NSPoint newOrigin;
 	newOrigin = [self origin];
 	
-	[self setPixelsPerYUnit:[NSNumber numberWithDouble:([self plottingArea].size.height)/([[self yMaximum] doubleValue] - [inValue doubleValue])]];
+	[self setPixelsPerYUnit:[NSNumber numberWithFloat:([self plottingArea].size.height)/([[self yMaximum] floatValue] - [inValue floatValue])]];
 	
-	newOrigin.y = [self plottingArea].origin.y - [inValue doubleValue] * [[self pixelsPerYUnit] doubleValue];
+	newOrigin.y = [self plottingArea].origin.y - [inValue floatValue] * [[self pixelsPerYUnit] floatValue];
 	[self setOrigin:newOrigin];
 	[self calculateCoordinateConversions];
 }
@@ -1818,23 +1820,23 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	NSSize plotSize;
 	plotCorner = [[self inverseTrans] transformPoint:[self plottingArea].origin];
 	plotSize = [[self inverseTrans] transformSize:[self plottingArea].size];
-	return [NSNumber numberWithDouble:(plotCorner.y + plotSize.height)];	
+	return [NSNumber numberWithFloat:(plotCorner.y + plotSize.height)];	
 }
 - (void)setYMaximum:(NSNumber *)inValue{
 	NSPoint newOrigin;
 	newOrigin = [self origin];
 	
-	[self setPixelsPerYUnit:[NSNumber numberWithDouble:([self plottingArea].size.height)/([inValue doubleValue] - [[self yMinimum] doubleValue])]];
+	[self setPixelsPerYUnit:[NSNumber numberWithFloat:([self plottingArea].size.height)/([inValue floatValue] - [[self yMinimum] floatValue])]];
 	
-	newOrigin.y = [self plottingArea].origin.y + [self plottingArea].size.height  - [inValue doubleValue] * [[self pixelsPerYUnit] doubleValue];
+	newOrigin.y = [self plottingArea].origin.y + [self plottingArea].size.height  - [inValue floatValue] * [[self pixelsPerYUnit] floatValue];
 	[self setOrigin:newOrigin];
 	[self calculateCoordinateConversions];
 }
 - (NSNumber *)unitsPerMajorX {
-	double a,b;
-	a = [[self pixelsPerXUnit] doubleValue];
-	b = [[self minimumPixelsPerMajorGridLine] doubleValue];
-	return [NSNumber numberWithDouble:a/b];
+	float a,b;
+	a = [[self pixelsPerXUnit] floatValue];
+	b = [[self minimumPixelsPerMajorGridLine] floatValue];
+	return [NSNumber numberWithFloat:a/b];
 }
 - (void)setUnitsPerMajorX:(NSNumber *)inValue {
 }

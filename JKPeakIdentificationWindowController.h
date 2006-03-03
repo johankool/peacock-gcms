@@ -69,7 +69,7 @@ boolAccessor_h(showIdentificationWindow, setShowIdentificationWindow)
 -(IBAction)abort:(id)sender;
 -(void)autopilot;
 
-//-(NSMutableArray *)searchLibraryForSpectrum:(JKSpectrum *)inSpectrum inTimeRadius:(double)timeRadius;
+//-(NSMutableArray *)searchLibraryForSpectrum:(JKSpectrum *)inSpectrum inTimeRadius:(float)timeRadius;
 -(void)displaySpectrum:(JKSpectrum *)spectrum;
 -(void)displayResult:(JKLibraryEntry *)spectrum;
 @end

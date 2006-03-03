@@ -87,7 +87,7 @@ static JKPanelController *theSharedController;
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier: @"nl.vu.geo.kool.Peacock.panel.toolbar"] autorelease];
     
     // Set up toolbar properties: Allow customization, give a default display mode, and remember state in user defaults 
-    [toolbar setAllowsUserCustomization: YES];
+    [toolbar setAllowsUserCustomization: NO];
     [toolbar setAutosavesConfiguration: YES];
     [toolbar setDisplayMode: NSToolbarDisplayModeIconOnly];
     [toolbar setSizeMode: NSToolbarSizeModeSmall];
@@ -98,6 +98,9 @@ static JKPanelController *theSharedController;
     // Attach the toolbar to the document window 
     [[self window] setToolbar: toolbar];
 	
+	// Set an initial state
+	[toolbar setSelectedItemIdentifier:@"info"];
+	[[self window] setContentView:infoPanelView];
 }
 
 -(void)setupInspector:(id)object {
@@ -107,10 +110,26 @@ static JKPanelController *theSharedController;
 //			[inspectorListForDocument allKeys];
 //		}
 //	}
+	if (object == nil) {
+		return;
+	}
+	JKLogDebug([object description]);
     if ([object isKindOfClass:[MyGraphView class]] && [[self window] isVisible]) {
         [self setInspectedPlotView:object];
-        [plotViewTabView setHidden:NO];
-        [templatePullDownMenu setHidden:NO];
+//        [templatePullDownMenu setHidden:NO];
+        
+        [objectController willChangeValueForKey:@"Content"];
+        [objectController setContent:object];
+        [objectController didChangeValueForKey:@"Content"];
+		[infoTableView reloadData];
+        [self willChangeValueForKey:@"sampleCode"];
+        [self didChangeValueForKey:@"sampleCode"];
+        [self willChangeValueForKey:@"sampleDescription"];
+        [self didChangeValueForKey:@"sampleDescription"];
+		
+    } else if ([object isKindOfClass:[JKMainDocument class]] && [[self window] isVisible]) {
+        [self setInspectedPlotView:object];
+//        [templatePullDownMenu setHidden:NO];
         
         [objectController willChangeValueForKey:@"Content"];
         [objectController setContent:object];
@@ -128,8 +147,7 @@ static JKPanelController *theSharedController;
 }
 
 -(void)disableInspector:(id)object {
-    [plotViewTabView setHidden:YES];
-    [templatePullDownMenu setHidden:YES];
+//   [templatePullDownMenu setHidden:YES];
 }
 
 - (void) setDocument: (NSDocument *) document
@@ -335,8 +353,7 @@ idAccessor(inspectedPlotView, setInspectedPlotView)
     // Required delegate method:  Given an item identifier, this method returns an item 
     // The toolbar will use this method to obtain toolbar items that can be displayed in the customization sheet, or in the toolbar itself 
     NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
-    NSString*		itemLabel = @"Test";//[itemsList objectForKey:itemIdent];
-    JKLogDebug(itemIdent);
+    NSString*		itemLabel = NSLocalizedString(itemIdent, @"String for toolbar label");//[itemsList objectForKey:itemIdent];
 //    if( (itemLabel = [itemsList objectForKey:itemIdent]) != nil )
 //    {
         // Set the text label to be displayed in the toolbar and customization palette 
@@ -366,16 +383,19 @@ idAccessor(inspectedPlotView, setInspectedPlotView)
 
 -(IBAction)	changePanes: (id)sender
 {
-	JKLogEnteringMethod();
 	if ([[sender itemIdentifier] isEqualToString:@"info"]) {
 		[[self window] setContentView:infoPanelView];
-	} else if ([[sender itemIdentifier] isEqualToString:@"info"]) {
-		[[self window] setContentView:infoPanelView];
+	} else if ([[sender itemIdentifier] isEqualToString:@"view"]) {
+		[[self window] setContentView:viewPanelView];
+	} else if ([[sender itemIdentifier] isEqualToString:@"dataSeries"]) {
+		[[self window] setContentView:dataSeriesPanelView];
+	} else if ([[sender itemIdentifier] isEqualToString:@"text"]) {
+		[[self window] setContentView:textPanelView];
+	} else if ([[sender itemIdentifier] isEqualToString:@"fontcolor"]) {
+		[[self window] setContentView:fontcolorPanelView];
 	} else {
-		
+		JKLogError(@"Unknown pane.");
 	}
-//    [tabView selectTabViewItemAtIndex: [sender tag]];
-//    [[tabView window] setTitle: [baseWindowName stringByAppendingString: [sender label]]];
 }
 
 

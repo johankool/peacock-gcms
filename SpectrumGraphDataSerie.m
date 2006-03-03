@@ -28,8 +28,8 @@ static void *PropertyObservationContext = (void *)1093;
 
 		boundingRect = NSZeroRect;
 		
-//		// Creeer de plot een eerste keer.
-//		[self constructPlotPath];
+		// Creeer de plot een eerste keer.
+		[self constructPlotPath];
 	}
     return self;
 }
@@ -38,7 +38,9 @@ static void *PropertyObservationContext = (void *)1093;
 #pragma mark DRAWING ROUTINES
 -(void)plotDataWithTransform:(NSAffineTransform *)trans {
 	NSBezierPath *bezierpath;
-	
+//	if (!plotPath) {
+//		[self constructPlotPath];
+//	}
 	// Hier gaan we van dataserie-coordinaten naar scherm-coordinaten.
 	bezierpath = [trans transformBezierPath:[self plotPath]];
 	
@@ -73,13 +75,13 @@ static void *PropertyObservationContext = (void *)1093;
 			
 		case 1: // Line
 				// Creeer het pad.
-			[bezierpath moveToPoint:NSMakePoint([[[[self dataArray] objectAtIndex:0] valueForKey:keyForXValue] doubleValue],
-												[[[[self dataArray] objectAtIndex:0] valueForKey:keyForYValue] doubleValue])];
+			[bezierpath moveToPoint:NSMakePoint([[[[self dataArray] objectAtIndex:0] valueForKey:keyForXValue] floatValue],
+												[[[[self dataArray] objectAtIndex:0] valueForKey:keyForYValue] floatValue])];
 			
 			// We zouden eigenlijk moet controleren of de x- en y-waarden beschikbaar zijn.
 			for (i=1; i<count; i++) {
-				pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] doubleValue],
-										   [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] doubleValue]);
+				pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue],
+										   [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]);
 				[bezierpath lineToPoint:pointInUnits];
 			}
 				break;
@@ -87,8 +89,8 @@ static void *PropertyObservationContext = (void *)1093;
 		case 2: // Spectrum
 				// We zouden eigenlijk moet controleren of de x- en y-waarden beschikbaar zijn.
 			for (i=0; i<count; i++) {
-				pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] doubleValue], 0.0);
-				pointInUnits2 = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] doubleValue], [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] doubleValue]);
+				pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], 0.0);
+				pointInUnits2 = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]);
 				[bezierpath moveToPoint:pointInUnits];
 				[bezierpath lineToPoint:pointInUnits2];
 			}
@@ -127,14 +129,14 @@ static void *PropertyObservationContext = (void *)1093;
 	// We should go through the values from highest intensity ('y') to lowest instead of along the x-axis.
 	// It is more important to label the higher intensities.
 	for (i=0; i<count; i++) {
-		string = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:formatString, [[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] doubleValue]] attributes:attrs];
+		string = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:formatString, [[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue]] attributes:attrs];
 		
-		pointToDraw = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] doubleValue], [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] doubleValue]);
+		pointToDraw = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]);
 		stringSize = [string size];
 		pointToDraw = [trans transformPoint:pointToDraw]; // Transfrom to screen coords
 		pointToDraw.x = pointToDraw.x - stringSize.width/2; // Center the label
 		// Draw above or below depending on wether we have negative values
-		if ([[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] doubleValue] < 0.0 ){
+		if ([[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue] < 0.0 ){
 			pointToDraw.y = pointToDraw.y - stringSize.height - 4;
 		} else {
 			pointToDraw.y = pointToDraw.y + 4;

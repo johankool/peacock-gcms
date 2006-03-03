@@ -13,20 +13,8 @@
     int numberOfPoints;
     int intensityCount;
 	
-    double *time;
-    double *totalIntensity;
-//	double *times;
-//	double *intensities;
-	
- //   double maxTime;
-//    double minTime;
-//    double maxTotalIntensity;
-//    double minTotalIntensity;
-//    
-//    double maxXValuesSpectrum;
-//    double minXValuesSpectrum;
-//    double maxYValuesSpectrum;
-//    double minYValuesSpectrum;   
+    float *time;
+    float *totalIntensity;
 
     BOOL hasSpectra;
 	
@@ -38,8 +26,8 @@
 	
 	// Search options
 	BOOL penalizeForRetentionIndex;
-	double retentionSlope;     // retentionIndex = retentionSlope * retentionTime +  retentionRemainder
-	double retentionRemainder; //
+	float retentionSlope;     // retentionIndex = retentionSlope * retentionTime +  retentionRemainder
+	float retentionRemainder; //
 }
 //-(void)finishInit;
 -(BOOL)finishInitWithError:(NSError **)anError;
@@ -61,22 +49,13 @@
 -(int)intensityCount;
 -(void)setIntensityCount:(int)inValue;
 
--(void)setTime:(double *)inArray withCount:(int)inValue;
--(double *)time;
--(double)timeForScan:(int)scan;
+-(void)setTime:(float *)inArray withCount:(int)inValue;
+-(float *)time;
+-(float)timeForScan:(int)scan;
 
--(void)setTotalIntensity:(double *)inArray withCount:(int)inValue;
--(double *)totalIntensity;
+-(void)setTotalIntensity:(float *)inArray withCount:(int)inValue;
+-(float *)totalIntensity;
 
-//-(double)maxTime;
-//-(double)minTime;
-//-(double)maxTotalIntensity;
-//-(double)minTotalIntensity;
-//
-//-(double)maxXValuesSpectrum;
-//-(double)minXValuesSpectrum;
-//-(double)maxYValuesSpectrum;
-//-(double)minYValuesSpectrum;
 
 -(NSMutableArray *)chromatograms;
 //-(void)setChromatograms:(NSMutableArray *)inValue;
@@ -89,12 +68,12 @@
 
 -(float *)xValuesSpectrum:(int)scan;
 -(float *)yValuesSpectrum:(int)scan;
--(double *)yValuesIonChromatogram:(double)mzValue;
+-(float *)yValuesIonChromatogram:(float)mzValue;
 -(int)startValuesSpectrum:(int)scan;
 -(int)endValuesSpectrum:(int)scan;
 
 #pragma mark FUNCTIONS
-void normalize(double *input, int count);
+void normalize(float *input, int count);
 
 @end
 

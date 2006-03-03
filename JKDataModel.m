@@ -45,8 +45,8 @@
 	JKLogEnteringMethod();
 	NSDate *startT = [NSDate date];
     int		num_pts;
-    double	*x;
-    double 	*y;
+    float	*x;
+    float 	*y;
     int     errCode, dummy, dimid, varid_scanaqtime, varid_totintens;
     BOOL	hasVarid_scanaqtime;
 	
@@ -108,14 +108,14 @@
 		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting ordinate_values variable failed.\nNetCDF error: %d",@""), dummy];
     }
 
-    // stored as doubles in file, but I need doubles which can be converted automatically by NetCDF so no worry!
-    x = (double *) malloc(num_pts*sizeof(double));
-    y = (double *) malloc(num_pts*sizeof(double));
+    // stored as floats in file, but I need floats which can be converted automatically by NetCDF so no worry!
+    x = (float *) malloc(num_pts*sizeof(float));
+    y = (float *) malloc(num_pts*sizeof(float));
 
-     dummy = nc_get_var_double([self ncid], varid_scanaqtime, x);
+     dummy = nc_get_var_float([self ncid], varid_scanaqtime, x);
 	 if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting scanaqtime variables failed.\nNetCDF error: %d",@""), dummy];
      
-     dummy = nc_get_var_double([self ncid], varid_totintens, y);
+     dummy = nc_get_var_float([self ncid], varid_totintens, y);
 	 if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting totintens variables failed.\nNetCDF error: %d",@""), dummy];
 
      [self setTime:x withCount:num_pts];
@@ -138,22 +138,22 @@
 	
 	 ChromatogramGraphDataSerie *chromatogram = [[ChromatogramGraphDataSerie alloc] init];
 	 int i, npts;
-	 double *xpts, *ypts;
+	 float *xpts, *ypts;
 	 npts = [self numberOfPoints];
 	 xpts = [self time];
 	 ypts = [self totalIntensity];
 
 	 NSMutableArray *mutArray = [[NSMutableArray alloc] init];
 	 for (i = 0; i < npts; i++) {
-		 NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithDouble:xpts[i]/60], @"Time",
+		 NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:xpts[i]/60], @"Time",
 																		   [NSNumber numberWithInt:i], @"Scan",
-																		   [NSNumber numberWithDouble:ypts[i]], @"Total Intensity", nil];
+																		   [NSNumber numberWithFloat:ypts[i]], @"Total Intensity", nil];
 		 [mutArray addObject:dict];      
 		 [dict release];
 //		 NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
-//		 [mutDict setValue:[NSNumber numberWithDouble:xpts[i]/60] forKey:@"Time"]; // converting to minutes
+//		 [mutDict setValue:[NSNumber numberWithFloat:xpts[i]/60] forKey:@"Time"]; // converting to minutes
 //		 [mutDict setValue:[NSNumber numberWithInt:i] forKey:@"Scan"];
-//		 [mutDict setValue:[NSNumber numberWithDouble:ypts[i]] forKey:@"Total Intensity"];
+//		 [mutDict setValue:[NSNumber numberWithFloat:ypts[i]] forKey:@"Total Intensity"];
 //		 [mutArray addObject:mutDict];      
 //		 [mutDict release];
 	 }
@@ -197,13 +197,13 @@
 		// pointdensity[x] = 0.9 - 1
 	int i, j, count;
 	count = [self numberOfPoints];
-	double minimumSoFar, densitySoFar, distanceSquared;
-	double minimum[count];
-	double distance[count];
-	double slope[count];
-	double density[count];
-	double *intensity;
-//	double *time;
+	float minimumSoFar, densitySoFar, distanceSquared;
+	float minimum[count];
+	float distance[count];
+	float slope[count];
+	float density[count];
+	float *intensity;
+//	float *time;
 	intensity = totalIntensity;
 //	time = [self time];
 	
@@ -239,25 +239,25 @@
 	normalize(slope, count);
 	normalize(density, count);
 	
-	[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"Scan", [NSNumber numberWithDouble:intensity[0]], @"Total Intensity", [NSNumber numberWithDouble:time[0]], @"Time",nil]];
+	[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"Scan", [NSNumber numberWithFloat:intensity[0]], @"Total Intensity", [NSNumber numberWithFloat:time[0]], @"Time",nil]];
 	for (i = 0; i < count; i++) {
 //		JKLogDebug(@"scan %d distance %f slope %f density %f", i, distance[i], slope[i], density[i]);
 		if (distance[i] < 0.05 && (slope[i] > -0.005  && slope[i] < 0.005) && density[i] > 0.05) { // && density[i] > 0.9
 	//		JKLogDebug(@"scan %d distance %f slope %f density %f <<<<<<<<<<<<", i, distance[i], slope[i], density[i]);
-			[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:i], @"Scan", [NSNumber numberWithDouble:intensity[i]], @"Total Intensity", [NSNumber numberWithDouble:time[i]], @"Time",nil]];
+			[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:i], @"Scan", [NSNumber numberWithFloat:intensity[i]], @"Total Intensity", [NSNumber numberWithFloat:time[i]], @"Time",nil]];
 //			JKLogDebug(@"scan %d intensity %f", i, intensity[i]);
 
 		}
 	}
-	[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:count-1], @"Scan", [NSNumber numberWithDouble:intensity[count-1]], @"Total Intensity", [NSNumber numberWithDouble:time[count-1]], @"Time",nil]];
+	[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:count-1], @"Scan", [NSNumber numberWithFloat:intensity[count-1]], @"Total Intensity", [NSNumber numberWithFloat:time[count-1]], @"Time",nil]];
 //	JKLogDebug([baseline description]);
 	JKLogDebug(@"Time in -[baseline]: %g seconds", -[startT timeIntervalSinceNow]);
 
 }
 
-void normalize(double *input, int count) {
+void normalize(float *input, int count) {
     int i;
-	double maximum;
+	float maximum;
 	
 	maximum = fabs(input[0]);
 	for (i = 1; i < count; i++) {
@@ -270,14 +270,14 @@ void normalize(double *input, int count) {
 }
 	
 
--(double)timeForScan:(int)scan {
+-(float)timeForScan:(int)scan {
     int dummy, varid_scanaqtime;
-    double   x;
+    float   x;
     
     dummy = nc_inq_varid([self ncid], "scan_acquisition_time", &varid_scanaqtime);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_acquisition_time variable failed. Report error #%d.", dummy); return -1.0;}
         
-    dummy = nc_get_var1_double([self ncid], varid_scanaqtime, (void *) &scan, &x);
+    dummy = nc_get_var1_float([self ncid], varid_scanaqtime, (void *) &scan, &x);
     
     return x/60;
 }
@@ -296,12 +296,12 @@ void normalize(double *input, int count) {
     num_pts = end - start;
     
 //	JKLogDebug(@"start= %d, end = %d, count = %d",start, end, num_pts);
- //   x = (double *) malloc((num_pts+1)*sizeof(double));
+ //   x = (float *) malloc((num_pts+1)*sizeof(float));
 	
 	x = (float *) malloc(num_pts*sizeof(float));
-//	dummy = nc_get_var_double([self ncid], varid_mass_value, x);
+//	dummy = nc_get_var_float([self ncid], varid_mass_value, x);
 
-//	dummy = nc_get_vara_double([self ncid], varid_mass_value, (const size_t *) &i, (const size_t *) &num_pts, x);
+//	dummy = nc_get_vara_float([self ncid], varid_mass_value, (const size_t *) &i, (const size_t *) &num_pts, x);
 //    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values failed. Report error #%d.", dummy); return x;}
 	
     for(i = start; i < end; i++) {
@@ -333,9 +333,9 @@ void normalize(double *input, int count) {
     num_pts = end - start;
 	
 	y = (float *) malloc((num_pts)*sizeof(float));
-//	dummy = nc_get_var_double([self ncid], varid_intensity_value, y);
+//	dummy = nc_get_var_float([self ncid], varid_intensity_value, y);
 
-//	dummy = nc_get_vara_double([self ncid], varid_intensity_value, (const size_t *) &i, (const size_t *) &num_pts, y);
+//	dummy = nc_get_vara_float([self ncid], varid_intensity_value, (const size_t *) &i, (const size_t *) &num_pts, y);
 //    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_values failed. Report error #%d.", dummy); return y;}
 	
 	//    minYValuesSpectrum = 0.0; minYValuesSpectrum = 80000.0;	
@@ -385,8 +385,8 @@ void normalize(double *input, int count) {
 	
 	
     int     dummy, scan, dimid, varid_intensity_value, varid_mass_value, varid_time_value, varid_scan_index, varid_point_count;
-    double  timeL, mass, intensity;
-    double	*times, *masses,	*intensities;
+    float  timeL, mass, intensity;
+    float	*times, *masses,	*intensities;
     int		num_pts, num_scan, scanCount;
     
     dummy = nc_inq_varid([self ncid], "mass_values", &varid_mass_value);
@@ -413,19 +413,19 @@ void normalize(double *input, int count) {
     dummy = nc_inq_dimlen([self ncid], dimid, (void *) &num_scan);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_number dimension length failed. Report error #%d.", dummy); return nil;}
     
-	masses = (double *) malloc((num_scan)*sizeof(double));
-	times = (double *) malloc((num_scan)*sizeof(double));
-	intensities = (double *) malloc((num_scan)*sizeof(double));
+	masses = (float *) malloc((num_scan)*sizeof(float));
+	times = (float *) malloc((num_scan)*sizeof(float));
+	intensities = (float *) malloc((num_scan)*sizeof(float));
 
 	for(i = 0; i < num_scan; i++) {
 		dummy = nc_get_var1_int([self ncid], varid_scan_index, (void *) &i, &scan); // is this the start or the end?
 		dummy = nc_get_var1_int([self ncid], varid_point_count, (void *) &i, &scanCount);
 		for(j = scan; j < scan+scanCount; j++) {
-			dummy = nc_get_var1_double([self ncid], varid_mass_value, (void *) &j, &mass);
+			dummy = nc_get_var1_float([self ncid], varid_mass_value, (void *) &j, &mass);
 			for(k = 0; k < mzValuesCount; k++) {
 				if (fabs(mass-[[mzValues objectAtIndex:k] intValue]) < 0.5) {
-					dummy = nc_get_var1_double([self ncid], varid_time_value, (const size_t *) &j, &timeL);
-					dummy = nc_get_var1_double([self ncid], varid_intensity_value, (const size_t *) &j, &intensity);
+					dummy = nc_get_var1_float([self ncid], varid_time_value, (const size_t *) &j, &timeL);
+					dummy = nc_get_var1_float([self ncid], varid_intensity_value, (const size_t *) &j, &intensity);
 					
 					masses[i] = mass;
 					times[i] = [self timeForScan:i];
@@ -442,9 +442,9 @@ void normalize(double *input, int count) {
 	
     for(i=0;i<num_scan;i++){
 		NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
-		[mutDict setValue:[NSNumber numberWithDouble:times[i]] forKey:@"Time"];
+		[mutDict setValue:[NSNumber numberWithFloat:times[i]] forKey:@"Time"];
 		[mutDict setValue:[NSNumber numberWithInt:i] forKey:@"Scan"];
-		[mutDict setValue:[NSNumber numberWithDouble:intensities[i]] forKey:@"Total Intensity"];
+		[mutDict setValue:[NSNumber numberWithFloat:intensities[i]] forKey:@"Total Intensity"];
 		[mutArray addObject:mutDict];      
 		[mutDict release];
     }
@@ -463,10 +463,10 @@ void normalize(double *input, int count) {
 	return chromatogram;
 }	
 
--(double *)yValuesIonChromatogram:(double)mzValue {
+-(float *)yValuesIonChromatogram:(float)mzValue {
     int         i, dummy, dimid, varid_intensity_value, varid_mass_value;
-    double     	xx, yy;
-    double 	*y;
+    float     	xx, yy;
+    float 	*y;
     int		num_pts, scanCount;
     scanCount = 0;
     
@@ -483,14 +483,14 @@ void normalize(double *input, int count) {
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return y;}
     
 	
-	//	dummy = nc_get_vara_double([self ncid], varid_intensity_value, (const size_t *) &i, (const size_t *) &num_pts, &xx);
-	//	nc_get_vara_double(int ncid, int varid,
-	//					   const size_t *startp, const size_t *countp, double *ip);
+	//	dummy = nc_get_vara_float([self ncid], varid_intensity_value, (const size_t *) &i, (const size_t *) &num_pts, &xx);
+	//	nc_get_vara_float(int ncid, int varid,
+	//					   const size_t *startp, const size_t *countp, float *ip);
     for(i = 0; i < num_pts; i++) {
-        dummy = nc_get_var1_double([self ncid], varid_mass_value, (void *) &i, &xx);
+        dummy = nc_get_var1_float([self ncid], varid_mass_value, (void *) &i, &xx);
         if (fabs(xx-mzValue) < 0.5) {
-            y = (double *) malloc((scanCount+1)*sizeof(double));
-            dummy = nc_get_var1_double([self ncid], varid_intensity_value, (const size_t *) &i, &yy);
+            y = (float *) malloc((scanCount+1)*sizeof(float));
+            dummy = nc_get_var1_float([self ncid], varid_intensity_value, (const size_t *) &i, &yy);
 			// *(y + (scanCount)) = yy;
             y[scanCount] = yy;
 //			JKLogDebug(@"scan %d: mass %f = %f %f", scanCount, xx, yy, y[scanCount]);
@@ -583,55 +583,55 @@ void normalize(double *input, int count) {
     intensityCount = inValue;
 }
 
--(void)setTime:(double *)inArray withCount:(int)inValue {
+-(void)setTime:(float *)inArray withCount:(int)inValue {
     numberOfPoints = inValue;
-    time = (double *) realloc(time, numberOfPoints*sizeof(double));
-    memcpy(time, inArray, numberOfPoints*sizeof(double));
+    time = (float *) realloc(time, numberOfPoints*sizeof(float));
+    memcpy(time, inArray, numberOfPoints*sizeof(float));
 }
 
--(double *)time {
+-(float *)time {
     return time;
 }
 
--(void)setTotalIntensity:(double *)inArray withCount:(int)inValue {
+-(void)setTotalIntensity:(float *)inArray withCount:(int)inValue {
     numberOfPoints = inValue;
-    totalIntensity = (double *) realloc(totalIntensity, numberOfPoints*sizeof(double));
-    memcpy(totalIntensity, inArray, numberOfPoints*sizeof(double));
+    totalIntensity = (float *) realloc(totalIntensity, numberOfPoints*sizeof(float));
+    memcpy(totalIntensity, inArray, numberOfPoints*sizeof(float));
 }
 
--(double *)totalIntensity {
+-(float *)totalIntensity {
     return totalIntensity;
 }
 
-//-(double)maxTime {
+//-(float)maxTime {
 //    return maxTime;
 //}
 //
-//-(double)minTime {
+//-(float)minTime {
 //    return minTime;
 //}
 //
-//-(double)maxTotalIntensity {
+//-(float)maxTotalIntensity {
 //    return maxTotalIntensity;
 //}
 //
-//-(double)minTotalIntensity {
+//-(float)minTotalIntensity {
 //    return minTotalIntensity;
 //}
 //
-//-(double)maxXValuesSpectrum {
+//-(float)maxXValuesSpectrum {
 //    return maxXValuesSpectrum;
 //}
 //
-//-(double)minXValuesSpectrum {
+//-(float)minXValuesSpectrum {
 //    return minXValuesSpectrum;
 //}
 //
-//-(double)maxYValuesSpectrum {
+//-(float)maxYValuesSpectrum {
 //    return maxYValuesSpectrum;
 //}
 //
-//-(double)minYValuesSpectrum {
+//-(float)minYValuesSpectrum {
 //    return minYValuesSpectrum;
 //}
 

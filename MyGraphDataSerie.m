@@ -62,17 +62,17 @@ static void *PropertyObservationContext = (void *)1093;
 	[super dealloc];
 }
 
--(void)loadDataPoints:(int)npts withXValues:(double *)xpts andYValues:(double *)ypts {
+-(void)loadDataPoints:(int)npts withXValues:(float *)xpts andYValues:(float *)ypts {
 	int i;
 	NSMutableArray *mutArray = [[NSMutableArray alloc] init];
     for(i=0;i<npts;i++){
-		NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithDouble:xpts[i]], keyForXValue,
-																		  [NSNumber numberWithDouble:ypts[i]], keyForYValue, nil];
+		NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:xpts[i]], keyForXValue,
+																		  [NSNumber numberWithFloat:ypts[i]], keyForYValue, nil];
 		[mutArray addObject:dict];      
 		[dict release];
 //		NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
-//		[mutDict setValue:[NSNumber numberWithDouble:xpts[i]] forKey:[self keyForXValue]];
-//		[mutDict setValue:[NSNumber numberWithDouble:ypts[i]] forKey:[self keyForYValue]];
+//		[mutDict setValue:[NSNumber numberWithFloat:xpts[i]] forKey:[self keyForXValue]];
+//		[mutDict setValue:[NSNumber numberWithFloat:ypts[i]] forKey:[self keyForYValue]];
 //		[mutArray addObject:mutDict];      
 //		[mutDict release];
     }
@@ -118,13 +118,13 @@ static void *PropertyObservationContext = (void *)1093;
 			
 		case 1: // Line
 				// Creeer het pad.
-			[bezierpath moveToPoint:NSMakePoint([[[[self dataArray] objectAtIndex:0] valueForKey:keyForXValue] doubleValue],
-												[[[[self dataArray] objectAtIndex:0] valueForKey:keyForYValue] doubleValue]*[verticalScale doubleValue])];
+			[bezierpath moveToPoint:NSMakePoint([[[[self dataArray] objectAtIndex:0] valueForKey:keyForXValue] floatValue],
+												[[[[self dataArray] objectAtIndex:0] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue])];
 			
 			// We zouden eigenlijk moet controleren of de x- en y-waarden beschikbaar zijn.
 			for (i=1; i<count; i++) {
-				pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] doubleValue],
-										   [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] doubleValue]*[verticalScale doubleValue]);
+				pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue],
+										   [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
 				[bezierpath lineToPoint:pointInUnits];
 			}
 				break;
@@ -132,8 +132,8 @@ static void *PropertyObservationContext = (void *)1093;
 		case 2: // Spectrum
 				// We zouden eigenlijk moet controleren of de x- en y-waarden beschikbaar zijn.
 			for (i=0; i<count; i++) {
-				pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] doubleValue], 0.0);
-				pointInUnits2 = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] doubleValue], [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] doubleValue]*[verticalScale doubleValue]);
+				pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], 0.0);
+				pointInUnits2 = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
 				[bezierpath moveToPoint:pointInUnits];
 				[bezierpath lineToPoint:pointInUnits2];
 			}
@@ -171,14 +171,14 @@ static void *PropertyObservationContext = (void *)1093;
 	// We should go through the values from highest intensity ('y') to lowest instead of along the x-axis.
 	// It is more important to label the higher intensities.
 	for (i=0; i<count; i++) {
-		string = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:formatString, [[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] doubleValue]] attributes:attrs];
+		string = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:formatString, [[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue]] attributes:attrs];
 		
-		pointToDraw = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] doubleValue], [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] doubleValue]);
+		pointToDraw = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]);
 		stringSize = [string size];
 		pointToDraw = [trans transformPoint:pointToDraw]; // Transfrom to screen coords
 		pointToDraw.x = pointToDraw.x - stringSize.width/2; // Center the label
 		// Draw above or below depending on wether we have negative values
-		if ([[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] doubleValue] < 0.0 ){
+		if ([[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue] < 0.0 ){
 			pointToDraw.y = pointToDraw.y - stringSize.height - 4;
 		} else {
 			pointToDraw.y = pointToDraw.y + 4;

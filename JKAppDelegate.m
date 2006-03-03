@@ -35,7 +35,9 @@
 	[mutDict setValue:[NSNumber numberWithBool:NO] forKey:@"dontInstallSCR"];
 //	[mutDict setValue:[NSNumber numberWithBool:0.9] forKey:@"acceptLevel"];
 	[mutDict setValue:[NSNumber numberWithBool:YES] forKey:@"soundWhenFinished"];
-	[mutDict setValue:[NSNumber numberWithInt:0] forKey:@"scoreBasis"];
+	[mutDict setValue:[NSNumber numberWithInt:0] forKey:@"scoreBasis"]; // Using formula 1 in Gan 2001
+	[mutDict setValue:[NSNumber numberWithInt:3] forKey:@"peaksForSummary"]; // confirmed peaks
+	[mutDict setValue:[NSNumber numberWithInt:1] forKey:@"columnSorting"]; // Samplecode
 	[mutDict setValue:@"" forKey:@"defaultLibrary"];
 	[mutDict setValue:@"" forKey:@"customLibrary"];
 	// Hidden preference for logging verbosity

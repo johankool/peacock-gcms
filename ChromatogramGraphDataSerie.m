@@ -95,13 +95,13 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 	}
 	
 	// Creeer het pad.
-	[bezierpath moveToPoint:NSMakePoint([[[[self dataArray] objectAtIndex:0] valueForKey:keyForXValue] doubleValue],
-										[[[[self dataArray] objectAtIndex:0] valueForKey:keyForYValue] doubleValue]*[verticalScale doubleValue])];
+	[bezierpath moveToPoint:NSMakePoint([[[[self dataArray] objectAtIndex:0] valueForKey:keyForXValue] floatValue],
+										[[[[self dataArray] objectAtIndex:0] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue])];
 	
 	// We zouden eigenlijk moet controleren of de x- en y-waarden beschikbaar zijn.
 	for (i=1; i<count; i++) {
-		pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] doubleValue],
-								   [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] doubleValue]*[verticalScale doubleValue]);
+		pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue],
+								   [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
 		[bezierpath lineToPoint:pointInUnits];
 	}
 
@@ -152,8 +152,8 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 		start = [[[[self peaks] objectAtIndex:i] valueForKey:@"start"] intValue];
 		end   = [[[[self peaks] objectAtIndex:i] valueForKey:@"end"] intValue]+1;
 		for (j=start; j < end; j++) {
-			pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:j] valueForKey:keyForXValue] doubleValue],
-									   [[[[self dataArray] objectAtIndex:j] valueForKey:keyForYValue] doubleValue]);
+			pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:j] valueForKey:keyForXValue] floatValue],
+									   [[[[self dataArray] objectAtIndex:j] valueForKey:keyForYValue] floatValue]);
 			pointInUnits  = [trans transformPoint:pointInUnits];
 			[peaksPath lineToPoint:pointInUnits];
 		}
@@ -192,8 +192,8 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 		start = [[[selectedPeaks objectAtIndex:i] valueForKey:@"start"] intValue];
 		end   = [[[selectedPeaks objectAtIndex:i] valueForKey:@"end"] intValue]+1;
 		for (j=start; j < end; j++) {
-			pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:j] valueForKey:keyForXValue] doubleValue],
-									   [[[[self dataArray] objectAtIndex:j] valueForKey:keyForYValue] doubleValue]);
+			pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:j] valueForKey:keyForXValue] floatValue],
+									   [[[[self dataArray] objectAtIndex:j] valueForKey:keyForYValue] floatValue]);
 			pointInUnits  = [trans transformPoint:pointInUnits];
 			[peaksPath lineToPoint:pointInUnits];
 		}
@@ -216,8 +216,8 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 			// Draw an triangle
 			[arrowPath removeAllPoints];
 			top = [[[selectedPeaks objectAtIndex:i] valueForKey:@"top"] intValue];
-			pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:top] valueForKey:keyForXValue] doubleValue],
-									   [[[[self dataArray] objectAtIndex:top] valueForKey:keyForYValue] doubleValue]);
+			pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:top] valueForKey:keyForXValue] floatValue],
+									   [[[[self dataArray] objectAtIndex:top] valueForKey:keyForYValue] floatValue]);
 			pointInUnits  = [trans transformPoint:pointInUnits];
 			
 			[arrowPath moveToPoint:pointInUnits];
@@ -274,8 +274,8 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 		}
 		
 		// Where will it be drawn?
-		pointToDraw = NSMakePoint([[[[self peaks] objectAtIndex:i] valueForKey:@"top"] doubleValue], 
-								  [[[[self dataArray] objectAtIndex:[[[[self peaks] objectAtIndex:i] valueForKey:@"top"] intValue]] valueForKey:keyForYValue] doubleValue]);
+		pointToDraw = NSMakePoint([[[[self peaks] objectAtIndex:i] valueForKey:@"top"] floatValue], 
+								  [[[[self dataArray] objectAtIndex:[[[[self peaks] objectAtIndex:i] valueForKey:@"top"] intValue]] valueForKey:keyForYValue] floatValue]);
 		stringSize = [string size];
 		pointToDraw = [trans transformPoint:pointToDraw]; // Transfrom to screen coords
 		

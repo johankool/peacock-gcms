@@ -23,7 +23,9 @@
             CLASS = JKPanelController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                dataSeriesPanelView = NSView; 
                 deleteSheet = NSWindow; 
+                fontcolorPanelView = NSView; 
                 infoPanelView = NSView; 
                 infoTableView = NSTableView; 
                 objectController = NSObjectController; 
@@ -32,7 +34,9 @@
                 saveSheet = NSWindow; 
                 subTitleTextField = NSTextField; 
                 templatePullDownMenu = NSPopUpButton; 
+                textPanelView = NSView; 
                 titleTextField = NSTextField; 
+                viewPanelView = NSView; 
                 xAxisTextField = NSTextField; 
                 yAxisTextField = NSTextField; 
             }; 

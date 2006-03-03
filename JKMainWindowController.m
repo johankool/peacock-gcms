@@ -122,12 +122,12 @@ static void *SpectrumObservationContext = (void *)1102;
 -(IBAction)identifyPeaks:(id)sender{
     int i,j, peakCount, answer;
 	int count, count2, start, end, top;
-	double a, b, height, surface, maximumSurface, maximumHeight;
-	double startTime, topTime, endTime, widthTime;
-	double time1, time2;
-	double height1, height2;
-	double *intensities;
-	double greyArea;
+	float a, b, height, surface, maximumSurface, maximumHeight;
+	float startTime, topTime, endTime, widthTime;
+	float time1, time2;
+	float height1, height2;
+	float *intensities;
+	float greyArea;
 	float retentionIndex, retentionIndexSlope, retentionIndexRemainder;
 	
 //	[peaklistProgressIndicator startAnimation:self];
@@ -202,12 +202,12 @@ static void *SpectrumObservationContext = (void *)1102;
 			widthTime = endTime - startTime;
 			
 			// baseline left
-			double baselineAtStart = [self baselineValueAtScan:start];
+			float baselineAtStart = [self baselineValueAtScan:start];
 			if (baselineAtStart > intensities[start]) {
 				baselineAtStart = intensities[start];
 			}
 			// baseline right
-			double baselineAtEnd = [self baselineValueAtScan:end];
+			float baselineAtEnd = [self baselineValueAtScan:end];
 			if (baselineAtEnd > intensities[end]) {
 				baselineAtEnd = intensities[end];
 			}
@@ -249,17 +249,17 @@ static void *SpectrumObservationContext = (void *)1102;
 				[record setValue:[NSNumber numberWithInt:top] forKey:@"top"];
 				[record setValue:[NSNumber numberWithInt:end] forKey:@"end"];
 				[record setValue:[NSNumber numberWithInt:end-start] forKey:@"width"];
-				[record setValue:[NSNumber numberWithDouble:startTime] forKey:@"startTime"];
-				[record setValue:[NSNumber numberWithDouble:topTime] forKey:@"topTime"];
-				[record setValue:[NSNumber numberWithDouble:endTime] forKey:@"endTime"];
-				[record setValue:[NSNumber numberWithDouble:baselineAtStart] forKey:@"baselineL"];
-				[record setValue:[NSNumber numberWithDouble:baselineAtEnd] forKey:@"baselineR"];
-				[record setValue:[NSNumber numberWithDouble:height] forKey:@"height"];
-				[record setValue:[NSNumber numberWithDouble:surface] forKey:@"surface"];
-				[record setValue:[NSNumber numberWithDouble:widthTime] forKey:@"widthTime"];
+				[record setValue:[NSNumber numberWithFloat:startTime] forKey:@"startTime"];
+				[record setValue:[NSNumber numberWithFloat:topTime] forKey:@"topTime"];
+				[record setValue:[NSNumber numberWithFloat:endTime] forKey:@"endTime"];
+				[record setValue:[NSNumber numberWithFloat:baselineAtStart] forKey:@"baselineL"];
+				[record setValue:[NSNumber numberWithFloat:baselineAtEnd] forKey:@"baselineR"];
+				[record setValue:[NSNumber numberWithFloat:height] forKey:@"height"];
+				[record setValue:[NSNumber numberWithFloat:surface] forKey:@"surface"];
+				[record setValue:[NSNumber numberWithFloat:widthTime] forKey:@"widthTime"];
 						
 				retentionIndex = topTime * retentionIndexSlope + retentionIndexRemainder;
-				[record setValue:[NSNumber numberWithDouble:retentionIndex] forKey:@"retentionIndex"];
+				[record setValue:[NSNumber numberWithFloat:retentionIndex] forKey:@"retentionIndex"];
 				
 				[array addObject:record];
 				peakCount++;
@@ -275,8 +275,8 @@ static void *SpectrumObservationContext = (void *)1102;
 	// Walk through the found peaks to calculate a normalized surface area and normalized height
 	peakCount = [array count];
 	for (i = 0; i < peakCount; i++) {
-		[[array objectAtIndex:i] setValue:[NSNumber numberWithDouble:[[[array objectAtIndex:i] valueForKey:@"height"] doubleValue]*100/maximumHeight] forKey:@"normalizedHeight"];
-		[[array objectAtIndex:i] setValue:[NSNumber numberWithDouble:[[[array objectAtIndex:i] valueForKey:@"surface"] doubleValue]*100/maximumSurface] forKey:@"normalizedSurface"];
+		[[array objectAtIndex:i] setValue:[NSNumber numberWithFloat:[[[array objectAtIndex:i] valueForKey:@"height"] floatValue]*100/maximumHeight] forKey:@"normalizedHeight"];
+		[[array objectAtIndex:i] setValue:[NSNumber numberWithFloat:[[[array objectAtIndex:i] valueForKey:@"surface"] floatValue]*100/maximumSurface] forKey:@"normalizedSurface"];
 	}
 #warning This undo doesn't work correctly.
 	
@@ -774,9 +774,14 @@ static void *SpectrumObservationContext = (void *)1102;
 -(IBAction)editLibrary:(id)sender {
 	NSError *error = [[NSError alloc] init];
 	NSDocument *document;	
-	document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"]] display:YES error:&error];
-	if (document == nil) {
-		JKLogError(@"ERROR: File at %@ could not be opened.",[[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"]);
+	NSString *path = [[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"];
+	if (path == nil) {
+		JKLogError(@"ERROR: No library set in preferences.",[[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"]);
+	} else {
+		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:path] display:YES error:&error];
+		if (document == nil) {
+			JKLogError(@"ERROR: File at %@ could not be opened.",[[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"]);
+		}		
 	}
 	[error release];
 }
@@ -788,11 +793,23 @@ static void *SpectrumObservationContext = (void *)1102;
 	[spectrumView showAll:self];
 }
 
+-(IBAction)autopilotAction:(id)sender{
+    [NSApp beginSheet: progressSheet
+	   modalForWindow: [self window]
+		modalDelegate: self
+	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
+		  contextInfo: nil];
+    // Sheet is up here.
+    // Return processing to the event loop
+	
+	[NSThread detachNewThreadSelector:@selector(autopilot) toTarget:self withObject:nil];
+}
+
 #pragma mark HELPER ACTIONS
--(double)baselineValueAtScan:(int)inValue {
+-(float)baselineValueAtScan:(int)inValue {
 	int i = 0;
 	int baselineCount = [[[self dataModel] baseline] count];
-	double lowestScan, lowestInten, highestScan, highestInten;
+	float lowestScan, lowestInten, highestScan, highestInten;
 
 	while (inValue > [[[[[self dataModel] baseline] objectAtIndex:i] valueForKey:@"Scan"] intValue] && i < baselineCount) {
 		i++;
@@ -801,13 +818,13 @@ static void *SpectrumObservationContext = (void *)1102;
 	if (i <= 0) {
 		lowestScan = 0.0;
 		lowestInten = 0.0;
-		highestScan = [[[[[self dataModel] baseline] objectAtIndex:i] valueForKey:@"Scan"] doubleValue];
-		highestInten = [[[[[self dataModel] baseline] objectAtIndex:i] valueForKey:@"Total Intensity"] doubleValue];
+		highestScan = [[[[[self dataModel] baseline] objectAtIndex:i] valueForKey:@"Scan"] floatValue];
+		highestInten = [[[[[self dataModel] baseline] objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue];
 	} else {
-		lowestScan = [[[[[self dataModel] baseline] objectAtIndex:i-1] valueForKey:@"Scan"] doubleValue];
-		lowestInten = [[[[[self dataModel] baseline] objectAtIndex:i-1] valueForKey:@"Total Intensity"] doubleValue];
-		highestScan = [[[[[self dataModel] baseline] objectAtIndex:i] valueForKey:@"Scan"] doubleValue];
-		highestInten = [[[[[self dataModel] baseline] objectAtIndex:i] valueForKey:@"Total Intensity"] doubleValue];
+		lowestScan = [[[[[self dataModel] baseline] objectAtIndex:i-1] valueForKey:@"Scan"] floatValue];
+		lowestInten = [[[[[self dataModel] baseline] objectAtIndex:i-1] valueForKey:@"Total Intensity"] floatValue];
+		highestScan = [[[[[self dataModel] baseline] objectAtIndex:i] valueForKey:@"Scan"] floatValue];
+		highestInten = [[[[[self dataModel] baseline] objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue];
 	}
 
 	return (highestInten-lowestInten) * ((inValue-lowestScan)/(highestScan-lowestScan)) + lowestInten; 
@@ -824,7 +841,7 @@ static void *SpectrumObservationContext = (void *)1102;
 	[spectrumTop setMasses:xpts withCount:npts];
 	[spectrumTop setIntensities:ypts withCount:npts];
 	
-	[spectrumTop setValue:[NSNumber numberWithDouble:[[self dataModel] timeForScan:[[peak valueForKey:@"top"] intValue]]] forKey:@"retentionTime"];
+	[spectrumTop setValue:[NSNumber numberWithFloat:[[self dataModel] timeForScan:[[peak valueForKey:@"top"] intValue]]] forKey:@"retentionTime"];
 	
 	[spectrumTop autorelease];
 	return spectrumTop;
@@ -874,7 +891,7 @@ static void *SpectrumObservationContext = (void *)1102;
 		}
 	}
 	
-	[spectrum setValue:[NSNumber numberWithDouble:[[self dataModel] timeForScan:[[peak valueForKey:@"top"] intValue]]] forKey:@"retentionTime"];
+	[spectrum setValue:[NSNumber numberWithFloat:[[self dataModel] timeForScan:[[peak valueForKey:@"top"] intValue]]] forKey:@"retentionTime"];
 	
 	[spectrumTop release];
 	[spectrumLeft release];

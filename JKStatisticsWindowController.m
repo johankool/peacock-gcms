@@ -70,24 +70,24 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[resultsTable superview]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[ratiosTable superview]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[metadataTable superview]];
-	[resultsTable setDoubleAction:@selector(doubleClickAction:)];
+	[resultsTable setDoubleAction:@selector(floatClickAction:)];
 	[self collectMetadata];
 	[self collectCombinedPeaks];
 	[self calculateRatios];
 }
 
--(void)doubleClickAction:(id)sender {
+-(void)floatClickAction:(id)sender {
 	JKLogDebug(@"row %d column %d",[sender clickedRow], [sender clickedColumn]);
 	if (([sender clickedRow] == -1) && ([sender clickedColumn] == -1)) {
 		return;
 	} else if ([sender clickedColumn] == 0) {
 		return;
 	} else if ([sender clickedRow] == -1) {
-		// A column was double clicked
+		// A column was float clicked
 		// Bring forward the associated file
 		[[[[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] identifier] mainWindowController] window] makeKeyAndOrderFront:self];
 	} else {
-		// A cell was double clicked
+		// A cell was float clicked
 		// Bring forwars associated file and
 		// select associated peak
 		// Ugliest code ever! note that keyPath depends on the binding, so if we bind to something else e.g. height, this will fail!

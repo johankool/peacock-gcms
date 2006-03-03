@@ -12,6 +12,10 @@
 	NSMutableDictionary*	inspectorListForMyGraphView;		// Auto-generated from tab view's items.
 	
 	IBOutlet NSView *infoPanelView;
+	IBOutlet NSView *viewPanelView;
+	IBOutlet NSView *dataSeriesPanelView;
+	IBOutlet NSView *textPanelView;
+	IBOutlet NSView *fontcolorPanelView;
 	
     // Info Panel
     IBOutlet NSTableView *infoTableView;
