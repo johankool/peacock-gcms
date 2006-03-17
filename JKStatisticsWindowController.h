@@ -7,19 +7,44 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+@class JKMainDocument;
 
 @interface JKStatisticsWindowController : NSWindowController {
 	NSMutableArray *combinedPeaks;
 	NSMutableArray *ratioValues;
 	NSMutableArray *ratios;
 	NSMutableArray *metadata;
+	NSMutableArray *files;
+	BOOL abortAction;
+	
+	// Batch window
+	IBOutlet NSButton *addButton;
+	IBOutlet NSButton *searchOptionsButton;
+	IBOutlet NSButton *runBatchButton;
+	IBOutlet NSTableView *filesTableView;
+	
+	// Search Options sheet
+	IBOutlet NSWindow *summarizeOptionsSheet;
+	IBOutlet NSButton *doneButton;
+	
+	// Progress sheet
+	IBOutlet NSWindow *progressSheet;
+	IBOutlet NSProgressIndicator *fileProgressIndicator;
+	IBOutlet NSButton *stopButton;
+	IBOutlet NSTextField *fileStatusTextField;
+	IBOutlet NSTextField *detailStatusTextField;
+
+	// Summary window
+	IBOutlet NSWindow *summaryWindow;
 	IBOutlet NSTableView *resultsTable;
+	IBOutlet NSScrollView *resultsTableScrollView;
 	IBOutlet NSArrayController *combinedPeaksController;
 	IBOutlet NSTableView *ratiosTable;
+	IBOutlet NSScrollView *ratiosTableScrollView;
 	IBOutlet NSArrayController *ratiosValuesController;
 	IBOutlet NSArrayController *ratiosController;
 	IBOutlet NSTableView *metadataTable;
+	IBOutlet NSScrollView *metadataTableScrollView;
 	IBOutlet NSArrayController *metadataController;
 	
 	IBOutlet NSWindow *ratiosEditor;
@@ -27,22 +52,36 @@
 	
 	BOOL movingColumnsProgramatically;
 	BOOL scrollingViewProgrammatically;
+	int unknownCount;
+	int peaksToUse;
 }
 
+-(IBAction)addButtonAction:(id)sender;
 -(IBAction)refetch:(id)sender;
+
 -(IBAction)editRatios:(id)sender;
 //-(IBAction)cancelEditRatios:(id)sender;
 -(IBAction)saveEditRatios:(id)sender;
--(IBAction)options:(id)sender;
--(IBAction)doneOptions:(id)sender;
 
--(void)collectMetadata;
--(void)collectCombinedPeaks;
--(void)calculateRatios;
+-(IBAction)options:(id)sender;
+-(IBAction)summarizeOptionsDoneAction:(id)sender;
+-(IBAction)stopButtonAction:(id)sender;
+	
+-(IBAction)exportSummary:(id)sender;
+
+-(IBAction)runStatisticalAnalysisButtonAction:(id)sender;
+-(void)runStatisticalAnalysis;
+
+-(void)collectMetadataForDocument:(JKMainDocument *)document atIndex:(int)index;
+-(void)collectCombinedPeaksForDocument:(JKMainDocument *)document atIndex:(int)index;
+-(void)calculateRatiosForDocument:(JKMainDocument *)document atIndex:(int)index;
+-(void)sortCombinedPeaks;
 
 
 idAccessor_h(combinedPeaks, setCombinedPeaks);
 idAccessor_h(ratioValues, setRatioValues);
 idAccessor_h(ratios, setRatios);
+idAccessor_h(metadata, setMetadata);
+boolAccessor_h(abortAction, setAbortAction);
 
 @end

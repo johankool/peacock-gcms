@@ -27,14 +27,14 @@
     NSArray *fileTypes = [NSArray arrayWithObject:@"jdx"];
     NSOpenPanel *oPanel = [NSOpenPanel openPanel];
     [oPanel setAllowsMultipleSelection:NO];
-    result = [oPanel runModalForDirectory:[[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"]
-									 file:[[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"] types:fileTypes];
+    result = [oPanel runModalForDirectory:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"]
+									 file:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"] types:fileTypes];
     if (result == NSOKButton) {
         NSArray *filesToOpen = [oPanel filenames];
         int i, count = [filesToOpen count];
         for (i=0; i<count; i++) {
             NSString *aFile = [filesToOpen objectAtIndex:i];
-			[[NSUserDefaults standardUserDefaults] setValue:aFile forKey:@"defaultLibrary"];
+			[[[NSUserDefaultsController sharedUserDefaultsController] values] setValue:aFile forKey:@"defaultLibrary"];
         }
     }
 }
@@ -44,14 +44,14 @@
     NSArray *fileTypes = [NSArray arrayWithObject:@"jdx"];
     NSOpenPanel *oPanel = [NSOpenPanel openPanel];
     [oPanel setAllowsMultipleSelection:NO];
-    result = [oPanel runModalForDirectory:[[NSUserDefaults standardUserDefaults] valueForKey:@"customLibrary"]
-									 file:[[NSUserDefaults standardUserDefaults] valueForKey:@"customLibrary"] types:fileTypes];
+    result = [oPanel runModalForDirectory:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"customLibrary"]
+									 file:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"customLibrary"] types:fileTypes];
     if (result == NSOKButton) {
         NSArray *filesToOpen = [oPanel filenames];
         int i, count = [filesToOpen count];
         for (i=0; i<count; i++) {
             NSString *aFile = [filesToOpen objectAtIndex:i];
-			[[NSUserDefaults standardUserDefaults] setValue:aFile forKey:@"customLibrary"];
+			[[[NSUserDefaultsController sharedUserDefaultsController] values] setValue:aFile forKey:@"customLibrary"];
         }
 		NSRunCriticalAlertPanel(@"Change ignored",@"This setting is currently not supported.",@"OK",nil,nil);
 		//NSRunCriticalAlertPanel(@"Change effective for new files only",@"The newly selected custom library will be used only for files which are opened after you changed this setting.",@"OK",nil,nil);

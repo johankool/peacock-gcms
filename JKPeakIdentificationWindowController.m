@@ -115,7 +115,7 @@ boolAccessor(showIdentificationWindow, setShowIdentificationWindow)
 		[[self currentPeak] setLibraryHit:[[[searchResultsController selectedObjects] objectAtIndex:0] valueForKey:@"libraryHit"]];
 		[[self currentPeak] setValue:[[[searchResultsController selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.name"] forKey:@"label"];
 		[[self currentPeak] setValue:[[[searchResultsController selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.symbol"] forKey:@"symbol"];
-		[[self currentPeak] setValue:[[[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"] lastPathComponent] forKey:@"library"];
+		[[self currentPeak] setValue:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"] lastPathComponent] forKey:@"library"];
 		
 	}
 	[currentPeak setValue:[NSNumber numberWithBool:YES] forKey:@"confirmed"];
@@ -270,7 +270,7 @@ boolAccessor(showIdentificationWindow, setShowIdentificationWindow)
 
 	[libSearch searchLibraryForPeaks:peaksArray];
 
-	if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"soundWhenFinished"] boolValue]) NSBeep();	
+	if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"soundWhenFinished"] boolValue]) NSBeep();	
 	[NSApp endSheet:progressSheet];	
 	[pool release]; 
 }

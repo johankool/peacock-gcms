@@ -207,17 +207,19 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	// Achtergrondkleur
 	[noShadow set];
 	[[self backColor] set];
-	[[NSBezierPath bezierPathWithRect:rect] fill];
+	[[NSBezierPath bezierPathWithRect:[self bounds]] fill];
 
 	// Achtergrondkleur plottingArea (met schaduw)
 	[shadow set]; 	
 	[[self plottingAreaColor] set];
-	[[NSBezierPath bezierPathWithRect:[self plottingArea]] fill];
+	if (NSIntersectsRect([self plottingArea],rect))
+		[[NSBezierPath bezierPathWithRect:[self plottingArea]] fill];
 	
 	// Frame om plottingArea	
 	[noShadow set];
 	[[self frameColor] set];
-	[[NSBezierPath bezierPathWithRect:[self plottingArea]] stroke];
+	if (NSIntersectsRect([self plottingArea],rect))
+		[[NSBezierPath bezierPathWithRect:[self plottingArea]] stroke];
 
     // Draw plotting inside the plotting area
     [NSGraphicsContext saveGraphicsState];	
@@ -733,8 +735,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	
 	// De waarden omrekeningen naar pixels op het scherm.
      scalingMatrix = [NSAffineTransform transform];
-	 NSAssert([[self pixelsPerXUnit] floatValue] > 0, @"pixelsPerXUnit = 0");
-	 NSAssert([[self pixelsPerYUnit] floatValue] > 0, @"pixelsPerYUnit = 0");
+//	 NSAssert([[self pixelsPerXUnit] floatValue] > 0, @"pixelsPerXUnit = 0");
+//	 NSAssert([[self pixelsPerYUnit] floatValue] > 0, @"pixelsPerYUnit = 0");
     [scalingMatrix scaleXBy:[[self pixelsPerXUnit] floatValue] yBy:[[self pixelsPerYUnit] floatValue]];
 	
 	// In transformationMatrix combineren we de matrices. Eerst de verplaatsing, dan schalen.

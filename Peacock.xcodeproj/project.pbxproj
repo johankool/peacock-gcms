@@ -56,6 +56,8 @@
 		C7B3159B0956CE610017ADDC /* JKStatisticsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C785905509541F250083EC22 /* JKStatisticsWindowController.m */; };
 		C7BC505309A62C930093106E /* JKLog.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC505109A62C930093106E /* JKLog.h */; };
 		C7BC505409A62C930093106E /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
+		C7E4D31809C1C9E5007A1D3B /* JKSynchroScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E4D31609C1C9E5007A1D3B /* JKSynchroScrollView.h */; };
+		C7E4D31909C1C9E5007A1D3B /* JKSynchroScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E4D31709C1C9E5007A1D3B /* JKSynchroScrollView.m */; };
 		C7EB18160898CFBD007FC2ED /* MolTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F00898CFBC007FC2ED /* MolTypes.c */; };
 		C7EB18170898CFBD007FC2ED /* MWController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F40898CFBC007FC2ED /* MWController.m */; };
 		C7EB18180898CFBD007FC2ED /* MyGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */; };
@@ -210,6 +212,8 @@
 		C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FilteringDNDArrayController.m; sourceTree = "<group>"; };
 		C7BC505109A62C930093106E /* JKLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKLog.h; sourceTree = "<group>"; };
 		C7BC505209A62C930093106E /* JKLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLog.m; sourceTree = "<group>"; };
+		C7E4D31609C1C9E5007A1D3B /* JKSynchroScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSynchroScrollView.h; sourceTree = "<group>"; };
+		C7E4D31709C1C9E5007A1D3B /* JKSynchroScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSynchroScrollView.m; sourceTree = "<group>"; };
 		C7EB17A60898CF2D007FC2ED /* AccessorMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccessorMacros.h; sourceTree = "<group>"; };
 		C7EB17A70898CF2D007FC2ED /* CAtom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAtom.h; sourceTree = "<group>"; };
 		C7EB17A80898CF2D007FC2ED /* CAtom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CAtom.m; sourceTree = "<group>"; };
@@ -371,6 +375,7 @@
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				C773290908CA610700222B5B /* Controllers */,
 				C773290B08CA614200222B5B /* Models */,
+				C72C85C8098BF12600CEF565 /* Tests */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
@@ -458,6 +463,8 @@
 		C773290908CA610700222B5B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				C7E4D31609C1C9E5007A1D3B /* JKSynchroScrollView.h */,
+				C7E4D31709C1C9E5007A1D3B /* JKSynchroScrollView.m */,
 				C7EB17CE0898CF2E007FC2ED /* JKAppDelegate.h */,
 				C7EB17CF0898CF2E007FC2ED /* JKAppDelegate.m */,
 				C7EB17DA0898CF2E007FC2ED /* JKMainDocument.h */,
@@ -518,7 +525,6 @@
 				C7EB17D70898CF2E007FC2ED /* JKLibrarySearch.m */,
 				C70DB8EB09573BEA00C2B386 /* JKRatio.h */,
 				C70DB8EC09573BEA00C2B386 /* JKRatio.m */,
-				C72C85C8098BF12600CEF565 /* Tests */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -648,6 +654,7 @@
 				C77C56FE097FF5AC002E7796 /* RSS.h in Headers */,
 				C77C5701097FF5AC002E7796 /* SUUpdater.h in Headers */,
 				C7BC505309A62C930093106E /* JKLog.h in Headers */,
+				C7E4D31809C1C9E5007A1D3B /* JKSynchroScrollView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -869,6 +876,7 @@
 				C77C56FF097FF5AC002E7796 /* RSS.m in Sources */,
 				C77C5702097FF5AC002E7796 /* SUUpdater.m in Sources */,
 				C7BC505409A62C930093106E /* JKLog.m in Sources */,
+				C7E4D31909C1C9E5007A1D3B /* JKSynchroScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

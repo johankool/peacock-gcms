@@ -9,27 +9,43 @@
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             ACTIONS = {
-                cancelEditRatios = id; 
-                doneOptions = id; 
+                addButtonAction = id; 
                 editRatios = id; 
+                exportSummary = id; 
                 options = id; 
                 refetch = id; 
+                runStatisticalAnalysisButtonAction = id; 
                 saveEditRatios = id; 
+                stopButtonAction = id; 
+                summarizeOptionsDoneAction = id; 
             }; 
             CLASS = JKStatisticsWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                addButton = NSButton; 
                 combinedPeaksController = NSArrayController; 
+                detailStatusTextField = NSTextField; 
+                doneButton = NSButton; 
+                fileProgressIndicator = NSProgressIndicator; 
+                fileStatusTextField = NSTextField; 
+                filesTableView = NSTableView; 
                 metadataController = NSArrayController; 
                 metadataTable = NSTableView; 
+                metadataTableScrollView = JKSynchroScrollView; 
                 optionsSheet = NSWindow; 
+                progressSheet = NSWindow; 
                 ratiosController = NSArrayController; 
                 ratiosEditor = NSWindow; 
-                ratiosScrollView = NSScrollView; 
                 ratiosTable = NSTableView; 
+                ratiosTableScrollView = JKSynchroScrollView; 
                 ratiosValuesController = NSArrayController; 
-                resultsScrollView = NSScrollView; 
                 resultsTable = NSTableView; 
+                resultsTableScrollView = JKSynchroScrollView; 
+                runBatchButton = NSButton; 
+                searchOptionsButton = NSButton; 
+                stopButton = NSButton; 
+                summarizeOptionsSheet = NSWindow; 
+                summaryWindow = NSWindow; 
             }; 
             SUPERCLASS = NSWindowController; 
         }

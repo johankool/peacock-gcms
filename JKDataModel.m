@@ -10,7 +10,7 @@
 #import "JKPeakRecord.h"
 #import "ChromatogramGraphDataSerie.h"
 #import "netcdf.h"
-
+#import "JKSpectrum.h"
 
 @implementation JKDataModel
 
@@ -241,12 +241,8 @@
 	
 	[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"Scan", [NSNumber numberWithFloat:intensity[0]], @"Total Intensity", [NSNumber numberWithFloat:time[0]], @"Time",nil]];
 	for (i = 0; i < count; i++) {
-//		JKLogDebug(@"scan %d distance %f slope %f density %f", i, distance[i], slope[i], density[i]);
-		if (distance[i] < 0.05 && (slope[i] > -0.005  && slope[i] < 0.005) && density[i] > 0.05) { // && density[i] > 0.9
-	//		JKLogDebug(@"scan %d distance %f slope %f density %f <<<<<<<<<<<<", i, distance[i], slope[i], density[i]);
+		if (distance[i] < 0.05 && (slope[i] > -0.005  && slope[i] < 0.005) && density[i] > 0.05) { 
 			[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:i], @"Scan", [NSNumber numberWithFloat:intensity[i]], @"Total Intensity", [NSNumber numberWithFloat:time[i]], @"Time",nil]];
-//			JKLogDebug(@"scan %d intensity %f", i, intensity[i]);
-
 		}
 	}
 	[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:count-1], @"Scan", [NSNumber numberWithFloat:intensity[count-1]], @"Total Intensity", [NSNumber numberWithFloat:time[count-1]], @"Time",nil]];
@@ -283,16 +279,27 @@ void normalize(float *input, int count) {
 }
 
 -(float *)xValuesSpectrum:(int)scan {
-    int i, dummy, start, end, varid_mass_value;
-    float 	xx;
+    int dummy, start, end, varid_mass_value, varid_scan_index;
+ //   float 	xx;
     float 	*x;
     int		num_pts;
 
     dummy = nc_inq_varid([self ncid], "mass_values", &varid_mass_value);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_value variable failed. Report error #%d.", dummy);        return x;}
 
-    start = [self startValuesSpectrum:scan];
-    end = [self endValuesSpectrum:scan];
+	
+	dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable failed. Report error #%d.", dummy); return 0;}
+	
+    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &start);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
+
+	scan++;
+    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &end);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
+	
+//    start = [self startValuesSpectrum:scan];
+//    end = [self endValuesSpectrum:scan];
     num_pts = end - start;
     
 //	JKLogDebug(@"start= %d, end = %d, count = %d",start, end, num_pts);
@@ -301,12 +308,12 @@ void normalize(float *input, int count) {
 	x = (float *) malloc(num_pts*sizeof(float));
 //	dummy = nc_get_var_float([self ncid], varid_mass_value, x);
 
-//	dummy = nc_get_vara_float([self ncid], varid_mass_value, (const size_t *) &i, (const size_t *) &num_pts, x);
-//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values failed. Report error #%d.", dummy); return x;}
+	dummy = nc_get_vara_float([self ncid], varid_mass_value, (const size_t *) &start, (const size_t *) &num_pts, x);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values failed. Report error #%d.", dummy); return x;}
 	
-    for(i = start; i < end; i++) {
-        dummy = nc_get_var1_float([self ncid], varid_mass_value, (void *) &i, &xx);
-        *(x + (i-start)) = xx;
+//    for(i = start; i < end; i++) {
+//        dummy = nc_get_var1_float([self ncid], varid_mass_value, (void *) &i, &xx);
+//        *(x + (i-start)) = xx;
 //        if(maxXValuesSpectrum < xx) {
 //            maxXValuesSpectrum = xx;
 //        }
@@ -314,42 +321,52 @@ void normalize(float *input, int count) {
 //            minXValuesSpectrum = xx;
 //        }
 
-    }
+//    }
 	
     return x;    
 }
 
 -(float *)yValuesSpectrum:(int)scan {
-    int i, dummy, start, end, varid_intensity_value;
-    float 	yy;
+    int dummy, start, end, varid_intensity_value, varid_scan_index;
+ //   float 	yy;
     float 	*y;
     int		num_pts;
 
     dummy = nc_inq_varid([self ncid], "intensity_values", &varid_intensity_value);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return y;}
 
-    start = [self startValuesSpectrum:scan];
-    end = [self endValuesSpectrum:scan];
+	dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable failed. Report error #%d.", dummy); return 0;}
+	
+    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &start);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
+	
+	scan++;
+    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &end);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
+	
+//    start = [self startValuesSpectrum:scan];
+//    end = [self endValuesSpectrum:scan];
     num_pts = end - start;
 	
 	y = (float *) malloc((num_pts)*sizeof(float));
 //	dummy = nc_get_var_float([self ncid], varid_intensity_value, y);
 
-//	dummy = nc_get_vara_float([self ncid], varid_intensity_value, (const size_t *) &i, (const size_t *) &num_pts, y);
-//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_values failed. Report error #%d.", dummy); return y;}
+	dummy = nc_get_vara_float([self ncid], varid_intensity_value, (const size_t *) &start, (const size_t *) &num_pts, y);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_values failed. Report error #%d.", dummy); return y;}
 	
-	//    minYValuesSpectrum = 0.0; minYValuesSpectrum = 80000.0;	
-    for(i = start; i < end; i++) {
-        dummy = nc_get_var1_float([self ncid], varid_intensity_value, (void *) &i, &yy);
-        *(y + (i-start)) = yy;
-		//        if(maxXValuesSpectrum < yy) {
-		//            maxXValuesSpectrum = yy;
-		//        }
-		//        if(minXValuesSpectrum > yy || i == start) {
-		//            minXValuesSpectrum = yy;
-		//        }
-		
-    }
+//	//    minYValuesSpectrum = 0.0; minYValuesSpectrum = 80000.0;	
+//    for(i = start; i < end; i++) {
+//        dummy = nc_get_var1_float([self ncid], varid_intensity_value, (void *) &i, &yy);
+//        *(y + (i-start)) = yy;
+//		//        if(maxXValuesSpectrum < yy) {
+//		//            maxXValuesSpectrum = yy;
+//		//        }
+//		//        if(minXValuesSpectrum > yy || i == start) {
+//		//            minXValuesSpectrum = yy;
+//		//        }
+//		
+//    }
 	
     return y;
 }
@@ -528,6 +545,60 @@ void normalize(float *input, int count) {
 
     return end;
 }
+
+-(JKSpectrum *)getSpectrumForPeak:(JKPeakRecord *)peak {
+	JKSpectrum *spectrum = [[JKSpectrum alloc] init];
+	float *xpts, *ypts;
+	int scan;
+	int dummy, start, end, varid_mass_value, varid_intensity_value, varid_scan_index;
+    int num_pts;
+	
+	scan = [[peak valueForKey:@"top"] intValue];
+
+	dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable failed. Report error #%d.", dummy); return nil;}
+	
+    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &start);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return nil;}
+	
+	scan++;
+	
+    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &end);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return nil;}
+	
+    num_pts = end - start;
+	
+	dummy = nc_inq_varid([self ncid], "mass_values", &varid_mass_value);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_value variable failed. Report error #%d.", dummy); return nil;}
+	
+    dummy = nc_inq_varid([self ncid], "intensity_values", &varid_intensity_value);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return nil;}
+	
+	
+	xpts = (float *) malloc(num_pts*sizeof(float));
+	
+	dummy = nc_get_vara_float([self ncid], varid_mass_value, (const size_t *) &start, (const size_t *) &num_pts, xpts);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values failed. Report error #%d.", dummy); return nil;}
+	
+	[spectrum setMasses:xpts withCount:num_pts];
+
+				
+	ypts = (float *) malloc((num_pts)*sizeof(float));
+
+	dummy = nc_get_vara_float([self ncid], varid_intensity_value, (const size_t *) &start, (const size_t *) &num_pts, ypts);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_values failed. Report error #%d.", dummy); return nil;}
+	
+	[spectrum setIntensities:ypts withCount:num_pts];
+
+	free(xpts);
+	free(ypts);
+	
+	[spectrum setValue:[NSNumber numberWithFloat:[self timeForScan:scan]] forKey:@"retentionTime"];
+	
+	[spectrum autorelease];
+	return spectrum;
+}
+
 
 #pragma mark NSCODING
 -(void)encodeWithCoder:(NSCoder *)coder

@@ -164,8 +164,8 @@ static void *SpectrumObservationContext = (void *)1102;
 	maximumSurface = 0.0;
 	maximumHeight = 0.0;
 	greyArea = 0.1;
-	retentionIndexSlope	  = [[[NSUserDefaults standardUserDefaults] valueForKey:@"retentionIndexSlope"] floatValue];
-	retentionIndexRemainder = [[[NSUserDefaults standardUserDefaults] valueForKey:@"retentionIndexRemainder"] floatValue];
+	retentionIndexSlope	  = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexSlope"] floatValue];
+	retentionIndexRemainder = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexRemainder"] floatValue];
 	
 	for (i = 0; i < count; i++) {
 		if (intensities[i]/[self baselineValueAtScan:i] > (1.0 + greyArea)){
@@ -488,7 +488,7 @@ static void *SpectrumObservationContext = (void *)1102;
 				[object setLibraryHit:[[[searchResultsController selectedObjects] objectAtIndex:0] valueForKey:@"libraryHit"]];
 				[object setValue:[[[searchResultsController selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.name"] forKey:@"label"];
 				[object setValue:[[[searchResultsController selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.symbol"] forKey:@"symbol"];
-				[object setValue:[[[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"] lastPathComponent] forKey:@"library"];
+				[object setValue:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"] lastPathComponent] forKey:@"library"];
 			} else if ([[object valueForKey:@"identified"] boolValue] == NO) {
 				NSBeep();
 				return;
@@ -714,14 +714,14 @@ static void *SpectrumObservationContext = (void *)1102;
     NSArray *fileTypes = [NSArray arrayWithObject:@"jdx"];
     NSOpenPanel *oPanel = [NSOpenPanel openPanel];
     [oPanel setAllowsMultipleSelection:NO];
-    result = [oPanel runModalForDirectory:[[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"]
-									 file:[[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"] types:fileTypes];
+    result = [oPanel runModalForDirectory:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"]
+									 file:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"] types:fileTypes];
     if (result == NSOKButton) {
         NSArray *filesToOpen = [oPanel filenames];
         int i, count = [filesToOpen count];
         for (i=0; i<count; i++) {
             NSString *aFile = [filesToOpen objectAtIndex:i];
-			[[NSUserDefaults standardUserDefaults] setValue:aFile forKey:@"defaultLibrary"];
+			[[[NSUserDefaultsController sharedUserDefaultsController] values] setValue:aFile forKey:@"defaultLibrary"];
         }
     }
 }
@@ -774,13 +774,13 @@ static void *SpectrumObservationContext = (void *)1102;
 -(IBAction)editLibrary:(id)sender {
 	NSError *error = [[NSError alloc] init];
 	NSDocument *document;	
-	NSString *path = [[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"];
+	NSString *path = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"];
 	if (path == nil) {
-		JKLogError(@"ERROR: No library set in preferences.",[[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"]);
+		JKLogError(@"ERROR: No library set in preferences.",[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"]);
 	} else {
 		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:path] display:YES error:&error];
 		if (document == nil) {
-			JKLogError(@"ERROR: File at %@ could not be opened.",[[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"]);
+			JKLogError(@"ERROR: File at %@ could not be opened.",[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"]);
 		}		
 	}
 	[error release];
@@ -835,13 +835,16 @@ static void *SpectrumObservationContext = (void *)1102;
 	JKSpectrum *spectrumTop = [[JKSpectrum alloc] init];
 	int npts;
 	float *xpts, *ypts;
-	npts = [[self dataModel] endValuesSpectrum:[[peak valueForKey:@"top"] intValue]] - [[self dataModel] startValuesSpectrum:[[peak valueForKey:@"top"] intValue]];
-	xpts = [[self dataModel] xValuesSpectrum:[[peak valueForKey:@"top"] intValue]];
-	ypts = [[self dataModel] yValuesSpectrum:[[peak valueForKey:@"top"] intValue]];
+	int scan;
+	scan = [[peak valueForKey:@"top"] intValue];
+	npts = [[self dataModel] endValuesSpectrum:scan] - [[self dataModel] startValuesSpectrum:scan];
+	xpts = [[self dataModel] xValuesSpectrum:scan];
+	ypts = [[self dataModel] yValuesSpectrum:scan];
 	[spectrumTop setMasses:xpts withCount:npts];
 	[spectrumTop setIntensities:ypts withCount:npts];
-	
-	[spectrumTop setValue:[NSNumber numberWithFloat:[[self dataModel] timeForScan:[[peak valueForKey:@"top"] intValue]]] forKey:@"retentionTime"];
+	free(xpts);
+	free(ypts);
+	[spectrumTop setValue:[NSNumber numberWithFloat:[[self dataModel] timeForScan:scan]] forKey:@"retentionTime"];
 	
 	[spectrumTop autorelease];
 	return spectrumTop;
@@ -949,7 +952,7 @@ static void *SpectrumObservationContext = (void *)1102;
 	
 	[libSearch searchLibraryForPeaks:peaksArray];
 	
-	if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"soundWhenFinished"] boolValue])
+	if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"soundWhenFinished"] boolValue])
 		NSBeep();	
 	
 	[NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];

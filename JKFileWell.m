@@ -226,7 +226,7 @@
 //        int i, count = [filesToOpen count];
 //        for (i=0; i<count; i++) {
 //            NSString *aFile = [filesToOpen objectAtIndex:i];
-//			[[NSUserDefaults standardUserDefaults] setValue:aFile forKey:@"defaultLibrary"];
+//			[[[NSUserDefaultsController sharedUserDefaultsController] values] setValue:aFile forKey:@"defaultLibrary"];
 //        }
     }
 }

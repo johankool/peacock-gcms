@@ -16,8 +16,8 @@
 - (id) init {
 	self = [super init];
 	if (self != nil) {
-		lowerAcceptLevel = 50.0; //[[[NSUserDefaults standardUserDefaults] valueForKey:@"lowerAcceptLevel"] floatValue];
-		libraryPath = [[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"];
+		lowerAcceptLevel = 50.0; //[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"lowerAcceptLevel"] floatValue];
+		libraryPath = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"];
 		remainingString = [NSString stringWithString:@""];
 	}
 	return self;
@@ -45,7 +45,7 @@
 	peakSpectrum = [mainWindowController getSpectrumForPeak:peak];	
 		
 	// Read library piece by piece
-	NSData *aLibrary = [NSData dataWithContentsOfMappedFile:[[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"]];
+	NSData *aLibrary = [NSData dataWithContentsOfMappedFile:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"]];
 	
 	int count = [aLibrary length]/65536;
 	int remainder = [aLibrary length]%65536;
@@ -131,7 +131,7 @@
 	}
 
 	// Read library piece by piece
-	NSData *aLibrary = [NSData dataWithContentsOfMappedFile:[[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"]];
+	NSData *aLibrary = [NSData dataWithContentsOfMappedFile:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"]];
 		
 	int count = [aLibrary length]/65536;
 	[progressIndicator setIndeterminate:NO];
@@ -169,7 +169,7 @@
 					[[peaks objectAtIndex:maximumIndex] setLibraryHit:[libraryEntries objectAtIndex:j]];
 					[[peaks objectAtIndex:maximumIndex] setValue:[NSNumber numberWithBool:YES] forKey:@"identified"];
 					[[peaks objectAtIndex:maximumIndex] setValue:[NSNumber numberWithBool:NO] forKey:@"confirmed"];		
-					[[peaks objectAtIndex:maximumIndex] setValue:[[[NSUserDefaults standardUserDefaults] valueForKey:@"defaultLibrary"] lastPathComponent] forKey:@"library"];
+					[[peaks objectAtIndex:maximumIndex] setValue:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"] lastPathComponent] forKey:@"library"];
 				}
 			}
 

@@ -121,24 +121,23 @@ static JKPanelController *theSharedController;
         [objectController willChangeValueForKey:@"Content"];
         [objectController setContent:object];
         [objectController didChangeValueForKey:@"Content"];
-		[infoTableView reloadData];
-        [self willChangeValueForKey:@"sampleCode"];
-        [self didChangeValueForKey:@"sampleCode"];
-        [self willChangeValueForKey:@"sampleDescription"];
-        [self didChangeValueForKey:@"sampleDescription"];
+// //       [self willChangeValueForKey:@"sampleCode"];
+//        [self didChangeValueForKey:@"sampleCode"];
+//        [self willChangeValueForKey:@"sampleDescription"];
+//        [self didChangeValueForKey:@"sampleDescription"];
 		
     } else if ([object isKindOfClass:[JKMainDocument class]] && [[self window] isVisible]) {
         [self setInspectedPlotView:object];
 //        [templatePullDownMenu setHidden:NO];
         
-        [objectController willChangeValueForKey:@"Content"];
-        [objectController setContent:object];
-        [objectController didChangeValueForKey:@"Content"];
+//        [objectController willChangeValueForKey:@"Content"];
+//        [objectController setContent:object];
+//        [objectController didChangeValueForKey:@"Content"];
 		[infoTableView reloadData];
-        [self willChangeValueForKey:@"sampleCode"];
-        [self didChangeValueForKey:@"sampleCode"];
-        [self willChangeValueForKey:@"sampleDescription"];
-        [self didChangeValueForKey:@"sampleDescription"];
+//        [self willChangeValueForKey:@"sampleCode"];
+//        [self didChangeValueForKey:@"sampleCode"];
+//        [self willChangeValueForKey:@"sampleDescription"];
+//        [self didChangeValueForKey:@"sampleDescription"];
 		
 		
     } else {
@@ -215,15 +214,14 @@ static JKPanelController *theSharedController;
 // Info tableView
 -(int)numberOfRowsInTableView:(NSTableView *)tableView {
     int count, dummy, ncid;
-    if ((tableView ==  infoTableView) && [[objectController content] isKindOfClass:[MyGraphView class]]) {
+    if (tableView ==  infoTableView) {
 		ncid = [[(JKMainDocument *)[self document] dataModel] ncid];
         dummy =  nc_inq_natts(ncid, &count);
         JKLogDebug(@"%d", count);
         if (dummy == NC_NOERR) return count;
         return -1;
     } 
-    
-//    [NSException raise:NSInvalidArgumentException format:@"Exception raised in JKPanelController -numberOfRowsInTableView: - tableView not known"];
+	//[NSException raise:NSInvalidArgumentException format:@"Exception raised in JKPanelController -numberOfRowsInTableView: - tableView not known"];
     return -1;
 }
 
@@ -314,18 +312,18 @@ static JKPanelController *theSharedController;
 //    [deleteSheet orderOut: self];
 //}
 
--(NSString *)sampleCode {
-	return [[[(JKMainDocument *)[self document] dataModel] metadata] valueForKey:@"sampleCode"];
-}
--(void)setSampleCode:(NSString *)inString {
-	[[[(JKMainDocument *)[self document] dataModel] metadata] setValue:inString forKey:@"sampleCode"];
-}
--(NSString *)sampleDescription {
-	return [[[(JKMainDocument *)[self document] dataModel] metadata] valueForKey:@"sampleDescription"];
-}
--(void)setSampleDescription:(NSString *)inString {
-	[[[(JKMainDocument *)[self document] dataModel] metadata] setValue:inString forKey:@"sampleDescription"];
-}
+//-(NSString *)sampleCode {
+//	return [[[(JKMainDocument *)[self document] dataModel] metadata] valueForKey:@"sampleCode"];
+//}
+//-(void)setSampleCode:(NSString *)inString {
+//	[[[(JKMainDocument *)[self document] dataModel] metadata] setValue:inString forKey:@"sampleCode"];
+//}
+//-(NSString *)sampleDescription {
+//	return [[[(JKMainDocument *)[self document] dataModel] metadata] valueForKey:@"sampleDescription"];
+//}
+//-(void)setSampleDescription:(NSString *)inString {
+//	[[[(JKMainDocument *)[self document] dataModel] metadata] setValue:inString forKey:@"sampleDescription"];
+//}
 
 idAccessor(inspectedPlotView, setInspectedPlotView)
 

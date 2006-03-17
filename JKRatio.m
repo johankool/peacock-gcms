@@ -18,7 +18,7 @@
 -(id)initWithString:(NSString *)string { //Designated initializer
 	self = [super init];
 	if (self != nil) {
-		formula = string;
+		[self setFormula:string];
 		name = @"";
 			}
 	return self;
@@ -231,6 +231,14 @@
     return self;
 }
 
-idAccessor(name, setName);
-//idAccessor(formula, setFormula);
+-(NSString *)name {
+	return name;
+}
+
+-(void)setName:(NSString *)inValue {
+	[inValue retain];
+	[name release];
+	name = inValue;
+}
+
 @end

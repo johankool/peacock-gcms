@@ -13,21 +13,8 @@
 
 @implementation JKAppDelegate
 
--(id)init {
-	self = [super init];
-	[self setDelegate:self];
-	return self;
-}
-
-#pragma mark DELEGATE METHODS
-
--(BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
-    // Delegate method per NSApplication to suppress or allow untitled window at launch.
-    return NO;
-}
-
--(void)applicationDidFinishLaunching:(NSNotification *)notification {	
-	// Register default settings
++(void)initialize {
+		// Register default settings
 	NSMutableDictionary *mutDict = [NSMutableDictionary new];
 	[mutDict setValue:[NSNumber numberWithBool:NO] forKey:@"SUCheckAtStartup"];
 	[mutDict setValue:[NSNumber numberWithBool:NO] forKey:@"showInspectorOnLaunch"];
@@ -45,13 +32,31 @@
 	
 	[[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:mutDict];
 	[mutDict release];
+}
+-(id)init {
+	self = [super init];
+	[self setDelegate:self];
+	return self;
+}
+
+#pragma mark DELEGATE METHODS
+
+-(BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
+    // Delegate method per NSApplication to suppress or allow untitled window at launch.
+    return NO;
+}
+
+-(void)applicationDidFinishLaunching:(NSNotification *)notification {	
+
 	
 	// Execute startup preferences
 //    if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"checkForUpdates"] boolValue]== YES) {
 //        [self checkVersion:TRUE];
 //    }
+#warning Custom level debug verbosity set.
     JKSetVerbosityLevel([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:JKLogVerbosityUserDefault] intValue]);
-	
+//#warning High level debug verbosity set.
+//	JKSetVerbosityLevel(JK_VERBOSITY_ALL);
 //    if (!panelWindowController) {
 //        panelWindowController = [[JKPanelController alloc] init];
 //    }    
@@ -178,8 +183,8 @@
 
 #pragma mark GROWL SUPPORT
 -(NSDictionary *) registrationDictionaryForGrowl {
-	NSArray *defaultArray = [NSArray arrayWithObjects:@"Batch Process Finished", @"Identifying Compounds Finished",nil];
-	NSArray *allArray = [NSArray arrayWithObjects:@"Batch Process Finished", @"Identifying Compounds Finished",nil];
+	NSArray *defaultArray = [NSArray arrayWithObjects:@"Batch Process Finished", @"Identifying Compounds Finished", @"Statistical Analysis Finished",nil];
+	NSArray *allArray = [NSArray arrayWithObjects:@"Batch Process Finished", @"Identifying Compounds Finished", @"Statistical Analysis Finished",nil];
 	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:defaultArray, GROWL_NOTIFICATIONS_DEFAULT, allArray, GROWL_NOTIFICATIONS_ALL,nil];
 	return dictionary;
 }

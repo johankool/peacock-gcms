@@ -12,6 +12,7 @@
 #import "JKRatio.h"
 #import "JKDataModel.h"
 #import "JKSpectrum.h"
+#import "Growl/GrowlApplicationBridge.h"
 
 @implementation JKStatisticsWindowController
 
@@ -22,7 +23,8 @@
 		ratioValues = [[NSMutableArray alloc] init];
 		ratios = [[NSMutableArray alloc] init];
 		metadata = [[NSMutableArray alloc] init];
-//		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refetch:) name:@"JKMainDocument loaded" object:nil];
+		files = [[NSMutableArray alloc] init];
+		[self setAbortAction:NO];
 	}
 	return self;
 }
@@ -32,6 +34,7 @@
 	[ratioValues release];
 	[ratios release];
 	[metadata release];
+	[files release];
 	[super dealloc];
 }
 
@@ -64,39 +67,85 @@
 		}	
 	}
 		
+//	[filesTableView registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
+//	[filesTableView setDataSource:self];
+	
 	[resultsTable setDelegate:self];
 	[ratiosTable setDelegate:self];
 	[metadataTable setDelegate:self];
+	[resultsTable setDoubleAction:@selector(doubleClickAction:)];
+	[ratiosTable setDoubleAction:@selector(doubleClickAction:)];
+	[metadataTable setDoubleAction:@selector(doubleClickAction:)];
+	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[resultsTable superview]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[ratiosTable superview]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[metadataTable superview]];
-	[resultsTable setDoubleAction:@selector(floatClickAction:)];
-	[self collectMetadata];
-	[self collectCombinedPeaks];
-	[self calculateRatios];
 }
 
--(void)floatClickAction:(id)sender {
+#pragma mark IBACTIONS
+
+-(IBAction)addButtonAction:(id)sender {
+	NSArray *fileTypes = [NSArray arrayWithObjects:@"cdf", @"peacock",nil];
+    NSOpenPanel *oPanel = [NSOpenPanel openPanel];
+    [oPanel setAllowsMultipleSelection:YES];
+	[oPanel beginSheetForDirectory:nil file:nil types:fileTypes modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+-(void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
+    if (returnCode == NSOKButton) {
+		BOOL alreadyInFiles;
+        NSArray *filesToOpen = [sheet filenames];
+        int i, count = [filesToOpen count];
+        for (i=0; i<count; i++) {
+			alreadyInFiles = NO;
+            NSString *aFile = [filesToOpen objectAtIndex:i];
+			NSEnumerator *enumerator = [files objectEnumerator];
+			id anObject;
+			
+			while (anObject = [enumerator nextObject]) {
+				if ([[anObject valueForKey:@"path"] isEqualToString:aFile])
+					alreadyInFiles = YES;
+			}
+			if (!alreadyInFiles) {
+				NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
+				[mutDict setValue:[aFile lastPathComponent] forKey:@"filename"];
+				[mutDict setValue:aFile forKey:@"path"];
+				[mutDict setObject:[[NSWorkspace sharedWorkspace] iconForFile:aFile] forKey:@"icon"];
+				[self willChangeValueForKey:@"files"];
+				[files addObject:mutDict];
+				[self didChangeValueForKey:@"files"];
+				[mutDict release];				
+			}
+		}
+	}	
+}
+
+-(void)doubleClickAction:(id)sender {
 	JKLogDebug(@"row %d column %d",[sender clickedRow], [sender clickedColumn]);
+	NSError *error = [[[NSError alloc] init] autorelease];
 	if (([sender clickedRow] == -1) && ([sender clickedColumn] == -1)) {
 		return;
 	} else if ([sender clickedColumn] == 0) {
 		return;
 	} else if ([sender clickedRow] == -1) {
-		// A column was float clicked
+		// A column was double clicked
 		// Bring forward the associated file
-		[[[[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] identifier] mainWindowController] window] makeKeyAndOrderFront:self];
+		//[[[[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] identifier] mainWindowController] window] makeKeyAndOrderFront:self];
+		//NSLog([[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-1]]);
+		[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-1]]] display:YES error:&error];
 	} else {
-		// A cell was float clicked
+		// A cell was double clicked
 		// Bring forwars associated file and
 		// select associated peak
 		// Ugliest code ever! note that keyPath depends on the binding, so if we bind to something else e.g. height, this will fail!
-		[[[[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] identifier] mainWindowController] window] makeKeyAndOrderFront:self];
+		JKMainDocument *document;
+	//	[[[[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] identifier] mainWindowController] window] makeKeyAndOrderFront:self];
+		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-1]]] display:YES error:&error];
 		NSString *keyPath = [[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] infoForBinding:@"value"] valueForKey:NSObservedKeyPathKey];
 		keyPath = [keyPath substringWithRange:NSMakeRange(16,[keyPath length]-18-16)];
 		// Check that we don't look for an empty cell
 		if ([[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]) {
-			[[[[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] identifier] mainWindowController] peakController] setSelectedObjects:[NSArray arrayWithObject:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]]];
+			[[[document mainWindowController] peakController] setSelectedObjects:[NSArray arrayWithObject:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]]];
 		}
 	}
 }
@@ -112,32 +161,210 @@
     }
 }
 
--(IBAction)refetch:(id)sender {
-	[self collectMetadata];
-	[self collectCombinedPeaks];
-	[self calculateRatios];
+-(IBAction)summarizeOptionsDoneAction:(id)sender {
+	[NSApp endSheet:summarizeOptionsSheet];
+}
+-(IBAction)stopButtonAction:(id)sender{
+	[self setAbortAction:YES];
 }
 
+-(IBAction)runStatisticalAnalysisButtonAction:(id)sender {
+	[NSApp beginSheet: progressSheet
+	   modalForWindow: [self window]
+		modalDelegate: self
+	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
+		  contextInfo: nil];
+    // Sheet is up here.
+    // Return processing to the event loop
+	
+	[NSThread detachNewThreadSelector:@selector(runStatisticalAnalysis) toTarget:self withObject:nil];
+	
+}
+
+-(void)runStatisticalAnalysis {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	BOOL errorOccurred = NO;	
+	[self setAbortAction:NO];
+	int i;
+	int filesCount = [files count];
+	[fileProgressIndicator setMaxValue:filesCount*7.0];
+	[fileProgressIndicator setDoubleValue:0.0];
+	NSError *error = [[NSError alloc] init];
+	JKMainDocument *document;
+	[self willChangeValueForKey:@"metadata"];
+	[self willChangeValueForKey:@"combinedPeaks"];
+	[self willChangeValueForKey:@"ratioValues"];
+
+	// Prepations before starting processing files
+	[detailStatusTextField setStringValue:NSLocalizedString(@"Preparing processing",@"")];
+	[fileProgressIndicator setIndeterminate:YES];
+	[fileProgressIndicator startAnimation:self];
+	
+	// Remove all but the first column from the tableview
+	int columnCount = [metadataTable numberOfColumns];
+	for (i = columnCount-1; i > 0; i--) {
+		[metadataTable removeTableColumn:[[metadataTable tableColumns] objectAtIndex:i]];
+	} 
+	columnCount = [resultsTable numberOfColumns];
+	for (i = columnCount-1; i > 0; i--) {
+		[resultsTable removeTableColumn:[[resultsTable tableColumns] objectAtIndex:i]];
+	} 
+	
+	columnCount = [ratiosTable numberOfColumns];
+	for (i = columnCount-1; i > 0; i--) {
+		[ratiosTable removeTableColumn:[[ratiosTable tableColumns] objectAtIndex:i]];
+	} 
+	
+	[metadata removeAllObjects];
+	[combinedPeaks removeAllObjects];
+	[ratioValues removeAllObjects];
+	
+	NSMutableDictionary *metadataDictSampleCode = [[NSMutableDictionary alloc] init];
+	NSMutableDictionary *metadataDictDescription = [[NSMutableDictionary alloc] init];
+	NSMutableDictionary *metadataDictPath = [[NSMutableDictionary alloc] init];
+	[metadataDictSampleCode setValue:@"Sample code" forKey:@"label"];
+	[metadataDictDescription setValue:@"Description" forKey:@"label"];
+	[metadataDictPath setValue:@"File Path" forKey:@"label"];
+	[metadata addObject:metadataDictSampleCode];
+	[metadata addObject:metadataDictDescription];
+	[metadata addObject:metadataDictPath];
+	[metadataDictSampleCode release];
+	[metadataDictDescription release];
+	[metadataDictPath release];
+			
+	// Reset
+	unknownCount = 0;
+	peaksToUse = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"peaksForSummary"] intValue]; // 1=all 2=identified 3=confirmed
+	NSAssert(peaksToUse > 0 && peaksToUse < 4, @"peaksToUse has invalid value");
+
+	[fileProgressIndicator setIndeterminate:NO];
+	for (i=0; i < filesCount; i++) {
+		[detailStatusTextField setStringValue:@"Opening Document"];
+		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:![[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisCloseDocument"] boolValue] error:&error];
+		[[self window] makeKeyAndOrderFront:self];
+		if (document == nil) {
+			JKLogError(@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]);
+			errorOccurred = YES;
+			[fileProgressIndicator setDoubleValue:(i+1)*5.0];
+			continue;	
+		}
+		[fileStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Processing file \"%@\" (%d of %d)",@"Batch process status text"),[[files objectAtIndex:i] valueForKey:@"filename"],i+1,filesCount]];
+		if ([self abortAction]) {
+			break;
+		}		
+		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisPerformSanityCheck"] boolValue]) {
+			[detailStatusTextField setStringValue:NSLocalizedString(@"Performing Sanity Check",@"")];
+			// Not yet implemented feature
+			[fileProgressIndicator incrementBy:1.0];
+		}
+		if ([self abortAction]) {
+			break;
+		}		
+		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisSummarize"] boolValue]) {
+			[detailStatusTextField setStringValue:NSLocalizedString(@"Collecting metadata",@"")];
+			[self collectMetadataForDocument:document atIndex:i];
+			[detailStatusTextField setStringValue:NSLocalizedString(@"Comparing Peaks",@"")];
+			[self collectCombinedPeaksForDocument:document atIndex:i];
+			[fileProgressIndicator incrementBy:1.0];
+		}
+		if ([self abortAction]) {
+			break;
+		}		
+		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisCalculateRatios"] boolValue]) {
+			[detailStatusTextField setStringValue:NSLocalizedString(@"Calculating Ratios",@"")];
+			[self calculateRatiosForDocument:document atIndex:i];
+			[fileProgressIndicator incrementBy:1.0];
+		}
+		if ([self abortAction]) {
+			break;
+		}		
+		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisSaveAsAnalysisPeacockFile"] boolValue]) {
+			[detailStatusTextField setStringValue:NSLocalizedString(@"Saving Peacock Analysis File",@"")];
+			// Not yet implemented feature
+			
+//			path = [[[files objectAtIndex:i] valueForKey:@"path"] stringByDeletingPathExtension];
+//			path = [path stringByAppendingPathExtension:@"peacock-analysis"];
+//			if (![document saveToURL:[NSURL fileURLWithPath:path] ofType:@"Peacock Analysis File" forSaveOperation:NSSaveAsOperation error:&error]) {
+//				JKLogError(@"ERROR: File at %@ could not be saved as Peacock Analysis File.",[[files objectAtIndex:i] valueForKey:@"path"]);
+//				errorOccurred = YES;
+//			}
+			[fileProgressIndicator incrementBy:1.0];
+		}
+		if ([self abortAction]) {
+			break;
+		}		
+		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisCloseDocument"] boolValue]) {
+			[detailStatusTextField setStringValue:NSLocalizedString(@"Closing Document",@"")];
+			[document close];
+			[fileProgressIndicator incrementBy:1.0];
+		}
+		if ([self abortAction]) {
+			break;
+		}
+		[fileProgressIndicator setDoubleValue:(i+1)*7.0];
+	}
+	// Out of scope for files
+	if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisSaveAsTabDelimitedTextFile"] boolValue]) {
+		[detailStatusTextField setStringValue:NSLocalizedString(@"Saving Tab Delimited Text File",@"")];
+		[fileProgressIndicator setIndeterminate:YES];
+		[self exportSummary:self];
+	}
+
+	// Finishing
+	if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisSummarize"] boolValue]) {
+		[detailStatusTextField setStringValue:NSLocalizedString(@"Sorting Results",@"")];
+		[fileProgressIndicator setIndeterminate:YES];
+		[self sortCombinedPeaks];
+	}
+	
+	[error release];
+	[[self window] makeKeyAndOrderFront:self];
+	
+	// This way we don't get bolded text!
+	[NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];
+	
+	[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Statistical Analysis Finished",@"") description:NSLocalizedString(@"Peacock finished processing your data.",@"") notificationName:@"Statistical Analysis Finished" iconData:nil priority:0 isSticky:NO clickContext:nil];
+	
+	if (errorOccurred) {
+		NSRunCriticalAlertPanel(NSLocalizedString(@"Error(s) during batch processing",@""),NSLocalizedString(@"One or more errors occurred during batch processing your files. The console.log available from the Console application contains more details about the error. Common errors include files moved after being added to the list and full disks.",@""),NSLocalizedString(@"OK",@""),nil,nil);
+	} else if ([self abortAction]) {
+		NSRunInformationalAlertPanel(NSLocalizedString(@"Statistical Analysis aborted",@""),NSLocalizedString(@"The execution of the statistical analysis was aborted by the user. Be advised to check the current state of the files that were being processed.",@""),NSLocalizedString(@"OK",@""),nil,nil);
+	}
+	
+	[self didChangeValueForKey:@"metadata"];
+	[self didChangeValueForKey:@"combinedPeaks"];
+	[self didChangeValueForKey:@"ratioValues"];
+	[summaryWindow makeKeyAndOrderFront:self];
+	
+	[pool release];
+}
+
+//-(IBAction)refetch:(id)sender {
+//	[self collectMetadata];
+//	[self collectCombinedPeaks];
+//	[self calculateRatios];
+//}
+
 -(IBAction)editRatios:(id)sender {
-	[ratiosEditor makeKeyAndOrderFront:self];
-//	[NSApp beginSheet: ratiosEditor
-//	   modalForWindow: [self window]
-//		modalDelegate: self
-//	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
-//		  contextInfo: nil];
+//	[ratiosEditor makeKeyAndOrderFront:self];
+	[NSApp beginSheet: ratiosEditor
+	   modalForWindow: [self window]
+		modalDelegate: self
+	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
+		  contextInfo: nil];
     // Sheet is up here.
     // Return processing to the event loop	
 	
 }
 
-//-(IBAction)cancelEditRatios:(id)sender {
-//	[NSApp endSheet:ratiosEditor];
-//
-//}
+-(IBAction)cancelEditRatios:(id)sender {
+	[NSApp endSheet:ratiosEditor];
+
+}
 
 -(IBAction)saveEditRatios:(id)sender {
 	[self saveRatiosFile];
-//	[NSApp endSheet:ratiosEditor];
+	[NSApp endSheet:ratiosEditor];
 }
 
 -(IBAction)options:(id)sender {
@@ -150,172 +377,194 @@
     // Return processing to the event loop		
 }
 
--(IBAction)doneOptions:(id)sender {
-	[self refetch:self];
-	[NSApp endSheet:optionsSheet];
-}
--(void)collectMetadata {
-	int i;
-	int filesCount;
-	
-	NSArray *files;
-	JKMainDocument *document;
-	
-	files = [[NSArray arrayWithArray:[[NSDocumentController sharedDocumentController] documents]] sortedArrayUsingSelector:@selector(metadataCompare:)];
-	filesCount = [files count];
-	
-	int columnCount = [metadataTable numberOfColumns];
-	for (i = columnCount-1; i > 0; i--) {
-		[metadataTable removeTableColumn:[[metadataTable tableColumns] objectAtIndex:i]];
-	} 
-	[self willChangeValueForKey:@"metadata"];
-	[metadata removeAllObjects];
+//-(IBAction)doneSummarizeOptions:(id)sender {
+//	[self refetch:self];
+//	[NSApp endSheet:optionsSheet];
+//}
 
-	NSMutableDictionary *metadataDictSampleCode = [[NSMutableDictionary alloc] init];
-	NSMutableDictionary *metadataDictDescription = [[NSMutableDictionary alloc] init];
-	[metadataDictSampleCode setValue:@"Sample code" forKey:@"label"];
-	[metadataDictDescription setValue:@"Description" forKey:@"label"];
-	
-	for (i=0; i < filesCount; i++) {
-		document = [files objectAtIndex:i];
-			
-		[metadataDictSampleCode setValue:[[[document dataModel] metadata] valueForKey:@"sampleCode"] forKey:[NSString stringWithFormat:@"file_%d",i]];
-		[metadataDictDescription setValue:[[[document dataModel] metadata] valueForKey:@"sampleDescription"] forKey:[NSString stringWithFormat:@"file_%d",i]];
-		
-		NSTableColumn *tableColumn = [[NSTableColumn alloc] init];
-		[tableColumn setIdentifier:document];
-		[[tableColumn headerCell] setStringValue:[document displayName]];
-		NSString *keyPath = [NSString stringWithFormat:@"arrangedObjects.%@",[NSString stringWithFormat:@"file_%d",i]];
-		[tableColumn bind:@"value" toObject:metadataController withKeyPath:keyPath options:nil];
-		[[tableColumn dataCell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
-		[[tableColumn dataCell] setAlignment:NSLeftTextAlignment];
-		[tableColumn setEditable:NO];
-		[metadataTable addTableColumn:tableColumn];
-		[tableColumn release];
-	}
-	[metadata addObject:metadataDictSampleCode];
-	[metadata addObject:metadataDictDescription];
+-(void)collectMetadataForDocument:(JKMainDocument *)document atIndex:(int)index {
+	NSMutableDictionary *metadataDictSampleCode = [metadata objectAtIndex:0];
+	NSMutableDictionary *metadataDictDescription = [metadata objectAtIndex:1];
+	NSMutableDictionary *metadataDictPath = [metadata objectAtIndex:2];
 
-	[metadataDictSampleCode release];
-	[metadataDictDescription release];
-	[self didChangeValueForKey:@"metadata"];
+	[metadataDictSampleCode setValue:[[[document dataModel] metadata] valueForKey:@"sampleCode"] forKey:[NSString stringWithFormat:@"file_%d",index]];
+	[metadataDictDescription setValue:[[[document dataModel] metadata] valueForKey:@"sampleDescription"] forKey:[NSString stringWithFormat:@"file_%d",index]];
+	[metadataDictPath setValue:[document fileName] forKey:[NSString stringWithFormat:@"file_%d",index]];
+	
+	NSTableColumn *tableColumn = [[NSTableColumn alloc] init];
+	[tableColumn setIdentifier:document];
+	[[tableColumn headerCell] setStringValue:[document displayName]];
+	NSString *keyPath = [NSString stringWithFormat:@"arrangedObjects.%@",[NSString stringWithFormat:@"file_%d",index]];
+	[tableColumn bind:@"value" toObject:metadataController withKeyPath:keyPath options:nil];
+	[[tableColumn dataCell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+	[[tableColumn dataCell] setAlignment:NSLeftTextAlignment];
+	[tableColumn setEditable:NO];
+	[metadataTable addTableColumn:tableColumn];
+	[tableColumn release];
 	return;
 }
 
--(void)collectCombinedPeaks {
-	int i,j,k;
-	int filesCount, peaksCount, combinedPeaksCount;
-	int knownCombinedPeakIndex;
-	BOOL knownCombinedPeak, unknownCompound;
+-(void)collectCombinedPeaksForDocument:(JKMainDocument *)document atIndex:(int)index {
+	// This autoreleasepool allows to flush the memory after each file, to prevent using more than 2 GB during this loop!
+	NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
+
+	int j,k;
+	int peaksCount, combinedPeaksCount;
+	int knownCombinedPeakIndex, peaksCompared;
+	BOOL isKnownCombinedPeak, isUnknownCompound;
 	float scoreResult, maxScoreResult;
+	NSDate *date = [NSDate date];
 	
-	NSArray *files;
 	NSMutableArray *peaksArray;
-	JKMainDocument *document;
 	JKPeakRecord *peak;
 	NSMutableDictionary *combinedPeak;
 	NSString *peakName;
 	NSString *combinedPeakName;
+	NSMutableArray *peakToAddToCombinedPeaks = [[NSMutableArray alloc] init];
 	
-	files = [[NSArray arrayWithArray:[[NSDocumentController sharedDocumentController] documents]] sortedArrayUsingSelector:@selector(metadataCompare:)];
-	filesCount = [files count];
+	// Problems!
+	// ?- measurement conditions should be similar e.g. same temp. program
+	// √- comparison to peaks within same chromatogram may occur when peaks within window were added
+	// ?- unconfirmed peaks encountered before corresponding confirmed peak won't match
+	// ?- no check to see if combined peak already had a match from the same file (highest score should win?)
+	// √- memory usage from opening files is problematic: open/close files on demand?
 	
-	int columnCount = [resultsTable numberOfColumns];
-	for (i = columnCount-1; i > 0; i--) {
-		[resultsTable removeTableColumn:[[resultsTable tableColumns] objectAtIndex:i]];
-	} 
-	[self willChangeValueForKey:@"combinedPeaks"];
-	[combinedPeaks removeAllObjects];
-	int peaksToUse = [[[NSUserDefaults standardUserDefaults] valueForKey:@"peaksForSummary"] intValue]; // 1=all 2=identified 3=confirmed
-	for (i=0; i < filesCount; i++) {
-		document = [files objectAtIndex:i];
-		peaksArray = [[document dataModel] peaks];
-		peaksCount = [peaksArray count];
+	date = [NSDate date];
+	peaksCompared = 0;
+	peaksArray = [[document dataModel] peaks];
+	peaksCount = [peaksArray count];
 		
-		for (j=0; j < peaksCount; j++) {
-			peak = [peaksArray objectAtIndex:j];
-			peakName = [peak valueForKey:@"label"];
-			// Determine wether or not the user wants to use this peak
-			if (![peak confirmed] && peaksToUse >= 3) {
-				continue;
-			} else if (![peak identified] && peaksToUse >= 2) {
-				continue;
+	// Go through the peaks
+	for (j=0; j < peaksCount; j++) {
+		peak = [peaksArray objectAtIndex:j];
+		peakName = [peak valueForKey:@"label"];
+		isKnownCombinedPeak = NO;
+		isUnknownCompound = NO;
+
+		// Determine wether or not the user wants to use this peak
+		if (![peak confirmed] && peaksToUse >= 3) {
+			continue;
+		} else if (![peak identified] && peaksToUse >= 2) {
+			continue;
+		} else if ([[peak normalizedSurface] floatValue] < 1.0) { // filter small peaks
+			continue;
+		}
+		
+		// Match with combined peaks
+		combinedPeaksCount = [combinedPeaks count];
+		maxScoreResult = 0.0;
+		
+		// Because the combinedPeaks array is empty, we add all peaks for the first one.
+		if (index == 0) {
+			isKnownCombinedPeak = NO;
+			isUnknownCompound = YES;
+			if ([peak confirmed]) {
+				isUnknownCompound = NO;
 			}
-			combinedPeaksCount = [combinedPeaks count];
-			knownCombinedPeak = NO;
-//			unknownCompound = NO;
-			maxScoreResult = 0;
+		}
+		
+		for (k=0; k < combinedPeaksCount; k++) {
+			combinedPeak = [combinedPeaks objectAtIndex:k];
+			combinedPeakName = [combinedPeak valueForKey:@"label"];
+			isKnownCombinedPeak = NO;
+		
+			// Match according to label for confirmed  peaks
+			if ([peak confirmed]) {
+				isUnknownCompound = NO;
 	
-			for (k=0; k < combinedPeaksCount; k++) {
-				// Match according to label for confirmed or identified peaks
-				if ([peak confirmed] || [peak identified]) {
-					combinedPeak = [combinedPeaks objectAtIndex:k];
-					combinedPeakName = [combinedPeak valueForKey:@"label"];
-					unknownCompound = NO;
-					
-					if ([peakName isEqualToString:combinedPeakName]) {
-						knownCombinedPeak = YES;
-						knownCombinedPeakIndex = k;
-						unknownCompound = NO;
-					} 					
-				} else { // Or if it's an unidentified peak, match according to score
-					combinedPeak = [combinedPeaks objectAtIndex:k];
-					unknownCompound = YES;
-					
+				if ([peakName isEqualToString:combinedPeakName]) {
+					isKnownCombinedPeak = YES;
+					knownCombinedPeakIndex = k;
+					maxScoreResult = 101.0; // confirmed peak!
+					break;
+				} 					
+			} else { // Or if it's an unidentified peak, match according to score
+				isUnknownCompound = YES;
+				if (fabsf([[peak topTime] floatValue] - [[combinedPeak valueForKey:@"topTime"] floatValue]) < 3.0) {
+					NSAssert([combinedPeak valueForKey:@"spectrum"], @"No spectrum for combined peak!?");
+					peaksCompared++;
 					JKSpectrum *spectrum;
-					spectrum = [[[document mainWindowController] getSpectrumForPeak:peak] normalizedSpectrum];
-				
-					if ([combinedPeak valueForKey:@"spectrum"]) {
-						scoreResult  = [spectrum scoreComparedToSpectrum:[combinedPeak valueForKey:@"spectrum"]];
-						if (scoreResult > 80) {
-							if (scoreResult > maxScoreResult) {
-								knownCombinedPeak = YES;
-								knownCombinedPeakIndex = k;						
-								unknownCompound = YES;
-							}
+					spectrum = [[[document dataModel] getSpectrumForPeak:peak] normalizedSpectrum];
+					scoreResult  = [spectrum scoreComparedToSpectrum:[combinedPeak valueForKey:@"spectrum"]];
+					if (scoreResult > 70) {
+						if (scoreResult > maxScoreResult) {
+							maxScoreResult = scoreResult;
+							isKnownCombinedPeak = YES;
+							knownCombinedPeakIndex = k;						
 						}
 					}
 				}
 			}
-			if (!knownCombinedPeak) {
-				if (!unknownCompound) {
-					NSMutableDictionary *combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:peakName, @"label", peak, [NSString stringWithFormat:@"file_%d",i], nil];
-					[combinedPeaks addObject:combinedPeak];	
-					[combinedPeak release];
+
+		}
+		if (maxScoreResult > 70 ){
+			isKnownCombinedPeak = YES;
+		}
+		if (!isKnownCombinedPeak) {
+			if (!isUnknownCompound) {
+				combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:peakName, @"label", peak, [NSString stringWithFormat:@"file_%d",index], [peak topTime], @"topTime", [[[document dataModel] getSpectrumForPeak:peak] normalizedSpectrum], @"spectrum", nil];
+				[peakToAddToCombinedPeaks addObject:combinedPeak];	
+				[combinedPeak release];
+			} else {
+				combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:NSLocalizedString(@"Unknown compound %d ",@"Unknown compounds in stats summary."), unknownCount], @"label", peak, [NSString stringWithFormat:@"file_%d",index], [peak topTime], @"topTime", [[[document dataModel] getSpectrumForPeak:peak] normalizedSpectrum], @"spectrum", nil];
+				//NSLog(@"%@", [combinedPeak description]);
+				[peakToAddToCombinedPeaks addObject:combinedPeak];
+				[combinedPeak release];
+				unknownCount++;
+			}
+		} else {
+			combinedPeak = [combinedPeaks objectAtIndex:knownCombinedPeakIndex];
+			if ([combinedPeak objectForKey:[NSString stringWithFormat:@"file_%d",index]]) {
+				
+				if ([[combinedPeak objectForKey:[NSString stringWithFormat:@"maxScoreResult_%d",index]] floatValue] < maxScoreResult) {
+					[combinedPeak setObject:peak forKey:[NSString stringWithFormat:@"file_%d",index]];		
+					[combinedPeak setObject:[NSNumber numberWithFloat:maxScoreResult] forKey:[NSString stringWithFormat:@"maxScoreResult_%d",index]];		
+
 				} else {
-					NSMutableDictionary *combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:NSLocalizedString(@"Unknown compound",@"Unknown compounds in stats summary."), @"label", peak, [NSString stringWithFormat:@"file_%d",i],
-					   [[[document mainWindowController] getSpectrumForPeak:peak] normalizedSpectrum], @"spectrum", nil];
-					[combinedPeaks addObject:combinedPeak];
-					[combinedPeak release];
+					//JKLogError(@"Peak matching peak '%@' encountered and ignored in file %d: %@",[combinedPeak valueForKey:@"label"], index, [document displayName]);
+
 				}
 			} else {
-				combinedPeak = [combinedPeaks objectAtIndex:knownCombinedPeakIndex];
-				[combinedPeak setObject:peak forKey:[NSString stringWithFormat:@"file_%d",i]];		
-			}
-		} 	
-		//[NSString stringWithFormat:@"file_%d",i]
-		NSTableColumn *tableColumn = [[NSTableColumn alloc] init];
-		[tableColumn setIdentifier:document];
-		[[tableColumn headerCell] setStringValue:[document displayName]];
-		NSString *keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.normalizedSurface",[NSString stringWithFormat:@"file_%d",i]];
-		[tableColumn bind:@"value" toObject:combinedPeaksController withKeyPath:keyPath options:nil];
-		[[tableColumn dataCell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
-		NSNumberFormatter *formatter = [[[NSNumberFormatter alloc] init] autorelease];
-		[formatter setFormatterBehavior:NSNumberFormatterDecimalStyle];
-		[formatter setPositiveFormat:@"#0.0"];
-		[formatter setLocalizesFormat:YES];
-		[[tableColumn dataCell] setFormatter:formatter];
-		[[tableColumn dataCell] setAlignment:NSRightTextAlignment];
-		[tableColumn setEditable:NO];
-		[resultsTable addTableColumn:tableColumn];
-		[tableColumn release];
-	}
+				[combinedPeak setObject:peak forKey:[NSString stringWithFormat:@"file_%d",index]];		
+				[combinedPeak setObject:[NSNumber numberWithFloat:maxScoreResult] forKey:[NSString stringWithFormat:@"maxScoreResult_%d",index]];		
 
+			}
+			
+		}
+	} 	
+	
+	[combinedPeaks addObjectsFromArray:peakToAddToCombinedPeaks];
+	[peakToAddToCombinedPeaks release];
+	
+	JKLogInfo(@"File %d: %@; time: %.2g s; peaks: %d; peaks comp.: %d; comb. peaks: %d; speed: %.f peaks/s",index, [document displayName], -[date timeIntervalSinceNow], peaksCount, peaksCompared, [combinedPeaks count], peaksCompared/-[date timeIntervalSinceNow]);
+	
+	NSTableColumn *tableColumn = [[NSTableColumn alloc] init];
+	[tableColumn setIdentifier:document];
+	[[tableColumn headerCell] setStringValue:[document displayName]];
+	NSString *keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.normalizedSurface",[NSString stringWithFormat:@"file_%d",index]];
+	[tableColumn bind:@"value" toObject:combinedPeaksController withKeyPath:keyPath options:nil];
+	[[tableColumn dataCell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+	NSNumberFormatter *formatter = [[[NSNumberFormatter alloc] init] autorelease];
+	[formatter setFormatterBehavior:NSNumberFormatterDecimalStyle];
+	[formatter setPositiveFormat:@"#0.0"];
+	[formatter setLocalizesFormat:YES];
+	[[tableColumn dataCell] setFormatter:formatter];
+	[[tableColumn dataCell] setAlignment:NSRightTextAlignment];
+	[tableColumn setEditable:NO];
+	[resultsTable addTableColumn:tableColumn];
+	[tableColumn release];
+	
+	[subPool release];
+}
+
+-(void)sortCombinedPeaks{
+	NSMutableDictionary *combinedPeak;
 	NSString *key;
-//	JKPeakRecord *peak;
+	JKPeakRecord *peak;
 	NSEnumerator *peaksEnumerator;
-	int count;
+	int i, count, combinedPeaksCount;
 	float averageRetentionTime, averageSurface, averageHeigth;
+	int filesCount = [files count];
 	
 	combinedPeaksCount = [combinedPeaks count];
 	for (i = 0; i < combinedPeaksCount; i++) {
@@ -351,76 +600,134 @@
 		// Calculate stdev?
 	}
 	NSSortDescriptor *retentionTimeDescriptor =[[NSSortDescriptor alloc] initWithKey:@"averageRetentionTime" 
-													ascending:YES];
-//	firstNameDescriptor=[[[NSSortDescriptor alloc] initWithKey:@"firstName" 
-//													 ascending:YES
-//													  selector:@selector(caseInsensitiveCompare:)] autorelease];
+																		   ascending:YES];
 	NSArray *sortDescriptors=[NSArray arrayWithObjects:retentionTimeDescriptor,nil];
 	[combinedPeaks sortUsingDescriptors:sortDescriptors];
-	[self didChangeValueForKey:@"combinedPeaks"];
 	[retentionTimeDescriptor release];
+	
 	return;
 }
 
+
+//-(void)sortColumns {
+//	NSArray *tableColumns = [metadataTable tableColumns];
+//	NSEnumerator *enumerator = [tableColumns objectEnumerator];
+//	id object;
+//	
+//	while (object = [enumerator nextObject]) {
+//    // do something with object...
+//		if ([[tableColumn infoForBinding:@"value"] valueForKey:NSObservedKeyPathKey]
+//	}	return;
+//}
 -(IBAction)exportSummary:(id)sender {
-	JKLogWarning(@"WARNING: Future not yet implemetend");
-//	[combinedPeaks writeToFile:<#(NSString *)path#> atomically:<#(BOOL)useAuxiliaryFile#>
+	NSSavePanel *sp;
+	int runResult;
+	
+	/* create or get the shared instance of NSSavePanel */
+	sp = [NSSavePanel savePanel];
+	
+	/* set up new attributes */
+	[sp setRequiredFileType:@"txt"];
+	
+	/* display the NSSavePanel */
+	runResult = [sp runModalForDirectory:nil file:@""];
+	
+	/* if successful, save file under designated name */
+	if (runResult == NSOKButton) {
+		NSMutableString *outStr = [[NSMutableString alloc] init]; 
+		int i,j;
+		int fileCount = [[[self metadata] objectAtIndex:0] count]-1;
+		int compoundCount = [combinedPeaks count];
+		NSString *normalizedHeight;
+		
+		[outStr appendString:@"Sample code"];
+		for (i=0; i < fileCount; i++) {
+			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]] ];
+		}
+		[outStr appendString:@"\n"];
+
+		[outStr appendString:@"Sample description"];
+		for (i=0; i < fileCount; i++) {
+			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:1] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+		}
+		[outStr appendString:@"\n"];
+		
+		[outStr appendString:@"File path"];
+		for (i=0; i < fileCount; i++) {
+			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+		}
+		[outStr appendString:@"\n"];
+		
+		[outStr appendString:@"\nNormalized surface\n"];
+		for (j=0; j < compoundCount; j++) {
+			[outStr appendFormat:@"%@", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"label"]];
+			for (i=0; i < fileCount; i++) {
+				normalizedHeight = [[[[self combinedPeaks] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"normalizedSurface"];
+				if (normalizedHeight) {
+					[outStr appendFormat:@"\t%@", normalizedHeight];					
+				} else {
+					[outStr appendString:@"\t-"];										
+				}
+			}
+			[outStr appendString:@"\n"];
+		}
+		
+//		int ratiosCount = [ratios count];
+//		[outStr appendString:@"\nRatios\n"];
+//		for (j=0; j < ratiosCount; j++) {
+//			[outStr appendFormat:@"%@", [[[self ratios] objectAtIndex:j] valueForKey:@"name"]];
+//			for (i=0; i < fileCount; i++) {
+//				[outStr appendFormat:@"\t%@", [[[[self ratioValues] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"ratioResult"]];
+//			}
+//			[outStr appendString:@"\n"];
+//		}
+		
+		if (![outStr writeToFile:[sp filename] atomically:YES])
+			NSBeep();
+	}
 }
--(void)calculateRatios {
-	int i,j;
-	int filesCount, ratiosCount;
+
+-(void)calculateRatiosForDocument:(JKMainDocument *)document atIndex:(int)index {
+	int j;
+	int ratiosCount;
 	float result;
-	NSArray *files;
-	JKMainDocument *document;
 	NSMutableDictionary *mutDict;
 	NSString *keyPath;
 
-	files = [[NSArray arrayWithArray:[[NSDocumentController sharedDocumentController] documents]] sortedArrayUsingSelector:@selector(metadataCompare:)];
-	filesCount = [files count];
-	
-	int columnCount = [ratiosTable numberOfColumns];
-	for (i = columnCount-1; i > 0; i--) {
-		[ratiosTable removeTableColumn:[[ratiosTable tableColumns] objectAtIndex:i]];
-	} 
-
 	[self willChangeValueForKey:@"ratioValues"];
-	[ratioValues removeAllObjects];
-	for (i=0; i < filesCount; i++) {
-		document = [files objectAtIndex:i];
-		ratiosCount = [ratios count];
-		
-		for (j=0; j < ratiosCount; j++) {
-			if (i == 0) {
-				mutDict = [[NSDictionary alloc] initWithObjectsAndKeys:[[ratios objectAtIndex:j] valueForKey:@"name"], @"name", nil];
-				[ratioValues addObject:mutDict];
-				[mutDict release];
-			} else {
-				mutDict = [ratioValues objectAtIndex:j];
-			}
-			result = 0.0;
-			result = [[ratios objectAtIndex:j] calculateRatioForKey:[NSString stringWithFormat:@"file_%d",i] inCombinedPeaksArray:combinedPeaks];
-			keyPath = [NSString stringWithFormat:@"%@.ratioResult",[NSString stringWithFormat:@"file_%d",i]];
-			[mutDict setValue:[NSNumber numberWithFloat:result] forKey:keyPath];
+	ratiosCount = [ratios count];
+	
+	for (j=0; j < ratiosCount; j++) {
+		if (index == 0) {
+			mutDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[[ratios objectAtIndex:j] valueForKey:@"name"], @"name", nil];
+			[ratioValues addObject:mutDict];
+			[mutDict release];
+		} else {
+			mutDict = [ratioValues objectAtIndex:j];
 		}
-				
-		NSTableColumn *tableColumn = [[NSTableColumn alloc] init];
-		[tableColumn setIdentifier:document];
-		[[tableColumn headerCell] setStringValue:[document displayName]];
-		keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.ratioResult",[NSString stringWithFormat:@"file_%d",i]];
-		[tableColumn bind:@"value" toObject:ratiosValuesController withKeyPath:keyPath options:nil];
-		[[tableColumn dataCell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
-		NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-		[formatter setFormatterBehavior:NSNumberFormatterPercentStyle];
-		[formatter setPositiveFormat:@"#0.0 %"];
-		[formatter setLocalizesFormat:YES];
-		[[tableColumn dataCell] setFormatter:formatter];
-		[formatter release];
-		[[tableColumn dataCell] setAlignment:NSRightTextAlignment];
-		[tableColumn setEditable:NO];
-		[ratiosTable addTableColumn:tableColumn];
-		[tableColumn release];
+		result = 0.0;
+		result = [[ratios objectAtIndex:j] calculateRatioForKey:[NSString stringWithFormat:@"file_%d",index] inCombinedPeaksArray:combinedPeaks];
+		keyPath = [NSString stringWithFormat:@"%@.ratioResult",[NSString stringWithFormat:@"file_%d",index]];
+		[mutDict setValue:[NSNumber numberWithFloat:result] forKey:keyPath];
 	}
-	[self didChangeValueForKey:@"ratioValues"];
+			
+	NSTableColumn *tableColumn = [[NSTableColumn alloc] init];
+	[tableColumn setIdentifier:document];
+	[[tableColumn headerCell] setStringValue:[document displayName]];
+	keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.ratioResult",[NSString stringWithFormat:@"file_%d",index]];
+	[tableColumn bind:@"value" toObject:ratiosValuesController withKeyPath:keyPath options:nil];
+	[[tableColumn dataCell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+	NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+	[formatter setFormatterBehavior:NSNumberFormatterPercentStyle];
+	[formatter setPositiveFormat:@"#0.0 %"];
+	[formatter setLocalizesFormat:YES];
+	[[tableColumn dataCell] setFormatter:formatter];
+	[formatter release];
+	[[tableColumn dataCell] setAlignment:NSRightTextAlignment];
+	[tableColumn setEditable:NO];
+	[ratiosTable addTableColumn:tableColumn];
+	[tableColumn release];
+
 	return;
 }
 
@@ -572,8 +879,78 @@
 	return;
 }
 
+#pragma mark ACCESSORS
+
 idAccessor(combinedPeaks, setCombinedPeaks);
 idAccessor(ratioValues, setRatioValues);
 idAccessor(ratios, setRatios);
+idAccessor(metadata, setMetadata);
+idAccessor(files, setFiles);
+boolAccessor(abortAction, setAbortAction);
 
+#pragma mark WINDOW MANAGEMENT
+
+-(void)awakeFromNib {
+    [[self window] center];
+}
+
+//- (NSDragOperation)tableView:(NSTableView*)tv 
+//				validateDrop:(id <NSDraggingInfo>)info 
+//				 proposedRow:(int)row 
+//	   proposedDropOperation:(NSTableViewDropOperation)op {
+//	
+//	// This method is used by NSTableView to determine a valid drop target. 
+//	// Based on the mouse position, the table view will suggest a proposed drop location.  
+//	//This method must return a value that indicates which dragging 
+//	// operation the data source will perform.  
+//	// The data source may "re-target" a drop if desired by calling 
+//	// setDropRow:dropOperation: and returning something other than 
+//	// NSDragOperationNone.  
+//	// One may choose to re-target for various reasons (eg. for better visual 
+//	// feedback when inserting into a sorted position).
+//	
+//	
+//	return NSDragOperationGeneric;
+//}
+//
+//- (BOOL)tableView:(NSTableView*)tv 
+//	   acceptDrop:(id <NSDraggingInfo>)info 
+//			  row:(int)row 
+//	dropOperation:(NSTableViewDropOperation)op {
+//	
+//	// This method is called when the mouse is released over a table view
+//	// that previously decided to allow a drop via the validateDrop method.
+//	//  The data source should incorporate the data from the dragging pasteboard at this time.
+//	// Look for our private type for reordering rows.
+//	NSString *type = [[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
+//	
+//	if ([type isEqualToString:NSFilenamesPboardType])
+//	{
+//		NSData *archivedRowData = [[info draggingPasteboard] dataForType:NSFilenamesPboardType];
+//		NSArray *rows = [NSUnarchiver unarchiveObjectWithData:archivedRowData];
+//		NSMutableArray *movedRows = [NSMutableArray arrayWithCapacity:[rows count]];
+//		NSEnumerator *theEnum = [rows objectEnumerator];
+//		id theRowNumber;
+//		
+//		// First collect up all the selected rows, then put null where it was in the array
+//		while (nil != (theRowNumber = [theEnum nextObject]) )
+//		{
+//			int row = [theRowNumber intValue];
+//			[movedRows addObject:[files objectAtIndex:row]];
+//			[files replaceObjectAtIndex:row withObject:[NSNull null]];
+//		}
+//		NSLog([movedRows description]);
+//		// Then insert these data rows into the array
+//		[files replaceObjectsInRange:NSMakeRange(row, 0) withObjectsFromArray:movedRows];
+//		
+//		// Now, remove the NSNull placeholders
+//		[files removeObjectIdenticalTo:[NSNull null]];
+//		
+//		// And refresh the table.  (Ideally, we should turn off any column highlighting)
+//		[filesTableView deselectAll:nil];
+//		[filesTableView reloadData];
+//		
+//	}
+//	return YES;
+//}
 @end

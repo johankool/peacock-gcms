@@ -9,7 +9,7 @@
 #import "JKBatchProcessWindowController.h"
 #import "JKMainDocument.h"
 #import "JKMainWindowController.h"
-//#import "Growl/GrowlApplicationBridge.h"
+#import "Growl/GrowlApplicationBridge.h"
 
 @implementation JKBatchProcessWindowController
 
@@ -28,15 +28,17 @@
 }
 
 #pragma mark IBACTIONS
+
 -(IBAction)addButtonAction:(id)sender {
-	int result;
-    NSArray *fileTypes = [NSArray arrayWithObjects:@"cdf", @"peacock",nil];
+	NSArray *fileTypes = [NSArray arrayWithObjects:@"cdf", @"peacock",nil];
     NSOpenPanel *oPanel = [NSOpenPanel openPanel];
     [oPanel setAllowsMultipleSelection:YES];
-    result = [oPanel runModalForDirectory:nil
-									 file:nil types:fileTypes];
-    if (result == NSOKButton) {
-        NSArray *filesToOpen = [oPanel filenames];
+	[oPanel beginSheetForDirectory:nil file:nil types:fileTypes modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+-(void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
+    if (returnCode == NSOKButton) {
+        NSArray *filesToOpen = [sheet filenames];
         int i, count = [filesToOpen count];
         for (i=0; i<count; i++) {
             NSString *aFile = [filesToOpen objectAtIndex:i];
@@ -109,7 +111,7 @@
 		if ([self abortAction]) {
 			break;
 		}		
-		if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"batchDeleteCurrentPeaksFirst"] boolValue]) {
+		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchDeleteCurrentPeaksFirst"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Deleting Current Peaks",@"")];
 			[[[[document mainWindowController] peakController] content] removeAllObjects];
 			[fileProgressIndicator incrementBy:1.0];
@@ -117,7 +119,7 @@
 		if ([self abortAction]) {
 			break;
 		}		
-		if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"batchIdentifyPeaks"] boolValue]) {
+		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchIdentifyPeaks"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Identifying Peaks",@"")];
 			[[document mainWindowController] identifyPeaks:self];
 			[fileProgressIndicator incrementBy:1.0];
@@ -125,7 +127,7 @@
 		if ([self abortAction]) {
 			break;
 		}		
-		if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"batchRunAutoPilot"] boolValue]) {
+		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchRunAutoPilot"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Identifying Compounds",@"")];
 			[[document mainWindowController] autopilot];
 			[fileProgressIndicator incrementBy:1.0];
@@ -133,7 +135,7 @@
 		if ([self abortAction]) {
 			break;
 		}		
-		if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"batchSaveAsPeacockFile"] boolValue]) {
+		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchSaveAsPeacockFile"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Saving Peacock File",@"")];
 			path = [[[files objectAtIndex:i] valueForKey:@"path"] stringByDeletingPathExtension];
 			path = [path stringByAppendingPathExtension:@"peacock"];
@@ -146,11 +148,11 @@
 		if ([self abortAction]) {
 			break;
 		}		
-		if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"batchSaveAsTabDelimitedTextFile"] boolValue]) {
+		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchSaveAsTabDelimitedTextFile"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Saving Tab Delimited Text File",@"")];
 			path = [[[files objectAtIndex:i] valueForKey:@"path"] stringByDeletingPathExtension];
 			path = [path stringByAppendingPathExtension:@"txt"];
-			int selectedTag = [[[NSUserDefaults standardUserDefaults] valueForKey:@"batchShowPeaksTextTag"] intValue];
+			int selectedTag = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchShowPeaksTextTag"] intValue];
 			if (selectedTag == 1) {
 				[[[document mainWindowController] peakController] setFilterPredicate:[NSPredicate predicateWithFormat:@"identified == YES"]];
 			} else if (selectedTag == 2) {
@@ -171,11 +173,11 @@
 		if ([self abortAction]) {
 			break;
 		}		
-		if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"batchSaveAsPDF"] boolValue]) {
+		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchSaveAsPDF"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Saving PDF File",@"")];
 			path = [[[files objectAtIndex:i] valueForKey:@"path"] stringByDeletingPathExtension];
 			path = [path stringByAppendingPathExtension:@"pdf"];
-			int selectedTag = [[[NSUserDefaults standardUserDefaults] valueForKey:@"batchShowPeaksPDFTag"] intValue];
+			int selectedTag = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchShowPeaksPDFTag"] intValue];
 			if (selectedTag == 1) {
 				[[[document mainWindowController] peakController] setFilterPredicate:[NSPredicate predicateWithFormat:@"identified == YES"]];
 			} else if (selectedTag == 2) {
@@ -198,7 +200,7 @@
 		if ([self abortAction]) {
 			break;
 		}		
-		if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"batchCloseDocument"] boolValue]) {
+		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchCloseDocument"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Closing Document",@"")];
 			[document close];
 			[fileProgressIndicator incrementBy:1.0];
@@ -215,7 +217,7 @@
 	// This way we don't get bolded text!
 	[NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];
 	
-	//[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Batch Process Finished",@"") description:NSLocalizedString(@"Peacock finished processing your data.",@"") notificationName:@"Batch Process Finished" iconData:nil priority:0 isSticky:NO clickContext:nil];
+	[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Batch Process Finished",@"") description:NSLocalizedString(@"Peacock finished processing your data.",@"") notificationName:@"Batch Process Finished" iconData:nil priority:0 isSticky:NO clickContext:nil];
 	
 	if (errorOccurred) {
 		NSRunCriticalAlertPanel(NSLocalizedString(@"Error(s) during batch processing",@""),NSLocalizedString(@"One or more errors occurred during batch processing your files. The console.log available from the Console application contains more details about the error. Common errors include files moved after being added to the list and full disks.",@""),NSLocalizedString(@"OK",@""),nil,nil);

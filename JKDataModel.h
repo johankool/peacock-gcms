@@ -7,6 +7,8 @@
 //
 
 @class ChromatogramGraphDataSerie;
+@class JKSpectrum;
+@class JKPeakRecord;
 
 @interface JKDataModel : NSObject {
     int ncid;
@@ -36,6 +38,7 @@
 //-(void)getChromatogramData;
 -(void)getBaselineData;
 -(ChromatogramGraphDataSerie *)chromatogramForMass:(NSString *)inString;
+-(JKSpectrum *)getSpectrumForPeak:(JKPeakRecord *)peak;
 
 #pragma mark ACCESSORS
 -(void)setNcid:(int)inValue;

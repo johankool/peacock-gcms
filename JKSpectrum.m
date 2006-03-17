@@ -179,9 +179,9 @@
 
 -(float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry {
 #warning Fails when not set...
-	int formulaChoosen = [[[NSUserDefaults standardUserDefaults] valueForKey:@"scoreBasis"] intValue];
-	JKLogDebug(@"formulaChoosen = %d", formulaChoosen);
-	BOOL penalizeForRetentionIndex = [[[NSUserDefaults standardUserDefaults] valueForKey:@"retentionIndexPenalty"] boolValue];
+	int formulaChoosen = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"scoreBasis"] intValue];
+//	JKLogDebug(@"formulaChoosen = %d", formulaChoosen);
+	BOOL penalizeForRetentionIndex = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexPenalty"] boolValue];
 	
 	int i,j,k,count1,count2;
 	float score, score2, score3, maxIntensityLibraryEntry, maxIntensitySpectrum;
@@ -332,8 +332,8 @@
 
 -(float)observedRetentionIndex {
 	float observedRetentionIndex;
-	float retentionIndexSlope	  = [[[NSUserDefaults standardUserDefaults] valueForKey:@"retentionIndexSlope"] floatValue];//  = 72.742; //= [[[self document] model] retentionIndexSlope]; 
-	float retentionIndexRemainder = [[[NSUserDefaults standardUserDefaults] valueForKey:@"retentionIndexRemainder"] floatValue];// =  178.44; //= [[[self document] model] retentionIndexRemainder];
+	float retentionIndexSlope	  = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexSlope"] floatValue];//  = 72.742; //= [[[self document] model] retentionIndexSlope]; 
+	float retentionIndexRemainder = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexRemainder"] floatValue];// =  178.44; //= [[[self document] model] retentionIndexRemainder];
 	
 	observedRetentionIndex = [self retentionTime] * retentionIndexSlope + retentionIndexRemainder;
 	

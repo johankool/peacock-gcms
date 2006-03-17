@@ -26,7 +26,9 @@
 -(NSArray *)compoundsInString:(NSString *)string;
 -(NSArray *)nominatorArray;
 -(NSArray *)denominatorArray;
-
-idAccessor_h(name, setName);
+-(NSString *)formula;
+-(void)setFormula:(NSString *)inValue;
+-(NSString *)name;
+-(void)setName:(NSString *)inValue;
 
 @end

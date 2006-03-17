@@ -23,6 +23,10 @@
 //    [self setKeys:[NSArray arrayWithObjects:@"start",@"end",@"baselineL",@"baselineR",nil] triggerChangeNotificationsForDependentKey:@"surface"];
 }
 
+-(NSString *)description {
+	return [NSString stringWithFormat:@"JKPeakRecord: %@ (top: %f)", [self label], [[self topTime] floatValue]];
+}
+
 -(id)init {
 	if (self = [super init]) {
 		// Set so it ain't nil?

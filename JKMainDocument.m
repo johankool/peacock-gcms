@@ -203,7 +203,7 @@ NSString *const JKMainDocument_DocumentLoadedNotification = @"JKMainDocument_Doc
 }
 
 -(NSComparisonResult)metadataCompare:(JKMainDocument *)otherDocument {
-	int metadataChoosen = [[[NSUserDefaults standardUserDefaults] valueForKey:@"columnSorting"] intValue];
+	int metadataChoosen = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"columnSorting"] intValue];
 
 	switch (metadataChoosen) {
 	case 1: // samplecode
