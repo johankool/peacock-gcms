@@ -8,6 +8,7 @@
 
 #import "JKStatisticsWindowController.h"
 #import "JKMainDocument.h"
+#import "JKMainWindowController.h"
 #import "JKPeakRecord.h"
 #import "JKRatio.h"
 #import "JKDataModel.h"
@@ -80,6 +81,10 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[resultsTable superview]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[ratiosTable superview]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[metadataTable superview]];
+	if ([combinedPeaks count] > 0) {
+		[summaryWindow makeKeyAndOrderFront:self];
+	}
+		
 }
 
 #pragma mark IBACTIONS
@@ -140,13 +145,26 @@
 		// Ugliest code ever! note that keyPath depends on the binding, so if we bind to something else e.g. height, this will fail!
 		JKMainDocument *document;
 	//	[[[[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] identifier] mainWindowController] window] makeKeyAndOrderFront:self];
-		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-1]]] display:YES error:&error];
+		NSURL *url = [NSURL fileURLWithPath:[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-1]]];
+		document = [[NSDocumentController sharedDocumentController] documentForURL:url];
+		if (!document) {
+			document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:url display:YES error:&error];
+		}
+		[[[document mainWindowController] window] makeKeyAndOrderFront:self];
 		NSString *keyPath = [[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] infoForBinding:@"value"] valueForKey:NSObservedKeyPathKey];
 		keyPath = [keyPath substringWithRange:NSMakeRange(16,[keyPath length]-18-16)];
 		// Check that we don't look for an empty cell
-		if ([[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]) {
-			[[[document mainWindowController] peakController] setSelectedObjects:[NSArray arrayWithObject:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]]];
-		}
+		int index = [[[[document mainWindowController] peakController] arrangedObjects] indexOfObjectIdenticalTo:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]];
+		[[[document mainWindowController] peakController] setSelectionIndex:index];
+//
+//		if ([[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]) {
+//			NSLog(@"%@",[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]);
+//			if(![[[document mainWindowController] peakController] setSelectedObjects:[NSArray arrayWithObject:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]]]){
+//				NSLog(@"selection didn't change");
+//			}
+//			NSLog(@"%@", [[[document mainWindowController] peakController] selectedObjects]);
+//			
+//		}
 	}
 }
 
@@ -953,4 +971,28 @@ boolAccessor(abortAction, setAbortAction);
 //	}
 //	return YES;
 //}
+
+-(void)encodeWithCoder:(NSCoder *)coder
+{
+    if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
+		[coder encodeObject:combinedPeaks forKey:@"combinedPeaks"];
+		[coder encodeObject:ratioValues forKey:@"ratioValues"];
+		[coder encodeObject:metadata forKey:@"metadata"];
+		[coder encodeObject:files forKey:@"files"];
+    } 
+    return;
+}
+
+- (id)initWithCoder:(NSCoder *)coder
+{
+    if ( [coder allowsKeyedCoding] ) {
+        // Can decode keys in any order
+		combinedPeaks = [[coder decodeObjectForKey:@"combinedPeaks"] retain];
+		ratioValues = [[coder decodeObjectForKey:@"ratioValues"] retain];
+        metadata = [[coder decodeObjectForKey:@"metadata"] retain];
+        files = [[coder decodeObjectForKey:@"files"] retain];
+      } 
+    return self;
+}
+
 @end

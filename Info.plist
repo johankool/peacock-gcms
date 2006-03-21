@@ -9,6 +9,24 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>peacock-stats</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>PEACOCK</string>
+			<key>CFBundleTypeName</key>
+			<string>Peacock Statistics File</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>JKStatisticsDocument</string>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>XML</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
 				<string>jdx</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
@@ -105,7 +123,7 @@
 	<key>CFBundleExecutable</key>
 	<string>Peacock</string>
 	<key>CFBundleGetInfoString</key>
-	<string>0.1.3 Copyright © 2003-2006 Johan Kool ea</string>
+	<string>0.1.4 Copyright © 2003-2006 Johan Kool ea</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>Peacock Help</string>
 	<key>CFBundleHelpBookName</key>
@@ -121,13 +139,13 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1.3</string>
+	<string>0.1.4</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array/>
 	<key>CFBundleVersion</key>
-	<string>0.1.3</string>
+	<string>0.1.4</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.4.4</string>
 	<key>NSMainNibFile</key>
@@ -138,6 +156,10 @@
 	<string>http://www.geo.vu.nl/~jkool/peacock/peacock.xml</string>
 	<key>SUScheduledCheckInterval</key>
 	<integer>86400</integer>
+	<key>SUCheckAtStartup</key>
+	<false />
+	<key>SUAllowsAutomaticUpdates</key>
+	<false />
 	<key>SmartCrashReports_CommentsTemplate</key>
 	<string>Please include your e-mail address if you wish to be contacted in regard to this crash.</string>
 	<key>SmartCrashReports_CompanyName</key>

@@ -33,19 +33,16 @@
 		C7713B430950368F00653D2A /* JKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */; };
 		C773669808E02D87002B72F1 /* ChromatogramGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */; };
 		C773669908E02D88002B72F1 /* SpectrumGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */; };
-		C77C56FC097FF5AC002E7796 /* NSString+extras.h in Headers */ = {isa = PBXBuildFile; fileRef = C77C56F5097FF5AC002E7796 /* NSString+extras.h */; };
-		C77C56FD097FF5AC002E7796 /* NSString+extras.m in Sources */ = {isa = PBXBuildFile; fileRef = C77C56F6097FF5AC002E7796 /* NSString+extras.m */; };
-		C77C56FE097FF5AC002E7796 /* RSS.h in Headers */ = {isa = PBXBuildFile; fileRef = C77C56F7097FF5AC002E7796 /* RSS.h */; };
-		C77C56FF097FF5AC002E7796 /* RSS.m in Sources */ = {isa = PBXBuildFile; fileRef = C77C56F8097FF5AC002E7796 /* RSS.m */; };
-		C77C5700097FF5AC002E7796 /* Sparkle.strings in Resources */ = {isa = PBXBuildFile; fileRef = C77C56F9097FF5AC002E7796 /* Sparkle.strings */; };
-		C77C5701097FF5AC002E7796 /* SUUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = C77C56FA097FF5AC002E7796 /* SUUpdater.h */; };
-		C77C5702097FF5AC002E7796 /* SUUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = C77C56FB097FF5AC002E7796 /* SUUpdater.m */; };
 		C77C585A09801145002E7796 /* Peacock Help in Resources */ = {isa = PBXBuildFile; fileRef = C77C582F09800FAD002E7796 /* Peacock Help */; };
 		C7834D1B0941ED37005431CD /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D1A0941ED37005431CD /* Carbon.framework */; };
 		C7834D3D0941ED5C005431CD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D3C0941ED5C005431CD /* CoreFoundation.framework */; };
 		C7834D440941ED7A005431CD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D430941ED7A005431CD /* Security.framework */; };
 		C7834D4A0941EDAF005431CD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D490941EDAF005431CD /* libz.dylib */; };
 		C7858FEA0951E9990083EC22 /* JKStatisticalAnalysis.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7858FE90951E9990083EC22 /* JKStatisticalAnalysis.nib */; };
+		C78599A209CDBBAD00351C87 /* JKStatisticsDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = C78599A009CDBBAD00351C87 /* JKStatisticsDocument.h */; };
+		C78599A309CDBBAD00351C87 /* JKStatisticsDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C78599A109CDBBAD00351C87 /* JKStatisticsDocument.m */; };
+		C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
+		C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C78F04F5097EA5210060E253 /* NSView+AMAnimationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C78F04F3097EA5210060E253 /* NSView+AMAnimationAdditions.h */; };
 		C78F04F6097EA5210060E253 /* NSView+AMAnimationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C78F04F4097EA5210060E253 /* NSView+AMAnimationAdditions.m */; };
 		C798C9EA08E17B5400C6C7D1 /* DeleteTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */; };
@@ -144,6 +141,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */,
 				C71D9FE9099CD291007EB10D /* Growl.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -196,6 +194,9 @@
 		C7858FE90951E9990083EC22 /* JKStatisticalAnalysis.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = JKStatisticalAnalysis.nib; sourceTree = SOURCE_ROOT; };
 		C785905409541F250083EC22 /* JKStatisticsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKStatisticsWindowController.h; sourceTree = "<group>"; };
 		C785905509541F250083EC22 /* JKStatisticsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKStatisticsWindowController.m; sourceTree = "<group>"; };
+		C78599A009CDBBAD00351C87 /* JKStatisticsDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKStatisticsDocument.h; sourceTree = "<group>"; };
+		C78599A109CDBBAD00351C87 /* JKStatisticsDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKStatisticsDocument.m; sourceTree = "<group>"; };
+		C7859A9909CEBCE900351C87 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		C78F04F3097EA5210060E253 /* NSView+AMAnimationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSView+AMAnimationAdditions.h"; sourceTree = "<group>"; };
 		C78F04F4097EA5210060E253 /* NSView+AMAnimationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSView+AMAnimationAdditions.m"; sourceTree = "<group>"; };
 		C798C9E808E17B5400C6C7D1 /* DeleteTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteTableView.h; sourceTree = "<group>"; };
@@ -325,6 +326,7 @@
 				C70DB7690957141800C2B386 /* AppKit.framework in Frameworks */,
 				C70DB76A0957141800C2B386 /* Foundation.framework in Frameworks */,
 				C71D9FCC099CD19D007EB10D /* Growl.framework in Frameworks */,
+				C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +343,7 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C7859A9909CEBCE900351C87 /* Sparkle.framework */,
 				C71D9FCB099CD19D007EB10D /* Growl.framework */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 				C7834D490941EDAF005431CD /* libz.dylib */,
@@ -469,6 +472,8 @@
 				C7EB17CF0898CF2E007FC2ED /* JKAppDelegate.m */,
 				C7EB17DA0898CF2E007FC2ED /* JKMainDocument.h */,
 				C7EB17DB0898CF2E007FC2ED /* JKMainDocument.m */,
+				C78599A009CDBBAD00351C87 /* JKStatisticsDocument.h */,
+				C78599A109CDBBAD00351C87 /* JKStatisticsDocument.m */,
 				C7EB17DC0898CF2E007FC2ED /* JKMainWindowController.h */,
 				C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */,
 				C7EB17E20898CF2F007FC2ED /* JKPeakIdentificationWindowController.h */,
@@ -650,11 +655,9 @@
 			files = (
 				C70DB7610957141800C2B386 /* netcdf.h in Headers */,
 				C78F04F5097EA5210060E253 /* NSView+AMAnimationAdditions.h in Headers */,
-				C77C56FC097FF5AC002E7796 /* NSString+extras.h in Headers */,
-				C77C56FE097FF5AC002E7796 /* RSS.h in Headers */,
-				C77C5701097FF5AC002E7796 /* SUUpdater.h in Headers */,
 				C7BC505309A62C930093106E /* JKLog.h in Headers */,
 				C7E4D31809C1C9E5007A1D3B /* JKSynchroScrollView.h in Headers */,
+				C78599A209CDBBAD00351C87 /* JKStatisticsDocument.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -806,7 +809,6 @@
 				C7713B36095029C200653D2A /* JKBatchProcess.nib in Resources */,
 				C7858FEA0951E9990083EC22 /* JKStatisticalAnalysis.nib in Resources */,
 				C70DC017095B201200C2B386 /* Localizable.strings in Resources */,
-				C77C5700097FF5AC002E7796 /* Sparkle.strings in Resources */,
 				C77C585A09801145002E7796 /* Peacock Help in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -872,11 +874,9 @@
 				C7B3159B0956CE610017ADDC /* JKStatisticsWindowController.m in Sources */,
 				C70DB8EE09573BEA00C2B386 /* JKRatio.m in Sources */,
 				C78F04F6097EA5210060E253 /* NSView+AMAnimationAdditions.m in Sources */,
-				C77C56FD097FF5AC002E7796 /* NSString+extras.m in Sources */,
-				C77C56FF097FF5AC002E7796 /* RSS.m in Sources */,
-				C77C5702097FF5AC002E7796 /* SUUpdater.m in Sources */,
 				C7BC505409A62C930093106E /* JKLog.m in Sources */,
 				C7E4D31909C1C9E5007A1D3B /* JKSynchroScrollView.m in Sources */,
+				C78599A309CDBBAD00351C87 /* JKStatisticsDocument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,7 +8,6 @@
 
 @class JKDataModel;
 @class JKMainWindowController;
-@class JKPeakIdentificationWindowController;
 
 extern NSString *const JKMainDocument_DocumentDeactivateNotification;
 extern NSString *const JKMainDocument_DocumentActivateNotification;

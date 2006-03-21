@@ -10,6 +10,7 @@
 #import "JKPanelController.h"
 //#import "SmartCrashReportsInstall.h"
 //#import <Growl/GrowlApplicationBridge.h>
+#import "JKLog.h"
 
 @implementation JKAppDelegate
 

@@ -177,7 +177,7 @@
 	return [self scoreComparedToLibraryEntry:inSpectrum];
 }
 
--(float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry {
+-(float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry { // Could be changed to id <protocol> to resolve warning
 #warning Fails when not set...
 	int formulaChoosen = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"scoreBasis"] intValue];
 //	JKLogDebug(@"formulaChoosen = %d", formulaChoosen);
@@ -340,5 +340,39 @@
 	return observedRetentionIndex;
 }
 
+#pragma mark Encoding
+
+-(void)encodeWithCoder:(NSCoder *)coder
+{
+    if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
+        [coder encodeInt:1 forKey:@"version"];
+        [coder encodeFloat:retentionTime forKey:@"retentionTime"];
+        [coder encodeInt:numberOfPoints forKey:@"numberOfPoints"];
+		[coder encodeBytes:(void *)masses length:numberOfPoints*sizeof(float) forKey:@"masses"];
+		[coder encodeBytes:(void *)intensities length:numberOfPoints*sizeof(float) forKey:@"intensities"];
+    } 
+    return;
+}
+
+- (id)initWithCoder:(NSCoder *)coder
+{
+    if ( [coder allowsKeyedCoding] ) {
+        // Can decode keys in any order
+        retentionTime = [coder decodeFloatForKey:@"retentionTime"];
+        numberOfPoints = [coder decodeIntForKey:@"numberOfPoints"];
+		
+		const uint8_t *temporary = NULL; //pointer to a temporary buffer returned by the decoder.
+		unsigned int length;
+		masses = (float *) malloc(1*sizeof(float));
+		intensities = (float *) malloc(1*sizeof(float));
+		
+		temporary	= [coder decodeBytesForKey:@"masses" returnedLength:&length];
+		[self setMasses:(float *)temporary withCount:numberOfPoints];
+		
+		temporary	= [coder decodeBytesForKey:@"intensities" returnedLength:&length];
+		[self setIntensities:(float *)temporary withCount:numberOfPoints];
+    } 
+    return self;
+}
 
 @end
