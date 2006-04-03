@@ -86,7 +86,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		[self setLegendFrameColor:[NSColor blackColor]];
 		
 		// Nu refreshen we ook als data van een andere instance van deze view veranderd!!!
-	//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"MyGraphDataSerieDidChangeNotification" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"MyGraphDataSerieDidChangeNotification" object:nil];
 		
 		// Observe changes for what values to draw
 		[self addObserver:self forKeyPath:@"keyForXValue" options:nil context:DataObservationContext];

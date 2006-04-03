@@ -26,9 +26,222 @@
 		C71D9FE9099CD291007EB10D /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C71D9FCB099CD19D007EB10D /* Growl.framework */; };
 		C72C8509098BE83600CEF565 /* JKSpectrumTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C8508098BE83600CEF565 /* JKSpectrumTest.m */; };
 		C72C85D7098BF1B800CEF565 /* JKGeneralTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C85D6098BF1B800CEF565 /* JKGeneralTesting.m */; };
+		C747B4A209DD437C004837D0 /* libgsl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C747B4A109DD437B004837D0 /* libgsl.a */; };
+		C747BD3409DD5B6B004837D0 /* gsl_blas.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC5F09DD5B6A004837D0 /* gsl_blas.h */; };
+		C747BD3509DD5B6B004837D0 /* gsl_blas_types.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC6009DD5B6A004837D0 /* gsl_blas_types.h */; };
+		C747BD3609DD5B6B004837D0 /* gsl_block.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC6109DD5B6A004837D0 /* gsl_block.h */; };
+		C747BD3709DD5B6B004837D0 /* gsl_block_char.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC6209DD5B6A004837D0 /* gsl_block_char.h */; };
+		C747BD3809DD5B6B004837D0 /* gsl_block_complex_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC6309DD5B6A004837D0 /* gsl_block_complex_double.h */; };
+		C747BD3909DD5B6B004837D0 /* gsl_block_complex_float.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC6409DD5B6A004837D0 /* gsl_block_complex_float.h */; };
+		C747BD3A09DD5B6B004837D0 /* gsl_block_complex_long_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC6509DD5B6A004837D0 /* gsl_block_complex_long_double.h */; };
+		C747BD3B09DD5B6B004837D0 /* gsl_block_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC6609DD5B6A004837D0 /* gsl_block_double.h */; };
+		C747BD3C09DD5B6B004837D0 /* gsl_block_float.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC6709DD5B6A004837D0 /* gsl_block_float.h */; };
+		C747BD3D09DD5B6B004837D0 /* gsl_block_int.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC6809DD5B6A004837D0 /* gsl_block_int.h */; };
+		C747BD3E09DD5B6B004837D0 /* gsl_block_long.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC6909DD5B6A004837D0 /* gsl_block_long.h */; };
+		C747BD3F09DD5B6B004837D0 /* gsl_block_long_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC6A09DD5B6A004837D0 /* gsl_block_long_double.h */; };
+		C747BD4009DD5B6B004837D0 /* gsl_block_short.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC6B09DD5B6A004837D0 /* gsl_block_short.h */; };
+		C747BD4109DD5B6B004837D0 /* gsl_block_uchar.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC6C09DD5B6A004837D0 /* gsl_block_uchar.h */; };
+		C747BD4209DD5B6B004837D0 /* gsl_block_uint.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC6D09DD5B6A004837D0 /* gsl_block_uint.h */; };
+		C747BD4309DD5B6B004837D0 /* gsl_block_ulong.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC6E09DD5B6A004837D0 /* gsl_block_ulong.h */; };
+		C747BD4409DD5B6B004837D0 /* gsl_block_ushort.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC6F09DD5B6A004837D0 /* gsl_block_ushort.h */; };
+		C747BD4509DD5B6B004837D0 /* gsl_cblas.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC7009DD5B6A004837D0 /* gsl_cblas.h */; };
+		C747BD4609DD5B6B004837D0 /* gsl_cdf.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC7109DD5B6A004837D0 /* gsl_cdf.h */; };
+		C747BD4709DD5B6B004837D0 /* gsl_chebyshev.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC7209DD5B6A004837D0 /* gsl_chebyshev.h */; };
+		C747BD4809DD5B6B004837D0 /* gsl_check_range.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC7309DD5B6A004837D0 /* gsl_check_range.h */; };
+		C747BD4909DD5B6B004837D0 /* gsl_combination.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC7409DD5B6A004837D0 /* gsl_combination.h */; };
+		C747BD4A09DD5B6B004837D0 /* gsl_complex.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC7509DD5B6A004837D0 /* gsl_complex.h */; };
+		C747BD4B09DD5B6B004837D0 /* gsl_complex_math.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC7609DD5B6A004837D0 /* gsl_complex_math.h */; };
+		C747BD4C09DD5B6B004837D0 /* gsl_const.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC7709DD5B6A004837D0 /* gsl_const.h */; };
+		C747BD4D09DD5B6B004837D0 /* gsl_const_cgs.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC7809DD5B6A004837D0 /* gsl_const_cgs.h */; };
+		C747BD4E09DD5B6B004837D0 /* gsl_const_cgsm.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC7909DD5B6A004837D0 /* gsl_const_cgsm.h */; };
+		C747BD4F09DD5B6B004837D0 /* gsl_const_mks.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC7A09DD5B6A004837D0 /* gsl_const_mks.h */; };
+		C747BD5009DD5B6B004837D0 /* gsl_const_mksa.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC7B09DD5B6A004837D0 /* gsl_const_mksa.h */; };
+		C747BD5109DD5B6B004837D0 /* gsl_const_num.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC7C09DD5B6A004837D0 /* gsl_const_num.h */; };
+		C747BD5209DD5B6B004837D0 /* gsl_deriv.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC7D09DD5B6A004837D0 /* gsl_deriv.h */; };
+		C747BD5309DD5B6B004837D0 /* gsl_dft_complex.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC7E09DD5B6A004837D0 /* gsl_dft_complex.h */; };
+		C747BD5409DD5B6B004837D0 /* gsl_dft_complex_float.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC7F09DD5B6A004837D0 /* gsl_dft_complex_float.h */; };
+		C747BD5509DD5B6B004837D0 /* gsl_dht.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC8009DD5B6A004837D0 /* gsl_dht.h */; };
+		C747BD5609DD5B6B004837D0 /* gsl_diff.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC8109DD5B6A004837D0 /* gsl_diff.h */; };
+		C747BD5709DD5B6B004837D0 /* gsl_eigen.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC8209DD5B6A004837D0 /* gsl_eigen.h */; };
+		C747BD5809DD5B6B004837D0 /* gsl_errno.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC8309DD5B6A004837D0 /* gsl_errno.h */; };
+		C747BD5909DD5B6B004837D0 /* gsl_fft.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC8409DD5B6A004837D0 /* gsl_fft.h */; };
+		C747BD5A09DD5B6B004837D0 /* gsl_fft_complex.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC8509DD5B6A004837D0 /* gsl_fft_complex.h */; };
+		C747BD5B09DD5B6B004837D0 /* gsl_fft_complex_float.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC8609DD5B6A004837D0 /* gsl_fft_complex_float.h */; };
+		C747BD5C09DD5B6B004837D0 /* gsl_fft_halfcomplex.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC8709DD5B6A004837D0 /* gsl_fft_halfcomplex.h */; };
+		C747BD5D09DD5B6B004837D0 /* gsl_fft_halfcomplex_float.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC8809DD5B6A004837D0 /* gsl_fft_halfcomplex_float.h */; };
+		C747BD5E09DD5B6B004837D0 /* gsl_fft_real.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC8909DD5B6A004837D0 /* gsl_fft_real.h */; };
+		C747BD5F09DD5B6B004837D0 /* gsl_fft_real_float.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC8A09DD5B6A004837D0 /* gsl_fft_real_float.h */; };
+		C747BD6009DD5B6B004837D0 /* gsl_fit.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC8B09DD5B6A004837D0 /* gsl_fit.h */; };
+		C747BD6109DD5B6B004837D0 /* gsl_heapsort.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC8C09DD5B6A004837D0 /* gsl_heapsort.h */; };
+		C747BD6209DD5B6B004837D0 /* gsl_histogram.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC8D09DD5B6A004837D0 /* gsl_histogram.h */; };
+		C747BD6309DD5B6B004837D0 /* gsl_histogram2d.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC8E09DD5B6A004837D0 /* gsl_histogram2d.h */; };
+		C747BD6409DD5B6B004837D0 /* gsl_ieee_utils.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC8F09DD5B6A004837D0 /* gsl_ieee_utils.h */; };
+		C747BD6509DD5B6B004837D0 /* gsl_integration.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC9009DD5B6A004837D0 /* gsl_integration.h */; };
+		C747BD6609DD5B6B004837D0 /* gsl_interp.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC9109DD5B6A004837D0 /* gsl_interp.h */; };
+		C747BD6709DD5B6B004837D0 /* gsl_linalg.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC9209DD5B6A004837D0 /* gsl_linalg.h */; };
+		C747BD6809DD5B6B004837D0 /* gsl_machine.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC9309DD5B6A004837D0 /* gsl_machine.h */; };
+		C747BD6909DD5B6B004837D0 /* gsl_math.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC9409DD5B6A004837D0 /* gsl_math.h */; };
+		C747BD6A09DD5B6B004837D0 /* gsl_matrix.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC9509DD5B6A004837D0 /* gsl_matrix.h */; };
+		C747BD6B09DD5B6B004837D0 /* gsl_matrix_char.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC9609DD5B6A004837D0 /* gsl_matrix_char.h */; };
+		C747BD6C09DD5B6B004837D0 /* gsl_matrix_complex_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC9709DD5B6A004837D0 /* gsl_matrix_complex_double.h */; };
+		C747BD6D09DD5B6B004837D0 /* gsl_matrix_complex_float.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC9809DD5B6A004837D0 /* gsl_matrix_complex_float.h */; };
+		C747BD6E09DD5B6B004837D0 /* gsl_matrix_complex_long_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC9909DD5B6A004837D0 /* gsl_matrix_complex_long_double.h */; };
+		C747BD6F09DD5B6B004837D0 /* gsl_matrix_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC9A09DD5B6A004837D0 /* gsl_matrix_double.h */; };
+		C747BD7009DD5B6B004837D0 /* gsl_matrix_float.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC9B09DD5B6A004837D0 /* gsl_matrix_float.h */; };
+		C747BD7109DD5B6B004837D0 /* gsl_matrix_int.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC9C09DD5B6A004837D0 /* gsl_matrix_int.h */; };
+		C747BD7209DD5B6B004837D0 /* gsl_matrix_long.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC9D09DD5B6A004837D0 /* gsl_matrix_long.h */; };
+		C747BD7309DD5B6B004837D0 /* gsl_matrix_long_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC9E09DD5B6A004837D0 /* gsl_matrix_long_double.h */; };
+		C747BD7409DD5B6B004837D0 /* gsl_matrix_short.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BC9F09DD5B6A004837D0 /* gsl_matrix_short.h */; };
+		C747BD7509DD5B6B004837D0 /* gsl_matrix_uchar.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCA009DD5B6A004837D0 /* gsl_matrix_uchar.h */; };
+		C747BD7609DD5B6B004837D0 /* gsl_matrix_uint.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCA109DD5B6A004837D0 /* gsl_matrix_uint.h */; };
+		C747BD7709DD5B6B004837D0 /* gsl_matrix_ulong.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCA209DD5B6A004837D0 /* gsl_matrix_ulong.h */; };
+		C747BD7809DD5B6B004837D0 /* gsl_matrix_ushort.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCA309DD5B6A004837D0 /* gsl_matrix_ushort.h */; };
+		C747BD7909DD5B6B004837D0 /* gsl_message.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCA409DD5B6A004837D0 /* gsl_message.h */; };
+		C747BD7A09DD5B6B004837D0 /* gsl_min.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCA509DD5B6A004837D0 /* gsl_min.h */; };
+		C747BD7B09DD5B6B004837D0 /* gsl_mode.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCA609DD5B6A004837D0 /* gsl_mode.h */; };
+		C747BD7C09DD5B6B004837D0 /* gsl_monte.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCA709DD5B6A004837D0 /* gsl_monte.h */; };
+		C747BD7D09DD5B6B004837D0 /* gsl_monte_miser.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCA809DD5B6A004837D0 /* gsl_monte_miser.h */; };
+		C747BD7E09DD5B6B004837D0 /* gsl_monte_plain.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCA909DD5B6A004837D0 /* gsl_monte_plain.h */; };
+		C747BD7F09DD5B6B004837D0 /* gsl_monte_vegas.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCAA09DD5B6A004837D0 /* gsl_monte_vegas.h */; };
+		C747BD8009DD5B6B004837D0 /* gsl_multifit.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCAB09DD5B6A004837D0 /* gsl_multifit.h */; };
+		C747BD8109DD5B6B004837D0 /* gsl_multifit_nlin.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCAC09DD5B6A004837D0 /* gsl_multifit_nlin.h */; };
+		C747BD8209DD5B6B004837D0 /* gsl_multimin.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCAD09DD5B6A004837D0 /* gsl_multimin.h */; };
+		C747BD8309DD5B6B004837D0 /* gsl_multiroots.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCAE09DD5B6A004837D0 /* gsl_multiroots.h */; };
+		C747BD8409DD5B6B004837D0 /* gsl_nan.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCAF09DD5B6A004837D0 /* gsl_nan.h */; };
+		C747BD8509DD5B6B004837D0 /* gsl_ntuple.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCB009DD5B6A004837D0 /* gsl_ntuple.h */; };
+		C747BD8609DD5B6B004837D0 /* gsl_odeiv.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCB109DD5B6A004837D0 /* gsl_odeiv.h */; };
+		C747BD8709DD5B6B004837D0 /* gsl_permutation.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCB209DD5B6A004837D0 /* gsl_permutation.h */; };
+		C747BD8809DD5B6B004837D0 /* gsl_permute.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCB309DD5B6A004837D0 /* gsl_permute.h */; };
+		C747BD8909DD5B6B004837D0 /* gsl_permute_char.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCB409DD5B6A004837D0 /* gsl_permute_char.h */; };
+		C747BD8A09DD5B6B004837D0 /* gsl_permute_complex_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCB509DD5B6A004837D0 /* gsl_permute_complex_double.h */; };
+		C747BD8B09DD5B6B004837D0 /* gsl_permute_complex_float.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCB609DD5B6A004837D0 /* gsl_permute_complex_float.h */; };
+		C747BD8C09DD5B6B004837D0 /* gsl_permute_complex_long_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCB709DD5B6A004837D0 /* gsl_permute_complex_long_double.h */; };
+		C747BD8D09DD5B6B004837D0 /* gsl_permute_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCB809DD5B6A004837D0 /* gsl_permute_double.h */; };
+		C747BD8E09DD5B6B004837D0 /* gsl_permute_float.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCB909DD5B6A004837D0 /* gsl_permute_float.h */; };
+		C747BD8F09DD5B6B004837D0 /* gsl_permute_int.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCBA09DD5B6A004837D0 /* gsl_permute_int.h */; };
+		C747BD9009DD5B6B004837D0 /* gsl_permute_long.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCBB09DD5B6A004837D0 /* gsl_permute_long.h */; };
+		C747BD9109DD5B6B004837D0 /* gsl_permute_long_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCBC09DD5B6A004837D0 /* gsl_permute_long_double.h */; };
+		C747BD9209DD5B6B004837D0 /* gsl_permute_short.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCBD09DD5B6A004837D0 /* gsl_permute_short.h */; };
+		C747BD9309DD5B6B004837D0 /* gsl_permute_uchar.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCBE09DD5B6A004837D0 /* gsl_permute_uchar.h */; };
+		C747BD9409DD5B6B004837D0 /* gsl_permute_uint.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCBF09DD5B6A004837D0 /* gsl_permute_uint.h */; };
+		C747BD9509DD5B6B004837D0 /* gsl_permute_ulong.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCC009DD5B6A004837D0 /* gsl_permute_ulong.h */; };
+		C747BD9609DD5B6B004837D0 /* gsl_permute_ushort.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCC109DD5B6A004837D0 /* gsl_permute_ushort.h */; };
+		C747BD9709DD5B6B004837D0 /* gsl_permute_vector.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCC209DD5B6A004837D0 /* gsl_permute_vector.h */; };
+		C747BD9809DD5B6B004837D0 /* gsl_permute_vector_char.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCC309DD5B6A004837D0 /* gsl_permute_vector_char.h */; };
+		C747BD9909DD5B6B004837D0 /* gsl_permute_vector_complex_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCC409DD5B6A004837D0 /* gsl_permute_vector_complex_double.h */; };
+		C747BD9A09DD5B6B004837D0 /* gsl_permute_vector_complex_float.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCC509DD5B6A004837D0 /* gsl_permute_vector_complex_float.h */; };
+		C747BD9B09DD5B6B004837D0 /* gsl_permute_vector_complex_long_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCC609DD5B6A004837D0 /* gsl_permute_vector_complex_long_double.h */; };
+		C747BD9C09DD5B6B004837D0 /* gsl_permute_vector_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCC709DD5B6B004837D0 /* gsl_permute_vector_double.h */; };
+		C747BD9D09DD5B6B004837D0 /* gsl_permute_vector_float.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCC809DD5B6B004837D0 /* gsl_permute_vector_float.h */; };
+		C747BD9E09DD5B6B004837D0 /* gsl_permute_vector_int.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCC909DD5B6B004837D0 /* gsl_permute_vector_int.h */; };
+		C747BD9F09DD5B6B004837D0 /* gsl_permute_vector_long.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCCA09DD5B6B004837D0 /* gsl_permute_vector_long.h */; };
+		C747BDA009DD5B6B004837D0 /* gsl_permute_vector_long_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCCB09DD5B6B004837D0 /* gsl_permute_vector_long_double.h */; };
+		C747BDA109DD5B6B004837D0 /* gsl_permute_vector_short.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCCC09DD5B6B004837D0 /* gsl_permute_vector_short.h */; };
+		C747BDA209DD5B6B004837D0 /* gsl_permute_vector_uchar.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCCD09DD5B6B004837D0 /* gsl_permute_vector_uchar.h */; };
+		C747BDA309DD5B6B004837D0 /* gsl_permute_vector_uint.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCCE09DD5B6B004837D0 /* gsl_permute_vector_uint.h */; };
+		C747BDA409DD5B6B004837D0 /* gsl_permute_vector_ulong.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCCF09DD5B6B004837D0 /* gsl_permute_vector_ulong.h */; };
+		C747BDA509DD5B6B004837D0 /* gsl_permute_vector_ushort.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCD009DD5B6B004837D0 /* gsl_permute_vector_ushort.h */; };
+		C747BDA609DD5B6B004837D0 /* gsl_poly.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCD109DD5B6B004837D0 /* gsl_poly.h */; };
+		C747BDA709DD5B6B004837D0 /* gsl_pow_int.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCD209DD5B6B004837D0 /* gsl_pow_int.h */; };
+		C747BDA809DD5B6B004837D0 /* gsl_precision.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCD309DD5B6B004837D0 /* gsl_precision.h */; };
+		C747BDA909DD5B6B004837D0 /* gsl_qrng.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCD409DD5B6B004837D0 /* gsl_qrng.h */; };
+		C747BDAA09DD5B6B004837D0 /* gsl_randist.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCD509DD5B6B004837D0 /* gsl_randist.h */; };
+		C747BDAB09DD5B6B004837D0 /* gsl_rng.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCD609DD5B6B004837D0 /* gsl_rng.h */; };
+		C747BDAC09DD5B6B004837D0 /* gsl_roots.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCD709DD5B6B004837D0 /* gsl_roots.h */; };
+		C747BDAD09DD5B6B004837D0 /* gsl_sf.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCD809DD5B6B004837D0 /* gsl_sf.h */; };
+		C747BDAE09DD5B6B004837D0 /* gsl_sf_airy.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCD909DD5B6B004837D0 /* gsl_sf_airy.h */; };
+		C747BDAF09DD5B6B004837D0 /* gsl_sf_bessel.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCDA09DD5B6B004837D0 /* gsl_sf_bessel.h */; };
+		C747BDB009DD5B6B004837D0 /* gsl_sf_clausen.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCDB09DD5B6B004837D0 /* gsl_sf_clausen.h */; };
+		C747BDB109DD5B6B004837D0 /* gsl_sf_coulomb.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCDC09DD5B6B004837D0 /* gsl_sf_coulomb.h */; };
+		C747BDB209DD5B6B004837D0 /* gsl_sf_coupling.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCDD09DD5B6B004837D0 /* gsl_sf_coupling.h */; };
+		C747BDB309DD5B6B004837D0 /* gsl_sf_dawson.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCDE09DD5B6B004837D0 /* gsl_sf_dawson.h */; };
+		C747BDB409DD5B6B004837D0 /* gsl_sf_debye.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCDF09DD5B6B004837D0 /* gsl_sf_debye.h */; };
+		C747BDB509DD5B6B004837D0 /* gsl_sf_dilog.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCE009DD5B6B004837D0 /* gsl_sf_dilog.h */; };
+		C747BDB609DD5B6B004837D0 /* gsl_sf_elementary.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCE109DD5B6B004837D0 /* gsl_sf_elementary.h */; };
+		C747BDB709DD5B6B004837D0 /* gsl_sf_ellint.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCE209DD5B6B004837D0 /* gsl_sf_ellint.h */; };
+		C747BDB809DD5B6B004837D0 /* gsl_sf_elljac.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCE309DD5B6B004837D0 /* gsl_sf_elljac.h */; };
+		C747BDB909DD5B6B004837D0 /* gsl_sf_erf.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCE409DD5B6B004837D0 /* gsl_sf_erf.h */; };
+		C747BDBA09DD5B6B004837D0 /* gsl_sf_exp.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCE509DD5B6B004837D0 /* gsl_sf_exp.h */; };
+		C747BDBB09DD5B6B004837D0 /* gsl_sf_expint.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCE609DD5B6B004837D0 /* gsl_sf_expint.h */; };
+		C747BDBC09DD5B6B004837D0 /* gsl_sf_fermi_dirac.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCE709DD5B6B004837D0 /* gsl_sf_fermi_dirac.h */; };
+		C747BDBD09DD5B6B004837D0 /* gsl_sf_gamma.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCE809DD5B6B004837D0 /* gsl_sf_gamma.h */; };
+		C747BDBE09DD5B6B004837D0 /* gsl_sf_gegenbauer.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCE909DD5B6B004837D0 /* gsl_sf_gegenbauer.h */; };
+		C747BDBF09DD5B6B004837D0 /* gsl_sf_hyperg.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCEA09DD5B6B004837D0 /* gsl_sf_hyperg.h */; };
+		C747BDC009DD5B6B004837D0 /* gsl_sf_laguerre.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCEB09DD5B6B004837D0 /* gsl_sf_laguerre.h */; };
+		C747BDC109DD5B6B004837D0 /* gsl_sf_lambert.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCEC09DD5B6B004837D0 /* gsl_sf_lambert.h */; };
+		C747BDC209DD5B6B004837D0 /* gsl_sf_legendre.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCED09DD5B6B004837D0 /* gsl_sf_legendre.h */; };
+		C747BDC309DD5B6B004837D0 /* gsl_sf_log.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCEE09DD5B6B004837D0 /* gsl_sf_log.h */; };
+		C747BDC409DD5B6B004837D0 /* gsl_sf_pow_int.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCEF09DD5B6B004837D0 /* gsl_sf_pow_int.h */; };
+		C747BDC509DD5B6B004837D0 /* gsl_sf_psi.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCF009DD5B6B004837D0 /* gsl_sf_psi.h */; };
+		C747BDC609DD5B6B004837D0 /* gsl_sf_result.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCF109DD5B6B004837D0 /* gsl_sf_result.h */; };
+		C747BDC709DD5B6B004837D0 /* gsl_sf_synchrotron.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCF209DD5B6B004837D0 /* gsl_sf_synchrotron.h */; };
+		C747BDC809DD5B6B004837D0 /* gsl_sf_transport.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCF309DD5B6B004837D0 /* gsl_sf_transport.h */; };
+		C747BDC909DD5B6B004837D0 /* gsl_sf_trig.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCF409DD5B6B004837D0 /* gsl_sf_trig.h */; };
+		C747BDCA09DD5B6B004837D0 /* gsl_sf_zeta.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCF509DD5B6B004837D0 /* gsl_sf_zeta.h */; };
+		C747BDCB09DD5B6B004837D0 /* gsl_siman.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCF609DD5B6B004837D0 /* gsl_siman.h */; };
+		C747BDCC09DD5B6B004837D0 /* gsl_sort.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCF709DD5B6B004837D0 /* gsl_sort.h */; };
+		C747BDCD09DD5B6B004837D0 /* gsl_sort_char.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCF809DD5B6B004837D0 /* gsl_sort_char.h */; };
+		C747BDCE09DD5B6B004837D0 /* gsl_sort_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCF909DD5B6B004837D0 /* gsl_sort_double.h */; };
+		C747BDCF09DD5B6B004837D0 /* gsl_sort_float.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCFA09DD5B6B004837D0 /* gsl_sort_float.h */; };
+		C747BDD009DD5B6B004837D0 /* gsl_sort_int.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCFB09DD5B6B004837D0 /* gsl_sort_int.h */; };
+		C747BDD109DD5B6B004837D0 /* gsl_sort_long.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCFC09DD5B6B004837D0 /* gsl_sort_long.h */; };
+		C747BDD209DD5B6B004837D0 /* gsl_sort_long_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCFD09DD5B6B004837D0 /* gsl_sort_long_double.h */; };
+		C747BDD309DD5B6B004837D0 /* gsl_sort_short.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCFE09DD5B6B004837D0 /* gsl_sort_short.h */; };
+		C747BDD409DD5B6B004837D0 /* gsl_sort_uchar.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BCFF09DD5B6B004837D0 /* gsl_sort_uchar.h */; };
+		C747BDD509DD5B6B004837D0 /* gsl_sort_uint.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD0009DD5B6B004837D0 /* gsl_sort_uint.h */; };
+		C747BDD609DD5B6B004837D0 /* gsl_sort_ulong.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD0109DD5B6B004837D0 /* gsl_sort_ulong.h */; };
+		C747BDD709DD5B6B004837D0 /* gsl_sort_ushort.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD0209DD5B6B004837D0 /* gsl_sort_ushort.h */; };
+		C747BDD809DD5B6B004837D0 /* gsl_sort_vector.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD0309DD5B6B004837D0 /* gsl_sort_vector.h */; };
+		C747BDD909DD5B6B004837D0 /* gsl_sort_vector_char.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD0409DD5B6B004837D0 /* gsl_sort_vector_char.h */; };
+		C747BDDA09DD5B6B004837D0 /* gsl_sort_vector_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD0509DD5B6B004837D0 /* gsl_sort_vector_double.h */; };
+		C747BDDB09DD5B6B004837D0 /* gsl_sort_vector_float.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD0609DD5B6B004837D0 /* gsl_sort_vector_float.h */; };
+		C747BDDC09DD5B6B004837D0 /* gsl_sort_vector_int.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD0709DD5B6B004837D0 /* gsl_sort_vector_int.h */; };
+		C747BDDD09DD5B6B004837D0 /* gsl_sort_vector_long.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD0809DD5B6B004837D0 /* gsl_sort_vector_long.h */; };
+		C747BDDE09DD5B6B004837D0 /* gsl_sort_vector_long_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD0909DD5B6B004837D0 /* gsl_sort_vector_long_double.h */; };
+		C747BDDF09DD5B6B004837D0 /* gsl_sort_vector_short.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD0A09DD5B6B004837D0 /* gsl_sort_vector_short.h */; };
+		C747BDE009DD5B6B004837D0 /* gsl_sort_vector_uchar.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD0B09DD5B6B004837D0 /* gsl_sort_vector_uchar.h */; };
+		C747BDE109DD5B6B004837D0 /* gsl_sort_vector_uint.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD0C09DD5B6B004837D0 /* gsl_sort_vector_uint.h */; };
+		C747BDE209DD5B6B004837D0 /* gsl_sort_vector_ulong.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD0D09DD5B6B004837D0 /* gsl_sort_vector_ulong.h */; };
+		C747BDE309DD5B6B004837D0 /* gsl_sort_vector_ushort.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD0E09DD5B6B004837D0 /* gsl_sort_vector_ushort.h */; };
+		C747BDE409DD5B6B004837D0 /* gsl_specfunc.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD0F09DD5B6B004837D0 /* gsl_specfunc.h */; };
+		C747BDE509DD5B6B004837D0 /* gsl_spline.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD1009DD5B6B004837D0 /* gsl_spline.h */; };
+		C747BDE609DD5B6B004837D0 /* gsl_statistics.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD1109DD5B6B004837D0 /* gsl_statistics.h */; };
+		C747BDE709DD5B6B004837D0 /* gsl_statistics_char.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD1209DD5B6B004837D0 /* gsl_statistics_char.h */; };
+		C747BDE809DD5B6B004837D0 /* gsl_statistics_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD1309DD5B6B004837D0 /* gsl_statistics_double.h */; };
+		C747BDE909DD5B6B004837D0 /* gsl_statistics_float.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD1409DD5B6B004837D0 /* gsl_statistics_float.h */; };
+		C747BDEA09DD5B6B004837D0 /* gsl_statistics_int.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD1509DD5B6B004837D0 /* gsl_statistics_int.h */; };
+		C747BDEB09DD5B6B004837D0 /* gsl_statistics_long.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD1609DD5B6B004837D0 /* gsl_statistics_long.h */; };
+		C747BDEC09DD5B6B004837D0 /* gsl_statistics_long_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD1709DD5B6B004837D0 /* gsl_statistics_long_double.h */; };
+		C747BDED09DD5B6B004837D0 /* gsl_statistics_short.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD1809DD5B6B004837D0 /* gsl_statistics_short.h */; };
+		C747BDEE09DD5B6B004837D0 /* gsl_statistics_uchar.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD1909DD5B6B004837D0 /* gsl_statistics_uchar.h */; };
+		C747BDEF09DD5B6B004837D0 /* gsl_statistics_uint.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD1A09DD5B6B004837D0 /* gsl_statistics_uint.h */; };
+		C747BDF009DD5B6B004837D0 /* gsl_statistics_ulong.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD1B09DD5B6B004837D0 /* gsl_statistics_ulong.h */; };
+		C747BDF109DD5B6B004837D0 /* gsl_statistics_ushort.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD1C09DD5B6B004837D0 /* gsl_statistics_ushort.h */; };
+		C747BDF209DD5B6B004837D0 /* gsl_sum.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD1D09DD5B6B004837D0 /* gsl_sum.h */; };
+		C747BDF309DD5B6B004837D0 /* gsl_sys.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD1E09DD5B6B004837D0 /* gsl_sys.h */; };
+		C747BDF409DD5B6B004837D0 /* gsl_test.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD1F09DD5B6B004837D0 /* gsl_test.h */; };
+		C747BDF509DD5B6B004837D0 /* gsl_types.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD2009DD5B6B004837D0 /* gsl_types.h */; };
+		C747BDF609DD5B6B004837D0 /* gsl_vector.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD2109DD5B6B004837D0 /* gsl_vector.h */; };
+		C747BDF709DD5B6B004837D0 /* gsl_vector_char.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD2209DD5B6B004837D0 /* gsl_vector_char.h */; };
+		C747BDF809DD5B6B004837D0 /* gsl_vector_complex.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD2309DD5B6B004837D0 /* gsl_vector_complex.h */; };
+		C747BDF909DD5B6B004837D0 /* gsl_vector_complex_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD2409DD5B6B004837D0 /* gsl_vector_complex_double.h */; };
+		C747BDFA09DD5B6B004837D0 /* gsl_vector_complex_float.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD2509DD5B6B004837D0 /* gsl_vector_complex_float.h */; };
+		C747BDFB09DD5B6B004837D0 /* gsl_vector_complex_long_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD2609DD5B6B004837D0 /* gsl_vector_complex_long_double.h */; };
+		C747BDFC09DD5B6B004837D0 /* gsl_vector_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD2709DD5B6B004837D0 /* gsl_vector_double.h */; };
+		C747BDFD09DD5B6B004837D0 /* gsl_vector_float.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD2809DD5B6B004837D0 /* gsl_vector_float.h */; };
+		C747BDFE09DD5B6B004837D0 /* gsl_vector_int.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD2909DD5B6B004837D0 /* gsl_vector_int.h */; };
+		C747BDFF09DD5B6B004837D0 /* gsl_vector_long.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD2A09DD5B6B004837D0 /* gsl_vector_long.h */; };
+		C747BE0009DD5B6B004837D0 /* gsl_vector_long_double.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD2B09DD5B6B004837D0 /* gsl_vector_long_double.h */; };
+		C747BE0109DD5B6B004837D0 /* gsl_vector_short.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD2C09DD5B6B004837D0 /* gsl_vector_short.h */; };
+		C747BE0209DD5B6B004837D0 /* gsl_vector_uchar.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD2D09DD5B6B004837D0 /* gsl_vector_uchar.h */; };
+		C747BE0309DD5B6B004837D0 /* gsl_vector_uint.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD2E09DD5B6B004837D0 /* gsl_vector_uint.h */; };
+		C747BE0409DD5B6B004837D0 /* gsl_vector_ulong.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD2F09DD5B6B004837D0 /* gsl_vector_ulong.h */; };
+		C747BE0509DD5B6B004837D0 /* gsl_vector_ushort.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD3009DD5B6B004837D0 /* gsl_vector_ushort.h */; };
+		C747BE0609DD5B6B004837D0 /* gsl_version.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD3109DD5B6B004837D0 /* gsl_version.h */; };
+		C747BE0709DD5B6B004837D0 /* gsl_wavelet.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD3209DD5B6B004837D0 /* gsl_wavelet.h */; };
+		C747BE0809DD5B6B004837D0 /* gsl_wavelet2d.h in Headers */ = {isa = PBXBuildFile; fileRef = C747BD3309DD5B6B004837D0 /* gsl_wavelet2d.h */; };
 		C75FFA180913DF7900DAE01B /* questionmark.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C75FFA170913DF7900DAE01B /* questionmark.tiff */; };
 		C7626F440926013400EDCAB9 /* JKLibrarySearch.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17D70898CF2E007FC2ED /* JKLibrarySearch.m */; };
-		C7713721094DE9A600653D2A /* JKFileWell.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713720094DE9A600653D2A /* JKFileWell.m */; };
 		C7713B36095029C200653D2A /* JKBatchProcess.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7713B35095029C200653D2A /* JKBatchProcess.nib */; };
 		C7713B430950368F00653D2A /* JKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */; };
 		C773669808E02D87002B72F1 /* ChromatogramGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */; };
@@ -43,8 +256,6 @@
 		C78599A309CDBBAD00351C87 /* JKStatisticsDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C78599A109CDBBAD00351C87 /* JKStatisticsDocument.m */; };
 		C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
-		C78F04F5097EA5210060E253 /* NSView+AMAnimationAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C78F04F3097EA5210060E253 /* NSView+AMAnimationAdditions.h */; };
-		C78F04F6097EA5210060E253 /* NSView+AMAnimationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C78F04F4097EA5210060E253 /* NSView+AMAnimationAdditions.m */; };
 		C798C9EA08E17B5400C6C7D1 /* DeleteTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */; };
 		C79A6154094DBE3A00C0887E /* RBSplitSubview.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6150094DBE3A00C0887E /* RBSplitSubview.m */; };
 		C79A6155094DBE3A00C0887E /* RBSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6152094DBE3A00C0887E /* RBSplitView.m */; };
@@ -53,8 +264,6 @@
 		C7B3159B0956CE610017ADDC /* JKStatisticsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C785905509541F250083EC22 /* JKStatisticsWindowController.m */; };
 		C7BC505309A62C930093106E /* JKLog.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC505109A62C930093106E /* JKLog.h */; };
 		C7BC505409A62C930093106E /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
-		C7E4D31809C1C9E5007A1D3B /* JKSynchroScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E4D31609C1C9E5007A1D3B /* JKSynchroScrollView.h */; };
-		C7E4D31909C1C9E5007A1D3B /* JKSynchroScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E4D31709C1C9E5007A1D3B /* JKSynchroScrollView.m */; };
 		C7EB18160898CFBD007FC2ED /* MolTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F00898CFBC007FC2ED /* MolTypes.c */; };
 		C7EB18170898CFBD007FC2ED /* MWController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F40898CFBC007FC2ED /* MWController.m */; };
 		C7EB18180898CFBD007FC2ED /* MyGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */; };
@@ -169,6 +378,220 @@
 		C72C8508098BE83600CEF565 /* JKSpectrumTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSpectrumTest.m; sourceTree = "<group>"; };
 		C72C85D5098BF1B800CEF565 /* JKGeneralTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKGeneralTesting.h; sourceTree = "<group>"; };
 		C72C85D6098BF1B800CEF565 /* JKGeneralTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKGeneralTesting.m; sourceTree = "<group>"; };
+		C747B4A109DD437B004837D0 /* libgsl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgsl.a; path = Frameworks/libgsl.a; sourceTree = "<group>"; };
+		C747BC5F09DD5B6A004837D0 /* gsl_blas.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_blas.h; sourceTree = "<group>"; };
+		C747BC6009DD5B6A004837D0 /* gsl_blas_types.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_blas_types.h; sourceTree = "<group>"; };
+		C747BC6109DD5B6A004837D0 /* gsl_block.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_block.h; sourceTree = "<group>"; };
+		C747BC6209DD5B6A004837D0 /* gsl_block_char.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_block_char.h; sourceTree = "<group>"; };
+		C747BC6309DD5B6A004837D0 /* gsl_block_complex_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_block_complex_double.h; sourceTree = "<group>"; };
+		C747BC6409DD5B6A004837D0 /* gsl_block_complex_float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_block_complex_float.h; sourceTree = "<group>"; };
+		C747BC6509DD5B6A004837D0 /* gsl_block_complex_long_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_block_complex_long_double.h; sourceTree = "<group>"; };
+		C747BC6609DD5B6A004837D0 /* gsl_block_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_block_double.h; sourceTree = "<group>"; };
+		C747BC6709DD5B6A004837D0 /* gsl_block_float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_block_float.h; sourceTree = "<group>"; };
+		C747BC6809DD5B6A004837D0 /* gsl_block_int.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_block_int.h; sourceTree = "<group>"; };
+		C747BC6909DD5B6A004837D0 /* gsl_block_long.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_block_long.h; sourceTree = "<group>"; };
+		C747BC6A09DD5B6A004837D0 /* gsl_block_long_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_block_long_double.h; sourceTree = "<group>"; };
+		C747BC6B09DD5B6A004837D0 /* gsl_block_short.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_block_short.h; sourceTree = "<group>"; };
+		C747BC6C09DD5B6A004837D0 /* gsl_block_uchar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_block_uchar.h; sourceTree = "<group>"; };
+		C747BC6D09DD5B6A004837D0 /* gsl_block_uint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_block_uint.h; sourceTree = "<group>"; };
+		C747BC6E09DD5B6A004837D0 /* gsl_block_ulong.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_block_ulong.h; sourceTree = "<group>"; };
+		C747BC6F09DD5B6A004837D0 /* gsl_block_ushort.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_block_ushort.h; sourceTree = "<group>"; };
+		C747BC7009DD5B6A004837D0 /* gsl_cblas.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_cblas.h; sourceTree = "<group>"; };
+		C747BC7109DD5B6A004837D0 /* gsl_cdf.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_cdf.h; sourceTree = "<group>"; };
+		C747BC7209DD5B6A004837D0 /* gsl_chebyshev.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_chebyshev.h; sourceTree = "<group>"; };
+		C747BC7309DD5B6A004837D0 /* gsl_check_range.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_check_range.h; sourceTree = "<group>"; };
+		C747BC7409DD5B6A004837D0 /* gsl_combination.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_combination.h; sourceTree = "<group>"; };
+		C747BC7509DD5B6A004837D0 /* gsl_complex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_complex.h; sourceTree = "<group>"; };
+		C747BC7609DD5B6A004837D0 /* gsl_complex_math.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_complex_math.h; sourceTree = "<group>"; };
+		C747BC7709DD5B6A004837D0 /* gsl_const.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_const.h; sourceTree = "<group>"; };
+		C747BC7809DD5B6A004837D0 /* gsl_const_cgs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_const_cgs.h; sourceTree = "<group>"; };
+		C747BC7909DD5B6A004837D0 /* gsl_const_cgsm.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_const_cgsm.h; sourceTree = "<group>"; };
+		C747BC7A09DD5B6A004837D0 /* gsl_const_mks.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_const_mks.h; sourceTree = "<group>"; };
+		C747BC7B09DD5B6A004837D0 /* gsl_const_mksa.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_const_mksa.h; sourceTree = "<group>"; };
+		C747BC7C09DD5B6A004837D0 /* gsl_const_num.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_const_num.h; sourceTree = "<group>"; };
+		C747BC7D09DD5B6A004837D0 /* gsl_deriv.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_deriv.h; sourceTree = "<group>"; };
+		C747BC7E09DD5B6A004837D0 /* gsl_dft_complex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_dft_complex.h; sourceTree = "<group>"; };
+		C747BC7F09DD5B6A004837D0 /* gsl_dft_complex_float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_dft_complex_float.h; sourceTree = "<group>"; };
+		C747BC8009DD5B6A004837D0 /* gsl_dht.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_dht.h; sourceTree = "<group>"; };
+		C747BC8109DD5B6A004837D0 /* gsl_diff.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_diff.h; sourceTree = "<group>"; };
+		C747BC8209DD5B6A004837D0 /* gsl_eigen.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_eigen.h; sourceTree = "<group>"; };
+		C747BC8309DD5B6A004837D0 /* gsl_errno.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_errno.h; sourceTree = "<group>"; };
+		C747BC8409DD5B6A004837D0 /* gsl_fft.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_fft.h; sourceTree = "<group>"; };
+		C747BC8509DD5B6A004837D0 /* gsl_fft_complex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_fft_complex.h; sourceTree = "<group>"; };
+		C747BC8609DD5B6A004837D0 /* gsl_fft_complex_float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_fft_complex_float.h; sourceTree = "<group>"; };
+		C747BC8709DD5B6A004837D0 /* gsl_fft_halfcomplex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_fft_halfcomplex.h; sourceTree = "<group>"; };
+		C747BC8809DD5B6A004837D0 /* gsl_fft_halfcomplex_float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_fft_halfcomplex_float.h; sourceTree = "<group>"; };
+		C747BC8909DD5B6A004837D0 /* gsl_fft_real.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_fft_real.h; sourceTree = "<group>"; };
+		C747BC8A09DD5B6A004837D0 /* gsl_fft_real_float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_fft_real_float.h; sourceTree = "<group>"; };
+		C747BC8B09DD5B6A004837D0 /* gsl_fit.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_fit.h; sourceTree = "<group>"; };
+		C747BC8C09DD5B6A004837D0 /* gsl_heapsort.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_heapsort.h; sourceTree = "<group>"; };
+		C747BC8D09DD5B6A004837D0 /* gsl_histogram.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_histogram.h; sourceTree = "<group>"; };
+		C747BC8E09DD5B6A004837D0 /* gsl_histogram2d.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_histogram2d.h; sourceTree = "<group>"; };
+		C747BC8F09DD5B6A004837D0 /* gsl_ieee_utils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_ieee_utils.h; sourceTree = "<group>"; };
+		C747BC9009DD5B6A004837D0 /* gsl_integration.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_integration.h; sourceTree = "<group>"; };
+		C747BC9109DD5B6A004837D0 /* gsl_interp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_interp.h; sourceTree = "<group>"; };
+		C747BC9209DD5B6A004837D0 /* gsl_linalg.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_linalg.h; sourceTree = "<group>"; };
+		C747BC9309DD5B6A004837D0 /* gsl_machine.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_machine.h; sourceTree = "<group>"; };
+		C747BC9409DD5B6A004837D0 /* gsl_math.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_math.h; sourceTree = "<group>"; };
+		C747BC9509DD5B6A004837D0 /* gsl_matrix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_matrix.h; sourceTree = "<group>"; };
+		C747BC9609DD5B6A004837D0 /* gsl_matrix_char.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_matrix_char.h; sourceTree = "<group>"; };
+		C747BC9709DD5B6A004837D0 /* gsl_matrix_complex_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_matrix_complex_double.h; sourceTree = "<group>"; };
+		C747BC9809DD5B6A004837D0 /* gsl_matrix_complex_float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_matrix_complex_float.h; sourceTree = "<group>"; };
+		C747BC9909DD5B6A004837D0 /* gsl_matrix_complex_long_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_matrix_complex_long_double.h; sourceTree = "<group>"; };
+		C747BC9A09DD5B6A004837D0 /* gsl_matrix_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_matrix_double.h; sourceTree = "<group>"; };
+		C747BC9B09DD5B6A004837D0 /* gsl_matrix_float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_matrix_float.h; sourceTree = "<group>"; };
+		C747BC9C09DD5B6A004837D0 /* gsl_matrix_int.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_matrix_int.h; sourceTree = "<group>"; };
+		C747BC9D09DD5B6A004837D0 /* gsl_matrix_long.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_matrix_long.h; sourceTree = "<group>"; };
+		C747BC9E09DD5B6A004837D0 /* gsl_matrix_long_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_matrix_long_double.h; sourceTree = "<group>"; };
+		C747BC9F09DD5B6A004837D0 /* gsl_matrix_short.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_matrix_short.h; sourceTree = "<group>"; };
+		C747BCA009DD5B6A004837D0 /* gsl_matrix_uchar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_matrix_uchar.h; sourceTree = "<group>"; };
+		C747BCA109DD5B6A004837D0 /* gsl_matrix_uint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_matrix_uint.h; sourceTree = "<group>"; };
+		C747BCA209DD5B6A004837D0 /* gsl_matrix_ulong.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_matrix_ulong.h; sourceTree = "<group>"; };
+		C747BCA309DD5B6A004837D0 /* gsl_matrix_ushort.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_matrix_ushort.h; sourceTree = "<group>"; };
+		C747BCA409DD5B6A004837D0 /* gsl_message.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_message.h; sourceTree = "<group>"; };
+		C747BCA509DD5B6A004837D0 /* gsl_min.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_min.h; sourceTree = "<group>"; };
+		C747BCA609DD5B6A004837D0 /* gsl_mode.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_mode.h; sourceTree = "<group>"; };
+		C747BCA709DD5B6A004837D0 /* gsl_monte.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_monte.h; sourceTree = "<group>"; };
+		C747BCA809DD5B6A004837D0 /* gsl_monte_miser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_monte_miser.h; sourceTree = "<group>"; };
+		C747BCA909DD5B6A004837D0 /* gsl_monte_plain.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_monte_plain.h; sourceTree = "<group>"; };
+		C747BCAA09DD5B6A004837D0 /* gsl_monte_vegas.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_monte_vegas.h; sourceTree = "<group>"; };
+		C747BCAB09DD5B6A004837D0 /* gsl_multifit.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_multifit.h; sourceTree = "<group>"; };
+		C747BCAC09DD5B6A004837D0 /* gsl_multifit_nlin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_multifit_nlin.h; sourceTree = "<group>"; };
+		C747BCAD09DD5B6A004837D0 /* gsl_multimin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_multimin.h; sourceTree = "<group>"; };
+		C747BCAE09DD5B6A004837D0 /* gsl_multiroots.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_multiroots.h; sourceTree = "<group>"; };
+		C747BCAF09DD5B6A004837D0 /* gsl_nan.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_nan.h; sourceTree = "<group>"; };
+		C747BCB009DD5B6A004837D0 /* gsl_ntuple.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_ntuple.h; sourceTree = "<group>"; };
+		C747BCB109DD5B6A004837D0 /* gsl_odeiv.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_odeiv.h; sourceTree = "<group>"; };
+		C747BCB209DD5B6A004837D0 /* gsl_permutation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permutation.h; sourceTree = "<group>"; };
+		C747BCB309DD5B6A004837D0 /* gsl_permute.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute.h; sourceTree = "<group>"; };
+		C747BCB409DD5B6A004837D0 /* gsl_permute_char.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_char.h; sourceTree = "<group>"; };
+		C747BCB509DD5B6A004837D0 /* gsl_permute_complex_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_complex_double.h; sourceTree = "<group>"; };
+		C747BCB609DD5B6A004837D0 /* gsl_permute_complex_float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_complex_float.h; sourceTree = "<group>"; };
+		C747BCB709DD5B6A004837D0 /* gsl_permute_complex_long_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_complex_long_double.h; sourceTree = "<group>"; };
+		C747BCB809DD5B6A004837D0 /* gsl_permute_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_double.h; sourceTree = "<group>"; };
+		C747BCB909DD5B6A004837D0 /* gsl_permute_float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_float.h; sourceTree = "<group>"; };
+		C747BCBA09DD5B6A004837D0 /* gsl_permute_int.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_int.h; sourceTree = "<group>"; };
+		C747BCBB09DD5B6A004837D0 /* gsl_permute_long.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_long.h; sourceTree = "<group>"; };
+		C747BCBC09DD5B6A004837D0 /* gsl_permute_long_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_long_double.h; sourceTree = "<group>"; };
+		C747BCBD09DD5B6A004837D0 /* gsl_permute_short.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_short.h; sourceTree = "<group>"; };
+		C747BCBE09DD5B6A004837D0 /* gsl_permute_uchar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_uchar.h; sourceTree = "<group>"; };
+		C747BCBF09DD5B6A004837D0 /* gsl_permute_uint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_uint.h; sourceTree = "<group>"; };
+		C747BCC009DD5B6A004837D0 /* gsl_permute_ulong.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_ulong.h; sourceTree = "<group>"; };
+		C747BCC109DD5B6A004837D0 /* gsl_permute_ushort.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_ushort.h; sourceTree = "<group>"; };
+		C747BCC209DD5B6A004837D0 /* gsl_permute_vector.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_vector.h; sourceTree = "<group>"; };
+		C747BCC309DD5B6A004837D0 /* gsl_permute_vector_char.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_vector_char.h; sourceTree = "<group>"; };
+		C747BCC409DD5B6A004837D0 /* gsl_permute_vector_complex_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_vector_complex_double.h; sourceTree = "<group>"; };
+		C747BCC509DD5B6A004837D0 /* gsl_permute_vector_complex_float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_vector_complex_float.h; sourceTree = "<group>"; };
+		C747BCC609DD5B6A004837D0 /* gsl_permute_vector_complex_long_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_vector_complex_long_double.h; sourceTree = "<group>"; };
+		C747BCC709DD5B6B004837D0 /* gsl_permute_vector_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_vector_double.h; sourceTree = "<group>"; };
+		C747BCC809DD5B6B004837D0 /* gsl_permute_vector_float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_vector_float.h; sourceTree = "<group>"; };
+		C747BCC909DD5B6B004837D0 /* gsl_permute_vector_int.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_vector_int.h; sourceTree = "<group>"; };
+		C747BCCA09DD5B6B004837D0 /* gsl_permute_vector_long.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_vector_long.h; sourceTree = "<group>"; };
+		C747BCCB09DD5B6B004837D0 /* gsl_permute_vector_long_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_vector_long_double.h; sourceTree = "<group>"; };
+		C747BCCC09DD5B6B004837D0 /* gsl_permute_vector_short.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_vector_short.h; sourceTree = "<group>"; };
+		C747BCCD09DD5B6B004837D0 /* gsl_permute_vector_uchar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_vector_uchar.h; sourceTree = "<group>"; };
+		C747BCCE09DD5B6B004837D0 /* gsl_permute_vector_uint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_vector_uint.h; sourceTree = "<group>"; };
+		C747BCCF09DD5B6B004837D0 /* gsl_permute_vector_ulong.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_vector_ulong.h; sourceTree = "<group>"; };
+		C747BCD009DD5B6B004837D0 /* gsl_permute_vector_ushort.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_permute_vector_ushort.h; sourceTree = "<group>"; };
+		C747BCD109DD5B6B004837D0 /* gsl_poly.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_poly.h; sourceTree = "<group>"; };
+		C747BCD209DD5B6B004837D0 /* gsl_pow_int.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_pow_int.h; sourceTree = "<group>"; };
+		C747BCD309DD5B6B004837D0 /* gsl_precision.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_precision.h; sourceTree = "<group>"; };
+		C747BCD409DD5B6B004837D0 /* gsl_qrng.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_qrng.h; sourceTree = "<group>"; };
+		C747BCD509DD5B6B004837D0 /* gsl_randist.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_randist.h; sourceTree = "<group>"; };
+		C747BCD609DD5B6B004837D0 /* gsl_rng.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_rng.h; sourceTree = "<group>"; };
+		C747BCD709DD5B6B004837D0 /* gsl_roots.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_roots.h; sourceTree = "<group>"; };
+		C747BCD809DD5B6B004837D0 /* gsl_sf.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf.h; sourceTree = "<group>"; };
+		C747BCD909DD5B6B004837D0 /* gsl_sf_airy.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_airy.h; sourceTree = "<group>"; };
+		C747BCDA09DD5B6B004837D0 /* gsl_sf_bessel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_bessel.h; sourceTree = "<group>"; };
+		C747BCDB09DD5B6B004837D0 /* gsl_sf_clausen.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_clausen.h; sourceTree = "<group>"; };
+		C747BCDC09DD5B6B004837D0 /* gsl_sf_coulomb.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_coulomb.h; sourceTree = "<group>"; };
+		C747BCDD09DD5B6B004837D0 /* gsl_sf_coupling.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_coupling.h; sourceTree = "<group>"; };
+		C747BCDE09DD5B6B004837D0 /* gsl_sf_dawson.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_dawson.h; sourceTree = "<group>"; };
+		C747BCDF09DD5B6B004837D0 /* gsl_sf_debye.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_debye.h; sourceTree = "<group>"; };
+		C747BCE009DD5B6B004837D0 /* gsl_sf_dilog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_dilog.h; sourceTree = "<group>"; };
+		C747BCE109DD5B6B004837D0 /* gsl_sf_elementary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_elementary.h; sourceTree = "<group>"; };
+		C747BCE209DD5B6B004837D0 /* gsl_sf_ellint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_ellint.h; sourceTree = "<group>"; };
+		C747BCE309DD5B6B004837D0 /* gsl_sf_elljac.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_elljac.h; sourceTree = "<group>"; };
+		C747BCE409DD5B6B004837D0 /* gsl_sf_erf.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_erf.h; sourceTree = "<group>"; };
+		C747BCE509DD5B6B004837D0 /* gsl_sf_exp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_exp.h; sourceTree = "<group>"; };
+		C747BCE609DD5B6B004837D0 /* gsl_sf_expint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_expint.h; sourceTree = "<group>"; };
+		C747BCE709DD5B6B004837D0 /* gsl_sf_fermi_dirac.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_fermi_dirac.h; sourceTree = "<group>"; };
+		C747BCE809DD5B6B004837D0 /* gsl_sf_gamma.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_gamma.h; sourceTree = "<group>"; };
+		C747BCE909DD5B6B004837D0 /* gsl_sf_gegenbauer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_gegenbauer.h; sourceTree = "<group>"; };
+		C747BCEA09DD5B6B004837D0 /* gsl_sf_hyperg.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_hyperg.h; sourceTree = "<group>"; };
+		C747BCEB09DD5B6B004837D0 /* gsl_sf_laguerre.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_laguerre.h; sourceTree = "<group>"; };
+		C747BCEC09DD5B6B004837D0 /* gsl_sf_lambert.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_lambert.h; sourceTree = "<group>"; };
+		C747BCED09DD5B6B004837D0 /* gsl_sf_legendre.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_legendre.h; sourceTree = "<group>"; };
+		C747BCEE09DD5B6B004837D0 /* gsl_sf_log.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_log.h; sourceTree = "<group>"; };
+		C747BCEF09DD5B6B004837D0 /* gsl_sf_pow_int.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_pow_int.h; sourceTree = "<group>"; };
+		C747BCF009DD5B6B004837D0 /* gsl_sf_psi.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_psi.h; sourceTree = "<group>"; };
+		C747BCF109DD5B6B004837D0 /* gsl_sf_result.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_result.h; sourceTree = "<group>"; };
+		C747BCF209DD5B6B004837D0 /* gsl_sf_synchrotron.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_synchrotron.h; sourceTree = "<group>"; };
+		C747BCF309DD5B6B004837D0 /* gsl_sf_transport.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_transport.h; sourceTree = "<group>"; };
+		C747BCF409DD5B6B004837D0 /* gsl_sf_trig.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_trig.h; sourceTree = "<group>"; };
+		C747BCF509DD5B6B004837D0 /* gsl_sf_zeta.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sf_zeta.h; sourceTree = "<group>"; };
+		C747BCF609DD5B6B004837D0 /* gsl_siman.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_siman.h; sourceTree = "<group>"; };
+		C747BCF709DD5B6B004837D0 /* gsl_sort.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort.h; sourceTree = "<group>"; };
+		C747BCF809DD5B6B004837D0 /* gsl_sort_char.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_char.h; sourceTree = "<group>"; };
+		C747BCF909DD5B6B004837D0 /* gsl_sort_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_double.h; sourceTree = "<group>"; };
+		C747BCFA09DD5B6B004837D0 /* gsl_sort_float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_float.h; sourceTree = "<group>"; };
+		C747BCFB09DD5B6B004837D0 /* gsl_sort_int.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_int.h; sourceTree = "<group>"; };
+		C747BCFC09DD5B6B004837D0 /* gsl_sort_long.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_long.h; sourceTree = "<group>"; };
+		C747BCFD09DD5B6B004837D0 /* gsl_sort_long_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_long_double.h; sourceTree = "<group>"; };
+		C747BCFE09DD5B6B004837D0 /* gsl_sort_short.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_short.h; sourceTree = "<group>"; };
+		C747BCFF09DD5B6B004837D0 /* gsl_sort_uchar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_uchar.h; sourceTree = "<group>"; };
+		C747BD0009DD5B6B004837D0 /* gsl_sort_uint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_uint.h; sourceTree = "<group>"; };
+		C747BD0109DD5B6B004837D0 /* gsl_sort_ulong.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_ulong.h; sourceTree = "<group>"; };
+		C747BD0209DD5B6B004837D0 /* gsl_sort_ushort.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_ushort.h; sourceTree = "<group>"; };
+		C747BD0309DD5B6B004837D0 /* gsl_sort_vector.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_vector.h; sourceTree = "<group>"; };
+		C747BD0409DD5B6B004837D0 /* gsl_sort_vector_char.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_vector_char.h; sourceTree = "<group>"; };
+		C747BD0509DD5B6B004837D0 /* gsl_sort_vector_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_vector_double.h; sourceTree = "<group>"; };
+		C747BD0609DD5B6B004837D0 /* gsl_sort_vector_float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_vector_float.h; sourceTree = "<group>"; };
+		C747BD0709DD5B6B004837D0 /* gsl_sort_vector_int.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_vector_int.h; sourceTree = "<group>"; };
+		C747BD0809DD5B6B004837D0 /* gsl_sort_vector_long.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_vector_long.h; sourceTree = "<group>"; };
+		C747BD0909DD5B6B004837D0 /* gsl_sort_vector_long_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_vector_long_double.h; sourceTree = "<group>"; };
+		C747BD0A09DD5B6B004837D0 /* gsl_sort_vector_short.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_vector_short.h; sourceTree = "<group>"; };
+		C747BD0B09DD5B6B004837D0 /* gsl_sort_vector_uchar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_vector_uchar.h; sourceTree = "<group>"; };
+		C747BD0C09DD5B6B004837D0 /* gsl_sort_vector_uint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_vector_uint.h; sourceTree = "<group>"; };
+		C747BD0D09DD5B6B004837D0 /* gsl_sort_vector_ulong.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_vector_ulong.h; sourceTree = "<group>"; };
+		C747BD0E09DD5B6B004837D0 /* gsl_sort_vector_ushort.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sort_vector_ushort.h; sourceTree = "<group>"; };
+		C747BD0F09DD5B6B004837D0 /* gsl_specfunc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_specfunc.h; sourceTree = "<group>"; };
+		C747BD1009DD5B6B004837D0 /* gsl_spline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_spline.h; sourceTree = "<group>"; };
+		C747BD1109DD5B6B004837D0 /* gsl_statistics.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_statistics.h; sourceTree = "<group>"; };
+		C747BD1209DD5B6B004837D0 /* gsl_statistics_char.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_statistics_char.h; sourceTree = "<group>"; };
+		C747BD1309DD5B6B004837D0 /* gsl_statistics_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_statistics_double.h; sourceTree = "<group>"; };
+		C747BD1409DD5B6B004837D0 /* gsl_statistics_float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_statistics_float.h; sourceTree = "<group>"; };
+		C747BD1509DD5B6B004837D0 /* gsl_statistics_int.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_statistics_int.h; sourceTree = "<group>"; };
+		C747BD1609DD5B6B004837D0 /* gsl_statistics_long.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_statistics_long.h; sourceTree = "<group>"; };
+		C747BD1709DD5B6B004837D0 /* gsl_statistics_long_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_statistics_long_double.h; sourceTree = "<group>"; };
+		C747BD1809DD5B6B004837D0 /* gsl_statistics_short.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_statistics_short.h; sourceTree = "<group>"; };
+		C747BD1909DD5B6B004837D0 /* gsl_statistics_uchar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_statistics_uchar.h; sourceTree = "<group>"; };
+		C747BD1A09DD5B6B004837D0 /* gsl_statistics_uint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_statistics_uint.h; sourceTree = "<group>"; };
+		C747BD1B09DD5B6B004837D0 /* gsl_statistics_ulong.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_statistics_ulong.h; sourceTree = "<group>"; };
+		C747BD1C09DD5B6B004837D0 /* gsl_statistics_ushort.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_statistics_ushort.h; sourceTree = "<group>"; };
+		C747BD1D09DD5B6B004837D0 /* gsl_sum.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sum.h; sourceTree = "<group>"; };
+		C747BD1E09DD5B6B004837D0 /* gsl_sys.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_sys.h; sourceTree = "<group>"; };
+		C747BD1F09DD5B6B004837D0 /* gsl_test.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_test.h; sourceTree = "<group>"; };
+		C747BD2009DD5B6B004837D0 /* gsl_types.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_types.h; sourceTree = "<group>"; };
+		C747BD2109DD5B6B004837D0 /* gsl_vector.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_vector.h; sourceTree = "<group>"; };
+		C747BD2209DD5B6B004837D0 /* gsl_vector_char.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_vector_char.h; sourceTree = "<group>"; };
+		C747BD2309DD5B6B004837D0 /* gsl_vector_complex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_vector_complex.h; sourceTree = "<group>"; };
+		C747BD2409DD5B6B004837D0 /* gsl_vector_complex_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_vector_complex_double.h; sourceTree = "<group>"; };
+		C747BD2509DD5B6B004837D0 /* gsl_vector_complex_float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_vector_complex_float.h; sourceTree = "<group>"; };
+		C747BD2609DD5B6B004837D0 /* gsl_vector_complex_long_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_vector_complex_long_double.h; sourceTree = "<group>"; };
+		C747BD2709DD5B6B004837D0 /* gsl_vector_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_vector_double.h; sourceTree = "<group>"; };
+		C747BD2809DD5B6B004837D0 /* gsl_vector_float.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_vector_float.h; sourceTree = "<group>"; };
+		C747BD2909DD5B6B004837D0 /* gsl_vector_int.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_vector_int.h; sourceTree = "<group>"; };
+		C747BD2A09DD5B6B004837D0 /* gsl_vector_long.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_vector_long.h; sourceTree = "<group>"; };
+		C747BD2B09DD5B6B004837D0 /* gsl_vector_long_double.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_vector_long_double.h; sourceTree = "<group>"; };
+		C747BD2C09DD5B6B004837D0 /* gsl_vector_short.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_vector_short.h; sourceTree = "<group>"; };
+		C747BD2D09DD5B6B004837D0 /* gsl_vector_uchar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_vector_uchar.h; sourceTree = "<group>"; };
+		C747BD2E09DD5B6B004837D0 /* gsl_vector_uint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_vector_uint.h; sourceTree = "<group>"; };
+		C747BD2F09DD5B6B004837D0 /* gsl_vector_ulong.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_vector_ulong.h; sourceTree = "<group>"; };
+		C747BD3009DD5B6B004837D0 /* gsl_vector_ushort.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_vector_ushort.h; sourceTree = "<group>"; };
+		C747BD3109DD5B6B004837D0 /* gsl_version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_version.h; sourceTree = "<group>"; };
+		C747BD3209DD5B6B004837D0 /* gsl_wavelet.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_wavelet.h; sourceTree = "<group>"; };
+		C747BD3309DD5B6B004837D0 /* gsl_wavelet2d.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gsl_wavelet2d.h; sourceTree = "<group>"; };
 		C75FFA170913DF7900DAE01B /* questionmark.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = questionmark.tiff; sourceTree = "<group>"; };
 		C771371F094DE9A600653D2A /* JKFileWell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKFileWell.h; sourceTree = "<group>"; };
 		C7713720094DE9A600653D2A /* JKFileWell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKFileWell.m; sourceTree = "<group>"; };
@@ -327,6 +750,7 @@
 				C70DB76A0957141800C2B386 /* Foundation.framework in Frameworks */,
 				C71D9FCC099CD19D007EB10D /* Growl.framework in Frameworks */,
 				C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */,
+				C747B4A209DD437C004837D0 /* libgsl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,7 +799,7 @@
 		2A37F4AAFDCFA73011CA2CEA /* Peacock */ = {
 			isa = PBXGroup;
 			children = (
-				2A37F4ABFDCFA73011CA2CEA /* Classes */,
+				2A37F4ABFDCFA73011CA2CEA /* Views */,
 				C773290908CA610700222B5B /* Controllers */,
 				C773290B08CA614200222B5B /* Models */,
 				C72C85C8098BF12600CEF565 /* Tests */,
@@ -388,31 +812,14 @@
 			name = Peacock;
 			sourceTree = "<group>";
 		};
-		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
+		2A37F4ABFDCFA73011CA2CEA /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C7EB17F70898CFBC007FC2ED /* MyGraphView.h */,
-				C7EB17F80898CFBC007FC2ED /* MyGraphView.m */,
-				C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */,
-				C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */,
-				C773669408E02D87002B72F1 /* ChromatogramGraphDataSerie.h */,
-				C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */,
-				C773669608E02D87002B72F1 /* SpectrumGraphDataSerie.h */,
-				C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */,
-				C7EB18100898CFBD007FC2ED /* UJKPanel.h */,
-				C7EB18110898CFBD007FC2ED /* UJKPanel.m */,
-				C798C9E808E17B5400C6C7D1 /* DeleteTableView.h */,
-				C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */,
-				C7AD38AB08B2A0D600A0F4BE /* FilteringDNDArrayController.h */,
-				C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */,
-				C771371F094DE9A600653D2A /* JKFileWell.h */,
-				C7713720094DE9A600653D2A /* JKFileWell.m */,
-				C78F04F3097EA5210060E253 /* NSView+AMAnimationAdditions.h */,
-				C78F04F4097EA5210060E253 /* NSView+AMAnimationAdditions.m */,
-				C7BC505109A62C930093106E /* JKLog.h */,
-				C7BC505209A62C930093106E /* JKLog.m */,
+				C747B83409DD5638004837D0 /* GraphView */,
+				C747B85309DD5782004837D0 /* TableView */,
+				C747B83109DD552C004837D0 /* Unused */,
 			);
-			name = Classes;
+			name = Views;
 			sourceTree = "<group>";
 		};
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
@@ -424,6 +831,8 @@
 				C7834D4E0941F3C2005431CD /* Smart Crash */,
 				C7EB17A60898CF2D007FC2ED /* AccessorMacros.h */,
 				32DBCF750370BD2300C91783 /* Peacock_Prefix.pch */,
+				C7BC505109A62C930093106E /* JKLog.h */,
+				C7BC505209A62C930093106E /* JKLog.m */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
@@ -446,6 +855,8 @@
 			children = (
 				C7EB17AF0898CF2E007FC2ED /* netcdf.h */,
 				C7EB17AE0898CF2E007FC2ED /* libnetcdf.a */,
+				C747BC5E09DD5B6A004837D0 /* gsl */,
+				C747B4A109DD437B004837D0 /* libgsl.a */,
 				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 			);
@@ -463,33 +874,382 @@
 			name = Tests;
 			sourceTree = "<group>";
 		};
-		C773290908CA610700222B5B /* Controllers */ = {
+		C747B82B09DD5486004837D0 /* Unused */ = {
+			isa = PBXGroup;
+			children = (
+				C7EB17D00898CF2E007FC2ED /* JKChromatogram.h */,
+				C7EB17D10898CF2E007FC2ED /* JKChromatogram.m */,
+			);
+			name = Unused;
+			sourceTree = "<group>";
+		};
+		C747B82E09DD54C0004837D0 /* Unused */ = {
 			isa = PBXGroup;
 			children = (
 				C7E4D31609C1C9E5007A1D3B /* JKSynchroScrollView.h */,
 				C7E4D31709C1C9E5007A1D3B /* JKSynchroScrollView.m */,
-				C7EB17CE0898CF2E007FC2ED /* JKAppDelegate.h */,
-				C7EB17CF0898CF2E007FC2ED /* JKAppDelegate.m */,
-				C7EB17DA0898CF2E007FC2ED /* JKMainDocument.h */,
-				C7EB17DB0898CF2E007FC2ED /* JKMainDocument.m */,
-				C78599A009CDBBAD00351C87 /* JKStatisticsDocument.h */,
-				C78599A109CDBBAD00351C87 /* JKStatisticsDocument.m */,
-				C7EB17DC0898CF2E007FC2ED /* JKMainWindowController.h */,
-				C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */,
 				C7EB17E20898CF2F007FC2ED /* JKPeakIdentificationWindowController.h */,
 				C7EB17E30898CF2F007FC2ED /* JKPeakIdentificationWindowController.m */,
-				C7EB17DE0898CF2E007FC2ED /* JKPanelController.h */,
-				C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */,
-				C7EB17E80898CF2F007FC2ED /* JKPreferencesWindowController.h */,
-				C7EB17E90898CF2F007FC2ED /* JKPreferencesWindowController.m */,
+			);
+			name = Unused;
+			sourceTree = "<group>";
+		};
+		C747B83109DD552C004837D0 /* Unused */ = {
+			isa = PBXGroup;
+			children = (
+				C7EB18100898CFBD007FC2ED /* UJKPanel.h */,
+				C7EB18110898CFBD007FC2ED /* UJKPanel.m */,
+				C771371F094DE9A600653D2A /* JKFileWell.h */,
+				C7713720094DE9A600653D2A /* JKFileWell.m */,
+				C78F04F3097EA5210060E253 /* NSView+AMAnimationAdditions.h */,
+				C78F04F4097EA5210060E253 /* NSView+AMAnimationAdditions.m */,
+			);
+			name = Unused;
+			sourceTree = "<group>";
+		};
+		C747B83409DD5638004837D0 /* GraphView */ = {
+			isa = PBXGroup;
+			children = (
+				C7EB17F70898CFBC007FC2ED /* MyGraphView.h */,
+				C7EB17F80898CFBC007FC2ED /* MyGraphView.m */,
+				C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */,
+				C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */,
+				C773669408E02D87002B72F1 /* ChromatogramGraphDataSerie.h */,
+				C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */,
+				C773669608E02D87002B72F1 /* SpectrumGraphDataSerie.h */,
+				C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */,
+			);
+			name = GraphView;
+			sourceTree = "<group>";
+		};
+		C747B83909DD5684004837D0 /* MainDocument */ = {
+			isa = PBXGroup;
+			children = (
+				C7EB17DA0898CF2E007FC2ED /* JKMainDocument.h */,
+				C7EB17DB0898CF2E007FC2ED /* JKMainDocument.m */,
+				C7EB17D20898CF2E007FC2ED /* JKDataModel.h */,
+				C7EB17D30898CF2E007FC2ED /* JKDataModel.m */,
+				C7EB17E40898CF2F007FC2ED /* JKPeakRecord.h */,
+				C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */,
+				C7EB17EA0898CF2F007FC2ED /* JKSpectrum.h */,
+				C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */,
+				C7EB17D60898CF2E007FC2ED /* JKLibrarySearch.h */,
+				C7EB17D70898CF2E007FC2ED /* JKLibrarySearch.m */,
+			);
+			name = MainDocument;
+			sourceTree = "<group>";
+		};
+		C747B83E09DD56A4004837D0 /* LibraryDocument */ = {
+			isa = PBXGroup;
+			children = (
 				C7EB17D40898CF2E007FC2ED /* JKLibrary.h */,
 				C7EB17D50898CF2E007FC2ED /* JKLibrary.m */,
+				C7F5E8F308EAA98600AC1068 /* JKLibraryEntry.h */,
+				C7F5E8F408EAA98600AC1068 /* JKLibraryEntry.m */,
+			);
+			name = LibraryDocument;
+			sourceTree = "<group>";
+		};
+		C747B84109DD56BD004837D0 /* StasticsDocument */ = {
+			isa = PBXGroup;
+			children = (
+				C78599A009CDBBAD00351C87 /* JKStatisticsDocument.h */,
+				C78599A109CDBBAD00351C87 /* JKStatisticsDocument.m */,
+				C70DB8EB09573BEA00C2B386 /* JKRatio.h */,
+				C70DB8EC09573BEA00C2B386 /* JKRatio.m */,
+			);
+			name = StasticsDocument;
+			sourceTree = "<group>";
+		};
+		C747B84409DD5704004837D0 /* MainWindow */ = {
+			isa = PBXGroup;
+			children = (
+				C7EB17DC0898CF2E007FC2ED /* JKMainWindowController.h */,
+				C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */,
+				C7EB17DE0898CF2E007FC2ED /* JKPanelController.h */,
+				C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */,
+			);
+			name = MainWindow;
+			sourceTree = "<group>";
+		};
+		C747B84709DD571D004837D0 /* ApplicationLevel */ = {
+			isa = PBXGroup;
+			children = (
+				C7EB17CE0898CF2E007FC2ED /* JKAppDelegate.h */,
+				C7EB17CF0898CF2E007FC2ED /* JKAppDelegate.m */,
+				C7EB17E80898CF2F007FC2ED /* JKPreferencesWindowController.h */,
+				C7EB17E90898CF2F007FC2ED /* JKPreferencesWindowController.m */,
+			);
+			name = ApplicationLevel;
+			sourceTree = "<group>";
+		};
+		C747B84A09DD5742004837D0 /* LibraryWindow */ = {
+			isa = PBXGroup;
+			children = (
 				C7EB17D80898CF2E007FC2ED /* JKLibraryWindowController.h */,
 				C7EB17D90898CF2E007FC2ED /* JKLibraryWindowController.m */,
+				C7AD38AB08B2A0D600A0F4BE /* FilteringDNDArrayController.h */,
+				C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */,
+			);
+			name = LibraryWindow;
+			sourceTree = "<group>";
+		};
+		C747B84D09DD575C004837D0 /* BatchWindow */ = {
+			isa = PBXGroup;
+			children = (
 				C7713B410950368F00653D2A /* JKBatchProcessWindowController.h */,
 				C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */,
+			);
+			name = BatchWindow;
+			sourceTree = "<group>";
+		};
+		C747B85009DD576B004837D0 /* StasticsWindow */ = {
+			isa = PBXGroup;
+			children = (
 				C785905409541F250083EC22 /* JKStatisticsWindowController.h */,
 				C785905509541F250083EC22 /* JKStatisticsWindowController.m */,
+			);
+			name = StasticsWindow;
+			sourceTree = "<group>";
+		};
+		C747B85309DD5782004837D0 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				C798C9E808E17B5400C6C7D1 /* DeleteTableView.h */,
+				C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */,
+			);
+			name = TableView;
+			sourceTree = "<group>";
+		};
+		C747BC5E09DD5B6A004837D0 /* gsl */ = {
+			isa = PBXGroup;
+			children = (
+				C747BC5F09DD5B6A004837D0 /* gsl_blas.h */,
+				C747BC6009DD5B6A004837D0 /* gsl_blas_types.h */,
+				C747BC6109DD5B6A004837D0 /* gsl_block.h */,
+				C747BC6209DD5B6A004837D0 /* gsl_block_char.h */,
+				C747BC6309DD5B6A004837D0 /* gsl_block_complex_double.h */,
+				C747BC6409DD5B6A004837D0 /* gsl_block_complex_float.h */,
+				C747BC6509DD5B6A004837D0 /* gsl_block_complex_long_double.h */,
+				C747BC6609DD5B6A004837D0 /* gsl_block_double.h */,
+				C747BC6709DD5B6A004837D0 /* gsl_block_float.h */,
+				C747BC6809DD5B6A004837D0 /* gsl_block_int.h */,
+				C747BC6909DD5B6A004837D0 /* gsl_block_long.h */,
+				C747BC6A09DD5B6A004837D0 /* gsl_block_long_double.h */,
+				C747BC6B09DD5B6A004837D0 /* gsl_block_short.h */,
+				C747BC6C09DD5B6A004837D0 /* gsl_block_uchar.h */,
+				C747BC6D09DD5B6A004837D0 /* gsl_block_uint.h */,
+				C747BC6E09DD5B6A004837D0 /* gsl_block_ulong.h */,
+				C747BC6F09DD5B6A004837D0 /* gsl_block_ushort.h */,
+				C747BC7009DD5B6A004837D0 /* gsl_cblas.h */,
+				C747BC7109DD5B6A004837D0 /* gsl_cdf.h */,
+				C747BC7209DD5B6A004837D0 /* gsl_chebyshev.h */,
+				C747BC7309DD5B6A004837D0 /* gsl_check_range.h */,
+				C747BC7409DD5B6A004837D0 /* gsl_combination.h */,
+				C747BC7509DD5B6A004837D0 /* gsl_complex.h */,
+				C747BC7609DD5B6A004837D0 /* gsl_complex_math.h */,
+				C747BC7709DD5B6A004837D0 /* gsl_const.h */,
+				C747BC7809DD5B6A004837D0 /* gsl_const_cgs.h */,
+				C747BC7909DD5B6A004837D0 /* gsl_const_cgsm.h */,
+				C747BC7A09DD5B6A004837D0 /* gsl_const_mks.h */,
+				C747BC7B09DD5B6A004837D0 /* gsl_const_mksa.h */,
+				C747BC7C09DD5B6A004837D0 /* gsl_const_num.h */,
+				C747BC7D09DD5B6A004837D0 /* gsl_deriv.h */,
+				C747BC7E09DD5B6A004837D0 /* gsl_dft_complex.h */,
+				C747BC7F09DD5B6A004837D0 /* gsl_dft_complex_float.h */,
+				C747BC8009DD5B6A004837D0 /* gsl_dht.h */,
+				C747BC8109DD5B6A004837D0 /* gsl_diff.h */,
+				C747BC8209DD5B6A004837D0 /* gsl_eigen.h */,
+				C747BC8309DD5B6A004837D0 /* gsl_errno.h */,
+				C747BC8409DD5B6A004837D0 /* gsl_fft.h */,
+				C747BC8509DD5B6A004837D0 /* gsl_fft_complex.h */,
+				C747BC8609DD5B6A004837D0 /* gsl_fft_complex_float.h */,
+				C747BC8709DD5B6A004837D0 /* gsl_fft_halfcomplex.h */,
+				C747BC8809DD5B6A004837D0 /* gsl_fft_halfcomplex_float.h */,
+				C747BC8909DD5B6A004837D0 /* gsl_fft_real.h */,
+				C747BC8A09DD5B6A004837D0 /* gsl_fft_real_float.h */,
+				C747BC8B09DD5B6A004837D0 /* gsl_fit.h */,
+				C747BC8C09DD5B6A004837D0 /* gsl_heapsort.h */,
+				C747BC8D09DD5B6A004837D0 /* gsl_histogram.h */,
+				C747BC8E09DD5B6A004837D0 /* gsl_histogram2d.h */,
+				C747BC8F09DD5B6A004837D0 /* gsl_ieee_utils.h */,
+				C747BC9009DD5B6A004837D0 /* gsl_integration.h */,
+				C747BC9109DD5B6A004837D0 /* gsl_interp.h */,
+				C747BC9209DD5B6A004837D0 /* gsl_linalg.h */,
+				C747BC9309DD5B6A004837D0 /* gsl_machine.h */,
+				C747BC9409DD5B6A004837D0 /* gsl_math.h */,
+				C747BC9509DD5B6A004837D0 /* gsl_matrix.h */,
+				C747BC9609DD5B6A004837D0 /* gsl_matrix_char.h */,
+				C747BC9709DD5B6A004837D0 /* gsl_matrix_complex_double.h */,
+				C747BC9809DD5B6A004837D0 /* gsl_matrix_complex_float.h */,
+				C747BC9909DD5B6A004837D0 /* gsl_matrix_complex_long_double.h */,
+				C747BC9A09DD5B6A004837D0 /* gsl_matrix_double.h */,
+				C747BC9B09DD5B6A004837D0 /* gsl_matrix_float.h */,
+				C747BC9C09DD5B6A004837D0 /* gsl_matrix_int.h */,
+				C747BC9D09DD5B6A004837D0 /* gsl_matrix_long.h */,
+				C747BC9E09DD5B6A004837D0 /* gsl_matrix_long_double.h */,
+				C747BC9F09DD5B6A004837D0 /* gsl_matrix_short.h */,
+				C747BCA009DD5B6A004837D0 /* gsl_matrix_uchar.h */,
+				C747BCA109DD5B6A004837D0 /* gsl_matrix_uint.h */,
+				C747BCA209DD5B6A004837D0 /* gsl_matrix_ulong.h */,
+				C747BCA309DD5B6A004837D0 /* gsl_matrix_ushort.h */,
+				C747BCA409DD5B6A004837D0 /* gsl_message.h */,
+				C747BCA509DD5B6A004837D0 /* gsl_min.h */,
+				C747BCA609DD5B6A004837D0 /* gsl_mode.h */,
+				C747BCA709DD5B6A004837D0 /* gsl_monte.h */,
+				C747BCA809DD5B6A004837D0 /* gsl_monte_miser.h */,
+				C747BCA909DD5B6A004837D0 /* gsl_monte_plain.h */,
+				C747BCAA09DD5B6A004837D0 /* gsl_monte_vegas.h */,
+				C747BCAB09DD5B6A004837D0 /* gsl_multifit.h */,
+				C747BCAC09DD5B6A004837D0 /* gsl_multifit_nlin.h */,
+				C747BCAD09DD5B6A004837D0 /* gsl_multimin.h */,
+				C747BCAE09DD5B6A004837D0 /* gsl_multiroots.h */,
+				C747BCAF09DD5B6A004837D0 /* gsl_nan.h */,
+				C747BCB009DD5B6A004837D0 /* gsl_ntuple.h */,
+				C747BCB109DD5B6A004837D0 /* gsl_odeiv.h */,
+				C747BCB209DD5B6A004837D0 /* gsl_permutation.h */,
+				C747BCB309DD5B6A004837D0 /* gsl_permute.h */,
+				C747BCB409DD5B6A004837D0 /* gsl_permute_char.h */,
+				C747BCB509DD5B6A004837D0 /* gsl_permute_complex_double.h */,
+				C747BCB609DD5B6A004837D0 /* gsl_permute_complex_float.h */,
+				C747BCB709DD5B6A004837D0 /* gsl_permute_complex_long_double.h */,
+				C747BCB809DD5B6A004837D0 /* gsl_permute_double.h */,
+				C747BCB909DD5B6A004837D0 /* gsl_permute_float.h */,
+				C747BCBA09DD5B6A004837D0 /* gsl_permute_int.h */,
+				C747BCBB09DD5B6A004837D0 /* gsl_permute_long.h */,
+				C747BCBC09DD5B6A004837D0 /* gsl_permute_long_double.h */,
+				C747BCBD09DD5B6A004837D0 /* gsl_permute_short.h */,
+				C747BCBE09DD5B6A004837D0 /* gsl_permute_uchar.h */,
+				C747BCBF09DD5B6A004837D0 /* gsl_permute_uint.h */,
+				C747BCC009DD5B6A004837D0 /* gsl_permute_ulong.h */,
+				C747BCC109DD5B6A004837D0 /* gsl_permute_ushort.h */,
+				C747BCC209DD5B6A004837D0 /* gsl_permute_vector.h */,
+				C747BCC309DD5B6A004837D0 /* gsl_permute_vector_char.h */,
+				C747BCC409DD5B6A004837D0 /* gsl_permute_vector_complex_double.h */,
+				C747BCC509DD5B6A004837D0 /* gsl_permute_vector_complex_float.h */,
+				C747BCC609DD5B6A004837D0 /* gsl_permute_vector_complex_long_double.h */,
+				C747BCC709DD5B6B004837D0 /* gsl_permute_vector_double.h */,
+				C747BCC809DD5B6B004837D0 /* gsl_permute_vector_float.h */,
+				C747BCC909DD5B6B004837D0 /* gsl_permute_vector_int.h */,
+				C747BCCA09DD5B6B004837D0 /* gsl_permute_vector_long.h */,
+				C747BCCB09DD5B6B004837D0 /* gsl_permute_vector_long_double.h */,
+				C747BCCC09DD5B6B004837D0 /* gsl_permute_vector_short.h */,
+				C747BCCD09DD5B6B004837D0 /* gsl_permute_vector_uchar.h */,
+				C747BCCE09DD5B6B004837D0 /* gsl_permute_vector_uint.h */,
+				C747BCCF09DD5B6B004837D0 /* gsl_permute_vector_ulong.h */,
+				C747BCD009DD5B6B004837D0 /* gsl_permute_vector_ushort.h */,
+				C747BCD109DD5B6B004837D0 /* gsl_poly.h */,
+				C747BCD209DD5B6B004837D0 /* gsl_pow_int.h */,
+				C747BCD309DD5B6B004837D0 /* gsl_precision.h */,
+				C747BCD409DD5B6B004837D0 /* gsl_qrng.h */,
+				C747BCD509DD5B6B004837D0 /* gsl_randist.h */,
+				C747BCD609DD5B6B004837D0 /* gsl_rng.h */,
+				C747BCD709DD5B6B004837D0 /* gsl_roots.h */,
+				C747BCD809DD5B6B004837D0 /* gsl_sf.h */,
+				C747BCD909DD5B6B004837D0 /* gsl_sf_airy.h */,
+				C747BCDA09DD5B6B004837D0 /* gsl_sf_bessel.h */,
+				C747BCDB09DD5B6B004837D0 /* gsl_sf_clausen.h */,
+				C747BCDC09DD5B6B004837D0 /* gsl_sf_coulomb.h */,
+				C747BCDD09DD5B6B004837D0 /* gsl_sf_coupling.h */,
+				C747BCDE09DD5B6B004837D0 /* gsl_sf_dawson.h */,
+				C747BCDF09DD5B6B004837D0 /* gsl_sf_debye.h */,
+				C747BCE009DD5B6B004837D0 /* gsl_sf_dilog.h */,
+				C747BCE109DD5B6B004837D0 /* gsl_sf_elementary.h */,
+				C747BCE209DD5B6B004837D0 /* gsl_sf_ellint.h */,
+				C747BCE309DD5B6B004837D0 /* gsl_sf_elljac.h */,
+				C747BCE409DD5B6B004837D0 /* gsl_sf_erf.h */,
+				C747BCE509DD5B6B004837D0 /* gsl_sf_exp.h */,
+				C747BCE609DD5B6B004837D0 /* gsl_sf_expint.h */,
+				C747BCE709DD5B6B004837D0 /* gsl_sf_fermi_dirac.h */,
+				C747BCE809DD5B6B004837D0 /* gsl_sf_gamma.h */,
+				C747BCE909DD5B6B004837D0 /* gsl_sf_gegenbauer.h */,
+				C747BCEA09DD5B6B004837D0 /* gsl_sf_hyperg.h */,
+				C747BCEB09DD5B6B004837D0 /* gsl_sf_laguerre.h */,
+				C747BCEC09DD5B6B004837D0 /* gsl_sf_lambert.h */,
+				C747BCED09DD5B6B004837D0 /* gsl_sf_legendre.h */,
+				C747BCEE09DD5B6B004837D0 /* gsl_sf_log.h */,
+				C747BCEF09DD5B6B004837D0 /* gsl_sf_pow_int.h */,
+				C747BCF009DD5B6B004837D0 /* gsl_sf_psi.h */,
+				C747BCF109DD5B6B004837D0 /* gsl_sf_result.h */,
+				C747BCF209DD5B6B004837D0 /* gsl_sf_synchrotron.h */,
+				C747BCF309DD5B6B004837D0 /* gsl_sf_transport.h */,
+				C747BCF409DD5B6B004837D0 /* gsl_sf_trig.h */,
+				C747BCF509DD5B6B004837D0 /* gsl_sf_zeta.h */,
+				C747BCF609DD5B6B004837D0 /* gsl_siman.h */,
+				C747BCF709DD5B6B004837D0 /* gsl_sort.h */,
+				C747BCF809DD5B6B004837D0 /* gsl_sort_char.h */,
+				C747BCF909DD5B6B004837D0 /* gsl_sort_double.h */,
+				C747BCFA09DD5B6B004837D0 /* gsl_sort_float.h */,
+				C747BCFB09DD5B6B004837D0 /* gsl_sort_int.h */,
+				C747BCFC09DD5B6B004837D0 /* gsl_sort_long.h */,
+				C747BCFD09DD5B6B004837D0 /* gsl_sort_long_double.h */,
+				C747BCFE09DD5B6B004837D0 /* gsl_sort_short.h */,
+				C747BCFF09DD5B6B004837D0 /* gsl_sort_uchar.h */,
+				C747BD0009DD5B6B004837D0 /* gsl_sort_uint.h */,
+				C747BD0109DD5B6B004837D0 /* gsl_sort_ulong.h */,
+				C747BD0209DD5B6B004837D0 /* gsl_sort_ushort.h */,
+				C747BD0309DD5B6B004837D0 /* gsl_sort_vector.h */,
+				C747BD0409DD5B6B004837D0 /* gsl_sort_vector_char.h */,
+				C747BD0509DD5B6B004837D0 /* gsl_sort_vector_double.h */,
+				C747BD0609DD5B6B004837D0 /* gsl_sort_vector_float.h */,
+				C747BD0709DD5B6B004837D0 /* gsl_sort_vector_int.h */,
+				C747BD0809DD5B6B004837D0 /* gsl_sort_vector_long.h */,
+				C747BD0909DD5B6B004837D0 /* gsl_sort_vector_long_double.h */,
+				C747BD0A09DD5B6B004837D0 /* gsl_sort_vector_short.h */,
+				C747BD0B09DD5B6B004837D0 /* gsl_sort_vector_uchar.h */,
+				C747BD0C09DD5B6B004837D0 /* gsl_sort_vector_uint.h */,
+				C747BD0D09DD5B6B004837D0 /* gsl_sort_vector_ulong.h */,
+				C747BD0E09DD5B6B004837D0 /* gsl_sort_vector_ushort.h */,
+				C747BD0F09DD5B6B004837D0 /* gsl_specfunc.h */,
+				C747BD1009DD5B6B004837D0 /* gsl_spline.h */,
+				C747BD1109DD5B6B004837D0 /* gsl_statistics.h */,
+				C747BD1209DD5B6B004837D0 /* gsl_statistics_char.h */,
+				C747BD1309DD5B6B004837D0 /* gsl_statistics_double.h */,
+				C747BD1409DD5B6B004837D0 /* gsl_statistics_float.h */,
+				C747BD1509DD5B6B004837D0 /* gsl_statistics_int.h */,
+				C747BD1609DD5B6B004837D0 /* gsl_statistics_long.h */,
+				C747BD1709DD5B6B004837D0 /* gsl_statistics_long_double.h */,
+				C747BD1809DD5B6B004837D0 /* gsl_statistics_short.h */,
+				C747BD1909DD5B6B004837D0 /* gsl_statistics_uchar.h */,
+				C747BD1A09DD5B6B004837D0 /* gsl_statistics_uint.h */,
+				C747BD1B09DD5B6B004837D0 /* gsl_statistics_ulong.h */,
+				C747BD1C09DD5B6B004837D0 /* gsl_statistics_ushort.h */,
+				C747BD1D09DD5B6B004837D0 /* gsl_sum.h */,
+				C747BD1E09DD5B6B004837D0 /* gsl_sys.h */,
+				C747BD1F09DD5B6B004837D0 /* gsl_test.h */,
+				C747BD2009DD5B6B004837D0 /* gsl_types.h */,
+				C747BD2109DD5B6B004837D0 /* gsl_vector.h */,
+				C747BD2209DD5B6B004837D0 /* gsl_vector_char.h */,
+				C747BD2309DD5B6B004837D0 /* gsl_vector_complex.h */,
+				C747BD2409DD5B6B004837D0 /* gsl_vector_complex_double.h */,
+				C747BD2509DD5B6B004837D0 /* gsl_vector_complex_float.h */,
+				C747BD2609DD5B6B004837D0 /* gsl_vector_complex_long_double.h */,
+				C747BD2709DD5B6B004837D0 /* gsl_vector_double.h */,
+				C747BD2809DD5B6B004837D0 /* gsl_vector_float.h */,
+				C747BD2909DD5B6B004837D0 /* gsl_vector_int.h */,
+				C747BD2A09DD5B6B004837D0 /* gsl_vector_long.h */,
+				C747BD2B09DD5B6B004837D0 /* gsl_vector_long_double.h */,
+				C747BD2C09DD5B6B004837D0 /* gsl_vector_short.h */,
+				C747BD2D09DD5B6B004837D0 /* gsl_vector_uchar.h */,
+				C747BD2E09DD5B6B004837D0 /* gsl_vector_uint.h */,
+				C747BD2F09DD5B6B004837D0 /* gsl_vector_ulong.h */,
+				C747BD3009DD5B6B004837D0 /* gsl_vector_ushort.h */,
+				C747BD3109DD5B6B004837D0 /* gsl_version.h */,
+				C747BD3209DD5B6B004837D0 /* gsl_wavelet.h */,
+				C747BD3309DD5B6B004837D0 /* gsl_wavelet2d.h */,
+			);
+			path = gsl;
+			sourceTree = "<group>";
+		};
+		C773290908CA610700222B5B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C747B84409DD5704004837D0 /* MainWindow */,
+				C747B84709DD571D004837D0 /* ApplicationLevel */,
+				C747B84A09DD5742004837D0 /* LibraryWindow */,
+				C747B84D09DD575C004837D0 /* BatchWindow */,
+				C747B85009DD576B004837D0 /* StasticsWindow */,
+				C747B82E09DD54C0004837D0 /* Unused */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -516,20 +1276,10 @@
 		C773290B08CA614200222B5B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				C7EB17D20898CF2E007FC2ED /* JKDataModel.h */,
-				C7EB17D30898CF2E007FC2ED /* JKDataModel.m */,
-				C7EB17E40898CF2F007FC2ED /* JKPeakRecord.h */,
-				C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */,
-				C7EB17EA0898CF2F007FC2ED /* JKSpectrum.h */,
-				C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */,
-				C7EB17D00898CF2E007FC2ED /* JKChromatogram.h */,
-				C7EB17D10898CF2E007FC2ED /* JKChromatogram.m */,
-				C7F5E8F308EAA98600AC1068 /* JKLibraryEntry.h */,
-				C7F5E8F408EAA98600AC1068 /* JKLibraryEntry.m */,
-				C7EB17D60898CF2E007FC2ED /* JKLibrarySearch.h */,
-				C7EB17D70898CF2E007FC2ED /* JKLibrarySearch.m */,
-				C70DB8EB09573BEA00C2B386 /* JKRatio.h */,
-				C70DB8EC09573BEA00C2B386 /* JKRatio.m */,
+				C747B83909DD5684004837D0 /* MainDocument */,
+				C747B83E09DD56A4004837D0 /* LibraryDocument */,
+				C747B84109DD56BD004837D0 /* StasticsDocument */,
+				C747B82B09DD5486004837D0 /* Unused */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -654,10 +1404,221 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70DB7610957141800C2B386 /* netcdf.h in Headers */,
-				C78F04F5097EA5210060E253 /* NSView+AMAnimationAdditions.h in Headers */,
 				C7BC505309A62C930093106E /* JKLog.h in Headers */,
-				C7E4D31809C1C9E5007A1D3B /* JKSynchroScrollView.h in Headers */,
 				C78599A209CDBBAD00351C87 /* JKStatisticsDocument.h in Headers */,
+				C747BD3409DD5B6B004837D0 /* gsl_blas.h in Headers */,
+				C747BD3509DD5B6B004837D0 /* gsl_blas_types.h in Headers */,
+				C747BD3609DD5B6B004837D0 /* gsl_block.h in Headers */,
+				C747BD3709DD5B6B004837D0 /* gsl_block_char.h in Headers */,
+				C747BD3809DD5B6B004837D0 /* gsl_block_complex_double.h in Headers */,
+				C747BD3909DD5B6B004837D0 /* gsl_block_complex_float.h in Headers */,
+				C747BD3A09DD5B6B004837D0 /* gsl_block_complex_long_double.h in Headers */,
+				C747BD3B09DD5B6B004837D0 /* gsl_block_double.h in Headers */,
+				C747BD3C09DD5B6B004837D0 /* gsl_block_float.h in Headers */,
+				C747BD3D09DD5B6B004837D0 /* gsl_block_int.h in Headers */,
+				C747BD3E09DD5B6B004837D0 /* gsl_block_long.h in Headers */,
+				C747BD3F09DD5B6B004837D0 /* gsl_block_long_double.h in Headers */,
+				C747BD4009DD5B6B004837D0 /* gsl_block_short.h in Headers */,
+				C747BD4109DD5B6B004837D0 /* gsl_block_uchar.h in Headers */,
+				C747BD4209DD5B6B004837D0 /* gsl_block_uint.h in Headers */,
+				C747BD4309DD5B6B004837D0 /* gsl_block_ulong.h in Headers */,
+				C747BD4409DD5B6B004837D0 /* gsl_block_ushort.h in Headers */,
+				C747BD4509DD5B6B004837D0 /* gsl_cblas.h in Headers */,
+				C747BD4609DD5B6B004837D0 /* gsl_cdf.h in Headers */,
+				C747BD4709DD5B6B004837D0 /* gsl_chebyshev.h in Headers */,
+				C747BD4809DD5B6B004837D0 /* gsl_check_range.h in Headers */,
+				C747BD4909DD5B6B004837D0 /* gsl_combination.h in Headers */,
+				C747BD4A09DD5B6B004837D0 /* gsl_complex.h in Headers */,
+				C747BD4B09DD5B6B004837D0 /* gsl_complex_math.h in Headers */,
+				C747BD4C09DD5B6B004837D0 /* gsl_const.h in Headers */,
+				C747BD4D09DD5B6B004837D0 /* gsl_const_cgs.h in Headers */,
+				C747BD4E09DD5B6B004837D0 /* gsl_const_cgsm.h in Headers */,
+				C747BD4F09DD5B6B004837D0 /* gsl_const_mks.h in Headers */,
+				C747BD5009DD5B6B004837D0 /* gsl_const_mksa.h in Headers */,
+				C747BD5109DD5B6B004837D0 /* gsl_const_num.h in Headers */,
+				C747BD5209DD5B6B004837D0 /* gsl_deriv.h in Headers */,
+				C747BD5309DD5B6B004837D0 /* gsl_dft_complex.h in Headers */,
+				C747BD5409DD5B6B004837D0 /* gsl_dft_complex_float.h in Headers */,
+				C747BD5509DD5B6B004837D0 /* gsl_dht.h in Headers */,
+				C747BD5609DD5B6B004837D0 /* gsl_diff.h in Headers */,
+				C747BD5709DD5B6B004837D0 /* gsl_eigen.h in Headers */,
+				C747BD5809DD5B6B004837D0 /* gsl_errno.h in Headers */,
+				C747BD5909DD5B6B004837D0 /* gsl_fft.h in Headers */,
+				C747BD5A09DD5B6B004837D0 /* gsl_fft_complex.h in Headers */,
+				C747BD5B09DD5B6B004837D0 /* gsl_fft_complex_float.h in Headers */,
+				C747BD5C09DD5B6B004837D0 /* gsl_fft_halfcomplex.h in Headers */,
+				C747BD5D09DD5B6B004837D0 /* gsl_fft_halfcomplex_float.h in Headers */,
+				C747BD5E09DD5B6B004837D0 /* gsl_fft_real.h in Headers */,
+				C747BD5F09DD5B6B004837D0 /* gsl_fft_real_float.h in Headers */,
+				C747BD6009DD5B6B004837D0 /* gsl_fit.h in Headers */,
+				C747BD6109DD5B6B004837D0 /* gsl_heapsort.h in Headers */,
+				C747BD6209DD5B6B004837D0 /* gsl_histogram.h in Headers */,
+				C747BD6309DD5B6B004837D0 /* gsl_histogram2d.h in Headers */,
+				C747BD6409DD5B6B004837D0 /* gsl_ieee_utils.h in Headers */,
+				C747BD6509DD5B6B004837D0 /* gsl_integration.h in Headers */,
+				C747BD6609DD5B6B004837D0 /* gsl_interp.h in Headers */,
+				C747BD6709DD5B6B004837D0 /* gsl_linalg.h in Headers */,
+				C747BD6809DD5B6B004837D0 /* gsl_machine.h in Headers */,
+				C747BD6909DD5B6B004837D0 /* gsl_math.h in Headers */,
+				C747BD6A09DD5B6B004837D0 /* gsl_matrix.h in Headers */,
+				C747BD6B09DD5B6B004837D0 /* gsl_matrix_char.h in Headers */,
+				C747BD6C09DD5B6B004837D0 /* gsl_matrix_complex_double.h in Headers */,
+				C747BD6D09DD5B6B004837D0 /* gsl_matrix_complex_float.h in Headers */,
+				C747BD6E09DD5B6B004837D0 /* gsl_matrix_complex_long_double.h in Headers */,
+				C747BD6F09DD5B6B004837D0 /* gsl_matrix_double.h in Headers */,
+				C747BD7009DD5B6B004837D0 /* gsl_matrix_float.h in Headers */,
+				C747BD7109DD5B6B004837D0 /* gsl_matrix_int.h in Headers */,
+				C747BD7209DD5B6B004837D0 /* gsl_matrix_long.h in Headers */,
+				C747BD7309DD5B6B004837D0 /* gsl_matrix_long_double.h in Headers */,
+				C747BD7409DD5B6B004837D0 /* gsl_matrix_short.h in Headers */,
+				C747BD7509DD5B6B004837D0 /* gsl_matrix_uchar.h in Headers */,
+				C747BD7609DD5B6B004837D0 /* gsl_matrix_uint.h in Headers */,
+				C747BD7709DD5B6B004837D0 /* gsl_matrix_ulong.h in Headers */,
+				C747BD7809DD5B6B004837D0 /* gsl_matrix_ushort.h in Headers */,
+				C747BD7909DD5B6B004837D0 /* gsl_message.h in Headers */,
+				C747BD7A09DD5B6B004837D0 /* gsl_min.h in Headers */,
+				C747BD7B09DD5B6B004837D0 /* gsl_mode.h in Headers */,
+				C747BD7C09DD5B6B004837D0 /* gsl_monte.h in Headers */,
+				C747BD7D09DD5B6B004837D0 /* gsl_monte_miser.h in Headers */,
+				C747BD7E09DD5B6B004837D0 /* gsl_monte_plain.h in Headers */,
+				C747BD7F09DD5B6B004837D0 /* gsl_monte_vegas.h in Headers */,
+				C747BD8009DD5B6B004837D0 /* gsl_multifit.h in Headers */,
+				C747BD8109DD5B6B004837D0 /* gsl_multifit_nlin.h in Headers */,
+				C747BD8209DD5B6B004837D0 /* gsl_multimin.h in Headers */,
+				C747BD8309DD5B6B004837D0 /* gsl_multiroots.h in Headers */,
+				C747BD8409DD5B6B004837D0 /* gsl_nan.h in Headers */,
+				C747BD8509DD5B6B004837D0 /* gsl_ntuple.h in Headers */,
+				C747BD8609DD5B6B004837D0 /* gsl_odeiv.h in Headers */,
+				C747BD8709DD5B6B004837D0 /* gsl_permutation.h in Headers */,
+				C747BD8809DD5B6B004837D0 /* gsl_permute.h in Headers */,
+				C747BD8909DD5B6B004837D0 /* gsl_permute_char.h in Headers */,
+				C747BD8A09DD5B6B004837D0 /* gsl_permute_complex_double.h in Headers */,
+				C747BD8B09DD5B6B004837D0 /* gsl_permute_complex_float.h in Headers */,
+				C747BD8C09DD5B6B004837D0 /* gsl_permute_complex_long_double.h in Headers */,
+				C747BD8D09DD5B6B004837D0 /* gsl_permute_double.h in Headers */,
+				C747BD8E09DD5B6B004837D0 /* gsl_permute_float.h in Headers */,
+				C747BD8F09DD5B6B004837D0 /* gsl_permute_int.h in Headers */,
+				C747BD9009DD5B6B004837D0 /* gsl_permute_long.h in Headers */,
+				C747BD9109DD5B6B004837D0 /* gsl_permute_long_double.h in Headers */,
+				C747BD9209DD5B6B004837D0 /* gsl_permute_short.h in Headers */,
+				C747BD9309DD5B6B004837D0 /* gsl_permute_uchar.h in Headers */,
+				C747BD9409DD5B6B004837D0 /* gsl_permute_uint.h in Headers */,
+				C747BD9509DD5B6B004837D0 /* gsl_permute_ulong.h in Headers */,
+				C747BD9609DD5B6B004837D0 /* gsl_permute_ushort.h in Headers */,
+				C747BD9709DD5B6B004837D0 /* gsl_permute_vector.h in Headers */,
+				C747BD9809DD5B6B004837D0 /* gsl_permute_vector_char.h in Headers */,
+				C747BD9909DD5B6B004837D0 /* gsl_permute_vector_complex_double.h in Headers */,
+				C747BD9A09DD5B6B004837D0 /* gsl_permute_vector_complex_float.h in Headers */,
+				C747BD9B09DD5B6B004837D0 /* gsl_permute_vector_complex_long_double.h in Headers */,
+				C747BD9C09DD5B6B004837D0 /* gsl_permute_vector_double.h in Headers */,
+				C747BD9D09DD5B6B004837D0 /* gsl_permute_vector_float.h in Headers */,
+				C747BD9E09DD5B6B004837D0 /* gsl_permute_vector_int.h in Headers */,
+				C747BD9F09DD5B6B004837D0 /* gsl_permute_vector_long.h in Headers */,
+				C747BDA009DD5B6B004837D0 /* gsl_permute_vector_long_double.h in Headers */,
+				C747BDA109DD5B6B004837D0 /* gsl_permute_vector_short.h in Headers */,
+				C747BDA209DD5B6B004837D0 /* gsl_permute_vector_uchar.h in Headers */,
+				C747BDA309DD5B6B004837D0 /* gsl_permute_vector_uint.h in Headers */,
+				C747BDA409DD5B6B004837D0 /* gsl_permute_vector_ulong.h in Headers */,
+				C747BDA509DD5B6B004837D0 /* gsl_permute_vector_ushort.h in Headers */,
+				C747BDA609DD5B6B004837D0 /* gsl_poly.h in Headers */,
+				C747BDA709DD5B6B004837D0 /* gsl_pow_int.h in Headers */,
+				C747BDA809DD5B6B004837D0 /* gsl_precision.h in Headers */,
+				C747BDA909DD5B6B004837D0 /* gsl_qrng.h in Headers */,
+				C747BDAA09DD5B6B004837D0 /* gsl_randist.h in Headers */,
+				C747BDAB09DD5B6B004837D0 /* gsl_rng.h in Headers */,
+				C747BDAC09DD5B6B004837D0 /* gsl_roots.h in Headers */,
+				C747BDAD09DD5B6B004837D0 /* gsl_sf.h in Headers */,
+				C747BDAE09DD5B6B004837D0 /* gsl_sf_airy.h in Headers */,
+				C747BDAF09DD5B6B004837D0 /* gsl_sf_bessel.h in Headers */,
+				C747BDB009DD5B6B004837D0 /* gsl_sf_clausen.h in Headers */,
+				C747BDB109DD5B6B004837D0 /* gsl_sf_coulomb.h in Headers */,
+				C747BDB209DD5B6B004837D0 /* gsl_sf_coupling.h in Headers */,
+				C747BDB309DD5B6B004837D0 /* gsl_sf_dawson.h in Headers */,
+				C747BDB409DD5B6B004837D0 /* gsl_sf_debye.h in Headers */,
+				C747BDB509DD5B6B004837D0 /* gsl_sf_dilog.h in Headers */,
+				C747BDB609DD5B6B004837D0 /* gsl_sf_elementary.h in Headers */,
+				C747BDB709DD5B6B004837D0 /* gsl_sf_ellint.h in Headers */,
+				C747BDB809DD5B6B004837D0 /* gsl_sf_elljac.h in Headers */,
+				C747BDB909DD5B6B004837D0 /* gsl_sf_erf.h in Headers */,
+				C747BDBA09DD5B6B004837D0 /* gsl_sf_exp.h in Headers */,
+				C747BDBB09DD5B6B004837D0 /* gsl_sf_expint.h in Headers */,
+				C747BDBC09DD5B6B004837D0 /* gsl_sf_fermi_dirac.h in Headers */,
+				C747BDBD09DD5B6B004837D0 /* gsl_sf_gamma.h in Headers */,
+				C747BDBE09DD5B6B004837D0 /* gsl_sf_gegenbauer.h in Headers */,
+				C747BDBF09DD5B6B004837D0 /* gsl_sf_hyperg.h in Headers */,
+				C747BDC009DD5B6B004837D0 /* gsl_sf_laguerre.h in Headers */,
+				C747BDC109DD5B6B004837D0 /* gsl_sf_lambert.h in Headers */,
+				C747BDC209DD5B6B004837D0 /* gsl_sf_legendre.h in Headers */,
+				C747BDC309DD5B6B004837D0 /* gsl_sf_log.h in Headers */,
+				C747BDC409DD5B6B004837D0 /* gsl_sf_pow_int.h in Headers */,
+				C747BDC509DD5B6B004837D0 /* gsl_sf_psi.h in Headers */,
+				C747BDC609DD5B6B004837D0 /* gsl_sf_result.h in Headers */,
+				C747BDC709DD5B6B004837D0 /* gsl_sf_synchrotron.h in Headers */,
+				C747BDC809DD5B6B004837D0 /* gsl_sf_transport.h in Headers */,
+				C747BDC909DD5B6B004837D0 /* gsl_sf_trig.h in Headers */,
+				C747BDCA09DD5B6B004837D0 /* gsl_sf_zeta.h in Headers */,
+				C747BDCB09DD5B6B004837D0 /* gsl_siman.h in Headers */,
+				C747BDCC09DD5B6B004837D0 /* gsl_sort.h in Headers */,
+				C747BDCD09DD5B6B004837D0 /* gsl_sort_char.h in Headers */,
+				C747BDCE09DD5B6B004837D0 /* gsl_sort_double.h in Headers */,
+				C747BDCF09DD5B6B004837D0 /* gsl_sort_float.h in Headers */,
+				C747BDD009DD5B6B004837D0 /* gsl_sort_int.h in Headers */,
+				C747BDD109DD5B6B004837D0 /* gsl_sort_long.h in Headers */,
+				C747BDD209DD5B6B004837D0 /* gsl_sort_long_double.h in Headers */,
+				C747BDD309DD5B6B004837D0 /* gsl_sort_short.h in Headers */,
+				C747BDD409DD5B6B004837D0 /* gsl_sort_uchar.h in Headers */,
+				C747BDD509DD5B6B004837D0 /* gsl_sort_uint.h in Headers */,
+				C747BDD609DD5B6B004837D0 /* gsl_sort_ulong.h in Headers */,
+				C747BDD709DD5B6B004837D0 /* gsl_sort_ushort.h in Headers */,
+				C747BDD809DD5B6B004837D0 /* gsl_sort_vector.h in Headers */,
+				C747BDD909DD5B6B004837D0 /* gsl_sort_vector_char.h in Headers */,
+				C747BDDA09DD5B6B004837D0 /* gsl_sort_vector_double.h in Headers */,
+				C747BDDB09DD5B6B004837D0 /* gsl_sort_vector_float.h in Headers */,
+				C747BDDC09DD5B6B004837D0 /* gsl_sort_vector_int.h in Headers */,
+				C747BDDD09DD5B6B004837D0 /* gsl_sort_vector_long.h in Headers */,
+				C747BDDE09DD5B6B004837D0 /* gsl_sort_vector_long_double.h in Headers */,
+				C747BDDF09DD5B6B004837D0 /* gsl_sort_vector_short.h in Headers */,
+				C747BDE009DD5B6B004837D0 /* gsl_sort_vector_uchar.h in Headers */,
+				C747BDE109DD5B6B004837D0 /* gsl_sort_vector_uint.h in Headers */,
+				C747BDE209DD5B6B004837D0 /* gsl_sort_vector_ulong.h in Headers */,
+				C747BDE309DD5B6B004837D0 /* gsl_sort_vector_ushort.h in Headers */,
+				C747BDE409DD5B6B004837D0 /* gsl_specfunc.h in Headers */,
+				C747BDE509DD5B6B004837D0 /* gsl_spline.h in Headers */,
+				C747BDE609DD5B6B004837D0 /* gsl_statistics.h in Headers */,
+				C747BDE709DD5B6B004837D0 /* gsl_statistics_char.h in Headers */,
+				C747BDE809DD5B6B004837D0 /* gsl_statistics_double.h in Headers */,
+				C747BDE909DD5B6B004837D0 /* gsl_statistics_float.h in Headers */,
+				C747BDEA09DD5B6B004837D0 /* gsl_statistics_int.h in Headers */,
+				C747BDEB09DD5B6B004837D0 /* gsl_statistics_long.h in Headers */,
+				C747BDEC09DD5B6B004837D0 /* gsl_statistics_long_double.h in Headers */,
+				C747BDED09DD5B6B004837D0 /* gsl_statistics_short.h in Headers */,
+				C747BDEE09DD5B6B004837D0 /* gsl_statistics_uchar.h in Headers */,
+				C747BDEF09DD5B6B004837D0 /* gsl_statistics_uint.h in Headers */,
+				C747BDF009DD5B6B004837D0 /* gsl_statistics_ulong.h in Headers */,
+				C747BDF109DD5B6B004837D0 /* gsl_statistics_ushort.h in Headers */,
+				C747BDF209DD5B6B004837D0 /* gsl_sum.h in Headers */,
+				C747BDF309DD5B6B004837D0 /* gsl_sys.h in Headers */,
+				C747BDF409DD5B6B004837D0 /* gsl_test.h in Headers */,
+				C747BDF509DD5B6B004837D0 /* gsl_types.h in Headers */,
+				C747BDF609DD5B6B004837D0 /* gsl_vector.h in Headers */,
+				C747BDF709DD5B6B004837D0 /* gsl_vector_char.h in Headers */,
+				C747BDF809DD5B6B004837D0 /* gsl_vector_complex.h in Headers */,
+				C747BDF909DD5B6B004837D0 /* gsl_vector_complex_double.h in Headers */,
+				C747BDFA09DD5B6B004837D0 /* gsl_vector_complex_float.h in Headers */,
+				C747BDFB09DD5B6B004837D0 /* gsl_vector_complex_long_double.h in Headers */,
+				C747BDFC09DD5B6B004837D0 /* gsl_vector_double.h in Headers */,
+				C747BDFD09DD5B6B004837D0 /* gsl_vector_float.h in Headers */,
+				C747BDFE09DD5B6B004837D0 /* gsl_vector_int.h in Headers */,
+				C747BDFF09DD5B6B004837D0 /* gsl_vector_long.h in Headers */,
+				C747BE0009DD5B6B004837D0 /* gsl_vector_long_double.h in Headers */,
+				C747BE0109DD5B6B004837D0 /* gsl_vector_short.h in Headers */,
+				C747BE0209DD5B6B004837D0 /* gsl_vector_uchar.h in Headers */,
+				C747BE0309DD5B6B004837D0 /* gsl_vector_uint.h in Headers */,
+				C747BE0409DD5B6B004837D0 /* gsl_vector_ulong.h in Headers */,
+				C747BE0509DD5B6B004837D0 /* gsl_vector_ushort.h in Headers */,
+				C747BE0609DD5B6B004837D0 /* gsl_version.h in Headers */,
+				C747BE0709DD5B6B004837D0 /* gsl_wavelet.h in Headers */,
+				C747BE0809DD5B6B004837D0 /* gsl_wavelet2d.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -869,13 +1830,10 @@
 				C7626F440926013400EDCAB9 /* JKLibrarySearch.m in Sources */,
 				C79A6154094DBE3A00C0887E /* RBSplitSubview.m in Sources */,
 				C79A6155094DBE3A00C0887E /* RBSplitView.m in Sources */,
-				C7713721094DE9A600653D2A /* JKFileWell.m in Sources */,
 				C7713B430950368F00653D2A /* JKBatchProcessWindowController.m in Sources */,
 				C7B3159B0956CE610017ADDC /* JKStatisticsWindowController.m in Sources */,
 				C70DB8EE09573BEA00C2B386 /* JKRatio.m in Sources */,
-				C78F04F6097EA5210060E253 /* NSView+AMAnimationAdditions.m in Sources */,
 				C7BC505409A62C930093106E /* JKLog.m in Sources */,
-				C7E4D31909C1C9E5007A1D3B /* JKSynchroScrollView.m in Sources */,
 				C78599A309CDBBAD00351C87 /* JKStatisticsDocument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1020,8 +1978,12 @@
 				GCC_WARN_MISSING_PARENTHESES = NO;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Frameworks";
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks\"";
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/Frameworks",
+					"$(SRCROOT)",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = Peacock;
 				WRAPPER_EXTENSION = app;
@@ -1051,9 +2013,13 @@
 				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Frameworks";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks\"";
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/Frameworks",
+					"$(SRCROOT)",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = Peacock;
 				WRAPPER_EXTENSION = app;

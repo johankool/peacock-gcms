@@ -14,6 +14,7 @@
 #import "JKDataModel.h"
 #import "JKSpectrum.h"
 #import "Growl/GrowlApplicationBridge.h"
+#import <gsl/gsl_statistics.h>
 
 @implementation JKStatisticsWindowController
 
@@ -322,17 +323,17 @@
 		[fileProgressIndicator setDoubleValue:(i+1)*7.0];
 	}
 	// Out of scope for files
-	if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisSaveAsTabDelimitedTextFile"] boolValue]) {
-		[detailStatusTextField setStringValue:NSLocalizedString(@"Saving Tab Delimited Text File",@"")];
-		[fileProgressIndicator setIndeterminate:YES];
-		[self exportSummary:self];
-	}
 
 	// Finishing
 	if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisSummarize"] boolValue]) {
 		[detailStatusTextField setStringValue:NSLocalizedString(@"Sorting Results",@"")];
 		[fileProgressIndicator setIndeterminate:YES];
 		[self sortCombinedPeaks];
+	}
+	if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisSaveAsTabDelimitedTextFile"] boolValue]) {
+		[detailStatusTextField setStringValue:NSLocalizedString(@"Saving Tab Delimited Text File",@"")];
+		[fileProgressIndicator setIndeterminate:YES];
+		[self exportSummary:self];
 	}
 	
 	[error release];
@@ -576,22 +577,24 @@
 }
 
 -(void)sortCombinedPeaks{
+	JKLogEnteringMethod();
 	NSMutableDictionary *combinedPeak;
 	NSString *key;
 	JKPeakRecord *peak;
 	NSEnumerator *peaksEnumerator;
 	int i, count, combinedPeaksCount;
-	float averageRetentionTime, averageSurface, averageHeigth;
-	int filesCount = [files count];
+	float averageRetentionTime, averageSurface, averageHeight;
+	float standardDeviationRetentionTime, standardDeviationSurface, standardDeviationHeight;
+	int filesCount = [[self files] count];
 	
-	combinedPeaksCount = [combinedPeaks count];
+	combinedPeaksCount = [[self combinedPeaks] count];
 	for (i = 0; i < combinedPeaksCount; i++) {
-		combinedPeak = [combinedPeaks objectAtIndex:i];
+		combinedPeak = [[self combinedPeaks] objectAtIndex:i];
 		peaksEnumerator = [combinedPeak keyEnumerator];
 		count = 0;
 		averageRetentionTime = 0.0;
 		averageSurface = 0.0;
-		averageHeigth = 0.0;
+		averageHeight = 0.0;
 		
 		while (key = [peaksEnumerator nextObject]) {
 			if ([[key substringToIndex:4] isEqualToString:@"file"]){
@@ -599,7 +602,7 @@
 				count++;
 				averageRetentionTime = averageRetentionTime + [[peak topTime] floatValue];
 				averageSurface = averageSurface + [[peak normalizedSurface] floatValue];
-				averageHeigth = averageHeigth + [[peak normalizedHeight] floatValue];
+				averageHeight = averageHeight + [[peak normalizedHeight] floatValue];
 			}
 		}
 		
@@ -608,19 +611,48 @@
 		[combinedPeak setValue:[NSNumber numberWithFloat:averageRetentionTime] forKey:@"averageRetentionTime"];
 		
 		// Calculate average surface
-		averageSurface = averageSurface/filesCount;
+		averageSurface = averageSurface/count;
 		[combinedPeak setValue:[NSNumber numberWithFloat:averageSurface] forKey:@"averageSurface"];
 		
 		// Calculate average height
-		averageHeigth = averageHeigth/filesCount	;
-		[combinedPeak setValue:[NSNumber numberWithFloat:averageHeigth] forKey:@"averageHeigth"];
+		averageHeight = averageHeight/count;
+		[combinedPeak setValue:[NSNumber numberWithFloat:averageHeight] forKey:@"averageHeight"];
+
+		[combinedPeak setValue:[NSNumber numberWithInt:count] forKey:@"compoundCount"];
 		
-		// Calculate stdev?
+		// Calculate stdev 
+		peaksEnumerator = [combinedPeak keyEnumerator];
+		standardDeviationRetentionTime = 0.0;
+		standardDeviationSurface = 0.0;
+		standardDeviationHeight = 0.0;
+		count = 0;
+		
+		while (key = [peaksEnumerator nextObject]) {
+			if ([[key substringToIndex:4] isEqualToString:@"file"]){
+				peak = [combinedPeak objectForKey:key];
+				count++;
+				standardDeviationRetentionTime = standardDeviationRetentionTime + powf(([[peak topTime] floatValue] - averageRetentionTime),2);
+				standardDeviationSurface = standardDeviationSurface + powf(([[peak normalizedSurface] floatValue] - averageSurface),2);
+				standardDeviationHeight = standardDeviationHeight + powf(([[peak normalizedHeight] floatValue] - averageHeight),2);
+			}
+		}
+		// Calculate stdev retentionIndex
+		standardDeviationRetentionTime = sqrtf(standardDeviationRetentionTime/(count-1));
+		[combinedPeak setValue:[NSNumber numberWithFloat:standardDeviationRetentionTime] forKey:@"standardDeviationRetentionTime"];
+		
+		// Calculate stdev surface
+		standardDeviationSurface = sqrtf(standardDeviationSurface/(count-1));
+		[combinedPeak setValue:[NSNumber numberWithFloat:standardDeviationSurface] forKey:@"standardDeviationSurface"];
+		
+		// Calculate stdev height
+		standardDeviationHeight = sqrtf(standardDeviationHeight/(count-1));
+		[combinedPeak setValue:[NSNumber numberWithFloat:standardDeviationHeight] forKey:@"standardDeviationHeight"];
+		
 	}
 	NSSortDescriptor *retentionTimeDescriptor =[[NSSortDescriptor alloc] initWithKey:@"averageRetentionTime" 
 																		   ascending:YES];
 	NSArray *sortDescriptors=[NSArray arrayWithObjects:retentionTimeDescriptor,nil];
-	[combinedPeaks sortUsingDescriptors:sortDescriptors];
+	[[self combinedPeaks] sortUsingDescriptors:sortDescriptors];
 	[retentionTimeDescriptor release];
 	
 	return;
@@ -656,32 +688,51 @@
 		int i,j;
 		int fileCount = [[[self metadata] objectAtIndex:0] count]-1;
 		int compoundCount = [combinedPeaks count];
+		NSString *normalizedSurface;
 		NSString *normalizedHeight;
+			
+		// Sort array
+		NSSortDescriptor *retentionTimeDescriptor =[[NSSortDescriptor alloc] initWithKey:@"averageRetentionTime" 
+																			   ascending:YES];
+		NSArray *sortDescriptors=[NSArray arrayWithObjects:retentionTimeDescriptor,nil];
+		[combinedPeaks sortUsingDescriptors:sortDescriptors];
+		[retentionTimeDescriptor release];
 		
-		[outStr appendString:@"Sample code"];
+		
+		[outStr appendString:@"Sample code\t\t\t\t\t\t"];
 		for (i=0; i < fileCount; i++) {
 			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]] ];
 		}
 		[outStr appendString:@"\n"];
 
-		[outStr appendString:@"Sample description"];
+		[outStr appendString:@"Sample description\t\t\t\t\t\t"];
 		for (i=0; i < fileCount; i++) {
 			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:1] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
 		}
 		[outStr appendString:@"\n"];
 		
-		[outStr appendString:@"File path"];
+		[outStr appendString:@"File path\t\t\t\t\t\t"];
 		for (i=0; i < fileCount; i++) {
 			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
 		}
 		[outStr appendString:@"\n"];
 		
-		[outStr appendString:@"\nNormalized surface\n"];
+		[outStr appendString:@"\nNormalized height\n#\tCompound\tCount\tAverage retention time\tStandard deviation retention time\tAverage height\tStandard deviation height"];
+		for (i=0; i < fileCount; i++) { // Sample code
+			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+		}
+		[outStr appendString:@"\n"];
 		for (j=0; j < compoundCount; j++) {
-			[outStr appendFormat:@"%@", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"label"]];
+			[outStr appendFormat:@"%d\t", j+1];
+			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"label"]];
+			[outStr appendFormat:@"%d\t", [[[[self combinedPeaks] objectAtIndex:j] valueForKey:@"compoundCount"] intValue]];
+			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageRetentionTime"]];
+			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationRetentionTime"]];
+			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageHeight"]];
+			[outStr appendFormat:@"%@",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationHeight"]];
 			for (i=0; i < fileCount; i++) {
-				normalizedHeight = [[[[self combinedPeaks] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"normalizedSurface"];
-				if (normalizedHeight) {
+				normalizedHeight = [[[[[self combinedPeaks] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"normalizedHeight"] stringValue];
+				if (normalizedHeight != nil) {
 					[outStr appendFormat:@"\t%@", normalizedHeight];					
 				} else {
 					[outStr appendString:@"\t-"];										
@@ -690,16 +741,44 @@
 			[outStr appendString:@"\n"];
 		}
 		
-//		int ratiosCount = [ratios count];
-//		[outStr appendString:@"\nRatios\n"];
-//		for (j=0; j < ratiosCount; j++) {
-//			[outStr appendFormat:@"%@", [[[self ratios] objectAtIndex:j] valueForKey:@"name"]];
-//			for (i=0; i < fileCount; i++) {
-//				[outStr appendFormat:@"\t%@", [[[[self ratioValues] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"ratioResult"]];
-//			}
-//			[outStr appendString:@"\n"];
-//		}
+		[outStr appendString:@"\nNormalized surface\n#\tCompound\tCount\tAverage retention time\tStandard deviation retention time\tAverage surface\tStandard deviation surface"];
+		for (i=0; i < fileCount; i++) { // Sample code
+			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+		}
+		[outStr appendString:@"\n"];
+		for (j=0; j < compoundCount; j++) {
+			[outStr appendFormat:@"%d\t", j+1];
+			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"label"]];
+			[outStr appendFormat:@"%d\t", [[[[self combinedPeaks] objectAtIndex:j] valueForKey:@"compoundCount"] intValue]];
+			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageRetentionTime"]];
+			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationRetentionTime"]];
+			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageSurface"]];
+			[outStr appendFormat:@"%@",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationSurface"]];
+			for (i=0; i < fileCount; i++) {
+				normalizedSurface = [[[[[self combinedPeaks] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"normalizedSurface"] stringValue];
+				if (normalizedSurface != nil) {
+					[outStr appendFormat:@"\t%@", normalizedSurface];					
+				} else {
+					[outStr appendString:@"\t-"];										
+				}
+			}
+			[outStr appendString:@"\n"];
+		}
 		
+		int ratiosCount = [ratios count];
+		[outStr appendString:@"\nRatios\nLabel\t\t\t\t\t\t"];
+		for (i=0; i < fileCount; i++) { // Sample code
+			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+		}
+		[outStr appendString:@"\n"];
+		for (j=0; j < ratiosCount; j++) {
+			[outStr appendFormat:@"%@\t\t\t\t\t\t", [[[self ratios] objectAtIndex:j] valueForKey:@"name"]];
+			for (i=0; i < fileCount; i++) {
+				[outStr appendFormat:@"\t%@", [[[self ratioValues] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d.ratioResult",i]] ];
+			}
+			[outStr appendString:@"\n"];
+		}
+
 		if (![outStr writeToFile:[sp filename] atomically:YES])
 			NSBeep();
 	}
@@ -898,13 +977,10 @@
 }
 
 #pragma mark ACCESSORS
+-(NSWindow *)summaryWindow {
+	return summaryWindow;
+}
 
-idAccessor(combinedPeaks, setCombinedPeaks);
-idAccessor(ratioValues, setRatioValues);
-idAccessor(ratios, setRatios);
-idAccessor(metadata, setMetadata);
-idAccessor(files, setFiles);
-boolAccessor(abortAction, setAbortAction);
 
 #pragma mark WINDOW MANAGEMENT
 
@@ -972,27 +1048,47 @@ boolAccessor(abortAction, setAbortAction);
 //	return YES;
 //}
 
--(void)encodeWithCoder:(NSCoder *)coder
-{
-    if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
-		[coder encodeObject:combinedPeaks forKey:@"combinedPeaks"];
-		[coder encodeObject:ratioValues forKey:@"ratioValues"];
-		[coder encodeObject:metadata forKey:@"metadata"];
-		[coder encodeObject:files forKey:@"files"];
-    } 
-    return;
+//-(void)encodeWithCoder:(NSCoder *)coder
+//{
+//    if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
+//		[coder encodeObject:combinedPeaks forKey:@"combinedPeaks"];
+//		[coder encodeObject:ratioValues forKey:@"ratioValues"];
+//		[coder encodeObject:metadata forKey:@"metadata"];
+//		[coder encodeObject:files forKey:@"files"];
+//    } 
+//    return;
+//}
+//
+//- (id)initWithCoder:(NSCoder *)coder
+//{
+//    if ( [coder allowsKeyedCoding] ) {
+//        // Can decode keys in any order
+//		combinedPeaks = [[coder decodeObjectForKey:@"combinedPeaks"] retain];
+//		ratioValues = [[coder decodeObjectForKey:@"ratioValues"] retain];
+//        metadata = [[coder decodeObjectForKey:@"metadata"] retain];
+//        files = [[coder decodeObjectForKey:@"files"] retain];
+//
+//		[summaryWindow makeKeyAndOrderFront:self];
+//		
+//
+//      } 
+//    return self;
+//}
+
+-(NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
+	if ([displayName hasPrefix:@"Untitled"] && ![displayName hasSuffix:@"peacock-stats"]) {
+		return @"Statistical Analysis";
+	} else {
+		return displayName;
+	}
 }
 
-- (id)initWithCoder:(NSCoder *)coder
-{
-    if ( [coder allowsKeyedCoding] ) {
-        // Can decode keys in any order
-		combinedPeaks = [[coder decodeObjectForKey:@"combinedPeaks"] retain];
-		ratioValues = [[coder decodeObjectForKey:@"ratioValues"] retain];
-        metadata = [[coder decodeObjectForKey:@"metadata"] retain];
-        files = [[coder decodeObjectForKey:@"files"] retain];
-      } 
-    return self;
-}
+#pragma mark IBACTIOS (MACROSTYLE)
+idAccessor(combinedPeaks, setCombinedPeaks);
+idAccessor(ratioValues, setRatioValues);
+idAccessor(ratios, setRatios);
+idAccessor(metadata, setMetadata);
+idAccessor(files, setFiles);
+boolAccessor(abortAction, setAbortAction);
 
 @end

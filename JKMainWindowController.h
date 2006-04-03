@@ -66,13 +66,9 @@ enum JKPeakSelection {
 
 
 # pragma mark ACTIONS
--(JKSpectrum *)getSpectrumForPeak:(JKPeakRecord *)peak;
--(void)autopilot;
+-(void)identifyPeaks;
 -(void)displaySpectrum:(JKSpectrum *)spectrum;
 -(void)displayResult:(JKLibraryEntry *)libraryEntry;
-
-#pragma mark HELPER ACTIONS
--(float)baselineValueAtScan:(int)inValue;
 
 #pragma mark IBACTIONS
 -(IBAction)identifyPeaks:(id)sender;

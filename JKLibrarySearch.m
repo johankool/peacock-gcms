@@ -42,7 +42,7 @@
 	remainingString = [NSString stringWithString:@""];
 	
 	// Determine spectra for peak
-	peakSpectrum = [mainWindowController getSpectrumForPeak:peak];	
+	peakSpectrum = [[document dataModel] getSpectrumForPeak:peak];	
 		
 	// Read library piece by piece
 	NSData *aLibrary = [NSData dataWithContentsOfMappedFile:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"]];
@@ -127,7 +127,7 @@
 	// Determine spectra for peaks
 	int peaksCount = [peaks count];
 	for (i = 0; i < peaksCount; i++ ) {
-		[spectra addObject:[mainWindowController getSpectrumForPeak:[peaks objectAtIndex:i]]];	
+		[spectra addObject:[[document dataModel] getSpectrumForPeak:[peaks objectAtIndex:i]]];	
 	}
 
 	// Read library piece by piece
@@ -638,9 +638,9 @@
     return libraryEntries;	
 }
 
+#pragma mark IBACTIONS (MACROSTYLE)
 boolAccessor(abortAction, setAbortAction);
-idAccessor(mainWindowController, setMainWindowController);
+idAccessor(document, setDocument);
 idAccessor(progressIndicator, setProgressIndicator);
-
 
 @end

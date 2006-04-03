@@ -7,6 +7,7 @@
 //
 
 #import "JKLibraryEntry.h"
+#import <gsl/gsl_statistics.h>
 
 @implementation JKLibraryEntry
 
@@ -56,13 +57,14 @@ intAccessor(numberOfPoints, setNumberOfPoints);
     numberOfPoints = inValue;
     intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
     memcpy(intensities, inArray, numberOfPoints*sizeof(float));
-	int i;
-	maximumIntensity = intensities[0];
-	for (i=1; i < numberOfPoints; i++) {
-		if (intensities[i] > maximumIntensity) {
-			maximumIntensity = intensities[i];
-		}
-	}
+//	int i;
+//	maximumIntensity = intensities[0];
+//	for (i=1; i < numberOfPoints; i++) {
+//		if (intensities[i] > maximumIntensity) {
+//			maximumIntensity = intensities[i];
+//		}
+//	}
+	maximumIntensity = gsl_stats_float_max(intensities,1,numberOfPoints);
 }
 -(float)maximumIntensity {
     return maximumIntensity;
@@ -79,7 +81,7 @@ intAccessor(numberOfPoints, setNumberOfPoints);
 	for (i = 0; i < numberOfPoints; i++) {
 		intensitiesOut[i] = intensities[i]/maximumIntensity;
 	}
-	
+		
 	[outLibraryEntry setMasses:masses withCount:numberOfPoints];
 	[outLibraryEntry setIntensities:intensitiesOut withCount:numberOfPoints];
 	

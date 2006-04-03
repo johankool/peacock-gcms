@@ -8,6 +8,7 @@
 
 #import "JKAppDelegate.h"
 #import "JKPanelController.h"
+#import "JKStatisticsDocument.h"
 //#import "SmartCrashReportsInstall.h"
 //#import <Growl/GrowlApplicationBridge.h>
 #import "JKLog.h"
@@ -134,10 +135,17 @@
 }
 
 -(IBAction)showStatisticsAction:(id)sender {
-	if (!statisticsWindowController) {
-        statisticsWindowController = [[JKStatisticsWindowController alloc] init];
-    }
-    [statisticsWindowController showWindow:self];	
+	NSError *error = [[NSError alloc] init];
+	JKStatisticsDocument *document = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"Peacock Statistics File" error:&error];
+	[[NSDocumentController sharedDocumentController] addDocument:document];
+	[document makeWindowControllers];
+	[document showWindows];
+	[error release];
+		
+//	if (!statisticsWindowController) {
+//        statisticsWindowController = [[JKStatisticsWindowController alloc] init];
+//    }
+//    [statisticsWindowController showWindow:self];	
 }
 
 

@@ -11,6 +11,7 @@
 #import "ChromatogramGraphDataSerie.h"
 #import "netcdf.h"
 #import "JKSpectrum.h"
+#import <gsl/gsl_statistics.h>
 
 @implementation JKDataModel
 
@@ -371,6 +372,26 @@ void normalize(float *input, int count) {
     return y;
 }
 
+-(void)addChromatogramForMass:(NSString *)inString {
+	ChromatogramGraphDataSerie *chromatogram = [self chromatogramForMass:inString];
+	
+	// Get colorlist
+	NSColorList *peakColors;
+	NSArray *peakColorsArray;
+	
+	peakColors = [NSColorList colorListNamed:@"Peacock"];
+	if (peakColors == nil) {
+		peakColors = [NSColorList colorListNamed:@"Crayons"]; // Crayons should always be there, as it can't be removed through the GUI
+	}
+	peakColorsArray = [peakColors allKeys];
+	int peakColorsArrayCount = [peakColorsArray count];
+
+	[chromatogram setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatograms count]%peakColorsArrayCount]]];
+	[self willChangeValueForKey:@"chromatograms"];
+	[chromatograms addObject:chromatogram];
+	[self didChangeValueForKey:@"chromatograms"];
+}
+
 -(ChromatogramGraphDataSerie *)chromatogramForMass:(NSString *)inString {
 	NSMutableArray *mzValues = [NSMutableArray array];
 	NSArray *mzValuesPlus = [inString componentsSeparatedByString:@"+"];
@@ -469,6 +490,8 @@ void normalize(float *input, int count) {
 	[chromatogram setDataArray:mutArray];
 	[mutArray release];
 	
+	[chromatogram setVerticalScale:[NSNumber numberWithFloat:[self maximumTotalIntensity]/gsl_stats_float_max(intensities,1,num_scan)]];
+	
 	[chromatogram setSeriesTitle:mzValuesString];
 	[chromatogram setSeriesColor:[NSColor redColor]];
 	
@@ -546,59 +569,268 @@ void normalize(float *input, int count) {
     return end;
 }
 
--(JKSpectrum *)getSpectrumForPeak:(JKPeakRecord *)peak {
-	JKSpectrum *spectrum = [[JKSpectrum alloc] init];
-	float *xpts, *ypts;
-	int scan;
-	int dummy, start, end, varid_mass_value, varid_intensity_value, varid_scan_index;
-    int num_pts;
-	
-	scan = [[peak valueForKey:@"top"] intValue];
 
-	dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable failed. Report error #%d.", dummy); return nil;}
+-(void)identifyPeaks {
+	int i,j, peakCount, answer;
+	int start, end, top;
+	float a, b, height, surface, maximumSurface, maximumHeight;
+	float startTime, topTime, endTime, widthTime;
+	float time1, time2;
+	float height1, height2;
+	float greyArea;
+	float retentionIndex, retentionIndexSlope, retentionIndexRemainder;
+		
+	NSMutableArray *array = [[NSMutableArray alloc] init];
 	
-    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &start);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return nil;}
+	if ([peaks count] > 0) {
+		answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete current peaks?",@""),NSLocalizedString(@"Peaks that are already identified could cause doublures. It's recommended to delete the current peaks.",@""),NSLocalizedString(@"Delete",@""),NSLocalizedString(@"Cancel",@""),NSLocalizedString(@"Keep",@""));
+		if (answer == NSOKButton) {
+			// Delete contents!
+			[self willChangeValueForKey:@"peaks"];
+			[peaks removeAllObjects];
+			[self didChangeValueForKey:@"peaks"];			
+		} else if (answer == NSCancelButton) {
+			return;
+		} else {
+			// Continue by adding peaks
+		}
+	}
 	
-	scan++;
+	// Baseline check
+	if ([baseline count] <= 0) {
+		JKLogDebug([baseline description]);
+		JKLogWarning(@"No baseline set. Can't recognize peaks without one.");
+		return;
+	}
 	
-    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &end);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return nil;}
+	// Some initial settings
+	i = 0;
+    peakCount = 1;	
+	maximumSurface = 0.0;
+	maximumHeight = 0.0;
+	greyArea = 0.1;
+	retentionIndexSlope	  = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexSlope"] floatValue];
+	retentionIndexRemainder = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexRemainder"] floatValue];
 	
-    num_pts = end - start;
-	
-	dummy = nc_inq_varid([self ncid], "mass_values", &varid_mass_value);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_value variable failed. Report error #%d.", dummy); return nil;}
-	
-    dummy = nc_inq_varid([self ncid], "intensity_values", &varid_intensity_value);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return nil;}
-	
-	
-	xpts = (float *) malloc(num_pts*sizeof(float));
-	
-	dummy = nc_get_vara_float([self ncid], varid_mass_value, (const size_t *) &start, (const size_t *) &num_pts, xpts);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values failed. Report error #%d.", dummy); return nil;}
-	
-	[spectrum setMasses:xpts withCount:num_pts];
-
+	for (i = 0; i < numberOfPoints; i++) {
+		if (totalIntensity[i]/[self baselineValueAtScan:i] > (1.0 + greyArea)){
+			
+			// determine: high, start, end
+			// start
+			for (j=i; totalIntensity[j] > totalIntensity[j-1]; j--) {				
+			}
+			start = j;
+			if (start < 0) start = 0; // Don't go outside bounds!
+			
+			// top
+			for (j=start; totalIntensity[j] < totalIntensity[j+1]; j++) {
+			}
+			top=j;
+			if (top >= numberOfPoints) top = numberOfPoints-1; // Don't go outside bounds!
+			
+			// end
+			for (j=top; totalIntensity[j] > totalIntensity[j+1]; j++) {				
+			}
+			end=j;
+			if (end >= numberOfPoints-1) end = numberOfPoints-1; // Don't go outside bounds!
+			
+			// start time
+			startTime = [self timeForScan:start];
+			
+			// top time
+			topTime = [self timeForScan:top];
+			
+			// end time
+			endTime = [self timeForScan:end];
+			
+			// width
+			widthTime = endTime - startTime;
+			
+			// baseline left
+			float baselineAtStart = [self baselineValueAtScan:start];
+			if (baselineAtStart > totalIntensity[start]) {
+				baselineAtStart = totalIntensity[start];
+			}
+			// baseline right
+			float baselineAtEnd = [self baselineValueAtScan:end];
+			if (baselineAtEnd > totalIntensity[end]) {
+				baselineAtEnd = totalIntensity[end];
+			}
+			
+			// Calculations needed for height and width
+			a= baselineAtEnd-baselineAtStart;
+			b= endTime-startTime;
+			
+			// height
+			//height = intensities[top]-(intensities[start] + (a/b)*(topTime-startTime) );
+			height = totalIntensity[top] - [self baselineValueAtScan:top];
+			// Keep track of what the heighest peak is
+			if (height > maximumHeight) maximumHeight = height;
+			
+			// surface  WARNING! This is an absolute, not a relative peak surface!
+			surface = 0.0;
+			for (j=start; j < end; j++) {
+				time1 = [self timeForScan:j];
+				time2 = [self timeForScan:j+1];
 				
-	ypts = (float *) malloc((num_pts)*sizeof(float));
-
-	dummy = nc_get_vara_float([self ncid], varid_intensity_value, (const size_t *) &start, (const size_t *) &num_pts, ypts);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_values failed. Report error #%d.", dummy); return nil;}
+				height1 = totalIntensity[j]-(baselineAtStart + (a/b)*(time1-startTime) );
+				height2 = totalIntensity[j+1]-(baselineAtStart + (a/b)*(time2-startTime) );
+				
+				if (height1 > height2) {
+					surface = surface + (height2 * (time2-time1)) + ((height1-height2) * (time2-time1) * 0.5);
+				} else {
+					surface = surface + (height1 * (time2-time1)) + ((height2-height1) * (time2-time1) * 0.5);					
+				}
+			}
+			// Keep track of what the largest peak is
+			if (surface > maximumSurface) maximumSurface = surface;
+			
+			if (top != start && top != end && surface > 0.0) { // Sanity check
+															   // Add peak
+				JKPeakRecord *record = [[JKPeakRecord alloc] init];
+				[record setValue:[NSNumber numberWithInt:peakCount] forKey:@"peakID"];
+				[record setValue:[NSNumber numberWithInt:start] forKey:@"start"];
+				[record setValue:[NSNumber numberWithInt:top] forKey:@"top"];
+				[record setValue:[NSNumber numberWithInt:end] forKey:@"end"];
+				[record setValue:[NSNumber numberWithInt:end-start] forKey:@"width"];
+				[record setValue:[NSNumber numberWithFloat:startTime] forKey:@"startTime"];
+				[record setValue:[NSNumber numberWithFloat:topTime] forKey:@"topTime"];
+				[record setValue:[NSNumber numberWithFloat:endTime] forKey:@"endTime"];
+				[record setValue:[NSNumber numberWithFloat:baselineAtStart] forKey:@"baselineL"];
+				[record setValue:[NSNumber numberWithFloat:baselineAtEnd] forKey:@"baselineR"];
+				[record setValue:[NSNumber numberWithFloat:height] forKey:@"height"];
+				[record setValue:[NSNumber numberWithFloat:surface] forKey:@"surface"];
+				[record setValue:[NSNumber numberWithFloat:widthTime] forKey:@"widthTime"];
+				
+				retentionIndex = topTime * retentionIndexSlope + retentionIndexRemainder;
+				[record setValue:[NSNumber numberWithFloat:retentionIndex] forKey:@"retentionIndex"];
+				
+				[array addObject:record];
+				peakCount++;
+				
+				[record release]; 
+			}
+			
+			// Continue looking for peaks from end of this peak
+			i = end;			
+		}
+	}
 	
-	[spectrum setIntensities:ypts withCount:num_pts];
-
-	free(xpts);
-	free(ypts);
+	// Walk through the found peaks to calculate a normalized surface area and normalized height
+	peakCount = [array count];
+	for (i = 0; i < peakCount; i++) {
+		[[array objectAtIndex:i] setValue:[NSNumber numberWithFloat:[[[array objectAtIndex:i] valueForKey:@"height"] floatValue]*100/maximumHeight] forKey:@"normalizedHeight"];
+		[[array objectAtIndex:i] setValue:[NSNumber numberWithFloat:[[[array objectAtIndex:i] valueForKey:@"surface"] floatValue]*100/maximumSurface] forKey:@"normalizedSurface"];
+	}
+// warning This undo doesn't work correctly.
 	
-	[spectrum setValue:[NSNumber numberWithFloat:[self timeForScan:scan]] forKey:@"retentionTime"];
+//	[[[self document] undoManager] registerUndoWithTarget:peakController
+//												 selector:@selector(removeObjects:)
+//												   object:array];
+//	[[[self document] undoManager] setActionName:NSLocalizedString(@"Identify Peaks",@"")];
 	
-	[spectrum autorelease];
-	return spectrum;
+	// Add peak to array	
+	[self willChangeValueForKey:@"peaks"];
+	[peaks addObjectsFromArray:array];
+	[self didChangeValueForKey:@"peaks"];
+	
+	[array release];
+	return;	
 }
 
+-(float)baselineValueAtScan:(int)inValue {
+	int i = 0;
+	int baselineCount = [baseline count];
+	float lowestScan, lowestInten, highestScan, highestInten;
+	
+	while (inValue > [[[baseline objectAtIndex:i] valueForKey:@"Scan"] intValue] && i < baselineCount) {
+		i++;
+	} 
+	
+	if (i <= 0) {
+		lowestScan = 0.0;
+		lowestInten = 0.0;
+		highestScan = [[[baseline objectAtIndex:i] valueForKey:@"Scan"] floatValue];
+		highestInten = [[[baseline objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue];
+	} else {
+		lowestScan = [[[baseline objectAtIndex:i-1] valueForKey:@"Scan"] floatValue];
+		lowestInten = [[[baseline objectAtIndex:i-1] valueForKey:@"Total Intensity"] floatValue];
+		highestScan = [[[baseline objectAtIndex:i] valueForKey:@"Scan"] floatValue];
+		highestInten = [[[baseline objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue];
+	}
+	
+	return (highestInten-lowestInten) * ((inValue-lowestScan)/(highestScan-lowestScan)) + lowestInten; 
+}
+
+
+-(JKSpectrum *)getSpectrumForPeak:(JKPeakRecord *)peak {
+	JKSpectrum *spectrumTop = [[JKSpectrum alloc] init];
+	int npts;
+	float *xpts, *ypts;
+	int scan;
+	scan = [[peak valueForKey:@"top"] intValue];
+	npts = [self endValuesSpectrum:scan] - [self startValuesSpectrum:scan];
+	xpts = [self xValuesSpectrum:scan];
+	ypts = [self yValuesSpectrum:scan];
+	[spectrumTop setMasses:xpts withCount:npts];
+	[spectrumTop setIntensities:ypts withCount:npts];
+	free(xpts);
+	free(ypts);
+	[spectrumTop setValue:[NSNumber numberWithFloat:[self timeForScan:scan]] forKey:@"retentionTime"];
+	
+	[spectrumTop autorelease];
+	return spectrumTop;
+}
+
+-(JKSpectrum *)getCombinedSpectrumForPeak:(JKPeakRecord *)peak {
+	int i;
+		
+	JKSpectrum *spectrumTop;
+	spectrumTop = [[JKSpectrum alloc] init];
+	int npts;
+	float *xpts, *ypts;
+	npts = [self endValuesSpectrum:[[peak valueForKey:@"top"] intValue]] - [self startValuesSpectrum:[[peak valueForKey:@"top"] intValue]];
+	xpts = [self xValuesSpectrum:[[peak valueForKey:@"top"] intValue]];
+	ypts = [self yValuesSpectrum:[[peak valueForKey:@"top"] intValue]];
+	[spectrumTop setMasses:xpts withCount:npts];
+	[spectrumTop setIntensities:ypts withCount:npts];
+	
+	JKSpectrum *spectrumLeft;
+	
+	spectrumLeft = [[JKSpectrum alloc] init];
+	npts = [self endValuesSpectrum:[[peak valueForKey:@"start"] intValue]] - [self startValuesSpectrum:[[peak valueForKey:@"start"] intValue]];
+	xpts = [self xValuesSpectrum:[[peak valueForKey:@"start"] intValue]];
+	ypts = [self yValuesSpectrum:[[peak valueForKey:@"start"] intValue]];
+	[spectrumLeft setMasses:xpts withCount:npts];
+	[spectrumLeft setIntensities:ypts withCount:npts];
+	
+	JKSpectrum *spectrumRight;
+	
+	spectrumRight = [[JKSpectrum alloc] init];
+	npts = [self endValuesSpectrum:[[peak valueForKey:@"end"] intValue]] - [self startValuesSpectrum:[[peak valueForKey:@"end"] intValue]];
+	xpts = [self xValuesSpectrum:[[peak valueForKey:@"end"] intValue]];
+	ypts = [self yValuesSpectrum:[[peak valueForKey:@"end"] intValue]];
+	[spectrumRight setMasses:xpts withCount:npts];
+	[spectrumRight setIntensities:ypts withCount:npts];
+	
+	JKSpectrum *spectrum = [spectrumTop spectrumBySubtractingSpectrum:[spectrumLeft spectrumByAveragingWithSpectrum:spectrumRight]];
+	
+	// Remove negative values
+	float *spectrumIntensities = [spectrum intensities];
+	for (i=0; i<[spectrum numberOfPoints]; i++) {
+		if(spectrumIntensities[i] < 0.0) {
+			spectrumIntensities[i] = 0.0;
+		}
+	}
+	
+	[spectrum setValue:[NSNumber numberWithFloat:[self timeForScan:[[peak valueForKey:@"top"] intValue]]] forKey:@"retentionTime"];
+	
+	[spectrumTop release];
+	[spectrumLeft release];
+	[spectrumRight release];
+
+	return spectrum;
+}
 
 #pragma mark NSCODING
 -(void)encodeWithCoder:(NSCoder *)coder
@@ -658,6 +890,7 @@ void normalize(float *input, int count) {
     numberOfPoints = inValue;
     time = (float *) realloc(time, numberOfPoints*sizeof(float));
     memcpy(time, inArray, numberOfPoints*sizeof(float));
+	gsl_stats_float_minmax(&minimumTime, &maximumTime, time, 1, numberOfPoints);
 }
 
 -(float *)time {
@@ -668,43 +901,29 @@ void normalize(float *input, int count) {
     numberOfPoints = inValue;
     totalIntensity = (float *) realloc(totalIntensity, numberOfPoints*sizeof(float));
     memcpy(totalIntensity, inArray, numberOfPoints*sizeof(float));
+	gsl_stats_float_minmax(&minimumTotalIntensity, &maximumTotalIntensity, totalIntensity, 1, numberOfPoints);
+
 }
 
 -(float *)totalIntensity {
     return totalIntensity;
 }
 
-//-(float)maxTime {
-//    return maxTime;
-//}
-//
-//-(float)minTime {
-//    return minTime;
-//}
-//
-//-(float)maxTotalIntensity {
-//    return maxTotalIntensity;
-//}
-//
-//-(float)minTotalIntensity {
-//    return minTotalIntensity;
-//}
-//
-//-(float)maxXValuesSpectrum {
-//    return maxXValuesSpectrum;
-//}
-//
-//-(float)minXValuesSpectrum {
-//    return minXValuesSpectrum;
-//}
-//
-//-(float)maxYValuesSpectrum {
-//    return maxYValuesSpectrum;
-//}
-//
-//-(float)minYValuesSpectrum {
-//    return minYValuesSpectrum;
-//}
+-(float)maximumTime {
+    return maximumTime;
+}
+
+-(float)minimumTime {
+    return minimumTime;
+}
+
+-(float)maximumTotalIntensity {
+    return maximumTotalIntensity;
+}
+
+-(float)minimumTotalIntensity {
+    return minimumTotalIntensity;
+}
 
 -(void)setPeaks:(NSMutableArray *)inValue {
 	[inValue retain];

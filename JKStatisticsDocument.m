@@ -42,7 +42,11 @@
 		NSKeyedArchiver *archiver;
 		data = [NSMutableData data];
 		archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-		[archiver encodeObject:statisticsWindowController forKey:@"statisticsWindowController"];
+		[archiver encodeObject:[statisticsWindowController combinedPeaks] forKey:@"combinedPeaks"];
+		[archiver encodeObject:[statisticsWindowController ratioValues] forKey:@"ratioValues"];
+		[archiver encodeObject:[statisticsWindowController metadata] forKey:@"metadata"];
+		[archiver encodeObject:[statisticsWindowController files] forKey:@"files"];
+
 		[archiver finishEncoding];
 		[archiver release];
 		
@@ -61,7 +65,12 @@
 		NSKeyedUnarchiver *unarchiver;
 		data = [wrapper regularFileContents];
 		unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-		statisticsWindowController = [[unarchiver decodeObjectForKey:@"statisticsWindowController"] retain];
+		//statisticsWindowController = [[unarchiver decodeObjectForKey:@"statisticsWindowController"] retain];
+		[statisticsWindowController setCombinedPeaks:[unarchiver decodeObjectForKey:@"combinedPeaks"]];
+		[statisticsWindowController setRatioValues:[unarchiver decodeObjectForKey:@"ratioValues"]];
+		[statisticsWindowController setMetadata:[unarchiver decodeObjectForKey:@"metadata"]];
+		[statisticsWindowController setFiles:[unarchiver decodeObjectForKey:@"files"]];
+		
 		[unarchiver finishDecoding];
 		[unarchiver release];
 		[wrapper release];
@@ -70,7 +79,7 @@
 		return NO;
 	}	
 }
-
+		
 #pragma mark PRINTING
 
 - (void)printShowingPrintPanel:(BOOL)showPanels {

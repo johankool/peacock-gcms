@@ -8,10 +8,18 @@
 
 #import "JKSpectrum.h"
 #import "JKLibraryEntry.h"
+#import <gsl/gsl_statistics.h>
 
 @implementation JKSpectrum
 
 #pragma mark INITIALIZATION
+
++ (void)initialize {
+    [self setKeys:[NSArray arrayWithObjects:@"masses",nil] triggerChangeNotificationsForDependentKey:@"minimumMass"];
+    [self setKeys:[NSArray arrayWithObjects:@"masses",nil] triggerChangeNotificationsForDependentKey:@"maximumMass"];
+    [self setKeys:[NSArray arrayWithObjects:@"intensities",nil] triggerChangeNotificationsForDependentKey:@"minimumIntensity"];
+    [self setKeys:[NSArray arrayWithObjects:@"intensities",nil] triggerChangeNotificationsForDependentKey:@"maximumIntensity"];
+}
 
 - (id) init {
 	self = [super init];
@@ -37,6 +45,7 @@
     numberOfPoints = inValue;
     masses = (float *) realloc(masses, numberOfPoints*sizeof(float));
     memcpy(masses, inArray, numberOfPoints*sizeof(float));
+	gsl_stats_float_minmax(&minimumMass, &maximumMass, masses, 1, numberOfPoints);
 }
 -(float *)masses {
     return masses;
@@ -46,17 +55,9 @@
     numberOfPoints = inValue;
     intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
     memcpy(intensities, inArray, numberOfPoints*sizeof(float));
-	int i;
-	maximumIntensity = intensities[0];
-	for (i=1; i < numberOfPoints; i++) {
-		if (intensities[i] > maximumIntensity) {
-			maximumIntensity = intensities[i];
-		}
-	}
+	gsl_stats_float_minmax(&minimumIntensity, &maximumIntensity, intensities, 1, numberOfPoints);
 }
--(float)maximumIntensity {
-    return maximumIntensity;
-}
+
 -(float *)intensities {
     return intensities;
 }
@@ -65,6 +66,19 @@
 }
 -(float)retentionTime {
 	return retentionTime;
+}
+
+-(float)minimumMass {
+    return minimumMass;
+}
+-(float)maximumMass {
+    return maximumMass;
+}
+-(float)minimumIntensity {
+    return minimumIntensity;
+}
+-(float)maximumIntensity {
+    return maximumIntensity;
 }
 
 -(JKSpectrum *)spectrumBySubtractingSpectrum:(JKSpectrum *)inSpectrum {

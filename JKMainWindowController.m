@@ -20,7 +20,7 @@
 static void *DocumentObservationContext = (void *)1100;
 static void *ChromatogramObservationContext = (void *)1101;
 static void *SpectrumObservationContext = (void *)1102;
-//static void *PeaksObservationContext = (void *)1103;
+static void *PeaksObservationContext = (void *)1103;
 
 @implementation JKMainWindowController
 
@@ -42,13 +42,15 @@ static void *SpectrumObservationContext = (void *)1102;
 }
 
 -(void)windowDidLoad {
-	// Main controller start with datamodel
-	[mainController setContent:[self dataModel]];
-	[peakController setContent:[[self dataModel] peaks]];
-	[baselineController setContent:[[self dataModel] baseline]];
-	NSAssert([[[self dataModel] chromatograms] count] > 0, @"[[self dataModel] chromatograms] =< 0");
-	
-	[chromatogramDataSeriesController setContent:[[self dataModel] chromatograms]];
+	// Set controller bindings
+	[mainController bind:@"content" toObject:self  
+			 withKeyPath:@"dataModel" options:nil];
+	[peakController bind:@"contentArray" toObject:[self dataModel] 
+			 withKeyPath:@"peaks" options:nil];
+	[baselineController bind:@"contentArray" toObject:[self dataModel] 
+				 withKeyPath:@"baseline" options:nil];
+	[chromatogramDataSeriesController bind:@"contentArray" toObject:[self dataModel] 
+							   withKeyPath:@"chromatograms" options:nil];	
 		
 	// Setup the toolbar after the document nib has been loaded 
     [self setupToolbar];	
@@ -120,198 +122,16 @@ static void *SpectrumObservationContext = (void *)1102;
 #pragma mark IBACTIONS
 
 -(IBAction)identifyPeaks:(id)sender{
-    int i,j, peakCount, answer;
-	int count, count2, start, end, top;
-	float a, b, height, surface, maximumSurface, maximumHeight;
-	float startTime, topTime, endTime, widthTime;
-	float time1, time2;
-	float height1, height2;
-	float *intensities;
-	float greyArea;
-	float retentionIndex, retentionIndexSlope, retentionIndexRemainder;
-	
-//	[peaklistProgressIndicator startAnimation:self];
-	
-	NSMutableArray *array = [[NSMutableArray alloc] init];
-	
-	if ([[peakController arrangedObjects] count] > 0) {
-		answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete current peaks?",@""),NSLocalizedString(@"Peaks that are already identified could cause doublures. It's recommended to delete the current peaks.",@""),NSLocalizedString(@"Delete",@""),NSLocalizedString(@"Cancel",@""),NSLocalizedString(@"Keep",@""));
-		if (answer == NSOKButton) {
-			// Delete contents!
-			[peakController removeObjects:[peakController arrangedObjects]];
-		} else if (answer == NSCancelButton) {
-			//[peaklistProgressIndicator stopAnimation:self];
-			return;
-		} else {
-			// Continue by adding peaks
-		}
-	}
-	
-	// Baseline check
-	if ([[[self dataModel] baseline] count] <= 0) {
-		JKLogDebug([[[self dataModel] baseline] description]);
-		JKLogWarning(@"No baseline set. Can't recognize peaks without one.");
-		// Clean up 
-//		[peaklistProgressIndicator stopAnimation:self];
-		return;
-	}
-	
-	// Some initial settings
-	i = 0;
-    peakCount = 1;	
-	count = [[self dataModel] numberOfPoints];
-	intensities = [[self dataModel] totalIntensity];
-	maximumSurface = 0.0;
-	maximumHeight = 0.0;
-	greyArea = 0.1;
-	retentionIndexSlope	  = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexSlope"] floatValue];
-	retentionIndexRemainder = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexRemainder"] floatValue];
-	
-	for (i = 0; i < count; i++) {
-		if (intensities[i]/[self baselineValueAtScan:i] > (1.0 + greyArea)){
-			
-			// determine: high, start, end
-			// start
-			for (j=i; intensities[j] > intensities[j-1]; j--) {				
-			}
-			start = j;
-			if (start < 0) start = 0; // Don't go outside bounds!
-			
-			// top
-			for (j=start; intensities[j] < intensities[j+1]; j++) {
-			}
-			top=j;
-			if (top >= count) top = count-1; // Don't go outside bounds!
-			
-			// end
-			for (j=top; intensities[j] > intensities[j+1]; j++) {				
-			}
-			end=j;
-			if (end >= count-1) end = count-1; // Don't go outside bounds!
-			
-			// start time
-			startTime = [[[self document] dataModel] timeForScan:start];
-			
-			// top time
-			topTime = [[[self document] dataModel] timeForScan:top];
-			
-			// end time
-			endTime = [[[self document] dataModel] timeForScan:end];
-			
-			// width
-			widthTime = endTime - startTime;
-			
-			// baseline left
-			float baselineAtStart = [self baselineValueAtScan:start];
-			if (baselineAtStart > intensities[start]) {
-				baselineAtStart = intensities[start];
-			}
-			// baseline right
-			float baselineAtEnd = [self baselineValueAtScan:end];
-			if (baselineAtEnd > intensities[end]) {
-				baselineAtEnd = intensities[end];
-			}
-			
-			// Calculations needed for height and width
-			a= baselineAtEnd-baselineAtStart;
-			b= endTime-startTime;
-			
-			// height
-			//height = intensities[top]-(intensities[start] + (a/b)*(topTime-startTime) );
-			height = intensities[top] - [self baselineValueAtScan:top];
-			// Keep track of what the heighest peak is
-			if (height > maximumHeight) maximumHeight = height;
-			
-			// surface  WARNING! This is an absolute, not a relative peak surface!
-			count2 = end - start;
-			surface = 0.0;
-			for (j=start; j < end; j++) {
-				time1 = [[[self document] dataModel] timeForScan:j];
-				time2 = [[[self document] dataModel] timeForScan:j+1];
-				
-				height1 = intensities[j]-(baselineAtStart + (a/b)*(time1-startTime) );
-				height2 = intensities[j+1]-(baselineAtStart + (a/b)*(time2-startTime) );
-				
-				if (height1 > height2) {
-					surface = surface + (height2 * (time2-time1)) + ((height1-height2) * (time2-time1) * 0.5);
-				} else {
-					surface = surface + (height1 * (time2-time1)) + ((height2-height1) * (time2-time1) * 0.5);					
-				}
-			}
-			// Keep track of what the largest peak is
-			if (surface > maximumSurface) maximumSurface = surface;
-			
-			if (top != start && top != end && surface > 0.0) { // Sanity check
-															   // Add peak
-				JKPeakRecord *record = [[JKPeakRecord alloc] init];
-				[record setValue:[NSNumber numberWithInt:peakCount] forKey:@"peakID"];
-				[record setValue:[NSNumber numberWithInt:start] forKey:@"start"];
-				[record setValue:[NSNumber numberWithInt:top] forKey:@"top"];
-				[record setValue:[NSNumber numberWithInt:end] forKey:@"end"];
-				[record setValue:[NSNumber numberWithInt:end-start] forKey:@"width"];
-				[record setValue:[NSNumber numberWithFloat:startTime] forKey:@"startTime"];
-				[record setValue:[NSNumber numberWithFloat:topTime] forKey:@"topTime"];
-				[record setValue:[NSNumber numberWithFloat:endTime] forKey:@"endTime"];
-				[record setValue:[NSNumber numberWithFloat:baselineAtStart] forKey:@"baselineL"];
-				[record setValue:[NSNumber numberWithFloat:baselineAtEnd] forKey:@"baselineR"];
-				[record setValue:[NSNumber numberWithFloat:height] forKey:@"height"];
-				[record setValue:[NSNumber numberWithFloat:surface] forKey:@"surface"];
-				[record setValue:[NSNumber numberWithFloat:widthTime] forKey:@"widthTime"];
-						
-				retentionIndex = topTime * retentionIndexSlope + retentionIndexRemainder;
-				[record setValue:[NSNumber numberWithFloat:retentionIndex] forKey:@"retentionIndex"];
-				
-				[array addObject:record];
-				peakCount++;
-				
-				[record release]; 
-			}
-			
-			// Continue looking for peaks from end of this peak
-			i = end;			
-		}
-	}
-	
-	// Walk through the found peaks to calculate a normalized surface area and normalized height
-	peakCount = [array count];
-	for (i = 0; i < peakCount; i++) {
-		[[array objectAtIndex:i] setValue:[NSNumber numberWithFloat:[[[array objectAtIndex:i] valueForKey:@"height"] floatValue]*100/maximumHeight] forKey:@"normalizedHeight"];
-		[[array objectAtIndex:i] setValue:[NSNumber numberWithFloat:[[[array objectAtIndex:i] valueForKey:@"surface"] floatValue]*100/maximumSurface] forKey:@"normalizedSurface"];
-	}
-#warning This undo doesn't work correctly.
-	
-	[[[self document] undoManager] registerUndoWithTarget:peakController
-												 selector:@selector(removeObjects:)
-												   object:array];
-	[[[self document] undoManager] setActionName:NSLocalizedString(@"Identify Peaks",@"")];
-	
-	// Add peak to array
-	[peakController setSelectsInsertedObjects:NO];
-	[peakController addObjects:array];
-	[peakController setSelectsInsertedObjects:YES];
-	[peakController setSelectionIndex:0];
-	
-	[[[chromatogramView dataSeries] objectAtIndex:0] bind:@"peaks" toObject: peakController
-											  withKeyPath:@"arrangedObjects" options:nil];
-	[[[chromatogramView dataSeries] objectAtIndex:0] bind:@"peaksSelectionIndexes" toObject: peakController
-											  withKeyPath:@"selectionIndexes" options:nil];
-	
-	
-	[array release];
-	
-//	[peaklistProgressIndicator stopAnimation:self];
-	return;
+	[[self dataModel] identifyPeaks];
 }
 
 -(IBAction)showMassChromatogram:(id)sender {	
 	NSString *inString = [sender stringValue];
 	
-//	[chromatogramProgressIndicator startAnimation:self];
-	id object = [[[self document] dataModel] chromatogramForMass:inString];
-	[self addMassChromatogram:object];
+	[[[self document] dataModel] addChromatogramForMass:inString];
+//	[self addMassChromatogram:object];
 	[sender setStringValue:@""];
-//	[chromatogramProgressIndicator stopAnimation:self];
-	
+
 	return;
 }
 
@@ -802,117 +622,7 @@ static void *SpectrumObservationContext = (void *)1102;
     // Sheet is up here.
     // Return processing to the event loop
 	
-	[NSThread detachNewThreadSelector:@selector(autopilot) toTarget:self withObject:nil];
-}
-
-#pragma mark HELPER ACTIONS
--(float)baselineValueAtScan:(int)inValue {
-	int i = 0;
-	int baselineCount = [[[self dataModel] baseline] count];
-	float lowestScan, lowestInten, highestScan, highestInten;
-
-	while (inValue > [[[[[self dataModel] baseline] objectAtIndex:i] valueForKey:@"Scan"] intValue] && i < baselineCount) {
-		i++;
-	} 
-	
-	if (i <= 0) {
-		lowestScan = 0.0;
-		lowestInten = 0.0;
-		highestScan = [[[[[self dataModel] baseline] objectAtIndex:i] valueForKey:@"Scan"] floatValue];
-		highestInten = [[[[[self dataModel] baseline] objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue];
-	} else {
-		lowestScan = [[[[[self dataModel] baseline] objectAtIndex:i-1] valueForKey:@"Scan"] floatValue];
-		lowestInten = [[[[[self dataModel] baseline] objectAtIndex:i-1] valueForKey:@"Total Intensity"] floatValue];
-		highestScan = [[[[[self dataModel] baseline] objectAtIndex:i] valueForKey:@"Scan"] floatValue];
-		highestInten = [[[[[self dataModel] baseline] objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue];
-	}
-
-	return (highestInten-lowestInten) * ((inValue-lowestScan)/(highestScan-lowestScan)) + lowestInten; 
-}
-
-
--(JKSpectrum *)getSpectrumForPeak:(JKPeakRecord *)peak {
-	JKSpectrum *spectrumTop = [[JKSpectrum alloc] init];
-	int npts;
-	float *xpts, *ypts;
-	int scan;
-	scan = [[peak valueForKey:@"top"] intValue];
-	npts = [[self dataModel] endValuesSpectrum:scan] - [[self dataModel] startValuesSpectrum:scan];
-	xpts = [[self dataModel] xValuesSpectrum:scan];
-	ypts = [[self dataModel] yValuesSpectrum:scan];
-	[spectrumTop setMasses:xpts withCount:npts];
-	[spectrumTop setIntensities:ypts withCount:npts];
-	free(xpts);
-	free(ypts);
-	[spectrumTop setValue:[NSNumber numberWithFloat:[[self dataModel] timeForScan:scan]] forKey:@"retentionTime"];
-	
-	[spectrumTop autorelease];
-	return spectrumTop;
-}
-
--(JKSpectrum *)getCombinedSpectrumForPeak:(JKPeakRecord *)peak {
-	int i;
-	
-	JKSpectrum *spectrum;
-	//spectrum = [[JKSpectrum alloc] init];
-	
-	JKSpectrum *spectrumTop;
-	spectrumTop = [[JKSpectrum alloc] init];
-	int npts;
-	float *xpts, *ypts;
-	npts = [[self dataModel] endValuesSpectrum:[[peak valueForKey:@"top"] intValue]] - [[self dataModel] startValuesSpectrum:[[peak valueForKey:@"top"] intValue]];
-	xpts = [[self dataModel] xValuesSpectrum:[[peak valueForKey:@"top"] intValue]];
-	ypts = [[self dataModel] yValuesSpectrum:[[peak valueForKey:@"top"] intValue]];
-	[spectrumTop setMasses:xpts withCount:npts];
-	[spectrumTop setIntensities:ypts withCount:npts];
-	
-	JKSpectrum *spectrumLeft;
-	
-	spectrumLeft = [[JKSpectrum alloc] init];
-	npts = [[self dataModel] endValuesSpectrum:[[peak valueForKey:@"start"] intValue]] - [[self dataModel] startValuesSpectrum:[[peak valueForKey:@"start"] intValue]];
-	xpts = [[self dataModel] xValuesSpectrum:[[peak valueForKey:@"start"] intValue]];
-	ypts = [[self dataModel] yValuesSpectrum:[[peak valueForKey:@"start"] intValue]];
-	[spectrumLeft setMasses:xpts withCount:npts];
-	[spectrumLeft setIntensities:ypts withCount:npts];
-	
-	JKSpectrum *spectrumRight;
-	
-	spectrumRight = [[JKSpectrum alloc] init];
-	npts = [[self dataModel] endValuesSpectrum:[[peak valueForKey:@"end"] intValue]] - [[self dataModel] startValuesSpectrum:[[peak valueForKey:@"end"] intValue]];
-	xpts = [[self dataModel] xValuesSpectrum:[[peak valueForKey:@"end"] intValue]];
-	ypts = [[self dataModel] yValuesSpectrum:[[peak valueForKey:@"end"] intValue]];
-	[spectrumRight setMasses:xpts withCount:npts];
-	[spectrumRight setIntensities:ypts withCount:npts];
-	
-	spectrum = [spectrumTop spectrumBySubtractingSpectrum:[spectrumLeft spectrumByAveragingWithSpectrum:spectrumRight]];
-	
-	// Remove negative values
-	float *spectrumIntensities = [spectrum intensities];
-	for (i=0; i<[spectrum numberOfPoints]; i++) {
-		if(spectrumIntensities[i] < 0.0) {
-			spectrumIntensities[i] = 0.0;
-		}
-	}
-	
-	[spectrum setValue:[NSNumber numberWithFloat:[[self dataModel] timeForScan:[[peak valueForKey:@"top"] intValue]]] forKey:@"retentionTime"];
-	
-	[spectrumTop release];
-	[spectrumLeft release];
-	[spectrumRight release];
-	
-//#warning Should look after this
-//	[spectrum autorelease];
-	return spectrum;
-}
-
--(void)showSpectrumForScan:(int)scan {
-	JKLogDebug(@"showSpectrumForScan");
-}
-
--(void)processPlotViewMouseDownAtWCSPointNearestToPointWithIndex:(int)index {
-    if ([[self dataModel] hasSpectra]) {
-		//        [self getSpectrum:index];
-    }
+	[NSThread detachNewThreadSelector:@selector(identifyPeaks) toTarget:self withObject:nil];
 }
 
 #pragma mark ACTIONS
@@ -922,7 +632,7 @@ static void *SpectrumObservationContext = (void *)1102;
 	if ([peakController selectionIndex] != NSNotFound) {
 		id currentPeak = [[peakController selectedObjects] objectAtIndex:0];
 		
-		[libSearch setMainWindowController:self];
+		[libSearch setDocument:self];
 		
 		[searchResultsController setSelectsInsertedObjects:NO];
 		
@@ -935,7 +645,7 @@ static void *SpectrumObservationContext = (void *)1102;
 	[pool release]; 
 }
 
--(void)autopilot {
+-(void)identifyPeaks {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[NSApp beginSheet: progressSheet
 	   modalForWindow: [self window]
@@ -947,7 +657,7 @@ static void *SpectrumObservationContext = (void *)1102;
 	
 	NSArray *peaksArray = [peakController arrangedObjects];
 	
-	[libSearch setMainWindowController:self];
+	[libSearch setDocument:[self document]];
 	[libSearch setProgressIndicator:progressBar];
 	
 	[libSearch searchLibraryForPeaks:peaksArray];
@@ -1026,9 +736,9 @@ static void *SpectrumObservationContext = (void *)1102;
 			
 			JKSpectrum *spectrum;
 			if ([self showCombinedSpectrum]) {
-				spectrum = [self getCombinedSpectrumForPeak:currentPeak];				
+				spectrum = [[self dataModel] getCombinedSpectrumForPeak:currentPeak];				
 			} else {
-				spectrum = [self getSpectrumForPeak:currentPeak];
+				spectrum = [[self dataModel] getSpectrumForPeak:currentPeak];
 			}
 			
 			if ([self showNormalizedSpectra]) 
@@ -1247,13 +957,14 @@ static void *SpectrumObservationContext = (void *)1102;
 
 
 #pragma mark SHEETS
-- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
+- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     [sheet orderOut:self];
 }
+
 - (void)windowWillBeginSheet:(NSNotification *)notification {
 	return;
 }
+
 - (void)windowDidEndSheet:(NSNotification *)notification {
 	return;
 }

@@ -57,7 +57,7 @@
 }
 
 -(IBAction)addButtonAction:(id)sender;
--(IBAction)refetch:(id)sender;
+//-(IBAction)refetch:(id)sender;
 
 -(IBAction)editRatios:(id)sender;
 //-(IBAction)cancelEditRatios:(id)sender;
@@ -77,11 +77,13 @@
 -(void)calculateRatiosForDocument:(JKMainDocument *)document atIndex:(int)index;
 -(void)sortCombinedPeaks;
 
+-(NSWindow *)summaryWindow;
 
 idAccessor_h(combinedPeaks, setCombinedPeaks);
 idAccessor_h(ratioValues, setRatioValues);
 idAccessor_h(ratios, setRatios);
 idAccessor_h(metadata, setMetadata);
+idAccessor_h(files, setFiles);
 boolAccessor_h(abortAction, setAbortAction);
 
 @end

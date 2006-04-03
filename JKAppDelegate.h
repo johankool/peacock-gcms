@@ -11,7 +11,7 @@
 @class JKPanelController;
 @class MWController;
 @class JKBatchProcessWindowController;
-@class JKStatisticsWindowController;
+//@class JKStatisticsWindowController;
 
 #import <Growl/GrowlApplicationBridge.h>
 
@@ -20,7 +20,7 @@
 	//JKPanelController *panelWindowController;
     IBOutlet MWController *mwWindowController;
 	JKBatchProcessWindowController *batchProcessWindowController;
-	JKStatisticsWindowController *statisticsWindowController;
+	//JKStatisticsWindowController *statisticsWindowController;
 }
 
 

@@ -11,7 +11,11 @@
 
 @interface JKSpectrum : NSObject {
 	float retentionTime;
+
+    float minimumIntensity;
     float maximumIntensity;
+	float minimumMass;
+    float maximumMass;
 	
 	int numberOfPoints;
 	float *masses;
@@ -32,9 +36,12 @@
 -(float *)masses;
 -(void)setIntensities:(float *)inArray withCount:(int)inValue;
 -(float *)intensities;
--(float)maximumIntensity;
 -(void)setRetentionTime:(float)inValue;
 -(float)retentionTime;
 
+-(float)minimumMass;
+-(float)maximumMass;
+-(float)minimumIntensity;
+-(float)maximumIntensity;
 
 @end

@@ -17,7 +17,12 @@
 	
     float *time;
     float *totalIntensity;
-
+	
+	float minimumTime;
+	float maximumTime;
+	float minimumTotalIntensity;
+	float maximumTotalIntensity;
+	
     BOOL hasSpectra;
 	
     NSMutableArray *chromatograms;    
@@ -37,8 +42,13 @@
 #pragma mark ACTIONS
 //-(void)getChromatogramData;
 -(void)getBaselineData;
+-(void)addChromatogramForMass:(NSString *)inString;
 -(ChromatogramGraphDataSerie *)chromatogramForMass:(NSString *)inString;
+
+-(void)identifyPeaks;
+-(float)baselineValueAtScan:(int)inValue;
 -(JKSpectrum *)getSpectrumForPeak:(JKPeakRecord *)peak;
+-(JKSpectrum *)getCombinedSpectrumForPeak:(JKPeakRecord *)peak;
 
 #pragma mark ACCESSORS
 -(void)setNcid:(int)inValue;
@@ -58,6 +68,11 @@
 
 -(void)setTotalIntensity:(float *)inArray withCount:(int)inValue;
 -(float *)totalIntensity;
+
+-(float)maximumTime;
+-(float)minimumTime;
+-(float)maximumTotalIntensity;
+-(float)minimumTotalIntensity;
 
 
 -(NSMutableArray *)chromatograms;

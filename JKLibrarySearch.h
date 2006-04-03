@@ -6,7 +6,7 @@
 //  Copyright (c) 2003-2005 Johan Kool. All rights reserved.
 //
 
-@class JKMainWindowController;
+@class JKMainDocument;
 @class JKPeakRecord;
 
 @interface JKLibrarySearch : NSObject {
@@ -17,7 +17,7 @@
 	@private;
 	BOOL abortAction;
 	NSString *remainingString;
-	JKMainWindowController *mainWindowController;
+	JKMainDocument *document;
 	NSProgressIndicator *progressIndicator;
 }
 
@@ -25,8 +25,9 @@
 -(void)searchLibraryForPeaks:(NSArray *)peaks;
 -(NSArray *)readJCAMPString:(NSString *)inString;
 
-	boolAccessor_h(abortAction, setAbortAction);
-	idAccessor_h(mainWindowController, setMainWindowController);
-	idAccessor_h(progressIndicator, setProgressIndicator);
+#pragma mark ACCESSORS (MACROSTYLE)
+boolAccessor_h(abortAction, setAbortAction);
+idAccessor_h(document, setDocument);
+idAccessor_h(progressIndicator, setProgressIndicator);
 
 @end
