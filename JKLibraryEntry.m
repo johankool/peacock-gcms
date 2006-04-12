@@ -12,7 +12,8 @@
 @implementation JKLibraryEntry
 
 -(id)init {
-    if (self = [super init]) {
+	self = [super init];
+    if (self != nil) {
 		masses = (float *) malloc(1*sizeof(float));
 		intensities = (float *) malloc(1*sizeof(float));
 		name = @"";

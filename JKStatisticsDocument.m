@@ -15,9 +15,9 @@
 #pragma mark INITIALIZATION
 
 -(id)init {
-    if (self = [super init]) {
+	self = [super init];
+    if (self != nil) {
         statisticsWindowController = [[JKStatisticsWindowController alloc] init];
-		
     }
     return self;
 }

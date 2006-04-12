@@ -28,7 +28,8 @@
 }
 
 -(id)init {
-	if (self = [super init]) {
+	self = [super init];
+	if (self != nil) {
 		// Set so it ain't nil?
 		[self setLibraryHit:[[JKLibraryEntry alloc] init]];
     }

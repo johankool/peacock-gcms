@@ -15,7 +15,8 @@
 @implementation JKLibraryWindowController
 
 -(id)init {
-    if (self = [super initWithWindowNibName:@"JKLibrary"]) {
+	self = [super initWithWindowNibName:@"JKLibrary"];
+    if (self != nil) {
         [self setShouldCloseDocument:YES];
     }
     return self;

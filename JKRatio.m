@@ -28,7 +28,7 @@
 }
 
 -(float)calculateRatioForKey:(NSString *)key inCombinedPeaksArray:(NSArray *)combinedPeaks {	
-	int i,j;
+	unsigned int i,j;
 	float nominator = 0.0;
 	float denominator = 0.0;
 	float multiplier = 1.0;
@@ -39,7 +39,7 @@
 	NSString *denominatorComponent;
 	NSString *combinedPeakName;
 	NSString *keyPath;
-	int combinedPeaksCount = [combinedPeaks count];
+	unsigned int combinedPeaksCount = [combinedPeaks count];
 	
 	for (i = 0; i < [[self nominatorArray] count]; i++) {
 		concentration = 0.0;
@@ -123,7 +123,7 @@
 	NSString *string2;
 	NSRange multiplierRange;
 
-	int i;
+	unsigned int i;
 	for (i = 0; i < [array1 count]; i++) {
 		NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
 		string2 = [array1 objectAtIndex:i];
@@ -159,7 +159,7 @@
 		NSArray *denominatorArrayLocal = [self compoundsInString:[[inValue substringFromIndex:dividerRange.location+1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" () *100%"]]];
 		
 		NSString *outString = @"( ";
-		int i;
+		unsigned int i;
 		if ([nominatorArrayLocal count] == 0) {
 			outString = [outString stringByAppendingString:@"1"];
 		} else {			

@@ -20,14 +20,15 @@
 static void *DocumentObservationContext = (void *)1100;
 static void *ChromatogramObservationContext = (void *)1101;
 static void *SpectrumObservationContext = (void *)1102;
-static void *PeaksObservationContext = (void *)1103;
+//static void *PeaksObservationContext = (void *)1103;
 
 @implementation JKMainWindowController
 
 #pragma mark INITIALIZATION
 
 -(id)init {
-    if (self = [super initWithWindowNibName:@"JKMainDocument"]) {
+	self = [super initWithWindowNibName:@"JKMainDocument"];
+    if (self != nil) {
         [self setShouldCloseDocument:YES];
 		[self setLibSearch:[[JKLibrarySearch alloc] init]];		
 

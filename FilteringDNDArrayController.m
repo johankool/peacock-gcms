@@ -70,8 +70,7 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
 	NSMutableArray *rowCopies = [NSMutableArray arrayWithCapacity:[rows count]];    
 	NSEnumerator *rowEnumerator = [rows objectEnumerator];
 	NSNumber *idx;
-	while (idx = [rowEnumerator nextObject])
-	{
+	while ((idx = [rowEnumerator nextObject])) {
 		[rowCopies addObject:[[self arrangedObjects] objectAtIndex:[idx intValue]]];
 	}
 	// setPropertyList works here because we're using dictionaries, strings,
@@ -197,8 +196,7 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     NSEnumerator *rowEnumerator = [rows objectEnumerator];
     NSNumber *idx;
-    while (idx = [rowEnumerator nextObject])
-    {
+    while ((idx = [rowEnumerator nextObject])) {
         JKLogDebug([idx description]);
 		[indexSet addIndex:[idx intValue]];
     }
@@ -208,8 +206,8 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
 
 - (int)rowsAboveRow:(int)row inIndexSet:(NSIndexSet *)indexSet
 {
-    unsigned currentIndex = [indexSet firstIndex];
-    int i = 0;
+    int currentIndex = [indexSet firstIndex];
+	int i = 0;
     while (currentIndex != NSNotFound)
     {
 		if (currentIndex < row) { i++; }

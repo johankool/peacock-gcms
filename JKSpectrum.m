@@ -190,7 +190,7 @@
 }
 
 -(float)scoreComparedToSpectrum:(JKSpectrum *)inSpectrum {
-	return [self scoreComparedToLibraryEntry:inSpectrum];
+	return [self scoreComparedToLibraryEntry:(JKLibraryEntry *)inSpectrum];
 }
 
 -(float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry { // Could be changed to id <protocol> to resolve warning
@@ -219,7 +219,7 @@
 	
 	switch (formulaChoosen) {
 		case 0: // Using formula 1 in Gan 2001
-			while (i < count1 & j < count2) {
+			while ((i < count1) & (j < count2)) {
 				// If we go beyond the bounds, we get unexpected results, so make sure we are within the bounds.
 				if (i >= count1) i = count1-1;
 				if (j >= count2) j = count2-1;
@@ -250,14 +250,14 @@
 			
 			break;
 		case 1: // Using formula 2 in Gan 2001
-			while (i < count1 & j < count2) {
+			while ((i < count1) & (j < count2)) {
 				// If we go beyond the bounds, we get unexpected results, so make sure we are within the bounds.
 				if (i >= count1) i = count1-1;
 				if (j >= count2) j = count2-1;
 				massDifference = roundf(peakMasses[i]) - roundf(libraryEntryMasses[j]);
 				
 				if (massDifference == 0.0) {
-					if (peakIntensities[i]/maxIntensitySpectrum < 0.02 | libraryEntryIntensities[j]/maxIntensityLibraryEntry < 0.02) {
+					if ((peakIntensities[i]/maxIntensitySpectrum < 0.02) | (libraryEntryIntensities[j]/maxIntensityLibraryEntry < 0.02)) {
 						score = score + (peakIntensities[i]/maxIntensitySpectrum)+(libraryEntryIntensities[j]/maxIntensityLibraryEntry);
 						score2 = score2 + (peakIntensities[i]/maxIntensitySpectrum)+(libraryEntryIntensities[j]/maxIntensityLibraryEntry);
 						
@@ -286,7 +286,7 @@
 			break;
 			
 		case 2: // Literature reference search i.e. all peaks in the libentry must be present and intensity is more important
-			while (i < count1 & j < count2) {
+			while ((i < count1) & (j < count2)) {
 				// If we go beyond the bounds, we get unexpected results, so make sure we are within the bounds.
 				// If we go out of bounds, we are at the end of the range, which should be handled slightly different for some scores
 				if (i >= count1) {
@@ -351,7 +351,7 @@
 	float retentionIndexSlope	  = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexSlope"] floatValue];//  = 72.742; //= [[[self document] model] retentionIndexSlope]; 
 	float retentionIndexRemainder = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexRemainder"] floatValue];// =  178.44; //= [[[self document] model] retentionIndexRemainder];
 	
-	observedRetentionIndex = [self retentionTime] * retentionIndexSlope + retentionIndexRemainder;
+	observedRetentionIndex = retentionTime * retentionIndexSlope + retentionIndexRemainder;
 	
 	return observedRetentionIndex;
 }

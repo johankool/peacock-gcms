@@ -48,6 +48,8 @@
 
 -(IBAction)showInspector:(id)sender;
 
+-(void)disableInspector:(id)object;
+
 #pragma mark ACCESSORS
 
 -(NSDocument *)inspectedDocument;

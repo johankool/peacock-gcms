@@ -20,7 +20,8 @@ NSString *const JKMainDocument_DocumentLoadedNotification = @"JKMainDocument_Doc
 #pragma mark INITIALIZATION
 
 -(id)init {
-    if (self = [super init]) {
+	self = [super init];
+    if (self != nil) {
         mainWindowController = [[JKMainWindowController alloc] init];
 		//	[NSException raise:NSLocalizedString(@"Creating new document not supported",@"Creating new document not supported") format:NSLocalizedString(@"Creating new documents is not supported, try importing a suitable file instead.",@"Creating new documents is not supported, try importing a suitable file instead.")];
 
@@ -124,7 +125,7 @@ NSString *const JKMainDocument_DocumentLoadedNotification = @"JKMainDocument_Doc
 	NSArray *content = [[NSFileManager defaultManager] directoryContentsAtPath:[[self fileName] stringByDeletingLastPathComponent]];
 	NSError *error = [[NSError alloc] init];
 	BOOL openNext = NO;
-	int i;
+	unsigned int i;
 	for (i=0; i < [content count]; i++) {
 		if (openNext) {
 			[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[[self fileName] stringByDeletingLastPathComponent] stringByAppendingPathComponent:[content objectAtIndex:i]]] display:YES error:&error];

@@ -8,6 +8,7 @@
 
 #import "JKStatisticsWindowController.h"
 #import "JKMainDocument.h"
+#import "JKMainWindowController.h"
 #import "JKPeakRecord.h"
 #import "JKRatio.h"
 #import "JKDataModel.h"
@@ -55,7 +56,7 @@
 -(void)windowDidLoad {
 	// Load Ratios file from application support folder
 	NSArray *paths;
-	int i;
+	unsigned int i;
 	BOOL foundFile = NO;
 	NSFileManager *mgr = [NSFileManager defaultManager];
 	NSString *destPath;
@@ -309,10 +310,10 @@
 	// Problems!
 	//  - should use retention index instead of retention time
 	// ?- measurement conditions should be similar e.g. same temp. program
-	// √- comparison to peaks within same chromatogram may occur when peaks within window were added
+	// ‚àö- comparison to peaks within same chromatogram may occur when peaks within window were added
 	// ?- unconfirmed peaks encountered before corresponding confirmed peak won't match
 	// ?- no check to see if combined peak already had a match from the same file (highest score should win?)
-	// √- memory usage from opening files is problematic: open/close files on demand?
+	// ‚àö- memory usage from opening files is problematic: open/close files on demand?
 	
 	date = [NSDate date];
 	peaksCompared = 0;
@@ -495,7 +496,7 @@
 	int i, count, combinedPeaksCount;
 	float averageRetentionIndex, averageSurface, averageHeight;
 	float standardDeviationRetentionIndex, standardDeviationSurface, standardDeviationHeight;
-	int filesCount = [[self files] count];
+	// int filesCount = [[self files] count];
 	
 	combinedPeaksCount = [[self combinedPeaks] count];
 	for (i = 0; i < combinedPeaksCount; i++) {
@@ -506,7 +507,7 @@
 		averageSurface = 0.0;
 		averageHeight = 0.0;
 		
-		while (key = [peaksEnumerator nextObject]) {
+		while ((key = [peaksEnumerator nextObject])) {
 			if ([[key substringToIndex:4] isEqualToString:@"file"]){
 				peak = [combinedPeak objectForKey:key];
 				count++;
@@ -537,7 +538,7 @@
 		standardDeviationHeight = 0.0;
 		count = 0;
 		
-		while (key = [peaksEnumerator nextObject]) {
+		while ((key = [peaksEnumerator nextObject])) {
 			if ([[key substringToIndex:4] isEqualToString:@"file"]){
 				peak = [combinedPeak objectForKey:key];
 				count++;
@@ -966,7 +967,7 @@
 			NSEnumerator *enumerator = [files objectEnumerator];
 			id anObject;
 			
-			while (anObject = [enumerator nextObject]) {
+			while ((anObject = [enumerator nextObject])) {
 				if ([[anObject valueForKey:@"path"] isEqualToString:aFile])
 					alreadyInFiles = YES;
 			}

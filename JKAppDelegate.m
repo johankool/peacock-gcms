@@ -32,7 +32,7 @@
 	[mutDict setValue:@"" forKey:@"defaultLibrary"];
 	[mutDict setValue:@"" forKey:@"customLibrary"];
 	// Hidden preference for logging verbosity
-	[mutDict setValue:[NSNumber numberWithInt:JK_VERBOSITY_INFO] forKey:JKLogVerbosityUserDefault];
+	[mutDict setValue:[NSNumber numberWithInt:JK_VERBOSITY_INFO] forKey:@"JKVerbosity"];
 	
 	[[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:mutDict];
 	[mutDict release];
@@ -54,16 +54,11 @@
 
 	
 	// Execute startup preferences
-//    if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"checkForUpdates"] boolValue]== YES) {
-//        [self checkVersion:TRUE];
-//    }
-#warning Custom level debug verbosity set.
-    JKSetVerbosityLevel([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:JKLogVerbosityUserDefault] intValue]);
+//#warning Custom level debug verbosity set.
+//    JKSetVerbosityLevel([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue]);
 #warning High level debug verbosity set.
 	JKSetVerbosityLevel(JK_VERBOSITY_ALL);
-//    if (!panelWindowController) {
-//        panelWindowController = [[JKPanelController alloc] init];
-//    }    
+
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSave"] boolValue] == YES) {
         [[NSDocumentController sharedDocumentController] setAutosavingDelay:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSaveDelay"] intValue]];
     }

@@ -18,7 +18,8 @@
 #pragma mark INITIALIZATION
 
 -(id)init {
-    if (self = [super init]) {
+	self = [super init];
+	if (self != nil) {
 		peaks = [[NSMutableArray alloc] init];
 		baseline = [[NSMutableArray alloc] init];
 		metadata = [[NSMutableDictionary alloc] init];
@@ -84,31 +85,31 @@
 //	;
     if ([self hasSpectra]) {
         // GCMS file
-        dummy = nc_inq_dimid([self ncid], "scan_number", &dimid);
+        dummy = nc_inq_dimid(ncid, "scan_number", &dimid);
 		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting scan_number dimension failed.\nNetCDF error: %d",@""), dummy];
 
-        dummy = nc_inq_dimlen([self ncid], dimid, (void *) &num_pts);
+        dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_pts);
 		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting scan_number dimension length failed.\nNetCDF error: %d",@""), dummy];
         
-        dummy = nc_inq_varid([self ncid], "scan_acquisition_time", &varid_scanaqtime);
+        dummy = nc_inq_varid(ncid, "scan_acquisition_time", &varid_scanaqtime);
 		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting scan_acquisition_time variable failed.\nNetCDF error: %d",@""), dummy];
 
-        dummy = nc_inq_varid([self ncid], "total_intensity", &varid_totintens);
+        dummy = nc_inq_varid(ncid, "total_intensity", &varid_totintens);
 		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting total_intensity dimension failed.\nNetCDF error: %d",@""), dummy];
         
     } else {
         // GC file
-        dummy = nc_inq_dimid([self ncid], "point_number", &dimid);
+        dummy = nc_inq_dimid(ncid, "point_number", &dimid);
 		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting point_number dimension failed.\nNetCDF error: %d",@""), dummy];
  
-        dummy = nc_inq_dimlen([self ncid], dimid, (void *) &num_pts);
+        dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_pts);
 		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting point_number dimension length failed.\nNetCDF error: %d",@""), dummy];
         
-        dummy = nc_inq_varid([self ncid], "raw_data_retention", &varid_scanaqtime);
+        dummy = nc_inq_varid(ncid, "raw_data_retention", &varid_scanaqtime);
 //		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting raw_data_retention variable failed.\nNetCDF error: %d",@""), dummy];
         if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting raw_data_retention variable failed. Report error #%d.", dummy); hasVarid_scanaqtime = NO;}
         
-        dummy = nc_inq_varid([self ncid], "ordinate_values", &varid_totintens);
+        dummy = nc_inq_varid(ncid, "ordinate_values", &varid_totintens);
 		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting ordinate_values variable failed.\nNetCDF error: %d",@""), dummy];
     }
 
@@ -116,10 +117,10 @@
     x = (float *) malloc(num_pts*sizeof(float));
     y = (float *) malloc(num_pts*sizeof(float));
 
-     dummy = nc_get_var_float([self ncid], varid_scanaqtime, x);
+     dummy = nc_get_var_float(ncid, varid_scanaqtime, x);
 	 if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting scanaqtime variables failed.\nNetCDF error: %d",@""), dummy];
      
-     dummy = nc_get_var_float([self ncid], varid_totintens, y);
+     dummy = nc_get_var_float(ncid, varid_totintens, y);
 	 if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting totintens variables failed.\nNetCDF error: %d",@""), dummy];
 
      [self setTime:x withCount:num_pts];
@@ -259,10 +260,10 @@
     int dummy, varid_scanaqtime;
     float   x;
     
-    dummy = nc_inq_varid([self ncid], "scan_acquisition_time", &varid_scanaqtime);
+    dummy = nc_inq_varid(ncid, "scan_acquisition_time", &varid_scanaqtime);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_acquisition_time variable failed. Report error #%d.", dummy); return -1.0;}
         
-    dummy = nc_get_var1_float([self ncid], varid_scanaqtime, (void *) &scan, &x);
+    dummy = nc_get_var1_float(ncid, varid_scanaqtime, (void *) &scan, &x);
     
     return x/60;
 }
@@ -273,7 +274,7 @@
     float 	*x;
     int		num_pts;
 
-    dummy = nc_inq_varid([self ncid], "mass_values", &varid_mass_value);
+    dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_value variable failed. Report error #%d.", dummy);        return x;}
 
 	
@@ -295,13 +296,13 @@
  //   x = (float *) malloc((num_pts+1)*sizeof(float));
 	
 	x = (float *) malloc(num_pts*sizeof(float));
-//	dummy = nc_get_var_float([self ncid], varid_mass_value, x);
+//	dummy = nc_get_var_float(ncid, varid_mass_value, x);
 
-	dummy = nc_get_vara_float([self ncid], varid_mass_value, (const size_t *) &start, (const size_t *) &num_pts, x);
+	dummy = nc_get_vara_float(ncid, varid_mass_value, (const size_t *) &start, (const size_t *) &num_pts, x);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values failed. Report error #%d.", dummy); return x;}
 	
 //    for(i = start; i < end; i++) {
-//        dummy = nc_get_var1_float([self ncid], varid_mass_value, (void *) &i, &xx);
+//        dummy = nc_get_var1_float(ncid, varid_mass_value, (void *) &i, &xx);
 //        *(x + (i-start)) = xx;
 //        if(maxXValuesSpectrum < xx) {
 //            maxXValuesSpectrum = xx;
@@ -321,7 +322,7 @@
     float 	*y;
     int		num_pts;
 
-    dummy = nc_inq_varid([self ncid], "intensity_values", &varid_intensity_value);
+    dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return y;}
 
 	dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
@@ -339,14 +340,14 @@
     num_pts = end - start;
 	
 	y = (float *) malloc((num_pts)*sizeof(float));
-//	dummy = nc_get_var_float([self ncid], varid_intensity_value, y);
+//	dummy = nc_get_var_float(ncid, varid_intensity_value, y);
 
-	dummy = nc_get_vara_float([self ncid], varid_intensity_value, (const size_t *) &start, (const size_t *) &num_pts, y);
+	dummy = nc_get_vara_float(ncid, varid_intensity_value, (const size_t *) &start, (const size_t *) &num_pts, y);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_values failed. Report error #%d.", dummy); return y;}
 	
 //	//    minYValuesSpectrum = 0.0; minYValuesSpectrum = 80000.0;	
 //    for(i = start; i < end; i++) {
-//        dummy = nc_get_var1_float([self ncid], varid_intensity_value, (void *) &i, &yy);
+//        dummy = nc_get_var1_float(ncid, varid_intensity_value, (void *) &i, &yy);
 //        *(y + (i-start)) = yy;
 //		//        if(maxXValuesSpectrum < yy) {
 //		//            maxXValuesSpectrum = yy;
@@ -384,16 +385,17 @@
 	NSMutableArray *mzValues = [NSMutableArray array];
 	NSArray *mzValuesPlus = [inString componentsSeparatedByString:@"+"];
 	
-	int i,j,k, mzValuesCount;
+	unsigned int i,j,k, mzValuesCount;
+	
 	for (i = 0; i < [mzValuesPlus count]; i++) {
 		NSArray *mzValuesMin = [[mzValuesPlus objectAtIndex:i] componentsSeparatedByString:@"-"];
 		if ([mzValuesMin count] > 1) {
 			if ([[mzValuesMin objectAtIndex:0] intValue] < [[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]) {
-				for (j = [[mzValuesMin objectAtIndex:0] intValue]; j < [[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j++) {
+				for (j = (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j < (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j++) {
 					[mzValues addObject:[NSNumber numberWithInt:j]];
 				}
 			} else {
-				for (j = [[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j < [[mzValuesMin objectAtIndex:0] intValue]; j++) {
+				for (j = (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j < (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j++) {
 					[mzValues addObject:[NSNumber numberWithInt:j]];
 				}
 			}
@@ -410,33 +412,33 @@
 	// JKLogDebug(mzValuesString);
 	
 	
-    int     dummy, scan, dimid, varid_intensity_value, varid_mass_value, varid_time_value, varid_scan_index, varid_point_count;
+    int     dummy, scan, dimid, varid_intensity_value, varid_mass_value, varid_time_value, varid_scan_index, varid_point_count, scanCount;
     float  timeL, mass, intensity;
     float	*times, *masses,	*intensities;
-    int		num_pts, num_scan, scanCount;
+    unsigned int num_pts, num_scan;
     
-    dummy = nc_inq_varid([self ncid], "mass_values", &varid_mass_value);
+    dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return nil;}
     
-    dummy = nc_inq_varid([self ncid], "intensity_values", &varid_intensity_value);
+    dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return nil;}
 
-    dummy = nc_inq_varid([self ncid], "scan_index", &varid_scan_index);
+    dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting varid_scan_index variable failed. Report error #%d.", dummy); return nil;}
 
-    dummy = nc_inq_varid([self ncid], "point_count", &varid_point_count);
+    dummy = nc_inq_varid(ncid, "point_count", &varid_point_count);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_count variable failed. Report error #%d.", dummy); return nil;}
     
-    dummy = nc_inq_dimid([self ncid], "point_number", &dimid);
+    dummy = nc_inq_dimid(ncid, "point_number", &dimid);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension failed. Report error #%d.", dummy); return nil;}
     
-    dummy = nc_inq_dimlen([self ncid], dimid, (void *) &num_pts);
+    dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_pts);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return nil;}
 
-    dummy = nc_inq_dimid([self ncid], "scan_number", &dimid);
+    dummy = nc_inq_dimid(ncid, "scan_number", &dimid);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_number dimension failed. Report error #%d.", dummy); return nil;}
     
-    dummy = nc_inq_dimlen([self ncid], dimid, (void *) &num_scan);
+    dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_scan);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_number dimension length failed. Report error #%d.", dummy); return nil;}
     
 	masses = (float *) malloc((num_scan)*sizeof(float));
@@ -444,14 +446,14 @@
 	intensities = (float *) malloc((num_scan)*sizeof(float));
 
 	for(i = 0; i < num_scan; i++) {
-		dummy = nc_get_var1_int([self ncid], varid_scan_index, (void *) &i, &scan); // is this the start or the end?
-		dummy = nc_get_var1_int([self ncid], varid_point_count, (void *) &i, &scanCount);
-		for(j = scan; j < scan+scanCount; j++) {
-			dummy = nc_get_var1_float([self ncid], varid_mass_value, (void *) &j, &mass);
+		dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &i, &scan); // is this the start or the end?
+		dummy = nc_get_var1_int(ncid, varid_point_count, (void *) &i, &scanCount);
+		for(j = scan; j < (unsigned)scan + (unsigned)scanCount; j++) {
+			dummy = nc_get_var1_float(ncid, varid_mass_value, (void *) &j, &mass);
 			for(k = 0; k < mzValuesCount; k++) {
 				if (fabs(mass-[[mzValues objectAtIndex:k] intValue]) < 0.5) {
-					dummy = nc_get_var1_float([self ncid], varid_time_value, (const size_t *) &j, &timeL);
-					dummy = nc_get_var1_float([self ncid], varid_intensity_value, (const size_t *) &j, &intensity);
+					dummy = nc_get_var1_float(ncid, varid_time_value, (const size_t *) &j, &timeL);
+					dummy = nc_get_var1_float(ncid, varid_intensity_value, (const size_t *) &j, &intensity);
 					
 					masses[i] = mass;
 					times[i] = [self timeForScan:i];
@@ -498,27 +500,27 @@
     int		num_pts, scanCount;
     scanCount = 0;
     
-    dummy = nc_inq_varid([self ncid], "mass_values", &varid_mass_value);
+    dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return y;}
     
-    dummy = nc_inq_varid([self ncid], "intensity_values", &varid_intensity_value);
+    dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return y;}
     
-    dummy = nc_inq_dimid([self ncid], "point_number", &dimid);
+    dummy = nc_inq_dimid(ncid, "point_number", &dimid);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension failed. Report error #%d.", dummy); return y;}
     
-    dummy = nc_inq_dimlen([self ncid], dimid, (void *) &num_pts);
+    dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_pts);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return y;}
     
 	
-	//	dummy = nc_get_vara_float([self ncid], varid_intensity_value, (const size_t *) &i, (const size_t *) &num_pts, &xx);
+	//	dummy = nc_get_vara_float(ncid, varid_intensity_value, (const size_t *) &i, (const size_t *) &num_pts, &xx);
 	//	nc_get_vara_float(int ncid, int varid,
 	//					   const size_t *startp, const size_t *countp, float *ip);
     for(i = 0; i < num_pts; i++) {
-        dummy = nc_get_var1_float([self ncid], varid_mass_value, (void *) &i, &xx);
+        dummy = nc_get_var1_float(ncid, varid_mass_value, (void *) &i, &xx);
         if (fabs(xx-mzValue) < 0.5) {
             y = (float *) malloc((scanCount+1)*sizeof(float));
-            dummy = nc_get_var1_float([self ncid], varid_intensity_value, (const size_t *) &i, &yy);
+            dummy = nc_get_var1_float(ncid, varid_intensity_value, (const size_t *) &i, &yy);
 			// *(y + (scanCount)) = yy;
             y[scanCount] = yy;
 //			JKLogDebug(@"scan %d: mass %f = %f %f", scanCount, xx, yy, y[scanCount]);
@@ -547,7 +549,7 @@
 -(int)endValuesSpectrum:(int)scan {
     int dummy, end, varid_scan_index;
 
-    dummy = nc_inq_varid([self ncid], "scan_index", &varid_scan_index);
+    dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable failed. Report error #%d.", dummy); return 0;}
 
     scan++;

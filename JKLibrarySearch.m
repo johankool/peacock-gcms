@@ -11,6 +11,7 @@
 #import "JKPeakRecord.h"
 #import "JKSpectrum.h"
 #import "JKMainWindowController.h"
+#import "JKDataModel.h"
 
 @implementation JKLibrarySearch
 - (id) init {
@@ -598,7 +599,7 @@
 		
 		// Spectrum data
 		[theScanner setScanLocation:0];
-		if ([theScanner scanUpToString:XY intoString:NULL] & numPeaks > 0) {
+		if (([theScanner scanUpToString:XY intoString:NULL]) & (numPeaks > 0)) {
 			[theScanner scanString:XY intoString:NULL]; 
 			[theScanner scanUpToCharactersFromSet:[NSCharacterSet letterCharacterSet] intoString:&xyData];
 			

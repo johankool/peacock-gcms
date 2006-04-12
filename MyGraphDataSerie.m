@@ -231,7 +231,7 @@ static void *PropertyObservationContext = (void *)1093;
 	// Declare newDataPoint as NSObject * to get key value observing methods
     NSMutableDictionary *newDataPoint;
 	// Register as observer
-    while (newDataPoint = [dataEnumerator nextObject]) {		
+    while ((newDataPoint = [dataEnumerator nextObject])) {		
 		//		NSArray *keys = [newDataPoint allKeys];
 		//		// The problem here is that we don't can register for keys that aren't yet defined in the dictionary
 		//		NSEnumerator *keyEnumerator = [keys objectEnumerator];
@@ -262,7 +262,7 @@ static void *PropertyObservationContext = (void *)1093;
 	NSEnumerator *dataEnumerator = [data objectEnumerator];
 	
     NSMutableDictionary *oldDataPoint;
-    while (oldDataPoint = [dataEnumerator nextObject]) {
+    while ((oldDataPoint = [dataEnumerator nextObject])) {
 		//		NSArray *keys = [oldDataPoint allKeys];
 		//		NSEnumerator *keyEnumerator = [keys objectEnumerator];
 		//		

@@ -393,7 +393,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 
 - (void)drawLegend {
-	int i;
+	unsigned int i;
 	NSMutableAttributedString *string; // = [[NSMutableAttributedString alloc] init];
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
 	NSSize stringSize;
@@ -998,10 +998,10 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 			if ([self mouse:mouseDownAtPoint inRect:[self plottingArea]]) { //isInsidePlottingArea
 				// nothing
 			} else { // !isInsidePlottingArea
-				if (mouseDownAtPoint.y < plottingArea.origin.y | mouseDownAtPoint.y > (plottingArea.origin.y + plottingArea.size.height)) {
+				if ((mouseDownAtPoint.y < plottingArea.origin.y) | (mouseDownAtPoint.y > (plottingArea.origin.y + plottingArea.size.height))) {
 					draggedRect.origin.y = plottingArea.origin.y;
 					draggedRect.size.height = plottingArea.size.height;
-				} else if (mouseDownAtPoint.x < plottingArea.origin.x | mouseDownAtPoint.x > (plottingArea.origin.x + plottingArea.size.width)) {
+				} else if ((mouseDownAtPoint.x < plottingArea.origin.x) | (mouseDownAtPoint.x > (plottingArea.origin.x + plottingArea.size.width))) {
 					draggedRect.origin.x = plottingArea.origin.x;
 					draggedRect.size.width = plottingArea.size.width;
 				}

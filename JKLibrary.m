@@ -15,7 +15,8 @@
 #pragma mark INITIALIZATION
 
 -(id)init {
-    if (self = [super init]) {
+	self = [super init];
+    if (self != nil) {
         libraryWindowController = [[JKLibraryWindowController alloc] init];
 		libraryArray = [[NSMutableArray alloc] init];
     }
@@ -186,7 +187,7 @@
 		
 		// Spectrum data
 		[theScanner setScanLocation:0];
-		if ([theScanner scanUpToString:XY intoString:NULL] & numPeaks > 0) {
+		if (([theScanner scanUpToString:XY intoString:NULL]) & (numPeaks > 0)) {
 			[theScanner scanString:XY intoString:NULL]; 
 			[theScanner scanUpToCharactersFromSet:[NSCharacterSet letterCharacterSet] intoString:&xyData];
 			

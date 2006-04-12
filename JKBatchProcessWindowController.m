@@ -14,7 +14,8 @@
 @implementation JKBatchProcessWindowController
 
 -(id)init {
-    if (self = [super initWithWindowNibName:@"JKBatchProcess"]) {
+	self = [super initWithWindowNibName:@"JKBatchProcess"];
+    if (self != nil) {
 		files = [[NSMutableArray alloc] init];
 		[self setAbortAction:NO];
 	}
@@ -131,7 +132,7 @@
 		}		
 		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchRunAutoPilot"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Identifying Compounds",@"")];
-			[[document mainWindowController] autopilot];
+			[[document mainWindowController] identifyPeaks];
 			[fileProgressIndicator incrementBy:1.0];
 		}
 		if ([self abortAction]) {
