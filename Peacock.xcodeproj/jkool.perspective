@@ -215,7 +215,48 @@
 		</dict>
 	</array>
 	<key>OpenEditors</key>
-	<array/>
+	<array>
+		<dict>
+			<key>Content</key>
+			<dict>
+				<key>PBXProjectModuleGUID</key>
+				<string>C743617A09ED4CC20051459F</string>
+				<key>PBXProjectModuleLabel</key>
+				<string>JKLibrarySearch.m</string>
+				<key>PBXSplitModuleInNavigatorKey</key>
+				<dict>
+					<key>Split0</key>
+					<dict>
+						<key>PBXProjectModuleGUID</key>
+						<string>C743617B09ED4CC20051459F</string>
+						<key>PBXProjectModuleLabel</key>
+						<string>JKLibrarySearch.m</string>
+						<key>_historyCapacity</key>
+						<integer>0</integer>
+						<key>bookmark</key>
+						<string>C743618909ED51200051459F</string>
+						<key>history</key>
+						<array>
+							<string>C743617C09ED4CC20051459F</string>
+						</array>
+					</dict>
+					<key>SplitCount</key>
+					<string>1</string>
+				</dict>
+				<key>StatusBarVisibility</key>
+				<true/>
+			</dict>
+			<key>Geometry</key>
+			<dict>
+				<key>Frame</key>
+				<string>{{0, 20}, {950, 739}}</string>
+				<key>PBXModuleWindowStatusBarHidden2</key>
+				<false/>
+				<key>RubberWindowFrame</key>
+				<string>86 52 950 780 0 0 1280 832 </string>
+			</dict>
+		</dict>
+	</array>
 	<key>PerspectiveWidths</key>
 	<array>
 		<integer>1231</integer>
@@ -344,7 +385,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>C7AD37EC08B21C4600A0F4BE</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>JKStatisticsWindowController.m</string>
+								<string>JKSpectrum.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -352,11 +393,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>C7AD37ED08B21C4600A0F4BE</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>JKStatisticsWindowController.m</string>
+										<string>JKSpectrum.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C743612B09ED23970051459F</string>
+										<string>C743618709ED51200051459F</string>
 										<key>history</key>
 										<array>
 											<string>C7AD3C9108B4B3AC00A0F4BE</string>
@@ -423,7 +464,6 @@
 											<string>C743604709ED1CE10051459F</string>
 											<string>C743604809ED1CE10051459F</string>
 											<string>C743604909ED1CE10051459F</string>
-											<string>C743604A09ED1CE10051459F</string>
 											<string>C743604B09ED1CE10051459F</string>
 											<string>C743604C09ED1CE10051459F</string>
 											<string>C743604D09ED1CE10051459F</string>
@@ -439,7 +479,8 @@
 											<string>C743610609ED1FC80051459F</string>
 											<string>C743611809ED21530051459F</string>
 											<string>C743611909ED21530051459F</string>
-											<string>C743611A09ED21530051459F</string>
+											<string>C743618509ED51150051459F</string>
+											<string>C743617F09ED4E370051459F</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -746,6 +787,9 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>30</integer>
+									<integer>22</integer>
+									<integer>21</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -783,7 +827,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>C7AD37EA08B21C0200A0F4BE</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>JKStatisticsWindowController.m</string>
+								<string>JKSpectrum.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -791,11 +835,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>C7AD37EB08B21C0200A0F4BE</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>JKStatisticsWindowController.m</string>
+										<string>JKSpectrum.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C743612C09ED23970051459F</string>
+										<string>C743618809ED51200051459F</string>
 										<key>history</key>
 										<array>
 											<string>C7AD3C9108B4B3AC00A0F4BE</string>
@@ -862,7 +906,6 @@
 											<string>C7435EF809ED0BB30051459F</string>
 											<string>C7435F4A09ED0FC30051459F</string>
 											<string>C7435F4B09ED0FC30051459F</string>
-											<string>C7435F4C09ED0FC30051459F</string>
 											<string>C743604009ED1CE10051459F</string>
 											<string>C743604109ED1CE10051459F</string>
 											<string>C743604209ED1CE10051459F</string>
@@ -878,7 +921,8 @@
 											<string>C74360DA09ED1EC50051459F</string>
 											<string>C74360DF09ED1ECB0051459F</string>
 											<string>C743611F09ED215B0051459F</string>
-											<string>C743611D09ED21530051459F</string>
+											<string>C743616709ED44920051459F</string>
+											<string>C743618609ED51150051459F</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -985,6 +1029,7 @@
 											<string>C743609909ED1D800051459F</string>
 											<string>C74360AD09ED1E020051459F</string>
 											<string>C74360DD09ED1EC50051459F</string>
+											<string>C743616909ED44920051459F</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -1084,7 +1129,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1019, 197}}</string>
+										<string>{{10, 27}, {970, 197}}</string>
 									</dict>
 									<key>Module</key>
 									<string>PBXRunSessionModule</string>
@@ -1274,7 +1319,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>166536087.19945699</real>
+	<real>166547744.78056499</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
@@ -1290,6 +1335,7 @@
 	<key>WindowOrderList</key>
 	<array>
 		<string>C743610009ED1F560051459F</string>
+		<string>C743617A09ED4CC20051459F</string>
 		<string>/Users/jkool/Developer/Peacock/Peacock.xcodeproj</string>
 	</array>
 	<key>WindowString</key>

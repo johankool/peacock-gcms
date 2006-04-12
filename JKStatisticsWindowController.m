@@ -306,6 +306,7 @@
 	NSString *peakName;
 	NSString *combinedPeakName;
 	NSMutableArray *peakToAddToCombinedPeaks = [[NSMutableArray alloc] init];
+	JKSpectrum *spectrum;
 	
 	// Problems!
 	//  - should use retention index instead of retention time
@@ -349,6 +350,8 @@
 			}
 		}
 		
+		spectrum = [[[document dataModel] getSpectrumForPeak:peak] normalizedSpectrum];
+		
 		for (k=0; k < combinedPeaksCount; k++) {
 			combinedPeak = [combinedPeaks objectAtIndex:k];
 			combinedPeakName = [combinedPeak valueForKey:@"label"];
@@ -369,8 +372,6 @@
 				if (fabsf([[peak retentionIndex] floatValue] - [[combinedPeak valueForKey:@"retentionIndex"] floatValue]) < 300.0) {
 					NSAssert([combinedPeak valueForKey:@"spectrum"], @"No spectrum for combined peak!?");
 					peaksCompared++;
-					JKSpectrum *spectrum;
-					spectrum = [[[document dataModel] getSpectrumForPeak:peak] normalizedSpectrum];
 					scoreResult  = [spectrum scoreComparedToSpectrum:[combinedPeak valueForKey:@"spectrum"]];
 					if (scoreResult > 70) {
 						if (scoreResult > maxScoreResult) {

@@ -26,6 +26,10 @@
 	if (self != nil) {
 		masses = (float *) malloc(1*sizeof(float));
 		intensities = (float *) malloc(1*sizeof(float));
+		
+		// Score settings are set in init(WithCoder) because it would be too expensive to catch for every score calculated
+		formulaChoosen = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"scoreBasis"] intValue];
+		penalizeForRetentionIndex = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexPenalty"] boolValue];
 	}
 	return self;
 }
@@ -193,11 +197,14 @@
 	return [self scoreComparedToLibraryEntry:(JKLibraryEntry *)inSpectrum];
 }
 
+#pragma mark optimization_level 3
+
 -(float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry { // Could be changed to id <protocol> to resolve warning
-#warning Fails when not set...
-	int formulaChoosen = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"scoreBasis"] intValue];
-//	JKLogDebug(@"formulaChoosen = %d", formulaChoosen);
-	BOOL penalizeForRetentionIndex = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexPenalty"] boolValue];
+//#warning Fails when not set...
+//// should be set during initilaizoitn? quite coslty
+//	int formulaChoosen = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"scoreBasis"] intValue];
+////	JKLogDebug(@"formulaChoosen = %d", formulaChoosen);
+//	BOOL penalizeForRetentionIndex = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexPenalty"] boolValue];
 	
 	int i,j,k,count1,count2;
 	float score, score2, score3, maxIntensityLibraryEntry, maxIntensitySpectrum;
@@ -214,6 +221,7 @@
 	float *libraryEntryMasses = [libraryEntry masses];
 	float *libraryEntryIntensities = [libraryEntry intensities];
 	float massDifference;
+	float temp1, temp2;
 	BOOL peakMassesAtEnd = NO;
 	BOOL libraryEntryMassesAtEnd = NO;
 	
@@ -223,21 +231,31 @@
 				// If we go beyond the bounds, we get unexpected results, so make sure we are within the bounds.
 				if (i >= count1) i = count1-1;
 				if (j >= count2) j = count2-1;
-				massDifference = roundf(peakMasses[i]) - roundf(libraryEntryMasses[j]);
+				// roundf is expensive
+				// massDifference = roundf(peakMasses[i]) - roundf(libraryEntryMasses[j]);
+				// therefor is an alternative routine
+				massDifference = peakMasses[i] - libraryEntryMasses[j];
+				if ( fabs(massDifference) < 0.5f) {
+					massDifference = 0.0f;
+				}
 				
 				if (massDifference == 0.0) {
-					score = score + fabsf((peakIntensities[i]/maxIntensitySpectrum)-(libraryEntryIntensities[j]/maxIntensityLibraryEntry));
-					score2 = score2 + fabsf((peakIntensities[i]/maxIntensitySpectrum)+(libraryEntryIntensities[j]/maxIntensityLibraryEntry));
+					temp1  = (peakIntensities[i]/maxIntensitySpectrum);
+					temp2  = (libraryEntryIntensities[j]/maxIntensityLibraryEntry);
+					score  = score  + fabsf(temp1 - temp2);
+					score2 = score2 + fabsf(temp1 + temp2);
 					
 					k++; i++; j++;
 				} else if (massDifference < 0.0) {
-					score = score + fabsf(peakIntensities[i]/maxIntensitySpectrum);
-					score2 = score2 + fabsf(peakIntensities[i]/maxIntensitySpectrum);
+					temp1  = fabsf(peakIntensities[i]/maxIntensitySpectrum);
+					score  = score  + temp1;
+					score2 = score2 + temp1;
 					
 					k++; i++;
 				} else if (massDifference > 0.0) {
-					score = score + fabsf(libraryEntryIntensities[j]/maxIntensityLibraryEntry);
-					score2 = score2 + fabsf(libraryEntryIntensities[j]/maxIntensityLibraryEntry);
+					temp1  = fabsf(libraryEntryIntensities[j]/maxIntensityLibraryEntry);
+					score  = score  + temp1;
+					score2 = score2 + temp1;
 					
 					k++; j++;
 				} else {
@@ -346,6 +364,8 @@
 	}
 }
 
+#pragma mark optimization_level reset
+
 -(float)observedRetentionIndex {
 	float observedRetentionIndex;
 	float retentionIndexSlope	  = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexSlope"] floatValue];//  = 72.742; //= [[[self document] model] retentionIndexSlope]; 
@@ -387,6 +407,11 @@
 		
 		temporary	= [coder decodeBytesForKey:@"intensities" returnedLength:&length];
 		[self setIntensities:(float *)temporary withCount:numberOfPoints];
+		
+		// Score settings are set in init(WithCoder) because it would be too expensive to catch for every score calculated
+		formulaChoosen = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"scoreBasis"] intValue];
+		penalizeForRetentionIndex = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexPenalty"] boolValue];
+		
     } 
     return self;
 }

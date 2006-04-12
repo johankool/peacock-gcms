@@ -20,6 +20,10 @@
 	int numberOfPoints;
 	float *masses;
 	float *intensities;
+	
+	// Score settings
+	int formulaChoosen;
+	BOOL penalizeForRetentionIndex;	
  }
 
 -(JKSpectrum *)spectrumBySubtractingSpectrum:(JKSpectrum *)inSpectrum;

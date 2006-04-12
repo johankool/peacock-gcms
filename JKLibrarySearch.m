@@ -601,21 +601,24 @@
 		[theScanner setScanLocation:0];
 		if (([theScanner scanUpToString:XY intoString:NULL]) & (numPeaks > 0)) {
 			[theScanner scanString:XY intoString:NULL]; 
+			// scanUpToCharactersFromSet is expensive!! suggest to look at setCharactersToBeSkipped
 			[theScanner scanUpToCharactersFromSet:[NSCharacterSet letterCharacterSet] intoString:&xyData];
 			
 			NSScanner *theScanner2 = [[NSScanner alloc] initWithString:xyData];
 			masses = (float *) realloc(masses, numPeaks*sizeof(float));
 			intensities = (float *) realloc(intensities, numPeaks*sizeof(float));
 			int massInt, intensityInt;
+			[theScanner2 setCharactersToBeSkipped:[NSCharacterSet characterSetWithCharactersInString:@" ,.\n\r"]];
 			
 			for (j=0; j < numPeaks; j++){
 				if (![theScanner2 scanInt:&massInt]) JKLogError(@"Error during reading library (masses) %@ %@.", [libEntry valueForKey:@"name"], [theScanner2 string]);
 				//				NSAssert(massInt > 0, @"massInt");
-				masses[j] = massInt*1.0;
-				[theScanner2 scanUpToCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:NULL];
+				masses[j] = massInt*1.0f;
+				// scanUpToCharactersFromSet is expensive!!
+				//[theScanner2 scanUpToCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:NULL];
 				if (![theScanner2 scanInt:&intensityInt]) JKLogError(@"Error during reading library (intensities). %@",[libEntry valueForKey:@"name"]);
 				//				NSAssert(intensityInt > 0, @"intensityInt");
-				intensities[j] = intensityInt*1.0;
+				intensities[j] = intensityInt*1.0f;
 			}
 			[theScanner2 release];
 			
