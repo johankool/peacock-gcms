@@ -35,3 +35,4 @@
 	void			DumpSymbolTable			(FILE*				stream);
 
 #endif
+

@@ -33,8 +33,8 @@
 	
 	// Search options
 	BOOL penalizeForRetentionIndex;
-	float retentionSlope;     // retentionIndex = retentionSlope * retentionTime +  retentionRemainder
-	float retentionRemainder; //
+	NSNumber *retentionIndexSlope;     // retentionIndex = retentionSlope * retentionTime +  retentionRemainder
+	NSNumber *retentionIndexRemainder; //
 }
 //-(void)finishInit;
 -(BOOL)finishInitWithError:(NSError **)anError;
@@ -84,14 +84,15 @@
 -(NSMutableArray *)baseline;
 -(NSMutableDictionary *)metadata;
 
+#pragma mark ACCESSORS (MACROSTYLE)
+idAccessor_h(retentionIndexSlope, setRetentionIndexSlope);
+idAccessor_h(retentionIndexRemainder, setRetentionIndexRemainder);
+
 -(float *)xValuesSpectrum:(int)scan;
 -(float *)yValuesSpectrum:(int)scan;
 -(float *)yValuesIonChromatogram:(float)mzValue;
 -(int)startValuesSpectrum:(int)scan;
 -(int)endValuesSpectrum:(int)scan;
-
-#pragma mark FUNCTIONS
-void normalize(float *input, int count);
 
 @end
 

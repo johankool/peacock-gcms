@@ -84,6 +84,8 @@
 	[self setAbortAction:YES];
 }
 
+#pragma mark ACTIONS
+
 -(void)runBatch {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	BOOL errorOccurred = NO;	
@@ -98,7 +100,7 @@
 	NSString *path;
 
 	for (i=0; i < filesCount; i++) {
-		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:YES error:&error];
+		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:![[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchCloseDocument"] boolValue] error:&error];
 		[[self window] makeKeyAndOrderFront:self];
 		if (document == nil) {
 			JKLogError(@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]);

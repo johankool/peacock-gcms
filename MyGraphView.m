@@ -259,6 +259,19 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	
 	[shadow release];
 	[noShadow release];
+
+	// Draw focus ring
+	if([[self window] isKeyWindow] && [[self window] firstResponder] == self) {
+		[[NSColor keyboardFocusIndicatorColor] set];
+		[[NSBezierPath bezierPathWithRect:NSInsetRect([self frame],1,1)] stroke];
+
+//		[NSGraphicsContext saveGraphicsState];
+//		[[NSBezierPath bezierPathWithRect:[self frame]] addClip];
+//		NSSetFocusRingStyle(NSFocusRingOnly);
+//		NSRectFill([self frame]);
+//		[NSGraphicsContext restoreGraphicsState];
+	}
+	
 }
 
 - (void)drawGrid {
@@ -1078,10 +1091,12 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 - (BOOL) resignFirstResponder{
 	[[NSNotificationCenter defaultCenter] postNotificationName:MyGraphView_DidResignFirstResponderNotification object:self];
+	[self setNeedsDisplay:YES];
     return YES;
 }
 - (BOOL) becomeFirstResponder{
 	[[NSNotificationCenter defaultCenter] postNotificationName:MyGraphView_DidBecomeFirstResponderNotification object:self];
+	[self setNeedsDisplay:YES];
     return YES;
 }
 

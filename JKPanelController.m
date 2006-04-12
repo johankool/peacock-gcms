@@ -27,12 +27,12 @@ static JKPanelController *theSharedController;
         
         [center addObserver: theSharedController
 				   selector: @selector(documentActivateNotification:)
-					   name: JKMainDocument_DocumentActivateNotification
+					   name: NSWindowDidBecomeMainNotification
 					 object: nil];
         
         [center addObserver: theSharedController
 				   selector: @selector(documentDeactivateNotification:)
-					   name: JKMainDocument_DocumentDeactivateNotification
+					   name: NSWindowDidResignMainNotification
 					 object: nil];
 
         [center addObserver: theSharedController
@@ -70,11 +70,12 @@ static JKPanelController *theSharedController;
 	
 	inspectorListForMyGraphView = [[NSMutableDictionary alloc] init];
 	[inspectorListForMyGraphView setObject:@"View" forKey:@"view"];
+	[inspectorListForMyGraphView setObject:@"Options" forKey:@"options"];
 	[inspectorListForMyGraphView setObject:@"Dataseries" forKey:@"dataSeries"];
 	[inspectorListForMyGraphView setObject:@"Text" forKey:@"text"];
 	[inspectorListForMyGraphView setObject:@"Font & Color" forKey:@"fontcolor"];
 	
-    [self setDocument: [self document]];
+    [self setInspectedDocument: [self inspectedDocument]];
     [self setInspectedPlotView: [self inspectedPlotView]];
 
     // Rich text in our fields! 
@@ -84,7 +85,7 @@ static JKPanelController *theSharedController;
     [yAxisTextField setAllowsEditingTextAttributes:YES];
  
    // Create a new toolbar instance, and attach it to our document window 
-    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier: @"nl.vu.geo.kool.Peacock.panel.toolbar"] autorelease];
+    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier: @"nl.johankool.Peacock.panel.toolbar"] autorelease];
     
     // Set up toolbar properties: Allow customization, give a default display mode, and remember state in user defaults 
     [toolbar setAllowsUserCustomization: NO];
@@ -104,63 +105,43 @@ static JKPanelController *theSharedController;
 }
 
 -(void)setupInspector:(id)object {
-//	NSMutableDictionary *mutDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:NSToolbarDisplayModeIconOnly, @"displayMode", YES, @"isVisible", nil];
-//	if (document) {
-//		if (inspectedPlotView) {
-//			[inspectorListForDocument allKeys];
-//		}
-//	}
 	if (object == nil) {
 		return;
 	}
-	JKLogDebug([object description]);
     if ([object isKindOfClass:[MyGraphView class]] && [[self window] isVisible]) {
         [self setInspectedPlotView:object];
-//        [templatePullDownMenu setHidden:NO];
         
         [objectController willChangeValueForKey:@"Content"];
         [objectController setContent:object];
         [objectController didChangeValueForKey:@"Content"];
-// //       [self willChangeValueForKey:@"sampleCode"];
-//        [self didChangeValueForKey:@"sampleCode"];
-//        [self willChangeValueForKey:@"sampleDescription"];
-//        [self didChangeValueForKey:@"sampleDescription"];
-		
     } else if ([object isKindOfClass:[JKMainDocument class]] && [[self window] isVisible]) {
-        [self setInspectedPlotView:object];
-//        [templatePullDownMenu setHidden:NO];
-        
-//        [objectController willChangeValueForKey:@"Content"];
-//        [objectController setContent:object];
-//        [objectController didChangeValueForKey:@"Content"];
 		[infoTableView reloadData];
-//        [self willChangeValueForKey:@"sampleCode"];
-//        [self didChangeValueForKey:@"sampleCode"];
-//        [self willChangeValueForKey:@"sampleDescription"];
-//        [self didChangeValueForKey:@"sampleDescription"];
-		
-		
-    } else {
+    } else {		
         [self disableInspector:object];
     }
 }
 
 -(void)disableInspector:(id)object {
-//   [templatePullDownMenu setHidden:YES];
+	[objectController willChangeValueForKey:@"Content"];
+	[objectController setContent:nil];
+	[objectController didChangeValueForKey:@"Content"];
+	[self setInspectedPlotView:nil];
+	[infoTableView reloadData];
 }
 
-- (void) setDocument: (NSDocument *) document
-{
-    [super setDocument:document];
+-(NSDocument *)inspectedDocument {
+	return inspectedDocument;
+}
 
-	[self setupInspector:document];
+- (void)setInspectedDocument: (NSDocument *) document {
+	[document retain];
+	[inspectedDocument autorelease];
+	inspectedDocument = document;
 
-//    NSScrollView *view;
-//    view = [document valueForKey: @"layerViewScrollView"];
-//	
-//    [pannerView setScrollView: view];
-	
-} // setDocument
+	[self setupInspector:document];	
+}
+
+#pragma mark NOTIFICATIONS
 
 -(void)windowDidBecomeMain:(NSNotification *)aNotification {
     [self setupInspector:[[aNotification object] firstResponder]];
@@ -170,18 +151,16 @@ static JKPanelController *theSharedController;
     [self disableInspector:[[aNotification object] firstResponder]];
 }
 
-
-- (void) documentActivateNotification: (NSNotification *) notification {
-    NSDocument *document = [notification object];
-    [self setDocument: document];
+-(void)documentActivateNotification: (NSNotification *) notification {
+	NSWindow *window = [notification object];
+    NSDocument *document = [[window windowController] document];
+	[self setInspectedDocument:document];
 }
 
-
-- (void) documentDeactivateNotification: (NSNotification *) notification
-{
-    [self setDocument: nil];
-	
+-(void)documentDeactivateNotification: (NSNotification *) notification {
+    [self setInspectedDocument:nil];	
 } 
+
 -(void)plotViewDidBecomeFirstResponderNotification:(NSNotification *)aNotification{
     [self setupInspector:[aNotification object]];
 }
@@ -189,13 +168,8 @@ static JKPanelController *theSharedController;
 -(void)plotViewDidResignFirstResponderNotification:(NSNotification *)aNotification{
     [self disableInspector:[aNotification object]];
 }
-
-//-(void)showInspector {
-//    [panelWindow orderFront:self];
-//}
  
--(IBAction)showInspector:(id)sender
-{
+-(IBAction)showInspector:(id)sender {
 	if (![[self window] isVisible]) {
         [[self window] orderFront:self];
     } else {
@@ -215,11 +189,14 @@ static JKPanelController *theSharedController;
 -(int)numberOfRowsInTableView:(NSTableView *)tableView {
     int count, dummy, ncid;
     if (tableView ==  infoTableView) {
-		ncid = [[(JKMainDocument *)[self document] dataModel] ncid];
-        dummy =  nc_inq_natts(ncid, &count);
-        JKLogDebug(@"%d", count);
-        if (dummy == NC_NOERR) return count;
-        return -1;
+		if([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKMainDocument class]]) {
+			ncid = [[(JKMainDocument *)[self inspectedDocument] dataModel] ncid];
+			dummy =  nc_inq_natts(ncid, &count);
+			if (dummy == NC_NOERR) return count;
+			return -1;			
+		} else {
+			return -1;
+		}
     } 
 	//[NSException raise:NSInvalidArgumentException format:@"Exception raised in JKPanelController -numberOfRowsInTableView: - tableView not known"];
     return -1;
@@ -230,7 +207,7 @@ static JKPanelController *theSharedController;
     NSMutableString *nameString, *keyString;
     
     if (tableView == infoTableView) {
-        int ncid = [[(JKMainDocument *)[self document] dataModel] ncid];
+        int ncid = [[(JKMainDocument *)[self inspectedDocument] dataModel] ncid];
         char name[256];
         char value[256];
         
@@ -265,67 +242,9 @@ static JKPanelController *theSharedController;
     [NSException raise:NSInvalidArgumentException format:@"Exception raised in JKPanelController -tableView:objectValueForTableColumn:row: - tableView not known"];
     return nil;
 }
-//
-//-(IBAction)addTemplate:(id)sender {
-//    [self showSaveSheet:[self window]];
-//}
-//
-//-(void)showSaveSheet: (NSWindow *)window
-//    // User has asked to see the custom display. Display it.
-//{
-//    if (!saveSheet)
-//        [NSBundle loadNibNamed: @"MyCustomSheet" owner: self];
-//    
-//    [NSApp beginSheet: saveSheet        
-//       modalForWindow: window
-//        modalDelegate: nil
-//       didEndSelector: nil
-//          contextInfo: nil];
-//    
-//    [NSApp runModalForWindow: saveSheet];
-//    
-//    // Sheet is up here.
-//    [NSApp endSheet: saveSheet];
-//    [saveSheet orderOut: self];
-//}
-//
-//-(IBAction)removeTemplate:(id)sender {
-//    [self showDeleteSheet:[self window]];
-//}
-//
-//-(void)showDeleteSheet: (NSWindow *)window
-//    // User has asked to see the custom display. Display it.
-//{
-//    if (!deleteSheet)
-//        [NSBundle loadNibNamed: @"MyCustomSheet" owner: self];
-//    
-//    [NSApp beginSheet: deleteSheet        
-//       modalForWindow: window
-//        modalDelegate: nil
-//       didEndSelector: nil
-//          contextInfo: nil];
-//    
-//    [NSApp runModalForWindow: deleteSheet];
-//    
-//    // Sheet is up here.
-//    [NSApp endSheet: deleteSheet];
-//    [deleteSheet orderOut: self];
-//}
 
-//-(NSString *)sampleCode {
-//	return [[[(JKMainDocument *)[self document] dataModel] metadata] valueForKey:@"sampleCode"];
-//}
-//-(void)setSampleCode:(NSString *)inString {
-//	[[[(JKMainDocument *)[self document] dataModel] metadata] setValue:inString forKey:@"sampleCode"];
-//}
-//-(NSString *)sampleDescription {
-//	return [[[(JKMainDocument *)[self document] dataModel] metadata] valueForKey:@"sampleDescription"];
-//}
-//-(void)setSampleDescription:(NSString *)inString {
-//	[[[(JKMainDocument *)[self document] dataModel] metadata] setValue:inString forKey:@"sampleDescription"];
-//}
 
-idAccessor(inspectedPlotView, setInspectedPlotView)
+idAccessor(inspectedPlotView, setInspectedPlotView);
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
 	if ([anItem action] == @selector(showInspector:)) {
@@ -342,10 +261,7 @@ idAccessor(inspectedPlotView, setInspectedPlotView)
 	}
 }
 
-
--(void) setupToolbar {
-	JKLogEnteringMethod();
-}
+#pragma mark TOOLBAR
 
 -(NSToolbarItem *) toolbar: (NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted {
     // Required delegate method:  Given an item identifier, this method returns an item 
@@ -379,12 +295,13 @@ idAccessor(inspectedPlotView, setInspectedPlotView)
 }
 
 
--(IBAction)	changePanes: (id)sender
-{
+-(IBAction)changePanes:(id)sender {
 	if ([[sender itemIdentifier] isEqualToString:@"info"]) {
 		[[self window] setContentView:infoPanelView];
 	} else if ([[sender itemIdentifier] isEqualToString:@"view"]) {
 		[[self window] setContentView:viewPanelView];
+	} else if ([[sender itemIdentifier] isEqualToString:@"options"]) {
+		[[self window] setContentView:optionsPanelView];
 	} else if ([[sender itemIdentifier] isEqualToString:@"dataSeries"]) {
 		[[self window] setContentView:dataSeriesPanelView];
 	} else if ([[sender itemIdentifier] isEqualToString:@"text"]) {
@@ -409,5 +326,7 @@ idAccessor(inspectedPlotView, setInspectedPlotView)
 	return [self toolbarDefaultItemIdentifiers:toolbar];
 }
 
+#pragma mark ACCESSORS (MACROSTYLE)
+//idAccessor_h(inspectedDocument, setInspectedDocument);
 
 @end

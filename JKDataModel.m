@@ -11,7 +11,7 @@
 #import "ChromatogramGraphDataSerie.h"
 #import "netcdf.h"
 #import "JKSpectrum.h"
-#import <gsl/gsl_statistics.h>
+#import "jk_statistics.h"
 
 @implementation JKDataModel
 
@@ -22,8 +22,10 @@
 		peaks = [[NSMutableArray alloc] init];
 		baseline = [[NSMutableArray alloc] init];
 		metadata = [[NSMutableDictionary alloc] init];
-		
 		chromatograms = [[NSMutableArray alloc] init];
+		retentionIndexSlope = [[NSNumber numberWithFloat:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexSlope"] floatValue]] retain];
+		retentionIndexRemainder = [[NSNumber numberWithFloat:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexRemainder"] floatValue]] retain];
+		
     }
     return self;
 }
@@ -32,7 +34,8 @@
 	[peaks release];
 	[baseline release];
 	[metadata release];
-	
+	[retentionIndexSlope release];
+	[retentionIndexRemainder release];
 	int dummy;
 	dummy = nc_close(ncid);
 	if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"File closing error",@"File closing error") format:NSLocalizedString(@"Closing NetCDF file caused problem.\nNetCDF error: %d",@""), dummy];
@@ -250,22 +253,7 @@
 //	JKLogDebug([baseline description]);
 	JKLogDebug(@"Time in -[baseline]: %g seconds", -[startT timeIntervalSinceNow]);
 
-}
-
-void normalize(float *input, int count) {
-    int i;
-	float maximum;
-	
-	maximum = fabs(input[0]);
-	for (i = 1; i < count; i++) {
-		if (fabs(input[i]) > maximum) maximum = fabs(input[i]);
-	}
-	
-	for (i = 0; i < count; i++) {
-		input[i] = input[i]/maximum;
-	}
-}
-	
+}	
 
 -(float)timeForScan:(int)scan {
     int dummy, varid_scanaqtime;
@@ -490,7 +478,7 @@ void normalize(float *input, int count) {
 	[chromatogram setDataArray:mutArray];
 	[mutArray release];
 	
-	[chromatogram setVerticalScale:[NSNumber numberWithFloat:[self maximumTotalIntensity]/gsl_stats_float_max(intensities,1,num_scan)]];
+	[chromatogram setVerticalScale:[NSNumber numberWithFloat:[self maximumTotalIntensity]/jk_stats_float_max(intensities,num_scan)]];
 	
 	[chromatogram setSeriesTitle:mzValuesString];
 	[chromatogram setSeriesColor:[NSColor redColor]];
@@ -578,7 +566,7 @@ void normalize(float *input, int count) {
 	float time1, time2;
 	float height1, height2;
 	float greyArea;
-	float retentionIndex, retentionIndexSlope, retentionIndexRemainder;
+	float retentionIndex;//, retentionIndexSlope, retentionIndexRemainder;
 		
 	NSMutableArray *array = [[NSMutableArray alloc] init];
 	
@@ -609,8 +597,8 @@ void normalize(float *input, int count) {
 	maximumSurface = 0.0;
 	maximumHeight = 0.0;
 	greyArea = 0.1;
-	retentionIndexSlope	  = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexSlope"] floatValue];
-	retentionIndexRemainder = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexRemainder"] floatValue];
+//	retentionIndexSlope	  = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexSlope"] floatValue];
+//	retentionIndexRemainder = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexRemainder"] floatValue];
 	
 	for (i = 0; i < numberOfPoints; i++) {
 		if (totalIntensity[i]/[self baselineValueAtScan:i] > (1.0 + greyArea)){
@@ -702,7 +690,7 @@ void normalize(float *input, int count) {
 				[record setValue:[NSNumber numberWithFloat:surface] forKey:@"surface"];
 				[record setValue:[NSNumber numberWithFloat:widthTime] forKey:@"widthTime"];
 				
-				retentionIndex = topTime * retentionIndexSlope + retentionIndexRemainder;
+				retentionIndex = topTime * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
 				[record setValue:[NSNumber numberWithFloat:retentionIndex] forKey:@"retentionIndex"];
 				
 				[array addObject:record];
@@ -839,6 +827,8 @@ void normalize(float *input, int count) {
 		[coder encodeObject:[self baseline] forKey:@"baseline"];
 		[coder encodeObject:[self peaks] forKey:@"peaks"];
 		[coder encodeObject:[self metadata] forKey:@"metadata"];
+		[coder encodeObject:[self retentionIndexSlope] forKey:@"retentionIndexSlope"];
+		[coder encodeObject:[self retentionIndexRemainder] forKey:@"retentionIndexRemainder"];
     } 
     return;
 }
@@ -853,7 +843,26 @@ void normalize(float *input, int count) {
 		if(metadata == nil) {
 			metadata = [[NSMutableDictionary alloc] init];
 		}
-		
+		retentionIndexSlope = [[coder decodeObjectForKey:@"retentionIndexSlope"] retain];
+		retentionIndexRemainder = [[coder decodeObjectForKey:@"retentionIndexRemainder"] retain];
+		JKLogDebug(@"Encoded retentionIndexSlope = %f; retentionIndexRemainder = %f", [retentionIndexSlope floatValue], [retentionIndexRemainder floatValue]);
+		//if(retentionIndexSlope == nil) {
+			retentionIndexSlope = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexSlope"] retain];
+			JKLogDebug(@"Reset retentionIndexSlope = %f", [retentionIndexSlope floatValue]);
+	//	}
+	//	if(retentionIndexRemainder == nil) {
+			retentionIndexRemainder = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexRemainder"] retain];
+			JKLogDebug(@"Reset retentionIndexRemainder = %f", [retentionIndexRemainder floatValue]);
+	//	}
+		// Ensure retentionIndex is set
+		int i; float calculatedRetentionIndex;
+		int peakCount = [peaks count];
+		for (i=0; i < peakCount; i++){
+//			if ([[peaks objectAtIndex:i] retentionIndex] == nil) {
+				calculatedRetentionIndex = [[[peaks objectAtIndex:i] topTime] floatValue] * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
+				[[peaks objectAtIndex:i] setRetentionIndex:[NSNumber numberWithFloat:calculatedRetentionIndex]];				
+//			}
+		}
 		chromatograms = [[NSMutableArray alloc] init];
 	} 
     return self;
@@ -890,7 +899,9 @@ void normalize(float *input, int count) {
     numberOfPoints = inValue;
     time = (float *) realloc(time, numberOfPoints*sizeof(float));
     memcpy(time, inArray, numberOfPoints*sizeof(float));
-	gsl_stats_float_minmax(&minimumTime, &maximumTime, time, 1, numberOfPoints);
+	//jk_stats_float_minmax(&minimumTime, &maximumTime, time, 1, numberOfPoints);
+	minimumTime = jk_stats_float_min(time, numberOfPoints);
+	maximumTime = jk_stats_float_max(time, numberOfPoints);
 }
 
 -(float *)time {
@@ -901,7 +912,8 @@ void normalize(float *input, int count) {
     numberOfPoints = inValue;
     totalIntensity = (float *) realloc(totalIntensity, numberOfPoints*sizeof(float));
     memcpy(totalIntensity, inArray, numberOfPoints*sizeof(float));
-	gsl_stats_float_minmax(&minimumTotalIntensity, &maximumTotalIntensity, totalIntensity, 1, numberOfPoints);
+	minimumTotalIntensity = jk_stats_float_min(totalIntensity, numberOfPoints);
+	maximumTotalIntensity = jk_stats_float_max(totalIntensity, numberOfPoints);
 
 }
 
@@ -952,6 +964,9 @@ void normalize(float *input, int count) {
 	return chromatograms;
 }
 
+#pragma mark ACCESSORS (MACROSTYLE)
+idAccessor(retentionIndexSlope, setRetentionIndexSlope);
+idAccessor(retentionIndexRemainder, setRetentionIndexRemainder);
 
 @end
 

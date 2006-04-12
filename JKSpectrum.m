@@ -8,7 +8,7 @@
 
 #import "JKSpectrum.h"
 #import "JKLibraryEntry.h"
-#import <gsl/gsl_statistics.h>
+#import "jk_statistics.h"
 
 @implementation JKSpectrum
 
@@ -45,7 +45,8 @@
     numberOfPoints = inValue;
     masses = (float *) realloc(masses, numberOfPoints*sizeof(float));
     memcpy(masses, inArray, numberOfPoints*sizeof(float));
-	gsl_stats_float_minmax(&minimumMass, &maximumMass, masses, 1, numberOfPoints);
+	minimumMass = jk_stats_float_min(masses, numberOfPoints);
+	maximumMass = jk_stats_float_max(masses, numberOfPoints);
 }
 -(float *)masses {
     return masses;
@@ -55,7 +56,8 @@
     numberOfPoints = inValue;
     intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
     memcpy(intensities, inArray, numberOfPoints*sizeof(float));
-	gsl_stats_float_minmax(&minimumIntensity, &maximumIntensity, intensities, 1, numberOfPoints);
+	minimumIntensity = jk_stats_float_min(intensities, numberOfPoints);
+	maximumIntensity = jk_stats_float_max(intensities, numberOfPoints);
 }
 
 -(float *)intensities {

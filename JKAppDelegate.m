@@ -27,6 +27,8 @@
 	[mutDict setValue:[NSNumber numberWithInt:0] forKey:@"scoreBasis"]; // Using formula 1 in Gan 2001
 	[mutDict setValue:[NSNumber numberWithInt:3] forKey:@"peaksForSummary"]; // confirmed peaks
 	[mutDict setValue:[NSNumber numberWithInt:1] forKey:@"columnSorting"]; // Samplecode
+	[mutDict setValue:[NSNumber numberWithBool:NO] forKey:@"autoSave"];
+	[mutDict setValue:[NSNumber numberWithInt:10] forKey:@"autoSaveDelay"]; // Samplecode
 	[mutDict setValue:@"" forKey:@"defaultLibrary"];
 	[mutDict setValue:@"" forKey:@"customLibrary"];
 	// Hidden preference for logging verbosity
@@ -57,15 +59,20 @@
 //    }
 #warning Custom level debug verbosity set.
     JKSetVerbosityLevel([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:JKLogVerbosityUserDefault] intValue]);
-//#warning High level debug verbosity set.
-//	JKSetVerbosityLevel(JK_VERBOSITY_ALL);
+#warning High level debug verbosity set.
+	JKSetVerbosityLevel(JK_VERBOSITY_ALL);
 //    if (!panelWindowController) {
 //        panelWindowController = [[JKPanelController alloc] init];
 //    }    
+    if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSave"] boolValue] == YES) {
+        [[NSDocumentController sharedDocumentController] setAutosavingDelay:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSaveDelay"] intValue]];
+    }
 	
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"showInspectorOnLaunch"] boolValue] == YES) {
         [[JKPanelController sharedController] showInspector:self];
-    }
+    } else {
+		[JKPanelController sharedController]; // Just so it's initiated in time to register for notifications
+	}
 	
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"showMassCalculatorOnLaunch"] boolValue] == YES) {
         [mwWindowController showWindow:self];

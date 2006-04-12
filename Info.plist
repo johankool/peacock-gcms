@@ -131,7 +131,7 @@
 	<key>CFBundleIconFile</key>
 	<string>PeacockAppIcon</string>
 	<key>CFBundleIdentifier</key>
-	<string>nl.vu.geo.kool.Peacock</string>
+	<string>nl.johankool.Peacock</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -145,21 +145,21 @@
 	<key>CFBundleURLTypes</key>
 	<array/>
 	<key>CFBundleVersion</key>
-	<string>0.1.4</string>
+	<string>4</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.4.4</string>
 	<key>NSMainNibFile</key>
 	<string>JKMainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>JKAppDelegate</string>
+	<key>SUAllowsAutomaticUpdates</key>
+	<false/>
+	<key>SUCheckAtStartup</key>
+	<false/>
 	<key>SUFeedURL</key>
-	<string>http://www.geo.vu.nl/~jkool/peacock/peacock.xml</string>
+	<string>http://peacock.johankool.nl/peacock.xml</string>
 	<key>SUScheduledCheckInterval</key>
 	<integer>86400</integer>
-	<key>SUCheckAtStartup</key>
-	<false />
-	<key>SUAllowsAutomaticUpdates</key>
-	<false />
 	<key>SmartCrashReports_CommentsTemplate</key>
 	<string>Please include your e-mail address if you wish to be contacted in regard to this crash.</string>
 	<key>SmartCrashReports_CompanyName</key>

@@ -29,6 +29,7 @@
                 infoPanelView = NSView; 
                 infoTableView = NSTableView; 
                 objectController = NSObjectController; 
+                optionsPanelView = NSView; 
                 panelView = NSView; 
                 plotViewTabView = NSTabView; 
                 saveSheet = NSWindow; 

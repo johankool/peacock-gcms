@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+
 @class JKMainDocument;
 
 @interface JKStatisticsWindowController : NSWindowController {
@@ -15,15 +16,21 @@
 	NSMutableArray *ratios;
 	NSMutableArray *metadata;
 	NSMutableArray *files;
-	BOOL abortAction;
 	
-	// Batch window
+	BOOL abortAction;
+	BOOL movingColumnsProgramatically;
+	BOOL scrollingViewProgrammatically;
+	int unknownCount;
+	int peaksToUse;
+	
+	// Main window
 	IBOutlet NSButton *addButton;
 	IBOutlet NSButton *searchOptionsButton;
 	IBOutlet NSButton *runBatchButton;
 	IBOutlet NSTableView *filesTableView;
 	
 	// Search Options sheet
+	IBOutlet NSWindow *optionsSheet;
 	IBOutlet NSWindow *summarizeOptionsSheet;
 	IBOutlet NSButton *doneButton;
 	
@@ -47,37 +54,35 @@
 	IBOutlet NSScrollView *metadataTableScrollView;
 	IBOutlet NSArrayController *metadataController;
 	
+	// Ratios editor
 	IBOutlet NSWindow *ratiosEditor;
-	IBOutlet NSWindow *optionsSheet;
-	
-	BOOL movingColumnsProgramatically;
-	BOOL scrollingViewProgrammatically;
-	int unknownCount;
-	int peaksToUse;
 }
 
--(IBAction)addButtonAction:(id)sender;
-//-(IBAction)refetch:(id)sender;
+#pragma mark ACTIONS
 
--(IBAction)editRatios:(id)sender;
-//-(IBAction)cancelEditRatios:(id)sender;
--(IBAction)saveEditRatios:(id)sender;
-
--(IBAction)options:(id)sender;
--(IBAction)summarizeOptionsDoneAction:(id)sender;
--(IBAction)stopButtonAction:(id)sender;
-	
--(IBAction)exportSummary:(id)sender;
-
--(IBAction)runStatisticalAnalysisButtonAction:(id)sender;
 -(void)runStatisticalAnalysis;
-
 -(void)collectMetadataForDocument:(JKMainDocument *)document atIndex:(int)index;
 -(void)collectCombinedPeaksForDocument:(JKMainDocument *)document atIndex:(int)index;
 -(void)calculateRatiosForDocument:(JKMainDocument *)document atIndex:(int)index;
 -(void)sortCombinedPeaks;
 
+#pragma mark IBACTIONS
+
+-(IBAction)addButtonAction:(id)sender;
+-(IBAction)editRatios:(id)sender;
+-(IBAction)cancelEditRatios:(id)sender;
+-(IBAction)saveEditRatios:(id)sender;
+-(IBAction)options:(id)sender;
+-(IBAction)summarizeOptionsDoneAction:(id)sender;
+-(IBAction)exportSummary:(id)sender;
+-(IBAction)runStatisticalAnalysisButtonAction:(id)sender;
+-(IBAction)stopButtonAction:(id)sender;
+
+#pragma mark ACCESSORS
+
 -(NSWindow *)summaryWindow;
+
+#pragma mark ACCESSORS (MACROSTYLE)
 
 idAccessor_h(combinedPeaks, setCombinedPeaks);
 idAccessor_h(ratioValues, setRatioValues);

@@ -55,6 +55,7 @@ boolAccessor_h(abortAction, setAbortAction)
 boolAccessor_h(showIdentificationWindow, setShowIdentificationWindow)
 
 # pragma mark ACTIONS
+
 -(IBAction)confirm:(id)sender;
 -(IBAction)next:(id)sender;
 -(IBAction)previous:(id)sender;

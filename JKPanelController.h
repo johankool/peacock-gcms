@@ -16,6 +16,7 @@
 	IBOutlet NSView *dataSeriesPanelView;
 	IBOutlet NSView *textPanelView;
 	IBOutlet NSView *fontcolorPanelView;
+	IBOutlet NSView *optionsPanelView;
 	
     // Info Panel
     IBOutlet NSTableView *infoTableView;
@@ -33,32 +34,28 @@
     IBOutlet NSObjectController *objectController;
     
     NSView *inspectedPlotView;
+	NSDocument *inspectedDocument;
     IBOutlet  NSTabView *plotViewTabView;
     
     IBOutlet NSWindow *saveSheet, *deleteSheet;
 } 
+
+#pragma mark INITIALIZATION
+
 + (JKPanelController *) sharedController;
 
--(void)setupInspector:(id)object;
--(void)disableInspector:(id)object;
--(void)plotViewDidBecomeFirstResponderNotification:(NSNotification *)aNotification;
--(void)plotViewDidResignFirstResponderNotification:(NSNotification *)aNotification;
--(void)windowDidResignMain:(NSNotification *)aNotification;
--(void)windowDidBecomeMain:(NSNotification *)aNotification;
+#pragma mark IBACTIONS
 
 -(IBAction)showInspector:(id)sender;
 
-// Template
-//-(void)templatePullDownMenuAction:(id)sender;
-//-(IBAction)addTemplate:(id)sender;
-//-(IBAction)removeTemplate:(id)sender;
-//-(void)showSaveSheet: (NSWindow *)window;
-//-(void)showDeleteSheet: (NSWindow *)window;
-//
-//-(int)numberOfRowsInTableView:(NSTableView *)tableView;
-//-(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+#pragma mark ACCESSORS
 
-idAccessor_h(inspectedPlotView, setInspectedPlotView)
+-(NSDocument *)inspectedDocument;
+-(void)setInspectedDocument:(NSDocument *)document;
+idAccessor_h(inspectedPlotView, setInspectedPlotView);
+
+#pragma mark MENU VALIDATION
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem;
+
 @end
