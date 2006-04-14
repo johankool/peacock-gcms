@@ -65,7 +65,7 @@
 		NSKeyedUnarchiver *unarchiver;
 		data = [wrapper regularFileContents];
 		unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-		//statisticsWindowController = [[unarchiver decodeObjectForKey:@"statisticsWindowController"] retain];
+				
 		[statisticsWindowController setCombinedPeaks:[unarchiver decodeObjectForKey:@"combinedPeaks"]];
 		[statisticsWindowController setRatioValues:[unarchiver decodeObjectForKey:@"ratioValues"]];
 		[statisticsWindowController setMetadata:[unarchiver decodeObjectForKey:@"metadata"]];

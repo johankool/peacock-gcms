@@ -74,7 +74,6 @@
 -(float)maximumTotalIntensity;
 -(float)minimumTotalIntensity;
 
-
 -(NSMutableArray *)chromatograms;
 //-(void)setChromatograms:(NSMutableArray *)inValue;
 
@@ -84,9 +83,10 @@
 -(NSMutableArray *)baseline;
 -(NSMutableDictionary *)metadata;
 
-#pragma mark ACCESSORS (MACROSTYLE)
-idAccessor_h(retentionIndexSlope, setRetentionIndexSlope);
-idAccessor_h(retentionIndexRemainder, setRetentionIndexRemainder);
+-(void)setRetentionIndexSlope:(NSNumber *)inValue;
+-(NSNumber *)retentionIndexSlope;
+-(void)setRetentionIndexRemainder:(NSNumber *)inValue;
+-(NSNumber *)retentionIndexRemainder;
 
 -(float *)xValuesSpectrum:(int)scan;
 -(float *)yValuesSpectrum:(int)scan;

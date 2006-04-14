@@ -154,7 +154,11 @@ static JKPanelController *theSharedController;
 -(void)documentActivateNotification: (NSNotification *) notification {
 	NSWindow *window = [notification object];
     NSDocument *document = [[window windowController] document];
-	[self setInspectedDocument:document];
+	if ([document isKindOfClass:[JKMainDocument class]]) {
+		[self setInspectedDocument:document];	
+	} else {
+		[self setInspectedDocument:nil];
+	}
 }
 
 -(void)documentDeactivateNotification: (NSNotification *) notification {

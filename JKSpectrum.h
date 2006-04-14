@@ -10,7 +10,7 @@
 @class JKLibraryEntry;
 
 @interface JKSpectrum : NSObject {
-	float retentionTime;
+	float retentionIndex;
 
     float minimumIntensity;
     float maximumIntensity;
@@ -32,7 +32,6 @@
 
 -(float)scoreComparedToSpectrum:(JKSpectrum *)inSpectrum;
 -(float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry;
--(float)observedRetentionIndex;
 
 #pragma mark ACCESSORS
 -(int)numberOfPoints;
@@ -40,8 +39,8 @@
 -(float *)masses;
 -(void)setIntensities:(float *)inArray withCount:(int)inValue;
 -(float *)intensities;
--(void)setRetentionTime:(float)inValue;
--(float)retentionTime;
+-(void)setRetentionIndex:(float)inValue;
+-(float)retentionIndex;
 
 -(float)minimumMass;
 -(float)maximumMass;

@@ -95,9 +95,7 @@ NSString *const JKMainDocument_DocumentLoadedNotification = @"JKMainDocument_Doc
 }
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
-	NSDate *startT = [NSDate date];
 	if ([typeName isEqualToString:@"NetCDF File"]) {
-		JKLogDebug(@"Time in -[readFromURL:]: %g seconds", -[startT timeIntervalSinceNow]);
 		return [self readNetCDFFile:[absoluteURL path] error:outError];
 	} else if ([typeName isEqualToString:@"Peacock File"]) {
 		BOOL result;		
@@ -114,7 +112,6 @@ NSString *const JKMainDocument_DocumentLoadedNotification = @"JKMainDocument_Doc
 		if (result) {
 			peacockFileWrapper = wrapper;
 		}
-		JKLogDebug(@"Time: %g seconds", -[startT timeIntervalSinceNow]);
 		return result;	
 	} else {
 		return NO;

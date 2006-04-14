@@ -65,6 +65,7 @@
 -(void)collectCombinedPeaksForDocument:(JKMainDocument *)document atIndex:(int)index;
 -(void)calculateRatiosForDocument:(JKMainDocument *)document atIndex:(int)index;
 -(void)sortCombinedPeaks;
+-(void)insertTableColumns;
 
 #pragma mark IBACTIONS
 

@@ -6,8 +6,6 @@
 //  Copyright (c) 2003-2005 Johan Kool. All rights reserved.
 //
 
-#import "NSView+AMAnimationAdditions.h"
-
 extern NSString *const MyGraphView_DidBecomeFirstResponderNotification;
 extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 

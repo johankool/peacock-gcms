@@ -47,8 +47,6 @@
 #pragma mark ACTIONS
 
 -(BOOL)finishInitWithError:(NSError **)anError {
-	JKLogEnteringMethod();
-	NSDate *startT = [NSDate date];
     int		num_pts;
     float	*x;
     float 	*y;
@@ -131,7 +129,6 @@
 	 if ([baseline count] <= 0)
 		 [self getBaselineData];
 	 
-	 JKLogDebug(@"Time in -[finishInitWithError:]: %g seconds", -[startT timeIntervalSinceNow]);	 
 	 return YES;
 //	NS_HANDLER
 //		NSRunAlertPanel([NSString stringWithFormat:@"Error: %@",[localException name]], @"%@", @"OK", nil, nil, localException);
@@ -139,8 +136,6 @@
 }	 
 
 -(ChromatogramGraphDataSerie *)chromatogram {
-	NSDate *startT = [NSDate date];
-	
 	 ChromatogramGraphDataSerie *chromatogram = [[ChromatogramGraphDataSerie alloc] init];
 	 int i, npts;
 	 float *xpts, *ypts;
@@ -171,13 +166,10 @@
 	 
 	 [chromatogram autorelease];
 
-	 JKLogDebug(@"Time in -[chromatogram]: %g seconds", -[startT timeIntervalSinceNow]);
-
 	 return chromatogram;
 }
 
 -(void)getBaselineData {
-	NSDate *startT = [NSDate date];
 	// get tot intensities
 	// determing running minimum
 		// dilute factor is e.g. 5
@@ -251,9 +243,6 @@
 		}
 	}
 	[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:count-1], @"Scan", [NSNumber numberWithFloat:intensity[count-1]], @"Total Intensity", [NSNumber numberWithFloat:time[count-1]], @"Time",nil]];
-//	JKLogDebug([baseline description]);
-	JKLogDebug(@"Time in -[baseline]: %g seconds", -[startT timeIntervalSinceNow]);
-
 }	
 
 -(float)timeForScan:(int)scan {
@@ -266,6 +255,18 @@
     dummy = nc_get_var1_float(ncid, varid_scanaqtime, (void *) &scan, &x);
     
     return x/60;
+}
+
+-(float)retentionIndexForScan:(int)scan {
+    int dummy, varid_scanaqtime;
+    float   x;
+    
+    dummy = nc_inq_varid(ncid, "scan_acquisition_time", &varid_scanaqtime);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_acquisition_time variable failed. Report error #%d.", dummy); return -1.0;}
+	
+    dummy = nc_get_var1_float(ncid, varid_scanaqtime, (void *) &scan, &x);
+    
+    return (x/60) * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
 }
 
 -(float *)xValuesSpectrum:(int)scan {
@@ -766,7 +767,7 @@
 	[spectrumTop setIntensities:ypts withCount:npts];
 	free(xpts);
 	free(ypts);
-	[spectrumTop setValue:[NSNumber numberWithFloat:[self timeForScan:scan]] forKey:@"retentionTime"];
+	[spectrumTop setValue:[NSNumber numberWithFloat:[self retentionIndexForScan:scan]] forKey:@"retentionIndex"];
 	
 	[spectrumTop autorelease];
 	return spectrumTop;
@@ -813,7 +814,7 @@
 		}
 	}
 	
-	[spectrum setValue:[NSNumber numberWithFloat:[self timeForScan:[[peak valueForKey:@"top"] intValue]]] forKey:@"retentionTime"];
+	[spectrum setValue:[NSNumber numberWithFloat:[self retentionIndexForScan:[[peak valueForKey:@"top"] intValue]]] forKey:@"retentionTime"];
 	
 	[spectrumTop release];
 	[spectrumLeft release];
@@ -847,29 +848,25 @@
 		}
 		retentionIndexSlope = [[coder decodeObjectForKey:@"retentionIndexSlope"] retain];
 		retentionIndexRemainder = [[coder decodeObjectForKey:@"retentionIndexRemainder"] retain];
-		JKLogDebug(@"Encoded retentionIndexSlope = %f; retentionIndexRemainder = %f", [retentionIndexSlope floatValue], [retentionIndexRemainder floatValue]);
-		//if(retentionIndexSlope == nil) {
-			retentionIndexSlope = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexSlope"] retain];
-			JKLogDebug(@"Reset retentionIndexSlope = %f", [retentionIndexSlope floatValue]);
-	//	}
-	//	if(retentionIndexRemainder == nil) {
-			retentionIndexRemainder = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexRemainder"] retain];
-			JKLogDebug(@"Reset retentionIndexRemainder = %f", [retentionIndexRemainder floatValue]);
-	//	}
-		// Ensure retentionIndex is set
-		int i; float calculatedRetentionIndex;
-		int peakCount = [peaks count];
-		for (i=0; i < peakCount; i++){
-//			if ([[peaks objectAtIndex:i] retentionIndex] == nil) {
-				calculatedRetentionIndex = [[[peaks objectAtIndex:i] topTime] floatValue] * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
-				[[peaks objectAtIndex:i] setRetentionIndex:[NSNumber numberWithFloat:calculatedRetentionIndex]];				
-//			}
-		}
+		
+		// These are not stored but refetched from cdf file when needed
 		chromatograms = [[NSMutableArray alloc] init];
 	} 
     return self;
 }
+
+-(void)resetRetentionIndexes {
+	int i; 
+	float calculatedRetentionIndex;
+	int peakCount = [peaks count];
+	for (i=0; i < peakCount; i++){
+		calculatedRetentionIndex = [[[peaks objectAtIndex:i] topTime] floatValue] * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
+		[[peaks objectAtIndex:i] setRetentionIndex:[NSNumber numberWithFloat:calculatedRetentionIndex]];				
+	}	
+}
+
 #pragma mark ACCESSORS
+
 -(void)setNcid:(int)inValue {
     ncid = inValue;
 }
@@ -966,9 +963,27 @@
 	return chromatograms;
 }
 
-#pragma mark ACCESSORS (MACROSTYLE)
-idAccessor(retentionIndexSlope, setRetentionIndexSlope);
-idAccessor(retentionIndexRemainder, setRetentionIndexRemainder);
+-(void)setRetentionIndexSlope:(NSNumber *)inValue {
+	[inValue retain];
+	[retentionIndexSlope autorelease];
+	retentionIndexSlope = inValue;
+	[self resetRetentionIndexes];
+}
+
+-(NSNumber *)retentionIndexSlope {
+	return retentionIndexSlope;
+}
+
+-(void)setRetentionIndexRemainder:(NSNumber *)inValue {
+	[inValue retain];
+	[retentionIndexRemainder autorelease];
+	retentionIndexRemainder = inValue;
+	[self resetRetentionIndexes];
+}
+
+-(NSNumber *)retentionIndexRemainder {
+	return retentionIndexRemainder;
+}
 
 @end
 

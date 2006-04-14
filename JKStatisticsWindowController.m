@@ -98,7 +98,11 @@
 	if ([combinedPeaks count] > 0) {
 		[summaryWindow makeKeyAndOrderFront:self];
 	}
-		
+	
+	if ([files count] > 0 ) {
+		// Insert table columns (in case we're opening from a file)
+		[self insertTableColumns];
+	}
 }
 
 #pragma mark ACTIONS
@@ -144,15 +148,19 @@
 	NSMutableDictionary *metadataDictSampleCode = [[NSMutableDictionary alloc] init];
 	NSMutableDictionary *metadataDictDescription = [[NSMutableDictionary alloc] init];
 	NSMutableDictionary *metadataDictPath = [[NSMutableDictionary alloc] init];
+	NSMutableDictionary *metadataDictDisplayName = [[NSMutableDictionary alloc] init];
 	[metadataDictSampleCode setValue:@"Sample code" forKey:@"label"];
 	[metadataDictDescription setValue:@"Description" forKey:@"label"];
-	[metadataDictPath setValue:@"File Path" forKey:@"label"];
+	[metadataDictPath setValue:@"File path" forKey:@"label"];
+	[metadataDictDisplayName setValue:@"File name" forKey:@"label"];
 	[metadata addObject:metadataDictSampleCode];
 	[metadata addObject:metadataDictDescription];
 	[metadata addObject:metadataDictPath];
+	[metadata addObject:metadataDictDisplayName];
 	[metadataDictSampleCode release];
 	[metadataDictDescription release];
 	[metadataDictPath release];
+	[metadataDictDisplayName release];
 	
 	// Reset
 	unknownCount = 0;
@@ -271,10 +279,12 @@
 	NSMutableDictionary *metadataDictSampleCode = [metadata objectAtIndex:0];
 	NSMutableDictionary *metadataDictDescription = [metadata objectAtIndex:1];
 	NSMutableDictionary *metadataDictPath = [metadata objectAtIndex:2];
+	NSMutableDictionary *metadataDictDisplayName = [metadata objectAtIndex:3];
 	
 	[metadataDictSampleCode setValue:[[[document dataModel] metadata] valueForKey:@"sampleCode"] forKey:[NSString stringWithFormat:@"file_%d",index]];
 	[metadataDictDescription setValue:[[[document dataModel] metadata] valueForKey:@"sampleDescription"] forKey:[NSString stringWithFormat:@"file_%d",index]];
 	[metadataDictPath setValue:[document fileName] forKey:[NSString stringWithFormat:@"file_%d",index]];
+	[metadataDictDisplayName setValue:[document displayName] forKey:[NSString stringWithFormat:@"file_%d",index]];
 	
 	NSTableColumn *tableColumn = [[NSTableColumn alloc] init];
 	[tableColumn setIdentifier:document];
@@ -333,7 +343,7 @@
 			continue;
 		} else if (![peak identified] && peaksToUse >= 2) {
 			continue;
-		} else if ([[peak normalizedSurface] floatValue] < 1.0 && ![peak confirmed]) { // filter small peaks, but not if it's a confirmed peak
+		} else if ([[peak normalizedSurface] floatValue] < 0.1 && ![peak confirmed]) { // filter small peaks, but not if it's a confirmed peak
 			continue;
 		}
 		
@@ -593,6 +603,90 @@
     }
 }
 
+-(void)insertTableColumns {
+	int i;
+	int filesCount = [files count];
+
+//	NSError *error = [[NSError alloc] init];
+//	JKMainDocument *document;
+	
+	// Remove all but the first column from the tableview
+	int columnCount = [metadataTable numberOfColumns];
+	for (i = columnCount-1; i > 0; i--) {
+		[metadataTable removeTableColumn:[[metadataTable tableColumns] objectAtIndex:i]];
+	} 
+	columnCount = [resultsTable numberOfColumns];
+	for (i = columnCount-1; i > 0; i--) {
+		[resultsTable removeTableColumn:[[resultsTable tableColumns] objectAtIndex:i]];
+	} 
+	
+	columnCount = [ratiosTable numberOfColumns];
+	for (i = columnCount-1; i > 0; i--) {
+		[ratiosTable removeTableColumn:[[ratiosTable tableColumns] objectAtIndex:i]];
+	} 
+	
+	NSTableColumn *tableColumn;
+	NSString *keyPath;
+	NSNumberFormatter *formatter;
+	for (i=0; i < filesCount; i++) {
+//		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:NO error:&error];
+
+		tableColumn = [[NSTableColumn alloc] init];
+//		[tableColumn setIdentifier:document];
+		keyPath = [NSString stringWithFormat:@"arrangedObjects.%@",[NSString stringWithFormat:@"file_%d",i]];
+		[[tableColumn headerCell] setStringValue:[[metadata objectAtIndex:3] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+		[tableColumn bind:@"value" toObject:metadataController withKeyPath:keyPath options:nil];
+		[[tableColumn dataCell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+		[[tableColumn dataCell] setAlignment:NSLeftTextAlignment];
+		[tableColumn setEditable:NO];
+		[metadataTable addTableColumn:tableColumn];
+		[tableColumn release];
+		
+		// Combined peaks
+		tableColumn = [[NSTableColumn alloc] init];
+//		[tableColumn setIdentifier:document];
+//		[[tableColumn headerCell] setStringValue:[document displayName]];
+		keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.normalizedSurface",[NSString stringWithFormat:@"file_%d",i]];
+		[[tableColumn headerCell] setStringValue:[[metadata objectAtIndex:3] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+		[tableColumn bind:@"value" toObject:combinedPeaksController withKeyPath:keyPath options:nil];
+		[[tableColumn dataCell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+		formatter = [[[NSNumberFormatter alloc] init] autorelease];
+		[formatter setFormatterBehavior:NSNumberFormatterDecimalStyle];
+		[formatter setPositiveFormat:@"#0.0"];
+		[formatter setLocalizesFormat:YES];
+		[[tableColumn dataCell] setFormatter:formatter];
+		[[tableColumn dataCell] setAlignment:NSRightTextAlignment];
+		[tableColumn setEditable:NO];
+		[resultsTable addTableColumn:tableColumn];
+		[tableColumn release];
+		
+		// Ratios
+		tableColumn = [[NSTableColumn alloc] init];
+//		[tableColumn setIdentifier:document];
+//		[[tableColumn headerCell] setStringValue:[document displayName]];
+		keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.ratioResult",[NSString stringWithFormat:@"file_%d",i]];
+		[[tableColumn headerCell] setStringValue:[[metadata objectAtIndex:3] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+		[tableColumn bind:@"value" toObject:ratiosValuesController withKeyPath:keyPath options:nil];
+		[[tableColumn dataCell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+		formatter = [[NSNumberFormatter alloc] init];
+		[formatter setFormatterBehavior:NSNumberFormatterPercentStyle];
+		[formatter setPositiveFormat:@"#0.0 %"];
+		[formatter setLocalizesFormat:YES];
+		[[tableColumn dataCell] setFormatter:formatter];
+		[formatter release];
+		[[tableColumn dataCell] setAlignment:NSRightTextAlignment];
+		[tableColumn setEditable:NO];
+		[ratiosTable addTableColumn:tableColumn];
+		[tableColumn release];
+		
+//		[document close];
+	}
+	
+	// Finishing
+	[self sortCombinedPeaks];
+	
+	[summaryWindow makeKeyAndOrderFront:self];
+}
 
 #pragma mark IBACTIONS
 

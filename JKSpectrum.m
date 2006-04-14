@@ -67,11 +67,11 @@
 -(float *)intensities {
     return intensities;
 }
--(void)setRetentionTime:(float)inValue {
-	retentionTime = inValue;
+-(void)setRetentionIndex:(float)inValue {
+	retentionIndex = inValue;
 }
--(float)retentionTime {
-	return retentionTime;
+-(float)retentionIndex {
+	return retentionIndex;
 }
 
 -(float)minimumMass {
@@ -188,7 +188,7 @@
 
 	[outSpectrum setMasses:masses withCount:numberOfPoints];
 	[outSpectrum setIntensities:intensitiesOut withCount:numberOfPoints];
-	[outSpectrum setRetentionTime:retentionTime];
+	[outSpectrum setRetentionIndex:retentionIndex];
 	[outSpectrum autorelease];
 	return outSpectrum;
 }
@@ -350,12 +350,12 @@
 //	JKLogDebug(@"score %f n = %d score = %f score2 = %f", (1.0-score/score2)*100.0, n, score, score2);
 	if (penalizeForRetentionIndex) {
 		float retentionIndexDelta, retentionIndexPenalty;
-		float retentionIndex          = [[libraryEntry valueForKey:@"retentionIndex"] floatValue];
-		if (retentionIndex == 0.0 || retentionIndex == nil) {
+		float retentionIndexLibrary         = [[libraryEntry valueForKey:@"retentionIndex"] floatValue];
+		if (retentionIndexLibrary == 0.0 || retentionIndex == nil) {
 			return (1.0-score/score2)*90.0;			//10% penalty!!
 		}
 					
-		retentionIndexDelta = retentionIndex - [self observedRetentionIndex];
+		retentionIndexDelta = retentionIndexLibrary - retentionIndex;
 		retentionIndexPenalty = pow(retentionIndexDelta,2) *  -0.000004 + 1;
 		
 		return (1.0-score/score2) * retentionIndexPenalty * 100.0; 
@@ -366,23 +366,12 @@
 
 #pragma mark optimization_level reset
 
--(float)observedRetentionIndex {
-	float observedRetentionIndex;
-	float retentionIndexSlope	  = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexSlope"] floatValue];//  = 72.742; //= [[[self document] model] retentionIndexSlope]; 
-	float retentionIndexRemainder = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexRemainder"] floatValue];// =  178.44; //= [[[self document] model] retentionIndexRemainder];
-	
-	observedRetentionIndex = retentionTime * retentionIndexSlope + retentionIndexRemainder;
-	
-	return observedRetentionIndex;
-}
-
 #pragma mark Encoding
 
--(void)encodeWithCoder:(NSCoder *)coder
-{
+-(void)encodeWithCoder:(NSCoder *)coder {
     if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
         [coder encodeInt:1 forKey:@"version"];
-        [coder encodeFloat:retentionTime forKey:@"retentionTime"];
+        [coder encodeFloat:retentionIndex forKey:@"retentionIndex"];
         [coder encodeInt:numberOfPoints forKey:@"numberOfPoints"];
 		[coder encodeBytes:(void *)masses length:numberOfPoints*sizeof(float) forKey:@"masses"];
 		[coder encodeBytes:(void *)intensities length:numberOfPoints*sizeof(float) forKey:@"intensities"];
@@ -390,11 +379,10 @@
     return;
 }
 
-- (id)initWithCoder:(NSCoder *)coder
-{
+- (id)initWithCoder:(NSCoder *)coder {
     if ( [coder allowsKeyedCoding] ) {
         // Can decode keys in any order
-        retentionTime = [coder decodeFloatForKey:@"retentionTime"];
+        retentionIndex = [coder decodeFloatForKey:@"retentionIndex"];
         numberOfPoints = [coder decodeIntForKey:@"numberOfPoints"];
 		
 		const uint8_t *temporary = NULL; //pointer to a temporary buffer returned by the decoder.
