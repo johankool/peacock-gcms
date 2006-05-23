@@ -3,43 +3,37 @@
 <plist version="1.0">
 <dict>
 	<key>IBDocumentLocation</key>
-	<string>138 389 356 240 0 0 1280 832 </string>
+	<string>18 13 444 401 0 0 1280 832 </string>
 	<key>IBEditorPositions</key>
 	<dict>
 		<key>632</key>
-		<string>495 339 240 364 0 0 1280 832 </string>
+		<string>-3 276 249 556 0 0 1280 832 </string>
 		<key>633</key>
-		<string>493 405 244 299 0 0 1280 832 </string>
-		<key>634</key>
-		<string>495 412 240 284 0 0 1280 832 </string>
+		<string>491 331 249 447 0 0 1280 832 </string>
 		<key>635</key>
-		<string>489 419 252 270 0 0 1280 832 </string>
-		<key>636</key>
-		<string>489 402 251 305 0 0 1280 832 </string>
-		<key>637</key>
-		<string>523 453 184 202 0 0 1280 832 </string>
+		<string>489 266 249 556 0 0 1280 832 </string>
+		<key>700</key>
+		<string>489 287 249 482 0 0 1280 832 </string>
+		<key>964</key>
+		<string>492 339 249 430 0 0 1280 832 </string>
 	</dict>
 	<key>IBFramework Version</key>
 	<string>443.0</string>
 	<key>IBLockedObjects</key>
-	<array/>
+	<array>
+		<integer>6</integer>
+	</array>
 	<key>IBLockedTabItems</key>
 	<array>
 		<integer>13</integer>
 	</array>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>634</integer>
-		<integer>637</integer>
-		<integer>305</integer>
-		<integer>6</integer>
 		<integer>635</integer>
-		<integer>636</integer>
-		<integer>633</integer>
-		<integer>632</integer>
-		<integer>299</integer>
+		<integer>6</integer>
+		<integer>700</integer>
 	</array>
 	<key>IBSystem Version</key>
-	<string>8I127</string>
+	<string>8J111</string>
 </dict>
 </plist>

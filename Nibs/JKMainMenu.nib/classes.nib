@@ -2,7 +2,6 @@
     IBClasses = (
         {
             ACTIONS = {
-                autopilotAction = id; 
                 confirm = id; 
                 discard = id; 
                 displayAutopilotSheet = id; 
@@ -11,12 +10,10 @@
                 exportSummary = id; 
                 fitChromatogramDataToView = id; 
                 fitSpectrumDataToView = id; 
-                identifyComponents = id; 
+                identifyCompounds = id; 
                 identifyPeaks = id; 
-                makeWindowTransparent = id; 
-                next = id; 
+                obtainBaseline = id; 
                 openNext = id; 
-                options = id; 
                 previous = id; 
                 refetch = id; 
                 renumberPeaks = id; 

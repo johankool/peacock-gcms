@@ -52,6 +52,7 @@
             }; 
             SUPERCLASS = NSWindowController; 
         }, 
+        {CLASS = JKPathPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {
             ACTIONS = {centerOrigin = id; lowerLeftOrigin = id; showAll = id; squareAxes = id; }; 
             CLASS = MyGraphView; 

@@ -14,12 +14,18 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {save = id; }; 
             CLASS = JKLibraryWindowController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {libraryController = NSArrayController; spectrumView = MyGraphView; }; 
+            OUTLETS = {
+                libraryController = NSArrayController; 
+                moleculeView = JKMoleculeView; 
+                spectrumView = MyGraphView; 
+                spectrumViewDataseriesController = NSArrayController; 
+                tableView = NSTableView; 
+            }; 
             SUPERCLASS = NSWindowController; 
         }, 
+        {CLASS = JKMoleculeView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {
             ACTIONS = {centerOrigin = id; lowerLeftOrigin = id; showAll = id; squareAxes = id; }; 
             CLASS = MyGraphView; 

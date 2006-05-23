@@ -19,23 +19,18 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {showInspector = id; }; 
+            ACTIONS = {resetToDefaultValues = id; showInspector = id; }; 
             CLASS = JKPanelController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                dataSeriesPanelView = NSView; 
-                deleteSheet = NSWindow; 
-                fontcolorPanelView = NSView; 
+                displayPanelView = NSView; 
                 infoPanelView = NSView; 
                 infoTableView = NSTableView; 
-                objectController = NSObjectController; 
-                optionsPanelView = NSView; 
-                panelView = NSView; 
-                plotViewTabView = NSTabView; 
-                saveSheet = NSWindow; 
+                inspectedDocumentController = NSObjectController; 
+                libraryPopUpButton = JKPathPopUpButton; 
+                naPanelView = NSView; 
+                processingPanelView = NSView; 
                 subTitleTextField = NSTextField; 
-                templatePullDownMenu = NSPopUpButton; 
-                textPanelView = NSView; 
                 titleTextField = NSTextField; 
                 viewPanelView = NSView; 
                 xAxisTextField = NSTextField; 
@@ -43,6 +38,7 @@
             }; 
             SUPERCLASS = NSWindowController; 
         }, 
+        {CLASS = JKPathPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 
         {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
         {

@@ -6,14 +6,15 @@
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 
         }, 
+        {CLASS = JKPathPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {
-            ACTIONS = {
-                browseForCustomLibrary = id; 
-                browseForDefaultLibrary = id; 
-                closeButtonAction = id; 
-            }; 
             CLASS = JKPreferencesWindowController; 
             LANGUAGE = ObjC; 
+            OUTLETS = {
+                generalPreferencesView = NSView; 
+                libraryPopUpButton = JKPathPopUpButton; 
+                processingPreferencesView = NSView; 
+            }; 
             SUPERCLASS = NSWindowController; 
         }, 
         {
