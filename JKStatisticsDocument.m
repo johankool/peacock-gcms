@@ -14,7 +14,8 @@
 
 #pragma mark INITIALIZATION
 
--(id)init {
+- (id)init  
+{
 	self = [super init];
     if (self != nil) {
         statisticsWindowController = [[JKStatisticsWindowController alloc] init];
@@ -22,20 +23,23 @@
     return self;
 }
 
--(void)dealloc {
+- (void)dealloc  
+{
     [super dealloc];
 }
 
 #pragma mark WINDOW MANAGEMENT
 
--(void)makeWindowControllers {
+- (void)makeWindowControllers  
+{
 	NSAssert(statisticsWindowController != nil, @"statisticsWindowController is nil");
 	[self addWindowController:statisticsWindowController];
 }
 
 #pragma mark FILE ACCESS MANAGEMENT
 
-- (NSFileWrapper *)fileWrapperRepresentationOfType:(NSString *)aType{
+- (NSFileWrapper *)fileWrapperRepresentationOfType:(NSString *)aType 
+{
 	if ([aType isEqualToString:@"Peacock Statistics File"]) {
 		
 		NSMutableData *data;
@@ -58,7 +62,8 @@
 	}
 }
 
-- (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
+- (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError  
+{
 	if ([typeName isEqualToString:@"Peacock Statistics File"]) {
 		NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath:[absoluteURL path]];
 		NSData *data;
@@ -82,7 +87,8 @@
 		
 #pragma mark PRINTING
 
-- (void)printShowingPrintPanel:(BOOL)showPanels {
+- (void)printShowingPrintPanel:(BOOL)showPanels  
+{
     // Obtain a custom view that will be printed
     NSView *printView = [[[self statisticsWindowController] window] contentView];
 	
@@ -105,7 +111,8 @@
 
 #pragma mark ACCESSORS
 
--(JKStatisticsWindowController *)statisticsWindowController {
+- (JKStatisticsWindowController *)statisticsWindowController  
+{
     return statisticsWindowController;
 }
 

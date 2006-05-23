@@ -15,7 +15,8 @@ static void *PropertyObservationContext = (void *)1093;
 @implementation SpectrumGraphDataSerie
 
 #pragma mark INITIALIZATION
-- (id)init {
+- (id)init  
+{
     self = [super init];
     if (self) {
         // Zet de standaardwaarden
@@ -23,9 +24,10 @@ static void *PropertyObservationContext = (void *)1093;
 		[self setKeyForXValue:@"Mass"];
 		[self setKeyForYValue:@"Intensity"];
 		[self setSeriesColor:[NSColor blueColor]];
-		[self setSeriesType:1];
+		[self setSeriesType:2];
 		[self setShouldDrawLabels:YES];
-
+		drawUpsideDown = NO;
+		normalizeYData = YES;
 		boundingRect = NSZeroRect;
 		
 		// Creeer de plot een eerste keer.
@@ -36,7 +38,8 @@ static void *PropertyObservationContext = (void *)1093;
 
 
 #pragma mark DRAWING ROUTINES
--(void)plotDataWithTransform:(NSAffineTransform *)trans {
+- (void)plotDataWithTransform:(NSAffineTransform *)trans  
+{
 	NSBezierPath *bezierpath;
 //	if (!plotPath) {
 //		[self constructPlotPath];
@@ -59,7 +62,8 @@ static void *PropertyObservationContext = (void *)1093;
 	}
 }
 
--(void)constructPlotPath {
+- (void)constructPlotPath  
+{
 	int i, count;
 	NSPoint pointInUnits, pointInUnits2;
 	NSBezierPath *bezierpath = [[NSBezierPath alloc] init];
@@ -68,34 +72,32 @@ static void *PropertyObservationContext = (void *)1093;
 	if (count <= 0) {	
 		return;
 	}
-	
-	switch  (seriesType) {
-		case 0: // Points
-			break;
-			
-		case 1: // Line
-				// Creeer het pad.
-			[bezierpath moveToPoint:NSMakePoint([[[[self dataArray] objectAtIndex:0] valueForKey:keyForXValue] floatValue],
-												[[[[self dataArray] objectAtIndex:0] valueForKey:keyForYValue] floatValue])];
-			
-			// We zouden eigenlijk moet controleren of de x- en y-waarden beschikbaar zijn.
-			for (i=1; i<count; i++) {
-				pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue],
-										   [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]);
-				[bezierpath lineToPoint:pointInUnits];
+
+	float maxYValue = 0.0;
+	if (normalizeYData) {
+		for (i=0; i<count; i++) {
+			if (maxYValue < [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]) {
+				maxYValue = [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue];
 			}
-				break;
-			
-		case 2: // Spectrum
-				// We zouden eigenlijk moet controleren of de x- en y-waarden beschikbaar zijn.
-			for (i=0; i<count; i++) {
-				pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], 0.0);
-				pointInUnits2 = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]);
-				[bezierpath moveToPoint:pointInUnits];
-				[bezierpath lineToPoint:pointInUnits2];
-			}
-			
+		}		
+	} else {
+		maxYValue = 1.0;
 	}
+	
+	// Spectrum
+	// We zouden eigenlijk moet controleren of de x- en y-waarden beschikbaar zijn.
+	for (i=0; i<count; i++) {
+		pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], 0.0);
+		if (drawUpsideDown) {
+			pointInUnits2 = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], -[[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]/maxYValue);
+		} else {
+			pointInUnits2 = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]/maxYValue);
+		}
+		[bezierpath moveToPoint:pointInUnits];
+		[bezierpath lineToPoint:pointInUnits2];
+	}
+			
+	
 	[self setPlotPath:bezierpath];
 	boundingRect = [bezierpath bounds];
 	
@@ -104,7 +106,8 @@ static void *PropertyObservationContext = (void *)1093;
 	[bezierpath release];
 }
 
--(void)drawLabelsWithTransform:(NSAffineTransform *)trans {
+- (void)drawLabelsWithTransform:(NSAffineTransform *)trans  
+{
 	int count = [[self dataArray] count];
 	if (count <= 0) {	
 		return;
@@ -125,18 +128,32 @@ static void *PropertyObservationContext = (void *)1093;
 	rects = (NSRectArray) calloc(rectCount, sizeof(NSRect));
 	 
 	[attrs setValue:[NSFont systemFontOfSize:10] forKey:NSFontAttributeName];
+	float maxYValue = 0.0;
+	if (normalizeYData) {
+		for (i=0; i<count; i++) {
+			if (maxYValue < [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]) {
+				maxYValue = [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue];
+			}
+		}		
+	} else {
+		maxYValue = 1.0;
+	}
 	
 	// We should go through the values from highest intensity ('y') to lowest instead of along the x-axis.
 	// It is more important to label the higher intensities.
 	for (i=0; i<count; i++) {
 		string = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:formatString, [[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue]] attributes:attrs];
 		
-		pointToDraw = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]);
+		if (drawUpsideDown) {
+			pointToDraw = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], -[[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]/maxYValue);
+		} else {
+			pointToDraw = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]/maxYValue);
+		}
 		stringSize = [string size];
 		pointToDraw = [trans transformPoint:pointToDraw]; // Transfrom to screen coords
 		pointToDraw.x = pointToDraw.x - stringSize.width/2; // Center the label
 		// Draw above or below depending on wether we have negative values
-		if ([[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue] < 0.0 ){
+		if (pointToDraw.y < 0.0 ){
 			pointToDraw.y = pointToDraw.y - stringSize.height - 4;
 		} else {
 			pointToDraw.y = pointToDraw.y + 4;
@@ -168,14 +185,15 @@ static void *PropertyObservationContext = (void *)1093;
 }
 
 #pragma mark HELPER ROUTINES
--(void)transposeAxes {
+- (void)transposeAxes  
+{
 	// Deze routine wisselt de x-as met de y-as om
 	NSString *tempString = [self keyForXValue];
 	[self setKeyForXValue:[self keyForYValue]];
 	[self setKeyForYValue:tempString];
 	[self constructPlotPath];
 }
--(NSRect)boundingRect {	
+- (NSRect)boundingRect {	
 	return boundingRect;
 }
 
@@ -215,7 +233,8 @@ static void *PropertyObservationContext = (void *)1093;
 	}
 }
 
-- (void)stopObservingData:(NSArray *)data {
+- (void)stopObservingData:(NSArray *)data  
+{
 	if ([data isEqual:[NSNull null]]) {
 		return;
 	}
@@ -287,8 +306,29 @@ static void *PropertyObservationContext = (void *)1093;
 	}
 }
 
+- (BOOL)drawUpsideDown  
+{
+	return drawUpsideDown;
+}
+- (void)setDrawUpsideDown:(BOOL)inValue  
+{
+    drawUpsideDown = inValue;
+	[self constructPlotPath];
+}
+- (BOOL)normalizeYData;
+{
+	return normalizeYData;
+}
+
+- (void)setNormalizeYData:(BOOL)inValue
+{
+	normalizeYData = inValue;
+	[self constructPlotPath];
+}
+
 #pragma mark MISC
--(NSArray *)dataArrayKeys {
+- (NSArray *)dataArrayKeys  
+{
 	return [[dataArray objectAtIndex:0] allKeys];
 }
 

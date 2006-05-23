@@ -10,7 +10,7 @@ extern NSString *const MyGraphView_DidBecomeFirstResponderNotification;
 extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 
 @protocol MyGraphViewDelegateProtocol
--(void)showSpectrumForScan:(int)scan;
+- (void)showSpectrumForScan:(int)scan;
 
 @end
 

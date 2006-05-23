@@ -15,7 +15,8 @@ static void *PropertyObservationContext = (void *)1093;
 @implementation MyGraphDataSerie
 
 #pragma mark INITIALIZATION
-- (id)init {
+- (id)init  
+{
     self = [super init];
     if (self) {
         // Zet de standaardwaarden
@@ -47,7 +48,8 @@ static void *PropertyObservationContext = (void *)1093;
     return self;
 }
 
-- (void) dealloc {
+- (void) dealloc  
+{
 	// Voeg ons toe als observer voor veranderingen in de array met data, zoals toevoegingen en verwijderingen.
 	[self removeObserver:self forKeyPath:@"dataArray"];
 	
@@ -62,7 +64,8 @@ static void *PropertyObservationContext = (void *)1093;
 	[super dealloc];
 }
 
--(void)loadDataPoints:(int)npts withXValues:(float *)xpts andYValues:(float *)ypts {
+- (void)loadDataPoints:(int)npts withXValues:(float *)xpts andYValues:(float *)ypts  
+{
 	int i;
 	NSMutableArray *mutArray = [[NSMutableArray alloc] init];
     for(i=0;i<npts;i++){
@@ -81,7 +84,8 @@ static void *PropertyObservationContext = (void *)1093;
 
 
 #pragma mark DRAWING ROUTINES
--(void)plotDataWithTransform:(NSAffineTransform *)trans {
+- (void)plotDataWithTransform:(NSAffineTransform *)trans  
+{
 	NSBezierPath *bezierpath;
 	
 	// Hier gaan we van dataserie-coordinaten naar scherm-coordinaten.
@@ -102,7 +106,8 @@ static void *PropertyObservationContext = (void *)1093;
 	}
 }
 
--(void)constructPlotPath {
+- (void)constructPlotPath  
+{
 	int i, count;
 	NSPoint pointInUnits, pointInUnits2;
 	NSBezierPath *bezierpath = [[NSBezierPath alloc] init];
@@ -146,7 +151,8 @@ static void *PropertyObservationContext = (void *)1093;
 	[bezierpath release];
 }
 
--(void)drawLabelsWithTransform:(NSAffineTransform *)trans {
+- (void)drawLabelsWithTransform:(NSAffineTransform *)trans  
+{
 	int count = [[self dataArray] count];
 	if (count <= 0) {	
 		return;
@@ -207,14 +213,16 @@ static void *PropertyObservationContext = (void *)1093;
 }
 
 #pragma mark HELPER ROUTINES
--(void)transposeAxes {
+- (void)transposeAxes  
+{
 	// Deze routine wisselt de x-as met de y-as om
 	NSString *tempString = [self keyForXValue];
 	[self setKeyForXValue:[self keyForYValue]];
 	[self setKeyForYValue:tempString];
 	[self constructPlotPath];
 }
--(NSRect)boundingRect {
+- (NSRect)boundingRect  
+{
 	return [[self plotPath] bounds];
 }
 
@@ -254,7 +262,8 @@ static void *PropertyObservationContext = (void *)1093;
 	}
 }
 
-- (void)stopObservingData:(NSArray *)data {
+- (void)stopObservingData:(NSArray *)data  
+{
 	if ([data isEqual:[NSNull null]]) {
 		return;
 	}
@@ -327,78 +336,97 @@ static void *PropertyObservationContext = (void *)1093;
 }
 
 #pragma mark MISC
--(NSArray *)dataArrayKeys {
+- (NSArray *)dataArrayKeys  
+{
 	return [[dataArray objectAtIndex:0] allKeys];
 }
 
 #pragma mark ACCESSORS
--(NSMutableArray *)dataArray {
+- (NSMutableArray *)dataArray  
+{
 	return dataArray;
 }
--(void)setDataArray:(NSMutableArray *)inValue {
+- (void)setDataArray:(NSMutableArray *)inValue  
+{
 	[inValue retain];
     [dataArray autorelease];
     dataArray = inValue;
 }
 
--(NSString *)seriesTitle {
+- (NSString *)seriesTitle  
+{
 	return seriesTitle;
 }
--(void)setSeriesTitle:(NSString *)inValue {
+- (void)setSeriesTitle:(NSString *)inValue  
+{
 	[inValue retain];
     [seriesTitle autorelease];
     seriesTitle = inValue;
 }
--(NSString *)keyForXValue {
+- (NSString *)keyForXValue  
+{
 	return keyForXValue;
 }
--(void)setKeyForXValue:(NSString *)inValue {
+- (void)setKeyForXValue:(NSString *)inValue  
+{
 	[inValue retain];
     [keyForXValue autorelease];
     keyForXValue = inValue;
 }
--(NSString *)keyForYValue {
+- (NSString *)keyForYValue  
+{
 	return keyForYValue;
 }
--(void)setKeyForYValue:(NSString *)inValue {
+- (void)setKeyForYValue:(NSString *)inValue  
+{
 	[inValue retain];
     [keyForYValue autorelease];
     keyForYValue = inValue;
 }
--(NSColor *)seriesColor {
+- (NSColor *)seriesColor  
+{
 	return seriesColor;
 }
--(void)setSeriesColor:(NSColor *)inValue {
+- (void)setSeriesColor:(NSColor *)inValue  
+{
 	[inValue retain];
     [seriesColor autorelease];
     seriesColor = inValue;
 }
--(int)seriesType {
+- (int)seriesType  
+{
 	return seriesType;
 }
--(void)setSeriesType:(int)inValue {
+- (void)setSeriesType:(int)inValue  
+{
     seriesType = inValue;
 }
--(NSBezierPath *)plotPath {
+- (NSBezierPath *)plotPath  
+{
 	return plotPath;
 }
--(void)setPlotPath:(NSBezierPath *)inValue {
+- (void)setPlotPath:(NSBezierPath *)inValue  
+{
 	[inValue retain];
     [plotPath autorelease];
     plotPath = inValue;
 }
 
--(BOOL)shouldDrawLabels {
+- (BOOL)shouldDrawLabels  
+{
 	return shouldDrawLabels;
 }
--(void)setShouldDrawLabels:(BOOL)inValue {
+- (void)setShouldDrawLabels:(BOOL)inValue  
+{
     shouldDrawLabels = inValue;
 }
 
--(NSNumber *)verticalScale {
+- (NSNumber *)verticalScale  
+{
 	return verticalScale;
 }
--(void)setVerticalScale:(NSNumber *)inValue {
+- (void)setVerticalScale:(NSNumber *)inValue  
+{
 	[inValue retain];
 	[verticalScale autorelease];
 	verticalScale = inValue;
@@ -407,7 +435,8 @@ static void *PropertyObservationContext = (void *)1093;
 - (NSArray *)oldData { 
 	return oldData; 
 }
-- (void)setOldData:(NSArray *)anOldData {
+- (void)setOldData:(NSArray *)anOldData  
+{
 	[anOldData retain];
 	[oldData autorelease];
 	oldData = anOldData;

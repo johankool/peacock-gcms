@@ -20,7 +20,7 @@
 }
 */
 
--(IBAction)calculate:(id)sender
+- (IBAction)calculate:(id)sender
 {
     CFragment*	atom;
     [self showError:NO];
@@ -52,7 +52,7 @@
     
 }
 
--(IBAction)clear:(id)sender
+- (IBAction)clear:(id)sender
 {
     [self showError:NO];
     [formula setStringValue:@""];
@@ -60,7 +60,8 @@
     [contents setStringValue:@""];
 }
 
--(void)showError:(BOOL)input {
+- (void)showError:(BOOL)input  
+{
     if (input) {
         [status setStringValue:NSLocalizedString(@"Incorrect formula", @"Error message for wrong formula")];
         [statusIcon setHidden:NO];
@@ -73,14 +74,16 @@
 
 }
 
--(IBAction)openPanel:(id)sender {
+- (IBAction)openPanel:(id)sender  
+{
     if ([panelWindow isVisible] == NO) {
         [panelWindow orderFront:self];
      } else {
         [panelWindow orderOut:self];
      }
 }
-- (BOOL)validateMenuItem:(NSMenuItem *)anItem {
+- (BOOL)validateMenuItem:(NSMenuItem *)anItem  
+{
 	if ([anItem action] == @selector(openPanel:)) {
 		if ([[self window] isVisible] == YES) {
 			[anItem setTitle:NSLocalizedString(@"Hide Molecular Weight Calculator",@"")];

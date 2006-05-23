@@ -14,6 +14,6 @@
     JKStatisticsWindowController *statisticsWindowController;
 }
 
--(JKStatisticsWindowController *)statisticsWindowController;
+- (JKStatisticsWindowController *)statisticsWindowController;
 
 @end

@@ -7,13 +7,14 @@
 //
 
 #import "JKBatchProcessWindowController.h"
-#import "JKMainDocument.h"
+#import "JKGCMSDocument.h"
 #import "JKMainWindowController.h"
 #import "Growl/GrowlApplicationBridge.h"
 
 @implementation JKBatchProcessWindowController
 
--(id)init {
+- (id)init  
+{
 	self = [super initWithWindowNibName:@"JKBatchProcess"];
     if (self != nil) {
 		files = [[NSMutableArray alloc] init];
@@ -23,21 +24,24 @@
     return self;
 }
 
-- (void) dealloc {
+- (void) dealloc  
+{
 	[files release];
 	[super dealloc];
 }
 
 #pragma mark IBACTIONS
 
--(IBAction)addButtonAction:(id)sender {
+- (IBAction)addButtonAction:(id)sender  
+{
 	NSArray *fileTypes = [NSArray arrayWithObjects:@"cdf", @"peacock",nil];
     NSOpenPanel *oPanel = [NSOpenPanel openPanel];
     [oPanel setAllowsMultipleSelection:YES];
 	[oPanel beginSheetForDirectory:nil file:nil types:fileTypes modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
--(void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
+- (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo  
+{
     if (returnCode == NSOKButton) {
         NSArray *filesToOpen = [sheet filenames];
         int i, count = [filesToOpen count];
@@ -55,7 +59,8 @@
 	}	
 }
 
--(IBAction)searchOptionsButtonAction:(id)sender {
+- (IBAction)searchOptionsButtonAction:(id)sender  
+{
 	[NSApp beginSheet: searchOptionsSheet
 	   modalForWindow: [self window]
 		modalDelegate: self
@@ -65,7 +70,8 @@
     // Return processing to the event loop	
 }
 
--(IBAction)runBatchButtonAction:(id)sender {
+- (IBAction)runBatchButtonAction:(id)sender  
+{
 	[NSApp beginSheet: progressSheet
 	   modalForWindow: [self window]
 		modalDelegate: self
@@ -78,16 +84,19 @@
 	
 }
 
--(IBAction)searchOptionsDoneAction:(id)sender {
+- (IBAction)searchOptionsDoneAction:(id)sender  
+{
 	[NSApp endSheet:searchOptionsSheet];
 }
--(IBAction)stopButtonAction:(id)sender{
+- (IBAction)stopButtonAction:(id)sender 
+{
 	[self setAbortAction:YES];
 }
 
 #pragma mark ACTIONS
 
--(void)runBatch {
+- (void)runBatch  
+{
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	BOOL errorOccurred = NO;	
 	[self setAbortAction:NO];
@@ -97,11 +106,11 @@
 	[fileProgressIndicator setDoubleValue:0.0];
 	
 	NSError *error = [[NSError alloc] init];
-	JKMainDocument *document;
+	JKGCMSDocument *document;
 	NSString *path;
 
 	for (i=0; i < filesCount; i++) {
-		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:![[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchCloseDocument"] boolValue] error:&error];
+		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:YES error:&error];
 		[[self window] makeKeyAndOrderFront:self];
 		if (document == nil) {
 			JKLogError(@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]);
@@ -132,7 +141,7 @@
 		}		
 		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchRunAutoPilot"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Identifying Compounds",@"")];
-			[[document mainWindowController] identifyPeaks];
+			[document identifyPeaks];
 			[fileProgressIndicator incrementBy:1.0];
 		}
 		if ([self abortAction]) {
@@ -238,7 +247,8 @@ boolAccessor(abortAction, setAbortAction);
 
 #pragma mark WINDOW MANAGEMENT
 
--(void)awakeFromNib {
+- (void)awakeFromNib  
+{
     [[self window] center];
 }
 
@@ -247,10 +257,12 @@ boolAccessor(abortAction, setAbortAction);
 {
     [sheet orderOut:self];
 }
-- (void)windowWillBeginSheet:(NSNotification *)notification {
+- (void)windowWillBeginSheet:(NSNotification *)notification  
+{
 	return;
 }
-- (void)windowDidEndSheet:(NSNotification *)notification {
+- (void)windowDidEndSheet:(NSNotification *)notification  
+{
 	return;
 }
 @end

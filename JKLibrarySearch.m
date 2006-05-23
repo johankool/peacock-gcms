@@ -7,19 +7,24 @@
 //
 
 #import "JKLibrarySearch.h"
+
 #import "JKLibraryEntry.h"
+#import "JKMainWindowController.h"
 #import "JKPeakRecord.h"
 #import "JKSpectrum.h"
-#import "JKMainWindowController.h"
-#import "JKDataModel.h"
 
 @implementation JKLibrarySearch
-- (id) init {
+- (id) init  
+{
 	self = [super init];
 	if (self != nil) {
 		lowerAcceptLevel = 50.0; //[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"lowerAcceptLevel"] floatValue];
 		libraryPath = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"];
 		remainingString = [NSString stringWithString:@""];
+
+		retentionIndexSlope = [[NSNumber numberWithFloat:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexSlope"] floatValue]] retain];
+		retentionIndexRemainder = [[NSNumber numberWithFloat:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexRemainder"] floatValue]] retain];
+
 	}
 	return self;
 }
@@ -29,7 +34,8 @@
     @abstract   Search Library for the best fitting entry to peak.
     @discussion Returns an array of best fits to the peak according to the settings set for the class. The returned array contains JKLibraryEntry entries, sorted by score, with the best fit at position 0.
 */
--(NSMutableArray *)searchLibraryForPeak:(JKPeakRecord *)peak {
+- (NSMutableArray *)searchLibraryForPeak:(JKPeakRecord *)peak  
+{
 	NSDate *startT;
     startT = [NSDate date];
 	
@@ -43,7 +49,7 @@
 	remainingString = [NSString stringWithString:@""];
 	
 	// Determine spectra for peak
-	peakSpectrum = [[document dataModel] getSpectrumForPeak:peak];	
+	peakSpectrum = [document getSpectrumForPeak:peak];	
 		
 	// Read library piece by piece
 	NSData *aLibrary = [NSData dataWithContentsOfMappedFile:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"]];
@@ -110,7 +116,8 @@
  @abstract   Search Library for the best fitting entry to the array of peaks.
  @discussion Returns an array of best fits to the peaks according to the settings set for the class. The returned array contains arrays containing JKLibraryEntry entries, sorted by score, with the best fit at position 0 for each peak.
  */
--(void)searchLibraryForPeaks:(NSArray *)peaks {
+- (void)searchLibraryForPeaks:(NSArray *)peaks  
+{
 	NSDate *startT;
     startT = [NSDate date];
 
@@ -128,7 +135,7 @@
 	// Determine spectra for peaks
 	int peaksCount = [peaks count];
 	for (i = 0; i < peaksCount; i++ ) {
-		[spectra addObject:[[document dataModel] getSpectrumForPeak:[peaks objectAtIndex:i]]];	
+		[spectra addObject:[document getSpectrumForPeak:[peaks objectAtIndex:i]]];	
 	}
 
 	// Read library piece by piece
@@ -455,7 +462,8 @@
 //	[libraryEntries autorelease];
 //    return libraryEntries;	
 //}
--(NSArray *)readJCAMPString:(NSString *)inString {
+- (NSArray *)readJCAMPString:(NSString *)inString  
+{
 	int count,i,j;
 	NSMutableArray *libraryEntries = [[NSMutableArray alloc] init];
 	NSArray *array = [inString componentsSeparatedByString:@"##END="];
@@ -640,6 +648,29 @@
 	
 	[libraryEntries autorelease];
     return libraryEntries;	
+}
+
+#pragma mark NSCODING
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+    if ([coder allowsKeyedCoding]) { // Assuming 10.2 is quite safe!!
+		[coder encodeInt:0 forKey:@"version"];
+		[coder encodeObject:libraryAlias forKey:@"libraryAlias"];
+		[coder encodeFloat:lowerAcceptLevel forKey:@"lowerAcceptLevel"];
+		[coder encodeInt:maximumNumberOfResults forKey:@"maximumNumberOfResults"];
+	} 
+    return;
+}
+
+- (id)initWithCoder:(NSCoder *)coder
+{
+    if ([coder allowsKeyedCoding]) {
+		libraryAlias = [[coder decodeObjectForKey:@"libraryAlias"] retain];
+		lowerAcceptLevel = [coder decodeFloatForKey:@"lowerAcceptLevel"];
+        maximumNumberOfResults = [coder decodeIntForKey:@"maximumNumberOfResults"];
+    } 
+    return self;
 }
 
 #pragma mark IBACTIONS (MACROSTYLE)

@@ -8,32 +8,36 @@
 
 #import "JKGeneralTesting.h"
 #import "JKDataModel.h"
-#import "JKMainDocument.h"
+#import "JKGCMSDocument.h"
 #import "JKRatio.h"
 
 @class JKPeakRecord;
 
 @implementation JKGeneralTesting
 
--(void)testJKDataModel {
+- (void)testJKDataModel  
+{
 	JKDataModel *object = [[JKDataModel alloc] init];	
 	STAssertNotNil(object, @"Could not create instance.");
 }
 
--(void)testJKDataModelNoNCID {
+- (void)testJKDataModelNoNCID  
+{
 	JKDataModel *object = [[JKDataModel alloc] init];	
 //	[object getChromatogramData];
 	
 }
 
--(void)testJKPeakRecord {
+- (void)testJKPeakRecord  
+{
 	JKPeakRecord *object = [[JKPeakRecord alloc] init];	
 	STAssertNotNil(object, @"Could not create instance.");
 }
 
--(void)testReadingAndSavingFiles {
-	JKMainDocument *CDFDocument;
-	JKMainDocument *PeacockDocument;
+- (void)testReadingAndSavingFiles  
+{
+	JKGCMSDocument *CDFDocument;
+	JKGCMSDocument *PeacockDocument;
 	NSError *error = [[NSError alloc] init];
 	BOOL result;
 	

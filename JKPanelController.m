@@ -7,17 +7,17 @@
 //
 
 #import "JKPanelController.h"
-#import "netcdf.h"
+
+#import "JKGCMSDocument.h"
 #import "MyGraphView.h"
-#import "JKMainDocument.h"
-#import "JKDataModel.h"
+#import "netcdf.h"
 
 static JKPanelController *theSharedController;
 
-
 @implementation JKPanelController
 
-+ (JKPanelController *) sharedController {
++ (JKPanelController *) sharedController  
+{
     if (theSharedController == nil) {
 		
         theSharedController = [[JKPanelController alloc] initWithWindowNibName: @"JKPanel"];
@@ -50,7 +50,8 @@ static JKPanelController *theSharedController;
 	
 } 
 
--(void)dealloc {
+- (void)dealloc  
+{
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center removeObserver: self
 					  name: nil
@@ -59,38 +60,35 @@ static JKPanelController *theSharedController;
     [super dealloc];
 }
 
--(void)windowDidLoad {
+- (void)windowDidLoad  
+{
     [super windowDidLoad];
 	
     [self setShouldCascadeWindows: NO];
     [self setWindowFrameAutosaveName: @"JKPanelWindow"];
 	
 	inspectorListForDocument = [[NSMutableDictionary alloc] init];
-	[inspectorListForDocument setObject:@"Info" forKey:@"info"];
+	[inspectorListForDocument setValue:@"Info" forKey:@"info"];
+	[inspectorListForDocument setValue:@"Processing" forKey:@"processing"];
 	
 	inspectorListForMyGraphView = [[NSMutableDictionary alloc] init];
-	[inspectorListForMyGraphView setObject:@"View" forKey:@"view"];
-	[inspectorListForMyGraphView setObject:@"Options" forKey:@"options"];
-	[inspectorListForMyGraphView setObject:@"Dataseries" forKey:@"dataSeries"];
-	[inspectorListForMyGraphView setObject:@"Text" forKey:@"text"];
-	[inspectorListForMyGraphView setObject:@"Font & Color" forKey:@"fontcolor"];
+	[inspectorListForMyGraphView setValue:@"View" forKey:@"view"];
+	[inspectorListForMyGraphView setValue:@"Display" forKey:@"display"];
 	
-    [self setInspectedDocument: [self inspectedDocument]];
-    [self setInspectedPlotView: [self inspectedPlotView]];
-
     // Rich text in our fields! 
     [titleTextField setAllowsEditingTextAttributes:YES];
     [subTitleTextField setAllowsEditingTextAttributes:YES];
     [xAxisTextField setAllowsEditingTextAttributes:YES];
     [yAxisTextField setAllowsEditingTextAttributes:YES];
  
+	
    // Create a new toolbar instance, and attach it to our document window 
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier: @"nl.johankool.Peacock.panel.toolbar"] autorelease];
     
     // Set up toolbar properties: Allow customization, give a default display mode, and remember state in user defaults 
     [toolbar setAllowsUserCustomization: NO];
     [toolbar setAutosavesConfiguration: YES];
-    [toolbar setDisplayMode: NSToolbarDisplayModeIconOnly];
+    [toolbar setDisplayMode: NSToolbarDisplayModeIconAndLabel];
     [toolbar setSizeMode: NSToolbarSizeModeSmall];
     
     // We are the delegate
@@ -101,79 +99,89 @@ static JKPanelController *theSharedController;
 	
 	// Set an initial state
 	[toolbar setSelectedItemIdentifier:@"info"];
-	[[self window] setContentView:infoPanelView];
-}
-
--(void)setupInspector:(id)object {
-	if (object == nil) {
-		return;
-	}
-    if ([object isKindOfClass:[MyGraphView class]] && [[self window] isVisible]) {
-        [self setInspectedPlotView:object];
-        
-        [objectController willChangeValueForKey:@"Content"];
-        [objectController setContent:object];
-        [objectController didChangeValueForKey:@"Content"];
-    } else if ([object isKindOfClass:[JKMainDocument class]] && [[self window] isVisible]) {
+	
+	if ([[[[[NSApplication sharedApplication] orderedWindows] objectAtIndex:0] document] isKindOfClass:[JKGCMSDocument class]]) {
+		[self setInspectedDocument:[[[[NSApplication sharedApplication] orderedWindows] objectAtIndex:0] document]];
+		[[self window] setContentView:infoPanelView];
 		[infoTableView reloadData];
-    } else {		
-        [self disableInspector:object];
-    }
+    } else {
+		[[self window] setContentView:naPanelView];
+	}
+	
+	// Bind libraryPopUpButton manually
+	[libraryPopUpButton bind:@"fileAlias" toObject:inspectedDocumentController withKeyPath:@"selection.libraryAlias" options:nil];
+
 }
 
--(void)disableInspector:(id)object {
-	[objectController willChangeValueForKey:@"Content"];
-	[objectController setContent:nil];
-	[objectController didChangeValueForKey:@"Content"];
-	[self setInspectedPlotView:nil];
-	[infoTableView reloadData];
-}
-
--(NSDocument *)inspectedDocument {
-	return inspectedDocument;
-}
-
-- (void)setInspectedDocument: (NSDocument *) document {
-	[document retain];
-	[inspectedDocument autorelease];
-	inspectedDocument = document;
-
-	[self setupInspector:document];	
-}
 
 #pragma mark NOTIFICATIONS
 
--(void)windowDidBecomeMain:(NSNotification *)aNotification {
-    [self setupInspector:[[aNotification object] firstResponder]];
-}
+- (void)documentActivateNotification:(NSNotification *)aNotification  
+{
+	if ([[[aNotification object] document] isKindOfClass:[JKGCMSDocument class]]) {
+		if ([[aNotification object] document] != inspectedDocument) {
+			[self setInspectedDocument:[[aNotification object] document]];
+			[infoTableView reloadData];
+			if ([[[aNotification object] firstResponder] isKindOfClass:[MyGraphView class]]) {
+				[self setInspectedGraphView:[[aNotification object] firstResponder]];
+			} else {
+				[self setInspectedGraphView:nil];
+			}
+		}
 
--(void)windowDidResignMain:(NSNotification *)aNotification {
-    [self disableInspector:[[aNotification object] firstResponder]];
-}
+		NSRect windowFrame = [[self window] frame];
+		float deltaHeight;
 
--(void)documentActivateNotification: (NSNotification *) notification {
-	NSWindow *window = [notification object];
-    NSDocument *document = [[window windowController] document];
-	if ([document isKindOfClass:[JKMainDocument class]]) {
-		[self setInspectedDocument:document];	
-	} else {
+		if ([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"info"]) {
+			deltaHeight = [infoPanelView frame].size.height - [[[self window] contentView] frame].size.height;
+			[[self window] setContentView:infoPanelView];
+			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:NO];
+		} else if ([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"processing"]) {
+			deltaHeight = [processingPanelView frame].size.height - [[[self window] contentView] frame].size.height;
+			[[self window] setContentView:processingPanelView];
+			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:NO];
+		} else if ([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"view"]) {
+			deltaHeight = [viewPanelView frame].size.height - [[[self window] contentView] frame].size.height;
+			[[self window] setContentView:viewPanelView];
+			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:NO];
+		} else if ([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"display"]) {
+			deltaHeight = [displayPanelView frame].size.height - [[[self window] contentView] frame].size.height;
+			[[self window] setContentView:displayPanelView];
+			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:NO];
+		} else {
+			[[self window] setContentView:naPanelView];
+		}		
+		
+    }  else {
+		[[self window] setContentView:naPanelView];
 		[self setInspectedDocument:nil];
 	}
 }
 
--(void)documentDeactivateNotification: (NSNotification *) notification {
-    [self setInspectedDocument:nil];	
+- (void)documentDeactivateNotification: (NSNotification *) aNotification  
+{
+	[[self window] setContentView:naPanelView];
+	[self setInspectedDocument:nil];	
 } 
 
--(void)plotViewDidBecomeFirstResponderNotification:(NSNotification *)aNotification{
-    [self setupInspector:[aNotification object]];
+- (void)plotViewDidBecomeFirstResponderNotification:(NSNotification *)aNotification 
+{
+	if ([[aNotification object] isKindOfClass:[MyGraphView class]]) {
+		if ([aNotification object] != inspectedGraphView) {
+			[self setInspectedGraphView:[aNotification object]];
+		}
+	} else {
+		[self setInspectedGraphView:nil];
+	}
 }
 
--(void)plotViewDidResignFirstResponderNotification:(NSNotification *)aNotification{
-    [self disableInspector:[aNotification object]];
+- (void)plotViewDidResignFirstResponderNotification:(NSNotification *)aNotification 
+{
+	[self setInspectedGraphView:nil];
 }
  
--(IBAction)showInspector:(id)sender {
+- (IBAction)showInspector:(id)sender  
+{
 	if (![[self window] isVisible]) {
         [[self window] orderFront:self];
     } else {
@@ -181,20 +189,18 @@ static JKPanelController *theSharedController;
     }
 }
 
--(void)templatePullDownMenuAction:(id)sender {
-    JKLogDebug(@"%@, tag %d", [sender titleOfSelectedItem], [[sender selectedItem] tag]);
+- (IBAction)resetToDefaultValues:(id)sender  
+{
+	[[self inspectedDocument] resetToDefaultValues];
 }
 
-
-    // Template
-
-
 // Info tableView
--(int)numberOfRowsInTableView:(NSTableView *)tableView {
+- (int)numberOfRowsInTableView:(NSTableView *)tableView  
+{
     int count, dummy, ncid;
     if (tableView ==  infoTableView) {
-		if([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKMainDocument class]]) {
-			ncid = [[(JKMainDocument *)[self inspectedDocument] dataModel] ncid];
+		if([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKGCMSDocument class]]) {
+			ncid = [(JKGCMSDocument *)[self inspectedDocument] ncid];
 			dummy =  nc_inq_natts(ncid, &count);
 			if (dummy == NC_NOERR) return count;
 			return -1;			
@@ -206,12 +212,13 @@ static JKPanelController *theSharedController;
     return -1;
 }
 
--(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row  
+{
     int dummy;
     NSMutableString *nameString, *keyString;
     
     if (tableView == infoTableView) {
-        int ncid = [[(JKMainDocument *)[self inspectedDocument] dataModel] ncid];
+        int ncid = [(JKGCMSDocument *)[self inspectedDocument] ncid];
         char name[256];
         char value[256];
         
@@ -247,11 +254,9 @@ static JKPanelController *theSharedController;
     return nil;
 }
 
-
-idAccessor(inspectedPlotView, setInspectedPlotView);
-
-- (BOOL)validateMenuItem:(NSMenuItem *)anItem {
-	if ([anItem action] == @selector(showInspector:)) {
+- (BOOL)validateMenuItem:(NSMenuItem *)anItem  
+{
+	if ([anItem action] == @selector(showWindow:)) {
 		if ([[self window] isVisible] == YES) {
 			[anItem setTitle:NSLocalizedString(@"Hide Inspector",@"Menutitle when inspector is visible")];
 		} else {
@@ -267,7 +272,8 @@ idAccessor(inspectedPlotView, setInspectedPlotView);
 
 #pragma mark TOOLBAR
 
--(NSToolbarItem *) toolbar: (NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted {
+- (NSToolbarItem *) toolbar: (NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted  
+{
     // Required delegate method:  Given an item identifier, this method returns an item 
     // The toolbar will use this method to obtain toolbar items that can be displayed in the customization sheet, or in the toolbar itself 
     NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
@@ -299,38 +305,53 @@ idAccessor(inspectedPlotView, setInspectedPlotView);
 }
 
 
--(IBAction)changePanes:(id)sender {
-	if ([[sender itemIdentifier] isEqualToString:@"info"]) {
-		[[self window] setContentView:infoPanelView];
-	} else if ([[sender itemIdentifier] isEqualToString:@"view"]) {
-		[[self window] setContentView:viewPanelView];
-	} else if ([[sender itemIdentifier] isEqualToString:@"options"]) {
-		[[self window] setContentView:optionsPanelView];
-	} else if ([[sender itemIdentifier] isEqualToString:@"dataSeries"]) {
-		[[self window] setContentView:dataSeriesPanelView];
-	} else if ([[sender itemIdentifier] isEqualToString:@"text"]) {
-		[[self window] setContentView:textPanelView];
-	} else if ([[sender itemIdentifier] isEqualToString:@"fontcolor"]) {
-		[[self window] setContentView:fontcolorPanelView];
+- (IBAction)changePanes:(id)sender  
+{
+	if ([self inspectedDocument]) {
+		NSRect windowFrame = [[self window] frame];
+		float deltaHeight;
+		if ([[sender itemIdentifier] isEqualToString:@"info"]) {
+			deltaHeight = [infoPanelView frame].size.height - [[[self window] contentView] frame].size.height;
+			[[self window] setContentView:infoPanelView];
+			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:NO];
+		} else if ([[sender itemIdentifier] isEqualToString:@"processing"]) {
+			deltaHeight = [processingPanelView frame].size.height - [[[self window] contentView] frame].size.height;
+			[[self window] setContentView:processingPanelView];
+			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:NO];
+		} else if ([[sender itemIdentifier] isEqualToString:@"view"]) {
+			deltaHeight = [viewPanelView frame].size.height - [[[self window] contentView] frame].size.height;
+			[[self window] setContentView:viewPanelView];
+			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:NO];
+		} else if ([[sender itemIdentifier] isEqualToString:@"display"]) {
+			deltaHeight = [displayPanelView frame].size.height - [[[self window] contentView] frame].size.height;
+			[[self window] setContentView:displayPanelView];
+			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:NO];
+		} else {
+			[[self window] setContentView:naPanelView];
+		}		
 	} else {
-		JKLogError(@"Unknown pane.");
+		[[self window] setContentView:naPanelView];
 	}
 }
 
 
--(NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar  
+{
      return [[inspectorListForDocument allKeys] arrayByAddingObjectsFromArray:[inspectorListForMyGraphView allKeys]];
 }
 
--(NSArray*) toolbarSelectableItemIdentifiers: (NSToolbar *) toolbar {
+- (NSArray*) toolbarSelectableItemIdentifiers: (NSToolbar *) toolbar  
+{
      return [self toolbarDefaultItemIdentifiers:toolbar];
 }
 
--(NSArray*) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar {
+- (NSArray*) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar  
+{
 	return [self toolbarDefaultItemIdentifiers:toolbar];
 }
 
 #pragma mark ACCESSORS (MACROSTYLE)
-//idAccessor_h(inspectedDocument, setInspectedDocument);
+idAccessor(inspectedDocument, setInspectedDocument);
+idAccessor(inspectedGraphView, setInspectedGraphView);
 
 @end

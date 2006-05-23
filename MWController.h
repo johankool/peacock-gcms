@@ -15,9 +15,9 @@
     IBOutlet id weight;
     IBOutlet id panelWindow;
 }
--(IBAction)calculate:(id)sender;
--(IBAction)clear:(id)sender;
--(void)showError:(BOOL)input;
--(IBAction)openPanel:(id)sender;
+- (IBAction)calculate:(id)sender;
+- (IBAction)clear:(id)sender;
+- (void)showError:(BOOL)input;
+- (IBAction)openPanel:(id)sender;
 
 @end

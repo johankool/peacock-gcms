@@ -24,16 +24,14 @@
 }
 
 
-#pragma mark ACTIONS
--(IBAction)openPreferencesWindowAction:(id)sender;
-//-(IBAction)checkForNewVersion:(id)sender;
-//-(void)checkVersion:(BOOL)quiet;
--(IBAction)showReadMe:(id)sender;
--(IBAction)showLicense:(id)sender;
--(IBAction)showBatchProcessAction:(id)sender;
--(IBAction)showStatisticsAction:(id)sender;
+#pragma mark IBACTIONS
+- (IBAction)openPreferencesWindowAction:(id)sender;
+- (IBAction)showReadMe:(id)sender;
+- (IBAction)showLicense:(id)sender;
+- (IBAction)showBatchProcessAction:(id)sender;
+- (IBAction)showStatisticsAction:(id)sender;
 
 #pragma mark GROWL SUPPORT
--(NSDictionary *)registrationDictionaryForGrowl;
+- (NSDictionary *)registrationDictionaryForGrowl;
 
 @end

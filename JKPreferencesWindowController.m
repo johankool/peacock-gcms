@@ -8,59 +8,130 @@
 
 #import "JKPreferencesWindowController.h"
 
+#import "BDAlias.h"
+#import "JKPathPopUpButton.h"
+
 @implementation JKPreferencesWindowController
 
-# pragma mark INITIALIZATION
+#pragma mark INITIALIZATION
 
--(id)init {
+- (id)init  
+{
     self = [super initWithWindowNibName:@"JKPreferences"];
     return self;
 }
 
--(IBAction)closeButtonAction:(id)sender {
-    [[self window] makeFirstResponder:[self window]];
-    [[self window] close];
+- (void)windowDidLoad
+{
+	preferencesList = [[NSMutableDictionary alloc] init];
+	[preferencesList setValue:@"General" forKey:@"general"];
+	[preferencesList setValue:@"Processing" forKey:@"processing"];
+
+	// Create a new toolbar instance, and attach it to our document window 
+    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier: @"nl.johankool.Peacock.preferences.toolbar"] autorelease];
+    
+    // Set up toolbar properties: Allow customization, give a default display mode, and remember state in user defaults 
+    [toolbar setAllowsUserCustomization: NO];
+    [toolbar setAutosavesConfiguration: YES];
+    [toolbar setDisplayMode: NSToolbarDisplayModeIconAndLabel];
+    [toolbar setSizeMode: NSToolbarSizeModeRegular];
+    
+    // We are the delegate
+    [toolbar setDelegate: self];
+	
+    // Attach the toolbar to the document window 
+    [[self window] setToolbar: toolbar];
+	
+	// Set an initial state
+	[toolbar setSelectedItemIdentifier:@"general"];
+	[[self window] setContentView:generalPreferencesView];
+	
+	// Bind libraryPopUpButton manually
+	[libraryPopUpButton bind:@"fileAlias" toObject:self withKeyPath:@"libraryAlias" options:nil];
+
 }
 
--(IBAction)browseForDefaultLibrary:(id)sender {
-	int result;
-    NSArray *fileTypes = [NSArray arrayWithObject:@"jdx"];
-    NSOpenPanel *oPanel = [NSOpenPanel openPanel];
-    [oPanel setAllowsMultipleSelection:NO];
-    result = [oPanel runModalForDirectory:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"]
-									 file:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"] types:fileTypes];
-    if (result == NSOKButton) {
-        NSArray *filesToOpen = [oPanel filenames];
-        int i, count = [filesToOpen count];
-        for (i=0; i<count; i++) {
-            NSString *aFile = [filesToOpen objectAtIndex:i];
-			[[[NSUserDefaultsController sharedUserDefaultsController] values] setValue:aFile forKey:@"defaultLibrary"];
-        }
-    }
+#pragma mark TOOLBAR
+
+- (NSToolbarItem *) toolbar: (NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted  
+{
+    // Required delegate method:  Given an item identifier, this method returns an item 
+    // The toolbar will use this method to obtain toolbar items that can be displayed in the customization sheet, or in the toolbar itself 
+    NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+    NSString*		itemLabel = NSLocalizedString(itemIdent, @"String for toolbar label");//[itemsList objectForKey:itemIdent];
+																						  //    if( (itemLabel = [itemsList objectForKey:itemIdent]) != nil )
+																						  //    {
+																						  // Set the text label to be displayed in the toolbar and customization palette 
+        [toolbarItem setLabel: itemLabel];
+        [toolbarItem setPaletteLabel: itemLabel];
+		//       [toolbarItem setTag:[tabView indexOfTabViewItemWithIdentifier:itemIdent]];
+        
+        // Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
+        [toolbarItem setToolTip: itemLabel];
+        [toolbarItem setImage: [NSImage imageNamed:itemIdent]];
+        
+        // Tell the item what message to send when it is clicked 
+        [toolbarItem setTarget: self];
+        [toolbarItem setAction: @selector(changePanes:)];
+		//    }
+		//    else
+		//    {
+		//		JKLogDebug([toolbarItem description]);
+		//        // itemIdent refered to a toolbar item that is not provide or supported by us or cocoa 
+		//        // Returning nil will inform the toolbar this kind of item is not supported 
+		//        toolbarItem = nil;
+		//    }
+		
+		return toolbarItem;
 }
 
--(IBAction)browseForCustomLibrary:(id)sender {
-	int result;
-    NSArray *fileTypes = [NSArray arrayWithObject:@"jdx"];
-    NSOpenPanel *oPanel = [NSOpenPanel openPanel];
-    [oPanel setAllowsMultipleSelection:NO];
-    result = [oPanel runModalForDirectory:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"customLibrary"]
-									 file:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"customLibrary"] types:fileTypes];
-    if (result == NSOKButton) {
-        NSArray *filesToOpen = [oPanel filenames];
-        int i, count = [filesToOpen count];
-        for (i=0; i<count; i++) {
-            NSString *aFile = [filesToOpen objectAtIndex:i];
-			[[[NSUserDefaultsController sharedUserDefaultsController] values] setValue:aFile forKey:@"customLibrary"];
-        }
-		NSRunCriticalAlertPanel(@"Change ignored",@"This setting is currently not supported.",@"OK",nil,nil);
-		//NSRunCriticalAlertPanel(@"Change effective for new files only",@"The newly selected custom library will be used only for files which are opened after you changed this setting.",@"OK",nil,nil);
-    }
+
+- (IBAction)changePanes:(id)sender  
+{
+	NSRect windowFrame = [[self window] frame];
+	float deltaHeight, deltaWidth;
+	if ([[sender itemIdentifier] isEqualToString:@"general"]) {
+		deltaHeight = [generalPreferencesView frame].size.height - [[[self window] contentView] frame].size.height;
+		deltaWidth = [generalPreferencesView frame].size.width - [[[self window] contentView] frame].size.width;
+		[[self window] setContentView:generalPreferencesView];
+		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:NO];
+	} else if ([[sender itemIdentifier] isEqualToString:@"processing"]) {
+		deltaHeight = [processingPreferencesView frame].size.height - [[[self window] contentView] frame].size.height;
+		deltaWidth = [processingPreferencesView frame].size.width - [[[self window] contentView] frame].size.width;
+		[[self window] setContentView:processingPreferencesView];
+		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:NO];
+	}
 }
+
+
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar  
+{
+	return [NSArray arrayWithObjects:@"general", @"processing", nil];
+}
+
+- (NSArray*) toolbarSelectableItemIdentifiers: (NSToolbar *) toolbar  
+{
+	return [self toolbarDefaultItemIdentifiers:toolbar];
+}
+
+- (NSArray*) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar  
+{
+	return [self toolbarDefaultItemIdentifiers:toolbar];
+}
+
+
 # pragma mark WINDOW MANAGEMENT
 
--(void)awakeFromNib {
+- (void)awakeFromNib  
+{
     [[self window] center];
 }
 
+- (BDAlias *)libraryAlias {
+	return [BDAlias aliasWithPath:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"libraryAlias"]];
+}
+
+- (void)setLibraryAlias:(BDAlias *)inValue {
+	[[[NSUserDefaultsController sharedUserDefaultsController] values] setValue:[inValue fullPath] forKey:@"libraryAlias"];
+}
 @end

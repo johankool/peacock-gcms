@@ -6,14 +6,14 @@
 //  Copyright (c) 2003-2005 Johan Kool. All rights reserved.
 //
 
-#import "JKDataModel.h"
+#import "JKGCMSDocument+Model.h"
 #import "JKPeakRecord.h"
 #import "ChromatogramGraphDataSerie.h"
 #import "netcdf.h"
 #import "JKSpectrum.h"
 #import "jk_statistics.h"
 
-@implementation JKDataModel
+@implementation JKGCMSDocument (Model)
 
 #pragma mark INITIALIZATION
 

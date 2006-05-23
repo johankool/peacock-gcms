@@ -34,5 +34,5 @@
 	
 	- (TElementSym)		symbol;
 	- (void)			setSymbol						:(TElementSym)newSymbol;
--(NSString *)writeToString;
+- (NSString *)writeToString;
 	@end

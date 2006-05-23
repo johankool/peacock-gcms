@@ -29,5 +29,5 @@
 	
 	- (short)			multiplicity;
 	- (void)			setMultiplicity					:(short)newCount;
--(NSString *) writeToString;
+- (NSString *) writeToString;
 	@end

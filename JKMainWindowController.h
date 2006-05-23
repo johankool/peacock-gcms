@@ -6,13 +6,13 @@
 //  Copyright (c) 2003-2005 Johan Kool. All rights reserved.
 //
 
-@class JKMainDocument;
-@class MyGraphView;
 @class JKDataModel;
-@class JKSpectrum;
-@class JKPeakRecord;
-@class JKLibrarySearch;
+@class JKGCMSDocument;
 @class JKLibraryEntry;
+@class JKLibrarySearch;
+@class JKPeakRecord;
+@class JKSpectrum;
+@class MyGraphView;
 
 enum JKPeakSelection {
 	JKAllPeaks,
@@ -27,7 +27,6 @@ enum JKPeakSelection {
 	
 	// Chromatogram
     IBOutlet MyGraphView *chromatogramView;
-	IBOutlet NSObjectController *mainController;
     IBOutlet NSArrayController *baselineController;
     IBOutlet NSArrayController *chromatogramDataSeriesController;
 
@@ -51,8 +50,8 @@ enum JKPeakSelection {
 	
 	// Misc
 	BOOL abortAction;	
-	JKLibrarySearch *libSearch;
 		
+	// View options
 	BOOL showTICTrace;
 	BOOL showSpectrum;
 	BOOL showCombinedSpectrum;
@@ -60,52 +59,41 @@ enum JKPeakSelection {
 	BOOL showNormalizedSpectra;
 	int showPeaks;
 	
+	// Printing
 	IBOutlet NSView *printAccessoryView;
-
 }
 
-
-# pragma mark ACTIONS
--(void)identifyPeaks;
--(void)displaySpectrum:(JKSpectrum *)spectrum;
--(void)displayResult:(JKLibraryEntry *)libraryEntry;
-
 #pragma mark IBACTIONS
--(IBAction)identifyPeaks:(id)sender;
--(IBAction)renumberPeaks:(id)sender;
--(void)undoRenumberPeaks:(NSArray *)array;
--(IBAction)showMassChromatogram:(id)sender;	
--(void)addMassChromatogram:(id)object;
--(void)removeMassChromatogram:(id)object;
--(IBAction)confirm:(id)sender;
--(IBAction)next:(id)sender;
--(IBAction)previous:(id)sender;
--(IBAction)search:(id)sender;
--(IBAction)searchOptions:(id)sender;
--(IBAction)other:(id)sender;
--(IBAction)closeAddSheet:(id)sender;
--(IBAction)closeSearchOptionsSheet:(id)sender;
--(IBAction)browseForDefaultLibrary:(id)sender;
--(IBAction)abort:(id)sender;
--(IBAction)editLibrary:(id)sender;
--(IBAction)fitChromatogramDataToView:(id)sender;
--(IBAction)fitSpectrumDataToView:(id)sender;
+- (IBAction)obtainBaseline:(id)sender;
+- (IBAction)identifyPeaks:(id)sender;
+- (IBAction)renumberPeaks:(id)sender;
+- (void)undoRenumberPeaks:(NSArray *)array;
+- (IBAction)showMassChromatogram:(id)sender;	
+- (void)addMassChromatogram:(id)object;
+- (void)removeMassChromatogram:(id)object;
+- (IBAction)confirm:(id)sender;
+- (IBAction)next:(id)sender;
+- (IBAction)previous:(id)sender;
+- (IBAction)other:(id)sender;
+- (IBAction)closeAddSheet:(id)sender;
+- (IBAction)abort:(id)sender;
+- (IBAction)editLibrary:(id)sender;
+- (IBAction)fitChromatogramDataToView:(id)sender;
+- (IBAction)fitSpectrumDataToView:(id)sender;
 
 #pragma mark NSTOOLBAR MANAGEMENT
--(void)setupToolbar;
+- (void)setupToolbar;
 
 #pragma mark ACCESSORS
--(JKDataModel *)dataModel;
--(MyGraphView *)chromatogramView;
--(NSArrayController *)baselineController;
--(NSArrayController *)chromatogramDataSeriesController;
--(NSTableView *)peaksTable;
--(NSArrayController *)peakController;
--(NSTableView *)resultsTable;
--(NSArrayController *)searchResultsController;
+- (MyGraphView *)chromatogramView;
+- (NSArrayController *)baselineController;
+- (NSArrayController *)chromatogramDataSeriesController;
+- (NSTableView *)peaksTable;
+- (NSArrayController *)peakController;
+- (NSTableView *)resultsTable;
+- (NSArrayController *)searchResultsController;
 
 #pragma mark ACCESSORS (MACROSTYLE)
-idAccessor_h(libSearch, setLibSearch)
 boolAccessor_h(abortAction, setAbortAction)	
 boolAccessor_h(showTICTrace, setShowTICTrace)
 boolAccessor_h(showSpectrum, setShowSpectrum)

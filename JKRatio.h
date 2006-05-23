@@ -17,18 +17,18 @@
 	NSArray *denominatorArray;
 }
 
--(id)initWithString:(NSString *)string; //Designated initializer
+- (id)initWithString:(NSString *)string; //Designated initializer
 
--(float)calculateRatioForKey:(NSString *)key inCombinedPeaksArray:(NSArray *)combinedPeaks;
+- (float)calculateRatioForKey:(NSString *)key inCombinedPeaksArray:(NSArray *)combinedPeaks;
 
--(NSString *)getNominator;
--(NSString *)getDenominator;
--(NSArray *)compoundsInString:(NSString *)string;
--(NSArray *)nominatorArray;
--(NSArray *)denominatorArray;
--(NSString *)formula;
--(void)setFormula:(NSString *)inValue;
--(NSString *)name;
--(void)setName:(NSString *)inValue;
+- (NSString *)getNominator;
+- (NSString *)getDenominator;
+- (NSArray *)compoundsInString:(NSString *)string;
+- (NSArray *)nominatorArray;
+- (NSArray *)denominatorArray;
+- (NSString *)formula;
+- (void)setFormula:(NSString *)inValue;
+- (NSString *)name;
+- (void)setName:(NSString *)inValue;
 
 @end

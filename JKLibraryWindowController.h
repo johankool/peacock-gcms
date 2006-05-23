@@ -8,19 +8,20 @@
 
 @class MyGraphView;
 @class JKLibraryEntry;
+@class JKMoleculeView;
 
 @interface JKLibraryWindowController : NSWindowController {
 	IBOutlet NSArrayController *libraryController;
+	IBOutlet NSArrayController *spectrumViewDataseriesController;
 	IBOutlet MyGraphView *spectrumView;
 	IBOutlet NSTableView *tableView;
-	BOOL isLoading;
+	IBOutlet JKMoleculeView *moleculeView;
 }
 
-#pragma mark ACITONS
--(void)displaySpectrum:(JKLibraryEntry *)spectrum;
+//#pragma mark ACITONS
+//- (void)displaySpectrum:(JKLibraryEntry *)spectrum;
 
 #pragma mark ACCESSORS
--(NSArrayController *)libraryController;
--(BOOL)isLoading;
--(void)setIsLoading:(BOOL)inValue;
+- (NSArrayController *)libraryController;
+
 @end

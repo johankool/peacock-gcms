@@ -14,7 +14,8 @@
 
 #pragma mark INITIALIZATION
 
--(id)init {
+- (id)init  
+{
 	self = [super init];
     if (self != nil) {
         libraryWindowController = [[JKLibraryWindowController alloc] init];
@@ -23,13 +24,15 @@
     return self;
 }
 
--(void)makeWindowControllers {
+- (void)makeWindowControllers  
+{
     [self addWindowController:libraryWindowController];
 }
 
 #pragma mark OPEN/SAVE DOCUMENT
 
--(BOOL)writeToFile:(NSString *)fileName ofType:(NSString *)docType {
+- (BOOL)writeToFile:(NSString *)fileName ofType:(NSString *)docType  
+{
 	if ([docType isEqualToString:@"JCAMP Library"]) {
 		return [self exportJCAMPToFile:fileName];
 	} else if ([docType isEqualToString:@"AMDIS Target Library"]) {
@@ -38,226 +41,72 @@
     return NO;
 }
 
--(BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)docType {
-	if ([docType isEqualToString:@"JCAMP Library"]) {
-		return [self importJCAMPFromFile:fileName];
-	} else if ([docType isEqualToString:@"AMDIS Target Library"]) {
-		return [self importAMDISFromFile:fileName];
+- (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
+{
+	if ([typeName isEqualToString:@"JCAMP Library"]) {
+		NSString *inString = [NSString stringWithContentsOfURL:absoluteURL encoding:NSUTF8StringEncoding error:outError];
+		if (!inString) {
+			NSLog(@"Library is not readable as UTF8, perhaps as ASCII?");
+			inString = [NSString stringWithContentsOfURL:absoluteURL encoding:NSASCIIStringEncoding error:outError];
+		}
+		if (!inString) {
+			return NO;
+		}
+		libraryArray = [[self readJCAMPString:inString] retain];
+
+		return YES;
 	}
+//	else if ([docType isEqualToString:@"AMDIS Target Library"]) {
+//		return [self importAMDISFromFile:fileName];
+//	}
     return NO;
 }
 
 #pragma mark IMPORT/EXPORT ACTIONS
-#warning Old routines in use here, check JKLibrarySearch for correct routines.
 
--(BOOL)importJCAMPFromFile:(NSString *)fileName {
-	NSString *inString = [NSString stringWithContentsOfFile:fileName];
-
-	int count,i,j;
-//	NSMutableArray *libraryEntries = [[NSMutableArray alloc] init];
-	NSArray *array = [inString componentsSeparatedByString:@"##END="];
+- (NSArray *)readJCAMPString:(NSString *)inString 
+{
+	int count,i;
+	NSMutableArray *libraryEntries = [[NSMutableArray alloc] init];
 	NSCharacterSet *whiteCharacters = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-	
-	// The strings we are looking for
-	NSString *TITLE = @"##TITLE=";
-	NSString *CASNAME = @"##CAS NAME=";
-	NSString *MOLFORM = @"##MOLFORM=";
-	NSString *CASNO = @"##CAS REGISTRY NO=";
-	NSString *MASSWEIGHT = @"##MW=";
-	NSString *RETINDEX = @"##RI=";
-	NSString *RETTIME = @"##RTI=";
-	NSString *SRC = @"##OWNER=";
-	NSString *CMT = @"##COMMENT=";
-	NSString *NUMPEAKS = @"##NPOINTS=";
-	NSString *XY = @"(XY..XY)";
-	
-	// Variables to hold the data found
-	NSString *name;
-	NSString *formula;
-	NSString *CASNumber; 
-	float massWeight;
-	float retentionIndex; 
-	float retentionTime; 
-	NSString *sourceStr; 
-	NSString *comment; 
-	int numPeaks; 
-	NSString *xyData; 
-	
-	float *masses, *intensities;
-	masses = (float *) malloc(1*sizeof(float));
-	intensities = (float *) malloc(1*sizeof(float));
+	NSArray *array = [inString componentsSeparatedByString:@"##END="];
+	JKLibraryEntry *libEntry;
 	
 	count = [array count];
 	
-	// We ignore the last entry in the array, because it likely isn't complete 
+	// We *could* ignore the last entry in the array, because it likely isn't complete 
 	// NOTE: we now require at least a return after the last entry in the file or we won't read that entry
-	for (i=0; i < count-1; i++) {
+	for (i=0; i < count; i++) {
 		// If we are dealing with an empty string, bail out
 		if ([[[array objectAtIndex:i] stringByTrimmingCharactersInSet:whiteCharacters] isEqualToString:@""]) {
-			break;
+			continue;
 		}
-		
-		NSScanner *theScanner = [[NSScanner alloc] initWithString:[array objectAtIndex:i]];
-		JKLibraryEntry *libEntry = [[JKLibraryEntry alloc] init];
-		
-		// Name
-		[theScanner setScanLocation:0];
-		[theScanner scanUpToString:CASNAME intoString:NULL];
-		if ([theScanner scanString:CASNAME intoString:NULL]) { 
-			[theScanner scanUpToString:@"##" intoString:&name];
-			[libEntry setValue:[name stringByTrimmingCharactersInSet:whiteCharacters] forKey:@"name"];
-			[theScanner setScanLocation:0];
-			[theScanner scanUpToString:TITLE intoString:NULL];
-			if ([theScanner scanString:TITLE intoString:NULL]) {
-				[theScanner scanUpToString:@"##" intoString:&name];
-				[libEntry setValue:[name stringByTrimmingCharactersInSet:whiteCharacters] forKey:@"source"];
-			} 
-			
-		} else {
-			[theScanner setScanLocation:0];
-			[theScanner scanUpToString:TITLE intoString:NULL];
-			if ([theScanner scanString:TITLE intoString:NULL]) {
-				[theScanner scanUpToString:@"##" intoString:&name];
-				[libEntry setValue:[name stringByTrimmingCharactersInSet:whiteCharacters] forKey:@"name"];
-			} 
-		}
-		
-		// Formula
-		[theScanner setScanLocation:0];
-		if([theScanner scanUpToString:MOLFORM intoString:NULL]) {
-			[theScanner scanString:MOLFORM intoString:NULL]; 
-			if ([theScanner scanUpToString:@"##" intoString:&formula])	
-				[libEntry setValue:[formula stringByTrimmingCharactersInSet:whiteCharacters] forKey:@"formula"];
-		}
-		
-		// CAS Number
-		[theScanner setScanLocation:0];
-		if ([theScanner scanUpToString:CASNO intoString:NULL]) {
-			[theScanner scanString:CASNO intoString:NULL]; 
-			if([theScanner scanUpToString:@"##" intoString:&CASNumber])
-				[libEntry setValue:[CASNumber stringByTrimmingCharactersInSet:whiteCharacters] forKey:@"CASNumber"];			
-		}
-		
-		// Mass weight
-		[theScanner setScanLocation:0];
-		if ([theScanner scanUpToString:MASSWEIGHT intoString:NULL]) {
-			[theScanner scanString:MASSWEIGHT intoString:NULL]; 
-			if ([theScanner scanFloat:&massWeight])
-				[libEntry setMassWeight:massWeight];			
-		}
-		
-		// Retention Index
-		[theScanner setScanLocation:0];
-		if ([theScanner scanUpToString:RETINDEX intoString:NULL]) {
-			[theScanner scanString:RETINDEX intoString:NULL]; 
-			if ([theScanner scanFloat:&retentionIndex])		
-				[libEntry setRetentionIndex:retentionIndex];			
-		}
-				
-		// Retention Time
-		[theScanner setScanLocation:0];
-		if ([theScanner scanUpToString:RETTIME intoString:NULL]) {
-			[theScanner scanString:RETTIME intoString:NULL]; 
-			if ([theScanner scanFloat:&retentionTime])
-				[libEntry setRetentionTime:retentionTime];			
-		}
-		
-		// Comment
-		[theScanner setScanLocation:0];
-		if ([theScanner scanUpToString:CMT intoString:NULL]) {
-			[theScanner scanString:CMT intoString:NULL]; 
-			if([theScanner scanUpToString:@"##" intoString:&comment])
-				[libEntry setValue:[comment stringByTrimmingCharactersInSet:whiteCharacters] forKey:@"comment"];
-		}
-		
-		// Source
-		[theScanner setScanLocation:0];
-		if ([theScanner scanUpToString:SRC intoString:NULL]) {
-			[theScanner scanString:SRC intoString:NULL]; 
-			if ([theScanner scanUpToString:@"##" intoString:&sourceStr])
-				[libEntry setValue:[sourceStr stringByTrimmingCharactersInSet:whiteCharacters] forKey:@"source"];
-		}
-		
-		// Number of peaks
-		[theScanner setScanLocation:0];
-		if ([theScanner scanUpToString:NUMPEAKS intoString:NULL]) {
-			[theScanner scanString:NUMPEAKS intoString:NULL]; 
-			[theScanner scanInt:&numPeaks];
-		}
-		
-		// Spectrum data
-		[theScanner setScanLocation:0];
-		if (([theScanner scanUpToString:XY intoString:NULL]) & (numPeaks > 0)) {
-			[theScanner scanString:XY intoString:NULL]; 
-			[theScanner scanUpToCharactersFromSet:[NSCharacterSet letterCharacterSet] intoString:&xyData];
-			
-			NSScanner *theScanner2 = [[NSScanner alloc] initWithString:xyData];
-			masses = (float *) realloc(masses, numPeaks*sizeof(float));
-			intensities = (float *) realloc(intensities, numPeaks*sizeof(float));
-			int massInt, intensityInt;
-			
-			for (j=0; j < numPeaks; j++){
-				if (![theScanner2 scanInt:&massInt]) JKLogError(@"Error during reading library (masses).");
-				//				NSAssert(massInt > 0, @"massInt");
-				masses[j] = massInt*1.0;
-				[theScanner2 scanUpToCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:NULL];
-				if (![theScanner2 scanInt:&intensityInt]) JKLogError(@"Error during reading library (intensities).");
-				//				NSAssert(intensityInt > 0, @"intensityInt");
-				intensities[j] = intensityInt*1.0;
-			}
-			[theScanner2 release];
-			
-			[libEntry setMasses:masses withCount:numPeaks];
-			[libEntry setIntensities:intensities withCount:numPeaks];
-			
-		}
-		// Add data to Library
-		[libraryArray addObject:libEntry];
+		libEntry = [[JKLibraryEntry alloc] initWithJCAMPString:[array objectAtIndex:i]];
+		[libEntry setDocument:self];
+		[libraryEntries addObject:libEntry];
 		[libEntry release];
-		[theScanner release];
-	}
-	free(masses);
-	free(intensities);
-	
-	// library Array should be returned
-	// and the remaining string
-//	remainingString = [array objectAtIndex:count-1];
-	
-//	[libraryEntries autorelease];
-
-    return YES;	
+    }
+		
+//	JKLogDebug(@"Found %d entries", [libraryEntries count]);
+	[libraryEntries autorelease];
+    return libraryEntries;	
 }
 
--(BOOL)exportJCAMPToFile:(NSString *)fileName {
-	NSMutableString *outStr = [[NSMutableString alloc] init]; 
-	NSArray *array;
-	int i,j,count2;
+- (BOOL)importJCAMPFromFile:(NSString *)fileName  
+{
+	NSString *inString = [NSString stringWithContentsOfFile:fileName encoding:NSUTF8StringEncoding error:NULL];
+	libraryArray = [[self readJCAMPString:inString] retain];
+	return YES;		
+}
+
+- (BOOL)exportJCAMPToFile:(NSString *)fileName  
+{
+	NSMutableString *outStr = [[[NSMutableString alloc] init] autorelease]; 
+	int i;
 	int count = [libraryArray count];
 	
 	for (i=0; i < count; i++) {
-		if ([[[libraryArray objectAtIndex:i] valueForKey:@"name"] isNotEqualTo:@""]) {
-			[outStr appendFormat:@"##TITLE= %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"name"]];	
-		} else {
-			[outStr appendFormat:@"##TITLE= %@ entry %d\r\n",[fileName lastPathComponent], i+1];				
-		}
-		if ([[[libraryArray objectAtIndex:i] valueForKey:@"formula"] isNotEqualTo:@""])[outStr appendFormat:@"##MOLFORM= %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"formula"]];
-//		if ([[[libraryArray objectAtIndex:i] valueForKey:@"name"] isNotEqualTo:@""]) [outStr appendFormat:@"##CAS NAME= %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"name"]];
-		if ([[[libraryArray objectAtIndex:i] valueForKey:@"CASNumber"] isNotEqualTo:@""])[outStr appendFormat:@"##CAS REGISTRY NO= %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"CASNumber"]];
-		if (![[[libraryArray objectAtIndex:i] valueForKey:@"massWeight"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"##MW= %.0f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"massWeight"] floatValue]];
-		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionIndex"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"##RI= %.3f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"retentionIndex"] floatValue]];
-		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"##RTI= %.3f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] floatValue]];
-		if ([[[libraryArray objectAtIndex:i] valueForKey:@"source"] isNotEqualTo:@""])[outStr appendFormat:@"##SOURCE= %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"source"]];
-		if ([[[libraryArray objectAtIndex:i] valueForKey:@"comment"] isNotEqualTo:@""])[outStr appendFormat:@"##COMMENT= %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"comment"]];
-		array = [[libraryArray objectAtIndex:i] valueForKey:@"points"];
-		count2 = [array count];
-		[outStr appendFormat:@"##DATA TYPE= MASS SPECTRUM\r\n##NPOINTS= %i\r\n##XYDATA= (XY..XY)\r\n", count2];
-		for (j=0; j < count2; j++) {
-			[outStr appendFormat:@" %.0f, %.0f", [[[array objectAtIndex:j] valueForKey:@"Mass"] floatValue], [[[array objectAtIndex:j] valueForKey:@"Intensity"] floatValue]];
-			if (fmod(j,8) == 7 && j != count2-1){
-				[outStr appendString:@"\r\n"];
-			}
-		}
-		[outStr appendString:@"\r\n##END= \r\n"];
+		[outStr appendString:[[libraryArray objectAtIndex:i] jcampString]];
 	}
 	
 	if ([outStr writeToFile:fileName atomically:NO encoding:NSASCIIStringEncoding error:nil]) {
@@ -268,7 +117,8 @@
 	}
 }
 
--(BOOL)importAMDISFromFile:(NSString *)fileName {
+- (BOOL)importAMDISFromFile:(NSString *)fileName  
+{
 	int count,i,j;
 	NSString *inStr = [NSString stringWithContentsOfFile:fileName];
 	NSArray *array = [inStr componentsSeparatedByString:@"\r\n\r\n"];
@@ -424,7 +274,8 @@
     return YES;
 }
 
--(BOOL)exportAMDISToFile:(NSString *)fileName {
+- (BOOL)exportAMDISToFile:(NSString *)fileName  
+{
 	NSMutableString *outStr = [[NSMutableString alloc] init]; 
 	NSArray *array;
 	int i,j,count2;
@@ -469,10 +320,12 @@
 
 #pragma mark ACCESSORS
 
--(NSMutableArray *)libraryArray {
+- (NSMutableArray *)libraryArray  
+{
 	return libraryArray;
 }
--(JKLibraryWindowController *)libraryWindowController {
+- (JKLibraryWindowController *)libraryWindowController  
+{
 	return libraryWindowController;
 }
 

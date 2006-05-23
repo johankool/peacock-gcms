@@ -32,11 +32,11 @@
 }
 
 #pragma mark IBACTIONS
--(IBAction)addButtonAction:(id)sender;
--(IBAction)searchOptionsButtonAction:(id)sender;
--(IBAction)runBatchButtonAction:(id)sender;
--(IBAction)searchOptionsDoneAction:(id)sender;
--(IBAction)stopButtonAction:(id)sender;
+- (IBAction)addButtonAction:(id)sender;
+- (IBAction)searchOptionsButtonAction:(id)sender;
+- (IBAction)runBatchButtonAction:(id)sender;
+- (IBAction)searchOptionsDoneAction:(id)sender;
+- (IBAction)stopButtonAction:(id)sender;
 
 #pragma mark ACCESSORS
 idAccessor_h(files, setFiles);

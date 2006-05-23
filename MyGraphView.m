@@ -195,7 +195,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 
 
 #pragma mark DRAWING ROUTINES
-- (void)drawRect:(NSRect)rect {
+- (void)drawRect:(NSRect)rect  
+{
 	[self calculateCoordinateConversions];
 
 	// Fancy schaduw effecten...
@@ -261,20 +262,21 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[noShadow release];
 
 	// Draw focus ring
-	if([[self window] isKeyWindow] && [[self window] firstResponder] == self) {
-		[[NSColor keyboardFocusIndicatorColor] set];
-		[[NSBezierPath bezierPathWithRect:NSInsetRect([self frame],1,1)] stroke];
-
-//		[NSGraphicsContext saveGraphicsState];
-//		[[NSBezierPath bezierPathWithRect:[self frame]] addClip];
-//		NSSetFocusRingStyle(NSFocusRingOnly);
-//		NSRectFill([self frame]);
-//		[NSGraphicsContext restoreGraphicsState];
-	}
+//	if([[self window] isKeyWindow] && [[self window] firstResponder] == self) {
+//		[[NSColor keyboardFocusIndicatorColor] set];
+//		[[NSBezierPath bezierPathWithRect:NSInsetRect([self frame],1,1)] stroke];
+//
+////		[NSGraphicsContext saveGraphicsState];
+////		[[NSBezierPath bezierPathWithRect:[self frame]] addClip];
+////		NSSetFocusRingStyle(NSFocusRingOnly);
+////		NSRectFill([self frame]);
+////		[NSGraphicsContext restoreGraphicsState];
+//	}
 	
 }
 
-- (void)drawGrid {
+- (void)drawGrid  
+{
 	int i, start, end;
 	float stepInUnits, stepInPixels;
 	NSBezierPath *gridPath = [[NSBezierPath alloc] init];
@@ -312,7 +314,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     [gridPath release];
 }
 
-- (void)drawMajorTickMarks {
+- (void)drawMajorTickMarks  
+{
 	int i, start, end;
 	float stepInUnits, stepInPixels;
 	float tickMarksWidth = 2.5;
@@ -352,7 +355,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     [tickMarksPath release];
 }
 
-- (void)drawMinorTickMarks {
+- (void)drawMinorTickMarks  
+{
 	int i, start, end;
 	float stepInUnits, stepInPixels;
 	float tickMarksWidth = 5.0;
@@ -392,7 +396,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     [tickMarksPath release];
 }
 
-- (void)drawLegend {
+- (void)drawLegend  
+{
 	unsigned int i;
 	NSMutableAttributedString *string; // = [[NSMutableAttributedString alloc] init];
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
@@ -440,7 +445,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[shadow release];
 }
 
-- (void)drawTitles {
+- (void)drawTitles  
+{
 	
 	// Werkt, maar nu niet direct een schoonheidsprijs waard!! ;-)
 	[[self titleString] drawAtPoint:NSMakePoint(([self bounds].size.width - [[self titleString] size].width)/2,([self bounds].size.height - NSMaxY([self plottingArea]))/2 - [[self titleString] size].height/2 + NSMaxY([self plottingArea]))];
@@ -466,7 +472,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	
 }
 
-- (void)drawLabels {
+- (void)drawLabels  
+{
 	NSMutableAttributedString *string;// = [[NSMutableAttributedString alloc] init];
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
 	int i, start, end;
@@ -532,7 +539,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	}
 }
 
-- (void)drawLabelsOnFrame {
+- (void)drawLabelsOnFrame  
+{
 	NSMutableAttributedString *string;// = [[NSMutableAttributedString alloc] init];
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
 	int i, start, end;
@@ -598,7 +606,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	}
 }
 
-- (void)drawAxes {
+- (void)drawAxes  
+{
 	NSBezierPath *axesPath = [[NSBezierPath alloc] init];
 	
 	// De X as.
@@ -621,7 +630,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 
 // Additions for Peacock
-- (void)drawBaseline {
+- (void)drawBaseline  
+{
 	int i, count, count2;
 	NSBezierPath *baselinePath = [[NSBezierPath alloc] init];
 	NSPoint pointToDraw;
@@ -668,18 +678,21 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 
 
-- (NSString *)view:(NSView *)view stringForToolTip:(NSToolTipTag)tag point:(NSPoint)point userData:(void *)userData {
+- (NSString *)view:(NSView *)view stringForToolTip:(NSToolTipTag)tag point:(NSPoint)point userData:(void *)userData  
+{
 	id peak = [[self peaks] objectAtIndex:(int)userData];
 	return [NSString stringWithFormat:NSLocalizedString(@"Peak no. %d\n%@",@"Tiptool for peak number and label."), userData+1, [peak valueForKey:@"label"]];
 }
 
-- (void)refresh {
+- (void)refresh  
+{
 //	JKLogDebug(@"Refresh - %@",[self description]);
     [self setNeedsDisplay:YES];
 }
 
 #pragma mark ACTION ROUTINES
-- (void)centerOrigin:(id)sender {
+- (void)centerOrigin:(id)sender  
+{
 	NSPoint newOrigin;
 	NSRect theFrame;
 	theFrame = [self plottingArea];
@@ -687,10 +700,12 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	newOrigin.y = theFrame.origin.y + theFrame.size.height/2;	
     [self setOrigin:newOrigin];
 }
-- (void)lowerLeftOrigin:(id)sender {
+- (void)lowerLeftOrigin:(id)sender  
+{
     [self setOrigin:[self plottingArea].origin];
 }
-- (void)squareAxes:(id)sender {
+- (void)squareAxes:(id)sender  
+{
 	float x,y,avg;
 	x = [[self pixelsPerXUnit] floatValue];
 	y = [[self pixelsPerYUnit] floatValue];
@@ -698,7 +713,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[self setPixelsPerXUnit:[NSNumber numberWithFloat:avg]];
 	[self setPixelsPerYUnit:[NSNumber numberWithFloat:avg]];
 }
-- (void)showAll:(id)sender {
+- (void)showAll:(id)sender  
+{
 	int i, count;
 	NSRect totRect, newRect;
 	MyGraphDataSerie *mgds;
@@ -712,7 +728,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	}
 	[self zoomToRect:totRect];
 }
-- (void)showMagnifyingGlass:(NSEvent *)theEvent {
+- (void)showMagnifyingGlass:(NSEvent *)theEvent  
+{
 	NSPoint mouseLocation = [theEvent locationInWindow];
 		NSWindow *magnifyingGlassWindow = [[NSWindow alloc] initWithContentRect:NSMakeRect(mouseLocation.x,mouseLocation.y-250,250,250) styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
     [magnifyingGlassWindow setBackgroundColor: [NSColor clearColor]];
@@ -737,7 +754,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 
 #pragma mark HELPER ROUTINES
-- (void)calculateCoordinateConversions {
+- (void)calculateCoordinateConversions  
+{
 	NSAffineTransform *translationMatrix, *scalingMatrix, *transformationMatrix, *invertMatrix;
 	
 	// We rekenen eerst in twee aparte matrices uit hoe de verplaatsing en schaling gedaan moet worden.
@@ -765,7 +783,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	
 }
 
-- (float)unitsPerMajorGridLine:(float)pixelsPerUnit {
+- (float)unitsPerMajorGridLine:(float)pixelsPerUnit  
+{
 	float amountAtMinimum, orderOfMagnitude, fraction;
 	
 	amountAtMinimum = [[self minimumPixelsPerMajorGridLine] floatValue]/pixelsPerUnit;	
@@ -803,7 +822,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 
 }
 
-- (void)zoomOut {
+- (void)zoomOut  
+{
 	float xWidth = [[self xMaximum] floatValue] - [[self xMinimum] floatValue];
 	[self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] + xWidth/4]];
 	[self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] - xWidth/4]];
@@ -813,45 +833,52 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] - yWidth/4]];
 }
 
-- (void)moveLeft {
+- (void)moveLeft  
+{
 	float xWidth = [[self xMaximum] floatValue] - [[self xMinimum] floatValue];
 	[self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] - xWidth/4]];
 	[self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] - xWidth/4]];
 }
 
-- (void)moveRight {
+- (void)moveRight  
+{
 	float xWidth = [[self xMaximum] floatValue] - [[self xMinimum] floatValue];
 	[self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] + xWidth/4]];
 	[self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] + xWidth/4]];
 }
 
-- (void)moveUp {
+- (void)moveUp  
+{
 	float yWidth = [[self yMaximum] floatValue] - [[self yMinimum] floatValue];
 	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] + yWidth/4]];
 	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] + yWidth/4]];
 }
 
-- (void)moveDown {
+- (void)moveDown  
+{
 	float yWidth = [[self yMaximum] floatValue] - [[self yMinimum] floatValue];
 	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] - yWidth/4]];
 	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] - yWidth/4]];
 }
 
 #pragma mark MOUSE INTERACTION MANAGEMENT
-- (void)resetCursorRects {
+- (void)resetCursorRects  
+{
 	[self addCursorRect:[self frame] cursor:[NSCursor arrowCursor]];
 	[self addCursorRect:[self plottingArea] cursor:[NSCursor crosshairCursor]];
 	if (shouldDrawLegend) [self addCursorRect:[self legendArea] cursor:[NSCursor openHandCursor]];
 }
 
-- (void)mouseDown:(NSEvent *)theEvent {
+- (void)mouseDown:(NSEvent *)theEvent  
+{
 	didDrag = NO;
 	mouseDownAtPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	oldOrigin = [self origin];
 //	oldLegendOrigin = [self legendArea].origin;
 }
 
-- (void)mouseDragged:(NSEvent *)theEvent {
+- (void)mouseDragged:(NSEvent *)theEvent  
+{
     BOOL isInsidePlottingArea, isInsideLegendArea;
 	didDrag = YES;
 	NSPoint mouseLocation = [self convertPoint:[theEvent locationInWindow] fromView:nil];
@@ -908,7 +935,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[self setNeedsDisplay:YES];
 }
 
-- (void)mouseUp:(NSEvent *)theEvent {
+- (void)mouseUp:(NSEvent *)theEvent  
+{
 	NSPoint mouseLocation = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	if (!didDrag) {
 		if ([theEvent clickCount] == 1) { // Single click
@@ -1018,7 +1046,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 
 #pragma mark KEYBOARD INTERACTION MANAGEMENT
-- (void)flagsChanged:(NSEvent *)theEvent {
+- (void)flagsChanged:(NSEvent *)theEvent  
+{
 	BOOL isInsidePlottingArea;
 	NSPoint mouseLocation = [self convertPoint: [[self window] mouseLocationOutsideOfEventStream] fromView:nil];
 	
@@ -1038,7 +1067,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	}
 }
 
-- (void)keyDown:(NSEvent *)theEvent {
+- (void)keyDown:(NSEvent *)theEvent  
+{
 	if ([[theEvent characters] isEqualToString:@"a"]) {
 		[self showAll:self];
 	} else if ([[theEvent characters] isEqualToString:@"l"]) {
@@ -1083,24 +1113,29 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	}
 }
 
-- (BOOL)canBecomeKeyView {
+- (BOOL)canBecomeKeyView  
+{
 	return YES;
 }
-- (BOOL) acceptsFirstResponder{
+- (BOOL) acceptsFirstResponder 
+{
     return YES;
 }
-- (BOOL) resignFirstResponder{
+- (BOOL) resignFirstResponder 
+{
 	[[NSNotificationCenter defaultCenter] postNotificationName:MyGraphView_DidResignFirstResponderNotification object:self];
 	[self setNeedsDisplay:YES];
     return YES;
 }
-- (BOOL) becomeFirstResponder{
+- (BOOL) becomeFirstResponder 
+{
 	[[NSNotificationCenter defaultCenter] postNotificationName:MyGraphView_DidBecomeFirstResponderNotification object:self];
 	[self setNeedsDisplay:YES];
     return YES;
 }
 
-- (void)copy:(id)sender {
+- (void)copy:(id)sender  
+{
     NSData *data;
     NSArray *myPboardTypes;
     NSPasteboard *pb = [NSPasteboard generalPasteboard];
@@ -1317,7 +1352,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 
 
-- (void)unbind:(NSString *)bindingName {
+- (void)unbind:(NSString *)bindingName  
+{
 	
     if ([bindingName isEqualToString:@"dataSeries"])
 	{
@@ -1528,168 +1564,210 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 
 #pragma mark ACCESSORS
-- (id)delegate {
+- (id)delegate  
+{
 	return delegate;
 }
-- (void)setDelegate:(id)inValue {
+- (void)setDelegate:(id)inValue  
+{
 	delegate = inValue;
 }
 
-- (NSAffineTransform *)trans{
+- (NSAffineTransform *)trans 
+{
 	return trans;
 }
-- (void)setTrans:(NSAffineTransform *)inValue {
+- (void)setTrans:(NSAffineTransform *)inValue  
+{
 	[inValue retain];
     [trans autorelease];
     trans = inValue;
 }
 
-- (NSAffineTransform *)inverseTrans {
+- (NSAffineTransform *)inverseTrans  
+{
 	return inverseTrans;
 }
-- (void)setInverseTrans:(NSAffineTransform *)inValue {
+- (void)setInverseTrans:(NSAffineTransform *)inValue  
+{
 	[inValue retain];
     [inverseTrans autorelease];
     inverseTrans = inValue;
 }
 
-- (NSNumber *)pixelsPerXUnit {
+- (NSNumber *)pixelsPerXUnit  
+{
 	return pixelsPerXUnit;
 }
-- (void)setPixelsPerXUnit:(NSNumber *)inValue {
+- (void)setPixelsPerXUnit:(NSNumber *)inValue  
+{
 	[inValue retain];
     [pixelsPerXUnit autorelease];
 	pixelsPerXUnit = inValue;
 }
 
-- (NSNumber *)pixelsPerYUnit {
+- (NSNumber *)pixelsPerYUnit  
+{
 	return pixelsPerYUnit;
 }
-- (void)setPixelsPerYUnit:(NSNumber *)inValue {
+- (void)setPixelsPerYUnit:(NSNumber *)inValue  
+{
 	[inValue retain];
     [pixelsPerYUnit autorelease];
 	pixelsPerYUnit = inValue;
 }
 
-- (NSNumber *)minimumPixelsPerMajorGridLine {
+- (NSNumber *)minimumPixelsPerMajorGridLine  
+{
 	return minimumPixelsPerMajorGridLine;
 }
-- (void)setMinimumPixelsPerMajorGridLine:(NSNumber *)inValue {
+- (void)setMinimumPixelsPerMajorGridLine:(NSNumber *)inValue  
+{
 	// Check voor > 0! (nog niet geïmplementeerd)
 	[inValue retain];
     [minimumPixelsPerMajorGridLine autorelease];
 	minimumPixelsPerMajorGridLine = inValue;
 }
 
-- (NSPoint)origin {
+- (NSPoint)origin  
+{
 	return origin;
 }
-- (void)setOrigin:(NSPoint)inValue {
+- (void)setOrigin:(NSPoint)inValue  
+{
 	origin = inValue;
 }
 
-- (NSRect)plottingArea {
+- (NSRect)plottingArea  
+{
 	return plottingArea;
 }
-- (void)setPlottingArea:(NSRect)inValue {
+- (void)setPlottingArea:(NSRect)inValue  
+{
 	plottingArea = inValue;
 }
 
-- (NSRect)legendArea {
+- (NSRect)legendArea  
+{
 	return legendArea;
 }
-- (void)setLegendArea:(NSRect)inValue {
+- (void)setLegendArea:(NSRect)inValue  
+{
 	legendArea = inValue;
 }
 
-- (NSRect)selectedRect {
+- (NSRect)selectedRect  
+{
 	return selectedRect;
 }
-- (void)setSelectedRect:(NSRect)inValue {
+- (void)setSelectedRect:(NSRect)inValue  
+{
 	selectedRect = inValue;
 }
-- (NSColor *)backColor {
+- (NSColor *)backColor  
+{
     return backColor;
 }
-- (void)setBackColor:(NSColor *)inValue {
+- (void)setBackColor:(NSColor *)inValue  
+{
     [inValue retain];
     [backColor autorelease];
     backColor = inValue;
 }
-- (NSColor *)plottingAreaColor {
+- (NSColor *)plottingAreaColor  
+{
     return plottingAreaColor;
 }
-- (void)setPlottingAreaColor:(NSColor *)inValue {
+- (void)setPlottingAreaColor:(NSColor *)inValue  
+{
     [inValue retain];
     [plottingAreaColor autorelease];
     plottingAreaColor = inValue;
 }
-- (NSColor *)axesColor {
+- (NSColor *)axesColor  
+{
     return axesColor;
 }
-- (void)setAxesColor:(NSColor *)inValue {
+- (void)setAxesColor:(NSColor *)inValue  
+{
     [inValue retain];
     [axesColor autorelease];
     axesColor = inValue;
 }
-- (NSColor *)gridColor {
+- (NSColor *)gridColor  
+{
     return gridColor;
 }
-- (void)setGridColor:(NSColor *)inValue {
+- (void)setGridColor:(NSColor *)inValue  
+{
     [inValue retain];
     [gridColor autorelease];
     gridColor = inValue;
 }
-- (NSColor *)labelsColor {
+- (NSColor *)labelsColor  
+{
     return labelsColor;
 }
-- (void)setLabelsColor:(NSColor *)inValue {
+- (void)setLabelsColor:(NSColor *)inValue  
+{
     [inValue retain];
     [labelsColor autorelease];
     labelsColor = inValue;
 }
-- (NSColor *)labelsOnFrameColor {
+- (NSColor *)labelsOnFrameColor  
+{
     return labelsOnFrameColor;
 }
-- (void)setLabelsOnFrameColor:(NSColor *)inValue {
+- (void)setLabelsOnFrameColor:(NSColor *)inValue  
+{
     [inValue retain];
     [labelsOnFrameColor autorelease];
     labelsOnFrameColor = inValue;
 }
-- (NSColor *)frameColor {
+- (NSColor *)frameColor  
+{
     return frameColor;
 }
-- (void)setFrameColor:(NSColor *)inValue {
+- (void)setFrameColor:(NSColor *)inValue  
+{
     [inValue retain];
     [frameColor autorelease];
     frameColor = inValue;
 }
-- (NSColor *)legendAreaColor {
+- (NSColor *)legendAreaColor  
+{
     return legendAreaColor;
 }
-- (void)setLegendAreaColor:(NSColor *)inValue {
+- (void)setLegendAreaColor:(NSColor *)inValue  
+{
     [inValue retain];
     [legendAreaColor autorelease];
     legendAreaColor = inValue;
 }
-- (NSColor *)legendFrameColor {
+- (NSColor *)legendFrameColor  
+{
     return legendFrameColor;
 }
-- (void)setLegendFrameColor:(NSColor *)inValue {
+- (void)setLegendFrameColor:(NSColor *)inValue  
+{
     [inValue retain];
     [legendFrameColor autorelease];
     legendFrameColor = inValue;
 }
-- (BOOL)shouldDrawLegend {
+- (BOOL)shouldDrawLegend  
+{
     return shouldDrawLegend;
 }
-- (void)setShouldDrawLegend:(BOOL)inValue {
+- (void)setShouldDrawLegend:(BOOL)inValue  
+{
      shouldDrawLegend = inValue;
 }
-- (BOOL)shouldDrawAxes {
+- (BOOL)shouldDrawAxes  
+{
     return shouldDrawAxes;
 }
-- (void)setShouldDrawAxes:(BOOL)inValue {
+- (void)setShouldDrawAxes:(BOOL)inValue  
+{
      shouldDrawAxes = inValue;
 }
 - (BOOL)shouldDrawMajorTickMarks
@@ -1709,87 +1787,109 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	shouldDrawMinorTickMarks = inValue;
 }
 
-- (BOOL)shouldDrawGrid {
+- (BOOL)shouldDrawGrid  
+{
     return shouldDrawGrid;
 }
-- (void)setShouldDrawGrid:(BOOL)inValue {
+- (void)setShouldDrawGrid:(BOOL)inValue  
+{
      shouldDrawGrid = inValue;
 }
-- (BOOL)shouldDrawLabels {
+- (BOOL)shouldDrawLabels  
+{
     return shouldDrawLabels;
 }
-- (void)setShouldDrawLabels:(BOOL)inValue {
+- (void)setShouldDrawLabels:(BOOL)inValue  
+{
 	shouldDrawLabels = inValue;
 }
-- (BOOL)shouldDrawLabelsOnFrame {
+- (BOOL)shouldDrawLabelsOnFrame  
+{
     return shouldDrawLabelsOnFrame;
 }
-- (void)setShouldDrawLabelsOnFrame:(BOOL)inValue {
+- (void)setShouldDrawLabelsOnFrame:(BOOL)inValue  
+{
 	shouldDrawLabelsOnFrame = inValue;
 }
-- (NSAttributedString *)titleString {
+- (NSAttributedString *)titleString  
+{
     return titleString;
 }
-- (void)setTitleString:(NSAttributedString *)inValue {
+- (void)setTitleString:(NSAttributedString *)inValue  
+{
     [inValue retain];
     [titleString autorelease];
     titleString = inValue;
 }
-- (NSAttributedString *)xAxisLabelString {
+- (NSAttributedString *)xAxisLabelString  
+{
     return xAxisLabelString;
 }
-- (void)setXAxisLabelString:(NSAttributedString *)inValue {
+- (void)setXAxisLabelString:(NSAttributedString *)inValue  
+{
     [inValue retain];
     [xAxisLabelString autorelease];
     xAxisLabelString = inValue;
 }
-- (NSAttributedString *)yAxisLabelString {
+- (NSAttributedString *)yAxisLabelString  
+{
     return yAxisLabelString;
 }
-- (void)setYAxisLabelString:(NSAttributedString *)inValue {
+- (void)setYAxisLabelString:(NSAttributedString *)inValue  
+{
     [inValue retain];
     [yAxisLabelString autorelease];
     yAxisLabelString = inValue;
 }
-- (NSString *)keyForXValue {
+- (NSString *)keyForXValue  
+{
 	return keyForXValue;
 }
-- (void)setKeyForXValue:(NSString *)inValue {
+- (void)setKeyForXValue:(NSString *)inValue  
+{
 	[inValue retain];
     [keyForXValue autorelease];
     keyForXValue = inValue;
 }
-- (NSString *)keyForYValue {
+- (NSString *)keyForYValue  
+{
 	return keyForYValue;
 }
-- (void)setKeyForYValue:(NSString *)inValue {
+- (void)setKeyForYValue:(NSString *)inValue  
+{
 	[inValue retain];
     [keyForYValue autorelease];
     keyForYValue = inValue;
 }
 
 // Additions for Peacock
-- (BOOL)shouldDrawBaseline {
+- (BOOL)shouldDrawBaseline  
+{
 	return shouldDrawBaseline;
 }
-- (void)setShouldDrawBaseline:(BOOL)inValue {
+- (void)setShouldDrawBaseline:(BOOL)inValue  
+{
 	shouldDrawBaseline = inValue;
 }
-- (BOOL)shouldDrawPeaks {
+- (BOOL)shouldDrawPeaks  
+{
 	return shouldDrawPeaks;
 }
-- (void)setShouldDrawPeaks:(BOOL)inValue {
+- (void)setShouldDrawPeaks:(BOOL)inValue  
+{
 	shouldDrawPeaks = inValue;
 }
 
 
 #pragma mark CALCULATED ACCESSORS
-- (NSNumber *)xMinimum {
+- (NSNumber *)xMinimum  
+{
 	NSPoint plotCorner;
 	plotCorner = [[self inverseTrans] transformPoint:[self plottingArea].origin];
 	return [NSNumber numberWithFloat:plotCorner.x];
 }
-- (void)setXMinimum:(NSNumber *)inValue {
+- (void)setXMinimum:(NSNumber *)inValue  
+{
 	NSPoint newOrigin;
 	newOrigin = [self origin];
 	
@@ -1799,14 +1899,16 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[self setOrigin:newOrigin];
 	[self calculateCoordinateConversions];
 }
-- (NSNumber *)xMaximum {
+- (NSNumber *)xMaximum  
+{
 	NSPoint plotCorner;
 	NSSize plotSize;
 	plotCorner = [[self inverseTrans] transformPoint:[self plottingArea].origin];
 	plotSize = [[self inverseTrans] transformSize:[self plottingArea].size];
 	return [NSNumber numberWithFloat:(plotCorner.x + plotSize.width)];	
 }
-- (void)setXMaximum:(NSNumber *)inValue {
+- (void)setXMaximum:(NSNumber *)inValue  
+{
 	NSPoint newOrigin;
 	newOrigin = [self origin];
 	
@@ -1817,12 +1919,14 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[self calculateCoordinateConversions];
 	
 }
-- (NSNumber *)yMinimum {
+- (NSNumber *)yMinimum  
+{
 	NSPoint plotCorner;
 	plotCorner = [[self inverseTrans] transformPoint:[self plottingArea].origin];
 	return [NSNumber numberWithFloat:plotCorner.y];	
 }
-- (void)setYMinimum:(NSNumber *)inValue {
+- (void)setYMinimum:(NSNumber *)inValue  
+{
 	NSPoint newOrigin;
 	newOrigin = [self origin];
 	
@@ -1832,14 +1936,16 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[self setOrigin:newOrigin];
 	[self calculateCoordinateConversions];
 }
-- (NSNumber *)yMaximum {
+- (NSNumber *)yMaximum  
+{
 	NSPoint plotCorner;
 	NSSize plotSize;
 	plotCorner = [[self inverseTrans] transformPoint:[self plottingArea].origin];
 	plotSize = [[self inverseTrans] transformSize:[self plottingArea].size];
 	return [NSNumber numberWithFloat:(plotCorner.y + plotSize.height)];	
 }
-- (void)setYMaximum:(NSNumber *)inValue{
+- (void)setYMaximum:(NSNumber *)inValue 
+{
 	NSPoint newOrigin;
 	newOrigin = [self origin];
 	
@@ -1849,17 +1955,21 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[self setOrigin:newOrigin];
 	[self calculateCoordinateConversions];
 }
-- (NSNumber *)unitsPerMajorX {
+- (NSNumber *)unitsPerMajorX  
+{
 	float a,b;
 	a = [[self pixelsPerXUnit] floatValue];
 	b = [[self minimumPixelsPerMajorGridLine] floatValue];
 	return [NSNumber numberWithFloat:a/b];
 }
-- (void)setUnitsPerMajorX:(NSNumber *)inValue {
+- (void)setUnitsPerMajorX:(NSNumber *)inValue  
+{
 }
-- (NSNumber *)unitsPerMajorY {
+- (NSNumber *)unitsPerMajorY  
+{
 	return [NSNumber numberWithInt:-1];
 }
-- (void)setUnitsPerMajorY:(NSNumber *)inValue {
+- (void)setUnitsPerMajorY:(NSNumber *)inValue  
+{
 }
 @end

@@ -7,56 +7,83 @@
 //
 
 #import "JKSpectrum.h"
+
 #import "JKLibraryEntry.h"
 #import "jk_statistics.h"
+#import "JKGCMSDocument.h"
+#import "JKPeakRecord.h"
+#import "SpectrumGraphDataSerie.h"
 
 @implementation JKSpectrum
 
 #pragma mark INITIALIZATION
 
-+ (void)initialize {
++ (void)initialize  
+{
     [self setKeys:[NSArray arrayWithObjects:@"masses",nil] triggerChangeNotificationsForDependentKey:@"minimumMass"];
     [self setKeys:[NSArray arrayWithObjects:@"masses",nil] triggerChangeNotificationsForDependentKey:@"maximumMass"];
     [self setKeys:[NSArray arrayWithObjects:@"intensities",nil] triggerChangeNotificationsForDependentKey:@"minimumIntensity"];
     [self setKeys:[NSArray arrayWithObjects:@"intensities",nil] triggerChangeNotificationsForDependentKey:@"maximumIntensity"];
 }
 
-- (id) init {
+- (id) init  
+{
 	self = [super init];
 	if (self != nil) {
 		masses = (float *) malloc(1*sizeof(float));
 		intensities = (float *) malloc(1*sizeof(float));
-		
-		// Score settings are set in init(WithCoder) because it would be too expensive to catch for every score calculated
-		formulaChoosen = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"scoreBasis"] intValue];
-		penalizeForRetentionIndex = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexPenalty"] boolValue];
 	}
 	return self;
 }
 
--(void)dealloc {
+- (void)dealloc  
+{
 	free(masses);
 	free(intensities);
 	[super dealloc];
 }
 
 #pragma mark ACCESSORS
--(int)numberOfPoints {
+- (void)setDocument:(JKGCMSDocument *)inValue  
+{
+	// Weak reference
+	document = inValue;
+}
+- (JKGCMSDocument *)document  
+{
+    return document;
+}
+
+- (void)setPeak:(JKPeakRecord *)inValue  
+{
+	// Weak reference
+	peak = inValue;
+}
+- (JKPeakRecord *)peak  
+{
+    return peak;
+}
+
+- (int)numberOfPoints  
+{
 	return numberOfPoints;
 }
 
--(void)setMasses:(float *)inArray withCount:(int)inValue {
+- (void)setMasses:(float *)inArray withCount:(int)inValue  
+{
     numberOfPoints = inValue;
     masses = (float *) realloc(masses, numberOfPoints*sizeof(float));
     memcpy(masses, inArray, numberOfPoints*sizeof(float));
 	minimumMass = jk_stats_float_min(masses, numberOfPoints);
 	maximumMass = jk_stats_float_max(masses, numberOfPoints);
 }
--(float *)masses {
+- (float *)masses  
+{
     return masses;
 }
 
--(void)setIntensities:(float *)inArray withCount:(int)inValue {
+- (void)setIntensities:(float *)inArray withCount:(int)inValue  
+{
     numberOfPoints = inValue;
     intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
     memcpy(intensities, inArray, numberOfPoints*sizeof(float));
@@ -64,30 +91,38 @@
 	maximumIntensity = jk_stats_float_max(intensities, numberOfPoints);
 }
 
--(float *)intensities {
+- (float *)intensities  
+{
     return intensities;
 }
--(void)setRetentionIndex:(float)inValue {
+- (void)setRetentionIndex:(float)inValue  
+{
 	retentionIndex = inValue;
 }
--(float)retentionIndex {
+- (float)retentionIndex  
+{
 	return retentionIndex;
 }
 
--(float)minimumMass {
+- (float)minimumMass  
+{
     return minimumMass;
 }
--(float)maximumMass {
+- (float)maximumMass  
+{
     return maximumMass;
 }
--(float)minimumIntensity {
+- (float)minimumIntensity  
+{
     return minimumIntensity;
 }
--(float)maximumIntensity {
+- (float)maximumIntensity  
+{
     return maximumIntensity;
 }
 
--(JKSpectrum *)spectrumBySubtractingSpectrum:(JKSpectrum *)inSpectrum {
+- (JKSpectrum *)spectrumBySubtractingSpectrum:(JKSpectrum *)inSpectrum  
+{
 	int i,j,k,count1,count2;
 	float d1, d2, d3, d4;
 	JKSpectrum *outSpectrum = [[JKSpectrum alloc] init];
@@ -132,7 +167,8 @@
 	return outSpectrum;
 }
 
--(JKSpectrum *)spectrumByAveragingWithSpectrum:(JKSpectrum *)inSpectrum {
+- (JKSpectrum *)spectrumByAveragingWithSpectrum:(JKSpectrum *)inSpectrum  
+{
 	int i,j,k,count1,count2;
 	float d1, d2, d3, d4;
 	JKSpectrum *outSpectrum = [[JKSpectrum alloc] init];
@@ -177,7 +213,8 @@
 	return outSpectrum;	
 }
 
--(JKSpectrum *)normalizedSpectrum {
+- (JKSpectrum *)normalizedSpectrum  
+{
 	int i;
 	JKSpectrum *outSpectrum = [[JKSpectrum alloc] init];
 	float intensitiesOut[numberOfPoints];
@@ -193,19 +230,14 @@
 	return outSpectrum;
 }
 
--(float)scoreComparedToSpectrum:(JKSpectrum *)inSpectrum {
+- (float)scoreComparedToSpectrum:(JKSpectrum *)inSpectrum  
+{
 	return [self scoreComparedToLibraryEntry:(JKLibraryEntry *)inSpectrum];
 }
 
-#pragma mark optimization_level 3
+//#pragma mark optimization_level 3
 
--(float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry { // Could be changed to id <protocol> to resolve warning
-//#warning Fails when not set...
-//// should be set during initilaizoitn? quite coslty
-//	int formulaChoosen = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"scoreBasis"] intValue];
-////	JKLogDebug(@"formulaChoosen = %d", formulaChoosen);
-//	BOOL penalizeForRetentionIndex = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexPenalty"] boolValue];
-	
+- (float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry { // Could be changed to id <protocol> to resolve warning	
 	int i,j,k,count1,count2;
 	float score, score2, score3, maxIntensityLibraryEntry, maxIntensitySpectrum;
 	i=0; j=0; k=0; 
@@ -225,7 +257,7 @@
 	BOOL peakMassesAtEnd = NO;
 	BOOL libraryEntryMassesAtEnd = NO;
 	
-	switch (formulaChoosen) {
+	switch ([[self document] scoreBasis]) {
 		case 0: // Using formula 1 in Gan 2001
 			while ((i < count1) & (j < count2)) {
 				// If we go beyond the bounds, we get unexpected results, so make sure we are within the bounds.
@@ -345,10 +377,12 @@
 			// This correction penalizes the score for having to much other high peaks in the chromatogram, which is not expected for literature entries.
 			//score = score * score3/count1;
 			break;
+		default:
+			JKLogWarning(@"Don't know which formula to use!");
 	}
 	
-//	JKLogDebug(@"score %f n = %d score = %f score2 = %f", (1.0-score/score2)*100.0, n, score, score2);
-	if (penalizeForRetentionIndex) {
+//	JKLogDebug(@"returned score %f score = %f score2 = %f", (1.0-score/score2)*100.0, score, score2);
+	if ([[self document] penalizeForRetentionIndex]) {
 		float retentionIndexDelta, retentionIndexPenalty;
 		float retentionIndexLibrary         = [[libraryEntry valueForKey:@"retentionIndex"] floatValue];
 		if (retentionIndexLibrary == 0.0 || retentionIndex == nil) {
@@ -364,14 +398,34 @@
 	}
 }
 
-#pragma mark optimization_level reset
+- (SpectrumGraphDataSerie *)spectrumDataSerie
+{
+	SpectrumGraphDataSerie *spectrumDataSerie = [[SpectrumGraphDataSerie alloc] init];
+	[spectrumDataSerie loadDataPoints:[self numberOfPoints] withXValues:[self masses] andYValues:[self intensities]];
+	
+	[spectrumDataSerie setSeriesType:2]; // Spectrum kind of plot
+	[spectrumDataSerie setSeriesTitle:NSLocalizedString(@"Peak",@"")];
+	[spectrumDataSerie setSeriesColor:[NSColor blueColor]];
+	[spectrumDataSerie setKeyForXValue:@"Mass"];
+	[spectrumDataSerie setKeyForYValue:@"Intensity"];
+	[spectrumDataSerie setDrawUpsideDown:NO];
+	
+	[spectrumDataSerie autorelease];
+	return spectrumDataSerie;
+}
+
+
+//#pragma mark optimization_level reset
 
 #pragma mark Encoding
 
--(void)encodeWithCoder:(NSCoder *)coder {
+- (void)encodeWithCoder:(NSCoder *)coder  
+{
     if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
         [coder encodeInt:1 forKey:@"version"];
-        [coder encodeFloat:retentionIndex forKey:@"retentionIndex"];
+		[coder encodeConditionalObject:document forKey:@"document"]; // weak reference
+		[coder encodeConditionalObject:peak forKey:@"peak"]; // weak reference
+		[coder encodeFloat:retentionIndex forKey:@"retentionIndex"];
         [coder encodeInt:numberOfPoints forKey:@"numberOfPoints"];
 		[coder encodeBytes:(void *)masses length:numberOfPoints*sizeof(float) forKey:@"masses"];
 		[coder encodeBytes:(void *)intensities length:numberOfPoints*sizeof(float) forKey:@"intensities"];
@@ -379,10 +433,14 @@
     return;
 }
 
-- (id)initWithCoder:(NSCoder *)coder {
+- (id)initWithCoder:(NSCoder *)coder  
+{
     if ( [coder allowsKeyedCoding] ) {
         // Can decode keys in any order
-        retentionIndex = [coder decodeFloatForKey:@"retentionIndex"];
+		document = [coder decodeObjectForKey:@"document"]; // weak reference
+		peak = [coder decodeObjectForKey:@"peak"]; // weak reference
+		
+		retentionIndex = [coder decodeFloatForKey:@"retentionIndex"];
         numberOfPoints = [coder decodeIntForKey:@"numberOfPoints"];
 		
 		const uint8_t *temporary = NULL; //pointer to a temporary buffer returned by the decoder.
@@ -395,11 +453,6 @@
 		
 		temporary	= [coder decodeBytesForKey:@"intensities" returnedLength:&length];
 		[self setIntensities:(float *)temporary withCount:numberOfPoints];
-		
-		// Score settings are set in init(WithCoder) because it would be too expensive to catch for every score calculated
-		formulaChoosen = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"scoreBasis"] intValue];
-		penalizeForRetentionIndex = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"retentionIndexPenalty"] boolValue];
-		
     } 
     return self;
 }

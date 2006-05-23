@@ -9,59 +9,75 @@
 #import "JKAppDelegate.h"
 #import "JKPanelController.h"
 #import "JKStatisticsDocument.h"
-//#import "SmartCrashReportsInstall.h"
-//#import <Growl/GrowlApplicationBridge.h>
 #import "JKLog.h"
 
 @implementation JKAppDelegate
 
-+(void)initialize {
-		// Register default settings
-	NSMutableDictionary *mutDict = [NSMutableDictionary new];
-	[mutDict setValue:[NSNumber numberWithBool:NO] forKey:@"SUCheckAtStartup"];
-	[mutDict setValue:[NSNumber numberWithBool:NO] forKey:@"showInspectorOnLaunch"];
-	[mutDict setValue:[NSNumber numberWithBool:NO] forKey:@"showMassCalculatorOnLaunch"];
-	[mutDict setValue:[NSNumber numberWithBool:NO] forKey:@"dontInstallSCR"];
-//	[mutDict setValue:[NSNumber numberWithBool:0.9] forKey:@"acceptLevel"];
-	[mutDict setValue:[NSNumber numberWithBool:YES] forKey:@"soundWhenFinished"];
-	[mutDict setValue:[NSNumber numberWithInt:0] forKey:@"scoreBasis"]; // Using formula 1 in Gan 2001
-	[mutDict setValue:[NSNumber numberWithInt:3] forKey:@"peaksForSummary"]; // confirmed peaks
-	[mutDict setValue:[NSNumber numberWithInt:1] forKey:@"columnSorting"]; // Samplecode
-	[mutDict setValue:[NSNumber numberWithBool:NO] forKey:@"autoSave"];
-	[mutDict setValue:[NSNumber numberWithInt:10] forKey:@"autoSaveDelay"]; // Samplecode
-	[mutDict setValue:@"" forKey:@"defaultLibrary"];
-	[mutDict setValue:@"" forKey:@"customLibrary"];
-	// Hidden preference for logging verbosity
-	[mutDict setValue:[NSNumber numberWithInt:JK_VERBOSITY_INFO] forKey:@"JKVerbosity"];
++ (void)initialize  
+{
+	// Register default settings
+	NSMutableDictionary *defaultValues = [NSMutableDictionary new];
 	
-	[[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:mutDict];
-	[mutDict release];
+	// Application level prefences
+	[defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"SUCheckAtStartup"];
+	[defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"showInspectorOnLaunch"];
+	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"showMassCalculatorOnLaunch"];
+	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"autoSave"];
+	[defaultValues setValue:[NSNumber numberWithInt:0] forKey:@"autoSaveDelay"]; 
+
+	// Default preferences for initial document settings
+	[defaultValues setValue:[NSNumber numberWithInt:30] forKey:@"baselineWindowWidth"];
+	[defaultValues setValue:[NSNumber numberWithFloat:0.05f] forKey:@"baselineDistanceThreshold"];
+	[defaultValues setValue:[NSNumber numberWithFloat:0.005f] forKey:@"baselineSlopeThreshold"];
+	[defaultValues setValue:[NSNumber numberWithFloat:0.5f] forKey:@"baselineDensityThreshold"];
+	[defaultValues setValue:[NSNumber numberWithFloat:0.1f] forKey:@"peakIdentificationThreshold"];
+	[defaultValues setValue:[NSNumber numberWithFloat:1.0f] forKey:@"retentionIndexSlope"];
+	[defaultValues setValue:[NSNumber numberWithFloat:0.0f] forKey:@"retentionIndexRemainder"];
+	[defaultValues setValue:@"" forKey:@"libraryAlias"];
+	[defaultValues setValue:[NSNumber numberWithInt:0] forKey:@"scoreBasis"]; // Using formula 1 in Gan 2001
+	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"penalizeForRetentionIndex"];
+	[defaultValues setValue:[NSNumber numberWithFloat:75.0] forKey:@"markAsIdentifiedThreshold"];
+	[defaultValues setValue:[NSNumber numberWithFloat:50.0] forKey:@"minimumScoreSearchResults"];
+
+	// Default summary settings
+	[defaultValues setValue:[NSNumber numberWithInt:3] forKey:@"peaksForSummary"]; // confirmed peaks
+	[defaultValues setValue:[NSNumber numberWithInt:1] forKey:@"columnSorting"]; // Samplecode
+	
+	
+	// Hidden preference for logging verbosity
+	[defaultValues setValue:[NSNumber numberWithInt:JK_VERBOSITY_INFO] forKey:@"JKVerbosity"];
+	
+	[[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:defaultValues];
+	[defaultValues release];
 }
--(id)init {
+
+- (id)init  
+{
 	self = [super init];
-	[self setDelegate:self];
+	if (self != nil) {
+		[self setDelegate:self];		
+	}
 	return self;
 }
 
 #pragma mark DELEGATE METHODS
 
--(BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
+- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender  
+{
     // Delegate method per NSApplication to suppress or allow untitled window at launch.
     return NO;
 }
 
--(void)applicationDidFinishLaunching:(NSNotification *)notification {	
-
-	
+- (void)applicationDidFinishLaunching:(NSNotification *)notification {	
 	// Execute startup preferences
 #warning Custom level debug verbosity set.
     JKSetVerbosityLevel([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue]);
 //#warning High level debug verbosity set.
 //	JKSetVerbosityLevel(JK_VERBOSITY_ALL);
 
-    if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSave"] boolValue] == YES) {
-        [[NSDocumentController sharedDocumentController] setAutosavingDelay:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSaveDelay"] intValue]];
-    }
+//    if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSave"] boolValue] == YES) {
+//        [[NSDocumentController sharedDocumentController] setAutosavingDelay:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSaveDelay"] intValue]];
+//    }
 	
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"showInspectorOnLaunch"] boolValue] == YES) {
         [[JKPanelController sharedController] showInspector:self];
@@ -73,27 +89,6 @@
         [mwWindowController showWindow:self];
     }    
 		
-//	// Install bug reporting from Unsanity if needed
-//	Boolean authenticationWillBeRequired = FALSE;
-//	if (UnsanitySCR_CanInstall(&authenticationWillBeRequired) && [[NSFileManager defaultManager] fileExistsAtPath:[[NSString stringWithString:@"~/Library/Logs/CrashReporter/Peacock.crash.log"] stringByExpandingTildeInPath]] && ![[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"dontInstallSCR"] boolValue]) {
-//		  // Ask user to install SCR
-//		int button = NSRunAlertPanel(NSLocalizedString(@"May Peacock install Smart Crash Reports?", @"Title of alert when a crash was detected."),
-//									 NSLocalizedString(@"By installing Smart Crash Reports from Unsanity you are enabled to sent future crash reports to the developer of Peacock so he can focus his work on improving the quality of Peacock.", @"SCR explanation"),
-//									 NSLocalizedString(@"Install", @"Install"),
-//									 NSLocalizedString(@"Cancel", @"Cancel"), 
-//									 NSLocalizedString(@"More Info", @"More Info on SCR"));
-//		if(NSOKButton == button)
-//		{
-//			UnsanitySCR_Install(authenticationWillBeRequired);
-//			JKLogInfo(@"Peacock installed Unsanity's Smart Crash Report.");
-//		} else if (NSCancelButton != button) {
-//			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.unsanity.com/smartcrashreports/"]];
-//		} else if (NSCancelButton == button)  {
-//			[[[NSUserDefaultsController sharedUserDefaultsController] values] setValue:[NSNumber numberWithBool:YES] forKey:@"dontInstallSCR"];
-//		}
-//		
-//	}
-//	
 	// Growl support
 	[GrowlApplicationBridge setGrowlDelegate:self];
 }
@@ -101,42 +96,45 @@
 
 #pragma mark ACTIONS
 
--(IBAction)openPreferencesWindowAction:(id)sender {
+- (IBAction)openPreferencesWindowAction:(id)sender  
+{
     if (!preferencesWindowController) {
         preferencesWindowController = [[JKPreferencesWindowController alloc] init];
     }
     [preferencesWindowController showWindow:self];
 }
 
--(IBAction)showInspector:(id)sender {
-//    if (!panelWindowController) {
-//        panelWindowController = [[JKPanelController alloc] init];
-//    }
+- (IBAction)showInspector:(id)sender  
+{
     [[JKPanelController sharedController] showInspector:self];
 }
 
--(IBAction)showReadMe:(id)sender {
+- (IBAction)showReadMe:(id)sender  
+{
     NSString *path = [[NSBundle mainBundle] pathForResource:@"ReadMe" ofType:@"rtf"];
     if (path) {
         if (![[NSWorkspace sharedWorkspace] openFile:path withApplication:@"TextEdit"]) NSBeep();
     }
 }
 
--(IBAction)showLicense:(id)sender {
+- (IBAction)showLicense:(id)sender  
+{
     NSString *path = [[NSBundle mainBundle] pathForResource:@"License" ofType:@"rtf"];
     if (path) {
         if (![[NSWorkspace sharedWorkspace] openFile:path withApplication:@"TextEdit"]) NSBeep();
     }
 }
 
--(IBAction)showBatchProcessAction:(id)sender {
+- (IBAction)showBatchProcessAction:(id)sender  
+{
 	if (!batchProcessWindowController) {
         batchProcessWindowController = [[JKBatchProcessWindowController alloc] init];
     }
     [batchProcessWindowController showWindow:self];	
 }
 
--(IBAction)showStatisticsAction:(id)sender {
+- (IBAction)showStatisticsAction:(id)sender  
+{
 	NSError *error = [[NSError alloc] init];
 	JKStatisticsDocument *document = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"Peacock Statistics File" error:&error];
 	[[NSDocumentController sharedDocumentController] addDocument:document];
@@ -150,58 +148,18 @@
 //    [statisticsWindowController showWindow:self];	
 }
 
-
-
-//-(IBAction)checkForNewVersion:(id)sender {
-//    [self checkVersion:FALSE];
-//}
-//
-//-(void)checkVersion:(BOOL)quiet {
-//    NSString *currVersionNumber = [[[NSBundle bundleForClass:[self class]]
-//        infoDictionary] objectForKey:@"CFBundleVersion"];    
-//    NSDictionary *productVersionDict = [NSDictionary dictionaryWithContentsOfURL:[NSURL URLWithString:@"http://www.geo.vu.nl/~jkool/peacock/version.xml"]];
-//    NSString *latestVersionNumber = [productVersionDict valueForKey:@"peacock"];
-//    
-//    if([productVersionDict count] > 0 ) { // did we get anything?
-//        if([latestVersionNumber isEqualTo: currVersionNumber] && !quiet)
-//        {
-//            // tell user software is up to date
-//            NSRunAlertPanel(NSLocalizedString(@"Your Software is up-to-date", @"Title of alert when a the user's software is up to date."),
-//                NSLocalizedString(@"You have the most recent version of Peacock.", @"Alert text when the user's software is up to date."),
-//                NSLocalizedString(@"OK", @"OK"), nil, nil);
-//        }
-//        else if( ![latestVersionNumber isEqualTo: currVersionNumber])
-//        {
-//            // tell user to download a new version
-//            int button = NSRunAlertPanel(NSLocalizedString(@"A New Version is Available", @"Title of alert when a the user's software is not up to date."),
-//                [NSString stringWithFormat:NSLocalizedString(@"A new version of Peacock is available (version %@). Would you like to download the new version now?", @"Alert text when the user's software is not up to date."), latestVersionNumber],
-//                NSLocalizedString(@"OK", @"OK"),
-//                NSLocalizedString(@"Cancel", @"Cancel"), nil);
-//            if(NSOKButton == button)
-//            {
-//                [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.geo.vu.nl/~jkool/peacock/"]];
-//            }
-//        }
-//    } else {
-//        if (!quiet) {
-//            // tell user error occured
-//            NSRunAlertPanel(NSLocalizedString(@"Version Check has Failed", @"Title of alert when the version check has failed."),
-//                NSLocalizedString(@"An error occured whilst trying to retrieve the current version number from the internet.", @"Alert text when the when the version check has failed."),
-//                NSLocalizedString(@"OK", @"OK"), nil, nil);
-//        }
-//    }
-//}
-
 #pragma mark GROWL SUPPORT
--(NSDictionary *) registrationDictionaryForGrowl {
+
+- (NSDictionary *) registrationDictionaryForGrowl  
+{
 	NSArray *defaultArray = [NSArray arrayWithObjects:@"Batch Process Finished", @"Identifying Compounds Finished", @"Statistical Analysis Finished",nil];
 	NSArray *allArray = [NSArray arrayWithObjects:@"Batch Process Finished", @"Identifying Compounds Finished", @"Statistical Analysis Finished",nil];
 	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:defaultArray, GROWL_NOTIFICATIONS_DEFAULT, allArray, GROWL_NOTIFICATIONS_ALL,nil];
 	return dictionary;
 }
 
-
-- (BOOL)validateMenuItem:(NSMenuItem *)anItem {
+- (BOOL)validateMenuItem:(NSMenuItem *)anItem  
+{
 	if ([anItem action] == @selector(showInspector:)) {
 		if ([[[JKPanelController sharedController] window] isVisible] == YES) {
 			[anItem setTitle:NSLocalizedString(@"Hide Inspector",@"Menutitle when inspector is visible")];

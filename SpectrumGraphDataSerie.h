@@ -10,25 +10,29 @@
 
 @interface SpectrumGraphDataSerie : MyGraphDataSerie {
 	NSRect boundingRect;
+	BOOL drawUpsideDown;
+	BOOL normalizeYData;
 }
 
 #pragma mark DRAWING ROUTINES
--(void)plotDataWithTransform:(NSAffineTransform *)trans;
--(void)drawLabelsWithTransform:(NSAffineTransform *)trans;
--(void)constructPlotPath;
+- (void)plotDataWithTransform:(NSAffineTransform *)trans;
+- (void)drawLabelsWithTransform:(NSAffineTransform *)trans;
+- (void)constructPlotPath;
 
 #pragma mark HELPER ROUTINES
--(void)transposeAxes;
--(NSRect)boundingRect;
+- (void)transposeAxes;
+- (NSRect)boundingRect;
 
 #pragma mark KEY VALUE OBSERVING MANAGEMENT
 - (void)startObservingData:(NSArray *)data;
 - (void)stopObservingData:(NSArray *)data;
 
 #pragma mark MISC
--(NSArray *)dataArrayKeys;
-//-(void)loadDataPoints:(int)npts withXValues:(float *)xpts andYValues:(float *)ypts ;
+- (NSArray *)dataArrayKeys;
 
 #pragma mark ACCESSORS
-
+- (BOOL)drawUpsideDown;
+- (void)setDrawUpsideDown:(BOOL)inValue;
+- (BOOL)normalizeYData;
+- (void)setNormalizeYData:(BOOL)inValue;
 @end

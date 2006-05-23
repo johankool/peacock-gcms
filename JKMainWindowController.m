@@ -7,15 +7,18 @@
 //
 
 #import "JKMainWindowController.h"
-#import "JKDataModel.h"
-#import "netcdf.h"
-#import "MyGraphView.h"
-#import "SpectrumGraphDataSerie.h"
+
+#import "BDAlias.h"
 #import "ChromatogramGraphDataSerie.h"
-#import "JKSpectrum.h"
+#import "JKGCMSDocument.h"
+#import "JKLibraryEntry.h"
 #import "JKLibrarySearch.h"
 #import "JKPeakRecord.h"
-#import "JKLibraryEntry.h"
+#import "JKSpectrum.h"
+#import "MyGraphView.h"
+#import "SpectrumGraphDataSerie.h"
+#import "netcdf.h"
+
 
 static void *DocumentObservationContext = (void *)1100;
 static void *ChromatogramObservationContext = (void *)1101;
@@ -26,11 +29,11 @@ static void *SpectrumObservationContext = (void *)1102;
 
 #pragma mark INITIALIZATION
 
--(id)init {
-	self = [super initWithWindowNibName:@"JKMainDocument"];
+- (id)init  
+{
+	self = [super initWithWindowNibName:@"JKGCMSDocument"];
     if (self != nil) {
         [self setShouldCloseDocument:YES];
-		[self setLibSearch:[[JKLibrarySearch alloc] init]];		
 
 		showTICTrace = YES;
 		showSpectrum = YES;
@@ -42,17 +45,8 @@ static void *SpectrumObservationContext = (void *)1102;
     return self;
 }
 
--(void)windowDidLoad {
-	// Set controller bindings
-	[mainController bind:@"content" toObject:self  
-			 withKeyPath:@"dataModel" options:nil];
-	[peakController bind:@"contentArray" toObject:[self dataModel] 
-			 withKeyPath:@"peaks" options:nil];
-	[baselineController bind:@"contentArray" toObject:[self dataModel] 
-				 withKeyPath:@"baseline" options:nil];
-	[chromatogramDataSeriesController bind:@"contentArray" toObject:[self dataModel] 
-							   withKeyPath:@"chromatograms" options:nil];	
-		
+- (void)windowDidLoad  
+{
 	// Setup the toolbar after the document nib has been loaded 
     [self setupToolbar];	
 	
@@ -96,12 +90,10 @@ static void *SpectrumObservationContext = (void *)1102;
 	[spectrumView setYMaximum:[NSNumber numberWithFloat:1.1]];
 	
 	// Register as observer
-	[peakController addObserver:self forKeyPath:@"selection" options:nil context:SpectrumObservationContext];
-	[searchResultsController addObserver:self forKeyPath:@"selection" options:nil context:SpectrumObservationContext];
-	[searchResultsController addObserver:self forKeyPath:@"content" options:nil context:SpectrumObservationContext];
+	[searchResultsController addObserver:self forKeyPath:@"selection" options:nil context:nil];
 	
-	[[self dataModel] addObserver:self forKeyPath:@"metadata.sampleCode" options:nil context:DocumentObservationContext];
-	[[self dataModel] addObserver:self forKeyPath:@"metadata.sampleDescription" options:nil context:DocumentObservationContext];
+	[[self document] addObserver:self forKeyPath:@"metadata.sampleCode" options:nil context:DocumentObservationContext];
+	[[self document] addObserver:self forKeyPath:@"metadata.sampleDescription" options:nil context:DocumentObservationContext];
 	
 	[self addObserver:self forKeyPath:@"showTICTrace" options:nil context:ChromatogramObservationContext];
 	[self addObserver:self forKeyPath:@"showSpectrum" options:nil context:SpectrumObservationContext];
@@ -110,33 +102,59 @@ static void *SpectrumObservationContext = (void *)1102;
 	[self addObserver:self forKeyPath:@"showNormalizedSpectra" options:nil context:SpectrumObservationContext];
 }
 
--(void)dealloc {
-	[peakController removeObserver:self forKeyPath:@"selection"];
+- (void)dealloc  
+{
 	[searchResultsController removeObserver:self forKeyPath:@"selection"];
-	[searchResultsController removeObserver:self forKeyPath:@"content"];
-	[[self dataModel] removeObserver:self forKeyPath:@"metadata.sampleCode"];
-	[[self dataModel] removeObserver:self forKeyPath:@"metadata.sampleDescription"];
+
+	[[self document] removeObserver:self forKeyPath:@"metadata.sampleCode"];
+	[[self document] removeObserver:self forKeyPath:@"metadata.sampleDescription"];
 
     [super dealloc];
 }
 
 #pragma mark IBACTIONS
 
--(IBAction)identifyPeaks:(id)sender{
-	[[self dataModel] identifyPeaks];
+- (IBAction)obtainBaseline:(id)sender 
+{
+	[[self document] obtainBaseline];
 }
 
--(IBAction)showMassChromatogram:(id)sender {	
-	NSString *inString = [sender stringValue];
+
+- (IBAction)identifyPeaks:(id)sender 
+{
+	[[self document] identifyPeaks];
+}
+
+- (IBAction)identifyCompounds:(id)sender 
+{
+#warning [BUG] ChromatogramView doesn't update after identification
+	[NSThread detachNewThreadSelector:@selector(identifyCompounds) toTarget:self withObject:nil];
+}
+
+- (void)identifyCompounds 
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	[NSApp beginSheet: progressSheet
+	   modalForWindow: [self window]
+		modalDelegate: self
+	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
+		  contextInfo: nil];
+		
+	[[self document] searchLibraryForAllPeaks:self];
 	
-	[[[self document] dataModel] addChromatogramForMass:inString];
-//	[self addMassChromatogram:object];
-	[sender setStringValue:@""];
-
-	return;
+	[NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];
+	
+	[pool release]; 
 }
 
--(void)addMassChromatogram:(id)object {
+- (IBAction)showMassChromatogram:(id)sender {	
+	[[self document] addChromatogramForMass:[sender stringValue]];
+
+	[sender setStringValue:@""];
+}
+
+- (void)addMassChromatogram:(id)object  
+{
 	[[[self document] undoManager] registerUndoWithTarget:self
 									  selector:@selector(removeMassChromatogram:)
 										object:object];
@@ -144,7 +162,8 @@ static void *SpectrumObservationContext = (void *)1102;
 	[chromatogramDataSeriesController addObject:object];	
 }
 
--(void)removeMassChromatogram:(id)object {
+- (void)removeMassChromatogram:(id)object  
+{
 	[[[self document] undoManager] registerUndoWithTarget:self
 									  selector:@selector(addMassChromatogram:)
 										object:object];
@@ -152,7 +171,8 @@ static void *SpectrumObservationContext = (void *)1102;
 	[chromatogramDataSeriesController removeObject:object];	
 }
 
--(IBAction)renumberPeaks:(id)sender {
+- (IBAction)renumberPeaks:(id)sender  
+{
 	int i;
 	int peakCount = [[peakController arrangedObjects] count];
 	NSMutableArray *array = [NSMutableArray array];
@@ -173,7 +193,8 @@ static void *SpectrumObservationContext = (void *)1102;
 	[[[self document] undoManager] setActionName:NSLocalizedString(@"Renumber Peaks",@"")];
 }
 
--(void)undoRenumberPeaks:(NSArray *)array {
+- (void)undoRenumberPeaks:(NSArray *)array  
+{
 	int i;
 	int peakCount = [array count];
 	NSMutableArray *arrayOut = [NSMutableArray array];
@@ -196,7 +217,8 @@ static void *SpectrumObservationContext = (void *)1102;
 
 }
 
--(IBAction)resetPeaks:(id)sender {
+- (IBAction)resetPeaks:(id)sender  
+{
 	int i;
 	int peakCount = [[peakController arrangedObjects] count];
 	NSMutableArray *array = [NSMutableArray array];
@@ -228,7 +250,8 @@ static void *SpectrumObservationContext = (void *)1102;
 	[[[self document] undoManager] setActionName:NSLocalizedString(@"Reset Peaks",@"")];
 	
 }
--(void)undoResetPeaks:(NSArray *)array {
+- (void)undoResetPeaks:(NSArray *)array  
+{
 	int i;
 	int peakCount = [[peakController arrangedObjects] count];
 	NSMutableArray *arrayOut = [NSMutableArray array];
@@ -262,7 +285,8 @@ static void *SpectrumObservationContext = (void *)1102;
 	
 }
 
--(IBAction)showPeaksAction:(id)sender {
+- (IBAction)showPeaksAction:(id)sender  
+{
 	if ([sender tag] == 1) {
 		[self setShowPeaks:JKIdenitifiedPeaks];
 		[peakController setFilterPredicate:[NSPredicate predicateWithFormat:@"identified == YES"]];
@@ -281,7 +305,8 @@ static void *SpectrumObservationContext = (void *)1102;
 	}
 }
 
--(IBAction)confirm:(id)sender {
+- (IBAction)confirm:(id)sender  
+{
 	int i;
 	NSMutableArray *arrayOut = [NSMutableArray array];
 
@@ -309,7 +334,7 @@ static void *SpectrumObservationContext = (void *)1102;
 				[object setLibraryHit:[[[searchResultsController selectedObjects] objectAtIndex:0] valueForKey:@"libraryHit"]];
 				[object setValue:[[[searchResultsController selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.name"] forKey:@"label"];
 				[object setValue:[[[searchResultsController selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.symbol"] forKey:@"symbol"];
-				[object setValue:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"] lastPathComponent] forKey:@"library"];
+				[object setValue:[[[[self document] libraryAlias] fullPath] lastPathComponent] forKey:@"library"];
 			} else if ([[object valueForKey:@"identified"] boolValue] == NO) {
 				NSBeep();
 				return;
@@ -327,7 +352,8 @@ static void *SpectrumObservationContext = (void *)1102;
 		NSBeep();
 	}
 }
--(void)undoConfirm:(NSArray *)array {
+- (void)undoConfirm:(NSArray *)array  
+{
 	int i;
 	int count = [array count];
 	NSMutableArray *arrayOut = [NSMutableArray array];
@@ -361,7 +387,8 @@ static void *SpectrumObservationContext = (void *)1102;
 	
 }
 
--(IBAction)discard:(id)sender {
+- (IBAction)discard:(id)sender  
+{
 	NSMutableArray *arrayOut = [NSMutableArray array];
 
 	if ([peakController selectionIndex] != NSNotFound) {
@@ -398,7 +425,8 @@ static void *SpectrumObservationContext = (void *)1102;
 		NSBeep();
 	}
 }
--(void)undoDiscard:(NSArray *)array {
+- (void)undoDiscard:(NSArray *)array  
+{
 	int i;
 	int count = [array count];
 	NSMutableArray *arrayOut = [NSMutableArray array];
@@ -432,7 +460,8 @@ static void *SpectrumObservationContext = (void *)1102;
 	
 }
 
--(IBAction)next:(id)sender{
+- (IBAction)next:(id)sender 
+{
 	int i;
 	if (([peakController selectionIndex] != NSNotFound) && ([peakController selectionIndex] < [[peakController arrangedObjects] count]-1)){
 		i = [peakController selectionIndex]; 
@@ -442,7 +471,8 @@ static void *SpectrumObservationContext = (void *)1102;
 	}
 }
 
--(IBAction)previous:(id)sender{
+- (IBAction)previous:(id)sender 
+{
 	int i;
 	if (([peakController selectionIndex] != NSNotFound) && ([peakController selectionIndex] > 0)){
 		i = [peakController selectionIndex]; 
@@ -452,64 +482,10 @@ static void *SpectrumObservationContext = (void *)1102;
 	}
 }
 
--(IBAction)search:(id)sender{
-	if ([peakController selectionIndex] != NSNotFound) {
-		id currentPeak = [[peakController selectedObjects] objectAtIndex:0];
-		
-//		[searchingIndicator startAnimation:self];
-		
-		// Reset any previous search results
-		[currentPeak setValue:@"" forKey:@"label"];
-		[currentPeak setValue:@"" forKey:@"score"];
-		[currentPeak setValue:@"" forKey:@"symbol"];
-		[currentPeak setLibraryHit:[[[JKLibraryEntry alloc] init] autorelease]];
-		[currentPeak setValue:[NSNumber numberWithBool:NO] forKey:@"identified"];
-		[currentPeak setValue:[NSNumber numberWithBool:NO] forKey:@"confirmed"];
-		
-		[NSThread detachNewThreadSelector:@selector(search) toTarget:self withObject:nil];
-//		[searchingIndicator stopAnimation:self];
-	} else {
-		// Don't know what to search for
-		NSBeep();
-	}
-}
-
--(IBAction)searchOptions:(id)sender{
-    [NSApp beginSheet: searchOptionsSheet
-	   modalForWindow: [self window]
-		modalDelegate: self
-	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
-		  contextInfo: nil];
-    // Sheet is up here.
-    // Return processing to the event loop
-}
 
 
-//-(IBAction)displayAutopilotSheet:(id)sender{
-//    [NSApp beginSheet: autopilotSheet
-//	   modalForWindow: [self window]
-//		modalDelegate: self
-//	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
-//		  contextInfo: nil];
-//    // Sheet is up here.
-//    // Return processing to the event loop
-//}
-
-//-(IBAction)autopilotAction:(id)sender{
-//	[NSApp endSheet:autopilotSheet];
-//	
-//	
-//	NSArray *currentArray = [[NSArray alloc] initWithArray:[[peakController content] copy]];
-//	[[[self document] undoManager] registerUndoWithTarget:peakController 
-//												 selector:@selector(setContent:)
-//												   object:currentArray];
-//	[[[self document] undoManager] setActionName:NSLocalizedString(@"Identify Compounds",@"")];
-//	[currentArray release];
-//	
-//	[NSThread detachNewThreadSelector:@selector(autopilot) toTarget:self withObject:nil];
-//}
-
--(IBAction)other:(id)sender{
+- (IBAction)other:(id)sender 
+{
     [NSApp beginSheet: addSheet
 	   modalForWindow: [self window]
 		modalDelegate: self
@@ -519,37 +495,19 @@ static void *SpectrumObservationContext = (void *)1102;
     // Return processing to the event loop
 }
 
-//-(IBAction)closeAutopilotSheet:(id)sender {
-//    [NSApp endSheet:autopilotSheet];
-//}
 
--(IBAction)closeAddSheet:(id)sender {
+- (IBAction)closeAddSheet:(id)sender  
+{
     [NSApp endSheet:addSheet];
 }
 
--(IBAction)closeSearchOptionsSheet:(id)sender{
-    [NSApp endSheet:searchOptionsSheet];
+- (IBAction)abort:(id)sender  
+{
+    [[self document] setAbortAction:YES];
 }
--(IBAction)browseForDefaultLibrary:(id)sender {
-	int result;
-    NSArray *fileTypes = [NSArray arrayWithObject:@"jdx"];
-    NSOpenPanel *oPanel = [NSOpenPanel openPanel];
-    [oPanel setAllowsMultipleSelection:NO];
-    result = [oPanel runModalForDirectory:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"]
-									 file:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"] types:fileTypes];
-    if (result == NSOKButton) {
-        NSArray *filesToOpen = [oPanel filenames];
-        int i, count = [filesToOpen count];
-        for (i=0; i<count; i++) {
-            NSString *aFile = [filesToOpen objectAtIndex:i];
-			[[[NSUserDefaultsController sharedUserDefaultsController] values] setValue:aFile forKey:@"defaultLibrary"];
-        }
-    }
-}
--(IBAction)abort:(id)sender {
-    [[self libSearch] setAbortAction:YES];
-}
--(IBAction)showTICTraceAction:(id)sender {
+
+- (IBAction)showTICTraceAction:(id)sender  
+{
 	if (showTICTrace) {
 		[self setShowTICTrace:NO];
 	} else {
@@ -557,7 +515,8 @@ static void *SpectrumObservationContext = (void *)1102;
 	}
 }
 
--(IBAction)showSpectrumAction:(id)sender {
+- (IBAction)showSpectrumAction:(id)sender  
+{
 	if (showSpectrum) {
 		[self setShowSpectrum:NO];
 		[self setShowCombinedSpectrum:YES];
@@ -567,7 +526,8 @@ static void *SpectrumObservationContext = (void *)1102;
 	}
 }
 
--(IBAction)showCombinedSpectrumAction:(id)sender {
+- (IBAction)showCombinedSpectrumAction:(id)sender  
+{
 	if (showCombinedSpectrum) {
 		[self setShowCombinedSpectrum:NO];
 		[self setShowSpectrum:YES];
@@ -577,7 +537,8 @@ static void *SpectrumObservationContext = (void *)1102;
 	}
 }
 
--(IBAction)showNormalizedSpectraAction:(id)sender {
+- (IBAction)showNormalizedSpectraAction:(id)sender  
+{
 	if (showNormalizedSpectra) {
 		[self setShowNormalizedSpectra:NO];
 	} else {
@@ -585,134 +546,28 @@ static void *SpectrumObservationContext = (void *)1102;
 	}
 }
 
--(IBAction)showLibraryHitAction:(id)sender {
+- (IBAction)showLibraryHitAction:(id)sender  
+{
 	if (showLibraryHit) {
 		[self setShowLibraryHit:NO];
 	} else {
 		[self setShowLibraryHit:YES];
 	}
 }
--(IBAction)editLibrary:(id)sender {
+- (IBAction)editLibrary:(id)sender  
+{
 	NSError *error = [[NSError alloc] init];
-	NSDocument *document;	
-	NSString *path = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"];
-	if (path == nil) {
-		JKLogError(@"ERROR: No library set in preferences.",[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"]);
-	} else {
-		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:path] display:YES error:&error];
-		if (document == nil) {
-			JKLogError(@"ERROR: File at %@ could not be opened.",[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibrary"]);
-		}		
-	}
+	[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL URLWithString:[[[self document] libraryAlias] fullPath]] display:YES error:&error];
 	[error release];
 }
 
--(IBAction)fitChromatogramDataToView:(id)sender {
+- (IBAction)fitChromatogramDataToView:(id)sender  
+{
 	[chromatogramView showAll:self];
 }
--(IBAction)fitSpectrumDataToView:(id)sender {
+- (IBAction)fitSpectrumDataToView:(id)sender  
+{
 	[spectrumView showAll:self];
-}
-
--(IBAction)autopilotAction:(id)sender{
-    [NSApp beginSheet: progressSheet
-	   modalForWindow: [self window]
-		modalDelegate: self
-	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
-		  contextInfo: nil];
-    // Sheet is up here.
-    // Return processing to the event loop
-	
-	[NSThread detachNewThreadSelector:@selector(identifyPeaks) toTarget:self withObject:nil];
-}
-
-#pragma mark ACTIONS
-
--(void)search {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	if ([peakController selectionIndex] != NSNotFound) {
-		id currentPeak = [[peakController selectedObjects] objectAtIndex:0];
-		
-		[libSearch setDocument:self];
-		
-		[searchResultsController setSelectsInsertedObjects:NO];
-		
-		[searchResultsController setContent:[libSearch searchLibraryForPeak:currentPeak]];
-		[searchResultsController setSelectsInsertedObjects:YES];
-		[searchResultsController setSelectionIndex:0];
-		[resultsTable reloadData];
-		
-	}
-	[pool release]; 
-}
-
--(void)identifyPeaks {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[NSApp beginSheet: progressSheet
-	   modalForWindow: [self window]
-		modalDelegate: self
-	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
-		  contextInfo: nil];
-    // Sheet is up here.
-    // Return processing to the event loop
-	
-	NSArray *peaksArray = [peakController arrangedObjects];
-	
-	[libSearch setDocument:[self document]];
-	[libSearch setProgressIndicator:progressBar];
-	
-	[libSearch searchLibraryForPeaks:peaksArray];
-	
-	if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"soundWhenFinished"] boolValue])
-		NSBeep();	
-	
-	[NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];
-	
-	[pool release]; 
-}
-
--(void)displaySpectrum:(JKSpectrum *)spectrum {
-	SpectrumGraphDataSerie *spectrumDataSerie;
-	
-	spectrumDataSerie = [[SpectrumGraphDataSerie alloc] init];
-	[spectrumDataSerie loadDataPoints:[spectrum numberOfPoints] withXValues:[spectrum masses] andYValues:[spectrum intensities]];
-	
-	[(NSArrayController*)[spectrumView dataSeriesContainer] addObject:spectrumDataSerie];
-	
-	[spectrumDataSerie setSeriesType:2]; // Spectrum kind of plot
-	
-	[spectrumView setKeyForXValue:@"Mass"];
-	[spectrumView setKeyForYValue:@"Intensity"];
-	
-	[spectrumDataSerie setSeriesTitle:NSLocalizedString(@"Observed Spectrum",@"")];
-	[spectrumDataSerie setSeriesColor:[NSColor blueColor]];
-	[spectrumDataSerie setKeyForXValue:[spectrumView keyForXValue]];
-	[spectrumDataSerie setKeyForYValue:[spectrumView keyForYValue]];
-	
-	[spectrumView setNeedsDisplay:YES];	
-	[spectrumDataSerie release];
-}
-
--(void)displayResult:(JKLibraryEntry *)libraryEntry {	
-	SpectrumGraphDataSerie *spectrumDataSerie;
-	
-	spectrumDataSerie = [[SpectrumGraphDataSerie alloc] init];
-	[spectrumDataSerie loadDataPoints:[libraryEntry numberOfPoints] withXValues:[libraryEntry masses] andYValues:[libraryEntry intensities]];
-	
-	[(NSArrayController*)[spectrumView dataSeriesContainer] addObject:spectrumDataSerie];
-	
-	[spectrumDataSerie setSeriesType:2]; // Spectrum kind of plot
-	
-	[spectrumView setKeyForXValue:@"Mass"];
-	[spectrumView setKeyForYValue:@"Intensity"];
-	
-	[spectrumDataSerie setSeriesTitle:NSLocalizedString(@"Library Hit",@"")];
-	[spectrumDataSerie setSeriesColor:[NSColor orangeColor]];
-	[spectrumDataSerie setKeyForXValue:[spectrumView keyForXValue]];
-	[spectrumDataSerie setKeyForYValue:[spectrumView keyForYValue]];
-	
-	[spectrumView setNeedsDisplay:YES];	
-	[spectrumDataSerie release];
 }
 
 #pragma mark KEY VALUE OBSERVATION
@@ -721,55 +576,17 @@ static void *SpectrumObservationContext = (void *)1102;
 					  ofObject:(id)object
 						change:(NSDictionary *)change
 					   context:(void *)context {
-
+	if ((object == peakController) | (object == searchResultsController)) {
+		NSArray *peakArray = [[peakController selectedObjects] valueForKeyPath:@"spectrum.spectrumDataSerie"];
+		NSArray *searchResultsArray = [[searchResultsController selectedObjects] valueForKeyPath:@"libraryHit.spectrumDataSerie"];
+		[spectrumDataSeriesController setContent:[peakArray arrayByAddingObjectsFromArray:searchResultsArray]];
+	}
+	if (context == ChromatogramObservationContext) {
+		[chromatogramView setNeedsDisplay:YES];
+	}
 	if (context == SpectrumObservationContext) {
-		//if ((object == peakController && [keyPath isEqualToString:@"selection"]) || (object == searchResultsController)) {
-		if ([peakController selectionIndex] != NSNotFound) {
-			// Clear current content			
-			[spectrumDataSeriesController removeObjects:[spectrumDataSeriesController arrangedObjects]];
-			
-			id currentPeak = [[peakController selectedObjects] objectAtIndex:0];
-			
-			if (object != searchResultsController) {
-				[searchResultsController setContent:nil];
-				[resultsTable reloadData];				
-			}
-			
-			JKSpectrum *spectrum;
-			if ([self showCombinedSpectrum]) {
-				spectrum = [[self dataModel] getCombinedSpectrumForPeak:currentPeak];				
-			} else {
-				spectrum = [[self dataModel] getSpectrumForPeak:currentPeak];
-			}
-			
-			if ([self showNormalizedSpectra]) 
-				spectrum = [spectrum normalizedSpectrum];
-			
-			[self displaySpectrum:spectrum];
-			
-			if ([self showLibraryHit]) {				
-				// Is there already a searchresult?	
-				JKLibraryEntry *libraryEntry;
-				if ([currentPeak identified] == NO) {
-					if ([searchResultsController selectionIndex] != NSNotFound) {
-						libraryEntry = [[[searchResultsController selectedObjects] objectAtIndex:0] valueForKey:@"libraryHit"];
-					} else {
-					// Nothing to display, so we're done.
-						return;
-					}	
-				} else {
-					libraryEntry = [currentPeak valueForKey:@"libraryHit"];
-				}
-				if ([self showNormalizedSpectra]) {
-					libraryEntry = [libraryEntry negativeNormalizedLibraryEntry];
-				} else {
-					libraryEntry = [libraryEntry negativeLibraryEntry];
-				}
-				// Show library entry	
-				[self displayResult:libraryEntry];			
-			}
-		}
-	} 
+		[spectrumView setNeedsDisplay:YES];
+	}
 	if (context == DocumentObservationContext) {
 		[self synchronizeWindowTitleWithDocumentName];
 	}
@@ -777,7 +594,8 @@ static void *SpectrumObservationContext = (void *)1102;
 
 #pragma mark NSTOOLBAR MANAGEMENT
 
--(void)setupToolbar {
+- (void)setupToolbar  
+{
     // Create a new toolbar instance, and attach it to our document window 
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier: @"PeacockMainWindowToolbarIdentifier"] autorelease];
     
@@ -794,7 +612,8 @@ static void *SpectrumObservationContext = (void *)1102;
     [[self window] setToolbar: toolbar];
 }
 
--(NSToolbarItem *) toolbar: (NSToolbar *)toolbar itemForItemIdentifier: (NSString *) itemIdent willBeInsertedIntoToolbar:(BOOL) willBeInserted {
+- (NSToolbarItem *) toolbar: (NSToolbar *)toolbar itemForItemIdentifier: (NSString *) itemIdent willBeInsertedIntoToolbar:(BOOL) willBeInserted  
+{
     // Required delegate method:  Given an item identifier, this method returns an item 
     // The toolbar will use this method to obtain toolbar items that can be displayed in the customization sheet, or in the toolbar itself 
     NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
@@ -829,12 +648,12 @@ static void *SpectrumObservationContext = (void *)1102;
 		[toolbarItem setPaletteLabel:NSLocalizedString(@"Identify Compounds",@"")];
 		
 		// Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
-		[toolbarItem setToolTip:NSLocalizedString(@"Identify the components associated with the peaks in your chromatogram",@"")];
+		[toolbarItem setToolTip:NSLocalizedString(@"Identify the compounds associated with the peaks in your chromatogram",@"")];
 		[toolbarItem setImage: [NSImage imageNamed: @"questionmark"]];
 		
 		// Tell the item what message to send when it is clicked 
 		[toolbarItem setTarget: self];
-		[toolbarItem setAction: @selector(autopilotAction:)];
+		[toolbarItem setAction: @selector(identifyCompounds:)];
     } else if ([itemIdent isEqual: @"Inspector"]) {
 		// Set the text label to be displayed in the toolbar and customization palette 
 		[toolbarItem setLabel:NSLocalizedString(@"Inspector",@"")];
@@ -855,7 +674,8 @@ static void *SpectrumObservationContext = (void *)1102;
     return toolbarItem;
 }
 
--(NSArray *) toolbarDefaultItemIdentifiers: (NSToolbar *) toolbar {
+- (NSArray *) toolbarDefaultItemIdentifiers: (NSToolbar *) toolbar  
+{
     // Required delegate method:  Returns the ordered list of items to be shown in the toolbar by default    
     // If during the toolbar's initialization, no overriding values are found in the user defaults, or if the
     // user chooses to revert to the default items this set will be used 
@@ -863,7 +683,8 @@ static void *SpectrumObservationContext = (void *)1102;
         NSToolbarShowColorsItemIdentifier, NSToolbarShowFontsItemIdentifier, NSToolbarSeparatorItemIdentifier, @"Inspector", nil];
 }
 
--(NSArray *) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar {
+- (NSArray *) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar  
+{
     // Required delegate method:  Returns the list of all allowed items by identifier.  By default, the toolbar 
     // does not assume any items are allowed, even the separator.  So, every allowed item must be explicitly listed   
     // The set of allowed items is used to construct the customization palette 
@@ -872,7 +693,8 @@ static void *SpectrumObservationContext = (void *)1102;
         NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, nil];
 }
 
--(void) toolbarWillAddItem: (NSNotification *) notif {
+- (void) toolbarWillAddItem: (NSNotification *) notif  
+{
     // Optional delegate method:  Before an new item is added to the toolbar, this notification is posted.
     // This is the best place to notice a new item is going into the toolbar.  For instance, if you need to 
     // cache a reference to the toolbar item or need to set up some initial state, this is the best place 
@@ -885,7 +707,8 @@ static void *SpectrumObservationContext = (void *)1102;
     }
 }  
 
--(void) toolbarDidRemoveItem: (NSNotification *) notif {
+- (void) toolbarDidRemoveItem: (NSNotification *) notif  
+{
     // Optional delegate method:  After an item is removed from a toolbar, this notification is sent.   This allows 
     // the chance to tear down information related to the item that may have been cached.   The notification object
     // is the toolbar from which the item is being removed.  The item being added is found by referencing the @"item"
@@ -894,7 +717,8 @@ static void *SpectrumObservationContext = (void *)1102;
 	
 }
 
--(BOOL) validateToolbarItem: (NSToolbarItem *) toolbarItem {
+- (BOOL) validateToolbarItem: (NSToolbarItem *) toolbarItem  
+{
     // Optional method:  This message is sent to us since we are the target of some toolbar item actions 
     // (for example:  of the save items action) 
     BOOL enable = NO;
@@ -917,62 +741,72 @@ static void *SpectrumObservationContext = (void *)1102;
 
 #pragma mark UNDO MANAGEMENT
 
--(NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window { 
+- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window { 
     return [[self document] undoManager];
 }
 
 #pragma mark ACCESSORS
 
--(JKDataModel *)dataModel
+- (MyGraphView *)chromatogramView  
 {
-    return [[self document] dataModel];
-}
-
--(MyGraphView *)chromatogramView {
     return chromatogramView;
 }
 
--(NSArrayController *)chromatogramDataSeriesController {
+- (NSArrayController *)chromatogramDataSeriesController  
+{
     return chromatogramDataSeriesController;
 }
 
--(NSArrayController *)baselineController {
+- (NSArrayController *)baselineController  
+{
     return baselineController;
 }
--(NSTableView *)peaksTable {
+- (NSTableView *)peaksTable  
+{
 	return peaksTable;
 }
 
--(NSArrayController *)peakController {
+- (NSArrayController *)peakController  
+{
     return peakController;
 }
 
--(NSTableView *)resultsTable {
+- (NSTableView *)resultsTable  
+{
 	return resultsTable;
 }
 
 
--(NSArrayController *)searchResultsController {
+- (NSArrayController *)searchResultsController  
+{
     return searchResultsController;
 }
 
+- (NSProgressIndicator *)progressIndicator
+{
+	return progressBar;
+}
 
 #pragma mark SHEETS
-- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo  
+{
     [sheet orderOut:self];
 }
 
-- (void)windowWillBeginSheet:(NSNotification *)notification {
+- (void)windowWillBeginSheet:(NSNotification *)notification  
+{
 	return;
 }
 
-- (void)windowDidEndSheet:(NSNotification *)notification {
+- (void)windowDidEndSheet:(NSNotification *)notification  
+{
 	return;
 }
 
 #pragma mark MENU/WINDOW HANDLING
 
-- (BOOL)validateMenuItem:(NSMenuItem *)anItem {
+- (BOOL)validateMenuItem:(NSMenuItem *)anItem  
+{
 	if ([anItem action] == @selector(showTICTraceAction:)) {
 		if (showTICTrace) {
 			[anItem setState:NSOnState];
@@ -1034,15 +868,16 @@ static void *SpectrumObservationContext = (void *)1102;
 	}
 }
 
--(NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
-	if (![[[self dataModel] metadata] valueForKey:@"sampleCode"] && ![[[self dataModel] metadata] valueForKey:@"sampleDescription"]) {
+- (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName  
+{
+	if (![[self document] valueForKeyPath:@"metadata.sampleCode"] && ![[self document] valueForKeyPath:@"metadata.sampleDescription"]) {
 		return displayName;
-	} else if ([[[self dataModel] metadata] valueForKey:@"sampleCode"] && [[[self dataModel] metadata] valueForKey:@"sampleDescription"]) {
-		return [displayName stringByAppendingFormat:@" - %@ - %@",[[[self dataModel] metadata] valueForKey:@"sampleCode"],[[[self dataModel] metadata] valueForKey:@"sampleDescription"] ];
-	} else if (![[[self dataModel] metadata] valueForKey:@"sampleCode"] && [[[self dataModel] metadata] valueForKey:@"sampleDescription"]) {
-		return [displayName stringByAppendingFormat:@" - %@",[[[self dataModel] metadata] valueForKey:@"sampleDescription"] ];
-	} else if ([[[self dataModel] metadata] valueForKey:@"sampleCode"] && ![[[self dataModel] metadata] valueForKey:@"sampleDescription"]) {
-		return [displayName stringByAppendingFormat:@" - %@",[[[self dataModel] metadata] valueForKey:@"sampleCode"] ];
+	} else if ([[self document] valueForKeyPath:@"metadata.sampleCode"] && [[self document] valueForKeyPath:@"metadata.sampleDescription"]) {
+		return [displayName stringByAppendingFormat:@" - %@ - %@",[[self document] valueForKeyPath:@"metadata.sampleCode"], [[self document] valueForKeyPath:@"metadata.sampleDescription"] ];
+	} else if (![[self document]valueForKeyPath:@"metadata.sampleCode"] && [[self document] valueForKeyPath:@"metadata.sampleDescription"]) {
+		return [displayName stringByAppendingFormat:@" - %@",[[self document] valueForKeyPath:@"metadata.sampleDescription"] ];
+	} else if ([[self document] valueForKeyPath:@"metadata.sampleCode"] && ![[self document] valueForKeyPath:@"metadata.sampleDescription"]) {
+		return [displayName stringByAppendingFormat:@" - %@",[[self document] valueForKeyPath:@"metadata.sampleCode"] ];
 	} else {
 		return displayName;
 	}
@@ -1050,7 +885,6 @@ static void *SpectrumObservationContext = (void *)1102;
 
 #pragma mark ACCESSORS (MACROSTYLE)
 boolAccessor(abortAction, setAbortAction)
-idAccessor(libSearch, setLibSearch)
 boolAccessor(showTICTrace, setShowTICTrace)
 boolAccessor(showSpectrum, setShowSpectrum)
 boolAccessor(showNormalizedSpectra, setShowNormalizedSpectra)

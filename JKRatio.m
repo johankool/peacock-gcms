@@ -11,11 +11,12 @@
 
 @implementation JKRatio
 
--(id)init {
+- (id)init  
+{
 	return [self initWithString:@""];
 }
 
--(id)initWithString:(NSString *)string { //Designated initializer
+- (id)initWithString:(NSString *)string { //Designated initializer
 	self = [super init];
 	if (self != nil) {
 		[self setFormula:string];
@@ -23,11 +24,12 @@
 			}
 	return self;
 }
-- (void) dealloc {
+- (void) dealloc  
+{
 	[super dealloc];
 }
 
--(float)calculateRatioForKey:(NSString *)key inCombinedPeaksArray:(NSArray *)combinedPeaks {	
+- (float)calculateRatioForKey:(NSString *)key inCombinedPeaksArray:(NSArray *)combinedPeaks {	
 	unsigned int i,j;
 	float nominator = 0.0;
 	float denominator = 0.0;
@@ -91,7 +93,8 @@
 	return nominator/denominator;
 }
 
--(NSString *)getNominator {
+- (NSString *)getNominator  
+{
 	if ([formula length] == 0){
 		JKLogDebug(@"Oops! %@", name);		
 	}
@@ -103,7 +106,8 @@
 	return [[formula substringToIndex:dividerRange.location+2] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"() "]];
 }
 
--(NSString *)getDenominator {
+- (NSString *)getDenominator  
+{
 	if ([formula length] == 0){
 		JKLogDebug(@"Oops! %@", name);		
 	}
@@ -116,7 +120,8 @@
 	return [[formula substringFromIndex:dividerRange.location+1+2] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"() *100%"]];
 }
 
--(NSArray *)compoundsInString:(NSString *)string {
+- (NSArray *)compoundsInString:(NSString *)string  
+{
 	NSArray *array1;// = [[NSArray alloc] init];
 	NSMutableArray *array2= [[NSMutableArray alloc] init];
 	array1 = [string componentsSeparatedByString:@"+"];
@@ -146,7 +151,8 @@
 	return array2;
 }
 
--(void)setFormula:(NSString *)inValue {
+- (void)setFormula:(NSString *)inValue  
+{
 	if (inValue != formula) {
 		NSRange dividerRange;
 		dividerRange = [inValue rangeOfString:@"/"];
@@ -197,21 +203,24 @@
 		
 
 }
--(NSString *)formula {
+- (NSString *)formula  
+{
 	return formula;
 }
 
--(NSArray *)nominatorArray {
+- (NSArray *)nominatorArray  
+{
 	return [self compoundsInString:[self getNominator]];
 }
 
--(NSArray *)denominatorArray {
+- (NSArray *)denominatorArray  
+{
 	return [self compoundsInString:[self getDenominator]];
 }
 
 #pragma mark Encoding
 
--(void)encodeWithCoder:(NSCoder *)coder
+- (void)encodeWithCoder:(NSCoder *)coder
 {
     if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
         [coder encodeInt:1 forKey:@"version"];
@@ -231,11 +240,13 @@
     return self;
 }
 
--(NSString *)name {
+- (NSString *)name  
+{
 	return name;
 }
 
--(void)setName:(NSString *)inValue {
+- (void)setName:(NSString *)inValue  
+{
 	[inValue retain];
 	[name release];
 	name = inValue;

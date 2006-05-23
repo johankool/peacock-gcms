@@ -20,18 +20,18 @@
 }
 
 #pragma mark DRAWING ROUTINES
--(void)plotDataWithTransform:(NSAffineTransform *)trans;
--(void)drawLabelsWithTransform:(NSAffineTransform *)trans;
--(void)drawPeaksWithTransform:(NSAffineTransform *)trans;
--(void)constructPlotPath;
+- (void)plotDataWithTransform:(NSAffineTransform *)trans;
+- (void)drawLabelsWithTransform:(NSAffineTransform *)trans;
+- (void)drawPeaksWithTransform:(NSAffineTransform *)trans;
+- (void)constructPlotPath;
 
 #pragma mark HELPER ROUTINES
--(NSRect)boundingRect;
+- (NSRect)boundingRect;
 
 #pragma mark KEY VALUE OBSERVING MANAGEMENT
 
 #pragma mark MISC
--(NSArray *)dataArrayKeys;
+- (NSArray *)dataArrayKeys;
 
 #pragma mark BINDINGS
 - (NSMutableArray *)peaks;

@@ -7,10 +7,10 @@
 //
 
 @class JKSpectrum;
-@class JKMainDocument;
+@class JKGCMSDocument;
 
 @interface JKChromatogram : NSObject {
-    JKMainDocument *document;
+    JKGCMSDocument *document;
     
     int ncid;
     int numberOfPoints;
@@ -35,13 +35,13 @@
 /*! @functiongroup Initialization */
 
 /*! Designated initializer. */
--(id)initWithDocument:(JKMainDocument *)inDocument;
+-(id)initWithDocument:(JKGCMSDocument *)inDocument;
 
 #pragma mark ACCESSORS
 /*! @functiongroup Accessors */
 
 /*! The document containing our chromatogram. */
--(JKMainDocument *)document;
+-(JKGCMSDocument *)document;
 
 /*! Set ID needed for reading NetCDF file. */
 -(void)setNcid:(int)inValue;

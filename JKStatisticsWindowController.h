@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class JKMainDocument;
+@class JKGCMSDocument;
 
 @interface JKStatisticsWindowController : NSWindowController {
 	NSMutableArray *combinedPeaks;
@@ -60,28 +60,28 @@
 
 #pragma mark ACTIONS
 
--(void)runStatisticalAnalysis;
--(void)collectMetadataForDocument:(JKMainDocument *)document atIndex:(int)index;
--(void)collectCombinedPeaksForDocument:(JKMainDocument *)document atIndex:(int)index;
--(void)calculateRatiosForDocument:(JKMainDocument *)document atIndex:(int)index;
--(void)sortCombinedPeaks;
--(void)insertTableColumns;
+- (void)runStatisticalAnalysis;
+- (void)collectMetadataForDocument:(JKGCMSDocument *)document atIndex:(int)index;
+- (void)collectCombinedPeaksForDocument:(JKGCMSDocument *)document atIndex:(int)index;
+- (void)calculateRatiosForDocument:(JKGCMSDocument *)document atIndex:(int)index;
+- (void)sortCombinedPeaks;
+- (void)insertTableColumns;
 
 #pragma mark IBACTIONS
 
--(IBAction)addButtonAction:(id)sender;
--(IBAction)editRatios:(id)sender;
--(IBAction)cancelEditRatios:(id)sender;
--(IBAction)saveEditRatios:(id)sender;
--(IBAction)options:(id)sender;
--(IBAction)summarizeOptionsDoneAction:(id)sender;
--(IBAction)exportSummary:(id)sender;
--(IBAction)runStatisticalAnalysisButtonAction:(id)sender;
--(IBAction)stopButtonAction:(id)sender;
+- (IBAction)addButtonAction:(id)sender;
+- (IBAction)editRatios:(id)sender;
+- (IBAction)cancelEditRatios:(id)sender;
+- (IBAction)saveEditRatios:(id)sender;
+- (IBAction)options:(id)sender;
+- (IBAction)summarizeOptionsDoneAction:(id)sender;
+- (IBAction)exportSummary:(id)sender;
+- (IBAction)runStatisticalAnalysisButtonAction:(id)sender;
+- (IBAction)stopButtonAction:(id)sender;
 
 #pragma mark ACCESSORS
 
--(NSWindow *)summaryWindow;
+- (NSWindow *)summaryWindow;
 
 #pragma mark ACCESSORS (MACROSTYLE)
 

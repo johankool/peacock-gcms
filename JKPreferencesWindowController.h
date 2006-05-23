@@ -6,12 +6,16 @@
 //  Copyright (c) 2003-2005 Johan Kool. All rights reserved.
 //
 
-@interface JKPreferencesWindowController : NSWindowController {
-   
-}
+@class BDAlias;
+@class JKPathPopUpButton;
 
--(IBAction)closeButtonAction:(id)sender;
--(IBAction)browseForDefaultLibrary:(id)sender;
--(IBAction)browseForCustomLibrary:(id)sender;
+@interface JKPreferencesWindowController : NSWindowController {
+	IBOutlet NSView *generalPreferencesView;
+	IBOutlet NSView *processingPreferencesView;
+	IBOutlet JKPathPopUpButton *libraryPopUpButton;
+
+	NSMutableDictionary *preferencesList;
+	BDAlias *libraryAlias;
+}
 
 @end

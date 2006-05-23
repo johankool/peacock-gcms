@@ -6,38 +6,35 @@
 //  Copyright (c) 2003-2005 Johan Kool. All rights reserved.
 //
 
+@class JKPathPopUpButton;
+
 @interface JKPanelController : NSWindowController {
-	IBOutlet NSView*		panelView;		// From this view we pick up the window to change.
-	NSMutableDictionary*	inspectorListForDocument;		// Auto-generated from tab view's items.
-	NSMutableDictionary*	inspectorListForMyGraphView;		// Auto-generated from tab view's items.
 	
 	IBOutlet NSView *infoPanelView;
+	IBOutlet NSView *processingPanelView;
 	IBOutlet NSView *viewPanelView;
-	IBOutlet NSView *dataSeriesPanelView;
-	IBOutlet NSView *textPanelView;
-	IBOutlet NSView *fontcolorPanelView;
-	IBOutlet NSView *optionsPanelView;
+	IBOutlet NSView *displayPanelView;
+	IBOutlet NSView *naPanelView;
 	
     // Info Panel
     IBOutlet NSTableView *infoTableView;
 
-    // Text Panel
+	// Processing Panel
+	IBOutlet JKPathPopUpButton *libraryPopUpButton;
+	
+    // Display Panel
 	IBOutlet NSTextField *titleTextField;
 	IBOutlet NSTextField *subTitleTextField;
 	IBOutlet NSTextField *xAxisTextField;
 	IBOutlet NSTextField *yAxisTextField;
-	
-    // Template
-    IBOutlet NSPopUpButton *templatePullDownMenu;
-    
-    NSController *appController;
-    IBOutlet NSObjectController *objectController;
-    
-    NSView *inspectedPlotView;
+	    
+	NSMutableDictionary*	inspectorListForDocument;		// Auto-generated from tab view's items.
+	NSMutableDictionary*	inspectorListForMyGraphView;		// Auto-generated from tab view's items.
+
+	IBOutlet NSObjectController *inspectedDocumentController;
+    NSView *inspectedGraphView;
 	NSDocument *inspectedDocument;
-    IBOutlet  NSTabView *plotViewTabView;
     
-    IBOutlet NSWindow *saveSheet, *deleteSheet;
 } 
 
 #pragma mark INITIALIZATION
@@ -46,15 +43,15 @@
 
 #pragma mark IBACTIONS
 
--(IBAction)showInspector:(id)sender;
-
--(void)disableInspector:(id)object;
+- (IBAction)showInspector:(id)sender;
+- (IBAction)resetToDefaultValues:(id)sender;
 
 #pragma mark ACCESSORS
 
--(NSDocument *)inspectedDocument;
--(void)setInspectedDocument:(NSDocument *)document;
-idAccessor_h(inspectedPlotView, setInspectedPlotView);
+//- (NSDocument *)inspectedDocument;
+//- (void)setInspectedDocument:(NSDocument *)document;
+idAccessor_h(inspectedGraphView, setInspectedGraphView);
+idAccessor_h(inspectedDocument, setInspectedDocument);
 
 #pragma mark MENU VALIDATION
 

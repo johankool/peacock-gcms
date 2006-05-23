@@ -6,29 +6,46 @@
 //  Copyright (c) 2003-2005 Johan Kool. All rights reserved.
 //
 
-@class JKMainDocument;
+@class JKGCMSDocument;
 @class JKSpectrum;
 @class JKLibraryEntry;
 
-@interface JKPeakRecord : NSObject {
+@interface JKPeakRecord : NSObject <NSCoding> {
     NSNumber *peakID;
-
+	JKGCMSDocument *document;
+	
 	// Set during peak identification
+	// number = actual scan number
     NSNumber *start;
     NSNumber *end;
     NSNumber *top;
-    NSNumber *startTime;
-    NSNumber *endTime;
-	NSNumber *topTime;
-    NSNumber *width;
-    NSNumber *widthTime;
+ 
+	// number = total intensity units (defaults to arbitrary)
     NSNumber *height;
-    NSNumber *baselineL;
-    NSNumber *baselineR;
+    NSNumber *baselineLeft;
+	NSNumber *baselineRight;
+
+	// number = time axis units (defaults to seconds)
+	NSNumber *topTime;
+    NSNumber *baselineLeftTime;
+    NSNumber *baselineRightTime;
+
+	// number = retention index
+	NSNumber *retentionIndex;
+
+	// number = total intensity units * time axis units
     NSNumber *surface;
+
+	// relative to highest/largest peak
 	NSNumber *normalizedSurface;
 	NSNumber *normalizedHeight;
 	
+	// Non-normalized representative spectrum for peak
+	JKSpectrum *spectrum;
+	
+	// Set during search
+	NSMutableArray *searchResults;
+	 
 	// Set during compound identification
 	NSString *label;
 	NSString *symbol;
@@ -37,83 +54,76 @@
 	NSNumber *score;
 	NSString *library;
 	JKLibraryEntry *libraryHit;
-	NSNumber *retentionIndex;
 }
 
-# pragma mark INITIALIZATION
+//#pragma mark ACTIONS
+//
+//- (void)calculateSurfaceAndHeight;
 
-# pragma mark ACCESSORS
+#pragma mark CALCULATED ACCESSORS
 
--(void)setPeakID:(NSNumber *)inValue;
--(NSNumber *)peakID;
+//- (NSNumber *)normalizedSurface;
+//- (NSNumber *)normalizedHeight;
+- (NSNumber *)deltaRetentionIndex;
 
--(void)setLabel:(NSString *)inValue;
--(NSString *)label;
+#pragma mark ACCESSORS
 
--(void)setSymbol:(NSString *)inValue;
--(NSString *)symbol;
+- (void)setPeakID:(NSNumber *)inValue;
+- (NSNumber *)peakID;
+- (void)setDocument:(JKGCMSDocument *)inValue;
+- (JKGCMSDocument *)document;
 
--(void)setStartTime:(NSNumber *)inValue;
--(NSNumber *)startTime;
+- (void)setStart:(NSNumber *)inValue;
+- (NSNumber *)start;
+- (void)setEnd:(NSNumber *)inValue;
+- (NSNumber *)end;
+- (void)setTop:(NSNumber *)inValue;
+- (NSNumber *)top;
 
--(void)setEndTime:(NSNumber *)inValue;
--(NSNumber *)endTime;
+- (void)setHeight:(NSNumber *)inValue;
+- (NSNumber *)height;
+- (void)setBaselineLeft:(NSNumber *)inValue;
+- (NSNumber *)baselineLeft;
+- (void)setBaselineRight:(NSNumber *)inValue;
+- (NSNumber *)baselineRight;
 
--(void)setWidth:(NSNumber *)inValue;
--(NSNumber *)width;
+- (void)setTopTime:(NSNumber *)inValue;
+- (NSNumber *)topTime;
+- (void)setBaselineLeftTime:(NSNumber *)inValue;
+- (NSNumber *)baselineLeftTime;
+- (void)setBaselineRightTime:(NSNumber *)inValue;
+- (NSNumber *)baselineRightTime;
 
--(void)setHeight:(NSNumber *)inValue;
--(NSNumber *)height;
+- (void)setRetentionIndex:(NSNumber *)inValue;
+- (NSNumber *)retentionIndex;
 
--(void)setNormalizedHeight:(NSNumber *)inValue;
--(NSNumber *)normalizedHeight;
+- (void)setSurface:(NSNumber *)inValue;
+- (NSNumber *)surface;
 
--(void)setBaselineL:(NSNumber *)inValue;
--(NSNumber *)baselineL;
+- (void)setNormalizedHeight:(NSNumber *)inValue;
+- (NSNumber *)normalizedHeight;
+- (void)setNormalizedSurface:(NSNumber *)inValue;
+- (NSNumber *)normalizedSurface;
 
--(void)setBaselineR:(NSNumber *)inValue;
--(NSNumber *)baselineR;
+- (void)setSpectrum:(JKSpectrum *)inValue;
+- (JKSpectrum *)spectrum;
 
--(void)setSurface:(NSNumber *)inValue;
--(NSNumber *)surface;
+- (void)setSearchResults:(NSMutableArray *)inValue;
+- (NSMutableArray *)searchResults;
 
--(void)setNormalizedSurface:(NSNumber *)inValue;
--(NSNumber *)normalizedSurface;
-
--(void)setTop:(NSNumber *)inValue;
--(NSNumber *)top;
-
--(void)setTopTime:(NSNumber *)inValue;
--(NSNumber *)topTime;
-
--(void)setStart:(NSNumber *)inValue;
--(NSNumber *)start;
-
--(void)setEnd:(NSNumber *)inValue;
--(NSNumber *)end;
-
--(void)setIdentified:(BOOL)inValue;
--(BOOL)identified;
-
--(void)setConfirmed:(BOOL)inValue;
--(BOOL)confirmed;
-
--(void)setLibrary:(NSString *)inValue;
--(NSString *)library;
-
--(void)setLibraryHit:(JKLibraryEntry *)inValue;
--(JKLibraryEntry *)libraryHit;
-
--(void)setRetentionIndex:(NSNumber *)inValue;
--(NSNumber *)retentionIndex;
-
-//-(void)setDeltaRetentionIndex:(NSNumber *)inValue;
--(NSNumber *)deltaRetentionIndex;
-
--(void)setScore:(NSNumber *)inValue;
--(NSNumber *)score;
-
--(void)setWidthTime:(NSNumber *)inValue;
--(NSNumber *)widthTime;
+- (void)setLabel:(NSString *)inValue;
+- (NSString *)label;
+- (void)setSymbol:(NSString *)inValue;
+- (NSString *)symbol;
+- (void)setIdentified:(BOOL)inValue;
+- (BOOL)identified;
+- (void)setConfirmed:(BOOL)inValue;
+- (BOOL)confirmed;
+- (void)setScore:(NSNumber *)inValue;
+- (NSNumber *)score;
+- (void)setLibrary:(NSString *)inValue;
+- (NSString *)library;
+- (void)setLibraryHit:(JKLibraryEntry *)inValue;
+- (JKLibraryEntry *)libraryHit;
 
 @end

@@ -9,48 +9,13 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>peacock-stats</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>PEACOCK</string>
-			<key>CFBundleTypeName</key>
-			<string>Peacock Statistics File</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSDocumentClass</key>
-			<string>JKStatisticsDocument</string>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>XML</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
 				<string>jdx</string>
+				<string>dx</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>LIBRARY</string>
 			<key>CFBundleTypeName</key>
 			<string>JCAMP Library</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSDocumentClass</key>
-			<string>JKLibrary</string>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>msl</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>LIBRARY</string>
-			<key>CFBundleTypeName</key>
-			<string>AMDIS Target Library</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSTypeIsPackage</key>
@@ -74,7 +39,7 @@
 			<key>LSTypeIsPackage</key>
 			<true/>
 			<key>NSDocumentClass</key>
-			<string>JKMainDocument</string>
+			<string>JKGCMSDocument</string>
 			<key>NSExportableAs</key>
 			<array>
 				<string>Tab Delimited Text File</string>
@@ -99,7 +64,25 @@
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
-			<string>JKMainDocument</string>
+			<string>JKGCMSDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>peacock-stats</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>PEACOCK</string>
+			<key>CFBundleTypeName</key>
+			<string>Peacock Statistics File</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>JKStatisticsDocument</string>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>XML</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -115,7 +98,7 @@
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
-			<string>JKMainDocument</string>
+			<string>JKGCMSDocument</string>
 			<key>NSPersistentStoreTypeKey</key>
 			<string>Binary</string>
 		</dict>
@@ -123,7 +106,7 @@
 	<key>CFBundleExecutable</key>
 	<string>Peacock</string>
 	<key>CFBundleGetInfoString</key>
-	<string>0.1.4 Copyright © 2003-2006 Johan Kool ea</string>
+	<string>0.1.6 Copyright © 2003-2006 Johan Kool ea</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>Peacock Help</string>
 	<key>CFBundleHelpBookName</key>
@@ -139,15 +122,15 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1.4</string>
+	<string>0.1.6</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array/>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>0.1.6</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.4.4</string>
+	<string>10.4.6</string>
 	<key>NSMainNibFile</key>
 	<string>JKMainMenu</string>
 	<key>NSPrincipalClass</key>

@@ -8,7 +8,7 @@
 
 #import "JKChromatogram.h"
 #import "JKSpectrum.h"
-#import "JKMainDocument.h"
+#import "JKGCMSDocument.h"
 #import "netcdf.h"
 #import "JKDataModel.h"
 
@@ -20,7 +20,7 @@
     return [self initWithDocument:nil];
 }
 
--(id)initWithDocument:(JKMainDocument *)inDocument {
+-(id)initWithDocument:(JKGCMSDocument *)inDocument {
     // designated initializer
     if (self = [super init]) {
         document = inDocument;
@@ -30,7 +30,7 @@
 
 #pragma mark ACCESSORS
 
--(JKMainDocument *)document {
+-(JKGCMSDocument *)document {
     return document;
 }
 

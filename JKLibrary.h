@@ -14,16 +14,17 @@
 }
 
 #pragma mark IMPORT/EXPORT ACTIONS
+- (NSArray *)readJCAMPString:(NSString *)inString;
 
--(BOOL)importJCAMPFromFile:(NSString *)fileName;
--(BOOL)exportJCAMPToFile:(NSString *)fileName;
+- (BOOL)importJCAMPFromFile:(NSString *)fileName;
+- (BOOL)exportJCAMPToFile:(NSString *)fileName;
 
--(BOOL)importAMDISFromFile:(NSString *)fileName;
--(BOOL)exportAMDISToFile:(NSString *)fileName;
+- (BOOL)importAMDISFromFile:(NSString *)fileName;
+- (BOOL)exportAMDISToFile:(NSString *)fileName;
 
 #pragma mark ACCESSORS
 
--(JKLibraryWindowController *)libraryWindowController;
--(NSMutableArray *)libraryArray;
+- (JKLibraryWindowController *)libraryWindowController;
+- (NSMutableArray *)libraryArray;
 
 @end

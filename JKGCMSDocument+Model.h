@@ -6,11 +6,13 @@
 //  Copyright (c) 2003-2005 Johan Kool. All rights reserved.
 //
 
+#import "JKGCMSDocument.h"
+
 @class ChromatogramGraphDataSerie;
 @class JKSpectrum;
 @class JKPeakRecord;
 
-@interface JKDataModel : NSObject {
+@interface JKGCMSDocument (Model) {
     int ncid;
     int numberOfPoints;
     int intensityCount;

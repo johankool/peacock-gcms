@@ -98,7 +98,7 @@
 		if (multiplicity > 0) 
 		  fprintf(stream,")%hd",multiplicity);
 	}
--(NSString *) writeToString
+- (NSString *) writeToString
 {
     unsigned	counter = 0;
     unsigned	maxCount = [entities inUse];

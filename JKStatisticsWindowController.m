@@ -7,17 +7,17 @@
 //
 
 #import "JKStatisticsWindowController.h"
-#import "JKMainDocument.h"
+#import "JKGCMSDocument.h"
 #import "JKMainWindowController.h"
 #import "JKPeakRecord.h"
 #import "JKRatio.h"
-#import "JKDataModel.h"
 #import "JKSpectrum.h"
 #import "Growl/GrowlApplicationBridge.h"
 
 @implementation JKStatisticsWindowController
 
-- (id) init {
+- (id) init  
+{
 	self = [super initWithWindowNibName:@"JKStatisticalAnalysis"];
 	if (self != nil) {
 		combinedPeaks = [[NSMutableArray alloc] init];
@@ -29,7 +29,8 @@
 	}
 	return self;
 }
-- (void) dealloc {
+- (void) dealloc  
+{
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[combinedPeaks release];
 	[ratioValues release];
@@ -41,11 +42,13 @@
 
 #pragma mark WINDOW MANAGEMENT
 
--(void)awakeFromNib {
+- (void)awakeFromNib  
+{
     [[self window] center];
 }
 
--(NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
+- (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName  
+{
 	if ([displayName hasPrefix:@"Untitled"] && ![displayName hasSuffix:@"peacock-stats"]) {
 		return @"Statistical Analysis";
 	} else {
@@ -53,7 +56,8 @@
 	}
 }
 
--(void)windowDidLoad {
+- (void)windowDidLoad  
+{
 	// Load Ratios file from application support folder
 	NSArray *paths;
 	unsigned int i;
@@ -107,7 +111,8 @@
 
 #pragma mark ACTIONS
 
--(void)runStatisticalAnalysis {
+- (void)runStatisticalAnalysis  
+{
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	BOOL errorOccurred = NO;	
 	[self setAbortAction:NO];
@@ -116,7 +121,7 @@
 	[fileProgressIndicator setMaxValue:filesCount*7.0];
 	[fileProgressIndicator setDoubleValue:0.0];
 	NSError *error = [[NSError alloc] init];
-	JKMainDocument *document;
+	JKGCMSDocument *document;
 	[self willChangeValueForKey:@"metadata"];
 	[self willChangeValueForKey:@"combinedPeaks"];
 	[self willChangeValueForKey:@"ratioValues"];
@@ -275,14 +280,15 @@
 	[pool release];
 }
 
--(void)collectMetadataForDocument:(JKMainDocument *)document atIndex:(int)index {
+- (void)collectMetadataForDocument:(JKGCMSDocument *)document atIndex:(int)index  
+{
 	NSMutableDictionary *metadataDictSampleCode = [metadata objectAtIndex:0];
 	NSMutableDictionary *metadataDictDescription = [metadata objectAtIndex:1];
 	NSMutableDictionary *metadataDictPath = [metadata objectAtIndex:2];
 	NSMutableDictionary *metadataDictDisplayName = [metadata objectAtIndex:3];
 	
-	[metadataDictSampleCode setValue:[[[document dataModel] metadata] valueForKey:@"sampleCode"] forKey:[NSString stringWithFormat:@"file_%d",index]];
-	[metadataDictDescription setValue:[[[document dataModel] metadata] valueForKey:@"sampleDescription"] forKey:[NSString stringWithFormat:@"file_%d",index]];
+	[metadataDictSampleCode setValue:[document valueForKeyPath:@"metadata.sampleCode"] forKey:[NSString stringWithFormat:@"file_%d",index]];
+	[metadataDictDescription setValue:[document valueForKeyPath:@"metadata.sampleDescription"] forKey:[NSString stringWithFormat:@"file_%d",index]];
 	[metadataDictPath setValue:[document fileName] forKey:[NSString stringWithFormat:@"file_%d",index]];
 	[metadataDictDisplayName setValue:[document displayName] forKey:[NSString stringWithFormat:@"file_%d",index]];
 	
@@ -299,7 +305,8 @@
 	return;
 }
 
--(void)collectCombinedPeaksForDocument:(JKMainDocument *)document atIndex:(int)index {
+- (void)collectCombinedPeaksForDocument:(JKGCMSDocument *)document atIndex:(int)index  
+{
 	// This autoreleasepool allows to flush the memory after each file, to prevent using more than 2 GB during this loop!
 	NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
 	
@@ -328,7 +335,7 @@
 	
 	date = [NSDate date];
 	peaksCompared = 0;
-	peaksArray = [[document dataModel] peaks];
+	peaksArray = [document peaks];
 	peaksCount = [peaksArray count];
 	
 	// Go through the peaks
@@ -360,7 +367,7 @@
 			}
 		}
 		
-		spectrum = [[[document dataModel] getSpectrumForPeak:peak] normalizedSpectrum];
+		spectrum = [[peak spectrum] normalizedSpectrum];
 		
 		for (k=0; k < combinedPeaksCount; k++) {
 			combinedPeak = [combinedPeaks objectAtIndex:k];
@@ -399,11 +406,11 @@
 		}
 		if (!isKnownCombinedPeak) {
 			if (!isUnknownCompound) {
-				combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:peakName, @"label", peak, [NSString stringWithFormat:@"file_%d",index], [peak topTime], @"topTime", [[[document dataModel] getSpectrumForPeak:peak] normalizedSpectrum], @"spectrum", nil];
+				combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:peakName, @"label", peak, [NSString stringWithFormat:@"file_%d",index], [peak topTime], @"topTime", [[peak spectrum] normalizedSpectrum], @"spectrum", nil];
 				[peakToAddToCombinedPeaks addObject:combinedPeak];	
 				[combinedPeak release];
 			} else {
-				combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:NSLocalizedString(@"Unknown compound %d ",@"Unknown compounds in stats summary."), unknownCount], @"label", peak, [NSString stringWithFormat:@"file_%d",index], [peak retentionIndex], @"retentionIndex", [[[document dataModel] getSpectrumForPeak:peak] normalizedSpectrum], @"spectrum", nil];
+				combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:NSLocalizedString(@"Unknown compound %d ",@"Unknown compounds in stats summary."), unknownCount], @"label", peak, [NSString stringWithFormat:@"file_%d",index], [peak retentionIndex], @"retentionIndex", [[peak spectrum] normalizedSpectrum], @"spectrum", nil];
 				//NSLog(@"%@", [combinedPeak description]);
 				[peakToAddToCombinedPeaks addObject:combinedPeak];
 				[combinedPeak release];
@@ -454,7 +461,8 @@
 	[subPool release];
 }
 
--(void)calculateRatiosForDocument:(JKMainDocument *)document atIndex:(int)index {
+- (void)calculateRatiosForDocument:(JKGCMSDocument *)document atIndex:(int)index  
+{
 	int j;
 	int ratiosCount;
 	float result;
@@ -498,7 +506,8 @@
 	return;
 }
 
--(void)sortCombinedPeaks{
+- (void)sortCombinedPeaks 
+{
 	JKLogEnteringMethod();
 	NSMutableDictionary *combinedPeak;
 	NSString *key;
@@ -592,7 +601,8 @@
 //}
 
 
--(void)saveRatiosFile {
+- (void)saveRatiosFile  
+{
 	NSArray *paths;
 	
 	paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSAllDomainsMask, YES);
@@ -603,7 +613,8 @@
     }
 }
 
--(void)insertTableColumns {
+- (void)insertTableColumns  
+{
 	int i;
 	int filesCount = [files count];
 
@@ -690,7 +701,8 @@
 
 #pragma mark IBACTIONS
 
--(IBAction)addButtonAction:(id)sender {
+- (IBAction)addButtonAction:(id)sender  
+{
 	NSArray *fileTypes = [NSArray arrayWithObjects:@"cdf", @"peacock",nil];
     NSOpenPanel *oPanel = [NSOpenPanel openPanel];
     [oPanel setAllowsMultipleSelection:YES];
@@ -698,7 +710,8 @@
 }
 
 
--(IBAction)doubleClickAction:(id)sender {
+- (IBAction)doubleClickAction:(id)sender  
+{
 	JKLogDebug(@"row %d column %d",[sender clickedRow], [sender clickedColumn]);
 	NSError *error = [[[NSError alloc] init] autorelease];
 	if (([sender clickedRow] == -1) && ([sender clickedColumn] == -1)) {
@@ -716,7 +729,7 @@
 		// Bring forwars associated file and
 		// select associated peak
 		// Ugliest code ever! note that keyPath depends on the binding, so if we bind to something else e.g. height, this will fail!
-		JKMainDocument *document;
+		JKGCMSDocument *document;
 	//	[[[[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] identifier] mainWindowController] window] makeKeyAndOrderFront:self];
 		NSURL *url = [NSURL fileURLWithPath:[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-1]]];
 		document = [[NSDocumentController sharedDocumentController] documentForURL:url];
@@ -741,7 +754,8 @@
 	}
 }
 
--(IBAction)options:(id)sender {
+- (IBAction)options:(id)sender  
+{
 	[NSApp beginSheet: optionsSheet
 	   modalForWindow: [self window]
 		modalDelegate: self
@@ -751,11 +765,13 @@
     // Return processing to the event loop		
 }
 
--(IBAction)summarizeOptionsDoneAction:(id)sender {
+- (IBAction)summarizeOptionsDoneAction:(id)sender  
+{
 	[NSApp endSheet:summarizeOptionsSheet];
 }
 
--(IBAction)runStatisticalAnalysisButtonAction:(id)sender {
+- (IBAction)runStatisticalAnalysisButtonAction:(id)sender  
+{
 	[NSApp beginSheet: progressSheet
 	   modalForWindow: [self window]
 		modalDelegate: self
@@ -768,11 +784,13 @@
 	
 }
 
--(IBAction)stopButtonAction:(id)sender{
+- (IBAction)stopButtonAction:(id)sender 
+{
 	[self setAbortAction:YES];
 }
 
--(IBAction)editRatios:(id)sender {
+- (IBAction)editRatios:(id)sender  
+{
 	[NSApp beginSheet: ratiosEditor
 	   modalForWindow: [self window]
 		modalDelegate: self
@@ -783,18 +801,21 @@
 	
 }
 
--(IBAction)cancelEditRatios:(id)sender {
+- (IBAction)cancelEditRatios:(id)sender  
+{
 	[NSApp endSheet:ratiosEditor];
 
 }
 
--(IBAction)saveEditRatios:(id)sender {
+- (IBAction)saveEditRatios:(id)sender  
+{
 	[self saveRatiosFile];
 	[NSApp endSheet:ratiosEditor];
 }
 
 
--(IBAction)exportSummary:(id)sender {
+- (IBAction)exportSummary:(id)sender  
+{
 	NSSavePanel *sp;
 	int runResult;
 	
@@ -911,7 +932,8 @@
 
 #pragma mark SYNCHRONIZED SCROLLING
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectTableColumn:(NSTableColumn *)aTableColumn {
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectTableColumn:(NSTableColumn *)aTableColumn  
+{
 	if ([[aTableColumn identifier] isKindOfClass:[NSString class]]) {
 		return NO;
 	} else {
@@ -919,7 +941,8 @@
 	}
 }
 
-- (void)scrollViewBoundsDidChange:(NSNotification *)aNotification {
+- (void)scrollViewBoundsDidChange:(NSNotification *)aNotification  
+{
 	NSView *clipView;
 	clipView = [aNotification object];
 	if (!scrollingViewProgrammatically) {
@@ -968,7 +991,8 @@
 	scrollingViewProgrammatically = NO;	
 }
 
-- (void)tableViewColumnDidMove:(NSNotification *)aNotification {
+- (void)tableViewColumnDidMove:(NSNotification *)aNotification  
+{
 	NSTableView *tableView;
 	tableView = [aNotification object];
 	if (!movingColumnsProgramatically) {
@@ -992,7 +1016,8 @@
 	movingColumnsProgramatically = NO;	
 }
 
-- (void)tableViewColumnDidResize:(NSNotification *)aNotification {
+- (void)tableViewColumnDidResize:(NSNotification *)aNotification  
+{
 	NSTableView *tableView;
 	tableView = [aNotification object];
 	if (!movingColumnsProgramatically) {
@@ -1009,13 +1034,15 @@
 	}
 }
 
-- (void)tableView:(NSTableView *)tableView didDragTableColumn:(NSTableColumn *)tableColumn {
+- (void)tableView:(NSTableView *)tableView didDragTableColumn:(NSTableColumn *)tableColumn  
+{
 	[resultsTable moveColumn:[resultsTable columnWithIdentifier:@"firstColumn"] toColumn:0];
 	[ratiosTable moveColumn:[ratiosTable columnWithIdentifier:@"firstColumn"] toColumn:0];
 	[metadataTable moveColumn:[metadataTable columnWithIdentifier:@"firstColumn"] toColumn:0];
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex  
+{
 	if (aTableView == metadataTable) {
 		return NO;
 	} else {
@@ -1023,7 +1050,8 @@
 	}
 }
 
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification  
+{
 	NSTableView *tableView;
 	tableView = [aNotification object];
 	if ([tableView selectedColumn] == NSNotFound) {
@@ -1051,7 +1079,8 @@
 
 #pragma mark SHEETS
 
--(void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
+- (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo  
+{
     if (returnCode == NSOKButton) {
 		BOOL alreadyInFiles;
         NSArray *filesToOpen = [sheet filenames];
@@ -1080,21 +1109,25 @@
 	}	
 }
 
-- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo  
+{
     [sheet orderOut:self];
 }
 
-- (void)windowWillBeginSheet:(NSNotification *)notification {
+- (void)windowWillBeginSheet:(NSNotification *)notification  
+{
 	return;
 }
 
-- (void)windowDidEndSheet:(NSNotification *)notification {
+- (void)windowDidEndSheet:(NSNotification *)notification  
+{
 	return;
 }
 
 #pragma mark ACCESSORS
 
--(NSWindow *)summaryWindow {
+- (NSWindow *)summaryWindow  
+{
 	return summaryWindow;
 }
 

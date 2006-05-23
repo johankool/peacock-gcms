@@ -6,10 +6,15 @@
 //  Copyright (c) 2003-2005 Johan Kool. All rights reserved.
 //
 
-@class JKSpectrum;
 @class JKLibraryEntry;
+@class JKGCMSDocument;
+@class JKPeakRecord;
+@class SpectrumGraphDataSerie;
 
-@interface JKSpectrum : NSObject {
+@interface JKSpectrum : NSObject <NSCoding> {
+	JKGCMSDocument *document;
+	JKPeakRecord *peak;
+	
 	float retentionIndex;
 
     float minimumIntensity;
@@ -20,31 +25,36 @@
 	int numberOfPoints;
 	float *masses;
 	float *intensities;
-	
-	// Score settings
-	int formulaChoosen;
-	BOOL penalizeForRetentionIndex;	
- }
+}
 
--(JKSpectrum *)spectrumBySubtractingSpectrum:(JKSpectrum *)inSpectrum;
--(JKSpectrum *)spectrumByAveragingWithSpectrum:(JKSpectrum *)inSpectrum;
--(JKSpectrum *)normalizedSpectrum;
+#pragma mark ACTIONS
 
--(float)scoreComparedToSpectrum:(JKSpectrum *)inSpectrum;
--(float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry;
+- (JKSpectrum *)spectrumBySubtractingSpectrum:(JKSpectrum *)inSpectrum;
+- (JKSpectrum *)spectrumByAveragingWithSpectrum:(JKSpectrum *)inSpectrum;
+- (JKSpectrum *)normalizedSpectrum;
+
+- (SpectrumGraphDataSerie *)spectrumDataSerie;
+
+- (float)scoreComparedToSpectrum:(JKSpectrum *)inSpectrum;
+- (float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry;
 
 #pragma mark ACCESSORS
--(int)numberOfPoints;
--(void)setMasses:(float *)inArray withCount:(int)inValue;
--(float *)masses;
--(void)setIntensities:(float *)inArray withCount:(int)inValue;
--(float *)intensities;
--(void)setRetentionIndex:(float)inValue;
--(float)retentionIndex;
+- (void)setDocument:(JKGCMSDocument *)inValue;
+- (JKGCMSDocument *)document;
+- (void)setPeak:(JKPeakRecord *)inValue;
+- (JKPeakRecord *)peak;
 
--(float)minimumMass;
--(float)maximumMass;
--(float)minimumIntensity;
--(float)maximumIntensity;
+- (int)numberOfPoints;
+- (void)setMasses:(float *)inArray withCount:(int)inValue;
+- (float *)masses;
+- (void)setIntensities:(float *)inArray withCount:(int)inValue;
+- (float *)intensities;
+- (void)setRetentionIndex:(float)inValue;
+- (float)retentionIndex;
+
+- (float)minimumMass;
+- (float)maximumMass;
+- (float)minimumIntensity;
+- (float)maximumIntensity;
 
 @end

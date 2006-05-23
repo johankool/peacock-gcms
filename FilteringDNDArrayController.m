@@ -165,7 +165,7 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
 
 
 
--(void)moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet *)indexSet 
+- (void)moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet *)indexSet 
 									   toIndex:(unsigned)index
 {
     unsigned off1 = 0, off2 = 0;

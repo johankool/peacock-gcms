@@ -29,7 +29,8 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 	return [NSArray arrayWithObjects:@"peaks", @"peaksSelectionIndexes", nil];
 }
 
-- (id)init {
+- (id)init  
+{
     self = [super init];
     if (self) {
  //       // Zet de standaardwaarden
@@ -62,7 +63,8 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 
 
 #pragma mark DRAWING ROUTINES
--(void)plotDataWithTransform:(NSAffineTransform *)trans {
+- (void)plotDataWithTransform:(NSAffineTransform *)trans  
+{
 	NSBezierPath *bezierpath;
 	
 	if (!plotPath) [self constructPlotPath];
@@ -84,7 +86,8 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 		[self drawLabelsWithTransform:trans];
 }
 
--(void)constructPlotPath {
+- (void)constructPlotPath  
+{
 	int i, count;
 	NSPoint pointInUnits;
 	NSBezierPath *bezierpath = [[NSBezierPath alloc] init];
@@ -112,7 +115,8 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 	[bezierpath release];
 }
 
--(void)drawPeaksWithTransform:(NSAffineTransform *)trans {
+- (void)drawPeaksWithTransform:(NSAffineTransform *)trans  
+{
 	int i, count;
 
 	// Get peaks count
@@ -143,7 +147,7 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 	for (i=0; i < count; i++) {
 		[peaksPath removeAllPoints];
 		
-		pointToDrawFirst = NSMakePoint([[[[self peaks] objectAtIndex:i] valueForKey:@"start"] floatValue],[[[[self peaks] objectAtIndex:i] valueForKey:@"baselineL"] floatValue]); // Only works for scan, not for time!!
+		pointToDrawFirst = NSMakePoint([[[[self peaks] objectAtIndex:i] valueForKey:@"start"] floatValue],[[[[self peaks] objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]); // Only works for scan, not for time!!
 		pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
 
 		[peaksPath moveToPoint:pointToDrawFirst];
@@ -158,7 +162,7 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 			[peaksPath lineToPoint:pointInUnits];
 		}
 		
-		pointToDrawLast  = NSMakePoint([[[[self peaks] objectAtIndex:i] valueForKey:@"end"] floatValue],[[[[self peaks] objectAtIndex:i] valueForKey:@"baselineR"] floatValue]);// Only works for scan, not for time!!
+		pointToDrawLast  = NSMakePoint([[[[self peaks] objectAtIndex:i] valueForKey:@"end"] floatValue],[[[[self peaks] objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]);// Only works for scan, not for time!!
 		pointToDrawLast  = [trans transformPoint:pointToDrawLast];
 		
 		[peaksPath lineToPoint:pointToDrawLast];
@@ -183,7 +187,7 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 	for (i=0; i < count; i++) {
 		[peaksPath removeAllPoints];
 		
-		pointToDrawFirst = NSMakePoint([[[selectedPeaks objectAtIndex:i] valueForKey:@"start"] floatValue],[[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineL"] floatValue]); // Only works for scan, not for time!!
+		pointToDrawFirst = NSMakePoint([[[selectedPeaks objectAtIndex:i] valueForKey:@"start"] floatValue],[[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]); // Only works for scan, not for time!!
 		pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
 		
 		[peaksPath moveToPoint:pointToDrawFirst];
@@ -198,7 +202,7 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 			[peaksPath lineToPoint:pointInUnits];
 		}
 		
-		pointToDrawLast  = NSMakePoint([[[selectedPeaks objectAtIndex:i] valueForKey:@"end"] floatValue],[[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineR"] floatValue]);// Only works for scan, not for time!!
+		pointToDrawLast  = NSMakePoint([[[selectedPeaks objectAtIndex:i] valueForKey:@"end"] floatValue],[[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]);// Only works for scan, not for time!!
 			pointToDrawLast  = [trans transformPoint:pointToDrawLast];
 			
 			[peaksPath lineToPoint:pointToDrawLast];
@@ -241,7 +245,8 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 	[peaksPath release];
 }
 
--(void)drawLabelsWithTransform:(NSAffineTransform *)trans {
+- (void)drawLabelsWithTransform:(NSAffineTransform *)trans  
+{
 	int count = [[self peaks] count];
 	if (count <= 0)		
 		return;
@@ -335,7 +340,8 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 }
 
 #pragma mark HELPER ROUTINES
--(NSRect)boundingRect {
+- (NSRect)boundingRect  
+{
 	return [[self plotPath] bounds];
 }
 
@@ -391,7 +397,8 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 }
 
 #pragma mark MISC
--(NSArray *)dataArrayKeys {
+- (NSArray *)dataArrayKeys  
+{
 	return [[dataArray objectAtIndex:0] allKeys];
 }
 
@@ -438,7 +445,8 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 }
 
 
-- (void)unbind:(NSString *)bindingName {
+- (void)unbind:(NSString *)bindingName  
+{
 	
 	if ([bindingName isEqualToString:@"peaks"])
 	{
@@ -503,11 +511,11 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 }
 
 #pragma mark ACCESSORS
--(BOOL)shouldDrawPeaks
+- (BOOL)shouldDrawPeaks
 {
 	return shouldDrawPeaks;
 }
--(void)setShouldDrawPeaks:(BOOL)inValue 
+- (void)setShouldDrawPeaks:(BOOL)inValue 
 {
     shouldDrawPeaks = inValue;
 }
