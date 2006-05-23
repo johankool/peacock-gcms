@@ -224,11 +224,8 @@
 		C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FilteringDNDArrayController.m; sourceTree = "<group>"; };
 		C7BC505109A62C930093106E /* JKLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKLog.h; sourceTree = "<group>"; };
 		C7BC505209A62C930093106E /* JKLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLog.m; sourceTree = "<group>"; };
-		C7E5B1D10A14934200BB2291 /* About BDAlias.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "About BDAlias.rtf"; sourceTree = "<group>"; };
 		C7E5B1D20A14934200BB2291 /* BDAlias.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BDAlias.h; sourceTree = "<group>"; };
 		C7E5B1D30A14934200BB2291 /* BDAlias.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BDAlias.m; sourceTree = "<group>"; };
-		C7E5B1D40A14934200BB2291 /* BDAlias.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = BDAlias.rtf; sourceTree = "<group>"; };
-		C7E5B1D50A14934200BB2291 /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
 		C7EB17A60898CF2D007FC2ED /* AccessorMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccessorMacros.h; sourceTree = "<group>"; };
 		C7EB17A70898CF2D007FC2ED /* CAtom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAtom.h; sourceTree = "<group>"; };
 		C7EB17A80898CF2D007FC2ED /* CAtom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CAtom.m; sourceTree = "<group>"; };
@@ -665,11 +662,8 @@
 		C7E5B1C50A14930600BB2291 /* BDAlias */ = {
 			isa = PBXGroup;
 			children = (
-				C7E5B1D10A14934200BB2291 /* About BDAlias.rtf */,
 				C7E5B1D20A14934200BB2291 /* BDAlias.h */,
 				C7E5B1D30A14934200BB2291 /* BDAlias.m */,
-				C7E5B1D40A14934200BB2291 /* BDAlias.rtf */,
-				C7E5B1D50A14934200BB2291 /* License.rtf */,
 			);
 			name = BDAlias;
 			sourceTree = "<group>";
