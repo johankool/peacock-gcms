@@ -89,6 +89,8 @@ extern int const JKGCMSDocument_Version;
 - (ChromatogramGraphDataSerie *)chromatogramForMass:(NSString *)inString;
 - (void)identifyPeaks;
 - (void)resetToDefaultValues;
+- (BOOL)searchLibraryForAllPeaks:(id)sender;
+- (void)redistributedSearchResults:(JKPeakRecord *)originatingPeak;
 
 #pragma mark HELPER ACTIONS
 

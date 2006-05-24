@@ -12,7 +12,6 @@
 #import "ChromatogramGraphDataSerie.h"
 #import "JKGCMSDocument.h"
 #import "JKLibraryEntry.h"
-#import "JKLibrarySearch.h"
 #import "JKPeakRecord.h"
 #import "JKSpectrum.h"
 #import "MyGraphView.h"
@@ -217,73 +216,73 @@ static void *SpectrumObservationContext = (void *)1102;
 
 }
 
-- (IBAction)resetPeaks:(id)sender  
-{
-	int i;
-	int peakCount = [[peakController arrangedObjects] count];
-	NSMutableArray *array = [NSMutableArray array];
-	for (i = 0; i < peakCount; i++) {
-		id object = [[peakController arrangedObjects] objectAtIndex:i];
-		
-		// Undo preparation
-		NSMutableDictionary *mutDict = [NSMutableDictionary dictionary];
-		[mutDict setObject:object forKey:@"peakrecord"];
-		[mutDict setValue:[object valueForKey:@"label"] forKey:@"label"];
-		[mutDict setValue:[object valueForKey:@"score"] forKey:@"score"];
-		[mutDict setValue:[object valueForKey:@"symbol"] forKey:@"symbol"];
-		[mutDict setValue:[object libraryHit] forKey:@"libraryHit"];
-		[mutDict setValue:[object valueForKey:@"identified"] forKey:@"identified"];
-		[mutDict setValue:[object valueForKey:@"confirmed"] forKey:@"confirmed"];
-		[array addObject:mutDict];
-		
-		// The real thing
-		[object setValue:@"" forKey:@"label"];
-		[object setValue:@"" forKey:@"score"];
-		[object setValue:@"" forKey:@"symbol"];
-		[object setLibraryHit:[[[JKLibraryEntry alloc] init] autorelease]];
-		[object setValue:[NSNumber numberWithBool:NO] forKey:@"identified"];
-		[object setValue:[NSNumber numberWithBool:NO] forKey:@"confirmed"];		
-	}	
-	[[[self document] undoManager] registerUndoWithTarget:self
-												 selector:@selector(undoResetPeaks:)
-												   object:array];
-	[[[self document] undoManager] setActionName:NSLocalizedString(@"Reset Peaks",@"")];
-	
-}
-- (void)undoResetPeaks:(NSArray *)array  
-{
-	int i;
-	int peakCount = [[peakController arrangedObjects] count];
-	NSMutableArray *arrayOut = [NSMutableArray array];
-	for (i = 0; i < peakCount; i++) {
-		id object = [[array objectAtIndex:i] objectForKey:@"peakrecord"];
-		
-		// Redo preparation
-		NSMutableDictionary *mutDict = [NSMutableDictionary dictionary];
-		[mutDict setObject:object forKey:@"peakrecord"];
-		[mutDict setValue:[object valueForKey:@"label"] forKey:@"label"];
-		[mutDict setValue:[object valueForKey:@"score"] forKey:@"score"];
-		[mutDict setValue:[object valueForKey:@"symbol"] forKey:@"symbol"];
-		[mutDict setValue:[object valueForKey:@"libraryHit"] forKey:@"libraryHit"];
-		[mutDict setValue:[object valueForKey:@"identified"] forKey:@"identified"];
-		[mutDict setValue:[object valueForKey:@"confirmed"] forKey:@"confirmed"];
-		[arrayOut addObject:mutDict];
-		
-		// Reading back what was changed
-		[object setValue:[[array objectAtIndex:i] valueForKey:@"label"] forKey:@"label"];
-		[object setValue:[[array objectAtIndex:i] valueForKey:@"score"] forKey:@"score"];
-		[object setValue:[[array objectAtIndex:i] valueForKey:@"symbol"] forKey:@"symbol"];
-		[object setLibraryHit:[[array objectAtIndex:i] valueForKey:@"libraryHit"]];
-		[object setValue:[[array objectAtIndex:i] valueForKey:@"identified"] forKey:@"identified"];
-		[object setValue:[[array objectAtIndex:i] valueForKey:@"confirmed"] forKey:@"confirmed"];
-		
-	}	
-	[[[self document] undoManager] registerUndoWithTarget:self
-												 selector:@selector(undoResetPeaks:)
-												   object:arrayOut];
-	[[[self document] undoManager] setActionName:NSLocalizedString(@"Reset Peaks",@"")];
-	
-}
+//- (IBAction)resetPeaks:(id)sender  
+//{
+//	int i;
+//	int peakCount = [[peakController arrangedObjects] count];
+//	NSMutableArray *array = [NSMutableArray array];
+//	for (i = 0; i < peakCount; i++) {
+//		id object = [[peakController arrangedObjects] objectAtIndex:i];
+//		
+//		// Undo preparation
+//		NSMutableDictionary *mutDict = [NSMutableDictionary dictionary];
+//		[mutDict setObject:object forKey:@"peakrecord"];
+//		[mutDict setValue:[object valueForKey:@"label"] forKey:@"label"];
+//		[mutDict setValue:[object valueForKey:@"score"] forKey:@"score"];
+//		[mutDict setValue:[object valueForKey:@"symbol"] forKey:@"symbol"];
+//		[mutDict setValue:[object libraryHit] forKey:@"libraryHit"];
+//		[mutDict setValue:[object valueForKey:@"identified"] forKey:@"identified"];
+//		[mutDict setValue:[object valueForKey:@"confirmed"] forKey:@"confirmed"];
+//		[array addObject:mutDict];
+//		
+//		// The real thing
+//		[object setValue:@"" forKey:@"label"];
+//		[object setValue:@"" forKey:@"score"];
+//		[object setValue:@"" forKey:@"symbol"];
+//		[object setLibraryHit:[[[JKLibraryEntry alloc] init] autorelease]];
+//		[object setValue:[NSNumber numberWithBool:NO] forKey:@"identified"];
+//		[object setValue:[NSNumber numberWithBool:NO] forKey:@"confirmed"];		
+//	}	
+//	[[[self document] undoManager] registerUndoWithTarget:self
+//												 selector:@selector(undoResetPeaks:)
+//												   object:array];
+//	[[[self document] undoManager] setActionName:NSLocalizedString(@"Reset Peaks",@"")];
+//	
+//}
+//- (void)undoResetPeaks:(NSArray *)array  
+//{
+//	int i;
+//	int peakCount = [[peakController arrangedObjects] count];
+//	NSMutableArray *arrayOut = [NSMutableArray array];
+//	for (i = 0; i < peakCount; i++) {
+//		id object = [[array objectAtIndex:i] objectForKey:@"peakrecord"];
+//		
+//		// Redo preparation
+//		NSMutableDictionary *mutDict = [NSMutableDictionary dictionary];
+//		[mutDict setObject:object forKey:@"peakrecord"];
+//		[mutDict setValue:[object valueForKey:@"label"] forKey:@"label"];
+//		[mutDict setValue:[object valueForKey:@"score"] forKey:@"score"];
+//		[mutDict setValue:[object valueForKey:@"symbol"] forKey:@"symbol"];
+//		[mutDict setValue:[object valueForKey:@"libraryHit"] forKey:@"libraryHit"];
+//		[mutDict setValue:[object valueForKey:@"identified"] forKey:@"identified"];
+//		[mutDict setValue:[object valueForKey:@"confirmed"] forKey:@"confirmed"];
+//		[arrayOut addObject:mutDict];
+//		
+//		// Reading back what was changed
+//		[object setValue:[[array objectAtIndex:i] valueForKey:@"label"] forKey:@"label"];
+//		[object setValue:[[array objectAtIndex:i] valueForKey:@"score"] forKey:@"score"];
+//		[object setValue:[[array objectAtIndex:i] valueForKey:@"symbol"] forKey:@"symbol"];
+//		[object setLibraryHit:[[array objectAtIndex:i] valueForKey:@"libraryHit"]];
+//		[object setValue:[[array objectAtIndex:i] valueForKey:@"identified"] forKey:@"identified"];
+//		[object setValue:[[array objectAtIndex:i] valueForKey:@"confirmed"] forKey:@"confirmed"];
+//		
+//	}	
+//	[[[self document] undoManager] registerUndoWithTarget:self
+//												 selector:@selector(undoResetPeaks:)
+//												   object:arrayOut];
+//	[[[self document] undoManager] setActionName:NSLocalizedString(@"Reset Peaks",@"")];
+//	
+//}
 
 - (IBAction)showPeaksAction:(id)sender  
 {
@@ -307,158 +306,100 @@ static void *SpectrumObservationContext = (void *)1102;
 
 - (IBAction)confirm:(id)sender  
 {
-	int i;
-	NSMutableArray *arrayOut = [NSMutableArray array];
-
-	if ([peakController selectionIndex] != NSNotFound) {
-		int peakCount = [[peakController selectedObjects] count];
-
-		for (i=0; i < peakCount; i++) {
-			id object = [[peakController selectedObjects] objectAtIndex:i];
-			
-			// Redo preparation
-			NSMutableDictionary *mutDict = [NSMutableDictionary dictionary];
-			[mutDict setObject:object forKey:@"peakrecord"];
-			[mutDict setValue:[object valueForKey:@"label"] forKey:@"label"];
-			[mutDict setValue:[object valueForKey:@"score"] forKey:@"score"];
-			[mutDict setValue:[object valueForKey:@"symbol"] forKey:@"symbol"];
-			[mutDict setValue:[object valueForKey:@"libraryHit"] forKey:@"libraryHit"];
-			[mutDict setValue:[object valueForKey:@"identified"] forKey:@"identified"];
-			[mutDict setValue:[object valueForKey:@"confirmed"] forKey:@"confirmed"];
-			[arrayOut addObject:mutDict];
-			
-			// The real thing
-			if (([[object valueForKey:@"identified"] boolValue] == NO) && ([searchResultsController selectionIndex] != NSNotFound)) {
-				[object setValue:[NSNumber numberWithBool:YES] forKey:@"identified"];
-				[object setValue:[[[searchResultsController selectedObjects] objectAtIndex:0] valueForKey:@"score"] forKey:@"score"];
-				[object setLibraryHit:[[[searchResultsController selectedObjects] objectAtIndex:0] valueForKey:@"libraryHit"]];
-				[object setValue:[[[searchResultsController selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.name"] forKey:@"label"];
-				[object setValue:[[[searchResultsController selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.symbol"] forKey:@"symbol"];
-				[object setValue:[[[[self document] libraryAlias] fullPath] lastPathComponent] forKey:@"library"];
-			} else if ([[object valueForKey:@"identified"] boolValue] == NO) {
-				NSBeep();
-				return;
-			}
-			[object setValue:[NSNumber numberWithBool:YES] forKey:@"confirmed"];
-			
+	NSEnumerator *enumerator = [[peakController selectedObjects] objectEnumerator];
+	id peak;
+	
+	while ((peak = [enumerator nextObject])) {
+		if ([peak identified]) {
+			[peak confirm];
+		} else if ([[searchResultsController selectedObjects] count] == 1) {
+			[peak identifyAs:[[searchResultsController selectedObjects] objectAtIndex:0]];
+			[peak confirm];
 		}
-		[[[self document] undoManager] registerUndoWithTarget:self
-													 selector:@selector(undoConfirm:)
-													   object:arrayOut];
-		[[[self document] undoManager] setActionName:NSLocalizedString(@"Confirm Library Hit(s)",@"")];
-		
-	} else {
-		// Don't know what to confirm
-		NSBeep();
 	}
 }
-- (void)undoConfirm:(NSArray *)array  
-{
-	int i;
-	int count = [array count];
-	NSMutableArray *arrayOut = [NSMutableArray array];
-	for (i = 0; i < count; i++) {
-		id object = [[array objectAtIndex:i] objectForKey:@"peakrecord"];
-		
-		// Redo preparation
-		NSMutableDictionary *mutDict = [NSMutableDictionary dictionary];
-		[mutDict setObject:object forKey:@"peakrecord"];
-		[mutDict setValue:[object valueForKey:@"label"] forKey:@"label"];
-		[mutDict setValue:[object valueForKey:@"score"] forKey:@"score"];
-		[mutDict setValue:[object valueForKey:@"symbol"] forKey:@"symbol"];
-		[mutDict setValue:[object valueForKey:@"libraryHit"] forKey:@"libraryHit"];
-		[mutDict setValue:[object valueForKey:@"identified"] forKey:@"identified"];
-		[mutDict setValue:[object valueForKey:@"confirmed"] forKey:@"confirmed"];
-		[arrayOut addObject:mutDict];
-		
-		// Reading back what was changed
-		[object setValue:[[array objectAtIndex:i] valueForKey:@"label"] forKey:@"label"];
-		[object setValue:[[array objectAtIndex:i] valueForKey:@"score"] forKey:@"score"];
-		[object setValue:[[array objectAtIndex:i] valueForKey:@"symbol"] forKey:@"symbol"];
-		[object setLibraryHit:[[array objectAtIndex:i] valueForKey:@"libraryHit"]];
-		[object setValue:[[array objectAtIndex:i] valueForKey:@"identified"] forKey:@"identified"];
-		[object setValue:[[array objectAtIndex:i] valueForKey:@"confirmed"] forKey:@"confirmed"];
-		
-	}	
-	[[[self document] undoManager] registerUndoWithTarget:self
-												 selector:@selector(undoConfirm:)
-												   object:arrayOut];
-	[[[self document] undoManager] setActionName:NSLocalizedString(@"Confirm Library Hit(s)",@"")];
-	
-}
+
+//- (void)undoConfirm:(NSArray *)array  
+//{
+//	int i;
+//	int count = [array count];
+//	NSMutableArray *arrayOut = [NSMutableArray array];
+//	for (i = 0; i < count; i++) {
+//		id object = [[array objectAtIndex:i] objectForKey:@"peakrecord"];
+//		
+//		// Redo preparation
+//		NSMutableDictionary *mutDict = [NSMutableDictionary dictionary];
+//		[mutDict setObject:object forKey:@"peakrecord"];
+//		[mutDict setValue:[object valueForKey:@"label"] forKey:@"label"];
+//		[mutDict setValue:[object valueForKey:@"score"] forKey:@"score"];
+//		[mutDict setValue:[object valueForKey:@"symbol"] forKey:@"symbol"];
+//		[mutDict setValue:[object valueForKey:@"libraryHit"] forKey:@"libraryHit"];
+//		[mutDict setValue:[object valueForKey:@"identified"] forKey:@"identified"];
+//		[mutDict setValue:[object valueForKey:@"confirmed"] forKey:@"confirmed"];
+//		[arrayOut addObject:mutDict];
+//		
+//		// Reading back what was changed
+//		[object setValue:[[array objectAtIndex:i] valueForKey:@"label"] forKey:@"label"];
+//		[object setValue:[[array objectAtIndex:i] valueForKey:@"score"] forKey:@"score"];
+//		[object setValue:[[array objectAtIndex:i] valueForKey:@"symbol"] forKey:@"symbol"];
+//		[object setLibraryHit:[[array objectAtIndex:i] valueForKey:@"libraryHit"]];
+//		[object setValue:[[array objectAtIndex:i] valueForKey:@"identified"] forKey:@"identified"];
+//		[object setValue:[[array objectAtIndex:i] valueForKey:@"confirmed"] forKey:@"confirmed"];
+//		
+//	}	
+//	[[[self document] undoManager] registerUndoWithTarget:self
+//												 selector:@selector(undoConfirm:)
+//												   object:arrayOut];
+//	[[[self document] undoManager] setActionName:NSLocalizedString(@"Confirm Library Hit(s)",@"")];
+//	
+//}
 
 - (IBAction)discard:(id)sender  
 {
-	NSMutableArray *arrayOut = [NSMutableArray array];
-
-	if ([peakController selectionIndex] != NSNotFound) {
-		int i;
-		int peakCount = [[peakController selectedObjects] count];
-		for (i = 0; i < peakCount; i++) {
-			id object = [[peakController selectedObjects] objectAtIndex:i];
-		
-			// Redo preparation
-			NSMutableDictionary *mutDict = [NSMutableDictionary dictionary];
-			[mutDict setObject:object forKey:@"peakrecord"];
-			[mutDict setValue:[object valueForKey:@"label"] forKey:@"label"];
-			[mutDict setValue:[object valueForKey:@"score"] forKey:@"score"];
-			[mutDict setValue:[object valueForKey:@"symbol"] forKey:@"symbol"];
-			[mutDict setValue:[object valueForKey:@"libraryHit"] forKey:@"libraryHit"];
-			[mutDict setValue:[object valueForKey:@"identified"] forKey:@"identified"];
-			[mutDict setValue:[object valueForKey:@"confirmed"] forKey:@"confirmed"];
-			[arrayOut addObject:mutDict];
-			
-			[object setValue:@"" forKey:@"label"];
-			[object setValue:@"" forKey:@"score"];
-			[object setValue:@"" forKey:@"symbol"];
-			[object setLibraryHit:[[[JKLibraryEntry alloc] init] autorelease]];
-			[object setValue:[NSNumber numberWithBool:NO] forKey:@"identified"];
-			[object setValue:[NSNumber numberWithBool:NO] forKey:@"confirmed"];
-		}	
-		[[[self document] undoManager] registerUndoWithTarget:self
-													 selector:@selector(undoDiscard:)
-													   object:arrayOut];
-		[[[self document] undoManager] setActionName:NSLocalizedString(@"Discard Library Hit",@"")];
-		
-	} else {
-		// Don't know what to discard
-		NSBeep();
+	NSEnumerator *enumerator = [[peakController selectedObjects] objectEnumerator];
+	id peak;
+	
+	while ((peak = [enumerator nextObject])) {
+		if ([peak identified]) {
+			[peak discard];
+		} 
 	}
 }
-- (void)undoDiscard:(NSArray *)array  
-{
-	int i;
-	int count = [array count];
-	NSMutableArray *arrayOut = [NSMutableArray array];
-	for (i = 0; i < count; i++) {
-		id object = [[array objectAtIndex:i] objectForKey:@"peakrecord"];
-		
-		// Redo preparation
-		NSMutableDictionary *mutDict = [NSMutableDictionary dictionary];
-		[mutDict setObject:object forKey:@"peakrecord"];
-		[mutDict setValue:[object valueForKey:@"label"] forKey:@"label"];
-		[mutDict setValue:[object valueForKey:@"score"] forKey:@"score"];
-		[mutDict setValue:[object valueForKey:@"symbol"] forKey:@"symbol"];
-		[mutDict setValue:[object valueForKey:@"libraryHit"] forKey:@"libraryHit"];
-		[mutDict setValue:[object valueForKey:@"identified"] forKey:@"identified"];
-		[mutDict setValue:[object valueForKey:@"confirmed"] forKey:@"confirmed"];
-		[arrayOut addObject:mutDict];
-		
-		// Reading back what was changed
-		[object setValue:[[array objectAtIndex:i] valueForKey:@"label"] forKey:@"label"];
-		[object setValue:[[array objectAtIndex:i] valueForKey:@"score"] forKey:@"score"];
-		[object setValue:[[array objectAtIndex:i] valueForKey:@"symbol"] forKey:@"symbol"];
-		[object setLibraryHit:[[array objectAtIndex:i] valueForKey:@"libraryHit"]];
-		[object setValue:[[array objectAtIndex:i] valueForKey:@"identified"] forKey:@"identified"];
-		[object setValue:[[array objectAtIndex:i] valueForKey:@"confirmed"] forKey:@"confirmed"];
-		
-	}	
-	[[[self document] undoManager] registerUndoWithTarget:self
-												 selector:@selector(undoConfirm:)
-												   object:arrayOut];
-	[[[self document] undoManager] setActionName:NSLocalizedString(@"Discard Library Hit",@"")];
-	
-}
+
+//- (void)undoDiscard:(NSArray *)array  
+//{
+//	int i;
+//	int count = [array count];
+//	NSMutableArray *arrayOut = [NSMutableArray array];
+//	for (i = 0; i < count; i++) {
+//		id object = [[array objectAtIndex:i] objectForKey:@"peakrecord"];
+//		
+//		// Redo preparation
+//		NSMutableDictionary *mutDict = [NSMutableDictionary dictionary];
+//		[mutDict setObject:object forKey:@"peakrecord"];
+//		[mutDict setValue:[object valueForKey:@"label"] forKey:@"label"];
+//		[mutDict setValue:[object valueForKey:@"score"] forKey:@"score"];
+//		[mutDict setValue:[object valueForKey:@"symbol"] forKey:@"symbol"];
+//		[mutDict setValue:[object valueForKey:@"libraryHit"] forKey:@"libraryHit"];
+//		[mutDict setValue:[object valueForKey:@"identified"] forKey:@"identified"];
+//		[mutDict setValue:[object valueForKey:@"confirmed"] forKey:@"confirmed"];
+//		[arrayOut addObject:mutDict];
+//		
+//		// Reading back what was changed
+//		[object setValue:[[array objectAtIndex:i] valueForKey:@"label"] forKey:@"label"];
+//		[object setValue:[[array objectAtIndex:i] valueForKey:@"score"] forKey:@"score"];
+//		[object setValue:[[array objectAtIndex:i] valueForKey:@"symbol"] forKey:@"symbol"];
+//		[object setLibraryHit:[[array objectAtIndex:i] valueForKey:@"libraryHit"]];
+//		[object setValue:[[array objectAtIndex:i] valueForKey:@"identified"] forKey:@"identified"];
+//		[object setValue:[[array objectAtIndex:i] valueForKey:@"confirmed"] forKey:@"confirmed"];
+//		
+//	}	
+//	[[[self document] undoManager] registerUndoWithTarget:self
+//												 selector:@selector(undoConfirm:)
+//												   object:arrayOut];
+//	[[[self document] undoManager] setActionName:NSLocalizedString(@"Discard Library Hit",@"")];
+//	
+//}
 
 - (IBAction)next:(id)sender 
 {
@@ -557,7 +498,7 @@ static void *SpectrumObservationContext = (void *)1102;
 - (IBAction)editLibrary:(id)sender  
 {
 	NSError *error = [[NSError alloc] init];
-	[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL URLWithString:[[[self document] libraryAlias] fullPath]] display:YES error:&error];
+	[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[[self document] libraryAlias] fullPath]] display:YES error:&error];
 	[error release];
 }
 

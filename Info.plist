@@ -136,7 +136,7 @@
 	<key>NSPrincipalClass</key>
 	<string>JKAppDelegate</string>
 	<key>SUAllowsAutomaticUpdates</key>
-	<false/>
+	<true/>
 	<key>SUCheckAtStartup</key>
 	<false/>
 	<key>SUFeedURL</key>

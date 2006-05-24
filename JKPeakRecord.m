@@ -29,15 +29,70 @@
     return self;	
 }
 
+#pragma mark ACTIONS
+
+- (BOOL)confirm
+{
+	if ([self identified]) {
+		[self setConfirmed:YES];
+		[searchResults removeObject:identifiedSearchResult];
+		[[self document] redistributedSearchResults:self];
+		[searchResults removeAllObjects];
+		[searchResults addObject:identifiedSearchResult];
+		return YES;		
+	} else {
+		return NO;
+	}
+}
+
+- (void)discard
+{
+	[self setIdentified:NO];
+	[self setConfirmed:NO];
+	[self setLabel:@""];
+	[self setSymbol:@""];
+	[self setIdentifiedSearchResult:nil];
+}
+
+- (BOOL)identifyAs:(id)searchResult
+{
+	[self setIdentifiedSearchResult:searchResult];
+	// Initial default settings after identification, but can be customized by user later on
+	[self setLabel:[searchResult valueForKeyPath:@"libraryHit.name"]];
+	[self setSymbol:[searchResult valueForKeyPath:@"libraryHit.symbol"]];
+	[self setIdentified:YES];
+	[self setConfirmed:NO];
+	
+	if (![searchResults containsObject:searchResult]) {
+		[self willChangeValueForKey:@"searchResultCount"];
+		[searchResults addObject:searchResult];
+		[self didChangeValueForKey:@"searchResultCount"];
+	}
+	return YES;
+}
+
+- (void)addSearchResult:(id)searchResult
+{
+	if (![searchResults containsObject:searchResult]) {
+		[searchResults addObject:searchResult];
+		NSSortDescriptor *sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"score" ascending:NO] autorelease];
+		[searchResults sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+		
+		if ([[[searchResults objectAtIndex:0] valueForKey:@"score"] floatValue] >= [[[self document] markAsIdentifiedThreshold] floatValue]) {
+			[self identifyAs:[searchResults objectAtIndex:0]];
+		}
+	}	
+}
+
 #pragma mark CALCULATED ACCESSORS
 
 - (NSNumber *)deltaRetentionIndex  
 {
 	float value = 0.0;
-	if (([libraryHit retentionIndex] == nil) | ([[libraryHit retentionIndex] floatValue] == 0.0)) {
+	if (([[self libraryHit] retentionIndex] == nil) | ([[[self libraryHit] retentionIndex] floatValue] == 0.0)) {
 		return [NSNumber numberWithFloat:0.0];
 	}
-	value = [[libraryHit retentionIndex] floatValue] - [[self retentionIndex] floatValue];
+	value = [[[self libraryHit] retentionIndex] floatValue] - [[self retentionIndex] floatValue];
     return [NSNumber numberWithFloat:value];
 }
 
@@ -63,16 +118,9 @@
     return document;
 }
 
-- (void)setScore:(NSNumber *)inValue  
-{
-	[inValue retain];
-	[score autorelease];
-	score = inValue;
-}
-
 - (NSNumber *)score  
 {
-    return score;
+	return [identifiedSearchResult objectForKey:@"score"];
 }
 
 
@@ -185,13 +233,6 @@
     return surface;
 }
 
-- (void)setSearchResults:(NSMutableArray *)inValue  
-{
-	[inValue retain];
-	[searchResults autorelease];
-	searchResults = inValue;
-}
-
 - (NSMutableArray *)searchResults  
 {
     return searchResults;
@@ -266,26 +307,14 @@
     return confirmed;
 }
 
-- (void)setLibrary:(NSString *)inValue  
-{
-	[inValue retain];
-	[library release];
-	library = inValue;
-}
 - (NSString *)library  
 {
-	return library;
+	return [identifiedSearchResult objectForKey:@"library"];
 }
 
-- (void)setLibraryHit:(JKLibraryEntry *)inValue  
-{
-	[inValue retain];
-	[libraryHit release];
-	libraryHit = inValue;
-}
 - (JKLibraryEntry *)libraryHit  
 {
-	return libraryHit;
+	return [identifiedSearchResult objectForKey:@"libraryHit"];
 }
 
 - (void)setRetentionIndex:(NSNumber *)inValue  
@@ -315,11 +344,27 @@
 {
 	[inValue retain];
 	[normalizedSurface autorelease];
-	normalizedSurface = inValue;
-	
+	normalizedSurface = inValue;	
 }
 - (NSNumber *)normalizedSurface {
 	return normalizedSurface;
+}
+
+- (void)setIdentifiedSearchResult:(id)inValue
+{
+	[inValue retain];
+	[identifiedSearchResult autorelease];
+	identifiedSearchResult = inValue;
+	
+}
+- (id)identifiedSearchResult
+{
+	return identifiedSearchResult;
+}
+
+- (int)searchResultsCount
+{
+	return [searchResults count];
 }
 
 #pragma mark NSCODING
@@ -327,7 +372,7 @@
 - (void)encodeWithCoder:(NSCoder *)coder
 {
     if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
-		[coder encodeInt:2 forKey:@"version"];
+		[coder encodeInt:3 forKey:@"version"];
 		[coder encodeConditionalObject:document forKey:@"document"]; // weak reference
 		[coder encodeObject:peakID forKey:@"peakID"];
 		[coder encodeObject:start forKey:@"start"];
@@ -342,8 +387,9 @@
         [coder encodeObject:symbol forKey:@"symbol"];
         [coder encodeBool:identified forKey:@"identified"];
 		[coder encodeBool:confirmed forKey:@"confirmed"];
-        [coder encodeObject:score forKey:@"score"];
-        [coder encodeObject:libraryHit forKey:@"libraryHit"];
+		[coder encodeObject:identifiedSearchResult forKey:@"identifiedSearchResult"];
+ //       [coder encodeObject:score forKey:@"score"];
+//        [coder encodeObject:libraryHit forKey:@"libraryHit"];
 		[coder encodeObject:retentionIndex forKey:@"retentionIndex"];
 		[coder encodeObject:searchResults forKey:@"searchResults"];
 		[coder encodeObject:spectrum forKey:@"spectrum"];
@@ -368,8 +414,9 @@
 		symbol = [[coder decodeObjectForKey:@"symbol"] retain];
         identified = [coder decodeBoolForKey:@"identified"];
 		confirmed = [coder decodeBoolForKey:@"confirmed"];
-        score = [[coder decodeObjectForKey:@"score"] retain];
-        libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain];
+		identifiedSearchResult = [[coder decodeObjectForKey:@"identifiedSearchResult"] retain];
+		//        score = [[coder decodeObjectForKey:@"score"] retain];
+//        libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain];
 		retentionIndex = [[coder decodeObjectForKey:@"retentionIndex"] retain];
 		searchResults = [[coder decodeObjectForKey:@"searchResults"] retain];
 		spectrum = [[coder decodeObjectForKey:@"spectrum"] retain];

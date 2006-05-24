@@ -106,33 +106,6 @@
 		C7F899D20A19E7CA00A65A24 /* processing.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7F899D10A19E7CA00A65A24 /* processing.tiff */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXBuildStyle section */
-		4A9504D0FFE6A4CB11CA0CBA /* Debug */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PREBINDING = NO;
-				ZERO_LINK = YES;
-			};
-			name = Debug;
-		};
-		4A9504D1FFE6A4CB11CA0CBA /* Release */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				PREBINDING = NO;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-/* End PBXBuildStyle section */
-
 /* Begin PBXContainerItemProxy section */
 		C72C8532098BEAD500CEF565 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -184,7 +157,7 @@
 		C72C85D5098BF1B800CEF565 /* JKGeneralTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKGeneralTesting.h; sourceTree = "<group>"; };
 		C72C85D6098BF1B800CEF565 /* JKGeneralTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKGeneralTesting.m; sourceTree = "<group>"; };
 		C75FFA170913DF7900DAE01B /* questionmark.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = questionmark.tiff; sourceTree = "<group>"; };
-		C7713B35095029C200653D2A /* JKBatchProcess.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = JKBatchProcess.nib; path = ../JKBatchProcess.nib; sourceTree = "<group>"; };
+		C7713B35095029C200653D2A /* JKBatchProcess.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = JKBatchProcess.nib; sourceTree = "<group>"; };
 		C7713B410950368F00653D2A /* JKBatchProcessWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKBatchProcessWindowController.h; sourceTree = "<group>"; };
 		C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKBatchProcessWindowController.m; sourceTree = "<group>"; };
 		C773669408E02D87002B72F1 /* ChromatogramGraphDataSerie.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ChromatogramGraphDataSerie.h; sourceTree = "<group>"; };
@@ -204,16 +177,14 @@
 		C7834D3C0941ED5C005431CD /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		C7834D430941ED7A005431CD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		C7834D490941EDAF005431CD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
-		C7858FE90951E9990083EC22 /* JKStatisticalAnalysis.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = JKStatisticalAnalysis.nib; sourceTree = SOURCE_ROOT; };
+		C7858FE90951E9990083EC22 /* JKStatisticalAnalysis.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = JKStatisticalAnalysis.nib; sourceTree = "<group>"; };
 		C785905409541F250083EC22 /* JKStatisticsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKStatisticsWindowController.h; sourceTree = "<group>"; };
-		C785905509541F250083EC22 /* JKStatisticsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKStatisticsWindowController.m; sourceTree = "<group>"; };
+		C785905509541F250083EC22 /* JKStatisticsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 7; lastKnownFileType = sourcecode.c.objc; path = JKStatisticsWindowController.m; sourceTree = "<group>"; };
 		C78599A009CDBBAD00351C87 /* JKStatisticsDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKStatisticsDocument.h; sourceTree = "<group>"; };
 		C78599A109CDBBAD00351C87 /* JKStatisticsDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKStatisticsDocument.m; sourceTree = "<group>"; };
 		C7859A9909CEBCE900351C87 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		C798C9E808E17B5400C6C7D1 /* DeleteTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteTableView.h; sourceTree = "<group>"; };
 		C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteTableView.m; sourceTree = "<group>"; };
-		C798CB2408E203D800C6C7D1 /* SmartCrashReportsInstall.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SmartCrashReportsInstall.h; sourceTree = "<group>"; };
-		C798CB2508E203D800C6C7D1 /* SmartCrashReportsInstall.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = SmartCrashReportsInstall.o; sourceTree = "<group>"; };
 		C798CE5008E4D7D100C6C7D1 /* Markers.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Markers.icns; sourceTree = "<group>"; };
 		C79A614F094DBE3A00C0887E /* RBSplitSubview.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RBSplitSubview.h; sourceTree = "<group>"; };
 		C79A6150094DBE3A00C0887E /* RBSplitSubview.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RBSplitSubview.m; sourceTree = "<group>"; };
@@ -299,8 +270,6 @@
 		C7EB180A0898CFBD007FC2ED /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
 		C7EB180D0898CFBD007FC2ED /* periodic.table */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = periodic.table; sourceTree = "<group>"; };
 		C7EB180E0898CFBD007FC2ED /* ReadMe.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ReadMe.rtf; sourceTree = "<group>"; };
-		C7F5E7BD08E9AD1E00AC1068 /* SmartCrashReportsAPI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SmartCrashReportsAPI.h; sourceTree = "<group>"; };
-		C7F5E7BE08E9AD1E00AC1068 /* SmartCrashReportsAPI.o */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; path = SmartCrashReportsAPI.o; sourceTree = "<group>"; };
 		C7F5E8F308EAA98600AC1068 /* JKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKLibraryEntry.h; sourceTree = "<group>"; };
 		C7F5E8F408EAA98600AC1068 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = "<group>"; };
 		C7F8973E0A188B0D00A65A24 /* JKPathPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKPathPopUpButton.h; sourceTree = "<group>"; };
@@ -639,10 +608,6 @@
 		C7834D4E0941F3C2005431CD /* Smart Crash */ = {
 			isa = PBXGroup;
 			children = (
-				C798CB2408E203D800C6C7D1 /* SmartCrashReportsInstall.h */,
-				C798CB2508E203D800C6C7D1 /* SmartCrashReportsInstall.o */,
-				C7F5E7BD08E9AD1E00AC1068 /* SmartCrashReportsAPI.h */,
-				C7F5E7BE08E9AD1E00AC1068 /* SmartCrashReportsAPI.o */,
 			);
 			name = "Smart Crash";
 			sourceTree = "<group>";
@@ -781,17 +746,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = Peacock;
-				WRAPPER_EXTENSION = app;
-			};
 			dependencies = (
 			);
 			name = Peacock;
@@ -811,52 +765,12 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
-				INFOPLIST_FILE = "Unit Testing-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Cocoa,
-					"-framework",
-					SenTestingKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = "Unit Testing";
-				WRAPPER_EXTENSION = octest;
-				ZERO_LINK = NO;
-			};
 			dependencies = (
 				C72C8533098BEAD500CEF565 /* PBXTargetDependency */,
 			);
 			name = "Unit Testing";
 			productName = "Unit Testing";
 			productReference = C72C8500098BE74300CEF565 /* Unit Testing.octest */;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.Unit Testing</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>BNDL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
-</dict>
-</plist>
-";
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -865,12 +779,6 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C7EB17A00898CF22007FC2ED /* Build configuration list for PBXProject "Peacock" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				4A9504D0FFE6A4CB11CA0CBA /* Debug */,
-				4A9504D1FFE6A4CB11CA0CBA /* Release */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* Peacock */;
 			projectDirPath = "";

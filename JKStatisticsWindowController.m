@@ -111,7 +111,7 @@
 
 #pragma mark ACTIONS
 
-- (void)runStatisticalAnalysis  
+- (void)runStatisticalAnalysis
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	BOOL errorOccurred = NO;	
@@ -183,7 +183,7 @@
 			[fileProgressIndicator setDoubleValue:(i+1)*5.0];
 			continue;	
 		}
-		[fileStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Processing file \"%@\" (%d of %d)",@"Batch process status text"),[[files objectAtIndex:i] valueForKey:@"filename"],i+1,filesCount]];
+//		[fileStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Processing file \\"%@\\" (%d of %d)",@"Batch process status text"),[[files objectAtIndex:i] valueForKey:@"filename"],i+1,filesCount]];
 		if ([self abortAction]) {
 			break;
 		}		
@@ -213,27 +213,6 @@
 		if ([self abortAction]) {
 			break;
 		}		
-//		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisSaveAsAnalysisPeacockFile"] boolValue]) {
-//			[detailStatusTextField setStringValue:NSLocalizedString(@"Saving Peacock Analysis File",@"")];
-//			path = [[[files objectAtIndex:i] valueForKey:@"path"] stringByDeletingPathExtension];
-//			path = [path stringByAppendingPathExtension:@"peacock-analysis"];
-//			if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-//				NSRunCriticalAlertPanel(<#NSString * title#>,<#NSString * msg#>,<#NSString * defaultButton#>,<#NSString * alternateButton#>,<#NSString * otherButton#>)
-//				answer = NSRunCriticalAlertPanel(NSLocalizedString(@"File already exists. Do you want to replace it?",@""),NSLocalizedString(@"Thers s",@""),NSLocalizedString(@"Replace",@""),NSLocalizedString(@"Cancel",@""));
-//				if (answer == NSOKButton) {
-//				} else if (answer == NSCancelButton) {
-//					return;
-//				} 				
-//			}
-//			if (![document saveToURL:[NSURL fileURLWithPath:path] ofType:@"Peacock Analysis File" forSaveOperation:NSSaveAsOperation error:&error]) {
-//				JKLogError(@"ERROR: File at %@ could not be saved as Peacock Analysis File.",[[files objectAtIndex:i] valueForKey:@"path"]);
-//				errorOccurred = YES;
-//			}
-//			[fileProgressIndicator incrementBy:1.0];
-//		}
-//		if ([self abortAction]) {
-//			break;
-//		}		
 		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisCloseDocument"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Closing Document",@"")];
 			[document close];
@@ -251,6 +230,11 @@
 		[detailStatusTextField setStringValue:NSLocalizedString(@"Sorting Results",@"")];
 		[fileProgressIndicator setIndeterminate:YES];
 		[self sortCombinedPeaks];
+	}
+	if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisSaveAsAnalysisPeacockFile"] boolValue]) {
+		[detailStatusTextField setStringValue:NSLocalizedString(@"Saving Peacock Analysis File",@"")];
+		[[self document] saveDocument:self];
+		[fileProgressIndicator incrementBy:1.0];
 	}
 	if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisSaveAsTabDelimitedTextFile"] boolValue]) {
 		[detailStatusTextField setStringValue:NSLocalizedString(@"Saving Tab Delimited Text File",@"")];
@@ -328,10 +312,10 @@
 	// Problems!
 	//  - should use retention index instead of retention time
 	// ?- measurement conditions should be similar e.g. same temp. program
-	// ‚àö- comparison to peaks within same chromatogram may occur when peaks within window were added
+	// \u201a\340\366- comparison to peaks within same chromatogram may occur when peaks within window were added
 	// ?- unconfirmed peaks encountered before corresponding confirmed peak won't match
 	// ?- no check to see if combined peak already had a match from the same file (highest score should win?)
-	// ‚àö- memory usage from opening files is problematic: open/close files on demand?
+	// \u201a\340\366- memory usage from opening files is problematic: open/close files on demand?
 	
 	date = [NSDate date];
 	peaksCompared = 0;
@@ -845,84 +829,84 @@
 		[retentionIndexDescriptor release];
 		
 		
-		[outStr appendString:@"Sample code\t\t\t\t\t\t"];
+		[outStr appendString:@"Sample code\\t\\t\\t\\t\\t\\t"];
 		for (i=0; i < fileCount; i++) {
-			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]] ];
+			[outStr appendFormat:@"\\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]] ];
 		}
-		[outStr appendString:@"\n"];
+		[outStr appendString:@"\\n"];
 
-		[outStr appendString:@"Sample description\t\t\t\t\t\t"];
+		[outStr appendString:@"Sample description\\t\\t\\t\\t\\t\\t"];
 		for (i=0; i < fileCount; i++) {
-			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:1] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+			[outStr appendFormat:@"\\t%@", [[[self metadata] objectAtIndex:1] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
 		}
-		[outStr appendString:@"\n"];
+		[outStr appendString:@"\\n"];
 		
-		[outStr appendString:@"File path\t\t\t\t\t\t"];
+		[outStr appendString:@"File path\\t\\t\\t\\t\\t\\t"];
 		for (i=0; i < fileCount; i++) {
-			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+			[outStr appendFormat:@"\\t%@", [[[self metadata] objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
 		}
-		[outStr appendString:@"\n"];
+		[outStr appendString:@"\\n"];
 		
-		[outStr appendString:@"\nNormalized height\n#\tCompound\tCount\tAverage retention index\tStandard deviation retention index\tAverage height\tStandard deviation height"];
+		[outStr appendString:@"\\nNormalized height\\n#\\tCompound\\tCount\\tAverage retention index\\tStandard deviation retention index\\tAverage height\\tStandard deviation height"];
 		for (i=0; i < fileCount; i++) { // Sample code
-			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+			[outStr appendFormat:@"\\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
 		}
-		[outStr appendString:@"\n"];
+		[outStr appendString:@"\\n"];
 		for (j=0; j < compoundCount; j++) {
-			[outStr appendFormat:@"%d\t", j+1];
-			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"label"]];
-			[outStr appendFormat:@"%d\t", [[[[self combinedPeaks] objectAtIndex:j] valueForKey:@"compoundCount"] intValue]];
-			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageRetentionIndex"]];
-			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationRetentionIndex"]];
-			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageHeight"]];
+			[outStr appendFormat:@"%d\\t", j+1];
+			[outStr appendFormat:@"%@\\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"label"]];
+			[outStr appendFormat:@"%d\\t", [[[[self combinedPeaks] objectAtIndex:j] valueForKey:@"compoundCount"] intValue]];
+			[outStr appendFormat:@"%@\\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageRetentionIndex"]];
+			[outStr appendFormat:@"%@\\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationRetentionIndex"]];
+			[outStr appendFormat:@"%@\\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageHeight"]];
 			[outStr appendFormat:@"%@",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationHeight"]];
 			for (i=0; i < fileCount; i++) {
 				normalizedHeight = [[[[[self combinedPeaks] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"normalizedHeight"] stringValue];
 				if (normalizedHeight != nil) {
-					[outStr appendFormat:@"\t%@", normalizedHeight];					
+					[outStr appendFormat:@"\\t%@", normalizedHeight];					
 				} else {
-					[outStr appendString:@"\t-"];										
+					[outStr appendString:@"\\t-"];										
 				}
 			}
-			[outStr appendString:@"\n"];
+			[outStr appendString:@"\\n"];
 		}
 		
-		[outStr appendString:@"\nNormalized surface\n#\tCompound\tCount\tAverage retention index\tStandard deviation retention index\tAverage surface\tStandard deviation surface"];
+		[outStr appendString:@"\\nNormalized surface\\n#\\tCompound\\tCount\\tAverage retention index\\tStandard deviation retention index\\tAverage surface\\tStandard deviation surface"];
 		for (i=0; i < fileCount; i++) { // Sample code
-			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+			[outStr appendFormat:@"\\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
 		}
-		[outStr appendString:@"\n"];
+		[outStr appendString:@"\\n"];
 		for (j=0; j < compoundCount; j++) {
-			[outStr appendFormat:@"%d\t", j+1];
-			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"label"]];
-			[outStr appendFormat:@"%d\t", [[[[self combinedPeaks] objectAtIndex:j] valueForKey:@"compoundCount"] intValue]];
-			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageRetentionIndex"]];
-			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationRetentionIndex"]];
-			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageSurface"]];
+			[outStr appendFormat:@"%d\\t", j+1];
+			[outStr appendFormat:@"%@\\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"label"]];
+			[outStr appendFormat:@"%d\\t", [[[[self combinedPeaks] objectAtIndex:j] valueForKey:@"compoundCount"] intValue]];
+			[outStr appendFormat:@"%@\\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageRetentionIndex"]];
+			[outStr appendFormat:@"%@\\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationRetentionIndex"]];
+			[outStr appendFormat:@"%@\\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageSurface"]];
 			[outStr appendFormat:@"%@",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationSurface"]];
 			for (i=0; i < fileCount; i++) {
 				normalizedSurface = [[[[[self combinedPeaks] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"normalizedSurface"] stringValue];
 				if (normalizedSurface != nil) {
-					[outStr appendFormat:@"\t%@", normalizedSurface];					
+					[outStr appendFormat:@"\\t%@", normalizedSurface];					
 				} else {
-					[outStr appendString:@"\t-"];										
+					[outStr appendString:@"\\t-"];										
 				}
 			}
-			[outStr appendString:@"\n"];
+			[outStr appendString:@"\\n"];
 		}
 		
 		int ratiosCount = [ratios count];
-		[outStr appendString:@"\nRatios\nLabel\t\t\t\t\t\t"];
+		[outStr appendString:@"\\nRatios\\nLabel\\t\\t\\t\\t\\t\\t"];
 		for (i=0; i < fileCount; i++) { // Sample code
-			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+			[outStr appendFormat:@"\\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
 		}
-		[outStr appendString:@"\n"];
+		[outStr appendString:@"\\n"];
 		for (j=0; j < ratiosCount; j++) {
-			[outStr appendFormat:@"%@\t\t\t\t\t\t", [[[self ratios] objectAtIndex:j] valueForKey:@"name"]];
+			[outStr appendFormat:@"%@\\t\\t\\t\\t\\t\\t", [[[self ratios] objectAtIndex:j] valueForKey:@"name"]];
 			for (i=0; i < fileCount; i++) {
-				[outStr appendFormat:@"\t%@", [[[self ratioValues] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d.ratioResult",i]] ];
+				[outStr appendFormat:@"\\t%@", [[[self ratioValues] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d.ratioResult",i]] ];
 			}
-			[outStr appendString:@"\n"];
+			[outStr appendString:@"\\n"];
 		}
 
 		if (![outStr writeToFile:[sp filename] atomically:YES])

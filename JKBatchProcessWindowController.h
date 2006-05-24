@@ -15,14 +15,9 @@
 	
 	// Batch window
 	IBOutlet NSButton *addButton;
-	IBOutlet NSButton *searchOptionsButton;
 	IBOutlet NSButton *runBatchButton;
 	IBOutlet NSTableView *filesTableView;
-	
-	// Search Options sheet
-	IBOutlet NSWindow *searchOptionsSheet;
-	IBOutlet NSButton *doneButton;
-	
+		
 	// Progress sheet
 	IBOutlet NSWindow *progressSheet;
 	IBOutlet NSProgressIndicator *fileProgressIndicator;
@@ -33,9 +28,7 @@
 
 #pragma mark IBACTIONS
 - (IBAction)addButtonAction:(id)sender;
-- (IBAction)searchOptionsButtonAction:(id)sender;
 - (IBAction)runBatchButtonAction:(id)sender;
-- (IBAction)searchOptionsDoneAction:(id)sender;
 - (IBAction)stopButtonAction:(id)sender;
 
 #pragma mark ACCESSORS

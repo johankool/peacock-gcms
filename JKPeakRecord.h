@@ -51,14 +51,18 @@
 	NSString *symbol;
 	BOOL identified;
 	BOOL confirmed;
-	NSNumber *score;
-	NSString *library;
-	JKLibraryEntry *libraryHit;
+	id identifiedSearchResult;
+//	NSNumber *score;
+//	NSString *library;
+//	JKLibraryEntry *libraryHit;
 }
 
-//#pragma mark ACTIONS
-//
-//- (void)calculateSurfaceAndHeight;
+#pragma mark ACTIONS
+
+- (BOOL)confirm;
+- (void)discard;
+- (BOOL)identifyAs:(id)searchResult;
+- (void)addSearchResult:(id)searchResult;
 
 #pragma mark CALCULATED ACCESSORS
 
@@ -108,9 +112,9 @@
 - (void)setSpectrum:(JKSpectrum *)inValue;
 - (JKSpectrum *)spectrum;
 
-- (void)setSearchResults:(NSMutableArray *)inValue;
+//- (void)setSearchResults:(NSMutableArray *)inValue;
 - (NSMutableArray *)searchResults;
-
+- (JKLibraryEntry *)libraryHit;
 - (void)setLabel:(NSString *)inValue;
 - (NSString *)label;
 - (void)setSymbol:(NSString *)inValue;
@@ -119,11 +123,11 @@
 - (BOOL)identified;
 - (void)setConfirmed:(BOOL)inValue;
 - (BOOL)confirmed;
-- (void)setScore:(NSNumber *)inValue;
+//- (void)setScore:(NSNumber *)inValue;
 - (NSNumber *)score;
-- (void)setLibrary:(NSString *)inValue;
+//- (void)setLibrary:(NSString *)inValue;
 - (NSString *)library;
-- (void)setLibraryHit:(JKLibraryEntry *)inValue;
-- (JKLibraryEntry *)libraryHit;
+- (void)setIdentifiedSearchResult:(id)inValue;
+- (id)identifiedSearchResult;
 
 @end

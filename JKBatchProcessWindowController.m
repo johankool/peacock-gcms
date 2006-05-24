@@ -59,17 +59,6 @@
 	}	
 }
 
-- (IBAction)searchOptionsButtonAction:(id)sender  
-{
-	[NSApp beginSheet: searchOptionsSheet
-	   modalForWindow: [self window]
-		modalDelegate: self
-	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
-		  contextInfo: nil];
-    // Sheet is up here.
-    // Return processing to the event loop	
-}
-
 - (IBAction)runBatchButtonAction:(id)sender  
 {
 	[NSApp beginSheet: progressSheet
@@ -84,10 +73,6 @@
 	
 }
 
-- (IBAction)searchOptionsDoneAction:(id)sender  
-{
-	[NSApp endSheet:searchOptionsSheet];
-}
 - (IBAction)stopButtonAction:(id)sender 
 {
 	[self setAbortAction:YES];
@@ -110,7 +95,7 @@
 	NSString *path;
 
 	for (i=0; i < filesCount; i++) {
-		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:YES error:&error];
+		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:![[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchCloseDocument"] boolValue] error:&error];
 		[[self window] makeKeyAndOrderFront:self];
 		if (document == nil) {
 			JKLogError(@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]);
@@ -120,12 +105,15 @@
 		}
 		[fileStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Processing file \"%@\" (%d of %d)",@"Batch process status text"),[[files objectAtIndex:i] valueForKey:@"filename"],i+1,filesCount]];
 		[detailStatusTextField setStringValue:@"Starting Processing"];
+		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchUseSettings"] intValue] == 1) {
+			[document resetToDefaultValues];
+		}
 		if ([self abortAction]) {
 			break;
 		}		
 		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchDeleteCurrentPeaksFirst"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Deleting Current Peaks",@"")];
-			[[[[document mainWindowController] peakController] content] removeAllObjects];
+			[document setPeaks:[NSMutableArray array]];
 			[fileProgressIndicator incrementBy:1.0];
 		}
 		if ([self abortAction]) {
@@ -133,15 +121,15 @@
 		}		
 		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchIdentifyPeaks"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Identifying Peaks",@"")];
-			[[document mainWindowController] identifyPeaks:self];
+			[document identifyPeaks];
 			[fileProgressIndicator incrementBy:1.0];
 		}
 		if ([self abortAction]) {
 			break;
 		}		
-		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchRunAutoPilot"] boolValue]) {
+		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchIdentifyCompounds"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Identifying Compounds",@"")];
-			[document identifyPeaks];
+			[document searchLibraryForAllPeaks:self];
 			[fileProgressIndicator incrementBy:1.0];
 		}
 		if ([self abortAction]) {

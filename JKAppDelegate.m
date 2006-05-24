@@ -43,7 +43,13 @@
 	[defaultValues setValue:[NSNumber numberWithInt:3] forKey:@"peaksForSummary"]; // confirmed peaks
 	[defaultValues setValue:[NSNumber numberWithInt:1] forKey:@"columnSorting"]; // Samplecode
 	
-	
+	// Default batch settings
+	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"batchDeleteCurrentPeaksFirst"];
+	[defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"batchIdentifyPeaks"];
+	[defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"batchIdentifyCompounds"];
+	[defaultValues setValue:[NSNumber numberWithInt:0] forKey:@"batchUseSettings"];
+	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"batchSaveAsPeacockFile"];
+
 	// Hidden preference for logging verbosity
 	[defaultValues setValue:[NSNumber numberWithInt:JK_VERBOSITY_INFO] forKey:@"JKVerbosity"];
 	

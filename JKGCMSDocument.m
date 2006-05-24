@@ -837,10 +837,10 @@ int const JKGCMSDocument_Version = 3;
 	float score, maximumScore;	
 	float delta;
 	[self setAbortAction:NO];
-	
-	[[sender progressIndicator] setIndeterminate:YES];
-	[[sender progressIndicator] startAnimation:self];
 
+//	[[sender progressIndicator] setIndeterminate:YES];
+//	[[sender progressIndicator] startAnimation:self];
+//
 	// Determine spectra for peaks
 	int peaksCount = [[self peaks] count];
 	if (peaksCount == 0) {
@@ -865,7 +865,6 @@ int const JKGCMSDocument_Version = 3;
 //	[progressIndicator setMaxValue:libraryEntries/1000.0];
 
 	libraryEntries = [aLibrary libraryArray];
-	float markAsIdentifiedThresholdF = [markAsIdentifiedThreshold floatValue];
 	float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];
 	// Loop through inPeaks(=combined spectra) and determine score
 	entriesCount = [libraryEntries count];
@@ -881,25 +880,15 @@ int const JKGCMSDocument_Version = 3;
 			}
 		}
 		// Add libentry as result to highest scoring peak if it is within range of acceptance
-		if (maximumScore >= markAsIdentifiedThresholdF) {
-			if (maximumScore > [[[peaks objectAtIndex:maximumIndex] valueForKey:@"score"] floatValue]) {
-				[[peaks objectAtIndex:maximumIndex] setValue:[[libraryEntries objectAtIndex:j] valueForKey:@"name"] forKey:@"label"];
-				[[peaks objectAtIndex:maximumIndex] setValue:[[libraryEntries objectAtIndex:j] valueForKey:@"symbol"] forKey:@"symbol"];
-				[[peaks objectAtIndex:maximumIndex] setValue:[NSNumber numberWithFloat:maximumScore] forKey:@"score"];
-				[[peaks objectAtIndex:maximumIndex] setLibraryHit:[libraryEntries objectAtIndex:j]];
-				[[peaks objectAtIndex:maximumIndex] setValue:[NSNumber numberWithBool:YES] forKey:@"identified"];
-				[[peaks objectAtIndex:maximumIndex] setValue:[NSNumber numberWithBool:NO] forKey:@"confirmed"];		
-				[[peaks objectAtIndex:maximumIndex] setValue:[[libraryAlias fullPath] lastPathComponent] forKey:@"library"];
-			}
-		}
 		if (maximumScore >= minimumScoreSearchResultsF) {
-			NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
-			[mutDict setValue:[NSNumber numberWithFloat:maximumScore] forKey:@"score"];
-			[mutDict setValue:[libraryEntries objectAtIndex:j] forKey:@"libraryHit"];
+			NSMutableDictionary *searchResult = [[NSMutableDictionary alloc] init];
+			[searchResult setValue:[NSNumber numberWithFloat:maximumScore] forKey:@"score"];
+			[searchResult setValue:[libraryEntries objectAtIndex:j] forKey:@"libraryHit"];
 			delta = [[[[self peaks] objectAtIndex:maximumIndex] retentionIndex] floatValue] - [[[libraryEntries objectAtIndex:j] retentionIndex] floatValue];
-			[mutDict setValue:[NSNumber numberWithFloat:delta] forKey:@"deltaRetentionIndex"];
-			[[[[self peaks] objectAtIndex:maximumIndex] searchResults] addObject:mutDict];
-			[mutDict release];
+			[searchResult setValue:[NSNumber numberWithFloat:delta] forKey:@"deltaRetentionIndex"];
+			[searchResult setValue:[[libraryAlias fullPath] lastPathComponent] forKey:@"library"];
+			[[peaks objectAtIndex:maximumIndex] addSearchResult:searchResult];
+			[searchResult release];
 		}
 		if(abortAction){
 			JKLogInfo(@"Identifying Compounds Search Aborted by User at entry %d/%d peak %d/%d.",j,entriesCount, k, peaksCount);
@@ -908,6 +897,36 @@ int const JKGCMSDocument_Version = 3;
 	}
 	
 	return YES;
+}
+
+- (void)redistributedSearchResults:(JKPeakRecord *)originatingPeak
+{
+	int k;
+	int peaksCount;
+	int maximumIndex;
+	float score, maximumScore;	
+	NSEnumerator *enumerator = [[originatingPeak searchResults] objectEnumerator];
+	id searchResult;
+	
+	float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];
+	while ((searchResult = [enumerator nextObject])) {
+		maximumScore = 0.0;
+		maximumIndex = -1;
+		for (k = 0; k < peaksCount; k++) {
+			if (![[self peaks] objectAtIndex:k] != originatingPeak) {
+				score = [[[[self peaks] objectAtIndex:k] spectrum] scoreComparedToLibraryEntry:[searchResult objectForKey:@"libraryHit"]];
+				if (score >= maximumScore) {
+					maximumScore = score;
+					maximumIndex = k;
+				}				
+			}
+		}
+		// Add libentry as result to highest scoring peak if it is within range of acceptance
+		if ((maximumScore >= minimumScoreSearchResultsF) & (maximumIndex > -1)) {
+			[[peaks objectAtIndex:maximumIndex] addSearchResult:searchResult];
+		}
+		
+	}
 }
 
 - (void)resetToDefaultValues
@@ -924,6 +943,8 @@ int const JKGCMSDocument_Version = 3;
 	[self setLibraryAlias:[BDAlias aliasWithPath:[defaultValues valueForKey:@"libraryAlias"]]];
 	[self setScoreBasis:[[defaultValues valueForKey:@"scoreBasis"] intValue]];
 	[self setPenalizeForRetentionIndex:[[defaultValues valueForKey:@"penalizeForRetentionIndex"] boolValue]];
+	[self setMarkAsIdentifiedThreshold:[defaultValues valueForKey:@"markAsIdentifiedThreshold"]];
+	[self setMinimumScoreSearchResults:[defaultValues valueForKey:@"minimumScoreSearchResults"]];
 	
 	[[self undoManager] setActionName:NSLocalizedString(@"Reset to Default Values",@"Reset to Default Values")];
 }
@@ -1280,7 +1301,11 @@ boolAccessor(abortAction, setAbortAction);
 
 - (JKMainWindowController *)mainWindowController  
 {
-    return mainWindowController;
+    if (!mainWindowController) {
+		mainWindowController = [[JKMainWindowController alloc] init];
+		[self makeWindowControllers];
+	}
+	return mainWindowController;
 }
 
 - (void)setNcid:(int)inValue  
