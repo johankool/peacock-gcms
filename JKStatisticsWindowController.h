@@ -56,6 +56,10 @@
 	
 	// Ratios editor
 	IBOutlet NSWindow *ratiosEditor;
+	
+	// Chromatogram comparison window
+	IBOutlet NSWindow *comparisonWindow;
+	IBOutlet NSScrollView *comparisonScrollView;
 }
 
 #pragma mark ACTIONS

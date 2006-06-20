@@ -106,7 +106,7 @@
 	<key>CFBundleExecutable</key>
 	<string>Peacock</string>
 	<key>CFBundleGetInfoString</key>
-	<string>0.1.6 Copyright © 2003-2006 Johan Kool ea</string>
+	<string>0.1.7 Copyright © 2003-2006 Johan Kool ea</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>Peacock Help</string>
 	<key>CFBundleHelpBookName</key>
@@ -122,13 +122,13 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1.6</string>
+	<string>0.1.7</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array/>
 	<key>CFBundleVersion</key>
-	<string>0.1.6</string>
+	<string>0.1.7</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.4.6</string>
 	<key>NSMainNibFile</key>

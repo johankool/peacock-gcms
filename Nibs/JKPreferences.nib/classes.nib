@@ -13,6 +13,7 @@
             OUTLETS = {
                 generalPreferencesView = NSView; 
                 libraryPopUpButton = JKPathPopUpButton; 
+                presetsPreferencesView = NSView; 
                 processingPreferencesView = NSView; 
             }; 
             SUPERCLASS = NSWindowController; 

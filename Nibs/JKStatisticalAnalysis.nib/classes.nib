@@ -10,10 +10,10 @@
         {
             ACTIONS = {
                 addButtonAction = id; 
+                cancelEditRatios = id; 
                 editRatios = id; 
                 exportSummary = id; 
                 options = id; 
-                refetch = id; 
                 runStatisticalAnalysisButtonAction = id; 
                 saveEditRatios = id; 
                 stopButtonAction = id; 
@@ -24,6 +24,8 @@
             OUTLETS = {
                 addButton = NSButton; 
                 combinedPeaksController = NSArrayController; 
+                comparisonScrollView = NSScrollView; 
+                comparisonWindow = NSWindow; 
                 detailStatusTextField = NSTextField; 
                 doneButton = NSButton; 
                 fileProgressIndicator = NSProgressIndicator; 
@@ -31,16 +33,16 @@
                 filesTableView = NSTableView; 
                 metadataController = NSArrayController; 
                 metadataTable = NSTableView; 
-                metadataTableScrollView = JKSynchroScrollView; 
+                metadataTableScrollView = NSScrollView; 
                 optionsSheet = NSWindow; 
                 progressSheet = NSWindow; 
                 ratiosController = NSArrayController; 
                 ratiosEditor = NSWindow; 
                 ratiosTable = NSTableView; 
-                ratiosTableScrollView = JKSynchroScrollView; 
+                ratiosTableScrollView = NSScrollView; 
                 ratiosValuesController = NSArrayController; 
                 resultsTable = NSTableView; 
-                resultsTableScrollView = JKSynchroScrollView; 
+                resultsTableScrollView = NSScrollView; 
                 runBatchButton = NSButton; 
                 searchOptionsButton = NSButton; 
                 stopButton = NSButton; 

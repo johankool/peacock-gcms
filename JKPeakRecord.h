@@ -112,8 +112,12 @@
 - (void)setSpectrum:(JKSpectrum *)inValue;
 - (JKSpectrum *)spectrum;
 
-//- (void)setSearchResults:(NSMutableArray *)inValue;
 - (NSMutableArray *)searchResults;
+- (void)setSearchResults:(NSMutableArray *)inValue;
+- (void)insertObject:(NSDictionary *)searchResult inSearchResultsAtIndex:(int)index;
+- (void)removeObjectFromSearchResultsAtIndex:(int)index;
+
+
 - (JKLibraryEntry *)libraryHit;
 - (void)setLabel:(NSString *)inValue;
 - (NSString *)label;

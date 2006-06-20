@@ -678,7 +678,10 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 
 
-- (NSString *)view:(NSView *)view stringForToolTip:(NSToolTipTag)tag point:(NSPoint)point userData:(void *)userData  
+- (NSString *)view:(NSView *)view
+  stringForToolTip:(NSToolTipTag)tag
+             point:(NSPoint)point
+          userData:(void *)userData
 {
 	id peak = [[self peaks] objectAtIndex:(int)userData];
 	return [NSString stringWithFormat:NSLocalizedString(@"Peak no. %d\n%@",@"Tiptool for peak number and label."), userData+1, [peak valueForKey:@"label"]];
@@ -1277,9 +1280,9 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 #pragma mark BINDINGS
 - (void)bind:(NSString *)bindingName
-	toObject:(id)observableObject
+    toObject:(id)observableObject
  withKeyPath:(NSString *)observableKeyPath
-	 options:(NSDictionary *)options
+     options:(NSDictionary *)options
 {
 	
     if ([bindingName isEqualToString:@"dataSeries"])
@@ -1688,6 +1691,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 {
     return axesColor;
 }
+
 - (void)setAxesColor:(NSColor *)inValue  
 {
     [inValue retain];

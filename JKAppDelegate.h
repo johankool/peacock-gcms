@@ -16,11 +16,13 @@
 #import <Growl/GrowlApplicationBridge.h>
 
 @interface JKAppDelegate : NSApplication <GrowlApplicationBridgeDelegate> {
+    IBOutlet NSMenu *showPresetMenu;
+    IBOutlet NSMenu *removeChromatogramMenu;
+	IBOutlet MWController *mwWindowController;
+
     NSWindowController *preferencesWindowController;
-	//JKPanelController *panelWindowController;
-    IBOutlet MWController *mwWindowController;
 	JKBatchProcessWindowController *batchProcessWindowController;
-	//JKStatisticsWindowController *statisticsWindowController;
+
 }
 
 

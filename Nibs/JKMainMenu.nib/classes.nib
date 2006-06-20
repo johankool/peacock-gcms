@@ -36,7 +36,6 @@
         }, 
         {
             ACTIONS = {
-                checkForNewVersion = id; 
                 openPreferencesWindowAction = id; 
                 showBatchProcessAction = id; 
                 showLicense = id; 
@@ -47,7 +46,8 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 mwWindowController = MWController; 
-                panelWindowController = JKPanelController; 
+                removeChromatogramMenu = NSMenu; 
+                showPresetMenu = NSMenu; 
             }; 
             SUPERCLASS = NSApplication; 
         }, 

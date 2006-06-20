@@ -24,6 +24,10 @@ static void *ChromatogramObservationContext = (void *)1101;
 static void *SpectrumObservationContext = (void *)1102;
 //static void *PeaksObservationContext = (void *)1103;
 
+#define JKPeakRecordTableViewDataType @"JKPeakRecordTableViewDataType"
+#define JKSearchResultTableViewDataType @"JKSearchResultTableViewDataType"
+#define JKLibraryEntryTableViewDataType @"JKLibraryEntryTableViewDataType"
+
 @implementation JKMainWindowController
 
 #pragma mark INITIALIZATION
@@ -99,6 +103,19 @@ static void *SpectrumObservationContext = (void *)1102;
 	[self addObserver:self forKeyPath:@"showCombinedSpectrum" options:nil context:SpectrumObservationContext];
 	[self addObserver:self forKeyPath:@"showLibraryHit" options:nil context:SpectrumObservationContext];
 	[self addObserver:self forKeyPath:@"showNormalizedSpectra" options:nil context:SpectrumObservationContext];
+	
+	// Double click action
+	[resultsTable setDoubleAction:@selector(resultDoubleClicked:)];
+	
+	// Drag and drop
+	[peaksTable registerForDraggedTypes:[NSArray arrayWithObjects:JKPeakRecordTableViewDataType, JKSearchResultTableViewDataType, nil]];
+	[peaksTable setDataSource:self];
+	[peaksTable setDraggingSourceOperationMask:NSDragOperationMove|NSDragOperationDelete forLocal:YES];
+	[peaksTable setDraggingSourceOperationMask:NSDragOperationCopy|NSDragOperationDelete forLocal:NO];
+	[resultsTable registerForDraggedTypes:[NSArray arrayWithObject:JKSearchResultTableViewDataType]];
+	[resultsTable setDataSource:self];
+	[resultsTable setDraggingSourceOperationMask:NSDragOperationMove|NSDragOperationDelete forLocal:YES];
+	[resultsTable setDraggingSourceOperationMask:NSDragOperationCopy|NSDragOperationDelete forLocal:NO];
 }
 
 - (void)dealloc  
@@ -116,6 +133,7 @@ static void *SpectrumObservationContext = (void *)1102;
 - (IBAction)obtainBaseline:(id)sender 
 {
 	[[self document] obtainBaseline];
+	[chromatogramView setShouldDrawBaseline:YES];
 }
 
 
@@ -126,7 +144,6 @@ static void *SpectrumObservationContext = (void *)1102;
 
 - (IBAction)identifyCompounds:(id)sender 
 {
-#warning [BUG] ChromatogramView doesn't update after identification
 	[NSThread detachNewThreadSelector:@selector(identifyCompounds) toTarget:self withObject:nil];
 }
 
@@ -511,6 +528,26 @@ static void *SpectrumObservationContext = (void *)1102;
 	[spectrumView showAll:self];
 }
 
+- (IBAction)resultDoubleClicked:(id)sender
+{
+	JKPeakRecord *selectedPeak = [[peakController selectedObjects] objectAtIndex:0];
+	[selectedPeak identifyAs:[[searchResultsController selectedObjects] objectAtIndex:0]];
+	[selectedPeak confirm];
+}
+
+- (IBAction)showPreset:(id)sender
+{
+	id preset = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"presets"] objectAtIndex:[sender tag]];
+	if ([preset valueForKey:@"massValue"]) {
+		[[self document] addChromatogramForMass:[preset valueForKey:@"massValue"]];
+	} 
+}
+
+- (IBAction)removeChromatogram:(id)sender
+{
+	[[[self document] chromatograms] removeObjectAtIndex:[sender tag]];
+}
+
 #pragma mark KEY VALUE OBSERVATION
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -822,6 +859,91 @@ static void *SpectrumObservationContext = (void *)1102;
 	} else {
 		return displayName;
 	}
+}
+
+#pragma mark DRAG N DROP
+
+- (BOOL)tableView:(NSTableView *)tv writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard 
+{
+	JKLogEnteringMethod();
+    // Copy the row numbers to the pasteboard.
+	if (tv == peaksTable) {
+		NSData *data = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
+		[pboard declareTypes:[NSArray arrayWithObject:JKPeakRecordTableViewDataType] owner:self];
+		[pboard setData:data forType:JKPeakRecordTableViewDataType];
+		return YES;		
+	} else if (tv == resultsTable) {
+		NSData *data = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
+		[pboard declareTypes:[NSArray arrayWithObject:JKSearchResultTableViewDataType] owner:self];
+		[pboard setData:data forType:JKSearchResultTableViewDataType];
+		return YES;		
+	}
+	return NO;
+}
+
+- (BOOL)tableView:(NSTableView *)tv acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation
+{
+	NSArray *supportedTypes = [NSArray arrayWithObjects: JKPeakRecordTableViewDataType, JKSearchResultTableViewDataType, JKLibraryEntryTableViewDataType, nil];
+	NSString *availableType = [[info draggingPasteboard] availableTypeFromArray:supportedTypes];
+	
+	if (tv == peaksTable) {
+		if (([availableType isEqualToString:JKPeakRecordTableViewDataType]) && ([info draggingSource] == tv)) {
+			// Move the peaks to the appropriate place in the array
+			//[info draggingSource] 
+			return YES;
+		} else if ([availableType isEqualToString:JKSearchResultTableViewDataType]) {
+			// Add the search result to the peak
+			// Recalculate score
+			[[peakController arrangedObjects] objectAtIndex:row];
+			return YES;
+		} else if ([availableType isEqualToString:JKLibraryEntryTableViewDataType]) {
+			// Add the library entry to the peak
+			// Calculate score
+			
+			return YES;
+		}	
+	} else if (tv == resultsTable) {
+		if ([availableType isEqualToString:JKSearchResultTableViewDataType]) {
+			// Insert the search result
+			// Recalculate score (to be sure)
+			
+			return YES;
+		} else if ([availableType isEqualToString:JKLibraryEntryTableViewDataType]) {
+			// Insert the library entry
+			// Calculate score
+
+			return YES;
+		}
+	}
+    return NO;    
+}
+
+- (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op 
+{
+	NSArray *supportedTypes = [NSArray arrayWithObjects: JKPeakRecordTableViewDataType, JKSearchResultTableViewDataType, JKLibraryEntryTableViewDataType, nil];
+	NSString *availableType = [[info draggingPasteboard] availableTypeFromArray:supportedTypes];
+	
+	if (tv == peaksTable) {
+		if (([availableType isEqualToString:JKPeakRecordTableViewDataType]) && ([info draggingSource] == tv)) {
+			[tv setDropRow:row dropOperation:NSTableViewDropAbove];
+			return NSDragOperationMove;
+		} else if ([availableType isEqualToString:JKSearchResultTableViewDataType]) {
+			[tv setDropRow:row dropOperation:NSTableViewDropOn];
+			return NSDragOperationMove;
+		} else if ([availableType isEqualToString:JKLibraryEntryTableViewDataType]) {
+			[tv setDropRow:row dropOperation:NSTableViewDropOn];
+			return NSDragOperationMove;
+		}	
+	} else if (tv == resultsTable) {
+		if ([availableType isEqualToString:JKSearchResultTableViewDataType]) {
+			[tv setDropRow:row dropOperation:NSTableViewDropAbove];
+			return NSDragOperationMove;
+		} else if ([availableType isEqualToString:JKLibraryEntryTableViewDataType]) {
+			[tv setDropRow:row dropOperation:NSTableViewDropAbove];
+			return NSDragOperationCopy;
+		}
+	}
+    return NSDragOperationNone;    
 }
 
 #pragma mark ACCESSORS (MACROSTYLE)

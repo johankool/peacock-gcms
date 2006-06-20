@@ -7,9 +7,11 @@
 //
 
 #import "JKAppDelegate.h"
+
+#import "JKGCMSDocument.h"
+#import "JKLog.h"
 #import "JKPanelController.h"
 #import "JKStatisticsDocument.h"
-#import "JKLog.h"
 
 @implementation JKAppDelegate
 
@@ -24,7 +26,7 @@
 	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"showMassCalculatorOnLaunch"];
 	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"autoSave"];
 	[defaultValues setValue:[NSNumber numberWithInt:0] forKey:@"autoSaveDelay"]; 
-
+	
 	// Default preferences for initial document settings
 	[defaultValues setValue:[NSNumber numberWithInt:30] forKey:@"baselineWindowWidth"];
 	[defaultValues setValue:[NSNumber numberWithFloat:0.05f] forKey:@"baselineDistanceThreshold"];
@@ -39,6 +41,9 @@
 	[defaultValues setValue:[NSNumber numberWithFloat:75.0] forKey:@"markAsIdentifiedThreshold"];
 	[defaultValues setValue:[NSNumber numberWithFloat:50.0] forKey:@"minimumScoreSearchResults"];
 
+	// Default presets
+	[defaultValues setObject:[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"test",@"name",@"1+2+3",@"massValue",nil],nil] forKey:@"presets"];
+	
 	// Default summary settings
 	[defaultValues setValue:[NSNumber numberWithInt:3] forKey:@"peaksForSummary"]; // confirmed peaks
 	[defaultValues setValue:[NSNumber numberWithInt:1] forKey:@"columnSorting"]; // Samplecode
@@ -53,6 +58,7 @@
 	// Hidden preference for logging verbosity
 	[defaultValues setValue:[NSNumber numberWithInt:JK_VERBOSITY_INFO] forKey:@"JKVerbosity"];
 	
+//	[[NSUserDefaults standardUserDefaults] setInitialValues:defaultValues];
 	[[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:defaultValues];
 	[defaultValues release];
 }
@@ -178,6 +184,47 @@
 	} else {
 		return NO;
 	}
+}
+
+- (int)numberOfItemsInMenu:(NSMenu *)menu
+{
+	if (menu == showPresetMenu) {
+		return [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"presets"] count];
+	} else if (menu == removeChromatogramMenu) {
+		id currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
+		if ((currentDocument != nil) && ([currentDocument isKindOfClass:[JKGCMSDocument class]])) {
+			return [[currentDocument chromatograms] count];
+		}
+	}
+	return 0;
+}
+
+- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)x shouldCancel:(BOOL)shouldCancel
+{
+	if (menu == showPresetMenu) {
+		id preset = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"presets"] objectAtIndex:x];
+		if (![preset valueForKey:@"name"]) {
+			[item setTitle:@"No name"];
+		} else {
+			[item setTitle:[preset valueForKey:@"name"]];			
+		}
+		[item setTag:x];
+		[item setAction:@selector(showPreset:)];
+		if (x < 9) {
+			[item setKeyEquivalentModifierMask:NSCommandKeyMask];
+			[item setKeyEquivalent:[NSString stringWithFormat:@"%d",x+1]];			
+		}
+		return YES;
+	} else if (menu == removeChromatogramMenu) {
+		id currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
+		if ((currentDocument != nil) && ([currentDocument isKindOfClass:[JKGCMSDocument class]])) {
+			[item setTitle:[[[currentDocument chromatograms] objectAtIndex:x] valueForKey:@"seriesTitle"]];
+			[item setTag:x];
+			[item setAction:@selector(removeChromatogram:)];
+			return YES;
+		}
+	}
+	return NO;
 }
 
 @end

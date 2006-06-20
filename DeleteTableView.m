@@ -7,7 +7,7 @@
 //
 
 #import "DeleteTableView.h"
-
+	
 @implementation DeleteTableView
 
 - (void)bind:(NSString *)binding toObject:(id)observable

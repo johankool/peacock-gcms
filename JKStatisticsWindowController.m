@@ -13,6 +13,7 @@
 #import "JKRatio.h"
 #import "JKSpectrum.h"
 #import "Growl/GrowlApplicationBridge.h"
+#import "MyGraphView.h"
 
 @implementation JKStatisticsWindowController
 
@@ -183,7 +184,7 @@
 			[fileProgressIndicator setDoubleValue:(i+1)*5.0];
 			continue;	
 		}
-//		[fileStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Processing file \\"%@\\" (%d of %d)",@"Batch process status text"),[[files objectAtIndex:i] valueForKey:@"filename"],i+1,filesCount]];
+		[fileStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Processing file '%@' (%d of %d)",@"Batch process status text"),[[files objectAtIndex:i] valueForKey:@"filename"],i+1,filesCount]];
 		if ([self abortAction]) {
 			break;
 		}		
@@ -260,6 +261,8 @@
 	[self didChangeValueForKey:@"combinedPeaks"];
 	[self didChangeValueForKey:@"ratioValues"];
 	[summaryWindow makeKeyAndOrderFront:self];
+	
+	[self setupComparisonWindow];
 	
 	[pool release];
 }
@@ -371,7 +374,7 @@
 			} else { // Or if it's an unidentified peak, match according to score
 				isUnknownCompound = YES;
 				if (fabsf([[peak retentionIndex] floatValue] - [[combinedPeak valueForKey:@"retentionIndex"] floatValue]) < 300.0) {
-					NSAssert([combinedPeak valueForKey:@"spectrum"], @"No spectrum for combined peak!?");
+					//NSAssert([combinedPeak valueForKey:@"spectrum"], [combinedPeak description]);
 					peaksCompared++;
 					scoreResult  = [spectrum scoreComparedToSpectrum:[combinedPeak valueForKey:@"spectrum"]];
 					if (scoreResult > 70) {
@@ -390,10 +393,13 @@
 		}
 		if (!isKnownCombinedPeak) {
 			if (!isUnknownCompound) {
+				NSAssert([peak spectrum], [peak description]);
+				NSAssert([[peak spectrum] normalizedSpectrum], [peak description]);
 				combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:peakName, @"label", peak, [NSString stringWithFormat:@"file_%d",index], [peak topTime], @"topTime", [[peak spectrum] normalizedSpectrum], @"spectrum", nil];
 				[peakToAddToCombinedPeaks addObject:combinedPeak];	
 				[combinedPeak release];
 			} else {
+				NSAssert([peak spectrum], [peak description]);
 				combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:NSLocalizedString(@"Unknown compound %d ",@"Unknown compounds in stats summary."), unknownCount], @"label", peak, [NSString stringWithFormat:@"file_%d",index], [peak retentionIndex], @"retentionIndex", [[peak spectrum] normalizedSpectrum], @"spectrum", nil];
 				//NSLog(@"%@", [combinedPeak description]);
 				[peakToAddToCombinedPeaks addObject:combinedPeak];
@@ -683,6 +689,27 @@
 	[summaryWindow makeKeyAndOrderFront:self];
 }
 
+- (void)setupComparisonWindow
+{
+	int i, filesCount;
+	MyGraphView *chromatogramView;
+	JKGCMSDocument *document;
+	
+	filesCount = [files count];
+
+	[[comparisonScrollView documentView] setFrame:NSMakeRect(0.0,0.0,818,200*filesCount)];
+	
+	for (i=0; i < filesCount; i++) {
+		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:YES];
+		if (document != nil) {
+			chromatogramView = [[MyGraphView alloc] initWithFrame:NSMakeRect(0.0,200*(filesCount-i-1),818,200)];
+			[chromatogramView setAutoresizingMask:NSViewWidthSizable];
+			[[comparisonScrollView documentView] addSubview:chromatogramView];
+		}
+	}
+	[comparisonWindow makeKeyAndOrderFront:self];
+}
+
 #pragma mark IBACTIONS
 
 - (IBAction)addButtonAction:(id)sender  
@@ -909,7 +936,7 @@
 			[outStr appendString:@"\\n"];
 		}
 
-		if (![outStr writeToFile:[sp filename] atomically:YES])
+		if (![outStr writeToFile:[sp filename] atomically:YES encoding:NSUTF8StringEncoding error:NULL])
 			NSBeep();
 	}
 }

@@ -12,6 +12,7 @@
 @interface JKPreferencesWindowController : NSWindowController {
 	IBOutlet NSView *generalPreferencesView;
 	IBOutlet NSView *processingPreferencesView;
+	IBOutlet NSView *presetsPreferencesView;
 	IBOutlet JKPathPopUpButton *libraryPopUpButton;
 
 	NSMutableDictionary *preferencesList;

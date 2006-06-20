@@ -514,13 +514,13 @@
 			name = BatchWindow;
 			sourceTree = "<group>";
 		};
-		C747B85009DD576B004837D0 /* StasticsWindow */ = {
+		C747B85009DD576B004837D0 /* StatisticsWindow */ = {
 			isa = PBXGroup;
 			children = (
 				C785905409541F250083EC22 /* JKStatisticsWindowController.h */,
 				C785905509541F250083EC22 /* JKStatisticsWindowController.m */,
 			);
-			name = StasticsWindow;
+			name = StatisticsWindow;
 			sourceTree = "<group>";
 		};
 		C747B85309DD5782004837D0 /* TableView */ = {
@@ -539,7 +539,7 @@
 				C747B84709DD571D004837D0 /* ApplicationLevel */,
 				C747B84A09DD5742004837D0 /* LibraryWindow */,
 				C747B84D09DD575C004837D0 /* BatchWindow */,
-				C747B85009DD576B004837D0 /* StasticsWindow */,
+				C747B85009DD576B004837D0 /* StatisticsWindow */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";

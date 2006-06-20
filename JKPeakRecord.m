@@ -14,6 +14,12 @@
 @implementation JKPeakRecord
 
 # pragma mark INITIALIZATION
++ (void)initialize
+{
+	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"library"];
+	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"deltaRetentionIndex"];
+	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"score"];
+}
 
 - (NSString *)description  
 {
@@ -25,6 +31,7 @@
 	self = [super init];
 	if (self != nil) {
 		searchResults = [[NSMutableArray alloc] init];
+		label = @"";
     }
     return self;	
 }
@@ -34,6 +41,10 @@
 - (BOOL)confirm
 {
 	if ([self identified]) {
+//		// Register to undo stack
+//		NSUndoManager *undo = [[self document] undoManager];
+//		[[undo prepareWithInvocationTarget:self] undoConfirmWithDictionary:[self dictionaryWithValuesForKeys:[NSArray arrayWithObjects:@"confirmed",@"identifiedSearchResult", @"",nil]];
+		
 		[self setConfirmed:YES];
 		[searchResults removeObject:identifiedSearchResult];
 		[[self document] redistributedSearchResults:self];
@@ -56,6 +67,7 @@
 
 - (BOOL)identifyAs:(id)searchResult
 {
+	[self willChangeValueForKey:@"libraryHit"];
 	[self setIdentifiedSearchResult:searchResult];
 	// Initial default settings after identification, but can be customized by user later on
 	[self setLabel:[searchResult valueForKeyPath:@"libraryHit.name"]];
@@ -65,16 +77,17 @@
 	
 	if (![searchResults containsObject:searchResult]) {
 		[self willChangeValueForKey:@"searchResultCount"];
-		[searchResults addObject:searchResult];
+		[searchResults insertObject:searchResult atIndex:[searchResults count]];
 		[self didChangeValueForKey:@"searchResultCount"];
 	}
+	[self didChangeValueForKey:@"libraryHit"];
 	return YES;
 }
 
 - (void)addSearchResult:(id)searchResult
 {
 	if (![searchResults containsObject:searchResult]) {
-		[searchResults addObject:searchResult];
+		[searchResults insertObject:searchResult atIndex:[searchResults count]];
 		NSSortDescriptor *sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"score" ascending:NO] autorelease];
 		[searchResults sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 		
@@ -233,11 +246,6 @@
     return surface;
 }
 
-- (NSMutableArray *)searchResults  
-{
-    return searchResults;
-}
-
 - (void)setTop:(NSNumber *)inValue  
 {
 	[inValue retain];
@@ -367,6 +375,60 @@
 	return [searchResults count];
 }
 
+- (NSMutableArray *)searchResults  
+{
+    return searchResults;
+}
+
+- (void)setSearchResults:(NSMutableArray *)array
+{
+	if (array == searchResults)
+		return;
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [[self document] undoManager];
+	[[undo prepareWithInvocationTarget:self] setSearchResults:searchResults];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Set Search Results",@"")];
+	}
+	
+	[searchResults release];
+	[array retain];
+	searchResults = array;
+}
+
+- (void)insertObject:(NSDictionary *)searchResult inSearchResultsAtIndex:(int)index
+{
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [[self document] undoManager];
+	[[undo prepareWithInvocationTarget:self] removeObjectFromSearchResultsAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Insert Search Result",@"")];
+	}
+	
+	// Add the peak to the array
+	[searchResults insertObject:searchResult atIndex:index];
+}
+
+- (void)removeObjectFromSearchResultsAtIndex:(int)index
+{
+	NSDictionary *searchResult = [searchResults objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [[self document] undoManager];
+	[[undo prepareWithInvocationTarget:self] insertObject:searchResult inSearchResultsAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Delete Search Result",@"")];
+	}
+	
+	// Remove the searchResult from the array
+	[searchResults removeObjectAtIndex:index];
+}
+
+
 #pragma mark NSCODING
 
 - (void)encodeWithCoder:(NSCoder *)coder
@@ -380,9 +442,11 @@
         [coder encodeObject:top forKey:@"top"];
         [coder encodeObject:topTime forKey:@"topTime"];
         [coder encodeObject:height forKey:@"height"];
-        [coder encodeObject:baselineLeft forKey:@"baselineLeft"];
+        [coder encodeObject:normalizedHeight forKey:@"normalizedHeight"];
+		[coder encodeObject:baselineLeft forKey:@"baselineLeft"];
         [coder encodeObject:baselineRight forKey:@"baselineRight"];
         [coder encodeObject:surface forKey:@"surface"];
+        [coder encodeObject:normalizedSurface forKey:@"normalizedSurface"];
         [coder encodeObject:label forKey:@"label"];
         [coder encodeObject:symbol forKey:@"symbol"];
         [coder encodeBool:identified forKey:@"identified"];
@@ -407,9 +471,11 @@
         end = [[coder decodeObjectForKey:@"end"] retain];
         top = [[coder decodeObjectForKey:@"top"] retain];
         height = [[coder decodeObjectForKey:@"height"] retain];
+        normalizedHeight = [[coder decodeObjectForKey:@"normalizedHeight"] retain];
         baselineLeft = [[coder decodeObjectForKey:@"baselineLeft"] retain];
         baselineRight = [[coder decodeObjectForKey:@"baselineRight"] retain];
         surface = [[coder decodeObjectForKey:@"surface"] retain];
+        normalizedSurface = [[coder decodeObjectForKey:@"normalizedSurface"] retain];
         label = [[coder decodeObjectForKey:@"label"] retain];
 		symbol = [[coder decodeObjectForKey:@"symbol"] retain];
         identified = [coder decodeBoolForKey:@"identified"];

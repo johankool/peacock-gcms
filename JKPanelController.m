@@ -100,11 +100,15 @@ static JKPanelController *theSharedController;
 	// Set an initial state
 	[toolbar setSelectedItemIdentifier:@"info"];
 	
-	if ([[[[[NSApplication sharedApplication] orderedWindows] objectAtIndex:0] document] isKindOfClass:[JKGCMSDocument class]]) {
-		[self setInspectedDocument:[[[[NSApplication sharedApplication] orderedWindows] objectAtIndex:0] document]];
-		[[self window] setContentView:infoPanelView];
-		[infoTableView reloadData];
-    } else {
+	if ([[[NSApplication sharedApplication] orderedWindows] count] > 0) {
+		if ([[[[[NSApplication sharedApplication] orderedWindows] objectAtIndex:0] document] isKindOfClass:[JKGCMSDocument class]]) {
+			[self setInspectedDocument:[[[[NSApplication sharedApplication] orderedWindows] objectAtIndex:0] document]];
+			[[self window] setContentView:infoPanelView];
+			[infoTableView reloadData];
+		} else {
+			[[self window] setContentView:naPanelView];
+		}
+	} else {
 		[[self window] setContentView:naPanelView];
 	}
 	

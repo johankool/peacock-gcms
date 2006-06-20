@@ -58,7 +58,8 @@ int const JKGCMSDocument_Version = 3;
 
 - (void)dealloc  
 {
-	[peaks release];
+	[self setPeaks:nil];
+	//[peaks release];
 	[baseline release];
 	[metadata release];
 	[chromatograms release];
@@ -896,6 +897,9 @@ int const JKGCMSDocument_Version = 3;
 		}
 	}
 	
+	if (mainWindowController)
+		[[mainWindowController chromatogramView] setNeedsDisplay:YES];
+	
 	return YES;
 }
 
@@ -1279,8 +1283,24 @@ int const JKGCMSDocument_Version = 3;
 	return (highestInten-lowestInten) * ((inValue-lowestScan)/(highestScan-lowestScan)) + lowestInten; 
 }
 
+#pragma mark KEY VALUE CODING/OBSERVING
+
+- (void)changeKeyPath:(NSString *)keyPath ofObject:(id)object toValue:(id)newValue
+{
+	[object setValue:newValue forKeyPath:keyPath];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	NSUndoManager *undo = [self undoManager];
+	id oldValue = [change objectForKey:NSKeyValueChangeOldKey];
+	[[undo prepareWithInvocationTarget:self] changeKeyPath:keyPath ofObject:object toValue:oldValue];
+	
+	[undo setActionName:@"Edit"];
+}
+
 #pragma mark ACCESSORS (MACROSTYLE)
-idUndoAccessor(peaks, setPeaks, @"Change Peaks");
+//idUndoAccessor(peaks, setPeaks, @"Change Peaks");
 
 idUndoAccessor(baselineWindowWidth, setBaselineWindowWidth, @"Change Baseline Window Width");
 idUndoAccessor(baselineDistanceThreshold, setBaselineDistanceThreshold, @"Change Baseline Distance Threshold");
@@ -1392,17 +1412,6 @@ boolAccessor(abortAction, setAbortAction);
     return minimumTotalIntensity;
 }
 
-//- (void)setPeaks:(NSMutableArray *)inValue  
-//{
-//	[inValue retain];
-//	[peaks autorelease];
-//	peaks = inValue;
-//}
-//
-//- (NSMutableArray *)peaks  
-//{
-//	return peaks;
-//}
 - (NSMutableDictionary *)metadata  
 {
 	return metadata;
@@ -1425,6 +1434,83 @@ boolAccessor(abortAction, setAbortAction);
 	return chromatograms;
 }
 
+- (NSMutableArray *)peaks
+{
+	return peaks;
+}
+
+- (void)setPeaks:(NSMutableArray *)array
+{
+	if (array == peaks)
+		return;
+
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] setPeaks:peaks];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Set Peaks",@"")];
+	}
+	
+	NSEnumerator *e = [peaks objectEnumerator];
+	JKPeakRecord *peak;
+	while ((peak = [e nextObject])) {
+		[self stopObservingPeak:peak];
+	}
+	
+	[peaks release];
+	[array retain];
+	peaks = array;
+
+	e = [peaks objectEnumerator];
+	while ((peak = [e nextObject])) {
+		[self startObservingPeak:peak];
+	}
+}
+
+- (void)insertObject:(JKPeakRecord *)peak inPeaksAtIndex:(int)index
+{
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] removeObjectFromPeaksAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Insert Peak",@"")];
+	}
+	
+	// Add the peak to the array
+	[self startObservingPeak:peak];
+	[peaks insertObject:peak atIndex:index];
+}
+
+- (void)removeObjectFromPeaksAtIndex:(int)index
+{
+	JKPeakRecord *peak = [peaks objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] insertObject:peak inPeaksAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Delete Peak",@"")];
+	}
+	
+	// Remove the peak from the array
+	[self stopObservingPeak:peak];
+	[peaks removeObjectAtIndex:index];
+}
+
+- (void)startObservingPeak:(JKPeakRecord *)peak
+{
+	[peak addObserver:self forKeyPath:@"label" options:NSKeyValueObservingOptionOld context:nil];
+}
+
+- (void)stopObservingPeak:(JKPeakRecord *)peak
+{
+	[peak removeObserver:self forKeyPath:@"label"];
+}
+
 @end
+
 
 
