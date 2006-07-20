@@ -230,8 +230,8 @@
 
 #pragma mark ACCESSORS
 
-idAccessor(files, setFiles);
-boolAccessor(abortAction, setAbortAction);
+idAccessor(files, setFiles)
+boolAccessor(abortAction, setAbortAction)
 
 #pragma mark WINDOW MANAGEMENT
 

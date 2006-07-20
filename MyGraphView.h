@@ -15,26 +15,20 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 @end
 
 @interface MyGraphView : NSView {
-	id <MyGraphViewDelegateProtocol> delegate;
+	id delegate; // Conformance to MyGraphViewDelegateProtocol is optional
 	
 	// Bindings support
-	NSObject *dataSeriesContainer;
+	NSArrayController *dataSeriesContainer;
     NSString *dataSeriesKeyPath;
-	NSObject *dataSeriesSelectionIndexesContainer;
-    NSString *dataSeriesSelectionIndexesKeyPath;
 	
-	NSObject *peaksContainer;
+	NSArrayController *peaksContainer;
     NSString *peaksKeyPath;
-	NSObject *peaksSelectionIndexesContainer;
-    NSString *peaksSelectionIndexesKeyPath;
 
-	NSObject *baselineContainer;
+	NSArrayController *baselineContainer;
     NSString *baselineKeyPath;
-	NSObject *baselineSelectionIndexesContainer;
-    NSString *baselineSelectionIndexesKeyPath;
 	
-    NSAffineTransform *trans;          // Van grafiek naar scherm coords     
-	NSAffineTransform *inverseTrans;   // Van scherm naar grafiek coords 
+    NSAffineTransform *transformGraphToScreen;     
+	NSAffineTransform *transformScreenToGraph;
 	NSNumber *pixelsPerXUnit, *pixelsPerYUnit;
 	NSNumber *minimumPixelsPerMajorGridLine;
 	NSString *keyForXValue;
@@ -59,18 +53,24 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 	BOOL shouldDrawGrid;
 	BOOL shouldDrawLabels;
 	BOOL shouldDrawLabelsOnFrame;
+	
+	// Additions for Peacock
+	BOOL shouldDrawBaseline;
+	BOOL shouldDrawPeaks;
+	
 	NSAttributedString *titleString;
 	NSAttributedString *xAxisLabelString;
 	NSAttributedString *yAxisLabelString;
 	
 	// Temporary storage items
-	BOOL didDrag;
-	NSPoint mouseDownAtPoint;
-	NSPoint oldOrigin;
+	BOOL _didDrag;
+	BOOL _startedInsidePlottingArea;
+	BOOL _startedInsideLegendArea;
 	
-	// Additions for Peacock
-	BOOL shouldDrawBaseline;
-	BOOL shouldDrawPeaks;
+	NSPoint _mouseDownAtPoint;
+	NSPoint _oldOrigin;
+	NSPoint _oldLegendOrigin;
+	int _lastSelectedPeakIndex;
 }
 
 #pragma mark DRAWING ROUTINES
@@ -98,11 +98,14 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 - (void)calculateCoordinateConversions;
 - (void)zoomToRect:(NSRect)rect;
 - (void)zoomToRectInView:(NSRect)aRect;
+- (void)zoomIn;
 - (void)zoomOut;
 - (void)moveLeft;
 - (void)moveRight;
 - (void)moveUp;
 - (void)moveDown;
+- (void)selectNextPeak; 
+- (void)selectPreviousPeak;
 - (float)unitsPerMajorGridLine:(float)pixelsPerUnit;
 
 #pragma mark BINDINGS
@@ -112,23 +115,11 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 - (NSString *)dataSeriesKeyPath;
 - (void)setDataSeriesKeyPath:(NSString *)aDataSeriesKeyPath;
 
-- (NSIndexSet *)dataSeriesSelectionIndexes;
-- (NSObject *)dataSeriesSelectionIndexesContainer;
-- (void)setDataSeriesSelectionIndexesContainer:(NSObject *)aDataSeriesSelectionIndexesContainer;
-- (NSString *)dataSeriesSelectionIndexesKeyPath;
-- (void)setDataSeriesSelectionIndexesKeyPath:(NSString *)aDataSeriesSelectionIndexesKeyPath;
-
 - (NSMutableArray *)peaks;
 - (NSObject *)peaksContainer;
 - (void)setPeaksContainer:(NSObject *)aPeaksContainer;
 - (NSString *)peaksKeyPath;
 - (void)setPeaksKeyPath:(NSString *)aPeaksKeyPath;
-
-- (NSIndexSet *)peaksSelectionIndexes;
-- (NSObject *)peaksSelectionIndexesContainer;
-- (void)setPeaksSelectionIndexesContainer:(NSObject *)aPeaksSelectionIndexesContainer;
-- (NSString *)peaksSelectionIndexesKeyPath;
-- (void)setPeaksSelectionIndexesKeyPath:(NSString *)aPeaksSelectionIndexesKeyPath;
 
 - (NSMutableArray *)baseline;
 - (NSObject *)baselineContainer;
@@ -136,19 +127,13 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 - (NSString *)baselineKeyPath;
 - (void)setBaselineKeyPath:(NSString *)aBaselineKeyPath;
 
-- (NSIndexSet *)baselineSelectionIndexes;
-- (NSObject *)baselineSelectionIndexesContainer;
-- (void)setBaselineSelectionIndexesContainer:(NSObject *)aBaselineSelectionIndexesContainer;
-- (NSString *)baselineSelectionIndexesKeyPath;
-- (void)setBaselineSelectionIndexesKeyPath:(NSString *)aBaselineSelectionIndexesKeyPath;
-
 #pragma mark ACCESSORS
 - (id)delegate;
 - (void)setDelegate:(id)inValue;
-- (NSAffineTransform *)trans;
-- (void)setTrans:(NSAffineTransform *)inValue;
-- (NSAffineTransform *)inverseTrans;
-- (void)setInverseTrans:(NSAffineTransform *)inValue;
+- (NSAffineTransform *)transformGraphToScreen;
+- (void)setTransformGraphToScreen:(NSAffineTransform *)inValue;
+- (NSAffineTransform *)transformScreenToGraph;
+- (void)setTransformScreenToGraph:(NSAffineTransform *)inValue;
 - (NSNumber *)pixelsPerXUnit;
 - (void)setPixelsPerXUnit:(NSNumber *)inValue;
 - (NSNumber *)pixelsPerYUnit;

@@ -37,7 +37,6 @@
 	[spectrumView setBackColor:[NSColor clearColor]];
 	
 	[spectrumView bind:@"dataSeries" toObject:spectrumViewDataseriesController withKeyPath:@"arrangedObjects" options:nil];
-	[spectrumView bind:@"dataSeriesSelectionIndexes" toObject:spectrumViewDataseriesController withKeyPath:@"selectionIndexes" options:nil];
 	
 	[[self libraryController] setContent:[[self document] libraryArray]];
 	[[self libraryController] addObserver:self forKeyPath:@"selection" options:nil context:nil];

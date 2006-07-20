@@ -67,7 +67,7 @@ extern int const JKGCMSDocument_Version;
 	NSNumber *markAsIdentifiedThreshold;
 	NSNumber *minimumScoreSearchResults;
 		
-	@private;
+	@private
 	BOOL abortAction;
 	NSString *remainingString;
 	JKGCMSDocument *document;
@@ -151,19 +151,19 @@ extern int const JKGCMSDocument_Version;
 - (void)startObservingPeak:(JKPeakRecord *)peak;
 - (void)stopObservingPeak:(JKPeakRecord *)peak;
 
-idAccessor_h(baselineWindowWidth, setBaselineWindowWidth);
-idAccessor_h(baselineDistanceThreshold, setBaselineDistanceThreshold);
-idAccessor_h(baselineSlopeThreshold, setBaselineSlopeThreshold);
-idAccessor_h(baselineDensityThreshold, setBaselineDensityThreshold);
-idAccessor_h(peakIdentificationThreshold, setPeakIdentificationThreshold);
-idAccessor_h(retentionIndexSlope, setRetentionIndexSlope);     
-idAccessor_h(retentionIndexRemainder, setRetentionIndexRemainder);
-idAccessor_h(libraryAlias, setLibraryAlias);
-intAccessor_h(scoreBasis, setScoreBasis);
-boolAccessor_h(penalizeForRetentionIndex, setPenalizeForRetentionIndex);
-idAccessor_h(markAsIdentifiedThreshold, setMarkAsIdentifiedThreshold);
-idAccessor_h(minimumScoreSearchResults, setMinimumScoreSearchResults);
+idAccessor_h(baselineWindowWidth, setBaselineWindowWidth)
+idAccessor_h(baselineDistanceThreshold, setBaselineDistanceThreshold)
+idAccessor_h(baselineSlopeThreshold, setBaselineSlopeThreshold)
+idAccessor_h(baselineDensityThreshold, setBaselineDensityThreshold)
+idAccessor_h(peakIdentificationThreshold, setPeakIdentificationThreshold)
+idAccessor_h(retentionIndexSlope, setRetentionIndexSlope)
+idAccessor_h(retentionIndexRemainder, setRetentionIndexRemainder)
+idAccessor_h(libraryAlias, setLibraryAlias)
+intAccessor_h(scoreBasis, setScoreBasis)
+boolAccessor_h(penalizeForRetentionIndex, setPenalizeForRetentionIndex)
+idAccessor_h(markAsIdentifiedThreshold, setMarkAsIdentifiedThreshold)
+idAccessor_h(minimumScoreSearchResults, setMinimumScoreSearchResults)
 
-boolAccessor_h(abortAction, setAbortAction);
+boolAccessor_h(abortAction, setAbortAction)
 
 @end

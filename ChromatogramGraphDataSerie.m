@@ -12,7 +12,6 @@ static void *DictionaryObservationContext = (void *)1091;
 static void *ArrayObservationContext = (void *)1092;
 static void *PropertyObservationContext = (void *)1093;
 static void *PeaksObservationContext = (void *)1094;
-static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 
 @implementation ChromatogramGraphDataSerie
 
@@ -22,11 +21,10 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 {
 	// Bindings support
 	[self exposeBinding:@"peaks"];
-	[self exposeBinding:@"peaksSelectionIndexes"];	
 }	
 - (NSArray *)exposedBindings 
 {
-	return [NSArray arrayWithObjects:@"peaks", @"peaksSelectionIndexes", nil];
+	return [NSArray arrayWithObjects:@"peaks", nil];
 }
 
 - (id)init  
@@ -147,7 +145,8 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 	for (i=0; i < count; i++) {
 		[peaksPath removeAllPoints];
 		
-		pointToDrawFirst = NSMakePoint([[[[self peaks] objectAtIndex:i] valueForKey:@"start"] floatValue],[[[[self peaks] objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]); // Only works for scan, not for time!!
+		pointToDrawFirst = NSMakePoint([[[[self peaks] objectAtIndex:i] valueForKey:@"start"] floatValue],
+									   [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]*[verticalScale floatValue]); // Only works for scan, not for time!!
 		pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
 
 		[peaksPath moveToPoint:pointToDrawFirst];
@@ -157,12 +156,13 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 		end   = [[[[self peaks] objectAtIndex:i] valueForKey:@"end"] intValue]+1;
 		for (j=start; j < end; j++) {
 			pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:j] valueForKey:keyForXValue] floatValue],
-									   [[[[self dataArray] objectAtIndex:j] valueForKey:keyForYValue] floatValue]);
+									   [[[[self dataArray] objectAtIndex:j] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
 			pointInUnits  = [trans transformPoint:pointInUnits];
 			[peaksPath lineToPoint:pointInUnits];
 		}
 		
-		pointToDrawLast  = NSMakePoint([[[[self peaks] objectAtIndex:i] valueForKey:@"end"] floatValue],[[[[self peaks] objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]);// Only works for scan, not for time!!
+		pointToDrawLast  = NSMakePoint([[[[self peaks] objectAtIndex:i] valueForKey:@"end"] floatValue],
+									   [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]*[verticalScale floatValue]);// Only works for scan, not for time!!
 		pointToDrawLast  = [trans transformPoint:pointToDrawLast];
 		
 		[peaksPath lineToPoint:pointToDrawLast];
@@ -180,14 +180,15 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 
 	// Draw seleced peak!
 	NSArray *selectedPeaks = [NSArray array];
-	selectedPeaks = [[self peaks] objectsAtIndexes:[self peaksSelectionIndexes]];
+	selectedPeaks = [[self peaks] objectsAtIndexes:[peaksContainer selectionIndexes]];
 	count = [selectedPeaks count];
 	NSBezierPath *arrowPath = [[NSBezierPath alloc] init];
 	
 	for (i=0; i < count; i++) {
 		[peaksPath removeAllPoints];
 		
-		pointToDrawFirst = NSMakePoint([[[selectedPeaks objectAtIndex:i] valueForKey:@"start"] floatValue],[[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]); // Only works for scan, not for time!!
+		pointToDrawFirst = NSMakePoint([[[selectedPeaks objectAtIndex:i] valueForKey:@"start"] floatValue],
+									   [[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]*[verticalScale floatValue]); // Only works for scan, not for time!!
 		pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
 		
 		[peaksPath moveToPoint:pointToDrawFirst];
@@ -197,12 +198,13 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 		end   = [[[selectedPeaks objectAtIndex:i] valueForKey:@"end"] intValue]+1;
 		for (j=start; j < end; j++) {
 			pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:j] valueForKey:keyForXValue] floatValue],
-									   [[[[self dataArray] objectAtIndex:j] valueForKey:keyForYValue] floatValue]);
+									   [[[[self dataArray] objectAtIndex:j] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
 			pointInUnits  = [trans transformPoint:pointInUnits];
 			[peaksPath lineToPoint:pointInUnits];
 		}
 		
-		pointToDrawLast  = NSMakePoint([[[selectedPeaks objectAtIndex:i] valueForKey:@"end"] floatValue],[[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]);// Only works for scan, not for time!!
+		pointToDrawLast  = NSMakePoint([[[selectedPeaks objectAtIndex:i] valueForKey:@"end"] floatValue],
+									   [[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]*[verticalScale floatValue]);// Only works for scan, not for time!!
 			pointToDrawLast  = [trans transformPoint:pointToDrawLast];
 			
 			[peaksPath lineToPoint:pointToDrawLast];
@@ -221,7 +223,7 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 			[arrowPath removeAllPoints];
 			top = [[[selectedPeaks objectAtIndex:i] valueForKey:@"top"] intValue];
 			pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:top] valueForKey:keyForXValue] floatValue],
-									   [[[[self dataArray] objectAtIndex:top] valueForKey:keyForYValue] floatValue]);
+									   [[[[self dataArray] objectAtIndex:top] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
 			pointInUnits  = [trans transformPoint:pointInUnits];
 			
 			[arrowPath moveToPoint:pointInUnits];
@@ -236,9 +238,10 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 			[arrowPath relativeLineToPoint:NSMakePoint(0.0,-8.0)];
 			[arrowPath relativeLineToPoint:NSMakePoint(4.0,0.0)];
 			[arrowPath relativeLineToPoint:NSMakePoint(-8.0,-8.0)];
-			[[self seriesColor] set];
-			[arrowPath stroke];
-			
+			[[self seriesColor] setStroke];
+			[[[self seriesColor] colorWithAlphaComponent:0.3] setFill];
+			[arrowPath fill];
+			[arrowPath stroke];			
 	}
 	
 	[arrowPath release];
@@ -280,7 +283,7 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 		
 		// Where will it be drawn?
 		pointToDraw = NSMakePoint([[[[self peaks] objectAtIndex:i] valueForKey:@"top"] floatValue], 
-								  [[[[self dataArray] objectAtIndex:[[[[self peaks] objectAtIndex:i] valueForKey:@"top"] intValue]] valueForKey:keyForYValue] floatValue]);
+								  [[[[self dataArray] objectAtIndex:[[[[self peaks] objectAtIndex:i] valueForKey:@"top"] intValue]] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
 		stringSize = [string size];
 		pointToDraw = [trans transformPoint:pointToDraw]; // Transfrom to screen coords
 		
@@ -407,10 +410,6 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 {
 	return [peaksContainer valueForKeyPath:peaksKeyPath];
 }
-- (NSIndexSet *)peaksSelectionIndexes
-{
-	return [peaksSelectionIndexesContainer valueForKeyPath:peaksSelectionIndexesKeyPath];
-}
 
 - (void)bind:(NSString *)bindingName
 	toObject:(id)observableObject
@@ -426,15 +425,6 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 						 forKeyPath:peaksKeyPath
 							options:nil
 							context:PeaksObservationContext];
-	}
-	else if ([bindingName isEqualToString:@"peaksSelectionIndexes"])
-	{
-		[self setPeaksSelectionIndexesContainer:observableObject];
-		[self setPeaksSelectionIndexesKeyPath:observableKeyPath];
-		[peaksSelectionIndexesContainer addObserver:self
-										 forKeyPath:peaksSelectionIndexesKeyPath
-											options:nil
-											context:PeaksSelectionIndexesObservationContext];
 	}
 	
 	[super bind:bindingName
@@ -454,12 +444,6 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
 		[self setPeaksContainer:nil];
 		[self setPeaksKeyPath:nil];
 	}
-	else if ([bindingName isEqualToString:@"peaksSelectionIndexes"])
-	{
-		[peaksSelectionIndexesContainer removeObserver:self forKeyPath:peaksSelectionIndexesKeyPath];
-		[self setPeaksSelectionIndexesContainer:nil];
-		[self setPeaksSelectionIndexesKeyPath:nil];
-	}
 
 	[super unbind:bindingName];
 }
@@ -475,17 +459,6 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
         peaksContainer = [aPeaksContainer retain];
     }
 }
-- (NSObject *)peaksSelectionIndexesContainer
-{
-    return peaksSelectionIndexesContainer; 
-}
-- (void)setPeaksSelectionIndexesContainer:(NSObject *)aPeaksSelectionIndexesContainer
-{
-    if (peaksSelectionIndexesContainer != aPeaksSelectionIndexesContainer) {
-        [peaksSelectionIndexesContainer release];
-        peaksSelectionIndexesContainer = [aPeaksSelectionIndexesContainer retain];
-    }
-}
 
 - (NSString *)peaksKeyPath
 {
@@ -496,17 +469,6 @@ static void *PeaksSelectionIndexesObservationContext = (void *)1095;
     if (peaksKeyPath != aPeaksKeyPath) {
         [peaksKeyPath release];
         peaksKeyPath = [aPeaksKeyPath copy];
-    }
-}
-- (NSString *)peaksSelectionIndexesKeyPath
-{
-    return peaksSelectionIndexesKeyPath; 
-}
-- (void)setPeaksSelectionIndexesKeyPath:(NSString *)aPeaksSelectionIndexesKeyPath
-{
-    if (peaksSelectionIndexesKeyPath != aPeaksSelectionIndexesKeyPath) {
-        [peaksSelectionIndexesKeyPath release];
-        peaksSelectionIndexesKeyPath = [aPeaksSelectionIndexesKeyPath copy];
     }
 }
 

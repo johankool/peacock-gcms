@@ -106,7 +106,7 @@
 	
 	if ([files count] > 0 ) {
 		// Insert table columns (in case we're opening from a file)
-		[self insertTableColumns];
+	//	[self insertTableColumns];
 	}
 }
 
@@ -172,6 +172,16 @@
 	unknownCount = 0;
 	peaksToUse = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"peaksForSummary"] intValue]; // 1=all 2=identified 3=confirmed
 	NSAssert(peaksToUse > 0 && peaksToUse < 4, @"peaksToUse has invalid value");
+
+	// Reset the comparison window
+	if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisCompareChromatograms"] boolValue]) {
+		NSEnumerator *enumerator = [[[comparisonScrollView documentView] subviews] objectEnumerator];
+		id subview;
+		while ((subview = [enumerator nextObject])) {
+			[subview removeFromSuperview];
+		}
+		[[comparisonScrollView documentView] setFrame:NSMakeRect(0.0,0.0,818,200*[files count])];
+	}
 	
 	[fileProgressIndicator setIndeterminate:NO];
 	for (i=0; i < filesCount; i++) {
@@ -196,6 +206,9 @@
 		if ([self abortAction]) {
 			break;
 		}		
+		[detailStatusTextField setStringValue:NSLocalizedString(@"Collecting metadata",@"")];
+		[self collectMetadataForDocument:document atIndex:i];
+		[fileProgressIndicator incrementBy:1.0];
 		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisSummarize"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Collecting metadata",@"")];
 			[self collectMetadataForDocument:document atIndex:i];
@@ -213,6 +226,14 @@
 		}
 		if ([self abortAction]) {
 			break;
+		}
+		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisCompareChromatograms"] boolValue]) {
+			[detailStatusTextField setStringValue:NSLocalizedString(@"Setting up Comparison Window",@"")];
+			[self setupComparisonWindowForDocument:document atIndex:i];
+			[fileProgressIndicator incrementBy:1.0];
+		}	
+		if ([self abortAction]) {
+			break;
 		}		
 		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisCloseDocument"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Closing Document",@"")];
@@ -222,7 +243,7 @@
 		if ([self abortAction]) {
 			break;
 		}
-		[fileProgressIndicator setDoubleValue:(i+1)*7.0];
+		[fileProgressIndicator setDoubleValue:(i+1)*5.0];
 	}
 	// Out of scope for files
 	
@@ -242,7 +263,6 @@
 		[fileProgressIndicator setIndeterminate:YES];
 		[self exportSummary:self];
 	}
-	
 	[error release];
 	[[self window] makeKeyAndOrderFront:self];
 	
@@ -250,7 +270,15 @@
 	[NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];
 	
 	[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Statistical Analysis Finished",@"") description:NSLocalizedString(@"Peacock finished processing your data.",@"") notificationName:@"Statistical Analysis Finished" iconData:nil priority:0 isSticky:NO clickContext:nil];
-	
+
+	// Present results
+	if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisCompareChromatograms"] boolValue]) {
+		[comparisonWindow makeKeyAndOrderFront:self];
+	}
+	if (([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisSummarize"] boolValue]) | ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisCalculateRatios"] boolValue])) {
+		[summaryWindow makeKeyAndOrderFront:self];
+	}
+		
 	if (errorOccurred) {
 		NSRunCriticalAlertPanel(NSLocalizedString(@"Error(s) during batch processing",@""),NSLocalizedString(@"One or more errors occurred during batch processing your files. The console.log available from the Console application contains more details about the error. Common errors include files moved after being added to the list and full disks.",@""),NSLocalizedString(@"OK",@""),nil,nil);
 	} else if ([self abortAction]) {
@@ -260,9 +288,7 @@
 	[self didChangeValueForKey:@"metadata"];
 	[self didChangeValueForKey:@"combinedPeaks"];
 	[self didChangeValueForKey:@"ratioValues"];
-	[summaryWindow makeKeyAndOrderFront:self];
 	
-	[self setupComparisonWindow];
 	
 	[pool release];
 }
@@ -689,27 +715,43 @@
 	[summaryWindow makeKeyAndOrderFront:self];
 }
 
-- (void)setupComparisonWindow
+- (void)setupComparisonWindowForDocument:(JKGCMSDocument *)document atIndex:(int)index
 {
-	int i, filesCount;
-	MyGraphView *chromatogramView;
-	JKGCMSDocument *document;
+	NSArrayController *peakController = [[NSArrayController alloc] initWithContent:[document peaks]];
+	NSArrayController *chromatogramDataSeriesController = [[NSArrayController alloc] initWithContent:[document chromatograms]];
+	NSArrayController *baselineController = [[NSArrayController alloc] initWithContent:[document baseline]];
+	MyGraphView *chromatogramView = [[MyGraphView alloc] initWithFrame:NSMakeRect(0.0,200*([files count]-index-1),NSWidth([[comparisonScrollView documentView] frame]),200)];
+	[chromatogramView setAutoresizingMask:NSViewWidthSizable];
+	[chromatogramView bind:@"dataSeries" toObject: chromatogramDataSeriesController
+			   withKeyPath:@"arrangedObjects" options:nil];
+	[chromatogramView bind:@"baseline" toObject: baselineController
+			   withKeyPath:@"arrangedObjects" options:nil];
+	[chromatogramView bind:@"peaks" toObject: peakController
+			   withKeyPath:@"arrangedObjects" options:nil];
+	NSString *titleString = [NSString stringWithFormat:@"%@ - %@ - %@", [document displayName], [[document metadata] valueForKey:@"sampleCode"], [[document metadata] valueForKey:@"sampleDescription"]];
+	[chromatogramView setTitleString:[[[NSAttributedString alloc] initWithString:titleString] autorelease]];
+	NSRect plottingArea = [chromatogramView plottingArea];
+	plottingArea.size.height = plottingArea.size.height - 20.0;
+	[chromatogramView setPlottingArea:plottingArea];
+	[[comparisonScrollView documentView] addSubview:chromatogramView];
+	[chromatogramView showAll:self];
 	
-	filesCount = [files count];
-
-	[[comparisonScrollView documentView] setFrame:NSMakeRect(0.0,0.0,818,200*filesCount)];
-	
-	for (i=0; i < filesCount; i++) {
-		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:YES];
-		if (document != nil) {
-			chromatogramView = [[MyGraphView alloc] initWithFrame:NSMakeRect(0.0,200*(filesCount-i-1),818,200)];
-			[chromatogramView setAutoresizingMask:NSViewWidthSizable];
-			[[comparisonScrollView documentView] addSubview:chromatogramView];
-		}
-	}
-	[comparisonWindow makeKeyAndOrderFront:self];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchronizedZooming:) name:@"MyGraphViewSynchronizedZooming" object:chromatogramView];
 }
 
+- (void)synchronizedZooming:(NSNotification *)theNotification
+{
+	
+		NSEnumerator *enumerator = [[[comparisonScrollView documentView] subviews] objectEnumerator];
+		id subview;
+		NSNumber *newXMinimum = [[theNotification userInfo] valueForKey:@"newXMinimum"];
+		NSNumber *newXMaximum = [[theNotification userInfo] valueForKey:@"newXMaximum"];
+		
+		while ((subview = [enumerator nextObject])) {
+			[subview setXMinimum:newXMinimum];
+			[subview setXMaximum:newXMaximum];
+		}
+}
 #pragma mark IBACTIONS
 
 - (IBAction)addButtonAction:(id)sender  
@@ -1144,11 +1186,11 @@
 
 #pragma mark IBACTIOS (MACROSTYLE)
 
-idAccessor(combinedPeaks, setCombinedPeaks);
-idAccessor(ratioValues, setRatioValues);
-idAccessor(ratios, setRatios);
-idAccessor(metadata, setMetadata);
-idAccessor(files, setFiles);
-boolAccessor(abortAction, setAbortAction);
+idAccessor(combinedPeaks, setCombinedPeaks)
+idAccessor(ratioValues, setRatioValues)
+idAccessor(ratios, setRatios)
+idAccessor(metadata, setMetadata)
+idAccessor(files, setFiles)
+boolAccessor(abortAction, setAbortAction)
 
 @end

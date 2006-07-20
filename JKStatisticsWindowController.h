@@ -68,6 +68,7 @@
 - (void)collectMetadataForDocument:(JKGCMSDocument *)document atIndex:(int)index;
 - (void)collectCombinedPeaksForDocument:(JKGCMSDocument *)document atIndex:(int)index;
 - (void)calculateRatiosForDocument:(JKGCMSDocument *)document atIndex:(int)index;
+- (void)setupComparisonWindowForDocument:(JKGCMSDocument *)document atIndex:(int)index;
 - (void)sortCombinedPeaks;
 - (void)insertTableColumns;
 
@@ -89,11 +90,11 @@
 
 #pragma mark ACCESSORS (MACROSTYLE)
 
-idAccessor_h(combinedPeaks, setCombinedPeaks);
-idAccessor_h(ratioValues, setRatioValues);
-idAccessor_h(ratios, setRatios);
-idAccessor_h(metadata, setMetadata);
-idAccessor_h(files, setFiles);
-boolAccessor_h(abortAction, setAbortAction);
+idAccessor_h(combinedPeaks, setCombinedPeaks)
+idAccessor_h(ratioValues, setRatioValues)
+idAccessor_h(ratios, setRatios)
+idAccessor_h(metadata, setMetadata)
+idAccessor_h(files, setFiles)
+boolAccessor_h(abortAction, setAbortAction)
 
 @end

@@ -56,26 +56,27 @@
 
 - (NSUndoManager *)undoManager;
 
-idAccessor_h(name, setName);
-idAccessor_h(origin, setOrigin);
-idAccessor_h(owner, setOwner);
+idAccessor_h(name, setName)
+idAccessor_h(origin, setOrigin)
+idAccessor_h(owner, setOwner)
 
-idAccessor_h(CASNumber, setCASNumber);
-idAccessor_h(epaMassSpecNo, setEpaMassSpecNo);
-idAccessor_h(formula, setFormula);
-idAccessor_h(massWeight, setMassWeight);
-idAccessor_h(nistSource, setNISTSource);
-idAccessor_h(ionizationEnergy, setIonizationEnergy);
-idAccessor_h(xUnits, setXUnits);
-idAccessor_h(yUnits, setYUnits);
-idAccessor_h(xFactor, setXFactor);
-idAccessor_h(yFactor, setYFactor);
-idAccessor_h(retentionIndex, setRetentionIndex);
-idAccessor_h(source, setSource);
+idAccessor_h(CASNumber, setCASNumber)
+idAccessor_h(epaMassSpecNo, setEpaMassSpecNo)
+idAccessor_h(formula, setFormula)
+idAccessor_h(massWeight, setMassWeight)
+idAccessor_h(nistSource, setNISTSource)
+idAccessor_h(ionizationEnergy, setIonizationEnergy)
+idAccessor_h(xUnits, setXUnits)
+idAccessor_h(yUnits, setYUnits)
+idAccessor_h(xFactor, setXFactor)
+idAccessor_h(yFactor, setYFactor)
+idAccessor_h(retentionIndex, setRetentionIndex)
+idAccessor_h(source, setSource)
 
-idAccessor_h(comment, setComment);
-idAccessor_h(molString, setMolString);
-idAccessor_h(symbol, setSymbol);
+idAccessor_h(comment, setComment)
+idAccessor_h(molString, setMolString)
+idAccessor_h(symbol, setSymbol)
+
 - (int)numberOfPoints;
 - (SpectrumGraphDataSerie *)spectrumDataSerie;
 - (void)setDocument:(NSDocument *)inValue;

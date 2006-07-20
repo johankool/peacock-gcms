@@ -17,9 +17,6 @@ static void *PropertyObservationContext = (void *)1094;
 static void *FrameObservationContext = (void *)1095;
 static void *DataObservationContext = (void *)1096;
 static void *BaselineObservationContext = (void *)1097;
-static void *DataSeriesSelectionIndexesObservationContext = (void *)1098;
-static void *PeaksSelectionIndexesObservationContext = (void *)1099;
-static void *BaselineSelectionIndexesObservationContext = (void *)1100;
 
 NSString *const MyGraphView_DidBecomeFirstResponderNotification = @"MyGraphView_DidBecomeFirstResponderNotification"; 
 NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_DidResignFirstResponderNotification";
@@ -31,13 +28,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 {
 	// Bindings support
 	[self exposeBinding:@"dataSeries"];
-	[self exposeBinding:@"dataSeriesSelectionIndexes"];
-	
 	[self exposeBinding:@"peaks"];
-	[self exposeBinding:@"peaksSelectionIndexes"];
-	
 	[self exposeBinding:@"baseline"];
-	[self exposeBinding:@"baselineSelectionIndexes"];
 	
 	// Dependent keys
 	[self setKeys:[NSArray arrayWithObjects:@"origin",@"plottingArea",@"pixelsPerXUnit",@"trans",nil] triggerChangeNotificationsForDependentKey:@"xMinimum"];	
@@ -48,9 +40,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 
 - (NSArray *)exposedBindings 
 {
-	return [NSArray arrayWithObjects:@"dataSeries",@"dataSeriesSelectionIndexes", @"peaks", @"peaksSelectionIndexes", @"baseline", @"baselineSelectionIndexes", nil];
+	return [NSArray arrayWithObjects:@"dataSeries", @"peaks", @"baseline", nil];
 }
-
 
 - (id)initWithFrame:(NSRect)frame 
 {
@@ -65,7 +56,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		[self setPixelsPerYUnit:[NSNumber numberWithFloat:10]];
 		[self setMinimumPixelsPerMajorGridLine:[NSNumber numberWithFloat:25]];
 		[self setPlottingArea:NSMakeRect(50,20,[self bounds].size.width-60,[self bounds].size.height-25)];
-		[self setLegendArea:NSMakeRect([self bounds].size.width-90-60,[self bounds].size.height-90-120,60,120)];
+		[self setLegendArea:NSMakeRect([self bounds].size.width-90-60,[self bounds].size.height-90-120,120,60)];
 		[self setSelectedRect:NSMakeRect(0,0,0,0)];
 		
 		[self setShouldDrawAxes:YES];
@@ -86,7 +77,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		[self setLegendFrameColor:[NSColor blackColor]];
 		
 		// Nu refreshen we ook als data van een andere instance van deze view veranderd!!!
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"MyGraphDataSerieDidChangeNotification" object:nil];
+//		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"MyGraphDataSerieDidChangeNotification" object:nil];
 		
 		// Observe changes for what values to draw
 		[self addObserver:self forKeyPath:@"keyForXValue" options:nil context:DataObservationContext];
@@ -139,11 +130,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 
 - (void)dealloc
 {
-	[self unbind:@"baselineSelectionIndexes"];
 	[self unbind:@"baseline"];
-	[self unbind:@"peaksSelectionIndexes"];
 	[self unbind:@"peaks"];
-	[self unbind:@"dataSeriesSelectionIndexes"];
 	[self unbind:@"dataSeries"];
 
 	// Observe changes for what values to draw
@@ -243,7 +231,17 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	
 	// In plaats van een loop kunnen we ook deze convenient method gebruiken om iedere dataserie zich te laten tekenen.
 	//NSAssert([[self dataSeries] count] >= 1, @"No dataSeries to draw.");
-	[[self dataSeries] makeObjectsPerformSelector:@selector(plotDataWithTransform:) withObject:[self trans]];
+	NSEnumerator *enumerator = [[self dataSeries] objectEnumerator];
+	id object;
+	
+	while ((object = [enumerator nextObject])) {
+		// do something with object...
+	//	NSLog([object description]);
+		if ([object respondsToSelector:@selector(plotDataWithTransform:)]) {
+			[object plotDataWithTransform:[self transformGraphToScreen]];
+		}
+	}
+//	[[self dataSeries] makeObjectsPerformSelector:@selector(plotDataWithTransform:) withObject:[self transformGraphToScreen]];
 	
 	[NSGraphicsContext restoreGraphicsState];
 	
@@ -262,16 +260,16 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[noShadow release];
 
 	// Draw focus ring
-//	if([[self window] isKeyWindow] && [[self window] firstResponder] == self) {
-//		[[NSColor keyboardFocusIndicatorColor] set];
-//		[[NSBezierPath bezierPathWithRect:NSInsetRect([self frame],1,1)] stroke];
-//
-////		[NSGraphicsContext saveGraphicsState];
-////		[[NSBezierPath bezierPathWithRect:[self frame]] addClip];
-////		NSSetFocusRingStyle(NSFocusRingOnly);
-////		NSRectFill([self frame]);
-////		[NSGraphicsContext restoreGraphicsState];
-//	}
+	if (([[self window] isKeyWindow]) && ([[self window] firstResponder] == self) && ([[NSGraphicsContext currentContext] isDrawingToScreen])) {
+		[[NSColor keyboardFocusIndicatorColor] set];
+		[[NSBezierPath bezierPathWithRect:NSInsetRect([self frame],1,1)] stroke];
+
+//		[NSGraphicsContext saveGraphicsState];
+//		[[NSBezierPath bezierPathWithRect:[self frame]] addClip];
+//		NSSetFocusRingStyle(NSFocusRingOnly);
+//		NSRectFill([self frame]);
+//		[NSGraphicsContext restoreGraphicsState];
+	}
 	
 }
 
@@ -415,11 +413,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[[self legendAreaColor] setFill];
 	[[NSBezierPath bezierPathWithRect:[self legendArea]] fill];
 
-	// Frame om legendArea
 	[noShadow set];
-	[[self legendFrameColor] setStroke];
-	[[NSBezierPath bezierPathWithRect:[self legendArea]] stroke];
-	
+
     // Draw inside the legendArea
     [NSGraphicsContext saveGraphicsState];	
 	[[NSBezierPath bezierPathWithRect:[self legendArea]] addClip];
@@ -433,12 +428,21 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 			pointToDraw = [self legendArea].origin;
 			pointToDraw.x = pointToDraw.x + 4;
 			pointToDraw.y = pointToDraw.y - stringSize.height*(i+1) + [self legendArea].size.height - (4*i) - 4;
+			if ([[dataSeriesContainer selectionIndexes] containsIndex:i]) {
+				[[NSColor selectedMenuItemColor] set];
+				[[NSBezierPath bezierPathWithRect:NSMakeRect(pointToDraw.x-4, pointToDraw.y-4,[self legendArea].size.width, stringSize.height+8)] fill];
+			}
 			[string drawAtPoint:pointToDraw];
 			[string release];
+			
 		}
 	}
 	
 	[NSGraphicsContext restoreGraphicsState];
+
+	// Frame om legendArea
+	[[self legendFrameColor] setStroke];
+	[[NSBezierPath bezierPathWithRect:[self legendArea]] stroke];
 	
 	// Cleaning up
 	[noShadow release];
@@ -508,7 +512,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 //		[attrs setValue:[NSFont systemFontOfSize:8] forKey:NSFontAttributeName];
 //		[string setAttributes:attrs range:NSMakeRange(6,1)];
 		stringSize = [string size];
-		pointToDraw = [[self trans] transformPoint:NSMakePoint(i*stepInUnits,0.)];
+		pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(i*stepInUnits,0.)];
 		pointToDraw.x = pointToDraw.x - stringSize.width/2;
 		pointToDraw.y = pointToDraw.y - stringSize.height - 4;
 		[string drawAtPoint:pointToDraw];
@@ -531,7 +535,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	for (i=start; i <= end; i++) {
 		string = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:formatString, i*stepInUnits] attributes:attrs];
 		stringSize = [string size];
-		pointToDraw = [[self trans] transformPoint:NSMakePoint(0.,i*stepInUnits)];
+		pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(0.,i*stepInUnits)];
 		pointToDraw.x = pointToDraw.x - stringSize.width - 4;
 		pointToDraw.y = pointToDraw.y - stringSize.height/2;
 		[string drawAtPoint:pointToDraw];
@@ -575,7 +579,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 //		[attrs setValue:[NSFont systemFontOfSize:8] forKey:NSFontAttributeName];
 //		[string setAttributes:attrs range:NSMakeRange(6,1)];
 		stringSize = [string size];
-		pointToDraw = [[self trans] transformPoint:NSMakePoint(i*stepInUnits,0.)];
+		pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(i*stepInUnits,0.)];
 		pointToDraw.x = pointToDraw.x - stringSize.width/2;
 		pointToDraw.y = [self plottingArea].origin.y - stringSize.height - 4;
 		[string drawAtPoint:pointToDraw];
@@ -598,7 +602,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	for (i=start; i <= end; i++) {
 		string = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:formatString, i*stepInUnits] attributes:attrs];
 		stringSize = [string size];
-		pointToDraw = [[self trans] transformPoint:NSMakePoint(0.,i*stepInUnits)];
+		pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(0.,i*stepInUnits)];
 		pointToDraw.x = [self plottingArea].origin.x - stringSize.width - 4;
 		pointToDraw.y = pointToDraw.y - stringSize.height/2;
 		[string drawAtPoint:pointToDraw];
@@ -633,15 +637,18 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 - (void)drawBaseline  
 {
 	int i, count, count2;
+	count2 = 0;
 	NSBezierPath *baselinePath = [[NSBezierPath alloc] init];
 	NSPoint pointToDraw;
 	NSMutableArray *baselinePoints;
-	NSArray *baselinePointsSelected;
+	NSArray *baselinePointsSelected = [NSArray array];
 	
 	baselinePoints = [self baseline];
 	count = [baselinePoints count];
-	baselinePointsSelected = [[self baseline] objectsAtIndexes:[self baselineSelectionIndexes]];
-	count2 = [baselinePointsSelected count];
+	if ([baselineContainer selectionIndexes]) {
+		baselinePointsSelected = [[self baseline] objectsAtIndexes:[baselineContainer selectionIndexes]];
+		count2 = [baselinePointsSelected count];
+	}
 	
     // Draw inside the legendArea
     [NSGraphicsContext saveGraphicsState];	
@@ -651,17 +658,17 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 
 	if (count > 0) {
 		pointToDraw = NSMakePoint([[[baselinePoints objectAtIndex:0] valueForKey:@"Scan"] floatValue],[[[baselinePoints objectAtIndex:0] valueForKey:@"Total Intensity"] floatValue]);
-		[baselinePath moveToPoint:[[self trans] transformPoint:pointToDraw]];  	
+		[baselinePath moveToPoint:[[self transformGraphToScreen] transformPoint:pointToDraw]];  	
 		for (i=1;i<count; i++) {
 			pointToDraw = NSMakePoint([[[baselinePoints objectAtIndex:i] valueForKey:@"Scan"] floatValue],[[[baselinePoints objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue]);
-			[baselinePath lineToPoint:[[self trans] transformPoint:pointToDraw]];			
+			[baselinePath lineToPoint:[[self transformGraphToScreen] transformPoint:pointToDraw]];			
 		}
 	}
 
 	if (count2 > 0) {
 		for (i=0;i<count2; i++) {
 			pointToDraw = NSMakePoint([[[baselinePointsSelected objectAtIndex:i] valueForKey:@"Scan"] floatValue],[[[baselinePointsSelected objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue]);
-			pointToDraw = [[self trans] transformPoint:pointToDraw];
+			pointToDraw = [[self transformGraphToScreen] transformPoint:pointToDraw];
 			[baselinePath appendBezierPathWithRect:NSMakeRect(pointToDraw.x-2.5,pointToDraw.y-2.5,5.0,5.0)];			
 		}
 	}
@@ -748,7 +755,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[magnifyingGlassWindow setContentView:aView];
 	[aView lockFocus];
 		// In plaats van een loop kunnen we ook deze convenient method gebruiken om iedere dataserie zich te laten tekenen.
-	[[self dataSeries] makeObjectsPerformSelector:@selector(plotDataWithTransform:) withObject:[self trans]];
+	[[self dataSeries] makeObjectsPerformSelector:@selector(plotDataWithTransform:) withObject:[self transformGraphToScreen]];
 	[aView unlockFocus];
 //	[magnifiedImage addRepresentation:[NSPDFImageRep imageRepWithData:[self dataWithPDFInsideRect:[magnifyingGlassWindow frame]]]];
 //	[magnifiedView setImage:magnifiedImage];
@@ -777,12 +784,12 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     transformationMatrix = [NSAffineTransform transform];
     [transformationMatrix appendTransform:scalingMatrix];
     [transformationMatrix appendTransform:translationMatrix];
-    [self setTrans:transformationMatrix];
+    [self setTransformGraphToScreen:transformationMatrix];
     
 	// We zullen ook terug van data serie coördinaten naar scherm-coördinaten willen rekenen. Het zou niet effectief zijn om dat iedere keer dat we dit nodig hebben de inverse matrix uit te rekenen. Daarom hier één keer en vervolgens bewaren.
     invertMatrix = [[transformationMatrix copy] autorelease];
     [invertMatrix invert];
-    [self setInverseTrans:invertMatrix];
+    [self setTransformScreenToGraph:invertMatrix];
 	
 }
 
@@ -813,15 +820,31 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	newOrig.y = [self plottingArea].origin.y - aRect.origin.y * [[self pixelsPerYUnit] floatValue];
 	[self setOrigin:newOrig];
 	[self calculateCoordinateConversions];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
 }
 
 - (void)zoomToRectInView:(NSRect)aRect { // aRect in view coördinaten
 	NSRect newRect;
 		
-	newRect.origin = [[self inverseTrans] transformPoint:aRect.origin];
-	newRect.size = [[self inverseTrans] transformSize:aRect.size];
+	newRect.origin = [[self transformScreenToGraph] transformPoint:aRect.origin];
+	newRect.size = [[self transformScreenToGraph] transformSize:aRect.size];
 	JKLogDebug(@"zoomToRectInView x %f, y %f, w %f, h %f",newRect.origin.x, newRect.origin.y, newRect.size.width, newRect.size.height);
 	[self zoomToRect:newRect];
+
+}
+
+- (void)zoomIn
+{
+	float xWidth = [[self xMaximum] floatValue] - [[self xMinimum] floatValue];
+	[self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] - xWidth/8]];
+	[self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] + xWidth/8]];
+	
+	float yWidth = [[self yMaximum] floatValue] - [[self yMinimum] floatValue];
+	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] - yWidth/8]];
+	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] + yWidth/8]];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
 
 }
 
@@ -834,6 +857,9 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	float yWidth = [[self yMaximum] floatValue] - [[self yMinimum] floatValue];
 	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] + yWidth/4]];
 	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] - yWidth/4]];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
+
 }
 
 - (void)moveLeft  
@@ -841,6 +867,9 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	float xWidth = [[self xMaximum] floatValue] - [[self xMinimum] floatValue];
 	[self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] - xWidth/4]];
 	[self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] - xWidth/4]];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
+
 }
 
 - (void)moveRight  
@@ -848,6 +877,9 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	float xWidth = [[self xMaximum] floatValue] - [[self xMinimum] floatValue];
 	[self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] + xWidth/4]];
 	[self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] + xWidth/4]];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
+
 }
 
 - (void)moveUp  
@@ -855,6 +887,9 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	float yWidth = [[self yMaximum] floatValue] - [[self yMinimum] floatValue];
 	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] + yWidth/4]];
 	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] + yWidth/4]];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
+
 }
 
 - (void)moveDown  
@@ -862,6 +897,95 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	float yWidth = [[self yMaximum] floatValue] - [[self yMinimum] floatValue];
 	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] - yWidth/4]];
 	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] - yWidth/4]];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
+
+}
+
+- (void)selectNextPeak  
+{
+	if (([peaksContainer selectionIndex] != NSNotFound) & ([peaksContainer selectionIndex] != [[self peaks] count]-1)) {
+		[peaksContainer setSelectionIndex:[peaksContainer selectionIndex]+1];		
+	} else {
+		[peaksContainer setSelectionIndex:0];			
+	}
+	[self setNeedsDisplay:YES];
+}
+
+- (void)selectPreviousPeak  
+{
+	if (([peaksContainer selectionIndex] != NSNotFound) & ([peaksContainer selectionIndex] != 0)) {
+		[peaksContainer setSelectionIndex:[peaksContainer selectionIndex]-1];
+	} else {
+		[peaksContainer setSelectionIndex:[[self peaks] count]-1];
+	}
+	[self setNeedsDisplay:YES];
+}
+
+- (void)moveUpwardsInComparisonView
+{
+	NSArray *subviews = [[self superview] subviews];
+	if ([subviews count] == 1) {
+		return;
+	}	
+	
+	NSRect oldFrame = [self frame];
+	NSRect newFrame = [self frame];
+	newFrame.origin.y = newFrame.origin.y + 200;
+	
+	if (newFrame.origin.y == [[self superview] frame].size.height) {
+		NSBeep();
+		return;
+	}
+	
+	NSEnumerator *enumerator = [subviews objectEnumerator];
+	NSView *object;
+	NSView *subview;
+	
+	while ((object = [enumerator nextObject])) {
+		if ([object frame].origin.y == newFrame.origin.y) {
+			subview = object;
+		}
+	}
+	
+	NSDictionary *animationForOtherView = [NSDictionary dictionaryWithObjectsAndKeys:subview, NSViewAnimationTargetKey, [NSValue valueWithRect:newFrame], NSViewAnimationStartFrameKey, [NSValue valueWithRect:oldFrame], NSViewAnimationEndFrameKey, nil];
+	NSDictionary *animationForThisView = [NSDictionary dictionaryWithObjectsAndKeys:self, NSViewAnimationTargetKey, [NSValue valueWithRect:oldFrame], NSViewAnimationStartFrameKey, [NSValue valueWithRect:newFrame], NSViewAnimationEndFrameKey, nil];
+	NSViewAnimation *animation = [[[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObjects:animationForOtherView, animationForThisView, nil]] autorelease];
+	[animation startAnimation];
+	[self scrollRectToVisible:newFrame];
+}
+
+- (void)moveDownwardsInComparisonView //WithAnimation
+{
+	NSArray *subviews = [[self superview] subviews];
+	if ([subviews count] == 1) {
+		return;
+	}	
+	
+	NSRect oldFrame = [self frame];
+	NSRect newFrame = [self frame];
+	newFrame.origin.y = newFrame.origin.y - 200;
+	
+	if (oldFrame.origin.y == 0.0) {
+		NSBeep();
+		return;
+	}
+		
+	NSEnumerator *enumerator = [subviews objectEnumerator];
+	NSView *object;
+	NSView *subview;
+	
+	while ((object = [enumerator nextObject])) {
+		if ([object frame].origin.y == newFrame.origin.y) {
+			subview = object;
+		}
+	}
+	
+	NSDictionary *animationForOtherView = [NSDictionary dictionaryWithObjectsAndKeys:subview, NSViewAnimationTargetKey, [NSValue valueWithRect:newFrame], NSViewAnimationStartFrameKey, [NSValue valueWithRect:oldFrame], NSViewAnimationEndFrameKey, nil];
+	NSDictionary *animationForThisView = [NSDictionary dictionaryWithObjectsAndKeys:self, NSViewAnimationTargetKey, [NSValue valueWithRect:oldFrame], NSViewAnimationStartFrameKey, [NSValue valueWithRect:newFrame], NSViewAnimationEndFrameKey, nil];
+	NSViewAnimation *animation = [[[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObjects:animationForOtherView, animationForThisView, nil]] autorelease];
+	[animation startAnimation];
+	[self scrollRectToVisible:newFrame];
 }
 
 #pragma mark MOUSE INTERACTION MANAGEMENT
@@ -874,108 +998,177 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 
 - (void)mouseDown:(NSEvent *)theEvent  
 {
-	didDrag = NO;
-	mouseDownAtPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	oldOrigin = [self origin];
-//	oldLegendOrigin = [self legendArea].origin;
+	_didDrag = NO;
+	_mouseDownAtPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+	_oldOrigin = [self origin];
+	_oldLegendOrigin = [self legendArea].origin;
+	_startedInsidePlottingArea = [self mouse:_mouseDownAtPoint inRect:[self plottingArea]];
+	_startedInsideLegendArea = [self mouse:_mouseDownAtPoint inRect:[self legendArea]];
+
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent  
 {
-    BOOL isInsidePlottingArea, isInsideLegendArea;
-	didDrag = YES;
-	NSPoint mouseLocation = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-
-	// Waar is de muis?
-	isInsidePlottingArea = [self mouse:mouseLocation inRect:[self plottingArea]];
-	isInsideLegendArea = [self mouse:mouseLocation inRect:[self legendArea]];
-
+	_didDrag = YES;
 	NSRect draggedRect;
-	draggedRect.origin.x = (mouseDownAtPoint.x < mouseLocation.x ? mouseDownAtPoint.x : mouseLocation.x);
-	draggedRect.origin.y = (mouseDownAtPoint.y < mouseLocation.y ? mouseDownAtPoint.y : mouseLocation.y);
-	draggedRect.size.width = fabs(mouseLocation.x-mouseDownAtPoint.x);
-	draggedRect.size.height = fabs(mouseLocation.y-mouseDownAtPoint.y);
+	NSPoint mouseLocation = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	
-	if (isInsidePlottingArea) {
+	if (_startedInsideLegendArea & shouldDrawLegend) {
+		[[NSCursor closedHandCursor] set];
+		NSPoint newOrigin;
+		newOrigin.x = _oldLegendOrigin.x + (mouseLocation.x - _mouseDownAtPoint.x);
+		newOrigin.y = _oldLegendOrigin.y + (mouseLocation.y - _mouseDownAtPoint.y);
+		NSRect legendRect;
+		legendRect = [self legendArea];
+		legendRect.origin = newOrigin;
+		[self setLegendArea:legendRect];	
+		[self setNeedsDisplay:YES];
+	} else if (_startedInsidePlottingArea) {
 		if (([theEvent modifierFlags] & NSCommandKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
 			//   combine spectrum
 			JKLogDebug(@"combine spectrum");
 		} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
-			//   add custom peak
-			JKLogDebug(@"add custom peak");
+			draggedRect.origin.x = (_mouseDownAtPoint.x < mouseLocation.x ? _mouseDownAtPoint.x : mouseLocation.x);
+			draggedRect.origin.y = (_mouseDownAtPoint.y < mouseLocation.y ? _mouseDownAtPoint.y : mouseLocation.y);
+			draggedRect.size.width = fabs(mouseLocation.x-_mouseDownAtPoint.x);
+			draggedRect.size.height = fabs(mouseLocation.y-_mouseDownAtPoint.y);
+			[self setSelectedRect:draggedRect];
+			[self setNeedsDisplay:YES];
 		} else if ([theEvent modifierFlags] & NSCommandKeyMask) {
 			//   not specified
 			JKLogDebug(@"not specified");
 		} else if ([theEvent modifierFlags] & NSShiftKeyMask) {
 			//   move chromatogram
 			JKLogDebug(@"move chromatogram");
-			[[NSCursor closedHandCursor] set];
-			NSPoint newOrigin;
-			newOrigin.x = oldOrigin.x + (mouseLocation.x - mouseDownAtPoint.x);
-			newOrigin.y = oldOrigin.y + (mouseLocation.y - mouseDownAtPoint.y);
-			[self setOrigin:newOrigin];
 				
 		} else {
-			NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom2"] hotSpot:NSMakePoint(6,6)];
+			[[NSCursor closedHandCursor] set];
+			NSPoint newOrigin;
+			newOrigin.x = _oldOrigin.x + (mouseLocation.x - _mouseDownAtPoint.x);
+			newOrigin.y = _oldOrigin.y + (mouseLocation.y - _mouseDownAtPoint.y);
+			[self setOrigin:newOrigin];
+		}		
+	} else {
+		if ([theEvent modifierFlags] & NSAlternateKeyMask) {
+			NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoomIn"] hotSpot:NSMakePoint(10,12)];
 			[zoomCursor set];
 			[zoomCursor release];
-			//   zoom in/move baseline point
-			JKLogDebug(@"zoom in/move baseline point");
-			//		[[NSColor selectedTextBackgroundColor] set];
+			draggedRect.origin.x = (_mouseDownAtPoint.x < mouseLocation.x ? _mouseDownAtPoint.x : mouseLocation.x);
+			draggedRect.origin.y = plottingArea.origin.y;
+			draggedRect.size.width = fabs(mouseLocation.x-_mouseDownAtPoint.x);
+			draggedRect.size.height = plottingArea.size.height;
+			[self setSelectedRect:draggedRect];
+			[self setNeedsDisplay:YES];
+		} else {
+			[[NSCursor closedHandCursor] set];
+			NSPoint newOrigin;
+			newOrigin.x = _oldOrigin.x + (mouseLocation.x - _mouseDownAtPoint.x);
+			newOrigin.y = _oldOrigin.y;
+			[self setOrigin:newOrigin];
 		}		
-	} else if (isInsideLegendArea) {
-		[[NSCursor closedHandCursor] set];
-		NSPoint newOrigin;
-		newOrigin.x = oldOrigin.x + (mouseLocation.x - mouseDownAtPoint.x);
-		newOrigin.y = oldOrigin.y + (mouseLocation.y - mouseDownAtPoint.y);
-		NSRect legendRect;
-		legendRect = [self legendArea];
-		legendRect.origin = newOrigin;
-		[self setLegendArea:legendRect];		
 	}
-				[self setSelectedRect:draggedRect];
 
-	[self setNeedsDisplay:YES];
 }
 
 - (void)mouseUp:(NSEvent *)theEvent  
 {
+	BOOL foundPeakToSelect = NO;
 	NSPoint mouseLocation = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	if (!didDrag) {
+	if (!_didDrag) {
 		if ([theEvent clickCount] == 1) { // Single click
 			if (([theEvent modifierFlags] & NSCommandKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
 				//   select scan
 				JKLogDebug(@"select scan");
-//				if ([delegate respondsToSelector:@selector(showSpectrumForScan:)]) {
+				if ([delegate respondsToSelector:@selector(showSpectrumForScan:)]) {
 					[delegate showSpectrumForScan:0];
-//				} else {
-//					JKLogError(@"MyGraphView delegate doesn't respond to showSpectrumForScan:");
-//				}
-			} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
-				//  select scan 
-				JKLogDebug(@"select scan");								
-			} else if ([theEvent modifierFlags] & NSCommandKeyMask ) {
-				//  select scan 
-				JKLogDebug(@"select scan");		
-				[self showMagnifyingGlass:theEvent];
-			} else if ([theEvent modifierFlags] & NSShiftKeyMask) {
-				//  zoom out 
+				} 
+			} else if (([theEvent modifierFlags] & NSAlternateKeyMask) && ([theEvent modifierFlags] & NSShiftKeyMask)) {
 				[self zoomOut];
+			} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
+				[self zoomIn];
+			} else if ([theEvent modifierFlags] & NSCommandKeyMask ) {
+				//  select additional peak(/select baseline point/select scan)
+				NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:mouseLocation];
+				int i, peaksCount;
+				peaksCount = [[self peaks] count];
+				id peak;
+				foundPeakToSelect = NO;
+
+				for (i=0; i < peaksCount; i++) {
+					peak = [[self peaks] objectAtIndex:i];
+					if (([[peak valueForKey:@"start"] floatValue] < graphLocation.x) & ([[peak valueForKey:@"end"] floatValue] > graphLocation.x)) {
+						[peaksContainer addSelectionIndexes:[NSIndexSet indexSetWithIndex:i]];
+						_lastSelectedPeakIndex = i;
+						foundPeakToSelect = YES;
+					} 
+				}
+				if (!foundPeakToSelect) {
+					_lastSelectedPeakIndex = -1;
+				}
+				
+			} else if ([theEvent modifierFlags] & NSShiftKeyMask) {
+				//  select series of peaks(/select baseline point/select scan)
+				NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:mouseLocation];
+				int i, peaksCount;
+				peaksCount = [[self peaks] count];
+				id peak;
+				foundPeakToSelect = NO;
+				
+				for (i=0; i < peaksCount; i++) {
+					peak = [[self peaks] objectAtIndex:i];
+					if (([[peak valueForKey:@"start"] floatValue] < graphLocation.x) & ([[peak valueForKey:@"end"] floatValue] > graphLocation.x)) {
+						if (_lastSelectedPeakIndex > 0 ) {
+							if (_lastSelectedPeakIndex < i) {
+								[peaksContainer addSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(_lastSelectedPeakIndex+1,i-_lastSelectedPeakIndex)]];
+								_lastSelectedPeakIndex = i;
+								foundPeakToSelect = YES;
+							} else {
+								[peaksContainer addSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(i,_lastSelectedPeakIndex-i)]];
+								_lastSelectedPeakIndex = i;
+								foundPeakToSelect = YES;
+							}
+						} else {
+							[peaksContainer addSelectionIndexes:[NSIndexSet indexSetWithIndex:i]];
+							_lastSelectedPeakIndex = i;
+							foundPeakToSelect = YES;
+						}
+					} 
+				}
+				if (!foundPeakToSelect) {
+					_lastSelectedPeakIndex = -1;
+				}
+				
 			} else {
-				//  select peak/select baseline point/select scan 
-				JKLogDebug(@"select peak/select baseline point/select scan");
+				//  select peak(/select baseline point/select scan)
+				NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:mouseLocation];
+				int i, peaksCount;
+				peaksCount = [[self peaks] count];
+				id peak;
+				foundPeakToSelect = NO;
+
+				for (i=0; i < peaksCount; i++) {
+					peak = [[self peaks] objectAtIndex:i];
+					if (([[peak valueForKey:@"start"] floatValue] < graphLocation.x) & ([[peak valueForKey:@"end"] floatValue] > graphLocation.x)) {
+						[peaksContainer setSelectionIndexes:[NSIndexSet indexSetWithIndex:i]];
+						_lastSelectedPeakIndex = i;
+						foundPeakToSelect = YES;
+					} 
+				}
+				if (!foundPeakToSelect) {
+					_lastSelectedPeakIndex = -1;
+				}
+				
 			}
 		} else if ([theEvent clickCount] == 2) { // Float click
-			if (([theEvent modifierFlags] & NSCommandKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
-				//   combine spectrum for peak
-				JKLogDebug(@"combine spectrum for peak");
+			if (([theEvent modifierFlags] & NSShiftKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
+				[self showAll:self];
 			} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
 				//  add peak
 				JKLogDebug(@"add peak");
 			} else if ([theEvent modifierFlags] & NSCommandKeyMask) {
 				//  add baseline point
 				int i;
-				NSPoint pointInReal = [[self inverseTrans] transformPoint:mouseLocation];
+				NSPoint pointInReal = [[self transformScreenToGraph] transformPoint:mouseLocation];
 				
 				NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
 				[mutDict setValue:[NSNumber numberWithFloat:pointInReal.x] forKey:@"Scan"];
@@ -988,12 +1181,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 					i++;
 				}
 				// if i == count addObject
-				
-				[(NSArrayController*) baselineContainer insertObject:mutDict atArrangedObjectIndex:i];
+				[(NSMutableArray *)[[self  baselineContainer] valueForKeyPath:[self baselineKeyPath]] insertObject:mutDict atIndex:i];
 				[mutDict release];
-			} else if ([theEvent modifierFlags] & NSShiftKeyMask)  {
-				//  show all 
-				[self showAll:self];
 			} else {
 				//  show spectrum 
 				JKLogDebug(@"show spectrum");
@@ -1001,49 +1190,28 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		} else {
 			NSBeep();
 		}
-	} else if (didDrag) {
-		NSPoint mouseLocation = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-		NSRect draggedRect;
-		draggedRect.origin.x = (mouseDownAtPoint.x < mouseLocation.x ? mouseDownAtPoint.x : mouseLocation.x);
-		draggedRect.origin.y = (mouseDownAtPoint.y < mouseLocation.y ? mouseDownAtPoint.y : mouseLocation.y);
-		draggedRect.size.width = fabs(mouseLocation.x-mouseDownAtPoint.x);
-		draggedRect.size.height = fabs(mouseLocation.y-mouseDownAtPoint.y);
-		
+	} else if (_didDrag) {
 		if (([theEvent modifierFlags] & NSCommandKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
 			//   combine spectrum
 			JKLogDebug(@"combine spectrum");
 		} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
-			//   add custom peak
-			JKLogDebug(@"add custom peak");
+			//   zoom in/move baseline point
+			[self zoomToRectInView:[self selectedRect]];
 		} else if ([theEvent modifierFlags] & NSCommandKeyMask) {
 			//   not specified
 			
 		} else if ([theEvent modifierFlags] & NSShiftKeyMask) {
-			//   move chromatogram
-			NSPoint newOrigin;
-			newOrigin.x = oldOrigin.x + (mouseLocation.x - mouseDownAtPoint.x);
-			newOrigin.y = oldOrigin.y + (mouseLocation.y - mouseDownAtPoint.y);
-			[self setOrigin:newOrigin];
 		} else {
-			//   zoom in/move baseline point
-			if ([self mouse:mouseDownAtPoint inRect:[self plottingArea]]) { //isInsidePlottingArea
-				// nothing
-			} else { // !isInsidePlottingArea
-				if ((mouseDownAtPoint.y < plottingArea.origin.y) | (mouseDownAtPoint.y > (plottingArea.origin.y + plottingArea.size.height))) {
-					draggedRect.origin.y = plottingArea.origin.y;
-					draggedRect.size.height = plottingArea.size.height;
-				} else if ((mouseDownAtPoint.x < plottingArea.origin.x) | (mouseDownAtPoint.x > (plottingArea.origin.x + plottingArea.size.width))) {
-					draggedRect.origin.x = plottingArea.origin.x;
-					draggedRect.size.width = plottingArea.size.width;
-				}
-			}
-			[self zoomToRectInView:draggedRect];
-			[self setSelectedRect:NSMakeRect(0,0,0,0)];
-			[[NSCursor crosshairCursor] set]; 
+			// move chromatogram
+			// handled in mouseDragged
 		}
 	}
 	
-	didDrag = NO;
+	[self setSelectedRect:NSMakeRect(0,0,0,0)];
+
+	[[NSCursor crosshairCursor] set];
+	
+	_didDrag = NO;
 	[self resetCursorRects];
 	[self setNeedsDisplay:YES];
 }
@@ -1057,10 +1225,14 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	// Waar is de muis?
 	isInsidePlottingArea = [self mouse:mouseLocation inRect:[self plottingArea]];
 	
-	if (!didDrag){
+	if (!_didDrag){
 		if (isInsidePlottingArea) {		
-			if ([theEvent modifierFlags] & NSShiftKeyMask ) {
-				NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom2"] hotSpot:NSMakePoint(6,6)];
+			if (([theEvent modifierFlags] & NSAlternateKeyMask ) && ([theEvent modifierFlags] & NSShiftKeyMask )) {
+				NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoomOut"] hotSpot:NSMakePoint(12,10)];
+				[zoomCursor set];
+				[zoomCursor release];
+			} else if ([theEvent modifierFlags] & NSAlternateKeyMask ) {
+				NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoomIn"] hotSpot:NSMakePoint(12,10)];
 				[zoomCursor set];
 				[zoomCursor release];
 			} else {
@@ -1093,21 +1265,44 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		unichar   keyChar = [keyString characterAtIndex:0];
 		switch (keyChar) {
 			case NSLeftArrowFunctionKey:
-				[self moveLeft];
+				if ([theEvent modifierFlags] & NSAlternateKeyMask) {
+					[self moveLeft];
+				} else {
+					[self selectPreviousPeak];
+				}
 				break;
 			case NSRightArrowFunctionKey:
-				[self moveRight];
+				if ([theEvent modifierFlags] & NSAlternateKeyMask) {
+					[self moveRight];
+				} else {
+					[self selectNextPeak];
+				}
 				break;
 			case NSUpArrowFunctionKey:
-				[self moveUp];
+				if ([theEvent modifierFlags] & NSAlternateKeyMask) {
+					[self moveUp];
+				} else if ([theEvent modifierFlags] & NSControlKeyMask) {
+					[self moveUpwardsInComparisonView];
+				} else {
+					[self selectNextPeak];
+				}
 				break;
 			case NSDownArrowFunctionKey:
-				[self moveDown];
+				if ([theEvent modifierFlags] & NSAlternateKeyMask) {
+					[self moveDown];
+				} else if ([theEvent modifierFlags] & NSControlKeyMask) {
+					[self moveDownwardsInComparisonView];
+				} else {
+					[self selectPreviousPeak];
+				}
 				break;
 			case 0177: // Delete Key
 			case NSDeleteFunctionKey:
 			case NSDeleteCharFunctionKey:
-				[[self baseline] removeObjectsAtIndexes:[self baselineSelectionIndexes]];
+				//[[self baseline] removeObjectsAtIndexes:[baselineContainer selectionIndexes]];
+				//[peaksContainer removeObjectsAtArrangedObjectIndexes:[peaksContainer selectionIndexes]];
+				//[[self peaks] removeObjectsAtIndexes:[peaksContainer selectionIndexes]];
+				[peaksContainer removeObjects:[peaksContainer selectedObjects]];
 				[self setNeedsDisplay:YES];
 				break;
 			default:
@@ -1151,10 +1346,12 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 
 #pragma mark KEY VALUE OBSERVING MANAGEMENT
+
 - (void)observeValueForKeyPath:(NSString *)keyPath
 					  ofObject:(id)object
 						change:(NSDictionary *)change
-					   context:(void *)context {
+					   context:(void *)context 
+{
 	if ([keyPath isEqualToString:@"peaks"]) 
 	{
 //		[(ChromatogramGraphDataSerie *)[[self dataSeries] objectAtIndex:0] setPeaks:[self peaks]];
@@ -1217,11 +1414,6 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		if (shouldDrawPeaks) [self setNeedsDisplay:YES]; // Don't redraw if we don't show the peaks anyway!!
 		return;
 	}
-	else if (context == PropertyObservationContext) 
-	{
-		[self setNeedsDisplay:YES];
-		return;
-    } 
 	else if (context == DataObservationContext) 
 	{
 		int i, count;
@@ -1278,6 +1470,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	}
 
 }
+
+
 #pragma mark BINDINGS
 - (void)bind:(NSString *)bindingName
     toObject:(id)observableObject
@@ -1297,18 +1491,6 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		//[self startObservingGraphics:[graphicsContainer valueForKeyPath:graphicsKeyPath]];
 		
     }
-    else if ([bindingName isEqualToString:@"dataSeriesSelectionIndexes"])
-	{		
-		[self setDataSeriesSelectionIndexesContainer:observableObject];
-		[self setDataSeriesSelectionIndexesKeyPath:observableKeyPath];
-		[dataSeriesSelectionIndexesContainer addObserver:self
-											  forKeyPath:dataSeriesSelectionIndexesKeyPath
-												 options:(NSKeyValueObservingOptionNew |
-														  NSKeyValueObservingOptionOld)
-												 context:DataSeriesSelectionIndexesObservationContext];
-		//[self startObservingGraphics:[graphicsContainer valueForKeyPath:graphicsKeyPath]];
-		
-    }
 	else if ([bindingName isEqualToString:@"peaks"])
 	{
 		[self setPeaksContainer:observableObject];
@@ -1318,15 +1500,6 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 							options:nil
 							context:PeaksObservationContext];
 	}
-	else if ([bindingName isEqualToString:@"peaksSelectionIndexes"])
-	{
-		[self setPeaksSelectionIndexesContainer:observableObject];
-		[self setPeaksSelectionIndexesKeyPath:observableKeyPath];
-		[peaksSelectionIndexesContainer addObserver:self
-										 forKeyPath:peaksSelectionIndexesKeyPath
-											options:nil
-											context:PeaksSelectionIndexesObservationContext];
-	}
 	else if ([bindingName isEqualToString:@"baseline"])
 	{
 		[self setBaselineContainer:observableObject];
@@ -1335,15 +1508,6 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 							forKeyPath:baselineKeyPath
 							   options:nil
 							   context:BaselineObservationContext];
-	}
-	else if ([bindingName isEqualToString:@"baselineSelectionIndexes"])
-	{
-		[self setBaselineSelectionIndexesContainer:observableObject];
-		[self setBaselineSelectionIndexesKeyPath:observableKeyPath];
-		[baselineSelectionIndexesContainer addObserver:self
-											forKeyPath:baselineSelectionIndexesKeyPath
-											   options:nil
-											   context:BaselineSelectionIndexesObservationContext];
 	}
 	
 	[super bind:bindingName
@@ -1364,35 +1528,17 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		[self setDataSeriesContainer:nil];
 		[self setDataSeriesKeyPath:nil];
     }
-    else if ([bindingName isEqualToString:@"dataSeriesSelectionIndexes"])
-	{
-		[dataSeriesSelectionIndexesContainer removeObserver:self forKeyPath:dataSeriesSelectionIndexesKeyPath];
-		[self setDataSeriesSelectionIndexesContainer:nil];
-		[self setDataSeriesSelectionIndexesKeyPath:nil];
-    }
 	else if ([bindingName isEqualToString:@"peaks"])
 	{
 		[peaksContainer removeObserver:self forKeyPath:peaksKeyPath];
 		[self setPeaksContainer:nil];
 		[self setPeaksKeyPath:nil];
 	}
-	else if ([bindingName isEqualToString:@"peaksSelectionIndexes"])
-	{
-		[peaksSelectionIndexesContainer removeObserver:self forKeyPath:peaksSelectionIndexesKeyPath];
-		[self setPeaksSelectionIndexesContainer:nil];
-		[self setPeaksSelectionIndexesKeyPath:nil];
-	}
 	else if ([bindingName isEqualToString:@"baseline"])
 	{
 		[baselineContainer removeObserver:self forKeyPath:baselineKeyPath];
 		[self setBaselineContainer:nil];
 		[self setBaselineKeyPath:nil];
-	}
-	else if ([bindingName isEqualToString:@"baselineSelectionIndexes"])
-	{
-		[baselineSelectionIndexesContainer removeObserver:self forKeyPath:baselineSelectionIndexesKeyPath];
-		[self setBaselineSelectionIndexesContainer:nil];
-		[self setBaselineSelectionIndexesKeyPath:nil];
 	}
 	
 	[super unbind:bindingName];
@@ -1404,11 +1550,6 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 {	
     return [dataSeriesContainer valueForKeyPath:dataSeriesKeyPath];	
 }
-- (NSIndexSet *)dataSeriesSelectionIndexes
-{	
-    return [dataSeriesSelectionIndexesContainer valueForKeyPath:dataSeriesSelectionIndexesKeyPath];	
-}
-
 - (NSObject *)dataSeriesContainer
 {
     return dataSeriesContainer; 
@@ -1418,17 +1559,6 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     if (dataSeriesContainer != aDataSeriesContainer) {
         [dataSeriesContainer release];
         dataSeriesContainer = [aDataSeriesContainer retain];
-    }
-}
-- (NSObject *)dataSeriesSelectionIndexesContainer
-{
-    return dataSeriesSelectionIndexesContainer; 
-}
-- (void)setDataSeriesSelectionIndexesContainer:(NSObject *)aDataSeriesSelectionIndexesContainer
-{
-    if (dataSeriesSelectionIndexesContainer != aDataSeriesSelectionIndexesContainer) {
-        [dataSeriesSelectionIndexesContainer release];
-        dataSeriesSelectionIndexesContainer = [aDataSeriesSelectionIndexesContainer retain];
     }
 }
 - (NSString *)dataSeriesKeyPath
@@ -1442,27 +1572,12 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
         dataSeriesKeyPath = [aDataSeriesKeyPath copy];
     }
 }
-- (NSString *)dataSeriesSelectionIndexesKeyPath
-{
-    return dataSeriesSelectionIndexesKeyPath; 
-}
-- (void)setDataSeriesSelectionIndexesKeyPath:(NSString *)aDataSeriesSelectionIndexesKeyPath
-{
-    if (dataSeriesSelectionIndexesKeyPath != aDataSeriesSelectionIndexesKeyPath) {
-        [dataSeriesSelectionIndexesKeyPath release];
-        dataSeriesSelectionIndexesKeyPath = [aDataSeriesSelectionIndexesKeyPath copy];
-    }
-}
 
 
 #pragma mark peaks bindings
 - (NSMutableArray *)peaks
 {
 	return [peaksContainer valueForKeyPath:peaksKeyPath];
-}
-- (NSIndexSet *)peaksSelectionIndexes
-{
-	return [peaksSelectionIndexesContainer valueForKeyPath:peaksSelectionIndexesKeyPath];
 }
 - (NSObject *)peaksContainer
 {
@@ -1475,18 +1590,6 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
         peaksContainer = [aPeaksContainer retain];
     }
 }
-- (NSObject *)peaksSelectionIndexesContainer
-{
-    return peaksSelectionIndexesContainer; 
-}
-- (void)setPeaksSelectionIndexesContainer:(NSObject *)aPeaksSelectionIndexesContainer
-{
-    if (peaksSelectionIndexesContainer != aPeaksSelectionIndexesContainer) {
-        [peaksSelectionIndexesContainer release];
-        peaksSelectionIndexesContainer = [aPeaksSelectionIndexesContainer retain];
-    }
-}
-
 - (NSString *)peaksKeyPath
 {
     return peaksKeyPath; 
@@ -1498,28 +1601,12 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
         peaksKeyPath = [aPeaksKeyPath copy];
     }
 }
-- (NSString *)peaksSelectionIndexesKeyPath
-{
-    return peaksSelectionIndexesKeyPath; 
-}
-- (void)setPeaksSelectionIndexesKeyPath:(NSString *)aPeaksSelectionIndexesKeyPath
-{
-    if (peaksSelectionIndexesKeyPath != aPeaksSelectionIndexesKeyPath) {
-        [peaksSelectionIndexesKeyPath release];
-        peaksSelectionIndexesKeyPath = [aPeaksSelectionIndexesKeyPath copy];
-    }
-}
 
 #pragma mark baseline bindings
 - (NSMutableArray *)baseline
 {
 	return [baselineContainer valueForKeyPath:baselineKeyPath];
 }
-- (NSIndexSet *)baselineSelectionIndexes
-{
-	return [baselineSelectionIndexesContainer valueForKeyPath:baselineSelectionIndexesKeyPath];
-}
-
 - (NSObject *)baselineContainer
 {
     return baselineContainer; 
@@ -1531,18 +1618,6 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
         baselineContainer = [aBaselineContainer retain];
     }
 }
-- (NSObject *)baselineSelectionIndexesContainer
-{
-    return baselineSelectionIndexesContainer; 
-}
-- (void)setBaselineSelectionIndexesContainer:(NSObject *)aBaselineSelectionIndexesContainer
-{
-    if (baselineSelectionIndexesContainer != aBaselineSelectionIndexesContainer) {
-        [baselineSelectionIndexesContainer release];
-        baselineSelectionIndexesContainer = [aBaselineSelectionIndexesContainer retain];
-    }
-}
-
 - (NSString *)baselineKeyPath
 {
     return baselineKeyPath; 
@@ -1552,17 +1627,6 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     if (baselineKeyPath != aBaselineKeyPath) {
         [baselineKeyPath release];
         baselineKeyPath = [aBaselineKeyPath copy];
-    }
-}
-- (NSString *)baselineSelectionIndexesKeyPath
-{
-    return baselineSelectionIndexesKeyPath; 
-}
-- (void)setBaselineSelectionIndexesKeyPath:(NSString *)aBaselineSelectionIndexesKeyPath
-{
-    if (baselineSelectionIndexesKeyPath != aBaselineSelectionIndexesKeyPath) {
-        [baselineSelectionIndexesKeyPath release];
-        baselineSelectionIndexesKeyPath = [aBaselineSelectionIndexesKeyPath copy];
     }
 }
 
@@ -1576,26 +1640,26 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	delegate = inValue;
 }
 
-- (NSAffineTransform *)trans 
+- (NSAffineTransform *)transformGraphToScreen 
 {
-	return trans;
+	return transformGraphToScreen;
 }
-- (void)setTrans:(NSAffineTransform *)inValue  
+- (void)setTransformGraphToScreen:(NSAffineTransform *)inValue  
 {
 	[inValue retain];
-    [trans autorelease];
-    trans = inValue;
+    [transformGraphToScreen autorelease];
+    transformGraphToScreen = inValue;
 }
 
-- (NSAffineTransform *)inverseTrans  
+- (NSAffineTransform *)transformScreenToGraph  
 {
-	return inverseTrans;
+	return transformScreenToGraph;
 }
-- (void)setInverseTrans:(NSAffineTransform *)inValue  
+- (void)setTransformScreenToGraph:(NSAffineTransform *)inValue  
 {
 	[inValue retain];
-    [inverseTrans autorelease];
-    inverseTrans = inValue;
+    [transformScreenToGraph autorelease];
+    transformScreenToGraph = inValue;
 }
 
 - (NSNumber *)pixelsPerXUnit  
@@ -1778,7 +1842,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 {
 	return shouldDrawMajorTickMarks;
 }
-- (void)setShouldDrawMajorTickMarks:(BOOL)inValue;
+- (void)setShouldDrawMajorTickMarks:(BOOL)inValue
 {
 	shouldDrawMajorTickMarks = inValue;
 }
@@ -1889,7 +1953,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 - (NSNumber *)xMinimum  
 {
 	NSPoint plotCorner;
-	plotCorner = [[self inverseTrans] transformPoint:[self plottingArea].origin];
+	plotCorner = [[self transformScreenToGraph] transformPoint:[self plottingArea].origin];
 	return [NSNumber numberWithFloat:plotCorner.x];
 }
 - (void)setXMinimum:(NSNumber *)inValue  
@@ -1907,8 +1971,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 {
 	NSPoint plotCorner;
 	NSSize plotSize;
-	plotCorner = [[self inverseTrans] transformPoint:[self plottingArea].origin];
-	plotSize = [[self inverseTrans] transformSize:[self plottingArea].size];
+	plotCorner = [[self transformScreenToGraph] transformPoint:[self plottingArea].origin];
+	plotSize = [[self transformScreenToGraph] transformSize:[self plottingArea].size];
 	return [NSNumber numberWithFloat:(plotCorner.x + plotSize.width)];	
 }
 - (void)setXMaximum:(NSNumber *)inValue  
@@ -1926,7 +1990,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 - (NSNumber *)yMinimum  
 {
 	NSPoint plotCorner;
-	plotCorner = [[self inverseTrans] transformPoint:[self plottingArea].origin];
+	plotCorner = [[self transformScreenToGraph] transformPoint:[self plottingArea].origin];
 	return [NSNumber numberWithFloat:plotCorner.y];	
 }
 - (void)setYMinimum:(NSNumber *)inValue  
@@ -1944,8 +2008,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 {
 	NSPoint plotCorner;
 	NSSize plotSize;
-	plotCorner = [[self inverseTrans] transformPoint:[self plottingArea].origin];
-	plotSize = [[self inverseTrans] transformSize:[self plottingArea].size];
+	plotCorner = [[self transformScreenToGraph] transformPoint:[self plottingArea].origin];
+	plotSize = [[self transformScreenToGraph] transformSize:[self plottingArea].size];
 	return [NSNumber numberWithFloat:(plotCorner.y + plotSize.height)];	
 }
 - (void)setYMaximum:(NSNumber *)inValue 
@@ -1966,14 +2030,19 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	b = [[self minimumPixelsPerMajorGridLine] floatValue];
 	return [NSNumber numberWithFloat:a/b];
 }
+
 - (void)setUnitsPerMajorX:(NSNumber *)inValue  
 {
 }
+
 - (NSNumber *)unitsPerMajorY  
 {
 	return [NSNumber numberWithInt:-1];
 }
+
 - (void)setUnitsPerMajorY:(NSNumber *)inValue  
 {
 }
+
 @end
+

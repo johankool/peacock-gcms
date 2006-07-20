@@ -55,6 +55,15 @@
 		libraryArray = [[self readJCAMPString:inString] retain];
 
 		return YES;
+	} else if ([typeName isEqualToString:@"Inchi File"]) {
+		NSString *CASNumber = [[[absoluteURL path] lastPathComponent] stringByDeletingPathExtension];
+		NSString *jcampString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",CASNumber,CASNumber]]];
+		JKLibraryEntry *entry = [[JKLibraryEntry alloc] initWithJCAMPString:jcampString];
+		[entry setMolString:[NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",CASNumber,CASNumber]]]];
+		
+		libraryArray = [[NSMutableArray arrayWithObject:entry] retain];
+		
+		return YES;
 	}
 //	else if ([docType isEqualToString:@"AMDIS Target Library"]) {
 //		return [self importAMDISFromFile:fileName];

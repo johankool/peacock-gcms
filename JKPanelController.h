@@ -50,8 +50,8 @@
 
 //- (NSDocument *)inspectedDocument;
 //- (void)setInspectedDocument:(NSDocument *)document;
-idAccessor_h(inspectedGraphView, setInspectedGraphView);
-idAccessor_h(inspectedDocument, setInspectedDocument);
+idAccessor_h(inspectedGraphView, setInspectedGraphView)
+idAccessor_h(inspectedDocument, setInspectedDocument)
 
 #pragma mark MENU VALIDATION
 

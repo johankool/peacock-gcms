@@ -29,6 +29,11 @@
 		C71D9FE9099CD291007EB10D /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C71D9FCB099CD19D007EB10D /* Growl.framework */; };
 		C720AB8809EA7B6C007EF860 /* jk_statistics.h in Headers */ = {isa = PBXBuildFile; fileRef = C720AB8609EA7B6C007EF860 /* jk_statistics.h */; };
 		C720AB8909EA7B6C007EF860 /* jk_statistics.c in Sources */ = {isa = PBXBuildFile; fileRef = C720AB8709EA7B6C007EF860 /* jk_statistics.c */; };
+		C729C8810A49F45700FAB04F /* zoomIn.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C729C87E0A49F45700FAB04F /* zoomIn.tiff */; };
+		C729C8820A49F45800FAB04F /* zoom.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C729C87F0A49F45700FAB04F /* zoom.tiff */; };
+		C729C8830A49F45800FAB04F /* zoomOut.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C729C8800A49F45700FAB04F /* zoomOut.tiff */; };
+		C729CAA90A4B45CD00FAB04F /* JKDataModelProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = C729CAA70A4B45CD00FAB04F /* JKDataModelProxy.h */; };
+		C729CAAA0A4B45CD00FAB04F /* JKDataModelProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */; };
 		C72C8509098BE83600CEF565 /* JKSpectrumTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C8508098BE83600CEF565 /* JKSpectrumTest.m */; };
 		C72C85D7098BF1B800CEF565 /* JKGeneralTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C85D6098BF1B800CEF565 /* JKGeneralTesting.m */; };
 		C75FFA180913DF7900DAE01B /* questionmark.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C75FFA170913DF7900DAE01B /* questionmark.tiff */; };
@@ -62,6 +67,7 @@
 		C7B3159B0956CE610017ADDC /* JKStatisticsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C785905509541F250083EC22 /* JKStatisticsWindowController.m */; };
 		C7BC505309A62C930093106E /* JKLog.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC505109A62C930093106E /* JKLog.h */; };
 		C7BC505409A62C930093106E /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
+		C7C21FC60A5060E2006E82FD /* Peacock.sdef in Resources */ = {isa = PBXBuildFile; fileRef = C7C21FC50A5060E2006E82FD /* Peacock.sdef */; };
 		C7E5B1D70A14934200BB2291 /* BDAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E5B1D20A14934200BB2291 /* BDAlias.h */; };
 		C7E5B1D80A14934200BB2291 /* BDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E5B1D30A14934200BB2291 /* BDAlias.m */; };
 		C7EB18160898CFBD007FC2ED /* MolTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F00898CFBC007FC2ED /* MolTypes.c */; };
@@ -97,9 +103,6 @@
 		C7EB18750898D36A007FC2ED /* text.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7EB17C50898CF2E007FC2ED /* text.tiff */; };
 		C7EB18760898D36B007FC2ED /* view.tif in Resources */ = {isa = PBXBuildFile; fileRef = C7EB17C60898CF2E007FC2ED /* view.tif */; };
 		C7EB18770898D36E007FC2ED /* SaveDocumentItemImage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7EB17C40898CF2E007FC2ED /* SaveDocumentItemImage.tiff */; };
-		C7EB18780898D371007FC2ED /* zoom.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7EB17CA0898CF2E007FC2ED /* zoom.tiff */; };
-		C7EB18790898D372007FC2ED /* zoom2.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7EB17CB0898CF2E007FC2ED /* zoom2.tiff */; };
-		C7EB187A0898D376007FC2ED /* ZoomInToolbarImage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7EB17CD0898CF2E007FC2ED /* ZoomInToolbarImage.tiff */; };
 		C7F5E8F508EAA98600AC1068 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKLibraryEntry.m */; };
 		C7F897400A188B0D00A65A24 /* JKPathPopUpButton.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8973E0A188B0D00A65A24 /* JKPathPopUpButton.h */; };
 		C7F897410A188B0D00A65A24 /* JKPathPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8973F0A188B0D00A65A24 /* JKPathPopUpButton.m */; };
@@ -150,6 +153,11 @@
 		C71D9FCB099CD19D007EB10D /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		C720AB8609EA7B6C007EF860 /* jk_statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jk_statistics.h; sourceTree = "<group>"; };
 		C720AB8709EA7B6C007EF860 /* jk_statistics.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jk_statistics.c; sourceTree = "<group>"; };
+		C729C87E0A49F45700FAB04F /* zoomIn.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = zoomIn.tiff; sourceTree = "<group>"; };
+		C729C87F0A49F45700FAB04F /* zoom.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = zoom.tiff; sourceTree = "<group>"; };
+		C729C8800A49F45700FAB04F /* zoomOut.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = zoomOut.tiff; sourceTree = "<group>"; };
+		C729CAA70A4B45CD00FAB04F /* JKDataModelProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKDataModelProxy.h; sourceTree = "<group>"; };
+		C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKDataModelProxy.m; sourceTree = "<group>"; };
 		C72C8500098BE74300CEF565 /* Unit Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C72C8501098BE74400CEF565 /* Unit Testing-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Unit Testing-Info.plist"; sourceTree = "<group>"; };
 		C72C8507098BE83600CEF565 /* JKSpectrumTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSpectrumTest.h; sourceTree = "<group>"; };
@@ -195,6 +203,7 @@
 		C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FilteringDNDArrayController.m; sourceTree = "<group>"; };
 		C7BC505109A62C930093106E /* JKLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKLog.h; sourceTree = "<group>"; };
 		C7BC505209A62C930093106E /* JKLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLog.m; sourceTree = "<group>"; };
+		C7C21FC50A5060E2006E82FD /* Peacock.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = Peacock.sdef; sourceTree = "<group>"; };
 		C7E5B1D20A14934200BB2291 /* BDAlias.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BDAlias.h; sourceTree = "<group>"; };
 		C7E5B1D30A14934200BB2291 /* BDAlias.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BDAlias.m; sourceTree = "<group>"; };
 		C7EB17A60898CF2D007FC2ED /* AccessorMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccessorMacros.h; sourceTree = "<group>"; };
@@ -230,8 +239,6 @@
 		C7EB17C70898CF2E007FC2ED /* WL001433.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = WL001433.jpg; sourceTree = "<group>"; };
 		C7EB17C80898CF2E007FC2ED /* WL001435.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = WL001435.jpg; sourceTree = "<group>"; };
 		C7EB17C90898CF2E007FC2ED /* WL001550.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = WL001550.jpg; sourceTree = "<group>"; };
-		C7EB17CA0898CF2E007FC2ED /* zoom.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = zoom.tiff; sourceTree = "<group>"; };
-		C7EB17CB0898CF2E007FC2ED /* zoom2.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = zoom2.tiff; sourceTree = "<group>"; };
 		C7EB17CC0898CF2E007FC2ED /* Zoombbom.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Zoombbom.tiff; sourceTree = "<group>"; };
 		C7EB17CD0898CF2E007FC2ED /* ZoomInToolbarImage.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ZoomInToolbarImage.tiff; sourceTree = "<group>"; };
 		C7EB17CE0898CF2E007FC2ED /* JKAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAppDelegate.h; sourceTree = "<group>"; };
@@ -391,6 +398,7 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C7C21FC50A5060E2006E82FD /* Peacock.sdef */,
 				C7EB17B00898CF2E007FC2ED /* Icons */,
 				C7EB17C00898CF2E007FC2ED /* Images */,
 				C7EB17F90898CFBC007FC2ED /* Nibs */,
@@ -440,6 +448,8 @@
 		C747B83909DD5684004837D0 /* MainDocument */ = {
 			isa = PBXGroup;
 			children = (
+				C729CAA70A4B45CD00FAB04F /* JKDataModelProxy.h */,
+				C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */,
 				C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */,
 				C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */,
 				C7EB17E40898CF2F007FC2ED /* JKPeakRecord.h */,
@@ -671,8 +681,9 @@
 				C7EB17C70898CF2E007FC2ED /* WL001433.jpg */,
 				C7EB17C80898CF2E007FC2ED /* WL001435.jpg */,
 				C7EB17C90898CF2E007FC2ED /* WL001550.jpg */,
-				C7EB17CA0898CF2E007FC2ED /* zoom.tiff */,
-				C7EB17CB0898CF2E007FC2ED /* zoom2.tiff */,
+				C729C87F0A49F45700FAB04F /* zoom.tiff */,
+				C729C87E0A49F45700FAB04F /* zoomIn.tiff */,
+				C729C8800A49F45700FAB04F /* zoomOut.tiff */,
 				C7EB17CC0898CF2E007FC2ED /* Zoombbom.tiff */,
 				C7EB17CD0898CF2E007FC2ED /* ZoomInToolbarImage.tiff */,
 			);
@@ -728,6 +739,7 @@
 				C777A2D20A1DFEE400CF44D9 /* JKAtom.h in Headers */,
 				C777A2D40A1DFEE400CF44D9 /* JKBond.h in Headers */,
 				C777A2D60A1DFEE400CF44D9 /* JKMoleculeModel.h in Headers */,
+				C729CAA90A4B45CD00FAB04F /* JKDataModelProxy.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -814,9 +826,6 @@
 				C7EB18750898D36A007FC2ED /* text.tiff in Resources */,
 				C7EB18760898D36B007FC2ED /* view.tif in Resources */,
 				C7EB18770898D36E007FC2ED /* SaveDocumentItemImage.tiff in Resources */,
-				C7EB18780898D371007FC2ED /* zoom.tiff in Resources */,
-				C7EB18790898D372007FC2ED /* zoom2.tiff in Resources */,
-				C7EB187A0898D376007FC2ED /* ZoomInToolbarImage.tiff in Resources */,
 				C75FFA180913DF7900DAE01B /* questionmark.tiff in Resources */,
 				C7713B36095029C200653D2A /* JKBatchProcess.nib in Resources */,
 				C7858FEA0951E9990083EC22 /* JKStatisticalAnalysis.nib in Resources */,
@@ -824,6 +833,10 @@
 				C77C585A09801145002E7796 /* Peacock Help in Resources */,
 				C7F899D20A19E7CA00A65A24 /* processing.tiff in Resources */,
 				C718DA4E0A21E51800E262F7 /* general.tiff in Resources */,
+				C729C8810A49F45700FAB04F /* zoomIn.tiff in Resources */,
+				C729C8820A49F45800FAB04F /* zoom.tiff in Resources */,
+				C729C8830A49F45800FAB04F /* zoomOut.tiff in Resources */,
+				C7C21FC60A5060E2006E82FD /* Peacock.sdef in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -893,6 +906,7 @@
 				C777A2D30A1DFEE400CF44D9 /* JKAtom.m in Sources */,
 				C777A2D50A1DFEE400CF44D9 /* JKBond.m in Sources */,
 				C777A2D70A1DFEE400CF44D9 /* JKMoleculeModel.m in Sources */,
+				C729CAAA0A4B45CD00FAB04F /* JKDataModelProxy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1095,6 +1109,99 @@
 			};
 			name = Release;
 		};
+		C787C16C0A6415C7008C9AF6 /* Debug + extra error checking */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					"<Multiple",
+					"values>",
+					ppc,
+				);
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SRCROOT)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
+				GCC_WARN_PEDANTIC = YES;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = Peacock;
+				WARNING_CFLAGS = (
+					"-Wall",
+					"-Wextra",
+					"-Wfloat-equal",
+					"-Wunreachable-code",
+				);
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Debug + extra error checking";
+		};
+		C787C16D0A6415C7008C9AF6 /* Debug + extra error checking */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Peacock.app/Contents/MacOS/Peacock";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				INFOPLIST_FILE = "Unit Testing-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Unit Testing";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = "Debug + extra error checking";
+		};
+		C787C16E0A6415C7008C9AF6 /* Debug + extra error checking */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SRCROOT)",
+					"$(SRCROOT)/Frameworks",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
+				GCC_WARN_SHADOW = NO;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = NO;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/Frameworks",
+					"$(SRCROOT)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				ZERO_LINK = YES;
+			};
+			name = "Debug + extra error checking";
+		};
 		C7EB179D0898CF22007FC2ED /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1218,6 +1325,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C72C8503098BE74500CEF565 /* Debug */,
+				C787C16D0A6415C7008C9AF6 /* Debug + extra error checking */,
 				C72C8504098BE74500CEF565 /* Release */,
 				C716FFEA09F64F8800E05AC4 /* Performance */,
 			);
@@ -1228,6 +1336,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C7EB179D0898CF22007FC2ED /* Debug */,
+				C787C16C0A6415C7008C9AF6 /* Debug + extra error checking */,
 				C7EB179E0898CF22007FC2ED /* Release */,
 				C716FFE909F64F8800E05AC4 /* Performance */,
 			);
@@ -1238,6 +1347,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C7EB17A10898CF22007FC2ED /* Debug */,
+				C787C16E0A6415C7008C9AF6 /* Debug + extra error checking */,
 				C7EB17A20898CF22007FC2ED /* Release */,
 				C716FFEB09F64F8800E05AC4 /* Performance */,
 			);

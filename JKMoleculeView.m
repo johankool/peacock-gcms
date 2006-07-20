@@ -79,7 +79,7 @@
 }
 
 - (void)drawMolecule {
-    int i;
+    unsigned i;
     float alpha, beta, deltax, deltay, distance;
 
     NSPoint fromPoint, toPoint, drawPoint;
@@ -100,7 +100,7 @@
         font = [NSFont systemFontOfSize:[self textHeight]];
     }
 	[attrs setObject:font forKey:NSFontAttributeName];
-    [attrs setObject:[self textColor] forKey:NSFontColorAttribute];
+    [attrs setObject:[self textColor] forKey:NSForegroundColorAttributeName];
 
     // Draw bonds first
     for (i=0; i<[[[self model] bonds] count]; i++) {

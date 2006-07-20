@@ -170,7 +170,7 @@
 	[fileAliasContainer setValue:inValue forKeyPath:fileAliasKeyPath];
 }
 
-idAccessor(fileAliasContainer, setFileAliasContainer);
-idAccessor(fileAliasKeyPath, setFileAliasKeyPath);
+idAccessor(fileAliasContainer, setFileAliasContainer)
+idAccessor(fileAliasKeyPath, setFileAliasKeyPath)
 
 @end

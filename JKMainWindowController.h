@@ -101,5 +101,5 @@ boolAccessor_h(showNormalizedSpectra, setShowNormalizedSpectra)
 boolAccessor_h(showCombinedSpectrum, setShowCombinedSpectrum)
 boolAccessor_h(showLibraryHit, setShowLibraryHit)
 intAccessor_h(showPeaks, setShowPeaks)
-idAccessor_h(printAccessoryView, setPrintAccessoryView);
+idAccessor_h(printAccessoryView, setPrintAccessoryView)
 @end

@@ -28,6 +28,24 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>inchi</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>LIBRARY</string>
+			<key>CFBundleTypeName</key>
+			<string>Inchi File</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>JKLibrary</string>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>XML</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
 				<string>peacock</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
@@ -131,10 +149,14 @@
 	<string>0.1.7</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.4.6</string>
+	<key>NSAppleScriptEnabled</key>
+	<string>YES</string>
 	<key>NSMainNibFile</key>
 	<string>JKMainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>JKAppDelegate</string>
+	<key>OSAScriptingDefinition</key>
+	<string>Peacock.sdef</string>
 	<key>SUAllowsAutomaticUpdates</key>
 	<true/>
 	<key>SUCheckAtStartup</key>

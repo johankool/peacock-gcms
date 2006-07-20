@@ -56,29 +56,19 @@ static void *SpectrumObservationContext = (void *)1102;
 	// ChromatogramView bindings
 	[chromatogramView bind:@"dataSeries" toObject: chromatogramDataSeriesController
 			   withKeyPath:@"arrangedObjects" options:nil];
-	[chromatogramView bind:@"dataSeriesSelectionIndexes" toObject: chromatogramDataSeriesController
-			   withKeyPath:@"selectionIndexes" options:nil];
 	[chromatogramView bind:@"baseline" toObject: baselineController
 			   withKeyPath:@"arrangedObjects" options:nil];
-	[chromatogramView bind:@"baselineSelectionIndexes" toObject: baselineController
-			   withKeyPath:@"selectionIndexes" options:nil];
 	[chromatogramView bind:@"peaks" toObject: peakController
 			   withKeyPath:@"arrangedObjects" options:nil];
-	[chromatogramView bind:@"peaksSelectionIndexes" toObject: peakController
-			   withKeyPath:@"selectionIndexes" options:nil];
 	NSAssert([[chromatogramView dataSeries] count] > 0, @"No chromatogram dataseries to draw.");
 	if ([[chromatogramView dataSeries] objectAtIndex:0]) {
 		[[[chromatogramView dataSeries] objectAtIndex:0] bind:@"peaks" toObject: peakController
 												  withKeyPath:@"arrangedObjects" options:nil];
-		[[[chromatogramView dataSeries] objectAtIndex:0] bind:@"peaksSelectionIndexes" toObject: peakController
-												  withKeyPath:@"selectionIndexes" options:nil];		
 	}
 	
 	// Spectrum
 	[spectrumView bind:@"dataSeries" toObject: spectrumDataSeriesController
 		   withKeyPath:@"arrangedObjects" options:nil];
-	[spectrumView bind:@"dataSeriesSelectionIndexes" toObject: spectrumDataSeriesController
-		   withKeyPath:@"selectionIndexes" options:nil];
 	
 	// More setup
 	[chromatogramView setShouldDrawLegend:NO];
@@ -954,6 +944,6 @@ boolAccessor(showNormalizedSpectra, setShowNormalizedSpectra)
 boolAccessor(showCombinedSpectrum, setShowCombinedSpectrum)
 boolAccessor(showLibraryHit, setShowLibraryHit)
 intAccessor(showPeaks, setShowPeaks)	
-idAccessor(printAccessoryView, setPrintAccessoryView);
+idAccessor(printAccessoryView, setPrintAccessoryView)
 
 @end

@@ -10,13 +10,9 @@
 
 @interface ChromatogramGraphDataSerie : MyGraphDataSerie {
 	BOOL shouldDrawPeaks;
-//	NSArray *peaks;
 	
-	NSObject *peaksContainer;
-    NSString *peaksKeyPath;
-	NSObject *peaksSelectionIndexesContainer;
-    NSString *peaksSelectionIndexesKeyPath;
-	
+	NSArrayController *peaksContainer;
+    NSString *peaksKeyPath;	
 }
 
 #pragma mark DRAWING ROUTINES
@@ -40,15 +36,7 @@
 - (NSString *)peaksKeyPath;
 - (void)setPeaksKeyPath:(NSString *)aPeaksKeyPath;
 
-- (NSIndexSet *)peaksSelectionIndexes;
-- (NSObject *)peaksSelectionIndexesContainer;
-- (void)setPeaksSelectionIndexesContainer:(NSObject *)aPeaksSelectionIndexesContainer;
-- (NSString *)peaksSelectionIndexesKeyPath;
-- (void)setPeaksSelectionIndexesKeyPath:(NSString *)aPeaksSelectionIndexesKeyPath;
-
 #pragma mark ACCESSORS
-//- (NSArray *)peaks;
-//- (void)setPeaks:(NSArray *)inValue;
 - (BOOL)shouldDrawPeaks;
 - (void)setShouldDrawPeaks:(BOOL)inValue;
 @end

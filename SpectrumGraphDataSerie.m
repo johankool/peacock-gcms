@@ -315,7 +315,7 @@ static void *PropertyObservationContext = (void *)1093;
     drawUpsideDown = inValue;
 	[self constructPlotPath];
 }
-- (BOOL)normalizeYData;
+- (BOOL)normalizeYData
 {
 	return normalizeYData;
 }

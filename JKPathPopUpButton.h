@@ -39,7 +39,7 @@
 - (BDAlias *)fileAlias;
 - (void)setFileAlias:(id)inValue;
 	
-idAccessor_h(fileAliasContainer, setFileAliasContainer);
-idAccessor_h(fileAliasKeyPath, setFileAliasKeyPath);
+idAccessor_h(fileAliasContainer, setFileAliasContainer)
+idAccessor_h(fileAliasKeyPath, setFileAliasKeyPath)
 
 @end

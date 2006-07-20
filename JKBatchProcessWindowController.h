@@ -32,6 +32,6 @@
 - (IBAction)stopButtonAction:(id)sender;
 
 #pragma mark ACCESSORS
-idAccessor_h(files, setFiles);
-boolAccessor_h(abortAction, setAbortAction);
+idAccessor_h(files, setFiles)
+boolAccessor_h(abortAction, setAbortAction)
 @end

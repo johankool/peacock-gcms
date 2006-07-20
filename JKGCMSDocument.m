@@ -16,6 +16,7 @@
 #import "JKPeakRecord.h"
 #import "JKSpectrum.h"
 #import "netcdf.h"
+#import "JKDataModelProxy.h"
 
 NSString *const JKGCMSDocument_DocumentDeactivateNotification = @"JKGCMSDocument_DocumentDeactivateNotification";
 NSString *const JKGCMSDocument_DocumentActivateNotification   = @"JKGCMSDocument_DocumentActivateNotification";
@@ -58,8 +59,8 @@ int const JKGCMSDocument_Version = 3;
 
 - (void)dealloc  
 {
-	[self setPeaks:nil];
-	//[peaks release];
+	//[self setPeaks:nil];
+	[peaks release];
 	[baseline release];
 	[metadata release];
 	[chromatograms release];
@@ -173,11 +174,33 @@ int const JKGCMSDocument_Version = 3;
 		unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
 		int version = [unarchiver decodeIntForKey:@"version"];
 		if (version < JKGCMSDocument_Version) {
-			NSRunAlertPanel(@"File format no longer supported",@"The file you are trying to open was saved with an earlier beta-version of Peacock and can longer be opened.",@"OK",nil,nil);
-			return NO;
+			NSRunAlertPanel(@"File format no longer supported",@"The file you are trying to open was saved with an earlier beta-version of Peacock. It can be opened, but its content is partially incomplete.",@"Continue",nil,nil);
+			[unarchiver setClass:[JKDataModelProxy class] forClassName:@"JKDataModel"];
+			JKDataModelProxy *dataModel = [unarchiver decodeObjectForKey:@"dataModel"];
+			peaks = [[dataModel peaks] retain];
+			baseline = [[dataModel baseline] retain];
+			metadata = [[dataModel metadata] retain];
+			// These are not stored but refetched from cdf file when needed
+			chromatograms = [[NSMutableArray alloc] init];
+			
+			[unarchiver finishDecoding];
+			[unarchiver release];
+			
+			result = [self readNetCDFFile:[[absoluteURL path] stringByAppendingPathComponent:@"netcdf"] error:outError];
+			if (result) {
+				peacockFileWrapper = wrapper;
+			}
+			return result;	
+			
 		}
 		baseline = [[unarchiver decodeObjectForKey:@"baseline"] retain];
 		peaks = [[unarchiver decodeObjectForKey:@"peaks"] retain];
+		NSEnumerator *e = [peaks objectEnumerator];
+		JKPeakRecord *peak;
+		e = [peaks objectEnumerator];
+		while ((peak = [e nextObject])) {
+			[self startObservingPeak:peak];
+		}
 		metadata = [[unarchiver decodeObjectForKey:@"metadata"] retain];
 		baselineWindowWidth = [[unarchiver decodeObjectForKey:@"baselineWindowWidth"] retain];
 		baselineDistanceThreshold = [[unarchiver decodeObjectForKey:@"baselineDistanceThreshold"] retain];
@@ -912,12 +935,14 @@ int const JKGCMSDocument_Version = 3;
 	NSEnumerator *enumerator = [[originatingPeak searchResults] objectEnumerator];
 	id searchResult;
 	
+	peaksCount = [[self peaks] count];
+	
 	float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];
 	while ((searchResult = [enumerator nextObject])) {
 		maximumScore = 0.0;
 		maximumIndex = -1;
 		for (k = 0; k < peaksCount; k++) {
-			if (![[self peaks] objectAtIndex:k] != originatingPeak) {
+			if ([[self peaks] objectAtIndex:k] != originatingPeak) {
 				score = [[[[self peaks] objectAtIndex:k] spectrum] scoreComparedToLibraryEntry:[searchResult objectForKey:@"libraryHit"]];
 				if (score >= maximumScore) {
 					maximumScore = score;
@@ -989,7 +1014,7 @@ int const JKGCMSDocument_Version = 3;
     int		num_pts;
 	
     dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_value variable failed. Report error #%d.", dummy);        return x;}
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_value variable failed. Report error #%d.", dummy);        return 0;}
 	
 	
 	dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
@@ -1038,7 +1063,7 @@ int const JKGCMSDocument_Version = 3;
     int		num_pts;
 	
     dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return y;}
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return 0;}
 	
 	dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable failed. Report error #%d.", dummy); return 0;}
@@ -1115,6 +1140,9 @@ int const JKGCMSDocument_Version = 3;
     
     dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return nil;}
+
+    dummy = nc_inq_varid(ncid, "time_values", &varid_time_value);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting time_values variable failed. Report error #%d.", dummy); return nil;}
     
     dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return nil;}
@@ -1198,16 +1226,16 @@ int const JKGCMSDocument_Version = 3;
     scanCount = 0;
     
     dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return y;}
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return 0;}
     
     dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return y;}
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return 0;}
     
     dummy = nc_inq_dimid(ncid, "point_number", &dimid);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension failed. Report error #%d.", dummy); return y;}
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension failed. Report error #%d.", dummy); return 0;}
     
     dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_pts);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return y;}
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return 0;}
     
 	
 	//	dummy = nc_get_vara_float(ncid, varid_intensity_value, (const size_t *) &i, (const size_t *) &num_pts, &xx);
@@ -1302,20 +1330,20 @@ int const JKGCMSDocument_Version = 3;
 #pragma mark ACCESSORS (MACROSTYLE)
 //idUndoAccessor(peaks, setPeaks, @"Change Peaks");
 
-idUndoAccessor(baselineWindowWidth, setBaselineWindowWidth, @"Change Baseline Window Width");
-idUndoAccessor(baselineDistanceThreshold, setBaselineDistanceThreshold, @"Change Baseline Distance Threshold");
-idUndoAccessor(baselineSlopeThreshold, setBaselineSlopeThreshold, @"Change Baseline Slope Threshold");
-idUndoAccessor(baselineDensityThreshold, setBaselineDensityThreshold, @"Change Baseline Density Threshold");
-idUndoAccessor(peakIdentificationThreshold, setPeakIdentificationThreshold, @"Change Peak Identification Threshold");
-idUndoAccessor(retentionIndexSlope, setRetentionIndexSlope, @"Change Retention Index Slope");     
-idUndoAccessor(retentionIndexRemainder, setRetentionIndexRemainder, @"Change Retention Index Remainder");
-idUndoAccessor(libraryAlias, setLibraryAlias, @"Change Library");
-intUndoAccessor(scoreBasis, setScoreBasis, @"Change Score Basis");
-boolUndoAccessor(penalizeForRetentionIndex, setPenalizeForRetentionIndex, @"Change Penalize for Offset Retention Index");
-idUndoAccessor(markAsIdentifiedThreshold, setMarkAsIdentifiedThreshold, @"Change Identification Score");
-idUndoAccessor(minimumScoreSearchResults, setMinimumScoreSearchResults, @"Change Minimum Score");
+idUndoAccessor(baselineWindowWidth, setBaselineWindowWidth, @"Change Baseline Window Width")
+idUndoAccessor(baselineDistanceThreshold, setBaselineDistanceThreshold, @"Change Baseline Distance Threshold")
+idUndoAccessor(baselineSlopeThreshold, setBaselineSlopeThreshold, @"Change Baseline Slope Threshold")
+idUndoAccessor(baselineDensityThreshold, setBaselineDensityThreshold, @"Change Baseline Density Threshold")
+idUndoAccessor(peakIdentificationThreshold, setPeakIdentificationThreshold, @"Change Peak Identification Threshold")
+idUndoAccessor(retentionIndexSlope, setRetentionIndexSlope, @"Change Retention Index Slope")
+idUndoAccessor(retentionIndexRemainder, setRetentionIndexRemainder, @"Change Retention Index Remainder")
+idUndoAccessor(libraryAlias, setLibraryAlias, @"Change Library")
+intUndoAccessor(scoreBasis, setScoreBasis, @"Change Score Basis")
+boolUndoAccessor(penalizeForRetentionIndex, setPenalizeForRetentionIndex, @"Change Penalize for Offset Retention Index")
+idUndoAccessor(markAsIdentifiedThreshold, setMarkAsIdentifiedThreshold, @"Change Identification Score")
+idUndoAccessor(minimumScoreSearchResults, setMinimumScoreSearchResults, @"Change Minimum Score")
 
-boolAccessor(abortAction, setAbortAction);
+boolAccessor(abortAction, setAbortAction)
 
 #pragma mark ACCESSORS
 

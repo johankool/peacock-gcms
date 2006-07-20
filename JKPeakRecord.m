@@ -465,6 +465,7 @@
 {
     if ( [coder allowsKeyedCoding] ) {
         // Can decode keys in any order
+		int version = [coder decodeIntForKey:@"version"];
 		document = [coder decodeObjectForKey:@"document"]; // weak reference
 		peakID = [[coder decodeObjectForKey:@"peakID"] retain];
 		start = [[coder decodeObjectForKey:@"start"] retain];
@@ -472,8 +473,13 @@
         top = [[coder decodeObjectForKey:@"top"] retain];
         height = [[coder decodeObjectForKey:@"height"] retain];
         normalizedHeight = [[coder decodeObjectForKey:@"normalizedHeight"] retain];
-        baselineLeft = [[coder decodeObjectForKey:@"baselineLeft"] retain];
-        baselineRight = [[coder decodeObjectForKey:@"baselineRight"] retain];
+		if (version < 3) {
+			baselineLeft = [[coder decodeObjectForKey:@"baselineL"] retain];
+			baselineRight = [[coder decodeObjectForKey:@"baselineR"] retain];
+		} else {
+			baselineLeft = [[coder decodeObjectForKey:@"baselineLeft"] retain];
+			baselineRight = [[coder decodeObjectForKey:@"baselineRight"] retain];
+		}
         surface = [[coder decodeObjectForKey:@"surface"] retain];
         normalizedSurface = [[coder decodeObjectForKey:@"normalizedSurface"] retain];
         label = [[coder decodeObjectForKey:@"label"] retain];
@@ -485,7 +491,21 @@
 //        libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain];
 		retentionIndex = [[coder decodeObjectForKey:@"retentionIndex"] retain];
 		searchResults = [[coder decodeObjectForKey:@"searchResults"] retain];
-		spectrum = [[coder decodeObjectForKey:@"spectrum"] retain];
+		if (version < 3) {
+			//identifiedSearchResult = [[coder decodeObjectForKey:@"libraryHit"] retain];
+			spectrum = [[JKSpectrum alloc] init];
+			float npts = [document endValuesSpectrum:[top intValue]] - [document startValuesSpectrum:[top intValue]];
+			float *xpts = [document xValuesSpectrum:[top intValue]];
+			float *ypts = [document yValuesSpectrum:[top intValue]];
+			[spectrum setMasses:xpts withCount:npts];
+			[spectrum setIntensities:ypts withCount:npts];
+			[spectrum setDocument:document];
+			free(xpts);
+			free(ypts);
+			[self setSpectrum:spectrum];
+		} else {
+			spectrum = [[coder decodeObjectForKey:@"spectrum"] retain];			
+		}
 	} 
     return self;
 }

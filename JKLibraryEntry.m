@@ -15,7 +15,7 @@
 
 @implementation JKLibraryEntry
 
-- (id)initWithJCAMPString:(NSString *)inString;
+- (id)initWithJCAMPString:(NSString *)inString
 {
 	self = [super init];
     if (self != nil) {
@@ -464,26 +464,26 @@
 	return [NSNumber numberWithFloat:[atom calculateWeight]];
 }
 
-idUndoAccessor(name, setName, @"Change Name");
-idUndoAccessor(origin, setOrigin, @"Change Origin");
-idUndoAccessor(owner, setOwner, @"Change Owner");
+idUndoAccessor(name, setName, @"Change Name")
+idUndoAccessor(origin, setOrigin, @"Change Origin")
+idUndoAccessor(owner, setOwner, @"Change Owner")
 
-idUndoAccessor(CASNumber, setCASNumber, @"Change CAS Number");
-idUndoAccessor(epaMassSpecNo, setEpaMassSpecNo, @"Change EPA Mass Spec No");
-idUndoAccessor(formula, setFormula, @"Change Molecule Formula");
-idUndoAccessor(massWeight, setMassWeight, @"Change Mass Weight");
-idUndoAccessor(nistSource, setNISTSource, @"Change NIST Source");
-idUndoAccessor(ionizationEnergy, setIonizationEnergy, @"Change Ionization Energy");
-idUndoAccessor(xUnits, setXUnits, @"Change Mass Units");
-idUndoAccessor(yUnits, setYUnits, @"Change Intensity Units");
-idAccessor(xFactor, setXFactor);
-idAccessor(yFactor, setYFactor);
-idUndoAccessor(retentionIndex, setRetentionIndex, @"Change Retention Index");
-idUndoAccessor(source, setSource, @"Change Source");
+idUndoAccessor(CASNumber, setCASNumber, @"Change CAS Number")
+idUndoAccessor(epaMassSpecNo, setEpaMassSpecNo, @"Change EPA Mass Spec No")
+idUndoAccessor(formula, setFormula, @"Change Molecule Formula")
+idUndoAccessor(massWeight, setMassWeight, @"Change Mass Weight")
+idUndoAccessor(nistSource, setNISTSource, @"Change NIST Source")
+idUndoAccessor(ionizationEnergy, setIonizationEnergy, @"Change Ionization Energy")
+idUndoAccessor(xUnits, setXUnits, @"Change Mass Units")
+idUndoAccessor(yUnits, setYUnits, @"Change Intensity Units")
+idAccessor(xFactor, setXFactor)
+idAccessor(yFactor, setYFactor)
+idUndoAccessor(retentionIndex, setRetentionIndex, @"Change Retention Index")
+idUndoAccessor(source, setSource, @"Change Source")
 
-idUndoAccessor(comment, setComment, @"Change Comment");
-idUndoAccessor(molString, setMolString, @"Change Mol String");
-idUndoAccessor(symbol, setSymbol, @"Change Symbol");
+idUndoAccessor(comment, setComment, @"Change Comment")
+idUndoAccessor(molString, setMolString, @"Change Mol String")
+idUndoAccessor(symbol, setSymbol, @"Change Symbol")
 
 //intAccessor(numberOfPoints, setNumberOfPoints);
 - (void)setMasses:(float *)inArray withCount:(int)inValue  
