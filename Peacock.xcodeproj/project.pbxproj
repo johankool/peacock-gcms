@@ -59,7 +59,6 @@
 		C79A6155094DBE3A00C0887E /* RBSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6152094DBE3A00C0887E /* RBSplitView.m */; };
 		C7A7BB370A9DE5D3005E3778 /* library_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB2D0A9DE5D3005E3778 /* library_document.icns */; };
 		C7A7BB380A9DE5D3005E3778 /* atlas_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB2E0A9DE5D3005E3778 /* atlas_document.icns */; };
-		C7A7BB390A9DE5D3005E3778 /* folder.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB2F0A9DE5D3005E3778 /* folder.icns */; };
 		C7A7BB3A0A9DE5D3005E3778 /* peacock_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB300A9DE5D3005E3778 /* peacock_document.icns */; };
 		C7A7BB3B0A9DE5D3005E3778 /* peacock_preferences.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB310A9DE5D3005E3778 /* peacock_preferences.icns */; };
 		C7A7BB3C0A9DE5D3005E3778 /* andi_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB320A9DE5D3005E3778 /* andi_document.icns */; };
@@ -200,7 +199,6 @@
 		C79A6153094DBE3A00C0887E /* RBSplitViewPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RBSplitViewPrivateDefines.h; sourceTree = "<group>"; };
 		C7A7BB2D0A9DE5D3005E3778 /* library_document.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = library_document.icns; sourceTree = "<group>"; };
 		C7A7BB2E0A9DE5D3005E3778 /* atlas_document.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = atlas_document.icns; sourceTree = "<group>"; };
-		C7A7BB2F0A9DE5D3005E3778 /* folder.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = folder.icns; sourceTree = "<group>"; };
 		C7A7BB300A9DE5D3005E3778 /* peacock_document.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = peacock_document.icns; sourceTree = "<group>"; };
 		C7A7BB310A9DE5D3005E3778 /* peacock_preferences.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = peacock_preferences.icns; sourceTree = "<group>"; };
 		C7A7BB320A9DE5D3005E3778 /* andi_document.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = andi_document.icns; sourceTree = "<group>"; };
@@ -643,7 +641,6 @@
 			children = (
 				C7A7BB2D0A9DE5D3005E3778 /* library_document.icns */,
 				C7A7BB2E0A9DE5D3005E3778 /* atlas_document.icns */,
-				C7A7BB2F0A9DE5D3005E3778 /* folder.icns */,
 				C7A7BB300A9DE5D3005E3778 /* peacock_document.icns */,
 				C7A7BB310A9DE5D3005E3778 /* peacock_preferences.icns */,
 				C7A7BB320A9DE5D3005E3778 /* andi_document.icns */,
@@ -807,7 +804,6 @@
 				C7C21FC60A5060E2006E82FD /* Peacock.sdef in Resources */,
 				C7A7BB370A9DE5D3005E3778 /* library_document.icns in Resources */,
 				C7A7BB380A9DE5D3005E3778 /* atlas_document.icns in Resources */,
-				C7A7BB390A9DE5D3005E3778 /* folder.icns in Resources */,
 				C7A7BB3A0A9DE5D3005E3778 /* peacock_document.icns in Resources */,
 				C7A7BB3B0A9DE5D3005E3778 /* peacock_preferences.icns in Resources */,
 				C7A7BB3C0A9DE5D3005E3778 /* andi_document.icns in Resources */,
