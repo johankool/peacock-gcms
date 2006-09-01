@@ -46,7 +46,9 @@
 	// Set an initial state
 	[toolbar setSelectedItemIdentifier:@"general"];
 	[[self window] setContentView:generalPreferencesView];
-	
+	[[self window] setShowsToolbarButton:NO];
+    [toolbar setVisible:YES];
+    
 	// Bind libraryPopUpButton manually
 	[libraryPopUpButton bind:@"fileAlias" toObject:self withKeyPath:@"libraryAlias" options:nil];
 
@@ -95,17 +97,17 @@
 		deltaHeight = [generalPreferencesView frame].size.height - [[[self window] contentView] frame].size.height;
 		deltaWidth = [generalPreferencesView frame].size.width - [[[self window] contentView] frame].size.width;
 		[[self window] setContentView:generalPreferencesView];
-		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:NO];
+		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:YES];
 	} else if ([[sender itemIdentifier] isEqualToString:@"processing"]) {
 		deltaHeight = [processingPreferencesView frame].size.height - [[[self window] contentView] frame].size.height;
 		deltaWidth = [processingPreferencesView frame].size.width - [[[self window] contentView] frame].size.width;
 		[[self window] setContentView:processingPreferencesView];
-		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:NO];
+		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:YES];
 	} else if ([[sender itemIdentifier] isEqualToString:@"presets"]) {
 		deltaHeight = [presetsPreferencesView frame].size.height - [[[self window] contentView] frame].size.height;
 		deltaWidth = [presetsPreferencesView frame].size.width - [[[self window] contentView] frame].size.width;
 		[[self window] setContentView:presetsPreferencesView];
-		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:NO];
+		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:YES];
 	}
 	
 }

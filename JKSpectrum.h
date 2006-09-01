@@ -31,6 +31,7 @@
 
 - (JKSpectrum *)spectrumBySubtractingSpectrum:(JKSpectrum *)inSpectrum;
 - (JKSpectrum *)spectrumByAveragingWithSpectrum:(JKSpectrum *)inSpectrum;
+- (JKSpectrum *)spectrumByAveragingWithSpectrum:(JKSpectrum *)inSpectrum  withWeight:(float)weight;
 - (JKSpectrum *)normalizedSpectrum;
 
 - (SpectrumGraphDataSerie *)spectrumDataSerie;

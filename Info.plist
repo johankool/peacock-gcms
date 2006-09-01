@@ -13,7 +13,7 @@
 				<string>dx</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>LIBRARY</string>
+			<string>library_document</string>
 			<key>CFBundleTypeName</key>
 			<string>JCAMP Library</string>
 			<key>CFBundleTypeRole</key>
@@ -31,7 +31,7 @@
 				<string>inchi</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>LIBRARY</string>
+			<string>library_document</string>
 			<key>CFBundleTypeName</key>
 			<string>Inchi File</string>
 			<key>CFBundleTypeRole</key>
@@ -49,7 +49,7 @@
 				<string>peacock</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>PEACOCK</string>
+			<string>peacock_document</string>
 			<key>CFBundleTypeName</key>
 			<string>Peacock File</string>
 			<key>CFBundleTypeRole</key>
@@ -70,7 +70,7 @@
 				<string>nc</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>NETCDF</string>
+			<string>netcdf_document</string>
 			<key>CFBundleTypeName</key>
 			<string>NetCDF File</string>
 			<key>CFBundleTypeOSTypes</key>
@@ -90,7 +90,7 @@
 				<string>peacock-stats</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>PEACOCK</string>
+			<string>peacock_document</string>
 			<key>CFBundleTypeName</key>
 			<string>Peacock Statistics File</string>
 			<key>CFBundleTypeRole</key>
@@ -108,7 +108,7 @@
 				<string>txt</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>PEACOCK</string>
+			<string>peacock_document</string>
 			<key>CFBundleTypeName</key>
 			<string>Tab Delimited Text File</string>
 			<key>CFBundleTypeRole</key>
@@ -130,7 +130,7 @@
 	<key>CFBundleHelpBookName</key>
 	<string>Peacock Help</string>
 	<key>CFBundleIconFile</key>
-	<string>PeacockAppIcon</string>
+	<string>peacock_application</string>
 	<key>CFBundleIdentifier</key>
 	<string>nl.johankool.Peacock</string>
 	<key>CFBundleInfoDictionaryVersion</key>

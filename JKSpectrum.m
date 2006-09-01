@@ -169,6 +169,14 @@
 
 - (JKSpectrum *)spectrumByAveragingWithSpectrum:(JKSpectrum *)inSpectrum  
 {
+	return [self spectrumByAveragingWithSpectrum:inSpectrum withWeight:0.5];	
+}
+
+// the higher the weight the more import the incoming spectrum
+- (JKSpectrum *)spectrumByAveragingWithSpectrum:(JKSpectrum *)inSpectrum  withWeight:(float)weight
+{
+    NSAssert(weight >= 0.0, @"Weight value below 0.0");
+    NSAssert(weight <= 1.0, @"Weight value above 1.0");
 	int i,j,k,count1,count2;
 	float d1, d2, d3, d4;
 	JKSpectrum *outSpectrum = [[JKSpectrum alloc] init];
@@ -179,32 +187,36 @@
 	float *intensitiesIn = [inSpectrum intensities];
 	float massesOut[count1+count2];
 	float intensitiesOut[count1+count2];
-	float roundd1, roundd2;
-	
+	float roundd1, roundd2, diff;
+	float counterweight = 1.0 - weight;
 	do {
 		d1 = masses[i];
-		d2 = massesIn[i];
-		d3 = intensities[i];
-		d4 = intensitiesIn[i];
+		d2 = massesIn[j];
+		d3 = intensities[i] * counterweight;
+		d4 = intensitiesIn[j] * weight;
 		roundd1 = roundf(d1);
 		roundd2 = roundf(d2);
-		
-		if ((roundd1-roundd2) == 0.0) {
+		diff = roundd1 - roundd2;
+        
+		if (diff == 0.0) {
 			massesOut[k] = round(d1);
 			intensitiesOut[k] = (d3+d4)/2;
 			
 			k++; i++; j++;
-		} else if ((roundd1 - roundd2) < 0.0) {
+		} else if (diff < 0.0) {
 			massesOut[k] = d1;
 			intensitiesOut[k] = d3;
 			
 			k++; i++;
-		} else if ((round(d1) - round(d2)) > 0.0) {
+		} else if (diff > 0.0) {
 			massesOut[k] = d2;
 			intensitiesOut[k] = d4;
 			
 			k++; j++;
-		};
+		} else {
+            NSLog(@"unexpected error in JKSpectrum spectrumByAveragingWithSpectrum");
+            i++; j++;
+        };
 	} while (i < count1 && j < count2);
 	
 	[outSpectrum setMasses:massesOut withCount:k];

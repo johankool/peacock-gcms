@@ -52,9 +52,11 @@
 	BOOL identified;
 	BOOL confirmed;
 	id identifiedSearchResult;
-//	NSNumber *score;
-//	NSString *library;
-//	JKLibraryEntry *libraryHit;
+
+    // Support for reading in old file-format
+    id _libraryHit;
+    id _score;
+    BOOL _needsUpdating;
 }
 
 #pragma mark ACTIONS
@@ -134,4 +136,5 @@
 - (void)setIdentifiedSearchResult:(id)inValue;
 - (id)identifiedSearchResult;
 
+- (void)updateForNewEncoding;
 @end

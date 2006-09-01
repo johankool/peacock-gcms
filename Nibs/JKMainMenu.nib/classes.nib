@@ -10,6 +10,7 @@
                 exportSummary = id; 
                 fitChromatogramDataToView = id; 
                 fitSpectrumDataToView = id; 
+                fix = id; 
                 identifyCompounds = id; 
                 identifyPeaks = id; 
                 obtainBaseline = id; 

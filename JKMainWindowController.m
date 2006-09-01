@@ -115,6 +115,12 @@ static void *SpectrumObservationContext = (void *)1102;
 	[[self document] removeObserver:self forKeyPath:@"metadata.sampleCode"];
 	[[self document] removeObserver:self forKeyPath:@"metadata.sampleDescription"];
 
+    [self removeObserver:self forKeyPath:@"showTICTrace"];
+	[self removeObserver:self forKeyPath:@"showSpectrum"];
+	[self removeObserver:self forKeyPath:@"showCombinedSpectrum"];
+	[self removeObserver:self forKeyPath:@"showLibraryHit"];
+	[self removeObserver:self forKeyPath:@"showNormalizedSpectra"];
+    
     [super dealloc];
 }
 
@@ -593,7 +599,7 @@ static void *SpectrumObservationContext = (void *)1102;
 		
 		// Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
 		[toolbarItem setToolTip:NSLocalizedString(@"Save Your Document",@"")];
-		[toolbarItem setImage: [NSImage imageNamed: @"SaveDocumentItemImage"]];
+		[toolbarItem setImage: [NSImage imageNamed:@"save_document"]];
 		
 		// Tell the item what message to send when it is clicked 
 		[toolbarItem setTarget: [self document]];
@@ -605,7 +611,7 @@ static void *SpectrumObservationContext = (void *)1102;
 		
 		// Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
 		[toolbarItem setToolTip:NSLocalizedString(@"Identify the peaks in your chromatogram",@"")];
-		[toolbarItem setImage: [NSImage imageNamed: @"questionmark"]];
+		[toolbarItem setImage: [NSImage imageNamed: @"question_mark"]];
 		
 		// Tell the item what message to send when it is clicked 
 		[toolbarItem setTarget: self];
@@ -617,7 +623,7 @@ static void *SpectrumObservationContext = (void *)1102;
 		
 		// Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
 		[toolbarItem setToolTip:NSLocalizedString(@"Identify the compounds associated with the peaks in your chromatogram",@"")];
-		[toolbarItem setImage: [NSImage imageNamed: @"questionmark"]];
+		[toolbarItem setImage: [NSImage imageNamed: @"question_mark"]];
 		
 		// Tell the item what message to send when it is clicked 
 		[toolbarItem setTarget: self];

@@ -21,7 +21,7 @@
 NSString *const JKGCMSDocument_DocumentDeactivateNotification = @"JKGCMSDocument_DocumentDeactivateNotification";
 NSString *const JKGCMSDocument_DocumentActivateNotification   = @"JKGCMSDocument_DocumentActivateNotification";
 NSString *const JKGCMSDocument_DocumentLoadedNotification     = @"JKGCMSDocument_DocumentLoadedNotification";
-int const JKGCMSDocument_Version = 3;
+int const JKGCMSDocument_Version = 4;
 
 @implementation JKGCMSDocument
 
@@ -59,9 +59,14 @@ int const JKGCMSDocument_Version = 3;
 
 - (void)dealloc  
 {
-	//[self setPeaks:nil];
+    NSEnumerator *e = [peaks objectEnumerator];
+	JKPeakRecord *peak;
+	while ((peak = [e nextObject])) {
+		[self stopObservingPeak:peak];
+	}    
 	[peaks release];
-	[baseline release];
+	
+    [baseline release];
 	[metadata release];
 	[chromatograms release];
 	[baselineWindowWidth release];
@@ -173,11 +178,18 @@ int const JKGCMSDocument_Version = 3;
 		data = [[[wrapper fileWrappers] valueForKey:@"peacock-data"] regularFileContents];
 		unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
 		int version = [unarchiver decodeIntForKey:@"version"];
-		if (version < JKGCMSDocument_Version) {
-			NSRunAlertPanel(@"File format no longer supported",@"The file you are trying to open was saved with an earlier beta-version of Peacock. It can be opened, but its content is partially incomplete.",@"Continue",nil,nil);
+		if (version < 3) {
+			NSRunAlertPanel(@"File format no longer supported",@"The file you are trying to open was saved with an earlier beta-version of Peacock. It can be opened, but its content is partially incomplete. To fix this, press after loading the key combination \"shift-control-option-command O.\"",@"Continue",nil,nil);
 			[unarchiver setClass:[JKDataModelProxy class] forClassName:@"JKDataModel"];
 			JKDataModelProxy *dataModel = [unarchiver decodeObjectForKey:@"dataModel"];
 			peaks = [[dataModel peaks] retain];
+            NSEnumerator *e = [peaks objectEnumerator];
+            JKPeakRecord *peak;
+            e = [peaks objectEnumerator];
+            while ((peak = [e nextObject])) {
+                [self startObservingPeak:peak];
+            }
+            
 			baseline = [[dataModel baseline] retain];
 			metadata = [[dataModel metadata] retain];
 			// These are not stored but refetched from cdf file when needed
@@ -190,6 +202,8 @@ int const JKGCMSDocument_Version = 3;
 			if (result) {
 				peacockFileWrapper = wrapper;
 			}
+            
+            
 			return result;	
 			
 		}
@@ -225,6 +239,7 @@ int const JKGCMSDocument_Version = 3;
 		if (result) {
 			peacockFileWrapper = wrapper;
 		}
+                
 		return result;	
 	} else {
 		return NO;
@@ -978,6 +993,19 @@ int const JKGCMSDocument_Version = 3;
 	[[self undoManager] setActionName:NSLocalizedString(@"Reset to Default Values",@"Reset to Default Values")];
 }
 
+- (IBAction)fix:(id)sender 
+{
+    NSRunAlertPanel(@"Fix old file-format",@"Do not switch to another window until done.",@"Fix",nil,nil);
+    NSEnumerator *e = [[self peaks] objectEnumerator];
+    JKPeakRecord *peak;
+    e = [[self peaks] objectEnumerator];
+    while ((peak = [e nextObject])) {
+        [peak updateForNewEncoding];
+    }
+    NSRunAlertPanel(@"Finished Fix",@"Save your file to save it in the new file format.",@"Done",nil,nil);
+    [self saveDocumentAs:self];
+}
+
 #pragma mark HELPER ACTIONS
 
 - (float)timeForScan:(int)scan  
@@ -1530,12 +1558,12 @@ boolAccessor(abortAction, setAbortAction)
 
 - (void)startObservingPeak:(JKPeakRecord *)peak
 {
-	[peak addObserver:self forKeyPath:@"label" options:NSKeyValueObservingOptionOld context:nil];
+//	[peak addObserver:self forKeyPath:@"label" options:NSKeyValueObservingOptionOld context:nil];
 }
 
 - (void)stopObservingPeak:(JKPeakRecord *)peak
 {
-	[peak removeObserver:self forKeyPath:@"label"];
+//	[peak removeObserver:self forKeyPath:@"label"];
 }
 
 @end

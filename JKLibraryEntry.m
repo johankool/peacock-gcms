@@ -618,7 +618,14 @@ idUndoAccessor(symbol, setSymbol, @"Change Symbol")
 			molString = [[coder decodeObjectForKey:@"molString"] retain];
 			symbol = [[coder decodeObjectForKey:@"symbol"] retain];
 			massWeight = [[coder decodeObjectForKey:@"massWeight"] retain];
-			retentionIndex = [[coder decodeObjectForKey:@"retentionIndex"] retain];
+            if (![massWeight isKindOfClass:[NSNumber class]]) {
+                massWeight = [[NSNumber numberWithFloat:[massWeight floatValue]] retain];
+            }
+            // these values weren't stored in version 1
+            xFactor = [[NSNumber numberWithFloat:0.0] retain];
+            yFactor = [[NSNumber numberWithFloat:0.0] retain];
+            retentionIndex = [[NSNumber numberWithFloat:0.0] retain];
+
 			numberOfPoints = [coder decodeIntForKey:@"numberOfPoints"];
 			
 			const uint8_t *temporary = NULL; //pointer to a temporary buffer returned by the decoder.

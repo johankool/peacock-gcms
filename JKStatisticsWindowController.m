@@ -329,7 +329,9 @@
 	BOOL isKnownCombinedPeak, isUnknownCompound;
 	float scoreResult, maxScoreResult;
 	NSDate *date = [NSDate date];
-	
+	int peakCount;
+    float certainty;
+    
 	NSMutableArray *peaksArray;
 	JKPeakRecord *peak;
 	NSMutableDictionary *combinedPeak;
@@ -399,7 +401,7 @@
 				} 					
 			} else { // Or if it's an unidentified peak, match according to score
 				isUnknownCompound = YES;
-				if (fabsf([[peak retentionIndex] floatValue] - [[combinedPeak valueForKey:@"retentionIndex"] floatValue]) < 300.0) {
+				if (fabsf([[peak retentionIndex] floatValue] - [[combinedPeak valueForKey:@"retentionIndex"] floatValue]) < 500.0) {
 					//NSAssert([combinedPeak valueForKey:@"spectrum"], [combinedPeak description]);
 					peaksCompared++;
 					scoreResult  = [spectrum scoreComparedToSpectrum:[combinedPeak valueForKey:@"spectrum"]];
@@ -421,13 +423,26 @@
 			if (!isUnknownCompound) {
 				NSAssert([peak spectrum], [peak description]);
 				NSAssert([[peak spectrum] normalizedSpectrum], [peak description]);
-				combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:peakName, @"label", peak, [NSString stringWithFormat:@"file_%d",index], [peak topTime], @"topTime", [[peak spectrum] normalizedSpectrum], @"spectrum", nil];
+				combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:peakName, @"label", 
+                    peak, [NSString stringWithFormat:@"file_%d",index], 
+                    [peak retentionIndex], @"retentionIndex", 
+                    [[peak spectrum] normalizedSpectrum], @"spectrum", 
+                    [NSNumber numberWithInt:1], @"peakCount", 
+                    [NSNumber numberWithFloat:1.0], @"certainty", 
+                    nil];
+//				NSLog(@"%@", [combinedPeak description]);
 				[peakToAddToCombinedPeaks addObject:combinedPeak];	
 				[combinedPeak release];
 			} else {
 				NSAssert([peak spectrum], [peak description]);
-				combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:NSLocalizedString(@"Unknown compound %d ",@"Unknown compounds in stats summary."), unknownCount], @"label", peak, [NSString stringWithFormat:@"file_%d",index], [peak retentionIndex], @"retentionIndex", [[peak spectrum] normalizedSpectrum], @"spectrum", nil];
-				//NSLog(@"%@", [combinedPeak description]);
+				combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:NSLocalizedString(@"Unknown compound %d ",@"Unknown compounds in stats summary."), unknownCount], @"label", 
+                    peak, [NSString stringWithFormat:@"file_%d",index], 
+                    [peak retentionIndex], @"retentionIndex",
+                    [[peak spectrum] normalizedSpectrum], @"spectrum", 
+                    [NSNumber numberWithInt:1], @"peakCount", 
+                    [NSNumber numberWithFloat:0.0], @"certainty", 
+                    nil];
+//				NSLog(@"%@", [combinedPeak description]);
 				[peakToAddToCombinedPeaks addObject:combinedPeak];
 				[combinedPeak release];
 				unknownCount++;
@@ -435,21 +450,44 @@
 		} else {
 			combinedPeak = [combinedPeaks objectAtIndex:knownCombinedPeakIndex];
 			if ([combinedPeak objectForKey:[NSString stringWithFormat:@"file_%d",index]]) {
-				
+				// Should average with spectrum of combinedpeak?
 				if ([[combinedPeak objectForKey:[NSString stringWithFormat:@"maxScoreResult_%d",index]] floatValue] < maxScoreResult) {
 					[combinedPeak setObject:peak forKey:[NSString stringWithFormat:@"file_%d",index]];		
-					[combinedPeak setObject:[NSNumber numberWithFloat:maxScoreResult] forKey:[NSString stringWithFormat:@"maxScoreResult_%d",index]];		
-					
 				} else {
 					//JKLogError(@"Peak matching peak '%@' encountered and ignored in file %d: %@",[combinedPeak valueForKey:@"label"], index, [document displayName]);
-					
 				}
 			} else {
-				[combinedPeak setObject:peak forKey:[NSString stringWithFormat:@"file_%d",index]];		
-				[combinedPeak setObject:[NSNumber numberWithFloat:maxScoreResult] forKey:[NSString stringWithFormat:@"maxScoreResult_%d",index]];		
-				
-			}
+				[combinedPeak setObject:peak forKey:[NSString stringWithFormat:@"file_%d",index]];
+            }
+            
+            [combinedPeak setObject:[NSNumber numberWithFloat:maxScoreResult] forKey:[NSString stringWithFormat:@"maxScoreResult_%d",index]];	
+            peakCount = [[combinedPeak valueForKey:@"peakCount"] intValue];
+            certainty = [[combinedPeak valueForKey:@"certainty"] intValue];
+            if (isUnknownCompound) {
+                certainty = (certainty*peakCount)/(peakCount+1);               
+            } else {
+                certainty = (certainty*peakCount + 1.0)/(peakCount+1);
+            }
+            peakCount++;
+            [combinedPeak setValue:[NSNumber numberWithInt:peakCount] forKey:@"peakCount"];
+            [combinedPeak setValue:[NSNumber numberWithFloat:certainty] forKey:@"certainty"];
+            NSAssert(combinedPeak, [combinedPeak description]);
+            NSAssert([combinedPeak objectForKey:@"spectrum"] != nil, [combinedPeak description]);
+            spectrum = [[combinedPeak objectForKey:@"spectrum"] spectrumByAveragingWithSpectrum:[peak spectrum] withWeight:1.0/peakCount];
+            NSAssert(spectrum, @"no spectrum returned");
+            [combinedPeak setObject:spectrum forKey:@"spectrum"];
+                
 			
+			// If the combined peak has a meaningless label, but the new has, replace
+            if ([[combinedPeak valueForKey:@"label"] hasPrefix:NSLocalizedString(@"Unknown compound",@"Unknown compounds in stats summary.")]) {
+                if ([peak confirmed]) {
+//                    NSLog([peak valueForKey:@"label"]);
+                    [combinedPeak setObject:[[peak valueForKey:@"label"] stringByAppendingString:@"?"] forKey:@"label"];
+                } else if (![[peak valueForKey:@"label"] isEqualToString:@""] && [peak valueForKey:@"label"]) {
+//                    NSLog([peak valueForKey:@"label"]);
+                    [combinedPeak setObject:[peak valueForKey:@"label"] forKey:@"label"];
+                }
+            }
 		}
 	} 	
 	
@@ -884,6 +922,7 @@
 	/* if successful, save file under designated name */
 	if (runResult == NSOKButton) {
 		NSMutableString *outStr = [[NSMutableString alloc] init]; 
+//		NSMutableString *outStr = [NSMutableString stringWithCString:"\t"];
 		int i,j;
 		int fileCount = [[[self metadata] objectAtIndex:0] count]-1;
 		int compoundCount = [combinedPeaks count];
@@ -897,85 +936,86 @@
 		[combinedPeaks sortUsingDescriptors:sortDescriptors];
 		[retentionIndexDescriptor release];
 		
-		
-		[outStr appendString:@"Sample code\\t\\t\\t\\t\\t\\t"];
+		[outStr appendString:@"Sample code\t\t\t\t\t\t"];
 		for (i=0; i < fileCount; i++) {
-			[outStr appendFormat:@"\\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]] ];
+			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]] ];
 		}
-		[outStr appendString:@"\\n"];
+		[outStr appendString:@"\n"];
 
-		[outStr appendString:@"Sample description\\t\\t\\t\\t\\t\\t"];
+		[outStr appendString:@"Sample description\t\t\t\t\t\t"];
 		for (i=0; i < fileCount; i++) {
-			[outStr appendFormat:@"\\t%@", [[[self metadata] objectAtIndex:1] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:1] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
 		}
-		[outStr appendString:@"\\n"];
+		[outStr appendString:@"\n"];
 		
-		[outStr appendString:@"File path\\t\\t\\t\\t\\t\\t"];
+		[outStr appendString:@"File path\t\t\t\t\t\t"];
 		for (i=0; i < fileCount; i++) {
-			[outStr appendFormat:@"\\t%@", [[[self metadata] objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
 		}
-		[outStr appendString:@"\\n"];
+		[outStr appendString:@"\n"];
 		
-		[outStr appendString:@"\\nNormalized height\\n#\\tCompound\\tCount\\tAverage retention index\\tStandard deviation retention index\\tAverage height\\tStandard deviation height"];
+		[outStr appendString:@"\nNormalized height\n#\tCompound\tCertainty\tCount\tAverage retention index\tStandard deviation retention index\tAverage height\tStandard deviation height"];
 		for (i=0; i < fileCount; i++) { // Sample code
-			[outStr appendFormat:@"\\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
 		}
-		[outStr appendString:@"\\n"];
+		[outStr appendString:@"\n"];
 		for (j=0; j < compoundCount; j++) {
-			[outStr appendFormat:@"%d\\t", j+1];
-			[outStr appendFormat:@"%@\\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"label"]];
-			[outStr appendFormat:@"%d\\t", [[[[self combinedPeaks] objectAtIndex:j] valueForKey:@"compoundCount"] intValue]];
-			[outStr appendFormat:@"%@\\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageRetentionIndex"]];
-			[outStr appendFormat:@"%@\\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationRetentionIndex"]];
-			[outStr appendFormat:@"%@\\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageHeight"]];
+			[outStr appendFormat:@"%d\t", j+1];
+			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"label"]];
+			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"certainty"]];
+			[outStr appendFormat:@"%d\t", [[[[self combinedPeaks] objectAtIndex:j] valueForKey:@"compoundCount"] intValue]];
+			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageRetentionIndex"]];
+			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationRetentionIndex"]];
+			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageHeight"]];
 			[outStr appendFormat:@"%@",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationHeight"]];
 			for (i=0; i < fileCount; i++) {
 				normalizedHeight = [[[[[self combinedPeaks] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"normalizedHeight"] stringValue];
 				if (normalizedHeight != nil) {
-					[outStr appendFormat:@"\\t%@", normalizedHeight];					
+					[outStr appendFormat:@"\t%@", normalizedHeight];					
 				} else {
-					[outStr appendString:@"\\t-"];										
+					[outStr appendString:@"\t-"];										
 				}
 			}
-			[outStr appendString:@"\\n"];
+			[outStr appendString:@"\n"];
 		}
 		
-		[outStr appendString:@"\\nNormalized surface\\n#\\tCompound\\tCount\\tAverage retention index\\tStandard deviation retention index\\tAverage surface\\tStandard deviation surface"];
+		[outStr appendString:@"\nNormalized surface\n#\tCompound\tCertainty\tCount\tAverage retention index\tStandard deviation retention index\tAverage surface\tStandard deviation surface"];
 		for (i=0; i < fileCount; i++) { // Sample code
-			[outStr appendFormat:@"\\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
 		}
-		[outStr appendString:@"\\n"];
+		[outStr appendString:@"\n"];
 		for (j=0; j < compoundCount; j++) {
-			[outStr appendFormat:@"%d\\t", j+1];
-			[outStr appendFormat:@"%@\\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"label"]];
-			[outStr appendFormat:@"%d\\t", [[[[self combinedPeaks] objectAtIndex:j] valueForKey:@"compoundCount"] intValue]];
-			[outStr appendFormat:@"%@\\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageRetentionIndex"]];
-			[outStr appendFormat:@"%@\\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationRetentionIndex"]];
-			[outStr appendFormat:@"%@\\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageSurface"]];
+			[outStr appendFormat:@"%d\t", j+1];
+			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"label"]];
+			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"certainty"]];
+			[outStr appendFormat:@"%d\t", [[[[self combinedPeaks] objectAtIndex:j] valueForKey:@"compoundCount"] intValue]];
+			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageRetentionIndex"]];
+			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationRetentionIndex"]];
+			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageSurface"]];
 			[outStr appendFormat:@"%@",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationSurface"]];
 			for (i=0; i < fileCount; i++) {
 				normalizedSurface = [[[[[self combinedPeaks] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"normalizedSurface"] stringValue];
 				if (normalizedSurface != nil) {
-					[outStr appendFormat:@"\\t%@", normalizedSurface];					
+					[outStr appendFormat:@"\t%@", normalizedSurface];					
 				} else {
-					[outStr appendString:@"\\t-"];										
+					[outStr appendString:@"\t-"];										
 				}
 			}
-			[outStr appendString:@"\\n"];
+			[outStr appendString:@"\n"];
 		}
 		
 		int ratiosCount = [ratios count];
-		[outStr appendString:@"\\nRatios\\nLabel\\t\\t\\t\\t\\t\\t"];
+		[outStr appendString:@"\nRatios\nLabel\t\t\t\t\t\t"];
 		for (i=0; i < fileCount; i++) { // Sample code
-			[outStr appendFormat:@"\\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
 		}
-		[outStr appendString:@"\\n"];
+		[outStr appendString:@"\n"];
 		for (j=0; j < ratiosCount; j++) {
-			[outStr appendFormat:@"%@\\t\\t\\t\\t\\t\\t", [[[self ratios] objectAtIndex:j] valueForKey:@"name"]];
+			[outStr appendFormat:@"%@\t\t\t\t\t\t", [[[self ratios] objectAtIndex:j] valueForKey:@"name"]];
 			for (i=0; i < fileCount; i++) {
-				[outStr appendFormat:@"\\t%@", [[[self ratioValues] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d.ratioResult",i]] ];
+				[outStr appendFormat:@"\t%@", [[[self ratioValues] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d.ratioResult",i]] ];
 			}
-			[outStr appendString:@"\\n"];
+			[outStr appendString:@"\n"];
 		}
 
 		if (![outStr writeToFile:[sp filename] atomically:YES encoding:NSUTF8StringEncoding error:NULL])

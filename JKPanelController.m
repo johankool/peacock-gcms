@@ -317,19 +317,19 @@ static JKPanelController *theSharedController;
 		if ([[sender itemIdentifier] isEqualToString:@"info"]) {
 			deltaHeight = [infoPanelView frame].size.height - [[[self window] contentView] frame].size.height;
 			[[self window] setContentView:infoPanelView];
-			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:NO];
+			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
 		} else if ([[sender itemIdentifier] isEqualToString:@"processing"]) {
 			deltaHeight = [processingPanelView frame].size.height - [[[self window] contentView] frame].size.height;
 			[[self window] setContentView:processingPanelView];
-			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:NO];
+			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
 		} else if ([[sender itemIdentifier] isEqualToString:@"view"]) {
 			deltaHeight = [viewPanelView frame].size.height - [[[self window] contentView] frame].size.height;
 			[[self window] setContentView:viewPanelView];
-			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:NO];
+			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
 		} else if ([[sender itemIdentifier] isEqualToString:@"display"]) {
 			deltaHeight = [displayPanelView frame].size.height - [[[self window] contentView] frame].size.height;
 			[[self window] setContentView:displayPanelView];
-			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:NO];
+			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
 		} else {
 			[[self window] setContentView:naPanelView];
 		}		

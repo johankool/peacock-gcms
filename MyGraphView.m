@@ -1050,7 +1050,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		}		
 	} else {
 		if ([theEvent modifierFlags] & NSAlternateKeyMask) {
-			NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoomIn"] hotSpot:NSMakePoint(10,12)];
+			NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom_in"] hotSpot:NSMakePoint(10,12)];
 			[zoomCursor set];
 			[zoomCursor release];
 			draggedRect.origin.x = (_mouseDownAtPoint.x < mouseLocation.x ? _mouseDownAtPoint.x : mouseLocation.x);
@@ -1228,11 +1228,11 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	if (!_didDrag){
 		if (isInsidePlottingArea) {		
 			if (([theEvent modifierFlags] & NSAlternateKeyMask ) && ([theEvent modifierFlags] & NSShiftKeyMask )) {
-				NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoomOut"] hotSpot:NSMakePoint(12,10)];
+				NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom_out"] hotSpot:NSMakePoint(12,10)];
 				[zoomCursor set];
 				[zoomCursor release];
 			} else if ([theEvent modifierFlags] & NSAlternateKeyMask ) {
-				NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoomIn"] hotSpot:NSMakePoint(12,10)];
+				NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom_in"] hotSpot:NSMakePoint(12,10)];
 				[zoomCursor set];
 				[zoomCursor release];
 			} else {

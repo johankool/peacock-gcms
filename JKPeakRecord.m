@@ -291,6 +291,7 @@
 
 - (JKSpectrum *)spectrum  
 {
+    NSAssert(spectrum != nil, @"spectrum is nil");
     return spectrum;
 }
 
@@ -435,7 +436,7 @@
 {
     if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
 		[coder encodeInt:3 forKey:@"version"];
-		[coder encodeConditionalObject:document forKey:@"document"]; // weak reference
+		[coder encodeConditionalObject:document forKey:@"document"];
 		[coder encodeObject:peakID forKey:@"peakID"];
 		[coder encodeObject:start forKey:@"start"];
         [coder encodeObject:end forKey:@"end"];
@@ -452,8 +453,6 @@
         [coder encodeBool:identified forKey:@"identified"];
 		[coder encodeBool:confirmed forKey:@"confirmed"];
 		[coder encodeObject:identifiedSearchResult forKey:@"identifiedSearchResult"];
- //       [coder encodeObject:score forKey:@"score"];
-//        [coder encodeObject:libraryHit forKey:@"libraryHit"];
 		[coder encodeObject:retentionIndex forKey:@"retentionIndex"];
 		[coder encodeObject:searchResults forKey:@"searchResults"];
 		[coder encodeObject:spectrum forKey:@"spectrum"];
@@ -464,15 +463,21 @@
 - (id)initWithCoder:(NSCoder *)coder
 {
     if ( [coder allowsKeyedCoding] ) {
-        // Can decode keys in any order
 		int version = [coder decodeIntForKey:@"version"];
-		document = [coder decodeObjectForKey:@"document"]; // weak reference
+		document = [coder decodeObjectForKey:@"document"]; 
+        // Support for reading in old file-format
+        if (document == nil) {
+            _needsUpdating = YES;
+            _libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain];
+            _score = [[coder decodeObjectForKey:@"score"] retain];
+        }
 		peakID = [[coder decodeObjectForKey:@"peakID"] retain];
 		start = [[coder decodeObjectForKey:@"start"] retain];
         end = [[coder decodeObjectForKey:@"end"] retain];
         top = [[coder decodeObjectForKey:@"top"] retain];
         height = [[coder decodeObjectForKey:@"height"] retain];
         normalizedHeight = [[coder decodeObjectForKey:@"normalizedHeight"] retain];
+        // Support for reading in old file-format
 		if (version < 3) {
 			baselineLeft = [[coder decodeObjectForKey:@"baselineL"] retain];
 			baselineRight = [[coder decodeObjectForKey:@"baselineR"] retain];
@@ -487,27 +492,54 @@
         identified = [coder decodeBoolForKey:@"identified"];
 		confirmed = [coder decodeBoolForKey:@"confirmed"];
 		identifiedSearchResult = [[coder decodeObjectForKey:@"identifiedSearchResult"] retain];
-		//        score = [[coder decodeObjectForKey:@"score"] retain];
-//        libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain];
 		retentionIndex = [[coder decodeObjectForKey:@"retentionIndex"] retain];
 		searchResults = [[coder decodeObjectForKey:@"searchResults"] retain];
-		if (version < 3) {
-			//identifiedSearchResult = [[coder decodeObjectForKey:@"libraryHit"] retain];
-			spectrum = [[JKSpectrum alloc] init];
-			float npts = [document endValuesSpectrum:[top intValue]] - [document startValuesSpectrum:[top intValue]];
-			float *xpts = [document xValuesSpectrum:[top intValue]];
-			float *ypts = [document yValuesSpectrum:[top intValue]];
-			[spectrum setMasses:xpts withCount:npts];
-			[spectrum setIntensities:ypts withCount:npts];
-			[spectrum setDocument:document];
-			free(xpts);
-			free(ypts);
-			[self setSpectrum:spectrum];
-		} else {
-			spectrum = [[coder decodeObjectForKey:@"spectrum"] retain];			
-		}
+        spectrum = [[coder decodeObjectForKey:@"spectrum"] retain];		
 	} 
     return self;
+}
+
+- (void)updateForNewEncoding {
+    if (_needsUpdating) {
+        // A bit of a hack really
+        document = [[NSDocumentController sharedDocumentController] currentDocument];
+        NSAssert(document != nil, @"updateForNewEncoding - No document found");
+        spectrum = [[JKSpectrum alloc] init];
+        float npts = [document endValuesSpectrum:[top intValue]] - [document startValuesSpectrum:[top intValue]];
+        float *xpts = [document xValuesSpectrum:[top intValue]];
+        float *ypts = [document yValuesSpectrum:[top intValue]];
+        [spectrum setMasses:xpts withCount:npts];
+        [spectrum setIntensities:ypts withCount:npts];
+        [spectrum setDocument:document];
+        free(xpts);
+        free(ypts);
+        [self setSpectrum:spectrum];
+        // Don't release now because no spectrum is yet set in init
+        // [spectrum release];
+
+        searchResults = [[NSMutableArray alloc] init];
+
+        if (identified && ((_score != nil) && (_libraryHit != nil))) {
+            
+            NSMutableDictionary *searchResult = [[NSMutableDictionary alloc] init];
+			[searchResult setValue:_score forKey:@"score"];
+			[searchResult setValue:_libraryHit forKey:@"libraryHit"];
+
+            [self willChangeValueForKey:@"libraryHit"];
+            [self setIdentifiedSearchResult:searchResult];
+            // Initial default settings after identification, but can be customized by user later on
+            [self setSymbol:[searchResult valueForKeyPath:@"libraryHit.symbol"]];
+            
+            if (![searchResults containsObject:searchResult]) {
+                [self willChangeValueForKey:@"searchResultCount"];
+                [searchResults insertObject:searchResult atIndex:[searchResults count]];
+                [self didChangeValueForKey:@"searchResultCount"];
+            }
+            [self didChangeValueForKey:@"libraryHit"];
+            
+			[searchResult release];
+        }
+    }
 }
 
 @end
