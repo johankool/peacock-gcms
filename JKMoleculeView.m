@@ -42,7 +42,8 @@
 - (void)drawRect:(NSRect)rect {
 	if (![self model] | ([[[self model] atoms] count] == 0)) {
 		NSString *noModelString = @"Structure data not available";
-		[noModelString drawAtPoint:NSMakePoint([self bounds].size.width/2,[self bounds].size.height/2) withAttributes:nil];
+        NSSize noModelStringSize = [noModelString sizeWithAttributes:nil];
+		[noModelString drawAtPoint:NSMakePoint([self bounds].size.width/2-noModelStringSize.width/2,[self bounds].size.height/2) withAttributes:nil];
 		return;
 	}
     if ([[[self model] atoms] count] > 0) {

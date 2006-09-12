@@ -39,6 +39,7 @@
                 chromatogramView = MyGraphView; 
                 mainController = NSObjectController; 
                 mainWindowSplitView = NSView; 
+                moleculeView = JKMoleculeView; 
                 peakController = NSArrayController; 
                 peaksTable = NSTableView; 
                 printAccessoryView = NSView; 
@@ -52,6 +53,7 @@
             }; 
             SUPERCLASS = NSWindowController; 
         }, 
+        {CLASS = JKMoleculeView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {CLASS = JKPathPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {
             ACTIONS = {centerOrigin = id; lowerLeftOrigin = id; showAll = id; squareAxes = id; }; 

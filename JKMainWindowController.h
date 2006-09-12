@@ -13,6 +13,7 @@
 @class JKPeakRecord;
 @class JKSpectrum;
 @class MyGraphView;
+@class JKMoleculeView;
 
 enum JKPeakSelection {
 	JKAllPeaks,
@@ -37,7 +38,10 @@ enum JKPeakSelection {
 	// Peak list
 	IBOutlet NSArrayController *peakController;    
     IBOutlet NSTableView *peaksTable;    
-	
+
+	// MoleculeView
+    IBOutlet JKMoleculeView *moleculeView;
+
 	// Library
 	IBOutlet NSArrayController *searchResultsController;    
     IBOutlet NSTableView *resultsTable;    

@@ -392,6 +392,7 @@ static void *PropertyObservationContext = (void *)1093;
 	[inValue retain];
     [seriesColor autorelease];
     seriesColor = inValue;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];
 }
 - (int)seriesType  
 {
@@ -430,6 +431,7 @@ static void *PropertyObservationContext = (void *)1093;
 	[inValue retain];
 	[verticalScale autorelease];
 	verticalScale = inValue;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];
 }
 
 - (NSArray *)oldData { 

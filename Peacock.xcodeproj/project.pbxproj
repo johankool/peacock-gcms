@@ -82,6 +82,7 @@
 		C7AD34C908AFA20800A0F4BE /* JKPeakRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */; };
 		C7AD38AD08B2A0D600A0F4BE /* FilteringDNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */; };
 		C7B3159B0956CE610017ADDC /* JKStatisticsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C785905509541F250083EC22 /* JKStatisticsWindowController.m */; };
+		C7B9BA2D0AA881AE00250EFE /* view.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7B9BA2C0AA881AE00250EFE /* view.tiff */; };
 		C7BC505309A62C930093106E /* JKLog.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC505109A62C930093106E /* JKLog.h */; };
 		C7BC505409A62C930093106E /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
 		C7C21FC60A5060E2006E82FD /* Peacock.sdef in Resources */ = {isa = PBXBuildFile; fileRef = C7C21FC50A5060E2006E82FD /* Peacock.sdef */; };
@@ -111,6 +112,7 @@
 		C7F5E8F508EAA98600AC1068 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKLibraryEntry.m */; };
 		C7F897400A188B0D00A65A24 /* JKPathPopUpButton.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8973E0A188B0D00A65A24 /* JKPathPopUpButton.h */; };
 		C7F897410A188B0D00A65A24 /* JKPathPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8973F0A188B0D00A65A24 /* JKPathPopUpButton.m */; };
+		C7FBE1E40AB6F1A4000E7EF2 /* presets.png in Resources */ = {isa = PBXBuildFile; fileRef = C7FBE1E30AB6F1A4000E7EF2 /* presets.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -221,6 +223,7 @@
 		C7A7BB540A9DE6E0005E3778 /* save_document.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = save_document.tiff; sourceTree = "<group>"; };
 		C7AD38AB08B2A0D600A0F4BE /* FilteringDNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FilteringDNDArrayController.h; sourceTree = "<group>"; };
 		C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FilteringDNDArrayController.m; sourceTree = "<group>"; };
+		C7B9BA2C0AA881AE00250EFE /* view.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = view.tiff; sourceTree = "<group>"; };
 		C7BC505109A62C930093106E /* JKLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKLog.h; sourceTree = "<group>"; };
 		C7BC505209A62C930093106E /* JKLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLog.m; sourceTree = "<group>"; };
 		C7C21FC50A5060E2006E82FD /* Peacock.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = Peacock.sdef; sourceTree = "<group>"; };
@@ -275,6 +278,7 @@
 		C7F5E8F408EAA98600AC1068 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = "<group>"; };
 		C7F8973E0A188B0D00A65A24 /* JKPathPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKPathPopUpButton.h; sourceTree = "<group>"; };
 		C7F8973F0A188B0D00A65A24 /* JKPathPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKPathPopUpButton.m; sourceTree = "<group>"; };
+		C7FBE1E30AB6F1A4000E7EF2 /* presets.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = presets.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -639,15 +643,15 @@
 		C7EB17B00898CF2E007FC2ED /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				C7A7BB2D0A9DE5D3005E3778 /* library_document.icns */,
+				C7A7BB330A9DE5D3005E3778 /* aia_document.icns */,
+				C7A7BB320A9DE5D3005E3778 /* andi_document.icns */,
 				C7A7BB2E0A9DE5D3005E3778 /* atlas_document.icns */,
+				C7A7BB350A9DE5D3005E3778 /* hpchem_document.icns */,
+				C7A7BB2D0A9DE5D3005E3778 /* library_document.icns */,
+				C7A7BB340A9DE5D3005E3778 /* netcdf_document.icns */,
+				C7A7BB360A9DE5D3005E3778 /* peacock_application.icns */,
 				C7A7BB300A9DE5D3005E3778 /* peacock_document.icns */,
 				C7A7BB310A9DE5D3005E3778 /* peacock_preferences.icns */,
-				C7A7BB320A9DE5D3005E3778 /* andi_document.icns */,
-				C7A7BB330A9DE5D3005E3778 /* aia_document.icns */,
-				C7A7BB340A9DE5D3005E3778 /* netcdf_document.icns */,
-				C7A7BB350A9DE5D3005E3778 /* hpchem_document.icns */,
-				C7A7BB360A9DE5D3005E3778 /* peacock_application.icns */,
 			);
 			path = Icons;
 			sourceTree = "<group>";
@@ -655,19 +659,21 @@
 		C7EB17C00898CF2E007FC2ED /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				C7A7BB480A9DE6E0005E3778 /* question_mark.tiff */,
-				C7A7BB490A9DE6E0005E3778 /* zoom_out.tiff */,
-				C7A7BB4A0A9DE6E0005E3778 /* processing.tiff */,
-				C7A7BB4B0A9DE6E0005E3778 /* info.icns */,
-				C7A7BB4C0A9DE6E0005E3778 /* general.tiff */,
-				C7A7BB4D0A9DE6E0005E3778 /* find.icns */,
-				C7A7BB4E0A9DE6E0005E3778 /* zoom_in.tiff */,
-				C7A7BB4F0A9DE6E0005E3778 /* text.tiff */,
-				C7A7BB500A9DE6E0005E3778 /* zoom.tiff */,
 				C7A7BB510A9DE6E0005E3778 /* display.tiff */,
-				C7A7BB520A9DE6E0005E3778 /* warning.tiff */,
+				C7A7BB4D0A9DE6E0005E3778 /* find.icns */,
+				C7A7BB4C0A9DE6E0005E3778 /* general.tiff */,
+				C7A7BB4B0A9DE6E0005E3778 /* info.icns */,
 				C7A7BB530A9DE6E0005E3778 /* layout.tiff */,
+				C7A7BB4A0A9DE6E0005E3778 /* processing.tiff */,
+				C7A7BB480A9DE6E0005E3778 /* question_mark.tiff */,
 				C7A7BB540A9DE6E0005E3778 /* save_document.tiff */,
+				C7A7BB4F0A9DE6E0005E3778 /* text.tiff */,
+				C7B9BA2C0AA881AE00250EFE /* view.tiff */,
+				C7A7BB520A9DE6E0005E3778 /* warning.tiff */,
+				C7A7BB500A9DE6E0005E3778 /* zoom.tiff */,
+				C7A7BB4E0A9DE6E0005E3778 /* zoom_in.tiff */,
+				C7A7BB490A9DE6E0005E3778 /* zoom_out.tiff */,
+				C7FBE1E30AB6F1A4000E7EF2 /* presets.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -824,6 +830,8 @@
 				C7A7BB5F0A9DE6E0005E3778 /* warning.tiff in Resources */,
 				C7A7BB600A9DE6E0005E3778 /* layout.tiff in Resources */,
 				C7A7BB610A9DE6E0005E3778 /* save_document.tiff in Resources */,
+				C7B9BA2D0AA881AE00250EFE /* view.tiff in Resources */,
+				C7FBE1E40AB6F1A4000E7EF2 /* presets.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

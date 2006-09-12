@@ -7,7 +7,8 @@
 //
 
 #import "JKMainWindowController.h"
-
+#import "JKMoleculeView.h"
+#import "JKMoleculeModel.h"
 #import "BDAlias.h"
 #import "ChromatogramGraphDataSerie.h"
 #import "JKGCMSDocument.h"
@@ -541,7 +542,9 @@ static void *SpectrumObservationContext = (void *)1102;
 
 - (IBAction)removeChromatogram:(id)sender
 {
+    [[self document] willChangeValueForKey:@"chromatograms"];
 	[[[self document] chromatograms] removeObjectAtIndex:[sender tag]];
+    [[self document] didChangeValueForKey:@"chromatograms"];
 }
 
 #pragma mark KEY VALUE OBSERVATION
@@ -554,6 +557,7 @@ static void *SpectrumObservationContext = (void *)1102;
 		NSArray *peakArray = [[peakController selectedObjects] valueForKeyPath:@"spectrum.spectrumDataSerie"];
 		NSArray *searchResultsArray = [[searchResultsController selectedObjects] valueForKeyPath:@"libraryHit.spectrumDataSerie"];
 		[spectrumDataSeriesController setContent:[peakArray arrayByAddingObjectsFromArray:searchResultsArray]];
+		[chromatogramView setNeedsDisplay:YES];
 	}
 	if (context == ChromatogramObservationContext) {
 		[chromatogramView setNeedsDisplay:YES];
@@ -564,6 +568,13 @@ static void *SpectrumObservationContext = (void *)1102;
 	if (context == DocumentObservationContext) {
 		[self synchronizeWindowTitleWithDocumentName];
 	}
+    if ([[[self searchResultsController] selectedObjects] count] > 0) {
+		[moleculeView setModel:[[JKMoleculeModel alloc] initWithMoleculeString:[[[[self searchResultsController] selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.molString"]]];
+		[spectrumView showAll:self];
+	} else {
+		[moleculeView setModel:nil];
+	}
+    
 }
 
 #pragma mark NSTOOLBAR MANAGEMENT

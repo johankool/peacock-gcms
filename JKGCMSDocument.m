@@ -381,32 +381,32 @@ int const JKGCMSDocument_Version = 4;
 	int i;
 	int count = [array count];
 	
-	[outStr appendString:NSLocalizedString(@"File\tID\tLabel\tScore\tIdentified\tConfirmed\tStart (scan)\tTop (scan)\tEnd (scan)\tStart (min)\tTop (min)\tEnd (min)\tHeight (normalized)\tSurface (normalized)\tHeight (abs.)\tWidth (scan)\tSurface (abs.)\tBaseline Left\tBaseline Right\tName (Lib.)\tFormula (Lib.)\tCAS No. (Lib.)\tRetention Index (Lib.)\tComment (Lib.)\n",@"Top row of tab delimited text export.")];
+	[outStr appendString:NSLocalizedString(@"File\tID\tLabel\tScore\tIdentified\tConfirmed\tStart (scan)\tTop (scan)\tEnd (scan)\tHeight (normalized)\tSurface (normalized)\tHeight (abs.)\tSurface (abs.)\tBaseline Left\tBaseline Right\tName (Lib.)\tFormula (Lib.)\tCAS No. (Lib.)\tRetention Index (Lib.)\tComment (Lib.)\n",@"Top row of tab delimited text export.")];
 	for (i=0; i < count; i++) {
 		[outStr appendFormat:@"%@\t", [self displayName]];
 		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"peakID"]];
 		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"label"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"score"]];
+		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKeyPath:@"identifiedSearchResult.score"]];
 		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"identified"]];
 		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"confirmed"]];
 		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"start"]];
 		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"top"]];
 		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"end"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"startTime"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"topTime"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"endTime"]];
+//		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"startTime"]];
+//		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"topTime"]];
+//		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"endTime"]];
 		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"normalizedHeight"]];
 		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"normalizedSurface"]];
 		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"height"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"width"]];
+//		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"width"]];
 		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"surface"]];
 		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"baselineLeft"]];
 		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"baselineRight"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKeyPath:@"libraryHit.name"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKeyPath:@"libraryHit.formula"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKeyPath:@"libraryHit.CASNumber"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKeyPath:@"libraryHit.retentionIndex"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKeyPath:@"libraryHit.comment"]];
+		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKeyPath:@"identifiedSearchResult.libraryHit.name"]];
+		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKeyPath:@"identifiedSearchResult.libraryHit.formula"]];
+		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKeyPath:@"identifiedSearchResult.libraryHit.CASNumber"]];
+		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKeyPath:@"identifiedSearchResult.libraryHit.retentionIndex"]];
+		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKeyPath:@"identifiedSearchResult.libraryHit.comment"]];
 		[outStr appendString:@"\n"];
 	}
 
@@ -610,8 +610,15 @@ int const JKGCMSDocument_Version = 4;
 	float baselineDistanceThresholdF = [[self baselineDistanceThreshold] floatValue];
 	float baselineSlopeThresholdF = [[self baselineSlopeThreshold] floatValue];
 	float baselineDensityThresholdF = [[self baselineDensityThreshold] floatValue];
+
+    [[self undoManager] registerUndoWithTarget:self
+                                      selector:@selector(setBaseline:)
+                                        object:[baseline copy]];
+    [[self undoManager] setActionName:NSLocalizedString(@"Identify Baseline",@"")];
+    
+	[self willChangeValueForKey:@"baseline"];
 	
-	[baseline removeAllObjects];
+    [baseline removeAllObjects];
 	
 	for (i = 0; i < count; i++) {
 		minimumSoFar = intensity[i];
@@ -652,6 +659,7 @@ int const JKGCMSDocument_Version = 4;
 		}
 	}
 	[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:count-1], @"Scan", [NSNumber numberWithFloat:intensity[count-1]], @"Total Intensity", [NSNumber numberWithFloat:time[count-1]], @"Time",nil]];
+	[self didChangeValueForKey:@"baseline"];
 }	
 
 - (void)identifyPeaks  
@@ -843,7 +851,7 @@ int const JKGCMSDocument_Version = 4;
 	NSColorList *peakColors;
 	NSArray *peakColorsArray;
 	
-	peakColors = [NSColorList colorListNamed:@"Peacock"];
+	peakColors = [NSColorList colorListNamed:@"Peacock Series"];
 	if (peakColors == nil) {
 		peakColors = [NSColorList colorListNamed:@"Crayons"]; // Crayons should always be there, as it can't be removed through the GUI
 	}
@@ -1170,7 +1178,7 @@ int const JKGCMSDocument_Version = 4;
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return nil;}
 
     dummy = nc_inq_varid(ncid, "time_values", &varid_time_value);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting time_values variable failed. Report error #%d.", dummy); return nil;}
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting time_values variable failed. Report error #%d. Continuing...", dummy);}
     
     dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return nil;}
@@ -1196,11 +1204,17 @@ int const JKGCMSDocument_Version = 4;
 	masses = (float *) malloc((num_scan)*sizeof(float));
 	times = (float *) malloc((num_scan)*sizeof(float));
 	intensities = (float *) malloc((num_scan)*sizeof(float));
-	
+
 	for(i = 0; i < num_scan; i++) {
+        masses[i] = 0.0f;
+        times[i] = 0.0f;
+        intensities[i] = 0.0f;
 		dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &i, &scan); // is this the start or the end?
 		dummy = nc_get_var1_int(ncid, varid_point_count, (void *) &i, &scanCount);
 		for(j = scan; j < (unsigned)scan + (unsigned)scanCount; j++) {
+            mass = 0.0f;
+            timeL = 0.0f;
+            intensity = 0.0f;
 			dummy = nc_get_var1_float(ncid, varid_mass_value, (void *) &j, &mass);
 			for(k = 0; k < mzValuesCount; k++) {
 				if (fabs(mass-[[mzValues objectAtIndex:k] intValue]) < 0.5) {
@@ -1228,18 +1242,21 @@ int const JKGCMSDocument_Version = 4;
 		[mutArray addObject:mutDict];      
 		[mutDict release];
     }
-	//JKLogDebug([mutArray description]);
+
 	[chromatogram setDataArray:mutArray];
 	[mutArray release];
-	
-	[chromatogram setVerticalScale:[NSNumber numberWithFloat:[self maximumTotalIntensity]/jk_stats_float_max(intensities,num_scan)]];
-	
+
+//	NSLog(@"max tot int: %f; max new int: %f", [self maximumTotalIntensity], jk_stats_float_max(intensities,num_scan));
+//	[chromatogram setVerticalScale:[NSNumber numberWithFloat:[self maximumTotalIntensity]/jk_stats_float_max(intensities,num_scan)]];
+
+	[chromatogram setVerticalScale:[NSNumber numberWithFloat:1.0]];
+    
 	[chromatogram setSeriesTitle:mzValuesString];
 	[chromatogram setSeriesColor:[NSColor redColor]];
 	
 	[chromatogram setKeyForXValue:@"Scan"];
 	[chromatogram setKeyForYValue:@"Total Intensity"];
-	
+
 	[chromatogram autorelease];
 	
 	return chromatogram;
@@ -1475,7 +1492,12 @@ boolAccessor(abortAction, setAbortAction)
 
 - (void)setBaseline:(NSMutableArray *)inValue  
 {
-	[inValue retain];
+    [[self undoManager] registerUndoWithTarget:self
+                                      selector:@selector(setBaseline:)
+                                        object:baseline];
+    [[self undoManager] setActionName:NSLocalizedString(@"Change Baseline",@"")];
+
+    [inValue retain];
 	[baseline autorelease];
 	baseline = inValue;
 }

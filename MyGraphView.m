@@ -75,13 +75,11 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		[self setLabelsOnFrameColor:[NSColor blackColor]];
 		[self setLegendAreaColor:[NSColor whiteColor]];
 		[self setLegendFrameColor:[NSColor blackColor]];
-		
-		// Nu refreshen we ook als data van een andere instance van deze view veranderd!!!
-//		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"MyGraphDataSerieDidChangeNotification" object:nil];
-		
+				
 		// Observe changes for what values to draw
 		[self addObserver:self forKeyPath:@"keyForXValue" options:nil context:DataObservationContext];
 		[self addObserver:self forKeyPath:@"keyForYValue" options:nil context:DataObservationContext];
+		[self addObserver:self forKeyPath:@"dataSeries" options:nil context:DataObservationContext];
 		
 		// Observe changes for plotting area
 		[self addObserver:self forKeyPath:@"origin" options:nil context:PropertyObservationContext];
@@ -904,6 +902,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 
 - (void)selectNextPeak  
 {
+    // deselect any baseline points
+    [baselineContainer setSelectedObjects:nil];
 	if (([peaksContainer selectionIndex] != NSNotFound) & ([peaksContainer selectionIndex] != [[self peaks] count]-1)) {
 		[peaksContainer setSelectionIndex:[peaksContainer selectionIndex]+1];		
 	} else {
@@ -914,6 +914,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 
 - (void)selectPreviousPeak  
 {
+    // deselect any baseline points
+    [baselineContainer setSelectedObjects:nil];
 	if (([peaksContainer selectionIndex] != NSNotFound) & ([peaksContainer selectionIndex] != 0)) {
 		[peaksContainer setSelectionIndex:[peaksContainer selectionIndex]-1];
 	} else {
@@ -1035,8 +1037,13 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 			[self setSelectedRect:draggedRect];
 			[self setNeedsDisplay:YES];
 		} else if ([theEvent modifierFlags] & NSCommandKeyMask) {
-			//   not specified
-			JKLogDebug(@"not specified");
+			//   select baseline points
+			draggedRect.origin.x = (_mouseDownAtPoint.x < mouseLocation.x ? _mouseDownAtPoint.x : mouseLocation.x);
+			draggedRect.origin.y = (_mouseDownAtPoint.y < mouseLocation.y ? _mouseDownAtPoint.y : mouseLocation.y);
+			draggedRect.size.width = fabs(mouseLocation.x-_mouseDownAtPoint.x);
+			draggedRect.size.height = fabs(mouseLocation.y-_mouseDownAtPoint.y);
+			[self setSelectedRect:draggedRect];
+			[self setNeedsDisplay:YES];
 		} else if ([theEvent modifierFlags] & NSShiftKeyMask) {
 			//   move chromatogram
 			JKLogDebug(@"move chromatogram");
@@ -1087,6 +1094,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 			} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
 				[self zoomIn];
 			} else if ([theEvent modifierFlags] & NSCommandKeyMask ) {
+                // deselect any baseline points
+                [baselineContainer setSelectedObjects:nil];
 				//  select additional peak(/select baseline point/select scan)
 				NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:mouseLocation];
 				int i, peaksCount;
@@ -1107,6 +1116,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 				}
 				
 			} else if ([theEvent modifierFlags] & NSShiftKeyMask) {
+                // deselect any baseline points
+                [baselineContainer setSelectedObjects:nil];
 				//  select series of peaks(/select baseline point/select scan)
 				NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:mouseLocation];
 				int i, peaksCount;
@@ -1139,6 +1150,9 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 				}
 				
 			} else {
+                // deselect any baseline points
+                [baselineContainer setSelectedObjects:nil];
+
 				//  select peak(/select baseline point/select scan)
 				NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:mouseLocation];
 				int i, peaksCount;
@@ -1166,6 +1180,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 				//  add peak
 				JKLogDebug(@"add peak");
 			} else if ([theEvent modifierFlags] & NSCommandKeyMask) {
+                // deselect any peaks
+                [peaksContainer setSelectedObjects:nil];
 				//  add baseline point
 				int i;
 				NSPoint pointInReal = [[self transformScreenToGraph] transformPoint:mouseLocation];
@@ -1173,7 +1189,9 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 				NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
 				[mutDict setValue:[NSNumber numberWithFloat:pointInReal.x] forKey:@"Scan"];
 				[mutDict setValue:[NSNumber numberWithFloat:pointInReal.y] forKey:@"Total Intensity"];
-				
+				// Time?!
+                
+                
 				// Following works, but can fail in circumstances, need error checking!
 				// if count 0 addObject
 				i=0;
@@ -1181,7 +1199,12 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 					i++;
 				}
 				// if i == count addObject
-				[(NSMutableArray *)[[self  baselineContainer] valueForKeyPath:[self baselineKeyPath]] insertObject:mutDict atIndex:i];
+                [[self undoManager] registerUndoWithTarget:[self baselineContainer]
+                                                  selector:@selector(removeObject:)
+                                                    object:mutDict];
+                [[self undoManager] setActionName:NSLocalizedString(@"Add Baseline Point",@"")];
+                
+				[(NSArrayController *)[self  baselineContainer] insertObject:mutDict atArrangedObjectIndex:i];
 				[mutDict release];
 			} else {
 				//  show spectrum 
@@ -1198,8 +1221,27 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 			//   zoom in/move baseline point
 			[self zoomToRectInView:[self selectedRect]];
 		} else if ([theEvent modifierFlags] & NSCommandKeyMask) {
-			//   not specified
-			
+            // deselect any peaks
+            [peaksContainer setSelectedObjects:nil];
+			//  select baselinpoints
+            int i;
+            float scanValue, intensityValue;
+            NSPoint startPoint = [[self transformScreenToGraph] transformPoint:[self selectedRect].origin];
+            NSSize selectedSize = [[self transformScreenToGraph] transformSize:[self selectedRect].size];
+            NSMutableArray *mutArray = [NSMutableArray array];
+            int count = [[self baseline] count];
+            for (i=0; i< count; i++) {
+                scanValue = [[[[self baseline] objectAtIndex:i] valueForKey:@"Scan"] floatValue];
+                intensityValue = [[[[self baseline] objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue];
+                if ((scanValue > startPoint.x) && (scanValue < startPoint.x+selectedSize.width)) {
+                    if ((intensityValue > startPoint.y) && (intensityValue < startPoint.y+selectedSize.height)) {
+                        [mutArray addObject:[[self baseline] objectAtIndex:i]];
+                    }
+                }
+            }
+            
+            [(NSArrayController *)[self  baselineContainer] setSelectedObjects:mutArray];
+            
 		} else if ([theEvent modifierFlags] & NSShiftKeyMask) {
 		} else {
 			// move chromatogram
@@ -1214,6 +1256,14 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	_didDrag = NO;
 	[self resetCursorRects];
 	[self setNeedsDisplay:YES];
+}
+
+- (void)scrollWheel:(NSEvent *)theEvent {
+    if ([theEvent deltaY] > 0) {
+        [self zoomIn];        
+    } else {
+        [self zoomOut];
+    }
 }
 
 #pragma mark KEYBOARD INTERACTION MANAGEMENT
@@ -1345,6 +1395,12 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     [pb setData:data forType:NSPDFPboardType];
 }
 
+- (void)delete:(id)sender {
+    [baselineContainer removeObjects:[baselineContainer selectedObjects]];
+    [peaksContainer removeObjects:[peaksContainer selectedObjects]];
+
+}
+
 #pragma mark KEY VALUE OBSERVING MANAGEMENT
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -1356,31 +1412,31 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	{
 //		[(ChromatogramGraphDataSerie *)[[self dataSeries] objectAtIndex:0] setPeaks:[self peaks]];
 	} 
-	else if (context == DataSeriesObservationContext)
-	{
-		/*
-		 Should be able to use
-		 NSArray *oldGraphics = [change objectForKey:NSKeyValueChangeOldKey];
-		 etc. but the dictionary doesn't contain old and new arrays...??
-		 */
-//		NSArray *newGraphics = [object valueForKeyPath:graphicsKeyPath];
+//	else if (context == DataSeriesObservationContext)
+//	{
+//		/*
+//		 Should be able to use
+//		 NSArray *oldGraphics = [change objectForKey:NSKeyValueChangeOldKey];
+//		 etc. but the dictionary doesn't contain old and new arrays...??
+//		 */
+////		NSArray *newGraphics = [object valueForKeyPath:graphicsKeyPath];
+////		
+////		NSMutableArray *onlyNew = [newGraphics mutableCopy];
+////		[onlyNew removeObjectsInArray:oldGraphics];
+////		[self startObservingGraphics:onlyNew];
+////		[onlyNew release];
+////		
+////		NSMutableArray *removed = [oldGraphics mutableCopy];
+////		[removed removeObjectsInArray:newGraphics];
+////		[self stopObservingGraphics:removed];
+////		[removed release];
+////		
+////		[self setOldGraphics:newGraphics];
 //		
-//		NSMutableArray *onlyNew = [newGraphics mutableCopy];
-//		[onlyNew removeObjectsInArray:oldGraphics];
-//		[self startObservingGraphics:onlyNew];
-//		[onlyNew release];
-//		
-//		NSMutableArray *removed = [oldGraphics mutableCopy];
-//		[removed removeObjectsInArray:newGraphics];
-//		[self stopObservingGraphics:removed];
-//		[removed release];
-//		
-//		[self setOldGraphics:newGraphics];
-		
-		// could check drawingBounds of old and new, but...
-		[self setNeedsDisplay:YES];
-		return;
-    }
+//		// could check drawingBounds of old and new, but...
+//		[self setNeedsDisplay:YES];
+//		return;
+//    }
 	else if (context == PropertyObservationContext)
 	{
 //		NSRect updateRect;
@@ -1946,6 +2002,10 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 - (void)setShouldDrawPeaks:(BOOL)inValue  
 {
 	shouldDrawPeaks = inValue;
+    int i,count = [[self dataSeries] count];
+    for (i=0; i <  count; i++) {
+        [[[self dataSeries] objectAtIndex:i] setShouldDrawPeaks:inValue];
+    }
 }
 
 
