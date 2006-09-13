@@ -18,5 +18,5 @@
 	NSMutableDictionary *preferencesList;
 	BDAlias *libraryAlias;
 }
-
+- (IBAction)changeAutoSaveAction:(id)sender;
 @end

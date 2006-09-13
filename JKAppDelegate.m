@@ -162,14 +162,6 @@
 //    [statisticsWindowController showWindow:self];	
 }
 
-- (IBAction)changeAutoSaveAction:(id)sender {
-    if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSave"] boolValue] == YES) {
-        [[NSDocumentController sharedDocumentController] setAutosavingDelay:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSaveDelay"] intValue]*60];
-    } else {
-        [[NSDocumentController sharedDocumentController] setAutosavingDelay:0];
-    }    
-}
-
 #pragma mark GROWL SUPPORT
 
 - (NSDictionary *) registrationDictionaryForGrowl  

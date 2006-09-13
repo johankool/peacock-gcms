@@ -410,7 +410,6 @@
 	[spectrumDataSerie setKeyForXValue:@"Mass"];
 	[spectrumDataSerie setKeyForYValue:@"Intensity"];
 	
-#warning [BUG] Drawing upside down in Library editor too.
 	[spectrumDataSerie setDrawUpsideDown:NO];
 	
 	[spectrumDataSerie autorelease];
@@ -428,7 +427,6 @@
 	[spectrumDataSerie setKeyForXValue:@"Mass"];
 	[spectrumDataSerie setKeyForYValue:@"Intensity"];
 	
-#warning [BUG] Drawing upside down in Library editor too.
 	[spectrumDataSerie setDrawUpsideDown:YES];
 	
 	[spectrumDataSerie autorelease];
