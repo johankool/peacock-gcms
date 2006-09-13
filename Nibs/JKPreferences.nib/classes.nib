@@ -1,6 +1,12 @@
 {
     IBClasses = (
         {
+            CLASS = FilteringDNDArrayController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {tableView = NSTableView; }; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {
             ACTIONS = {"" = id; }; 
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 
@@ -8,6 +14,7 @@
         }, 
         {CLASS = JKPathPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {
+            ACTIONS = {changeAutoSaveAction = id; }; 
             CLASS = JKPreferencesWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {

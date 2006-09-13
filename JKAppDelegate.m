@@ -25,7 +25,7 @@
 	[defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"showInspectorOnLaunch"];
 	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"showMassCalculatorOnLaunch"];
 	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"autoSave"];
-	[defaultValues setValue:[NSNumber numberWithInt:0] forKey:@"autoSaveDelay"]; 
+	[defaultValues setValue:[NSNumber numberWithInt:10] forKey:@"autoSaveDelay"]; 
 	
 	// Default preferences for initial document settings
 	[defaultValues setValue:[NSNumber numberWithInt:30] forKey:@"baselineWindowWidth"];
@@ -87,9 +87,11 @@
 //#warning High level debug verbosity set.
 //	JKSetVerbosityLevel(JK_VERBOSITY_ALL);
 
-//    if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSave"] boolValue] == YES) {
-//        [[NSDocumentController sharedDocumentController] setAutosavingDelay:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSaveDelay"] intValue]];
-//    }
+    if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSave"] boolValue] == YES) {
+        [[NSDocumentController sharedDocumentController] setAutosavingDelay:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSaveDelay"] intValue]*60];
+    } else {
+        [[NSDocumentController sharedDocumentController] setAutosavingDelay:0];
+    }
 	
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"showInspectorOnLaunch"] boolValue] == YES) {
         [[JKPanelController sharedController] showInspector:self];
@@ -158,6 +160,14 @@
 //        statisticsWindowController = [[JKStatisticsWindowController alloc] init];
 //    }
 //    [statisticsWindowController showWindow:self];	
+}
+
+- (IBAction)changeAutoSaveAction:(id)sender {
+    if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSave"] boolValue] == YES) {
+        [[NSDocumentController sharedDocumentController] setAutosavingDelay:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSaveDelay"] intValue]*60];
+    } else {
+        [[NSDocumentController sharedDocumentController] setAutosavingDelay:0];
+    }    
 }
 
 #pragma mark GROWL SUPPORT

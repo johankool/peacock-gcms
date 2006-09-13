@@ -116,11 +116,12 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
     // if drag source is self, it's a move
     if ([info draggingSource] == tableView)
     {
+#warning [BUG] Also non-selected rows can be dragged, if that's the case the move will not occur
 		//NSArray *rows = [[info draggingPasteboard] propertyListForType:MovedRowsType];
 		//NSIndexSet  *indexSet = [self indexSetFromRows:rows];
 		NSIndexSet  *indexSet = [tableView selectedRowIndexes];
-		
-                [self moveObjectsInArrangedObjectsFromIndexes:indexSet toIndex:row];
+                
+        [self moveObjectsInArrangedObjectsFromIndexes:indexSet toIndex:row];
 		
 		// set selected rows to those that were just moved
 		// Need to work out what moved where to determine proper selection...

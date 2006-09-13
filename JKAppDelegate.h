@@ -32,6 +32,7 @@
 - (IBAction)showLicense:(id)sender;
 - (IBAction)showBatchProcessAction:(id)sender;
 - (IBAction)showStatisticsAction:(id)sender;
+- (IBAction)changeAutoSaveAction:(id)sender;
 
 #pragma mark GROWL SUPPORT
 - (NSDictionary *)registrationDictionaryForGrowl;

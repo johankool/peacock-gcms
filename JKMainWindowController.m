@@ -555,7 +555,7 @@ static void *SpectrumObservationContext = (void *)1102;
 					   context:(void *)context {
 	if ((object == peakController) | (object == searchResultsController)) {
 		NSArray *peakArray = [[peakController selectedObjects] valueForKeyPath:@"spectrum.spectrumDataSerie"];
-		NSArray *searchResultsArray = [[searchResultsController selectedObjects] valueForKeyPath:@"libraryHit.spectrumDataSerie"];
+		NSArray *searchResultsArray = [[searchResultsController selectedObjects] valueForKeyPath:@"libraryHit.spectrumDataSerieUpsideDown"];
 		[spectrumDataSeriesController setContent:[peakArray arrayByAddingObjectsFromArray:searchResultsArray]];
 		[chromatogramView setNeedsDisplay:YES];
 	}

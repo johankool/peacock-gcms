@@ -48,6 +48,7 @@
 - (id)initWithJCAMPString:(NSString *)inString;
 - (NSString *)jcampString;
 - (SpectrumGraphDataSerie *)spectrumDataSerie;
+- (SpectrumGraphDataSerie *)spectrumDataSerieUpsideDown;
 - (NSNumber *)calculateMassWeight:(NSString *)inString;
 
 //- (JKLibraryEntry *)normalizedLibraryEntry;

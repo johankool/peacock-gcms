@@ -403,6 +403,24 @@
 {
 	SpectrumGraphDataSerie *spectrumDataSerie = [[SpectrumGraphDataSerie alloc] init];
 	[spectrumDataSerie loadDataPoints:[self numberOfPoints] withXValues:[self masses] andYValues:[self intensities]];
+    
+	[spectrumDataSerie setSeriesType:2]; // Spectrum kind of plot
+	[spectrumDataSerie setSeriesTitle:NSLocalizedString(@"Library Entry",@"")];
+	[spectrumDataSerie setSeriesColor:[NSColor orangeColor]];
+	[spectrumDataSerie setKeyForXValue:@"Mass"];
+	[spectrumDataSerie setKeyForYValue:@"Intensity"];
+	
+#warning [BUG] Drawing upside down in Library editor too.
+	[spectrumDataSerie setDrawUpsideDown:NO];
+	
+	[spectrumDataSerie autorelease];
+	return spectrumDataSerie;
+}
+
+- (SpectrumGraphDataSerie *)spectrumDataSerieUpsideDown
+{
+	SpectrumGraphDataSerie *spectrumDataSerie = [[SpectrumGraphDataSerie alloc] init];
+	[spectrumDataSerie loadDataPoints:[self numberOfPoints] withXValues:[self masses] andYValues:[self intensities]];
 		
 	[spectrumDataSerie setSeriesType:2]; // Spectrum kind of plot
 	[spectrumDataSerie setSeriesTitle:NSLocalizedString(@"Library Entry",@"")];
