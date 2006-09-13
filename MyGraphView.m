@@ -56,7 +56,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		[self setPixelsPerYUnit:[NSNumber numberWithFloat:10]];
 		[self setMinimumPixelsPerMajorGridLine:[NSNumber numberWithFloat:25]];
 		[self setPlottingArea:NSMakeRect(50,20,[self bounds].size.width-60,[self bounds].size.height-25)];
-		[self setLegendArea:NSMakeRect([self bounds].size.width-90-60,[self bounds].size.height-90-120,120,60)];
+		[self setLegendArea:NSMakeRect([self bounds].size.width-200-60,[self bounds].size.height-90-120,200,60)];
 		[self setSelectedRect:NSMakeRect(0,0,0,0)];
 		
 		[self setShouldDrawAxes:YES];
@@ -74,7 +74,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		[self setLabelsColor:[NSColor blackColor]];
 		[self setLabelsOnFrameColor:[NSColor blackColor]];
 		[self setLegendAreaColor:[NSColor whiteColor]];
-		[self setLegendFrameColor:[NSColor blackColor]];
+		[self setLegendFrameColor:[NSColor whiteColor]];
 				
 		// Observe changes for what values to draw
 		[self addObserver:self forKeyPath:@"keyForXValue" options:nil context:DataObservationContext];
@@ -184,7 +184,12 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 - (void)drawRect:(NSRect)rect  
 {
 	[self calculateCoordinateConversions];
-
+    
+    // resize legend area to fit all entries
+    NSRect newLegendArea = [self legendArea];
+    newLegendArea.size.height = [[self dataSeries] count] * 18;
+    [self setLegendArea:newLegendArea];
+    
 	// Fancy schaduw effecten...
 	NSShadow *noShadow = [[NSShadow alloc] init];
 	NSShadow *shadow = [[NSShadow alloc] init];
@@ -418,21 +423,27 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[[NSBezierPath bezierPathWithRect:[self legendArea]] addClip];
 	
 	[attrs setValue:[NSFont systemFontOfSize:10] forKey:NSFontAttributeName];
+    NSBezierPath *line = [NSBezierPath bezierPath];
 		
 	if ([[self dataSeries] count] > 0) {
 		for (i=0;i<[[self dataSeries] count]; i++) {
+            [line removeAllPoints];
 			string = [[NSMutableAttributedString alloc] initWithString:[[[self dataSeries] objectAtIndex:i] valueForKey:@"seriesTitle"] attributes:attrs];
 			stringSize = [string size];
 			pointToDraw = [self legendArea].origin;
-			pointToDraw.x = pointToDraw.x + 4;
+			pointToDraw.x = pointToDraw.x + 24;
 			pointToDraw.y = pointToDraw.y - stringSize.height*(i+1) + [self legendArea].size.height - (4*i) - 4;
-			if ([[dataSeriesContainer selectionIndexes] containsIndex:i]) {
-				[[NSColor selectedMenuItemColor] set];
-				[[NSBezierPath bezierPathWithRect:NSMakeRect(pointToDraw.x-4, pointToDraw.y-4,[self legendArea].size.width, stringSize.height+8)] fill];
-			}
+//			if ([[dataSeriesContainer selectionIndexes] containsIndex:i]) {
+//				[[NSColor selectedMenuItemColor] set];
+//				[[NSBezierPath bezierPathWithRect:NSMakeRect(pointToDraw.x-4, pointToDraw.y-4,[self legendArea].size.width, stringSize.height+8)] fill];
+//			}
 			[string drawAtPoint:pointToDraw];
 			[string release];
-			
+    
+            [[[[self dataSeries] objectAtIndex:i] valueForKey:@"seriesColor"] set];
+            [line moveToPoint:NSMakePoint(pointToDraw.x-20,pointToDraw.y+stringSize.height/2)];
+            [line lineToPoint:NSMakePoint(pointToDraw.x-4,pointToDraw.y+stringSize.height/2)];
+			[line stroke];
 		}
 	}
 	
@@ -1479,6 +1490,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		for (i=0;i<count; i++){
 			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"MyGraphDataSerieDidChangeNotification" object:[[self dataSeries] objectAtIndex:i]];
 		}
+        
 		[self refresh];
 		return;
     } 

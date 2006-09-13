@@ -70,8 +70,8 @@ static void *PeaksObservationContext = (void *)1094;
 	// Hier gaan we van dataserie-coordinaten naar scherm-coordinaten.
 	bezierpath = [trans transformBezierPath:[self plotPath]];
 	
-	if(shouldDrawPeaks)
-		[self drawPeaksWithTransform:trans];
+//	if(shouldDrawPeaks)
+    [self drawPeaksWithTransform:trans];
 	
 	// Hier stellen we in hoe de lijnen eruit moeten zien.
 	[bezierpath setLineWidth:1.0];
@@ -141,42 +141,43 @@ static void *PeaksObservationContext = (void *)1094;
 	NSBezierPath *peaksPath = [[NSBezierPath alloc] init];
 	NSPoint pointToDrawFirst, pointToDrawLast, pointInUnits;
 	int j, start, end, top;
-	
-	for (i=0; i < count; i++) {
-		[peaksPath removeAllPoints];
-		
-		pointToDrawFirst = NSMakePoint([[[[self peaks] objectAtIndex:i] valueForKey:@"start"] floatValue],
-									   [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]*[verticalScale floatValue]); // Only works for scan, not for time!!
-		pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
-
-		[peaksPath moveToPoint:pointToDrawFirst];
-		
-		// fori over data points
-		start = [[[[self peaks] objectAtIndex:i] valueForKey:@"start"] intValue];
-		end   = [[[[self peaks] objectAtIndex:i] valueForKey:@"end"] intValue]+1;
-		for (j=start; j < end; j++) {
-			pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:j] valueForKey:keyForXValue] floatValue],
-									   [[[[self dataArray] objectAtIndex:j] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
-			pointInUnits  = [trans transformPoint:pointInUnits];
-			[peaksPath lineToPoint:pointInUnits];
-		}
-		
-		pointToDrawLast  = NSMakePoint([[[[self peaks] objectAtIndex:i] valueForKey:@"end"] floatValue],
-									   [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]*[verticalScale floatValue]);// Only works for scan, not for time!!
-		pointToDrawLast  = [trans transformPoint:pointToDrawLast];
-		
-		[peaksPath lineToPoint:pointToDrawLast];
-		[peaksPath lineToPoint:pointToDrawFirst]; // Close area
-		
-		// Add tooltip (plottingArea not available -> disabled for now)
-		//[self addToolTipRect:NSMakeRect(pointToDraw1.x,plottingArea.origin.y,pointToDraw2.x-pointToDraw1.x,plottingArea.size.height) owner:self userData:i];
-		
-		// Set color
-		[[peakColors colorWithKey:[peakColorsArray objectAtIndex:i%peakColorsArrayCount]] set];
-		
-		// Draw
-		[peaksPath fill];
-	}
+    if(shouldDrawPeaks) {
+        for (i=0; i < count; i++) {
+            [peaksPath removeAllPoints];
+            
+            pointToDrawFirst = NSMakePoint([[[[self peaks] objectAtIndex:i] valueForKey:@"start"] floatValue],
+                                           [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]*[verticalScale floatValue]); // Only works for scan, not for time!!
+            pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
+            
+            [peaksPath moveToPoint:pointToDrawFirst];
+            
+            // fori over data points
+            start = [[[[self peaks] objectAtIndex:i] valueForKey:@"start"] intValue];
+            end   = [[[[self peaks] objectAtIndex:i] valueForKey:@"end"] intValue]+1;
+            for (j=start; j < end; j++) {
+                pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:j] valueForKey:keyForXValue] floatValue],
+                                           [[[[self dataArray] objectAtIndex:j] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
+                pointInUnits  = [trans transformPoint:pointInUnits];
+                [peaksPath lineToPoint:pointInUnits];
+            }
+            
+            pointToDrawLast  = NSMakePoint([[[[self peaks] objectAtIndex:i] valueForKey:@"end"] floatValue],
+                                           [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]*[verticalScale floatValue]);// Only works for scan, not for time!!
+                pointToDrawLast  = [trans transformPoint:pointToDrawLast];
+                
+                [peaksPath lineToPoint:pointToDrawLast];
+                [peaksPath lineToPoint:pointToDrawFirst]; // Close area
+                
+                // Add tooltip (plottingArea not available -> disabled for now)
+                //[self addToolTipRect:NSMakeRect(pointToDraw1.x,plottingArea.origin.y,pointToDraw2.x-pointToDraw1.x,plottingArea.size.height) owner:self userData:i];
+                
+                // Set color
+                [[peakColors colorWithKey:[peakColorsArray objectAtIndex:i%peakColorsArrayCount]] set];
+                
+                // Draw
+                [peaksPath fill];
+        }
+    }
 
 	// Draw seleced peak!
 	NSArray *selectedPeaks = [NSArray array];

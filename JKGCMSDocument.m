@@ -1251,7 +1251,17 @@ int const JKGCMSDocument_Version = 4;
 
 	[chromatogram setVerticalScale:[NSNumber numberWithFloat:1.0]];
     
-	[chromatogram setSeriesTitle:mzValuesString];
+    int count;
+    NSArray *presets = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"presets"];
+    count = [presets count];
+    NSString *title;
+    title = mzValuesString;
+    for (i=0; i< count; i++) {
+        if([[[presets objectAtIndex:i] valueForKey:@"massValue"] isEqualToString:mzValuesString]) {
+            title = [NSString stringWithFormat:@"%@ (%@)", [[presets objectAtIndex:i] valueForKey:@"name"], mzValuesString];
+        }
+    }
+	[chromatogram setSeriesTitle:title];
 	[chromatogram setSeriesColor:[NSColor redColor]];
 	
 	[chromatogram setKeyForXValue:@"Scan"];
