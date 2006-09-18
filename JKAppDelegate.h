@@ -19,7 +19,8 @@
     IBOutlet NSMenu *showPresetMenu;
     IBOutlet NSMenu *removeChromatogramMenu;
 	IBOutlet MWController *mwWindowController;
-
+    IBOutlet NSWindow *welcomeWindow;
+    
     NSWindowController *preferencesWindowController;
 	JKBatchProcessWindowController *batchProcessWindowController;
 
@@ -32,6 +33,7 @@
 - (IBAction)showLicense:(id)sender;
 - (IBAction)showBatchProcessAction:(id)sender;
 - (IBAction)showStatisticsAction:(id)sender;
+- (IBAction)openTestFile:(id)sender;
 
 #pragma mark GROWL SUPPORT
 - (NSDictionary *)registrationDictionaryForGrowl;

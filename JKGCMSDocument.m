@@ -40,7 +40,7 @@ int const JKGCMSDocument_Version = 4;
 		remainingString = [NSString stringWithString:@""];
 		
 		id defaultValues = [[NSUserDefaultsController sharedUserDefaultsController] values];
-
+        absolutePathToNetCDF = @"";
 		baselineWindowWidth = [[defaultValues valueForKey:@"baselineWindowWidth"] retain];
 		baselineDistanceThreshold = [[defaultValues valueForKey:@"baselineDistanceThreshold"] retain];
 		baselineSlopeThreshold = [[defaultValues valueForKey:@"baselineSlopeThreshold"] retain];
@@ -144,7 +144,8 @@ int const JKGCMSDocument_Version = 4;
 			NSAssert(data != nil, @"data = nil!");
 			NSAssert(fileWrapperForData != nil, @"fileWrapperForData = nil!");
 			[fileWrapperForData setPreferredFilename:@"peacock-data"];
-			[fileWrappers setObject:fileWrapperForData forKey:@"peacock-data"];				
+			[fileWrappers setObject:fileWrapperForData forKey:@"peacock-data"];	
+			NSLog(absolutePathToNetCDF);
 			NSFileWrapper *fileWrapperForNetCDF = [[NSFileWrapper alloc] initWithPath:absolutePathToNetCDF];
 			NSAssert(fileWrapperForNetCDF != nil, @"fileWrapperForNetCDF = nil!");
 			
@@ -169,6 +170,7 @@ int const JKGCMSDocument_Version = 4;
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError  
 {
 	if ([typeName isEqualToString:@"NetCDF File"]) {
+        absolutePathToNetCDF = [absoluteURL path];
 		return [self readNetCDFFile:[absoluteURL path] error:outError];
 	} else if ([typeName isEqualToString:@"Peacock File"]) {
 		BOOL result;		
@@ -1018,6 +1020,7 @@ int const JKGCMSDocument_Version = 4;
 
 - (float)timeForScan:(int)scan  
 {
+    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
     int dummy, varid_scanaqtime;
     float   x;
     
@@ -1031,6 +1034,7 @@ int const JKGCMSDocument_Version = 4;
 
 - (float)retentionIndexForScan:(int)scan  
 {
+    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
     int dummy, varid_scanaqtime;
     float   x;
     
@@ -1044,6 +1048,7 @@ int const JKGCMSDocument_Version = 4;
 
 - (float *)xValuesSpectrum:(int)scan  
 {
+    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
     int dummy, start, end, varid_mass_value, varid_scan_index;
 	//   float 	xx;
     float 	*x;
@@ -1093,6 +1098,7 @@ int const JKGCMSDocument_Version = 4;
 
 - (float *)yValuesSpectrum:(int)scan  
 {
+    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
     int dummy, start, end, varid_intensity_value, varid_scan_index;
 	//   float 	yy;
     float 	*y;
@@ -1273,6 +1279,7 @@ int const JKGCMSDocument_Version = 4;
 }
 
 - (SpectrumGraphDataSerie *)spectrumForScan:(int)scan {
+    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
     SpectrumGraphDataSerie *spectrum;
 	
     //create a spectrum object
@@ -1334,6 +1341,7 @@ int const JKGCMSDocument_Version = 4;
 
 - (int)startValuesSpectrum:(int)scan  
 {
+    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
     int dummy, start, varid_scan_index;
 	
     dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
@@ -1348,6 +1356,7 @@ int const JKGCMSDocument_Version = 4;
 
 - (int)endValuesSpectrum:(int)scan  
 {
+    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
     int dummy, end, varid_scan_index;
 	
     dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
@@ -1362,6 +1371,7 @@ int const JKGCMSDocument_Version = 4;
 
 - (float)baselineValueAtScan:(int)inValue  
 {
+    NSAssert(inValue >= 0, @"Scan must be equal or larger than zero");
 	int i = 0;
 	int baselineCount = [baseline count];
 	float lowestScan, lowestInten, highestScan, highestInten;

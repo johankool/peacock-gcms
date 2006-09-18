@@ -58,7 +58,8 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 	// Additions for Peacock
 	BOOL shouldDrawBaseline;
 	BOOL shouldDrawPeaks;
-	
+	int selectedScan;
+    
 	NSAttributedString *titleString;
 	NSAttributedString *xAxisLabelString;
 	NSAttributedString *yAxisLabelString;
@@ -204,6 +205,8 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 - (void)setShouldDrawBaseline:(BOOL)inValue;
 - (BOOL)shouldDrawPeaks;
 - (void)setShouldDrawPeaks:(BOOL)inValue;
+- (int)selectedScan;
+- (void)setSelectedScan:(int)inValue;
 
 #pragma mark CALCULATED ACCESSORS
 // Zooming

@@ -21,6 +21,7 @@
 	NSMutableDictionary *defaultValues = [NSMutableDictionary new];
 	
 	// Application level prefences
+	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"skipWelcomeDialog"];
 	[defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"SUCheckAtStartup"];
 	[defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"showInspectorOnLaunch"];
 	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"showMassCalculatorOnLaunch"];
@@ -35,14 +36,16 @@
 	[defaultValues setValue:[NSNumber numberWithFloat:0.1f] forKey:@"peakIdentificationThreshold"];
 	[defaultValues setValue:[NSNumber numberWithFloat:1.0f] forKey:@"retentionIndexSlope"];
 	[defaultValues setValue:[NSNumber numberWithFloat:0.0f] forKey:@"retentionIndexRemainder"];
-	[defaultValues setValue:@"" forKey:@"libraryAlias"];
+	[defaultValues setValue:@"~/Desktop/Test Library.jdx" forKey:@"libraryAlias"];
 	[defaultValues setValue:[NSNumber numberWithInt:0] forKey:@"scoreBasis"]; // Using formula 1 in Gan 2001
 	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"penalizeForRetentionIndex"];
 	[defaultValues setValue:[NSNumber numberWithFloat:75.0] forKey:@"markAsIdentifiedThreshold"];
 	[defaultValues setValue:[NSNumber numberWithFloat:50.0] forKey:@"minimumScoreSearchResults"];
 
 	// Default presets
-	[defaultValues setObject:[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"test",@"name",@"1+2+3",@"massValue",nil],nil] forKey:@"presets"];
+	[defaultValues setObject:[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"Alkanes",@"name",@"55+57",@"massValue",nil],
+        [NSDictionary dictionaryWithObjectsAndKeys:@"Alkenes",@"name",@"56+58",@"massValue",nil]
+        ,nil] forKey:@"presets"];
 	
 	// Default summary settings
 	[defaultValues setValue:[NSNumber numberWithInt:3] forKey:@"peaksForSummary"]; // confirmed peaks
@@ -86,7 +89,8 @@
     JKSetVerbosityLevel([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue]);
 //#warning High level debug verbosity set.
 //	JKSetVerbosityLevel(JK_VERBOSITY_ALL);
-
+    
+    
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSave"] boolValue] == YES) {
         [[NSDocumentController sharedDocumentController] setAutosavingDelay:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSaveDelay"] intValue]*60];
     } else {
@@ -101,8 +105,13 @@
 	
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"showMassCalculatorOnLaunch"] boolValue] == YES) {
         [mwWindowController showWindow:self];
-    }    
-		
+    } 
+    
+    if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"skipWelcomeDialog"] boolValue] == NO) {
+        [welcomeWindow center];
+        [welcomeWindow makeKeyAndOrderFront:self];
+    }	
+    
 	// Growl support
 	[GrowlApplicationBridge setGrowlDelegate:self];
 }
@@ -160,6 +169,21 @@
 //        statisticsWindowController = [[JKStatisticsWindowController alloc] init];
 //    }
 //    [statisticsWindowController showWindow:self];	
+}
+
+- (IBAction)openTestFile:(id)sender  
+{
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:@"Peacock Test Files"]]) {
+        NSRunAlertPanel(@"Folder already exists",@"A folder with the name \"Peacock Test Files\" already exists on your desktop.",@"OK",nil,nil);
+        return;
+    }
+    if (![[NSFileManager defaultManager] copyPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Peacock Test Files"] toPath:[[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:@"Peacock Test Files"] handler:nil]) {
+         NSRunAlertPanel(@"Error during copying of folder",@"An error occurred during the copying of the folder with the name \"Peacock Test Files\" to your desktop.",@"OK",nil,nil);
+    }
+    
+    [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:@"Peacock Test Files"] stringByAppendingPathComponent:@"Test File.cdf"]] display:YES error:NULL];
+    
+    [welcomeWindow orderOut:self];
 }
 
 #pragma mark GROWL SUPPORT

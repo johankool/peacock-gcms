@@ -52,7 +52,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		[NSColor setIgnoresAlpha:NO];
 
         // Defaults
-		[self setOrigin:NSMakePoint(50.,50.)];
+		[self setOrigin:NSMakePoint(50.5,50.5)];
 		[self setPixelsPerXUnit:[NSNumber numberWithFloat:20.0]];
 		[self setPixelsPerYUnit:[NSNumber numberWithFloat:10]];
 		[self setMinimumPixelsPerMajorGridLine:[NSNumber numberWithFloat:25]];
@@ -72,6 +72,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		[self setBackColor:[NSColor clearColor]];
 		[self setPlottingAreaColor:[NSColor whiteColor]];
 		[self setAxesColor:[NSColor blackColor]];
+		[self setFrameColor:[NSColor clearColor]];
 		[self setGridColor:[NSColor gridColor]];
 		[self setLabelsColor:[NSColor blackColor]];
 		[self setLabelsOnFrameColor:[NSColor blackColor]];
@@ -120,7 +121,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		// Additions for Peacock
 		[self setShouldDrawBaseline:NO];
 		[self setShouldDrawPeaks:YES];
-
+        [self setSelectedScan:0];
+        
 		[self addObserver:self forKeyPath:@"baseline" options:nil context:PropertyObservationContext];			
 		[self addObserver:self forKeyPath:@"shouldDrawBaseline" options:nil context:PropertyObservationContext];	
 		[self addObserver:self forKeyPath:@"shouldDrawPeaks" options:nil context:PropertyObservationContext];	
@@ -257,7 +259,18 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		}
 	}
 //	[[self dataSeries] makeObjectsPerformSelector:@selector(plotDataWithTransform:) withObject:[self transformGraphToScreen]];
-	
+
+    // Draw line for selected scan
+    if (([self selectedScan] > 0) && ([[NSGraphicsContext currentContext] isDrawingToScreen])) {
+        [[NSColor blackColor] set];
+        NSPoint point = [[self transformGraphToScreen] transformPoint:NSMakePoint([self selectedScan]*1.0, 0)];
+        
+        NSBezierPath *selectedScanBezierPath = [NSBezierPath bezierPath];
+        [selectedScanBezierPath moveToPoint:NSMakePoint(point.x, [self plottingArea].origin.y)];
+        [selectedScanBezierPath lineToPoint:NSMakePoint(point.x, [self plottingArea].origin.y+[self plottingArea].size.height)];
+        [selectedScanBezierPath stroke];        
+    }
+    
 	[NSGraphicsContext restoreGraphicsState];
     
 	if ([self shouldDrawFrame]) {
@@ -280,9 +293,11 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[[NSColor selectedControlColor] set];
 	[[NSBezierPath bezierPathWithRect:[self selectedRect]] stroke];
 	
+    
 	[shadow release];
 	[noShadow release];
 
+    
 //	// Draw focus ring
 //	if (([[self window] isKeyWindow]) && ([[self window] firstResponder] == self) && ([[NSGraphicsContext currentContext] isDrawingToScreen])) {
 //		[[NSColor keyboardFocusIndicatorColor] set];
@@ -1072,6 +1087,24 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[self setNeedsDisplay:YES];
 }
 
+- (void)selectNextScan  
+{
+    [self setSelectedScan:[self selectedScan]+1];
+    if ([delegate respondsToSelector:@selector(showSpectrumForScan:)]) {
+        [delegate showSpectrumForScan:[self selectedScan]];
+    }     
+	[self setNeedsDisplay:YES];
+}
+
+- (void)selectPreviousScan  
+{
+    [self setSelectedScan:[self selectedScan]-1];
+    if ([delegate respondsToSelector:@selector(showSpectrumForScan:)]) {
+        [delegate showSpectrumForScan:[self selectedScan]];
+    }     
+	[self setNeedsDisplay:YES];
+}
+
 - (void)moveUpwardsInComparisonView
 {
 	NSArray *subviews = [[self superview] subviews];
@@ -1353,7 +1386,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 				JKLogDebug(@" select scan and show spectrum");
                 if ([delegate respondsToSelector:@selector(showSpectrumForScan:)]) {
                     NSPoint pointInReal = [[self transformScreenToGraph] transformPoint:mouseLocation];
-                    [delegate showSpectrumForScan:lroundf(pointInReal.x)];
+                    [self setSelectedScan:lroundf(pointInReal.x)];
+                    [delegate showSpectrumForScan:[self selectedScan]];
                 } 
             }
 		} else {
@@ -1442,20 +1476,24 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 {
 	if ([[theEvent characters] isEqualToString:@"a"]) {
 		[self showAll:self];
-	} else if ([[theEvent characters] isEqualToString:@"l"]) {
-		shouldDrawLegend ? [self setShouldDrawLegend:NO] : [self setShouldDrawLegend:YES];
-	} else if ([[theEvent characters] isEqualToString:@"g"]) {
-		shouldDrawGrid ? [self setShouldDrawGrid:NO] : [self setShouldDrawGrid:YES];
-	} else if ([[theEvent characters] isEqualToString:@"x"]) {
-		shouldDrawAxes ? [self setShouldDrawAxes:NO] : [self setShouldDrawAxes:YES];
 	} else if ([[theEvent characters] isEqualToString:@"b"]) {
 		shouldDrawBaseline ? [self setShouldDrawBaseline:NO] : [self setShouldDrawBaseline:YES];
+	} else if ([[theEvent characters] isEqualToString:@"f"]) {
+		shouldDrawFrame ? [self setShouldDrawFrame:NO] : [self setShouldDrawFrame:YES];
+	} else if ([[theEvent characters] isEqualToString:@"g"]) {
+		shouldDrawGrid ? [self setShouldDrawGrid:NO] : [self setShouldDrawGrid:YES];
+	} else if ([[theEvent characters] isEqualToString:@"l"]) {
+		shouldDrawLegend ? [self setShouldDrawLegend:NO] : [self setShouldDrawLegend:YES];
+	} else if ([[theEvent characters] isEqualToString:@"m"]) {
+		shouldDrawMajorTickMarks ? [self setShouldDrawMajorTickMarks:NO] : [self setShouldDrawMajorTickMarks:YES];
+	} else if ([[theEvent characters] isEqualToString:@"n"]) {
+		shouldDrawMinorTickMarks ? [self setShouldDrawMinorTickMarks:NO] : [self setShouldDrawMinorTickMarks:YES];
 	} else if ([[theEvent characters] isEqualToString:@"p"]) {
 		shouldDrawPeaks ? [self setShouldDrawPeaks:NO] : [self setShouldDrawPeaks:YES];
+	} else if ([[theEvent characters] isEqualToString:@"x"]) {
+		shouldDrawAxes ? [self setShouldDrawAxes:NO] : [self setShouldDrawAxes:YES];
 	} else if ([[theEvent characters] isEqualToString:@"z"]) {
 		[self zoomOut];
-	} else if ([[theEvent characters] isEqualToString:@" "]) {
-//		[self showMagnifyingGlass:self];
 	} else {
 		NSString *keyString = [theEvent charactersIgnoringModifiers];
 		unichar   keyChar = [keyString characterAtIndex:0];
@@ -1464,14 +1502,14 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 				if ([theEvent modifierFlags] & NSAlternateKeyMask) {
 					[self moveLeft];
 				} else {
-					[self selectPreviousPeak];
+					[self selectPreviousScan];
 				}
 				break;
 			case NSRightArrowFunctionKey:
 				if ([theEvent modifierFlags] & NSAlternateKeyMask) {
 					[self moveRight];
 				} else {
-					[self selectNextPeak];
+					[self selectNextScan];
 				}
 				break;
 			case NSUpArrowFunctionKey:
@@ -1480,7 +1518,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 				} else if ([theEvent modifierFlags] & NSControlKeyMask) {
 					[self moveUpwardsInComparisonView];
 				} else {
-					[self selectNextPeak];
+					[self selectPreviousPeak];
 				}
 				break;
 			case NSDownArrowFunctionKey:
@@ -1489,7 +1527,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 				} else if ([theEvent modifierFlags] & NSControlKeyMask) {
 					[self moveDownwardsInComparisonView];
 				} else {
-					[self selectPreviousPeak];
+					[self selectNextPeak];
 				}
 				break;
 			case 0177: // Delete Key
@@ -1556,6 +1594,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 {
 	if ([keyPath isEqualToString:@"peaks"]) 
 	{
+        [self setSelectedScan:0];
 //		[(ChromatogramGraphDataSerie *)[[self dataSeries] objectAtIndex:0] setPeaks:[self peaks]];
 	} 
 //	else if (context == DataSeriesObservationContext)
@@ -1608,6 +1647,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	}
 	else if (context == PeaksObservationContext)
 	{
+        [self setSelectedScan:0];
 		[self setNeedsDisplay:YES];
 		return;
 	}
@@ -2161,6 +2201,14 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     for (i=0; i <  count; i++) {
         [[[self dataSeries] objectAtIndex:i] setShouldDrawPeaks:inValue];
     }
+}
+- (int)selectedScan  
+{
+	return selectedScan;
+}
+- (void)setSelectedScan:(int)inValue  
+{
+	selectedScan = inValue;
 }
 
 

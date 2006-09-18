@@ -38,6 +38,7 @@
         {
             ACTIONS = {
                 openPreferencesWindowAction = id; 
+                openTestFile = id; 
                 showBatchProcessAction = id; 
                 showLicense = id; 
                 showReadMe = id; 
@@ -49,6 +50,7 @@
                 mwWindowController = MWController; 
                 removeChromatogramMenu = NSMenu; 
                 showPresetMenu = NSMenu; 
+                welcomeWindow = NSWindow; 
             }; 
             SUPERCLASS = NSApplication; 
         }, 

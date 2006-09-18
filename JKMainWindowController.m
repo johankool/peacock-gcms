@@ -556,8 +556,10 @@ static void *SpectrumObservationContext = (void *)1102;
 }
 
 - (void)showSpectrumForScan:(int)scan {
-    [spectrumDataSeriesController setContent:[NSArray arrayWithObject:[[self document] spectrumForScan:scan]]];
-    [spectrumView setNeedsDisplay:YES];
+    if (scan > 0) {
+        [spectrumDataSeriesController setContent:[NSArray arrayWithObject:[[self document] spectrumForScan:scan]]];
+        [spectrumView setNeedsDisplay:YES];        
+    }
 }
 
 #pragma mark KEY VALUE OBSERVATION
