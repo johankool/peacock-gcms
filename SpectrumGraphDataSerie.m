@@ -108,6 +108,7 @@ static void *PropertyObservationContext = (void *)1093;
 
 - (void)drawLabelsWithTransform:(NSAffineTransform *)trans  
 {
+    BOOL belowZero;
 	int count = [[self dataArray] count];
 	if (count <= 0) {	
 		return;
@@ -149,11 +150,16 @@ static void *PropertyObservationContext = (void *)1093;
 		} else {
 			pointToDraw = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]/maxYValue);
 		}
+        if (pointToDraw.y < 0.0 ) {
+            belowZero = YES;
+        } else {
+            belowZero = NO;
+        }
 		stringSize = [string size];
 		pointToDraw = [trans transformPoint:pointToDraw]; // Transfrom to screen coords
 		pointToDraw.x = pointToDraw.x - stringSize.width/2; // Center the label
 		// Draw above or below depending on wether we have negative values
-		if (pointToDraw.y < 0.0 ){
+		if (belowZero) {
 			pointToDraw.y = pointToDraw.y - stringSize.height - 4;
 		} else {
 			pointToDraw.y = pointToDraw.y + 4;

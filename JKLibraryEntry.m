@@ -405,7 +405,7 @@
 	[spectrumDataSerie loadDataPoints:[self numberOfPoints] withXValues:[self masses] andYValues:[self intensities]];
     
 	[spectrumDataSerie setSeriesType:2]; // Spectrum kind of plot
-	[spectrumDataSerie setSeriesTitle:NSLocalizedString(@"Library Entry",@"")];
+	[spectrumDataSerie setSeriesTitle:[NSString stringWithFormat:@"%@ (%@)", NSLocalizedString(@"Library Entry",@"Spectrum legend entry"), [self name]]];
 	[spectrumDataSerie setSeriesColor:[NSColor orangeColor]];
 	[spectrumDataSerie setKeyForXValue:@"Mass"];
 	[spectrumDataSerie setKeyForYValue:@"Intensity"];
@@ -422,7 +422,7 @@
 	[spectrumDataSerie loadDataPoints:[self numberOfPoints] withXValues:[self masses] andYValues:[self intensities]];
 		
 	[spectrumDataSerie setSeriesType:2]; // Spectrum kind of plot
-	[spectrumDataSerie setSeriesTitle:NSLocalizedString(@"Library Entry",@"")];
+	[spectrumDataSerie setSeriesTitle:[NSString stringWithFormat:@"%@ (%@)", NSLocalizedString(@"Library Entry",@"Spectrum legend entry"), [self name]]];
 	[spectrumDataSerie setSeriesColor:[NSColor orangeColor]];
 	[spectrumDataSerie setKeyForXValue:@"Mass"];
 	[spectrumDataSerie setKeyForYValue:@"Intensity"];

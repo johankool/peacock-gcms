@@ -1270,7 +1270,26 @@ int const JKGCMSDocument_Version = 4;
 	[chromatogram autorelease];
 	
 	return chromatogram;
-}	
+}
+
+- (SpectrumGraphDataSerie *)spectrumForScan:(int)scan {
+    SpectrumGraphDataSerie *spectrum;
+	
+    //create a spectrum object
+    spectrum = [[SpectrumGraphDataSerie alloc] init];
+
+    int npts;
+    npts = [self endValuesSpectrum:scan] - [self startValuesSpectrum:scan];
+    
+    [spectrum loadDataPoints:npts withXValues:[self xValuesSpectrum:scan] andYValues:[self yValuesSpectrum:scan]];
+    
+	[spectrum setSeriesTitle:[NSString localizedStringWithFormat:@"Scan %d", scan]];
+	    
+	[spectrum autorelease];
+	
+	return spectrum;
+}
+
 
 - (float *)yValuesIonChromatogram:(float)mzValue  
 {

@@ -10,6 +10,7 @@
 #import "MyGraphView.h"
 #import "MyGraphDataSerie.h"
 #import "ChromatogramGraphDataSerie.h"
+#import "SpectrumGraphDataSerie.h"
 
 static void *DataSeriesObservationContext = (void *)1092;
 static void *PeaksObservationContext = (void *)1093;
@@ -55,16 +56,17 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		[self setPixelsPerXUnit:[NSNumber numberWithFloat:20.0]];
 		[self setPixelsPerYUnit:[NSNumber numberWithFloat:10]];
 		[self setMinimumPixelsPerMajorGridLine:[NSNumber numberWithFloat:25]];
-		[self setPlottingArea:NSMakeRect(50,20,[self bounds].size.width-60,[self bounds].size.height-25)];
-		[self setLegendArea:NSMakeRect([self bounds].size.width-200-60,[self bounds].size.height-90-120,200,60)];
+		[self setPlottingArea:NSMakeRect(50.5,20.5,[self bounds].size.width-60.5,[self bounds].size.height-25.5)];
+		[self setLegendArea:NSMakeRect([self bounds].size.width-200-10-10,[self bounds].size.height-18-10-5,200,18)];
 		[self setSelectedRect:NSMakeRect(0,0,0,0)];
 		
-		[self setShouldDrawAxes:YES];
+		[self setShouldDrawAxes:NO];
+		[self setShouldDrawFrame:YES];
 		[self setShouldDrawMajorTickMarks:YES];
 		[self setShouldDrawMinorTickMarks:YES];
 		[self setShouldDrawGrid:YES];
 		[self setShouldDrawLabels:NO];
-		[self setShouldDrawLegend:NO];
+		[self setShouldDrawLegend:YES];
 		[self setShouldDrawLabelsOnFrame:YES];
 		
 		[self setBackColor:[NSColor clearColor]];
@@ -188,6 +190,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     // resize legend area to fit all entries
     NSRect newLegendArea = [self legendArea];
     newLegendArea.size.height = [[self dataSeries] count] * 18;
+    newLegendArea.origin.y = newLegendArea.origin.y - (newLegendArea.size.height - [self legendArea].size.height);
     [self setLegendArea:newLegendArea];
     
 	// Fancy schaduw effecten...
@@ -202,8 +205,13 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[[NSBezierPath bezierPathWithRect:[self bounds]] fill];
 
 	// Achtergrondkleur plottingArea (met schaduw)
-	[shadow set]; 	
-	[[self plottingAreaColor] set];
+	// Draw shadow with focusring color if firstResponder
+	if (([[self window] isKeyWindow]) && ([[self window] firstResponder] == self) && ([[NSGraphicsContext currentContext] isDrawingToScreen])) {
+		[shadow setShadowColor:[NSColor keyboardFocusIndicatorColor]];
+    }
+	[shadow set]; 	    
+    [[self plottingAreaColor] set];        
+    
 	if (NSIntersectsRect([self plottingArea],rect))
 		[[NSBezierPath bezierPathWithRect:[self plottingArea]] fill];
 	
@@ -219,12 +227,16 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	
 	if ([self shouldDrawGrid])
 		[self drawGrid];
-	if ([self shouldDrawAxes])
-		[self drawAxes];
-	if ([self shouldDrawMinorTickMarks])
-		[self drawMinorTickMarks];
-	if ([self shouldDrawMajorTickMarks])
-		[self drawMajorTickMarks];
+	if ([self shouldDrawAxes]) {
+        [self drawAxes];
+        if ([self shouldDrawMajorTickMarks]) {
+            [self drawMajorTickMarks];
+            if ([self shouldDrawMinorTickMarks])
+                [self drawMinorTickMarks];
+        }
+    }
+    
+    
 	if ([self shouldDrawLabels])
 		[self drawLabels];
 	
@@ -247,7 +259,16 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 //	[[self dataSeries] makeObjectsPerformSelector:@selector(plotDataWithTransform:) withObject:[self transformGraphToScreen]];
 	
 	[NSGraphicsContext restoreGraphicsState];
-	
+    
+	if ([self shouldDrawFrame]) {
+        [self drawFrame];
+        if ([self shouldDrawMajorTickMarks]) {
+            [self drawMajorTickMarksOnFrame];
+            if ([self shouldDrawMinorTickMarks])
+                [self drawMinorTickMarksOnFrame];
+        }
+    }
+    
 	if ([self shouldDrawLabelsOnFrame])
 		[self drawLabelsOnFrame];
 	if ([self shouldDrawLegend])
@@ -262,17 +283,17 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[shadow release];
 	[noShadow release];
 
-	// Draw focus ring
-	if (([[self window] isKeyWindow]) && ([[self window] firstResponder] == self) && ([[NSGraphicsContext currentContext] isDrawingToScreen])) {
-		[[NSColor keyboardFocusIndicatorColor] set];
-		[[NSBezierPath bezierPathWithRect:NSInsetRect([self frame],1,1)] stroke];
+//	// Draw focus ring
+//	if (([[self window] isKeyWindow]) && ([[self window] firstResponder] == self) && ([[NSGraphicsContext currentContext] isDrawingToScreen])) {
+//		[[NSColor keyboardFocusIndicatorColor] set];
+//		[[NSBezierPath bezierPathWithRect:NSInsetRect([self frame],1,1)] stroke];
 
 //		[NSGraphicsContext saveGraphicsState];
 //		[[NSBezierPath bezierPathWithRect:[self frame]] addClip];
 //		NSSetFocusRingStyle(NSFocusRingOnly);
 //		NSRectFill([self frame]);
 //		[NSGraphicsContext restoreGraphicsState];
-	}
+//	}
 	
 }
 
@@ -315,7 +336,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     [gridPath release];
 }
 
-- (void)drawMajorTickMarks  
+- (void)drawMinorTickMarks  
 {
 	int i, start, end;
 	float stepInUnits, stepInPixels;
@@ -356,7 +377,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     [tickMarksPath release];
 }
 
-- (void)drawMinorTickMarks  
+- (void)drawMajorTickMarks  
 {
 	int i, start, end;
 	float stepInUnits, stepInPixels;
@@ -384,6 +405,88 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	for (i=start; i <= end; i++) {
 		[tickMarksPath moveToPoint:NSMakePoint([self origin].x,i*stepInPixels/tickMarksPerUnit+[self origin].y)];
 		[tickMarksPath lineToPoint:NSMakePoint([self origin].x+tickMarksWidth, i*stepInPixels/tickMarksPerUnit+[self origin].y)];
+	}	
+	
+	// Hier stellen we in hoe de lijnen eruit moeten zien.
+	[tickMarksPath setLineWidth:.5];
+	[[self axesColor] set];
+	
+	// Met stroke wordt de bezierpath getekend.
+	[tickMarksPath stroke];
+	
+	// We hebben axesPath ge-alloc-ed, dus ruimen we die nog even op hier.
+    [tickMarksPath release];
+}
+
+- (void)drawMinorTickMarksOnFrame
+{
+	int i, start, end;
+	float stepInUnits, stepInPixels;
+	float tickMarksWidth = 2.5;
+	int tickMarksPerUnit = 5;
+	NSBezierPath *tickMarksPath = [[NSBezierPath alloc] init];
+	
+	// Verticale tickmarks
+	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
+	stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
+	
+	start = (([self plottingArea].origin.x-[self origin].x)/stepInPixels)*tickMarksPerUnit;
+	end = start + ([self plottingArea].size.width/stepInPixels)*tickMarksPerUnit;
+	for (i=start; i <= end; i++) {
+		[tickMarksPath moveToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self plottingArea].origin.y)];
+		[tickMarksPath lineToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self plottingArea].origin.y+tickMarksWidth)];
+	}
+	
+	// En de horizontale tickmarks
+	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
+	stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
+	
+	start = (([self plottingArea].origin.y-[self origin].y)/stepInPixels)*tickMarksPerUnit;
+	end = start + ([self plottingArea].size.height/stepInPixels)*tickMarksPerUnit;
+	for (i=start; i <= end; i++) {
+		[tickMarksPath moveToPoint:NSMakePoint([self plottingArea].origin.x,i*stepInPixels/tickMarksPerUnit+[self origin].y)];
+		[tickMarksPath lineToPoint:NSMakePoint([self plottingArea].origin.x+tickMarksWidth, i*stepInPixels/tickMarksPerUnit+[self origin].y)];
+	}	
+	
+	// Hier stellen we in hoe de lijnen eruit moeten zien.
+	[tickMarksPath setLineWidth:.5];
+	[[self axesColor] set];
+	
+	// Met stroke wordt de bezierpath getekend.
+	[tickMarksPath stroke];
+	
+	// We hebben axesPath ge-alloc-ed, dus ruimen we die nog even op hier.
+    [tickMarksPath release];
+}
+
+- (void)drawMajorTickMarksOnFrame
+{
+	int i, start, end;
+	float stepInUnits, stepInPixels;
+	float tickMarksWidth = 5.0;
+	int tickMarksPerUnit = 1;
+	NSBezierPath *tickMarksPath = [[NSBezierPath alloc] init];
+	
+	// Verticale tickmarks
+	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
+	stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
+	
+	start = (([self plottingArea].origin.x-[self origin].x)/stepInPixels)*tickMarksPerUnit;
+	end = start + ([self plottingArea].size.width/stepInPixels)*tickMarksPerUnit;
+	for (i=start; i <= end; i++) {
+		[tickMarksPath moveToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self plottingArea].origin.y)];
+		[tickMarksPath lineToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self plottingArea].origin.y+tickMarksWidth)];
+	}
+	
+	// En de horizontale tickmarks
+	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
+	stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
+	
+	start = (([self plottingArea].origin.y-[self origin].y)/stepInPixels)*tickMarksPerUnit;
+	end = start + ([self plottingArea].size.height/stepInPixels)*tickMarksPerUnit;
+	for (i=start; i <= end; i++) {
+		[tickMarksPath moveToPoint:NSMakePoint([self plottingArea].origin.x,i*stepInPixels/tickMarksPerUnit+[self origin].y)];
+		[tickMarksPath lineToPoint:NSMakePoint([self plottingArea].origin.x+tickMarksWidth, i*stepInPixels/tickMarksPerUnit+[self origin].y)];
 	}	
 	
 	// Hier stellen we in hoe de lijnen eruit moeten zien.
@@ -642,6 +745,29 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     [axesPath release];
 }
 
+- (void)drawFrame
+{
+    NSBezierPath *framesPath = [[NSBezierPath alloc] init];
+	
+	// De X as.
+    [framesPath moveToPoint:[self plottingArea].origin];
+    [framesPath lineToPoint:NSMakePoint([self plottingArea].origin.x+[self plottingArea].size.width,[self plottingArea].origin.y)];
+	
+	// En de Y as.
+    [framesPath moveToPoint:[self plottingArea].origin];
+    [framesPath lineToPoint:NSMakePoint([self plottingArea].origin.x,[self plottingArea].origin.y+[self plottingArea].size.height)];
+    
+	// Hier stellen we in hoe de lijnen eruit moeten zien.
+	[framesPath setLineWidth:1.0];
+	[[NSColor blackColor] set];
+    
+	// Met stroke wordt de bezierpath getekend.
+	[framesPath stroke];
+    
+	// We hebben framesPath ge-alloc-ed, dus ruimen we die nog even op hier.
+    [framesPath release];    
+}
+
 // Additions for Peacock
 - (void)drawBaseline  
 {
@@ -738,13 +864,24 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	NSRect totRect, newRect;
 	MyGraphDataSerie *mgds;
 	
-	// Voor iedere dataserie wordt de grootte in grafiek-coördinaten opgevraagd en de totaal omvattende rect bepaald
+	// Voor iedere dataserie wordt de grootte in grafiek-coordinaten opgevraagd en de totaal omvattende rect bepaald
 	count = [[self dataSeries] count];
 	for (i=0; i <  count; i++) {
 		mgds=[[self dataSeries] objectAtIndex:i];
 		newRect = [mgds boundingRect];
+        // A little exta room to make room for labels
+        if ([mgds isKindOfClass:[ChromatogramGraphDataSerie class]]) {
+            newRect.size.height = newRect.size.height*1.4;
+        } else if ([mgds isKindOfClass:[SpectrumGraphDataSerie class]]) {
+            newRect.size.height = newRect.size.height*1.3;
+            if (newRect.origin.y < 0.0) {
+                newRect.origin.y = newRect.origin.y * 1.3;
+            }
+        }
 		totRect = NSUnionRect(totRect, newRect);
 	}
+    
+    
 	[self zoomToRect:totRect];
 }
 - (void)showMagnifyingGlass:(NSEvent *)theEvent  
@@ -1094,13 +1231,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	NSPoint mouseLocation = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	if (!_didDrag) {
 		if ([theEvent clickCount] == 1) { // Single click
-			if (([theEvent modifierFlags] & NSCommandKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
-				//   select scan
-				JKLogDebug(@"select scan");
-				if ([delegate respondsToSelector:@selector(showSpectrumForScan:)]) {
-					[delegate showSpectrumForScan:0];
-				} 
-			} else if (([theEvent modifierFlags] & NSAlternateKeyMask) && ([theEvent modifierFlags] & NSShiftKeyMask)) {
+            if (([theEvent modifierFlags] & NSAlternateKeyMask) && ([theEvent modifierFlags] & NSShiftKeyMask)) {
 				[self zoomOut];
 			} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
 				[self zoomIn];
@@ -1185,7 +1316,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 				
 			}
 		} else if ([theEvent clickCount] == 2) { // Float click
-			if (([theEvent modifierFlags] & NSShiftKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
+            if (([theEvent modifierFlags] & NSShiftKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
 				[self showAll:self];
 			} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
 				//  add peak
@@ -1218,9 +1349,13 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 				[(NSArrayController *)[self  baselineContainer] insertObject:mutDict atArrangedObjectIndex:i];
 				[mutDict release];
 			} else {
-				//  show spectrum 
-				JKLogDebug(@"show spectrum");
-			}
+				//  select scan and show spectrum 
+				JKLogDebug(@" select scan and show spectrum");
+                if ([delegate respondsToSelector:@selector(showSpectrumForScan:)]) {
+                    NSPoint pointInReal = [[self transformScreenToGraph] transformPoint:mouseLocation];
+                    [delegate showSpectrumForScan:lroundf(pointInReal.x)];
+                } 
+            }
 		} else {
 			NSBeep();
 		}
@@ -1905,6 +2040,14 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 - (void)setShouldDrawAxes:(BOOL)inValue  
 {
      shouldDrawAxes = inValue;
+}
+- (BOOL)shouldDrawFrame  
+{
+    return shouldDrawFrame;
+}
+- (void)setShouldDrawFrame:(BOOL)inValue  
+{
+    shouldDrawFrame = inValue;
 }
 - (BOOL)shouldDrawMajorTickMarks
 {

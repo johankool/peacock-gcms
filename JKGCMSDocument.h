@@ -12,7 +12,7 @@
 @class JKMainWindowController;
 @class JKPeakRecord;
 @class JKSpectrum;
-
+@class SpectrumGraphDataSerie;
 
 extern NSString *const JKGCMSDocument_DocumentDeactivateNotification;
 extern NSString *const JKGCMSDocument_DocumentActivateNotification;
@@ -136,6 +136,7 @@ extern int const JKGCMSDocument_Version;
 - (int)startValuesSpectrum:(int)scan;
 - (int)endValuesSpectrum:(int)scan;
 - (float)retentionIndexForScan:(int)scan;
+- (SpectrumGraphDataSerie *)spectrumForScan:(int)scan;
 
 #pragma mark ACTIONS
 

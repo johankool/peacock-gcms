@@ -210,8 +210,8 @@
 		[self collectMetadataForDocument:document atIndex:i];
 		[fileProgressIndicator incrementBy:1.0];
 		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticalAnalysisSummarize"] boolValue]) {
-			[detailStatusTextField setStringValue:NSLocalizedString(@"Collecting metadata",@"")];
-			[self collectMetadataForDocument:document atIndex:i];
+	//		[detailStatusTextField setStringValue:NSLocalizedString(@"Collecting metadata",@"")];
+	//		[self collectMetadataForDocument:document atIndex:i];
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Comparing Peaks",@"")];
 			[self collectCombinedPeaksForDocument:document atIndex:i];
 			[fileProgressIndicator incrementBy:1.0];
@@ -803,7 +803,7 @@
 
 - (IBAction)doubleClickAction:(id)sender  
 {
-	JKLogDebug(@"row %d column %d",[sender clickedRow], [sender clickedColumn]);
+	NSLog(@"row %d column %d",[sender clickedRow], [sender clickedColumn]);
 	NSError *error = [[[NSError alloc] init] autorelease];
 	if (([sender clickedRow] == -1) && ([sender clickedColumn] == -1)) {
 		return;
@@ -819,7 +819,7 @@
 		// A cell was double clicked
 		// Bring forwars associated file and
 		// select associated peak
-		// Ugliest code ever! note that keyPath depends on the binding, so if we bind to something else e.g. height, this will fail!
+
 		JKGCMSDocument *document;
 	//	[[[[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] identifier] mainWindowController] window] makeKeyAndOrderFront:self];
 		NSURL *url = [NSURL fileURLWithPath:[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-1]]];
@@ -828,14 +828,27 @@
 			document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:url display:YES error:&error];
 		}
 		[[[document mainWindowController] window] makeKeyAndOrderFront:self];
-		NSString *keyPath = [[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] infoForBinding:@"value"] valueForKey:NSObservedKeyPathKey];
-		keyPath = [keyPath substringWithRange:NSMakeRange(16,[keyPath length]-18-16)];
-		// Check that we don't look for an empty cell
-		int index = [[[[document mainWindowController] peakController] arrangedObjects] indexOfObjectIdenticalTo:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]];
-		[[[document mainWindowController] peakController] setSelectionIndex:index];
+
+#warning [BUG] Double click in Summary window doesn't select peak
+//        // Fails because the peaks in combinedPeaksController are not the same objects?! 
+//        
+//        // get e.g. file_1, file_2, etc.
+//        // Ugliest code ever! note that keyPath depends on the binding, so if we bind to something else e.g. height, this will fail!
+//        NSString *keyPath = [[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] infoForBinding:@"value"] valueForKey:NSObservedKeyPathKey];
+//        keyPath = [keyPath substringWithRange:NSMakeRange(16,[keyPath length]-18-16)];
+//
+//		// Check that we don't look for an empty cell
+//		int index = [[[[document mainWindowController] peakController] arrangedObjects] indexOfObjectIdenticalTo:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]];
+//		[[[document mainWindowController] peakController] setSelectionIndex:index];
 //
 //		if ([[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]) {
 //			NSLog(@"%@",[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]);
+//			NSLog(@"%@",[[[[document mainWindowController] peakController] arrangedObjects] objectAtIndex:0]);
+//            if([[[[document mainWindowController] peakController] arrangedObjects] containsObject:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]]) {
+//                NSLog(@"contains");
+//            } else {
+//                NSLog(@"doesn't contain");;
+//            }
 //			if(![[[document mainWindowController] peakController] setSelectedObjects:[NSArray arrayWithObject:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]]]){
 //				NSLog(@"selection didn't change");
 //			}

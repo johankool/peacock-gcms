@@ -54,6 +54,8 @@ static void *SpectrumObservationContext = (void *)1102;
 	// Setup the toolbar after the document nib has been loaded 
     [self setupToolbar];	
 	
+    [chromatogramView setDelegate:self];
+    
 	// ChromatogramView bindings
 	[chromatogramView bind:@"dataSeries" toObject: chromatogramDataSeriesController
 			   withKeyPath:@"arrangedObjects" options:nil];
@@ -72,17 +74,23 @@ static void *SpectrumObservationContext = (void *)1102;
 		   withKeyPath:@"arrangedObjects" options:nil];
 	
 	// More setup
-	[chromatogramView setShouldDrawLegend:NO];
+	[chromatogramView setShouldDrawLegend:YES];
 	[chromatogramView setKeyForXValue:@"Scan"];
 	[chromatogramView setKeyForYValue:@"Total Intensity"];
+    [chromatogramView setShouldDrawLabels:NO];
+    [chromatogramView setShouldDrawLabelsOnFrame:YES];
 	[chromatogramView showAll:self];
-	[chromatogramView setNeedsDisplay:YES];
 	
 	[spectrumView setXMinimum:[NSNumber numberWithFloat:0]];
 	[spectrumView setXMaximum:[NSNumber numberWithFloat:650]];
 	[spectrumView setYMinimum:[NSNumber numberWithFloat:-1.1]];
 	[spectrumView setYMaximum:[NSNumber numberWithFloat:1.1]];
-	
+	[spectrumView setShouldDrawLegend:YES];
+	[spectrumView setShouldDrawFrame:NO];
+    [spectrumView setShouldDrawLabels:NO];
+    [spectrumView setShouldDrawLabelsOnFrame:YES];
+    [spectrumView setShouldDrawAxes:YES];
+    
 	// Register as observer
 	[searchResultsController addObserver:self forKeyPath:@"selection" options:nil context:nil];
 	
@@ -545,6 +553,11 @@ static void *SpectrumObservationContext = (void *)1102;
     [[self document] willChangeValueForKey:@"chromatograms"];
 	[[[self document] chromatograms] removeObjectAtIndex:[sender tag]];
     [[self document] didChangeValueForKey:@"chromatograms"];
+}
+
+- (void)showSpectrumForScan:(int)scan {
+    [spectrumDataSeriesController setContent:[NSArray arrayWithObject:[[self document] spectrumForScan:scan]]];
+    [spectrumView setNeedsDisplay:YES];
 }
 
 #pragma mark KEY VALUE OBSERVATION

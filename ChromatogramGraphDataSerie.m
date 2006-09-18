@@ -37,7 +37,7 @@ static void *PeaksObservationContext = (void *)1094;
 //		[self setKeyForYValue:@"yValue"];
 		[self setSeriesColor:[NSColor blueColor]];
 		[self setSeriesType:1];
-		[self setShouldDrawPeaks:YES];
+		[self setShouldDrawPeaks:NO];
 		[self setShouldDrawLabels:YES];
 //				
 //		// Voeg ons toe als observer voor veranderingen in de array met data, zoals toevoegingen en verwijderingen.
@@ -74,7 +74,11 @@ static void *PeaksObservationContext = (void *)1094;
     [self drawPeaksWithTransform:trans];
 	
 	// Hier stellen we in hoe de lijnen eruit moeten zien.
-	[bezierpath setLineWidth:1.0];
+    if ([[NSGraphicsContext currentContext] isDrawingToScreen]) {
+        [bezierpath setLineWidth:1.0];        
+    } else {
+        [bezierpath setLineWidth:0.5];
+    }
 	[[self seriesColor] set];
 	
 	// Met stroke wordt de bezierpath getekend.
@@ -220,7 +224,7 @@ static void *PeaksObservationContext = (void *)1094;
 			// Draw
 			[peaksPath fill];
 			
-			// Draw an triangle
+			// Draw an arrow
 			[arrowPath removeAllPoints];
 			top = [[[selectedPeaks objectAtIndex:i] valueForKey:@"top"] intValue];
 			pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:top] valueForKey:keyForXValue] floatValue],
@@ -229,9 +233,6 @@ static void *PeaksObservationContext = (void *)1094;
 			
 			[arrowPath moveToPoint:pointInUnits];
 			[arrowPath relativeMoveToPoint:NSMakePoint(0.0,18.0)];
-//			[arrowPath relativeLineToPoint:NSMakePoint(-6.0,12.0)];
-//			[arrowPath relativeLineToPoint:NSMakePoint(12.0,0.0)];
-//			[arrowPath relativeLineToPoint:NSMakePoint(-6.0,-12.0)];
 			[arrowPath relativeLineToPoint:NSMakePoint(-8.0,8.0)];
 			[arrowPath relativeLineToPoint:NSMakePoint(4.0,0.0)];
 			[arrowPath relativeLineToPoint:NSMakePoint(0.0,8.0)];
@@ -268,8 +269,12 @@ static void *PeaksObservationContext = (void *)1094;
 	NSRectArray rects;
 	rects = (NSRectArray) calloc(rectCount, sizeof(NSRect));
 	 
-	[attrs setValue:[NSFont systemFontOfSize:10] forKey:NSFontAttributeName];
-	
+    if ([[NSGraphicsContext currentContext] isDrawingToScreen]) {
+        [attrs setValue:[NSFont systemFontOfSize:10] forKey:NSFontAttributeName];
+	} else  {
+        [attrs setValue:[NSFont systemFontOfSize:8] forKey:NSFontAttributeName];        
+    }
+    
 	for (i=0; i<count; i++) {
 		if ([[[self peaks] objectAtIndex:i] valueForKeyPath:@"symbol"] && ![[[[self peaks] objectAtIndex:i] valueForKeyPath:@"symbol"] isEqualToString:@""]) {
 			string = [[NSMutableAttributedString alloc] initWithString:[[[self peaks] objectAtIndex:i] valueForKey:@"symbol"] attributes:attrs];

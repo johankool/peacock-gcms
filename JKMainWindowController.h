@@ -12,8 +12,9 @@
 @class JKLibrarySearch;
 @class JKPeakRecord;
 @class JKSpectrum;
-@class MyGraphView;
 @class JKMoleculeView;
+
+#import "MyGraphView.h"
 
 enum JKPeakSelection {
 	JKAllPeaks,
@@ -23,7 +24,7 @@ enum JKPeakSelection {
 	JKUnconfirmedPeaks
 };
 
-@interface JKMainWindowController : NSWindowController {
+@interface JKMainWindowController : NSWindowController <MyGraphViewDelegateProtocol> {
 	IBOutlet NSView *mainWindowSplitView;
 	
 	// Chromatogram
