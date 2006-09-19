@@ -33,7 +33,6 @@
 		C72C8509098BE83600CEF565 /* JKSpectrumTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C8508098BE83600CEF565 /* JKSpectrumTest.m */; };
 		C72C85D7098BF1B800CEF565 /* JKGeneralTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C85D6098BF1B800CEF565 /* JKGeneralTesting.m */; };
 		C747EC0F0ABEEBC6001F98AF /* JKWelcomeDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = C747EC0E0ABEEBC6001F98AF /* JKWelcomeDialog.nib */; };
-		C747EC600ABEF3AA001F98AF /* Test File.cdf in Resources */ = {isa = PBXBuildFile; fileRef = C747EC5F0ABEF3AA001F98AF /* Test File.cdf */; };
 		C747ED350ABF43C6001F98AF /* Peacock Test Files in Resources */ = {isa = PBXBuildFile; fileRef = C747ED320ABF43C6001F98AF /* Peacock Test Files */; };
 		C7713B36095029C200653D2A /* JKBatchProcess.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7713B35095029C200653D2A /* JKBatchProcess.nib */; };
 		C7713B430950368F00653D2A /* JKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */; };
@@ -170,7 +169,6 @@
 		C72C85D5098BF1B800CEF565 /* JKGeneralTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKGeneralTesting.h; sourceTree = "<group>"; };
 		C72C85D6098BF1B800CEF565 /* JKGeneralTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKGeneralTesting.m; sourceTree = "<group>"; };
 		C747EC0E0ABEEBC6001F98AF /* JKWelcomeDialog.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = JKWelcomeDialog.nib; sourceTree = "<group>"; };
-		C747EC5F0ABEF3AA001F98AF /* Test File.cdf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Test File.cdf"; sourceTree = "<group>"; };
 		C747ED320ABF43C6001F98AF /* Peacock Test Files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Peacock Test Files"; sourceTree = "<group>"; };
 		C7713B35095029C200653D2A /* JKBatchProcess.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = JKBatchProcess.nib; sourceTree = "<group>"; };
 		C7713B410950368F00653D2A /* JKBatchProcessWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKBatchProcessWindowController.h; sourceTree = "<group>"; };
@@ -403,7 +401,6 @@
 			isa = PBXGroup;
 			children = (
 				C747ED320ABF43C6001F98AF /* Peacock Test Files */,
-				C747EC620ABEF4A0001F98AF /* Test Files */,
 				C7C21FC50A5060E2006E82FD /* Peacock.sdef */,
 				C7EB17B00898CF2E007FC2ED /* Icons */,
 				C7EB17C00898CF2E007FC2ED /* Images */,
@@ -546,14 +543,6 @@
 				C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */,
 			);
 			name = TableView;
-			sourceTree = "<group>";
-		};
-		C747EC620ABEF4A0001F98AF /* Test Files */ = {
-			isa = PBXGroup;
-			children = (
-				C747EC5F0ABEF3AA001F98AF /* Test File.cdf */,
-			);
-			name = "Test Files";
 			sourceTree = "<group>";
 		};
 		C773290908CA610700222B5B /* Controllers */ = {
@@ -850,7 +839,6 @@
 				C7B9BA2D0AA881AE00250EFE /* view.tiff in Resources */,
 				C7FBE1E40AB6F1A4000E7EF2 /* presets.png in Resources */,
 				C747EC0F0ABEEBC6001F98AF /* JKWelcomeDialog.nib in Resources */,
-				C747EC600ABEF3AA001F98AF /* Test File.cdf in Resources */,
 				C747ED350ABF43C6001F98AF /* Peacock Test Files in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

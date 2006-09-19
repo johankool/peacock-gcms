@@ -19,7 +19,9 @@
 {
 	self = [super init];
     if (self != nil) {
-		NSCharacterSet *whiteCharacters = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+        NSAssert(inString != nil, @"JKLibraryEntry inited with empty inString");
+		
+        NSCharacterSet *whiteCharacters = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 		NSScanner *theScanner = [[NSScanner alloc] initWithString:inString];
 //		name = @"";			// ##TITLE=
 //		origin = @"";		// ##ORIGIN=
@@ -40,7 +42,7 @@
 //		molString = @"";	// ##$MOLSTRING=
 //		symbol = @"";		// ##$SYMBOL=
 		
-		NSString *xyData; 
+		NSString *xyData = @""; 
 		NSString *scannedString;
 		float scannedFloat;
 		
@@ -326,7 +328,9 @@
 		}
 		
 		[theScanner scanUpToCharactersFromSet:[NSCharacterSet letterCharacterSet] intoString:&xyData];
-		[self setPeakTable:xyData];
+        if ([xyData length] > 0) {
+            [self setPeakTable:xyData];            
+        }
 		
 		[theScanner release];
     }
@@ -546,6 +550,10 @@ idUndoAccessor(symbol, setSymbol, @"Change Symbol")
 
 - (void)setPeakTable:(NSString *)inString 
 {
+    if ((inString == nil) || (![inString isKindOfClass:[NSString class]])) {
+        return;
+    }
+    
 	NSScanner *theScanner2 = [[NSScanner alloc] initWithString:inString];
 	masses = (float *) realloc(masses, numberOfPoints*sizeof(float));
 	intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
