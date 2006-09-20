@@ -248,6 +248,10 @@ int const JKGCMSDocument_Version = 4;
 	}	
 }
 
+- (NSString *)autosavingFileType {
+    return @"Peacock File";
+}
+
 #pragma mark IBACTIONS
 
 - (IBAction)openNext:(id)sender  
