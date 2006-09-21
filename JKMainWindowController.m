@@ -69,7 +69,7 @@ static void *SpectrumObservationContext = (void *)1102;
 												  withKeyPath:@"arrangedObjects" options:nil];
 	}
 	
-	// Spectrum
+	// SpectrumView bindings
 	[spectrumView bind:@"dataSeries" toObject: spectrumDataSeriesController
 		   withKeyPath:@"arrangedObjects" options:nil];
 	
@@ -97,11 +97,11 @@ static void *SpectrumObservationContext = (void *)1102;
 	[[self document] addObserver:self forKeyPath:@"metadata.sampleCode" options:nil context:DocumentObservationContext];
 	[[self document] addObserver:self forKeyPath:@"metadata.sampleDescription" options:nil context:DocumentObservationContext];
 	
-	[self addObserver:self forKeyPath:@"showTICTrace" options:nil context:ChromatogramObservationContext];
-	[self addObserver:self forKeyPath:@"showSpectrum" options:nil context:SpectrumObservationContext];
-	[self addObserver:self forKeyPath:@"showCombinedSpectrum" options:nil context:SpectrumObservationContext];
-	[self addObserver:self forKeyPath:@"showLibraryHit" options:nil context:SpectrumObservationContext];
-	[self addObserver:self forKeyPath:@"showNormalizedSpectra" options:nil context:SpectrumObservationContext];
+//	[self addObserver:self forKeyPath:@"showTICTrace" options:nil context:ChromatogramObservationContext];
+//	[self addObserver:self forKeyPath:@"showSpectrum" options:nil context:SpectrumObservationContext];
+//	[self addObserver:self forKeyPath:@"showCombinedSpectrum" options:nil context:SpectrumObservationContext];
+//	[self addObserver:self forKeyPath:@"showLibraryHit" options:nil context:SpectrumObservationContext];
+//	[self addObserver:self forKeyPath:@"showNormalizedSpectra" options:nil context:SpectrumObservationContext];
 	
 	// Double click action
 	[resultsTable setDoubleAction:@selector(resultDoubleClicked:)];
@@ -119,16 +119,17 @@ static void *SpectrumObservationContext = (void *)1102;
 
 - (void)dealloc  
 {
+    NSLog(@"JKMainWindowController - dealloc");
 	[searchResultsController removeObserver:self forKeyPath:@"selection"];
 
 	[[self document] removeObserver:self forKeyPath:@"metadata.sampleCode"];
 	[[self document] removeObserver:self forKeyPath:@"metadata.sampleDescription"];
 
-    [self removeObserver:self forKeyPath:@"showTICTrace"];
-	[self removeObserver:self forKeyPath:@"showSpectrum"];
-	[self removeObserver:self forKeyPath:@"showCombinedSpectrum"];
-	[self removeObserver:self forKeyPath:@"showLibraryHit"];
-	[self removeObserver:self forKeyPath:@"showNormalizedSpectra"];
+//    [self removeObserver:self forKeyPath:@"showTICTrace"];
+//	[self removeObserver:self forKeyPath:@"showSpectrum"];
+//	[self removeObserver:self forKeyPath:@"showCombinedSpectrum"];
+//	[self removeObserver:self forKeyPath:@"showLibraryHit"];
+//	[self removeObserver:self forKeyPath:@"showNormalizedSpectra"];
     
     [super dealloc];
 }

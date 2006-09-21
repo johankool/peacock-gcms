@@ -79,53 +79,53 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		[self setLegendAreaColor:[NSColor whiteColor]];
 		[self setLegendFrameColor:[NSColor whiteColor]];
 				
-		// Observe changes for what values to draw
-		[self addObserver:self forKeyPath:@"keyForXValue" options:nil context:DataObservationContext];
-		[self addObserver:self forKeyPath:@"keyForYValue" options:nil context:DataObservationContext];
-		[self addObserver:self forKeyPath:@"dataSeries" options:nil context:DataObservationContext];
-		
-		// Observe changes for plotting area
-		[self addObserver:self forKeyPath:@"origin" options:nil context:PropertyObservationContext];
-		[self addObserver:self forKeyPath:@"frame" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:FrameObservationContext];	
-
-		// Observe changes for what to draw
-		[self addObserver:self forKeyPath:@"shouldDrawAxes" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"shouldDrawMajorTickMarks" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"shouldDrawMinorTickMarks" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"shouldDrawLegend" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"shouldDrawGrid" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"shouldDrawLabels" options:nil context:PropertyObservationContext];
-		[self addObserver:self forKeyPath:@"shouldDrawLabelsOnFrame" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"shouldDrawLegend" options:nil context:PropertyObservationContext];	
-		
-		// Observe changes for color
-		[self addObserver:self forKeyPath:@"backColor" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"plottingAreaColor" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"axesColor" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"gridColor" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"labelsColor" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"labelsOnFrameColor" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"legendAreaColor" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"legendFrameColor" options:nil context:PropertyObservationContext];	
-		
-		// Observe changes for zooming
-		[self addObserver:self forKeyPath:@"minimumPixelsPerMajorGridLine" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"pixelsPerXUnit" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"pixelsPerYUnit" options:nil context:PropertyObservationContext];
-		
-		// Observe changes for text
-		[self addObserver:self forKeyPath:@"titleString" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"xAxisLabelString" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"yAxisLabelString" options:nil context:PropertyObservationContext];	
+//		// Observe changes for what values to draw
+//		[self addObserver:self forKeyPath:@"keyForXValue" options:nil context:DataObservationContext];
+//		[self addObserver:self forKeyPath:@"keyForYValue" options:nil context:DataObservationContext];
+//		[self addObserver:self forKeyPath:@"dataSeries" options:nil context:DataObservationContext];
+//		
+//		// Observe changes for plotting area
+//		[self addObserver:self forKeyPath:@"origin" options:nil context:PropertyObservationContext];
+//		[self addObserver:self forKeyPath:@"frame" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:FrameObservationContext];	
+//
+//		// Observe changes for what to draw
+//		[self addObserver:self forKeyPath:@"shouldDrawAxes" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"shouldDrawMajorTickMarks" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"shouldDrawMinorTickMarks" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"shouldDrawLegend" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"shouldDrawGrid" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"shouldDrawLabels" options:nil context:PropertyObservationContext];
+//		[self addObserver:self forKeyPath:@"shouldDrawLabelsOnFrame" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"shouldDrawLegend" options:nil context:PropertyObservationContext];	
+//		
+//		// Observe changes for color
+//		[self addObserver:self forKeyPath:@"backColor" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"plottingAreaColor" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"axesColor" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"gridColor" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"labelsColor" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"labelsOnFrameColor" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"legendAreaColor" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"legendFrameColor" options:nil context:PropertyObservationContext];	
+//		
+//		// Observe changes for zooming
+//		[self addObserver:self forKeyPath:@"minimumPixelsPerMajorGridLine" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"pixelsPerXUnit" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"pixelsPerYUnit" options:nil context:PropertyObservationContext];
+//		
+//		// Observe changes for text
+//		[self addObserver:self forKeyPath:@"titleString" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"xAxisLabelString" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"yAxisLabelString" options:nil context:PropertyObservationContext];	
 
 		// Additions for Peacock
 		[self setShouldDrawBaseline:NO];
 		[self setShouldDrawPeaks:YES];
         [self setSelectedScan:0];
         
-		[self addObserver:self forKeyPath:@"baseline" options:nil context:PropertyObservationContext];			
-		[self addObserver:self forKeyPath:@"shouldDrawBaseline" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"shouldDrawPeaks" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"baseline" options:nil context:PropertyObservationContext];			
+//		[self addObserver:self forKeyPath:@"shouldDrawBaseline" options:nil context:PropertyObservationContext];	
+//		[self addObserver:self forKeyPath:@"shouldDrawPeaks" options:nil context:PropertyObservationContext];	
 	}
 	return self;
 }
@@ -135,49 +135,52 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[self unbind:@"baseline"];
 	[self unbind:@"peaks"];
 	[self unbind:@"dataSeries"];
+//	[self removeObserver:self forKeyPath:@"dataSeries"];
 
-	// Observe changes for what values to draw
-	[self removeObserver:self forKeyPath:@"keyForXValue"];
-	[self removeObserver:self forKeyPath:@"keyForYValue"];
-	
-	// Observe changes for plotting area
-	[self removeObserver:self forKeyPath:@"origin"];
-	[self removeObserver:self forKeyPath:@"frame"];	
-	
-	// Observe changes for what to draw
-	[self removeObserver:self forKeyPath:@"shouldDrawAxes"];	
-	[self removeObserver:self forKeyPath:@"shouldDrawMajorTickMarks"];	
-	[self removeObserver:self forKeyPath:@"shouldDrawMinorTickMarks"];	
-	[self removeObserver:self forKeyPath:@"shouldDrawLegend"];	
-	[self removeObserver:self forKeyPath:@"shouldDrawGrid"];	
-	[self removeObserver:self forKeyPath:@"shouldDrawLabels"];
-	[self removeObserver:self forKeyPath:@"shouldDrawLabelsOnFrame"];	
-	[self removeObserver:self forKeyPath:@"shouldDrawLegend"];	
-	
-	// Observe changes for color
-	[self removeObserver:self forKeyPath:@"backColor"];	
-	[self removeObserver:self forKeyPath:@"plottingAreaColor"];	
-	[self removeObserver:self forKeyPath:@"axesColor"];	
-	[self removeObserver:self forKeyPath:@"gridColor"];	
-	[self removeObserver:self forKeyPath:@"labelsColor"];	
-	[self removeObserver:self forKeyPath:@"labelsOnFrameColor"];	
-	[self removeObserver:self forKeyPath:@"legendAreaColor"];	
-	[self removeObserver:self forKeyPath:@"legendFrameColor"];	
-	
-	// Observe changes for zooming
-	[self removeObserver:self forKeyPath:@"minimumPixelsPerMajorGridLine"];	
-	[self removeObserver:self forKeyPath:@"pixelsPerXUnit"];	
-	[self removeObserver:self forKeyPath:@"pixelsPerYUnit"];
-	
-	// Observe changes for text
-	[self removeObserver:self forKeyPath:@"titleString"];	
-	[self removeObserver:self forKeyPath:@"xAxisLabelString"];	
-	[self removeObserver:self forKeyPath:@"yAxisLabelString"];	
-	
-	// Additions for Peacock
-	[self removeObserver:self forKeyPath:@"baseline"];			
-	[self removeObserver:self forKeyPath:@"shouldDrawBaseline"];	
-	[self removeObserver:self forKeyPath:@"shouldDrawPeaks"];	
+//	// Observe changes for what values to draw
+//	[self removeObserver:self forKeyPath:@"keyForXValue"];
+//	[self removeObserver:self forKeyPath:@"keyForYValue"];
+//	
+//	// Observe changes for plotting area
+//	[self removeObserver:self forKeyPath:@"origin"];
+//	[self removeObserver:self forKeyPath:@"frame"];	
+//	
+//	// Observe changes for what to draw
+//	[self removeObserver:self forKeyPath:@"shouldDrawAxes"];	
+//	[self removeObserver:self forKeyPath:@"shouldDrawMajorTickMarks"];	
+//	[self removeObserver:self forKeyPath:@"shouldDrawMinorTickMarks"];	
+//	[self removeObserver:self forKeyPath:@"shouldDrawLegend"];	
+//	[self removeObserver:self forKeyPath:@"shouldDrawGrid"];	
+//	[self removeObserver:self forKeyPath:@"shouldDrawLabels"];
+//	[self removeObserver:self forKeyPath:@"shouldDrawLabelsOnFrame"];	
+//	[self removeObserver:self forKeyPath:@"shouldDrawLegend"];	
+//	
+//	// Observe changes for color
+//	[self removeObserver:self forKeyPath:@"backColor"];	
+//	[self removeObserver:self forKeyPath:@"plottingAreaColor"];	
+//	[self removeObserver:self forKeyPath:@"axesColor"];	
+//	[self removeObserver:self forKeyPath:@"gridColor"];	
+//	[self removeObserver:self forKeyPath:@"labelsColor"];	
+//	[self removeObserver:self forKeyPath:@"labelsOnFrameColor"];	
+//	[self removeObserver:self forKeyPath:@"legendAreaColor"];	
+//	[self removeObserver:self forKeyPath:@"legendFrameColor"];	
+//	
+//	// Observe changes for zooming
+//	[self removeObserver:self forKeyPath:@"minimumPixelsPerMajorGridLine"];	
+//	[self removeObserver:self forKeyPath:@"pixelsPerXUnit"];	
+//	[self removeObserver:self forKeyPath:@"pixelsPerYUnit"];
+//	
+//	// Observe changes for text
+//	[self removeObserver:self forKeyPath:@"titleString"];	
+//	[self removeObserver:self forKeyPath:@"xAxisLabelString"];	
+//	[self removeObserver:self forKeyPath:@"yAxisLabelString"];	
+//	
+//	// Additions for Peacock
+//	[self removeObserver:self forKeyPath:@"baseline"];			
+//	[self removeObserver:self forKeyPath:@"shouldDrawBaseline"];	
+//	[self removeObserver:self forKeyPath:@"shouldDrawPeaks"];	
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[super dealloc];
 }
@@ -185,16 +188,11 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 
 
 #pragma mark DRAWING ROUTINES
+
 - (void)drawRect:(NSRect)rect  
 {
 	[self calculateCoordinateConversions];
-    
-    // resize legend area to fit all entries
-    NSRect newLegendArea = [self legendArea];
-    newLegendArea.size.height = [[self dataSeries] count] * 18;
-    newLegendArea.origin.y = newLegendArea.origin.y - (newLegendArea.size.height - [self legendArea].size.height);
-    [self setLegendArea:newLegendArea];
-    
+        
 	// Fancy schaduw effecten...
 	NSShadow *noShadow = [[NSShadow alloc] init];
 	NSShadow *shadow = [[NSShadow alloc] init];
@@ -224,51 +222,53 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		[[NSBezierPath bezierPathWithRect:[self plottingArea]] stroke];
 
     // Draw plotting inside the plotting area
-    [NSGraphicsContext saveGraphicsState];	
-	[[NSBezierPath bezierPathWithRect:[self plottingArea]] addClip];
-	
-	if ([self shouldDrawGrid])
-		[self drawGrid];
-	if ([self shouldDrawAxes]) {
-        [self drawAxes];
-        if ([self shouldDrawMajorTickMarks]) {
-            [self drawMajorTickMarks];
-            if ([self shouldDrawMinorTickMarks])
-                [self drawMinorTickMarks];
-        }
-    }
-    
-    
-	if ([self shouldDrawLabels])
-		[self drawLabels];
-	
-	// Additions for Peacock
-	if ([self shouldDrawBaseline])
-		[self drawBaseline];
-	
-	// In plaats van een loop kunnen we ook deze convenient method gebruiken om iedere dataserie zich te laten tekenen.
-	//NSAssert([[self dataSeries] count] >= 1, @"No dataSeries to draw.");
-	NSEnumerator *enumerator = [[self dataSeries] objectEnumerator];
-	id object;
-	
-	while ((object = [enumerator nextObject])) {
-		// do something with object...
-	//	NSLog([object description]);
-		if ([object respondsToSelector:@selector(plotDataWithTransform:)]) {
-			[object plotDataWithTransform:[self transformGraphToScreen]];
-		}
-	}
-//	[[self dataSeries] makeObjectsPerformSelector:@selector(plotDataWithTransform:) withObject:[self transformGraphToScreen]];
-
-    // Draw line for selected scan
-    if (([self selectedScan] > 0) && ([[NSGraphicsContext currentContext] isDrawingToScreen])) {
-        [[NSColor blackColor] set];
-        NSPoint point = [[self transformGraphToScreen] transformPoint:NSMakePoint([self selectedScan]*1.0, 0)];
+    if (NSIntersectsRect([self plottingArea],rect)) {
+        [NSGraphicsContext saveGraphicsState];	
+        [[NSBezierPath bezierPathWithRect:[self plottingArea]] addClip];
         
-        NSBezierPath *selectedScanBezierPath = [NSBezierPath bezierPath];
-        [selectedScanBezierPath moveToPoint:NSMakePoint(point.x, [self plottingArea].origin.y)];
-        [selectedScanBezierPath lineToPoint:NSMakePoint(point.x, [self plottingArea].origin.y+[self plottingArea].size.height)];
-        [selectedScanBezierPath stroke];        
+        if ([self shouldDrawGrid])
+            [self drawGrid];
+        if ([self shouldDrawAxes]) {
+            [self drawAxes];
+            if ([self shouldDrawMajorTickMarks]) {
+                [self drawMajorTickMarks];
+                if ([self shouldDrawMinorTickMarks])
+                    [self drawMinorTickMarks];
+            }
+        }
+        
+        
+        if ([self shouldDrawLabels])
+            [self drawLabels];
+        
+        // Additions for Peacock
+        if ([self shouldDrawBaseline])
+            [self drawBaseline];
+        
+        // In plaats van een loop kunnen we ook deze convenient method gebruiken om iedere dataserie zich te laten tekenen.
+        //NSAssert([[self dataSeries] count] >= 1, @"No dataSeries to draw.");
+        NSEnumerator *enumerator = [[self dataSeries] objectEnumerator];
+        id object;
+        
+        while ((object = [enumerator nextObject])) {
+            // do something with object...
+            //	NSLog([object description]);
+            if ([object respondsToSelector:@selector(plotDataWithTransform:)]) {
+                [object plotDataWithTransform:[self transformGraphToScreen]];
+            }
+        }  
+        
+        // Draw line for selected scan
+        if (([self selectedScan] > 0) && ([[NSGraphicsContext currentContext] isDrawingToScreen])) {
+            [[NSColor blackColor] set];
+            NSPoint point = [[self transformGraphToScreen] transformPoint:NSMakePoint([self selectedScan]*1.0, 0)];
+            
+            NSBezierPath *selectedScanBezierPath = [NSBezierPath bezierPath];
+            [selectedScanBezierPath moveToPoint:NSMakePoint(point.x, [self plottingArea].origin.y)];
+            [selectedScanBezierPath lineToPoint:NSMakePoint(point.x, [self plottingArea].origin.y+[self plottingArea].size.height)];
+            [selectedScanBezierPath stroke];        
+        }
+        
     }
     
 	[NSGraphicsContext restoreGraphicsState];
@@ -284,32 +284,19 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     
 	if ([self shouldDrawLabelsOnFrame])
 		[self drawLabelsOnFrame];
-	if ([self shouldDrawLegend])
+	if (([self shouldDrawLegend]) && ([self needsToDrawRect:[self legendArea]]))
 		[self drawLegend];
 	[self drawTitles];
 	
-	[[[NSColor selectedControlColor] colorWithAlphaComponent:0.4] set];
-	[[NSBezierPath bezierPathWithRect:[self selectedRect]] fill];
-	[[NSColor selectedControlColor] set];
-	[[NSBezierPath bezierPathWithRect:[self selectedRect]] stroke];
-	
-    
+    if (NSIntersectsRect([self selectedRect],rect)) {
+        [[[NSColor selectedControlColor] colorWithAlphaComponent:0.4] set];
+        [[NSBezierPath bezierPathWithRect:[self selectedRect]] fill];
+        [[NSColor selectedControlColor] set];
+        [[NSBezierPath bezierPathWithRect:[self selectedRect]] stroke];        
+    }
+
 	[shadow release];
 	[noShadow release];
-
-    
-//	// Draw focus ring
-//	if (([[self window] isKeyWindow]) && ([[self window] firstResponder] == self) && ([[NSGraphicsContext currentContext] isDrawingToScreen])) {
-//		[[NSColor keyboardFocusIndicatorColor] set];
-//		[[NSBezierPath bezierPathWithRect:NSInsetRect([self frame],1,1)] stroke];
-
-//		[NSGraphicsContext saveGraphicsState];
-//		[[NSBezierPath bezierPathWithRect:[self frame]] addClip];
-//		NSSetFocusRingStyle(NSFocusRingOnly);
-//		NSRectFill([self frame]);
-//		[NSGraphicsContext restoreGraphicsState];
-//	}
-	
 }
 
 - (void)drawGrid  
@@ -607,22 +594,23 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 {
 	NSMutableAttributedString *string;// = [[NSMutableAttributedString alloc] init];
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
+	NSMutableDictionary *attrs2 = [NSMutableDictionary dictionary];
 	int i, start, end;
 	float stepInUnits, stepInPixels;
 	NSSize stringSize;
 	NSPoint pointToDraw;
-	NSString *formatString = @"%.f";
+	NSString *formatString = @"%g";
+	NSMutableString *label;
 	
 	[attrs setValue:[NSFont systemFontOfSize:10] forKey:NSFontAttributeName];
-
+    [attrs2 setValue:[NSNumber numberWithInt:1] forKey:NSSuperscriptAttributeName];
+    [attrs2 setValue:[NSFont systemFontOfSize:8] forKey:NSFontAttributeName];
+    
 	// Labels op X-as
 	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
 	stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
 	
 	// Toegegeven, dit is niet erg doorzichtig. Het is een dubbelgenestte printf string die ervoor zorgt dat er altijd net genoeg cijfers achter de komma worden gezet om te weten hoe groot de stap tussen de gridlijnen is.
-	if (floor(log10(stepInUnits)) < 0) {
-		formatString = [NSString stringWithFormat:@"%%.%.ff", fabs(floor(log10(stepInUnits)))];
-	} 
 	
 	// Nog in te voegen: waarden groter dan 1E6 met notatie 1,0 x 10^6  en hetzelfde voor waarden kleiner dan 1E-6.
 	// Nul moet altijd gewoon "0" zijn.
@@ -632,18 +620,30 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	start = -[self origin].x/stepInPixels;
 	end = start + [self frame].size.width/stepInPixels+1;
 	for (i=start; i <= end; i++) {
-		string = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:formatString, i*stepInUnits] attributes:attrs];
-//		[string initWithString:[NSString stringWithFormat:@"%.1fx10%d", i*stepInUnits, 3] attributes:attrs];
-		
-//		[attrs setValue:[NSNumber numberWithInt:1] forKey:NSSuperscriptAttributeName];
-//		[attrs setValue:[NSFont systemFontOfSize:8] forKey:NSFontAttributeName];
-//		[string setAttributes:attrs range:NSMakeRange(6,1)];
+        label = [NSMutableString localizedStringWithFormat:formatString, i*stepInUnits];
+        if ([label rangeOfString:@"e"].location != NSNotFound) {
+            [label replaceOccurrencesOfString:@"e+0" withString:@"e" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+            [label replaceOccurrencesOfString:@"e-0" withString:@"e-" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+            [label replaceOccurrencesOfString:@"e" withString:[NSString stringWithUTF8String:"\u22c510"] options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];                
+            [label replaceOccurrencesOfString:@"+" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+            string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs]; 
+            NSRange tenRange = [label rangeOfString:[NSString stringWithUTF8String:"\u22c510"]];
+            NSRange superRange = NSMakeRange(tenRange.location+tenRange.length, [label length]-tenRange.location-tenRange.length);
+            [string setAttributes:attrs2 range:superRange];
+        } else {
+            string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs];            
+        }
 		stringSize = [string size];
 		pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(i*stepInUnits,0.)];
 		pointToDraw.x = pointToDraw.x - stringSize.width/2;
 		pointToDraw.y = pointToDraw.y - stringSize.height - 4;
 		[string drawAtPoint:pointToDraw];
 		[string release];
+        // Ugly fix for overlap
+        if (stringSize.width > stepInPixels) {
+            i++;
+        }
+        
 	}
 
 	// Labels op Y-as
@@ -651,22 +651,34 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
 
 	// Toegegeven, dit is niet erg doorzichtig. Het is een dubbelgenestte printf string die ervoor zorgt dat er altijd net genoeg cijfers achter de komma worden gezet om te weten hoe groot de stap tussen de gridlijnen is.
-	if (floor(log10(stepInUnits)) < 0) {
-		formatString = [NSString stringWithFormat:@"%%.%.ff", fabs(floor(log10(stepInUnits)))];
-	} else {
-		formatString = @"%.f";
-	}
 	
 	start = -[self origin].y/stepInPixels;
 	end = start + [self frame].size.height/stepInPixels+1;
 	for (i=start; i <= end; i++) {
-		string = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:formatString, i*stepInUnits] attributes:attrs];
+        label = [NSMutableString localizedStringWithFormat:formatString, i*stepInUnits];
+        if ([label rangeOfString:@"e"].location != NSNotFound) {
+            [label replaceOccurrencesOfString:@"e+0" withString:@"e" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+            [label replaceOccurrencesOfString:@"e-0" withString:@"e-" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+            [label replaceOccurrencesOfString:@"e" withString:[NSString stringWithUTF8String:"\u22c510"] options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];                
+            [label replaceOccurrencesOfString:@"+" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+            string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs]; 
+            NSRange tenRange = [label rangeOfString:[NSString stringWithUTF8String:"\u22c510"]];
+            NSRange superRange = NSMakeRange(tenRange.location+tenRange.length, [label length]-tenRange.location-tenRange.length);
+            [string setAttributes:attrs2 range:superRange];
+        } else {
+            string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs];            
+        }
 		stringSize = [string size];
 		pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(0.,i*stepInUnits)];
 		pointToDraw.x = pointToDraw.x - stringSize.width - 4;
 		pointToDraw.y = pointToDraw.y - stringSize.height/2;
 		[string drawAtPoint:pointToDraw];
 		[string release];
+        // Ugly fix for overlap
+        if (stringSize.width > stepInPixels) {
+            i++;
+        }
+        
 	}
 }
 
@@ -674,66 +686,86 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 {
 	NSMutableAttributedString *string;// = [[NSMutableAttributedString alloc] init];
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
+	NSMutableDictionary *attrs2 = [NSMutableDictionary dictionary];
 	int i, start, end;
 	float stepInUnits, stepInPixels;
 	NSSize stringSize;
 	NSPoint pointToDraw;
-	NSString *formatString = @"%.f";
+	NSString *formatString = @"%g";
+	NSMutableString *label;
 	
 	[attrs setValue:[NSFont systemFontOfSize:10] forKey:NSFontAttributeName];
-	
+    [attrs2 setValue:[NSNumber numberWithInt:1] forKey:NSSuperscriptAttributeName];
+    [attrs2 setValue:[NSFont systemFontOfSize:8] forKey:NSFontAttributeName];
+
 	// Labels op X-as
 	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
 	stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
-	
-	// Toegegeven, dit is niet erg doorzichtig. Het is een dubbelgenestte printf string die ervoor zorgt dat er altijd net genoeg cijfers achter de komma worden gezet om te weten hoe groot de stap tussen de gridlijnen is.
-	if (floor(log10(stepInUnits)) < 0) {
-		formatString = [NSString stringWithFormat:@"%%.%.ff", fabs(floor(log10(stepInUnits)))];
-	} 
 	
 	// Nog in te voegen: waarden groter dan 1E6 met notatie 1,0 x 10^6  en hetzelfde voor waarden kleiner dan 1E-6.
 	// Nul moet altijd gewoon "0" zijn. Of de "O" in italics van Oorsprong/Origin.
 	// Als we ver van de oorspong gaan, dan moeten de waarden ook anders genoteerd worden, 1,10,100,1000,1e4 1,0001e4,1,0002e4 of 10.001, 10.002, of toch niet?!
 	// Duizendtal markers
-	
+
 	start = ceil((-[self origin].x + [self plottingArea].origin.x)/stepInPixels);
 	end = floor((-[self origin].x + [self plottingArea].origin.x + [self plottingArea].size.width)/stepInPixels);
-	for (i=start; i <= end; i++) {
-		string = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:formatString, i*stepInUnits] attributes:attrs];
-//		[string initWithString:[NSString stringWithFormat:@"%.1fx10%d", i*stepInUnits, 3] attributes:attrs];
-		
-//		[attrs setValue:[NSNumber numberWithInt:1] forKey:NSSuperscriptAttributeName];
-//		[attrs setValue:[NSFont systemFontOfSize:8] forKey:NSFontAttributeName];
-//		[string setAttributes:attrs range:NSMakeRange(6,1)];
+	for (i=start; i <= end; i++) {  
+        label = [NSMutableString localizedStringWithFormat:formatString, i*stepInUnits];
+        if ([label rangeOfString:@"e"].location != NSNotFound) {
+            [label replaceOccurrencesOfString:@"e+0" withString:@"e" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+            [label replaceOccurrencesOfString:@"e-0" withString:@"e-" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+            [label replaceOccurrencesOfString:@"e" withString:[NSString stringWithUTF8String:"\u22c510"] options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];                
+            [label replaceOccurrencesOfString:@"+" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+            string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs]; 
+            NSRange tenRange = [label rangeOfString:[NSString stringWithUTF8String:"\u22c510"]];
+            NSRange superRange = NSMakeRange(tenRange.location+tenRange.length, [label length]-tenRange.location-tenRange.length);
+            [string setAttributes:attrs2 range:superRange];
+        } else {
+            string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs];            
+        }
 		stringSize = [string size];
 		pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(i*stepInUnits,0.)];
 		pointToDraw.x = pointToDraw.x - stringSize.width/2;
 		pointToDraw.y = [self plottingArea].origin.y - stringSize.height - 4;
 		[string drawAtPoint:pointToDraw];
 		[string release];
+        // Ugly fix for overlap
+        if (stringSize.width > stepInPixels) {
+            i++;
+        }
 	}
 	
 	// Labels op Y-as
 	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
 	stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
-	
-	// Toegegeven, dit is niet erg doorzichtig. Het is een dubbelgenestte printf string die ervoor zorgt dat er altijd net genoeg cijfers achter de komma worden gezet om te weten hoe groot de stap tussen de gridlijnen is.
-	if (floor(log10(stepInUnits)) < 0) {
-		formatString = [NSString stringWithFormat:@"%%.%.ff", fabs(floor(log10(stepInUnits)))];
-	} else {
-		formatString = @"%.f";
-	}
-	
+		
 	start = ceil((-[self origin].y + [self plottingArea].origin.y)/stepInPixels);
 	end = floor((-[self origin].y + [self plottingArea].origin.y + [self plottingArea].size.height)/stepInPixels);
 	for (i=start; i <= end; i++) {
-		string = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:formatString, i*stepInUnits] attributes:attrs];
+        label = [NSMutableString localizedStringWithFormat:formatString, i*stepInUnits];
+        if ([label rangeOfString:@"e"].location != NSNotFound) {
+            [label replaceOccurrencesOfString:@"e+0" withString:@"e" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+            [label replaceOccurrencesOfString:@"e-0" withString:@"e-" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+            [label replaceOccurrencesOfString:@"e" withString:[NSString stringWithUTF8String:"\u22c510"] options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];                
+            [label replaceOccurrencesOfString:@"+" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+            string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs]; 
+            NSRange tenRange = [label rangeOfString:[NSString stringWithUTF8String:"\u22c510"]];
+            NSRange superRange = NSMakeRange(tenRange.location+tenRange.length, [label length]-tenRange.location-tenRange.length);
+            [string setAttributes:attrs2 range:superRange];
+        } else {
+            string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs];            
+        }
 		stringSize = [string size];
 		pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(0.,i*stepInUnits)];
 		pointToDraw.x = [self plottingArea].origin.x - stringSize.width - 4;
 		pointToDraw.y = pointToDraw.y - stringSize.height/2;
 		[string drawAtPoint:pointToDraw];
 		[string release];
+        // Ugly fix for overlap
+        if (stringSize.height > stepInPixels) {
+            i++;
+        }
+        
 	}
 }
 
@@ -1585,6 +1617,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 
 }
 
+
 #pragma mark KEY VALUE OBSERVING MANAGEMENT
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -1592,69 +1625,9 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 						change:(NSDictionary *)change
 					   context:(void *)context 
 {
-	if ([keyPath isEqualToString:@"peaks"]) 
+    if (context == PeaksObservationContext)
 	{
-        [self setSelectedScan:0];
-//		[(ChromatogramGraphDataSerie *)[[self dataSeries] objectAtIndex:0] setPeaks:[self peaks]];
-	} 
-//	else if (context == DataSeriesObservationContext)
-//	{
-//		/*
-//		 Should be able to use
-//		 NSArray *oldGraphics = [change objectForKey:NSKeyValueChangeOldKey];
-//		 etc. but the dictionary doesn't contain old and new arrays...??
-//		 */
-////		NSArray *newGraphics = [object valueForKeyPath:graphicsKeyPath];
-////		
-////		NSMutableArray *onlyNew = [newGraphics mutableCopy];
-////		[onlyNew removeObjectsInArray:oldGraphics];
-////		[self startObservingGraphics:onlyNew];
-////		[onlyNew release];
-////		
-////		NSMutableArray *removed = [oldGraphics mutableCopy];
-////		[removed removeObjectsInArray:newGraphics];
-////		[self stopObservingGraphics:removed];
-////		[removed release];
-////		
-////		[self setOldGraphics:newGraphics];
-//		
-//		// could check drawingBounds of old and new, but...
-//		[self setNeedsDisplay:YES];
-//		return;
-//    }
-	else if (context == PropertyObservationContext)
-	{
-//		NSRect updateRect;
-		
-		// Note: for Circle, drawingBounds is a dependent key of all the other
-		// property keys except color, so we'll get this anyway...
-//		if ([keyPath isEqualToString:@"drawingBounds"])
-//		{
-//			NSRect newBounds = [[change objectForKey:NSKeyValueChangeNewKey] rectValue];
-//			NSRect oldBounds = [[change objectForKey:NSKeyValueChangeOldKey] rectValue];
-//			updateRect = NSUnionRect(newBounds,oldBounds);
-//		}
-//		else
-//		{
-//			updateRect = [(NSObject <Graphic> *)object drawingBounds];
-//		}
-//		updateRect = NSMakeRect(updateRect.origin.x-1.0,
-//								updateRect.origin.y-1.0,
-//								updateRect.size.width+2.0,
-//								updateRect.size.height+2.0);
-		[self setNeedsDisplay:YES];//InRect:updateRect];
-		return;
-	}
-	else if (context == PeaksObservationContext)
-	{
-        [self setSelectedScan:0];
 		[self setNeedsDisplay:YES];
-		return;
-	}
-	else if (context == BaselineObservationContext)
-	{
-		if (shouldDrawPeaks) [self setNeedsDisplay:YES]; // Don't redraw if we don't show the peaks anyway!!
-		return;
 	}
 	else if (context == DataObservationContext) 
 	{
@@ -1665,52 +1638,22 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		for (i=0;i<count; i++){
 			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"MyGraphDataSerieDidChangeNotification" object:[[self dataSeries] objectAtIndex:i]];
 		}
-        
-		[self refresh];
-		return;
+        [self setNeedsDisplay:YES];
     } 
-	else if (context == FrameObservationContext) 
+    else if (context == DataSeriesObservationContext) 
 	{
-		NSRect oldFrect, newFrect, pRect, lRect;
-		oldFrect = [[change objectForKey:NSKeyValueChangeOldKey] rectValue];
-		newFrect = [[change objectForKey:NSKeyValueChangeNewKey] rectValue];
-		pRect = [self plottingArea];
-		pRect.size.width = pRect.size.width + newFrect.size.width - oldFrect.size.width;
-		pRect.size.height = pRect.size.height + newFrect.size.height - oldFrect.size.height;
-		[self setPlottingArea:pRect];
-		lRect = [self legendArea];
-		lRect.origin.x = lRect.origin.x + newFrect.size.width - oldFrect.size.width;
-		lRect.origin.y = lRect.origin.y + newFrect.size.height - oldFrect.size.height;
-		[self setLegendArea:lRect];
-	} 
-	else if ([keyPath isEqualToString:@"keyForXValue"]) 
-	{
-		int i, count;
-		// KORT DOOR DE BOCHT HIER
-		count = [[self dataSeries] count];
-		for (i=0;i<count; i++){
-			[[[self dataSeries] objectAtIndex:i] setKeyForXValue:[self keyForXValue]];
-			[[[self dataSeries] objectAtIndex:i] setKeyForYValue:[self keyForYValue]];
-			[[[self dataSeries] objectAtIndex:i] constructPlotPath];
-		}
-	} 
-	else if([keyPath isEqualToString:@"keyForYValue"]) 
-	{
-			int i, count;
-			// KORT DOOR DE BOCHT HIER
-			count = [[self dataSeries] count];
-
-			for (i=0;i<count; i++){
-				[[[self dataSeries] objectAtIndex:i] setKeyForXValue:[self keyForXValue]];
-				[[[self dataSeries] objectAtIndex:i] setKeyForYValue:[self keyForYValue]];
-				[[[self dataSeries] objectAtIndex:i] constructPlotPath];
-			}
-	} 
-	else 
-	{
-		// fallback
+        // resize legend area to fit all entries
+        NSRect newLegendArea = [self legendArea];
+        newLegendArea.size.height = [[self dataSeries] count] * 18;
+        newLegendArea.origin.y = newLegendArea.origin.y - (newLegendArea.size.height - [self legendArea].size.height);
+        [self setLegendArea:newLegendArea];
+        
 		[self setNeedsDisplay:YES];
-	}
+    } 
+    else if (context == BaselineObservationContext) 
+	{
+		[self setNeedsDisplay:YES];
+    } 
 
 }
 
@@ -1874,13 +1817,31 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 
 #pragma mark ACCESSORS
+
 - (id)delegate  
 {
 	return delegate;
 }
 - (void)setDelegate:(id)inValue  
 {
-	delegate = inValue;
+    if (delegate != inValue) {
+        delegate = inValue;        
+    }
+}
+
+-(void)setFrame:(NSRect)newFrect {
+    NSRect oldFrect, pRect, lRect;
+    oldFrect = [self frame];
+    pRect = [self plottingArea];
+    pRect.size.width = pRect.size.width + newFrect.size.width - oldFrect.size.width;
+    pRect.size.height = pRect.size.height + newFrect.size.height - oldFrect.size.height;
+    [self setPlottingArea:pRect];
+    lRect = [self legendArea];
+    lRect.origin.x = lRect.origin.x + newFrect.size.width - oldFrect.size.width;
+    lRect.origin.y = lRect.origin.y + newFrect.size.height - oldFrect.size.height;
+    [self setLegendArea:lRect];
+    
+    [super setFrame:newFrect];            
 }
 
 - (NSAffineTransform *)transformGraphToScreen 
@@ -1889,9 +1850,11 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 - (void)setTransformGraphToScreen:(NSAffineTransform *)inValue  
 {
-	[inValue retain];
-    [transformGraphToScreen autorelease];
-    transformGraphToScreen = inValue;
+    if (transformGraphToScreen != inValue) {
+        [inValue retain];
+        [transformGraphToScreen autorelease];
+        transformGraphToScreen = inValue;        
+    }
 }
 
 - (NSAffineTransform *)transformScreenToGraph  
@@ -1900,9 +1863,11 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 - (void)setTransformScreenToGraph:(NSAffineTransform *)inValue  
 {
-	[inValue retain];
-    [transformScreenToGraph autorelease];
-    transformScreenToGraph = inValue;
+    if (transformScreenToGraph != inValue) {
+        [inValue retain];
+        [transformScreenToGraph autorelease];
+        transformScreenToGraph = inValue;
+    }
 }
 
 - (NSNumber *)pixelsPerXUnit  
@@ -1911,9 +1876,12 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 - (void)setPixelsPerXUnit:(NSNumber *)inValue  
 {
-	[inValue retain];
-    [pixelsPerXUnit autorelease];
-	pixelsPerXUnit = inValue;
+	if (pixelsPerXUnit != inValue) {
+        [inValue retain];
+        [pixelsPerXUnit autorelease];
+        pixelsPerXUnit = inValue;
+        [self setNeedsDisplay:YES];        
+    }
 }
 
 - (NSNumber *)pixelsPerYUnit  
@@ -1922,9 +1890,12 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 - (void)setPixelsPerYUnit:(NSNumber *)inValue  
 {
-	[inValue retain];
-    [pixelsPerYUnit autorelease];
-	pixelsPerYUnit = inValue;
+	if (pixelsPerYUnit != inValue) {
+        [inValue retain];
+        [pixelsPerYUnit autorelease];
+        pixelsPerYUnit = inValue;
+        [self setNeedsDisplay:YES];        
+    }
 }
 
 - (NSNumber *)minimumPixelsPerMajorGridLine  
@@ -1933,10 +1904,14 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 - (void)setMinimumPixelsPerMajorGridLine:(NSNumber *)inValue  
 {
-	// Check voor > 0! (nog niet geïmplementeerd)
-	[inValue retain];
-    [minimumPixelsPerMajorGridLine autorelease];
-	minimumPixelsPerMajorGridLine = inValue;
+    if (minimumPixelsPerMajorGridLine != inValue) {
+        if ([inValue floatValue] > 0.0f) {
+            [inValue retain];
+            [minimumPixelsPerMajorGridLine autorelease];
+            minimumPixelsPerMajorGridLine = inValue;
+            [self setNeedsDisplay:YES];
+        }
+    }
 }
 
 - (NSPoint)origin  
@@ -1945,7 +1920,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 - (void)setOrigin:(NSPoint)inValue  
 {
-	origin = inValue;
+    origin = inValue;
+    [self setNeedsDisplay:YES];        
 }
 
 - (NSRect)plottingArea  
@@ -1954,7 +1930,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 - (void)setPlottingArea:(NSRect)inValue  
 {
-	plottingArea = inValue;
+    plottingArea = inValue;
+    [self setNeedsDisplay:YES];        
 }
 
 - (NSRect)legendArea  
@@ -1963,7 +1940,11 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 - (void)setLegendArea:(NSRect)inValue  
 {
-	legendArea = inValue;
+    NSRect unionRect = NSUnionRect(legendArea,inValue);
+    legendArea = inValue;
+    if ([self shouldDrawLegend])
+        [self setNeedsDisplayInRect:unionRect];        
+    
 }
 
 - (NSRect)selectedRect  
@@ -1972,138 +1953,202 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 - (void)setSelectedRect:(NSRect)inValue  
 {
-	selectedRect = inValue;
+    NSRect unionRect = NSUnionRect(selectedRect,inValue);
+    selectedRect = inValue;
+    [self setNeedsDisplayInRect:unionRect];        
 }
+
 - (NSColor *)backColor  
 {
     return backColor;
 }
 - (void)setBackColor:(NSColor *)inValue  
 {
-    [inValue retain];
-    [backColor autorelease];
-    backColor = inValue;
+    if (backColor != inValue) {
+        [inValue retain];
+        [backColor autorelease];
+        backColor = inValue;
+        [self setNeedsDisplay:YES];        
+    }
 }
+
 - (NSColor *)plottingAreaColor  
 {
     return plottingAreaColor;
 }
 - (void)setPlottingAreaColor:(NSColor *)inValue  
 {
-    [inValue retain];
-    [plottingAreaColor autorelease];
-    plottingAreaColor = inValue;
+    if (plottingAreaColor != inValue) {
+        [inValue retain];
+        [plottingAreaColor autorelease];
+        plottingAreaColor = inValue;
+        [self setNeedsDisplayInRect:[self plottingArea]];        
+    }
 }
+
 - (NSColor *)axesColor  
 {
     return axesColor;
 }
-
 - (void)setAxesColor:(NSColor *)inValue  
 {
-    [inValue retain];
-    [axesColor autorelease];
-    axesColor = inValue;
+    if (axesColor != inValue) {
+        [inValue retain];
+        [axesColor autorelease];
+        axesColor = inValue;
+        if ([self shouldDrawAxes])
+            [self setNeedsDisplayInRect:[self plottingArea]];        
+    }
 }
+
 - (NSColor *)gridColor  
 {
     return gridColor;
 }
 - (void)setGridColor:(NSColor *)inValue  
 {
-    [inValue retain];
-    [gridColor autorelease];
-    gridColor = inValue;
+    if (gridColor != inValue) {
+        [inValue retain];
+        [gridColor autorelease];
+        gridColor = inValue;
+        if ([self shouldDrawGrid])
+            [self setNeedsDisplayInRect:[self plottingArea]];        
+    }
 }
+
 - (NSColor *)labelsColor  
 {
     return labelsColor;
 }
 - (void)setLabelsColor:(NSColor *)inValue  
 {
-    [inValue retain];
-    [labelsColor autorelease];
-    labelsColor = inValue;
+    if (labelsColor != inValue) {
+        [inValue retain];
+        [labelsColor autorelease];
+        labelsColor = inValue;
+        if ([self shouldDrawLabels])
+            [self setNeedsDisplayInRect:[self plottingArea]];        
+    }
 }
+
 - (NSColor *)labelsOnFrameColor  
 {
     return labelsOnFrameColor;
 }
 - (void)setLabelsOnFrameColor:(NSColor *)inValue  
 {
-    [inValue retain];
-    [labelsOnFrameColor autorelease];
-    labelsOnFrameColor = inValue;
+    if (labelsOnFrameColor != inValue) {
+        [inValue retain];
+        [labelsOnFrameColor autorelease];
+        labelsOnFrameColor = inValue;
+        if ([self shouldDrawLabelsOnFrame])
+            [self setNeedsDisplayInRect:[self plottingArea]];        
+    }
 }
+
 - (NSColor *)frameColor  
 {
     return frameColor;
 }
 - (void)setFrameColor:(NSColor *)inValue  
 {
-    [inValue retain];
-    [frameColor autorelease];
-    frameColor = inValue;
+    if (frameColor != inValue) {
+        [inValue retain];
+        [frameColor autorelease];
+        frameColor = inValue;
+        if ([self shouldDrawFrame])
+            [self setNeedsDisplay:YES];        
+    }
 }
+
 - (NSColor *)legendAreaColor  
 {
     return legendAreaColor;
 }
 - (void)setLegendAreaColor:(NSColor *)inValue  
 {
-    [inValue retain];
-    [legendAreaColor autorelease];
-    legendAreaColor = inValue;
+    if (legendAreaColor != inValue) {
+        [inValue retain];
+        [legendAreaColor autorelease];
+        legendAreaColor = inValue;
+        if ([self shouldDrawLegend])
+            [self setNeedsDisplayInRect:[self legendArea]];        
+    }
 }
+
 - (NSColor *)legendFrameColor  
 {
     return legendFrameColor;
 }
 - (void)setLegendFrameColor:(NSColor *)inValue  
 {
-    [inValue retain];
-    [legendFrameColor autorelease];
-    legendFrameColor = inValue;
+    if (legendFrameColor != inValue) {
+        [inValue retain];
+        [legendFrameColor autorelease];
+        legendFrameColor = inValue;
+        if ([self shouldDrawLegend])
+            [self setNeedsDisplayInRect:[self legendArea]];        
+    }
 }
+
 - (BOOL)shouldDrawLegend  
 {
     return shouldDrawLegend;
 }
 - (void)setShouldDrawLegend:(BOOL)inValue  
 {
-     shouldDrawLegend = inValue;
+    if (shouldDrawLegend != inValue) {
+        shouldDrawLegend = inValue;
+        [self setNeedsDisplayInRect:[self legendArea]];        
+    }    
 }
+
 - (BOOL)shouldDrawAxes  
 {
     return shouldDrawAxes;
 }
 - (void)setShouldDrawAxes:(BOOL)inValue  
 {
-     shouldDrawAxes = inValue;
+    if (shouldDrawAxes != inValue) {
+        shouldDrawAxes = inValue;
+        [self setNeedsDisplayInRect:[self plottingArea]];        
+    }
 }
+
 - (BOOL)shouldDrawFrame  
 {
     return shouldDrawFrame;
 }
 - (void)setShouldDrawFrame:(BOOL)inValue  
 {
-    shouldDrawFrame = inValue;
+    if (shouldDrawFrame != inValue) {
+        shouldDrawFrame = inValue;
+        [self setNeedsDisplay:YES];        
+    }
 }
+
 - (BOOL)shouldDrawMajorTickMarks
 {
 	return shouldDrawMajorTickMarks;
 }
 - (void)setShouldDrawMajorTickMarks:(BOOL)inValue
 {
-	shouldDrawMajorTickMarks = inValue;
+	if (shouldDrawMajorTickMarks != inValue) {        
+        shouldDrawMajorTickMarks = inValue;
+        [self setNeedsDisplay:YES];
+    }
 }
+
 - (BOOL)shouldDrawMinorTickMarks
 {
 	return shouldDrawMinorTickMarks;
 }
 - (void)setShouldDrawMinorTickMarks:(BOOL)inValue
 {
-	shouldDrawMinorTickMarks = inValue;
+    if (shouldDrawMinorTickMarks != inValue) {
+        shouldDrawMinorTickMarks = inValue;
+        [self setNeedsDisplay:YES];        
+    }
 }
 
 - (BOOL)shouldDrawGrid  
@@ -2112,107 +2157,167 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 }
 - (void)setShouldDrawGrid:(BOOL)inValue  
 {
-     shouldDrawGrid = inValue;
+    if (shouldDrawGrid != inValue) {
+        shouldDrawGrid = inValue;
+        [self setNeedsDisplayInRect:[self plottingArea]];        
+    }
 }
+
 - (BOOL)shouldDrawLabels  
 {
     return shouldDrawLabels;
 }
 - (void)setShouldDrawLabels:(BOOL)inValue  
 {
-	shouldDrawLabels = inValue;
+    if (shouldDrawLabels != inValue) {
+        shouldDrawLabels = inValue;
+        [self setNeedsDisplayInRect:[self plottingArea]];    
+    }
 }
+
 - (BOOL)shouldDrawLabelsOnFrame  
 {
     return shouldDrawLabelsOnFrame;
 }
 - (void)setShouldDrawLabelsOnFrame:(BOOL)inValue  
 {
-	shouldDrawLabelsOnFrame = inValue;
+    if (shouldDrawLabelsOnFrame != inValue) {
+        shouldDrawLabelsOnFrame = inValue;
+        [self setNeedsDisplay:YES];        
+    }
 }
+
 - (NSAttributedString *)titleString  
 {
     return titleString;
 }
 - (void)setTitleString:(NSAttributedString *)inValue  
 {
-    [inValue retain];
-    [titleString autorelease];
-    titleString = inValue;
+    if (titleString != inValue) {
+        [inValue retain];
+        [titleString autorelease];
+        titleString = inValue;
+        [self setNeedsDisplay:YES];        
+    }
 }
+
 - (NSAttributedString *)xAxisLabelString  
 {
     return xAxisLabelString;
 }
 - (void)setXAxisLabelString:(NSAttributedString *)inValue  
 {
-    [inValue retain];
-    [xAxisLabelString autorelease];
-    xAxisLabelString = inValue;
+    if (xAxisLabelString != inValue) {
+        [inValue retain];
+        [xAxisLabelString autorelease];
+        xAxisLabelString = inValue;
+        [self setNeedsDisplay:YES];        
+    }
 }
+
 - (NSAttributedString *)yAxisLabelString  
 {
     return yAxisLabelString;
 }
 - (void)setYAxisLabelString:(NSAttributedString *)inValue  
 {
-    [inValue retain];
-    [yAxisLabelString autorelease];
-    yAxisLabelString = inValue;
+    if (yAxisLabelString != inValue) {
+        [inValue retain];
+        [yAxisLabelString autorelease];
+        yAxisLabelString = inValue;
+        [self setNeedsDisplay:YES];        
+    }
 }
+
 - (NSString *)keyForXValue  
 {
 	return keyForXValue;
 }
 - (void)setKeyForXValue:(NSString *)inValue  
 {
-	[inValue retain];
-    [keyForXValue autorelease];
-    keyForXValue = inValue;
+	if (keyForXValue != inValue) {
+        [inValue retain];
+        [keyForXValue autorelease];
+        keyForXValue = inValue;
+        
+        int i, count;
+        count = [[self dataSeries] count];
+        for (i=0; i<count; i++){
+            [[[self dataSeries] objectAtIndex:i] setKeyForXValue:inValue];
+            [[[self dataSeries] objectAtIndex:i] constructPlotPath];
+        }    
+        
+        [self setNeedsDisplay:YES];        
+    }
 }
+
 - (NSString *)keyForYValue  
 {
 	return keyForYValue;
 }
 - (void)setKeyForYValue:(NSString *)inValue  
 {
-	[inValue retain];
-    [keyForYValue autorelease];
-    keyForYValue = inValue;
+	if (keyForYValue != inValue) {
+        [inValue retain];
+        [keyForYValue autorelease];
+        keyForYValue = inValue;
+        
+        int i, count;
+        count = [[self dataSeries] count];
+        
+        for (i=0;i<count; i++){
+            [[[self dataSeries] objectAtIndex:i] setKeyForYValue:inValue];
+            [[[self dataSeries] objectAtIndex:i] constructPlotPath];
+        }
+        
+        [self setNeedsDisplay:YES];        
+    }
 }
 
-// Additions for Peacock
 - (BOOL)shouldDrawBaseline  
 {
 	return shouldDrawBaseline;
 }
 - (void)setShouldDrawBaseline:(BOOL)inValue  
 {
-	shouldDrawBaseline = inValue;
+    if (shouldDrawBaseline != inValue) {
+        shouldDrawBaseline = inValue;
+        [self setNeedsDisplayInRect:[self plottingArea]];        
+    }
 }
+
 - (BOOL)shouldDrawPeaks  
 {
 	return shouldDrawPeaks;
 }
 - (void)setShouldDrawPeaks:(BOOL)inValue  
 {
-	shouldDrawPeaks = inValue;
-    int i,count = [[self dataSeries] count];
-    for (i=0; i <  count; i++) {
-        [[[self dataSeries] objectAtIndex:i] setShouldDrawPeaks:inValue];
+    if (shouldDrawPeaks != inValue) {
+        shouldDrawPeaks = inValue;
+        
+        int i,count = [[self dataSeries] count];
+        for (i=0; i <  count; i++) {
+            [[[self dataSeries] objectAtIndex:i] setShouldDrawPeaks:inValue];
+        }
+        [self setNeedsDisplayInRect:[self plottingArea]];        
     }
 }
+
 - (int)selectedScan  
 {
 	return selectedScan;
 }
 - (void)setSelectedScan:(int)inValue  
 {
-	selectedScan = inValue;
+    if (selectedScan != inValue) {
+        selectedScan = inValue;
+        [self setNeedsDisplay:YES];        
+    }
 }
 
 
 #pragma mark CALCULATED ACCESSORS
+
 - (NSNumber *)xMinimum  
 {
 	NSPoint plotCorner;
@@ -2229,7 +2334,9 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	newOrigin.x = [self plottingArea].origin.x - [inValue floatValue] * [[self pixelsPerXUnit] floatValue];
 	[self setOrigin:newOrigin];
 	[self calculateCoordinateConversions];
+    [self setNeedsDisplay:YES];
 }
+
 - (NSNumber *)xMaximum  
 {
 	NSPoint plotCorner;
@@ -2248,8 +2355,10 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	newOrigin.x = [self plottingArea].origin.x + [self plottingArea].size.width - [inValue floatValue] * [[self pixelsPerXUnit] floatValue];
 	[self setOrigin:newOrigin];
 	[self calculateCoordinateConversions];
+    [self setNeedsDisplay:YES];
 	
 }
+
 - (NSNumber *)yMinimum  
 {
 	NSPoint plotCorner;
@@ -2266,7 +2375,9 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	newOrigin.y = [self plottingArea].origin.y - [inValue floatValue] * [[self pixelsPerYUnit] floatValue];
 	[self setOrigin:newOrigin];
 	[self calculateCoordinateConversions];
+    [self setNeedsDisplay:YES];
 }
+
 - (NSNumber *)yMaximum  
 {
 	NSPoint plotCorner;
@@ -2285,7 +2396,9 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	newOrigin.y = [self plottingArea].origin.y + [self plottingArea].size.height  - [inValue floatValue] * [[self pixelsPerYUnit] floatValue];
 	[self setOrigin:newOrigin];
 	[self calculateCoordinateConversions];
+    [self setNeedsDisplay:YES];
 }
+
 - (NSNumber *)unitsPerMajorX  
 {
 	float a,b;
@@ -2306,6 +2419,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 - (void)setUnitsPerMajorY:(NSNumber *)inValue  
 {
 }
+
+
 
 @end
 

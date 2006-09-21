@@ -82,7 +82,7 @@ int const JKGCMSDocument_Version = 4;
 	
 	int dummy;
 	dummy = nc_close(ncid);
-	if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"File closing error",@"File closing error") format:NSLocalizedString(@"Closing NetCDF file caused problem.\nNetCDF error: %d",@""), dummy];
+//	if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"File closing error",@"File closing error") format:NSLocalizedString(@"Closing NetCDF file caused problem.\nNetCDF error: %d",@""), dummy];
 	
     [super dealloc];
 }
@@ -484,8 +484,11 @@ int const JKGCMSDocument_Version = 4;
 - (void)printShowingPrintPanel:(BOOL)showPanels  
 {
     // Obtain a custom view that will be printed
-    NSView *printView = [[[self mainWindowController] window] contentView];
-	
+    NSView *printView = [[self mainWindowController] chromatogramView];
+	[[self printInfo] setHorizontalPagination:NSFitPagination];
+	[[self printInfo] setVerticalPagination:NSFitPagination];
+	[[self printInfo] setOrientation:NSLandscapeOrientation];
+    
     // Construct the print operation and setup Print panel
     NSPrintOperation *op = [NSPrintOperation
                 printOperationWithView:printView
