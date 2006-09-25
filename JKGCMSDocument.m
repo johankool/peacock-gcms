@@ -62,7 +62,7 @@ int const JKGCMSDocument_Version = 4;
     NSEnumerator *e = [peaks objectEnumerator];
 	JKPeakRecord *peak;
 	while ((peak = [e nextObject])) {
-		[self stopObservingPeak:peak];
+//		[self stopObservingPeak:peak];
 	}    
 	[peaks release];
 	
@@ -145,7 +145,6 @@ int const JKGCMSDocument_Version = 4;
 			NSAssert(fileWrapperForData != nil, @"fileWrapperForData = nil!");
 			[fileWrapperForData setPreferredFilename:@"peacock-data"];
 			[fileWrappers setObject:fileWrapperForData forKey:@"peacock-data"];	
-			NSLog(absolutePathToNetCDF);
 			NSFileWrapper *fileWrapperForNetCDF = [[NSFileWrapper alloc] initWithPath:absolutePathToNetCDF];
 			NSAssert(fileWrapperForNetCDF != nil, @"fileWrapperForNetCDF = nil!");
 			
@@ -171,7 +170,7 @@ int const JKGCMSDocument_Version = 4;
 {
 	if ([typeName isEqualToString:@"NetCDF File"]) {
         absolutePathToNetCDF = [absoluteURL path];
-		return [self readNetCDFFile:[absoluteURL path] error:outError];
+        return [self readNetCDFFile:[absoluteURL path] error:outError];
 	} else if ([typeName isEqualToString:@"Peacock File"]) {
 		BOOL result;		
 		NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath:[absoluteURL path]];
@@ -189,7 +188,8 @@ int const JKGCMSDocument_Version = 4;
             JKPeakRecord *peak;
             e = [peaks objectEnumerator];
             while ((peak = [e nextObject])) {
-                [self startObservingPeak:peak];
+                [peak setDocument:self];
+                //[self startObservingPeak:peak];
             }
             
 			baseline = [[dataModel baseline] retain];
@@ -215,7 +215,8 @@ int const JKGCMSDocument_Version = 4;
 		JKPeakRecord *peak;
 		e = [peaks objectEnumerator];
 		while ((peak = [e nextObject])) {
-			[self startObservingPeak:peak];
+            [peak setDocument:self];
+//			[self startObservingPeak:peak];
 		}
 		metadata = [[unarchiver decodeObjectForKey:@"metadata"] retain];
 		baselineWindowWidth = [[unarchiver decodeObjectForKey:@"baselineWindowWidth"] retain];
@@ -539,7 +540,6 @@ int const JKGCMSDocument_Version = 4;
 {
     [self postNotification: 
 		JKGCMSDocument_DocumentDeactivateNotification];
-	
 }
 
 #pragma mark ACTIONS
@@ -920,7 +920,7 @@ int const JKGCMSDocument_Version = 4;
 //	[progressIndicator setIndeterminate:NO];
 //	[progressIndicator setMaxValue:libraryEntries/1000.0];
 
-	libraryEntries = [aLibrary libraryArray];
+	libraryEntries = [aLibrary libraryEntries];
 	float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];
 	// Loop through inPeaks(=combined spectra) and determine score
 	entriesCount = [libraryEntries count];
@@ -1578,9 +1578,9 @@ boolAccessor(abortAction, setAbortAction)
 	
 	NSEnumerator *e = [peaks objectEnumerator];
 	JKPeakRecord *peak;
-	while ((peak = [e nextObject])) {
-		[self stopObservingPeak:peak];
-	}
+//	while ((peak = [e nextObject])) {
+//		[self stopObservingPeak:peak];
+//	}
 	
 	[peaks release];
 	[array retain];
@@ -1588,7 +1588,8 @@ boolAccessor(abortAction, setAbortAction)
 
 	e = [peaks objectEnumerator];
 	while ((peak = [e nextObject])) {
-		[self startObservingPeak:peak];
+        [peak setDocument:self];
+	//	[self startObservingPeak:peak];
 	}
 }
 
@@ -1603,7 +1604,8 @@ boolAccessor(abortAction, setAbortAction)
 	}
 	
 	// Add the peak to the array
-	[self startObservingPeak:peak];
+    [peak setDocument:self];
+//	[self startObservingPeak:peak];
 	[peaks insertObject:peak atIndex:index];
 }
 
@@ -1620,18 +1622,8 @@ boolAccessor(abortAction, setAbortAction)
 	}
 	
 	// Remove the peak from the array
-	[self stopObservingPeak:peak];
+//	[self stopObservingPeak:peak];
 	[peaks removeObjectAtIndex:index];
-}
-
-- (void)startObservingPeak:(JKPeakRecord *)peak
-{
-//	[peak addObserver:self forKeyPath:@"label" options:NSKeyValueObservingOptionOld context:nil];
-}
-
-- (void)stopObservingPeak:(JKPeakRecord *)peak
-{
-//	[peak removeObserver:self forKeyPath:@"label"];
 }
 
 @end

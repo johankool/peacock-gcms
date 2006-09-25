@@ -14,9 +14,12 @@
             SUPERCLASS = NSObject; 
         }, 
         {
+            ACTIONS = {addCasNumber = id; cancelCasNumber = id; showAddCasNumber = id; }; 
             CLASS = JKLibraryWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                addCasNumberSheet = NSWindow; 
+                casNumberField = NSTextField; 
                 libraryController = NSArrayController; 
                 moleculeView = JKMoleculeView; 
                 spectrumView = MyGraphView; 

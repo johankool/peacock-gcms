@@ -38,7 +38,6 @@
 	
 	[spectrumView bind:@"dataSeries" toObject:spectrumViewDataseriesController withKeyPath:@"arrangedObjects" options:nil];
 	
-	[[self libraryController] setContent:[[self document] libraryArray]];
 	[[self libraryController] addObserver:self forKeyPath:@"selection" options:nil context:nil];
 }
 
@@ -55,6 +54,54 @@
 	}
 }
 
+#pragma mark IBACTIONS
+- (IBAction)showAddCasNumber:(id)sender {
+    [NSApp beginSheet: addCasNumberSheet
+	   modalForWindow: [self window]
+		modalDelegate: self
+	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
+		  contextInfo: nil];
+}
+
+- (IBAction)addCasNumber:(id)sender {
+    NSLog([casNumberField stringValue]);
+    NSString *string = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",[casNumberField stringValue],[casNumberField stringValue]]]];
+    NSLog(string);
+    JKLibraryEntry *entry = [[JKLibraryEntry alloc] initWithJCAMPString:string];
+    [entry setMolString:[NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[casNumberField stringValue],[casNumberField stringValue]]]]];
+    [entry setDocument:[self document]];
+    [libraryController addObject:entry];
+    [moleculeView setNeedsDisplay:YES];
+    [spectrumView setNeedsDisplay:YES];
+    [spectrumView showAll:self];
+    [NSApp endSheet:addCasNumberSheet];
+}
+
+- (IBAction)cancelCasNumber:(id)sender {
+    [NSApp endSheet:addCasNumberSheet];
+}
+
+#pragma mark UNDO MANAGEMENT
+
+- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window { 
+    return [[self document] undoManager];
+}
+
+#pragma mark SHEETS
+- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo  
+{
+    [sheet orderOut:self];
+}
+
+- (void)windowWillBeginSheet:(NSNotification *)notification  
+{
+	return;
+}
+
+- (void)windowDidEndSheet:(NSNotification *)notification  
+{
+	return;
+}
 
 #pragma mark ACCESSORS
 

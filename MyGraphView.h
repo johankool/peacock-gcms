@@ -97,7 +97,7 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 - (void)centerOrigin:(id)sender;
 - (void)lowerLeftOrigin:(id)sender;
 - (void)squareAxes:(id)sender;
-- (void)showAll:(id)sender;
+- (IBAction)showAll:(id)sender;
 
 #pragma mark HELPER ROUTINES
 - (void)calculateCoordinateConversions;

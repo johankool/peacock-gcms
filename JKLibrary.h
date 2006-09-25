@@ -7,10 +7,11 @@
 //
 
 @class JKLibraryWindowController;
+@class JKLibraryEntry;
 
 @interface JKLibrary : NSDocument {
     JKLibraryWindowController *libraryWindowController;
-	NSMutableArray *libraryArray;
+	NSMutableArray *libraryEntries;
 }
 
 #pragma mark IMPORT/EXPORT ACTIONS
@@ -25,6 +26,9 @@
 #pragma mark ACCESSORS
 
 - (JKLibraryWindowController *)libraryWindowController;
-- (NSMutableArray *)libraryArray;
+- (NSMutableArray *)libraryEntries;
+- (void)setLibraryEntries:(NSMutableArray *)array;
+- (void)insertObject:(JKLibraryEntry *)libraryEntry inLibraryEntriesAtIndex:(int)index;
+- (void)removeObjectFromLibraryEntriesAtIndex:(int)index;
 
 @end

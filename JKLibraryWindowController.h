@@ -16,9 +16,14 @@
 	IBOutlet MyGraphView *spectrumView;
 	IBOutlet NSTableView *tableView;
 	IBOutlet JKMoleculeView *moleculeView;
+    IBOutlet NSTextField *casNumberField;
+    IBOutlet NSWindow *addCasNumberSheet;
 }
 
-//#pragma mark ACITONS
+#pragma mark ACITONS
+- (IBAction)addCasNumber:(id)sender;
+- (IBAction)showAddCasNumber:(id)sender;
+- (IBAction)cancelCasNumber:(id)sender;
 //- (void)displaySpectrum:(JKLibraryEntry *)spectrum;
 
 #pragma mark ACCESSORS

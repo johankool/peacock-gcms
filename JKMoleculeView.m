@@ -18,7 +18,7 @@
     if (self) {
         // Initialization code here.
         [self setBondColor:[NSColor blackColor]];
-        [self setBackgroundColor:[NSColor whiteColor]];
+        [self setBackgroundColor:[NSColor windowBackgroundColor]];
         [self setTextColor:[NSColor blackColor]];
 		[self setMargin:10];
 		[self setFitToView:YES];
@@ -265,6 +265,10 @@
     return YES;
 }
 -(BOOL) becomeFirstResponder{
+    return YES;
+}
+
+-(BOOL)isFlipped {
     return YES;
 }
 - (void)changeFont:(id)sender

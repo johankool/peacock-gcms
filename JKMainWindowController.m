@@ -18,7 +18,7 @@
 #import "MyGraphView.h"
 #import "SpectrumGraphDataSerie.h"
 #import "netcdf.h"
-
+#import "RBSplitSubview.h"
 
 static void *DocumentObservationContext = (void *)1100;
 static void *ChromatogramObservationContext = (void *)1101;
@@ -93,15 +93,10 @@ static void *SpectrumObservationContext = (void *)1102;
     
 	// Register as observer
 	[searchResultsController addObserver:self forKeyPath:@"selection" options:nil context:nil];
+	[peakController addObserver:self forKeyPath:@"selection" options:nil context:nil];
 	
 	[[self document] addObserver:self forKeyPath:@"metadata.sampleCode" options:nil context:DocumentObservationContext];
 	[[self document] addObserver:self forKeyPath:@"metadata.sampleDescription" options:nil context:DocumentObservationContext];
-	
-//	[self addObserver:self forKeyPath:@"showTICTrace" options:nil context:ChromatogramObservationContext];
-//	[self addObserver:self forKeyPath:@"showSpectrum" options:nil context:SpectrumObservationContext];
-//	[self addObserver:self forKeyPath:@"showCombinedSpectrum" options:nil context:SpectrumObservationContext];
-//	[self addObserver:self forKeyPath:@"showLibraryHit" options:nil context:SpectrumObservationContext];
-//	[self addObserver:self forKeyPath:@"showNormalizedSpectra" options:nil context:SpectrumObservationContext];
 	
 	// Double click action
 	[resultsTable setDoubleAction:@selector(resultDoubleClicked:)];
@@ -115,6 +110,15 @@ static void *SpectrumObservationContext = (void *)1102;
 	[resultsTable setDataSource:self];
 	[resultsTable setDraggingSourceOperationMask:NSDragOperationMove|NSDragOperationDelete forLocal:YES];
 	[resultsTable setDraggingSourceOperationMask:NSDragOperationCopy|NSDragOperationDelete forLocal:NO];
+    
+    NSTabViewItem *detailsTabViewItem = [[NSTabViewItem alloc] initWithIdentifier:@"details"];
+    [detailsTabViewItem setView:detailsTabViewItemView];
+    [detailsTabView addTabViewItem:detailsTabViewItem];
+    NSTabViewItem *searchResultsTabViewItem = [[NSTabViewItem alloc] initWithIdentifier:@"searchResults"];
+    [searchResultsTabViewItem setView:searchResultsTabViewItemView];
+    [detailsTabView addTabViewItem:searchResultsTabViewItem];
+    [moleculeSplitSubview setHidden:YES];
+    [detailsSplitSubview setHidden:YES];
 }
 
 - (void)dealloc  
@@ -450,19 +454,13 @@ static void *SpectrumObservationContext = (void *)1102;
 
 - (IBAction)other:(id)sender 
 {
-    [NSApp beginSheet: addSheet
-	   modalForWindow: [self window]
-		modalDelegate: self
-	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
-		  contextInfo: nil];
+//    [NSApp beginSheet: addSheet
+//	   modalForWindow: [self window]
+//		modalDelegate: self
+//	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
+//		  contextInfo: nil];
     // Sheet is up here.
     // Return processing to the event loop
-}
-
-
-- (IBAction)closeAddSheet:(id)sender  
-{
-    [NSApp endSheet:addSheet];
 }
 
 - (IBAction)abort:(id)sender  
@@ -569,12 +567,13 @@ static void *SpectrumObservationContext = (void *)1102;
 					  ofObject:(id)object
 						change:(NSDictionary *)change
 					   context:(void *)context {
-	if ((object == peakController) | (object == searchResultsController)) {
+	if (((object == peakController) | (object == searchResultsController)) && (([peakController selection] != NSNoSelectionMarker) && ([searchResultsController selection] != NSNoSelectionMarker))) {
 		NSArray *peakArray = [[peakController selectedObjects] valueForKeyPath:@"spectrum.spectrumDataSerie"];
 		NSArray *searchResultsArray = [[searchResultsController selectedObjects] valueForKeyPath:@"libraryHit.spectrumDataSerieUpsideDown"];
 		[spectrumDataSeriesController setContent:[peakArray arrayByAddingObjectsFromArray:searchResultsArray]];
 		[chromatogramView setNeedsDisplay:YES];
-	}
+        [spectrumView showAll:self];
+    }
 	if (context == ChromatogramObservationContext) {
 		[chromatogramView setNeedsDisplay:YES];
 	}
@@ -584,13 +583,56 @@ static void *SpectrumObservationContext = (void *)1102;
 	if (context == DocumentObservationContext) {
 		[self synchronizeWindowTitleWithDocumentName];
 	}
-    if ([[[self searchResultsController] selectedObjects] count] > 0) {
-		[moleculeView setModel:[[JKMoleculeModel alloc] initWithMoleculeString:[[[[self searchResultsController] selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.molString"]]];
-		[spectrumView showAll:self];
-	} else {
-		[moleculeView setModel:nil];
-	}
-    
+
+    if (([peakController selection] != NSNoSelectionMarker) ||([peakController selection] != NSMultipleValuesMarker))  {
+        if (([[self peakController] valueForKeyPath:@"selection.identified"]) && ([[[self peakController] valueForKeyPath:@"selection.searchResults"] count] == 1)) {
+            [detailsTabView selectTabViewItemWithIdentifier:@"details"];
+            [detailsSplitSubview setHidden:NO];
+            [detailsSplitSubview expandWithAnimation:YES withResize:NO];
+            if ([searchResultsController selection] != NSNoSelectionMarker) {
+                NSString *molString = [[[[self searchResultsController] selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.molString"];
+                if ((molString) && (![molString isEqualToString:@""])) {
+                    [moleculeView setModel:[[[JKMoleculeModel alloc] initWithMoleculeString:molString] autorelease]];
+                    [moleculeSplitSubview setHidden:NO];
+                    [moleculeSplitSubview expandWithAnimation:YES withResize:NO];                                
+                } else {
+                    [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
+                    [moleculeSplitSubview setHidden:YES];
+                }                
+            } else {
+                [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
+                [moleculeSplitSubview setHidden:YES];
+            } 
+        } else if ([[[self peakController] valueForKeyPath:@"selection.searchResults"] count] > 1) {
+            [detailsTabView selectTabViewItemWithIdentifier:@"searchResults"];
+            [detailsSplitSubview expandWithAnimation:YES withResize:NO];
+            NSString *molString = [[[[self searchResultsController] selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.molString"];
+            if ([searchResultsController selection] != NSNoSelectionMarker) {
+                NSString *molString = [[[[self searchResultsController] selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.molString"];
+                if ((molString) && (![molString isEqualToString:@""])) {
+                    [moleculeView setModel:[[[JKMoleculeModel alloc] initWithMoleculeString:molString] autorelease]];
+                    [moleculeSplitSubview setHidden:NO];
+                    [moleculeSplitSubview expandWithAnimation:YES withResize:NO];                                
+                } else {
+                    [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
+                    [moleculeSplitSubview setHidden:YES];
+                }                
+            } else {
+                [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
+                [moleculeSplitSubview setHidden:YES];
+            } 
+        } else {
+            [detailsSplitSubview collapseWithAnimation:YES withResize:NO];
+            [detailsSplitSubview setHidden:YES];
+            [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
+            [moleculeSplitSubview setHidden:YES];
+        }
+    } else {
+            [detailsSplitSubview collapseWithAnimation:YES withResize:NO];
+            [detailsSplitSubview setHidden:YES];
+            [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
+            [moleculeSplitSubview setHidden:YES];
+    }
 }
 
 #pragma mark NSTOOLBAR MANAGEMENT

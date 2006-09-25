@@ -19,7 +19,12 @@
 {
 	self = [super init];
     if (self != nil) {
-        NSAssert(inString != nil, @"JKLibraryEntry inited with empty inString");
+        NSAssert(inString != nil, @"JKLibraryEntry inited with nil inString");
+        if ([inString isEqualToString:@""]) {
+            return nil;
+        }
+        
+        NSAssert1(![inString isEqualToString:@""], @"JKLibraryEntry inited with empty inString %@", inString);
 		
         NSCharacterSet *whiteCharacters = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 		NSScanner *theScanner = [[NSScanner alloc] initWithString:inString];
@@ -347,8 +352,12 @@
 - (NSString *)jcampString
 {
 	NSMutableString *outStr = [[[NSMutableString alloc] init] autorelease];
-		
-	[outStr appendFormat:@"##TITLE= %@\r\n", [self name]];	
+    
+    if (([[self name] isEqualToString:@""]) || (![self name]))  {
+        [outStr appendString:@"##TITLE= Untitled Entry\r\n"];	
+    } else {
+        [outStr appendFormat:@"##TITLE= %@\r\n", [self name]];	        
+    }
 	[outStr appendString:@"##JCAMP-DX= 4.24 $$ Peacock 0.18\r\n"];	
 	[outStr appendString:@"##DATA TYPE= MASS SPECTRUM\r\n"];	
 	[outStr appendString:@"##DATA CLASS= PEAK TABLE\r\n"];	
@@ -400,6 +409,7 @@
 }
 
 - (NSUndoManager *)undoManager {
+//    NSLog(@"undoManager %@ document %@", [[self document] undoManager], [self document]);
 	return [[self document] undoManager];
 }
 

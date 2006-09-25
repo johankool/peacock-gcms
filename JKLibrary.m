@@ -19,7 +19,7 @@
 	self = [super init];
     if (self != nil) {
         libraryWindowController = [[JKLibraryWindowController alloc] init];
-		libraryArray = [[NSMutableArray alloc] init];
+		libraryEntries = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -52,7 +52,7 @@
 		if (!inString) {
 			return NO;
 		}
-		libraryArray = [[self readJCAMPString:inString] retain];
+		libraryEntries = [[self readJCAMPString:inString] retain];
 
 		return YES;
 	} else if ([typeName isEqualToString:@"Inchi File"]) {
@@ -61,7 +61,7 @@
 		JKLibraryEntry *entry = [[JKLibraryEntry alloc] initWithJCAMPString:jcampString];
 		[entry setMolString:[NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",CASNumber,CASNumber]]]];
 		
-		libraryArray = [[NSMutableArray arrayWithObject:entry] retain];
+		libraryEntries = [[NSMutableArray arrayWithObject:entry] retain];
 		
 		return YES;
 	}
@@ -71,12 +71,28 @@
     return NO;
 }
 
+#pragma mark KEY VALUE CODING/OBSERVING
+
+- (void)changeKeyPath:(NSString *)keyPath ofObject:(id)object toValue:(id)newValue
+{
+	[object setValue:newValue forKeyPath:keyPath];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	NSUndoManager *undo = [self undoManager];
+	id oldValue = [change objectForKey:NSKeyValueChangeOldKey];
+	[[undo prepareWithInvocationTarget:self] changeKeyPath:keyPath ofObject:object toValue:oldValue];
+	
+	[undo setActionName:@"Edit"];
+}
+
 #pragma mark IMPORT/EXPORT ACTIONS
 
 - (NSArray *)readJCAMPString:(NSString *)inString 
 {
 	int count,i;
-	NSMutableArray *libraryEntries = [[NSMutableArray alloc] init];
+	NSMutableArray *libraryEntriesInString = [[NSMutableArray alloc] init];
 	NSCharacterSet *whiteCharacters = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 	NSArray *array = [inString componentsSeparatedByString:@"##END="];
 	JKLibraryEntry *libEntry;
@@ -87,24 +103,23 @@
 	// NOTE: we now require at least a return after the last entry in the file or we won't read that entry
 	for (i=0; i < count; i++) {
 		// If we are dealing with an empty string, bail out
-		if ([[[array objectAtIndex:i] stringByTrimmingCharactersInSet:whiteCharacters] isEqualToString:@""]) {
-			continue;
+		if ((![[[array objectAtIndex:i] stringByTrimmingCharactersInSet:whiteCharacters] isEqualToString:@""]) && (![[array objectAtIndex:i] isEqualToString:@""]))  {
+            libEntry = [[JKLibraryEntry alloc] initWithJCAMPString:[array objectAtIndex:i]];
+            [libEntry setDocument:self];
+            [libraryEntriesInString addObject:libEntry];
+            [libEntry release];
 		}
-		libEntry = [[JKLibraryEntry alloc] initWithJCAMPString:[array objectAtIndex:i]];
-		[libEntry setDocument:self];
-		[libraryEntries addObject:libEntry];
-		[libEntry release];
     }
 		
 //	JKLogDebug(@"Found %d entries", [libraryEntries count]);
-	[libraryEntries autorelease];
-    return libraryEntries;	
+	[libraryEntriesInString autorelease];
+    return libraryEntriesInString;	
 }
 
 - (BOOL)importJCAMPFromFile:(NSString *)fileName  
 {
 	NSString *inString = [NSString stringWithContentsOfFile:fileName encoding:NSUTF8StringEncoding error:NULL];
-	libraryArray = [[self readJCAMPString:inString] retain];
+	libraryEntries = [[self readJCAMPString:inString] retain];
 	return YES;		
 }
 
@@ -112,10 +127,10 @@
 {
 	NSMutableString *outStr = [[[NSMutableString alloc] init] autorelease]; 
 	int i;
-	int count = [libraryArray count];
+	int count = [libraryEntries count];
 	
 	for (i=0; i < count; i++) {
-		[outStr appendString:[[libraryArray objectAtIndex:i] jcampString]];
+		[outStr appendString:[[libraryEntries objectAtIndex:i] jcampString]];
 	}
 	
 	if ([outStr writeToFile:fileName atomically:NO encoding:NSASCIIStringEncoding error:nil]) {
@@ -275,7 +290,7 @@
 		}
 
 		// Add data to Library
-		[libraryArray addObject:mutDict];
+		[libraryEntries addObject:mutDict];
 		[mutDict release];
 //		[theScanner release];
     }
@@ -288,25 +303,25 @@
 	NSMutableString *outStr = [[NSMutableString alloc] init]; 
 	NSArray *array;
 	int i,j,count2;
-	int count = [libraryArray count];
+	int count = [libraryEntries count];
 //	float retentionTime, retentionIndex;
 	
 	for (i=0; i < count; i++) {
-		if ([[[libraryArray objectAtIndex:i] valueForKey:@"name"] isNotEqualTo:@""]) [outStr appendFormat:@"NAME: %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"name"]];
-		if ([[[libraryArray objectAtIndex:i] valueForKey:@"formula"] isNotEqualTo:@""])[outStr appendFormat:@"FORM: %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"formula"]];
-		if ([[[libraryArray objectAtIndex:i] valueForKey:@"CASNumber"] isNotEqualTo:@""])[outStr appendFormat:@"CASNO: %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"CASNumber"]];
-		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionIndex"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"RI: %.3f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"retentionIndex"] floatValue]];
-//		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] isEqualToNumber:[NSNumber numberWithFloat:0.0]]) {
-//			retentionTime = [[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] floatValue];
+		if ([[[libraryEntries objectAtIndex:i] valueForKey:@"name"] isNotEqualTo:@""]) [outStr appendFormat:@"NAME: %@\r\n", [[libraryEntries objectAtIndex:i] valueForKey:@"name"]];
+		if ([[[libraryEntries objectAtIndex:i] valueForKey:@"formula"] isNotEqualTo:@""])[outStr appendFormat:@"FORM: %@\r\n", [[libraryEntries objectAtIndex:i] valueForKey:@"formula"]];
+		if ([[[libraryEntries objectAtIndex:i] valueForKey:@"CASNumber"] isNotEqualTo:@""])[outStr appendFormat:@"CASNO: %@\r\n", [[libraryEntries objectAtIndex:i] valueForKey:@"CASNumber"]];
+		if (![[[libraryEntries objectAtIndex:i] valueForKey:@"retentionIndex"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"RI: %.3f\r\n", [[[libraryEntries objectAtIndex:i] valueForKey:@"retentionIndex"] floatValue]];
+//		if (![[[libraryEntries objectAtIndex:i] valueForKey:@"retentionTime"] isEqualToNumber:[NSNumber numberWithFloat:0.0]]) {
+//			retentionTime = [[[libraryEntries objectAtIndex:i] valueForKey:@"retentionTime"] floatValue];
 //			retentionIndex = 0.0119 * pow(retentionTime,2) + 0.1337 * retentionTime + 8.1505;
 //			[outStr appendFormat:@"RI: %.3f\r\n", retentionIndex*100];
 //		}
-		if (![[[libraryArray objectAtIndex:i] valueForKey:@"massWeight"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"MW: %.0f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"massWeight"] floatValue]];
-		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionWidth"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"RW: %.3f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"retentionWidth"] floatValue]];
-		if (![[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"RT: %.3f\r\n", [[[libraryArray objectAtIndex:i] valueForKey:@"retentionTime"] floatValue]];
-		if ([[[libraryArray objectAtIndex:i] valueForKey:@"comment"] isNotEqualTo:@""])[outStr appendFormat:@"COMMENT: %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"comment"]];
-		if ([[[libraryArray objectAtIndex:i] valueForKey:@"source"] isNotEqualTo:@""])[outStr appendFormat:@"SOURCE: %@\r\n", [[libraryArray objectAtIndex:i] valueForKey:@"source"]];
-		array = [[libraryArray objectAtIndex:i] valueForKey:@"points"];
+		if (![[[libraryEntries objectAtIndex:i] valueForKey:@"massWeight"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"MW: %.0f\r\n", [[[libraryEntries objectAtIndex:i] valueForKey:@"massWeight"] floatValue]];
+		if (![[[libraryEntries objectAtIndex:i] valueForKey:@"retentionWidth"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"RW: %.3f\r\n", [[[libraryEntries objectAtIndex:i] valueForKey:@"retentionWidth"] floatValue]];
+		if (![[[libraryEntries objectAtIndex:i] valueForKey:@"retentionTime"] isEqualToNumber:[NSNumber numberWithFloat:0.0]])[outStr appendFormat:@"RT: %.3f\r\n", [[[libraryEntries objectAtIndex:i] valueForKey:@"retentionTime"] floatValue]];
+		if ([[[libraryEntries objectAtIndex:i] valueForKey:@"comment"] isNotEqualTo:@""])[outStr appendFormat:@"COMMENT: %@\r\n", [[libraryEntries objectAtIndex:i] valueForKey:@"comment"]];
+		if ([[[libraryEntries objectAtIndex:i] valueForKey:@"source"] isNotEqualTo:@""])[outStr appendFormat:@"SOURCE: %@\r\n", [[libraryEntries objectAtIndex:i] valueForKey:@"source"]];
+		array = [[libraryEntries objectAtIndex:i] valueForKey:@"points"];
 		count2 = [array count];
 		[outStr appendFormat:@"NUM PEAKS: %i\r\n", count2];
 		for (j=0; j < count2; j++) {
@@ -329,13 +344,73 @@
 
 #pragma mark ACCESSORS
 
-- (NSMutableArray *)libraryArray  
+- (NSMutableArray *)libraryEntries  
 {
-	return libraryArray;
+	return libraryEntries;
 }
 - (JKLibraryWindowController *)libraryWindowController  
 {
 	return libraryWindowController;
+}
+
+- (void)setLibraryEntries:(NSMutableArray *)array
+{
+	if (array == libraryEntries)
+		return;
+    
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] setLibraryEntries:libraryEntries];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Set LibraryEntries",@"")];
+	}
+	
+	NSEnumerator *e = [libraryEntries objectEnumerator];
+	JKLibraryEntry *libraryEntry;
+//	while ((libraryEntry = [e nextObject])) {
+////		[self stopObservingLibraryEntry:libraryEntry];
+//	}
+	
+	[libraryEntries release];
+	[array retain];
+	libraryEntries = array;
+    
+	e = [libraryEntries objectEnumerator];
+	while ((libraryEntry = [e nextObject])) {
+        [libraryEntry setDocument:self];
+	}
+}
+
+- (void)insertObject:(JKLibraryEntry *)libraryEntry inLibraryEntriesAtIndex:(int)index
+{
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] removeObjectFromLibraryEntriesAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Insert Library Entry",@"")];
+	}
+	
+	// Add the libraryEntry to the array
+    [libraryEntry setDocument:self];
+	[libraryEntries insertObject:libraryEntry atIndex:index];
+}
+
+- (void)removeObjectFromLibraryEntriesAtIndex:(int)index
+{
+	JKLibraryEntry *libraryEntry = [libraryEntries objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] insertObject:libraryEntry inLibraryEntriesAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Delete Library Entry",@"")];
+	}
+	
+	// Remove the libraryEntry from the array
+	[libraryEntries removeObjectAtIndex:index];
 }
 
 @end

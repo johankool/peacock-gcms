@@ -143,15 +143,15 @@ extern int const JKGCMSDocument_Version;
 //- (NSMutableArray *)searchLibraryForPeak:(JKPeakRecord *)peak;
 - (BOOL)searchLibraryForAllPeaks:(id)sender;
 
-#pragma mark ACCESSORS (MACROSTYLE)
-//idAccessor_h(peaks, setPeaks);
+#pragma mark ACCESSORS
+
 - (NSMutableArray *)peaks;
 - (void)setPeaks:(NSMutableArray *)array;
 - (void)insertObject:(JKPeakRecord *)peak inPeaksAtIndex:(int)index;
 - (void)removeObjectFromPeaksAtIndex:(int)index;
-- (void)startObservingPeak:(JKPeakRecord *)peak;
-- (void)stopObservingPeak:(JKPeakRecord *)peak;
 
+
+#pragma mark ACCESSORS (MACROSTYLE)
 idAccessor_h(baselineWindowWidth, setBaselineWindowWidth)
 idAccessor_h(baselineDistanceThreshold, setBaselineDistanceThreshold)
 idAccessor_h(baselineSlopeThreshold, setBaselineSlopeThreshold)

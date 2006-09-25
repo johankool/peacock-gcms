@@ -13,6 +13,7 @@
 @class JKPeakRecord;
 @class JKSpectrum;
 @class JKMoleculeView;
+@class RBSplitSubview;
 
 #import "MyGraphView.h"
 
@@ -40,18 +41,23 @@ enum JKPeakSelection {
 	IBOutlet NSArrayController *peakController;    
     IBOutlet NSTableView *peaksTable;    
 
+    // Details
+    IBOutlet RBSplitSubview *detailsSplitSubview;
+    IBOutlet NSTabView *detailsTabView;
+    IBOutlet NSView *searchResultsTabViewItemView;
+    IBOutlet NSView *detailsTabViewItemView;
+    
 	// MoleculeView
     IBOutlet JKMoleculeView *moleculeView;
+    IBOutlet RBSplitSubview *moleculeSplitSubview;
 
 	// Library
 	IBOutlet NSArrayController *searchResultsController;    
     IBOutlet NSTableView *resultsTable;    
 	
 	// Sheets
-	IBOutlet NSWindow *addSheet;
 	IBOutlet NSWindow *progressSheet;
 	IBOutlet NSProgressIndicator *progressBar;
-	IBOutlet NSWindow *searchOptionsSheet;
 	
 	// Misc
 	BOOL abortAction;	
@@ -77,10 +83,10 @@ enum JKPeakSelection {
 - (void)addMassChromatogram:(id)object;
 - (void)removeMassChromatogram:(id)object;
 - (IBAction)confirm:(id)sender;
+- (IBAction)discard:(id)sender;
 - (IBAction)next:(id)sender;
 - (IBAction)previous:(id)sender;
 - (IBAction)other:(id)sender;
-- (IBAction)closeAddSheet:(id)sender;
 - (IBAction)abort:(id)sender;
 - (IBAction)editLibrary:(id)sender;
 - (IBAction)fitChromatogramDataToView:(id)sender;

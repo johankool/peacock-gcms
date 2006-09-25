@@ -97,6 +97,10 @@
 	}	
 }
 
+-(NSUndoManager *)undoManager {
+    return [[self document] undoManager];
+}
+
 #pragma mark CALCULATED ACCESSORS
 
 - (NSNumber *)deltaRetentionIndex  
@@ -139,6 +143,11 @@
 
 - (void)setLabel:(NSString *)inValue  
 {
+    [[self undoManager] registerUndoWithTarget:self
+                                      selector:@selector(setLabel:)
+                                        object:label];
+    [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Label",@"Change Peak Label")];
+                                                
 	[inValue retain];
 	[label autorelease];
 	label = inValue;
@@ -151,6 +160,11 @@
 
 - (void)setSymbol:(NSString *)inValue  
 {
+    [[self undoManager] registerUndoWithTarget:self
+                                      selector:@selector(setSymbol:)
+                                        object:symbol];
+    [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Symbol",@"Change Peak Symbol")];
+    
 	[inValue retain];
 	[symbol autorelease];
 	symbol = inValue;

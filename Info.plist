@@ -35,7 +35,7 @@
 			<key>CFBundleTypeName</key>
 			<string>Inchi File</string>
 			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
+			<string>Viewer</string>
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
@@ -83,6 +83,10 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>JKGCMSDocument</string>
+			<key>NSExportableAs</key>
+			<array>
+				<string>Peacock File</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
