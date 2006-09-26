@@ -11,6 +11,7 @@
 			<array>
 				<string>jdx</string>
 				<string>dx</string>
+				<string>hpj</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>library_document</string>
@@ -18,6 +19,37 @@
 			<string>JCAMP Library</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>org.jcamp</string>
+			</array>
+            <key>UTImportedTypeDeclarations</key>
+            <array>
+                <dict>
+                    <key>UTTypeIdentifier</key>
+                    <string>org.jcamp</string>
+                    <key>UTTypeReferenceURL</key>
+                    <string>http://www.jcamp.org/</string>
+                    <key>UTTypeDescription</key>
+                    <string>JCAMP-DX File</string>
+                    <key>UTTypeIconFile</key>
+                    <string>library_document</string>
+                    <key>UTTypeConformsTo</key>
+                    <array>
+                        <string>public.text</string>
+                    </array>
+                    <key>UTTypeTagSpecification</key>
+                    <dict>
+                        <key>public.filename-extension</key>
+                        <array>
+                            <string>jdx</string>
+                            <string>dx</string>
+                        </array>
+                        <key>public.mime-type</key>
+                        <string>chemical/x-jcamp-dx</string>
+                    </dict>
+                </dict>
+            </array>
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
@@ -36,6 +68,10 @@
 			<string>Inchi File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
+            <key>LSItemContentTypes</key>
+			<array>
+				<string>public.plain-text</string>
+			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
@@ -54,6 +90,36 @@
 			<string>Peacock File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>nl.johankool.peacock.data</string>
+			</array>
+            <key>UTExportedTypeDeclarations</key>
+            <array>
+                <dict>
+                    <key>UTTypeIdentifier</key>
+                    <string>nl.johankool.peacock.data</string>
+                    <key>UTTypeReferenceURL</key>
+                    <string>http://peacock.johankool.nl/</string>
+                    <key>UTTypeDescription</key>
+                    <string>Peacock File</string>
+                    <key>UTTypeIconFile</key>
+                    <string>peacock_document</string>
+                    <key>UTTypeConformsTo</key>
+                    <array>
+                        <string>com.apple.package</string>
+                    </array>
+                    <key>UTTypeTagSpecification</key>
+                    <dict>
+                        <key>public.filename-extension</key>
+                        <array>
+                            <string>peacock</string>
+                       </array>
+                        <key>public.mime-type</key>
+                        <string>application/x-peacock</string>
+                    </dict>
+                </dict>
+            </array>
 			<key>LSTypeIsPackage</key>
 			<true/>
 			<key>NSDocumentClass</key>
@@ -68,17 +134,54 @@
 			<array>
 				<string>cdf</string>
 				<string>nc</string>
+				<string>andi</string>
+				<string>aia</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>netcdf_document</string>
 			<key>CFBundleTypeName</key>
-			<string>NetCDF File</string>
+			<string>NetCDF/ANDI File</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>????</string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>edu.ucar.unidata.netcdf.andi</string>
+            </array>
+            <key>UTImportedTypeDeclarations</key>
+            <array>
+                <dict>
+                    <key>UTTypeIdentifier</key>
+                    <string>edu.ucar.unidata.netcdf.andi</string>
+                    <key>UTTypeReferenceURL</key>
+                    <string>http://pubs.acs.org/hotartcl/tcaw/98/may/stan.html</string>
+                    <key>UTTypeDescription</key>
+                    <string>NetCDF/ANDI File</string>
+                    <key>UTTypeIconFile</key>
+                    <string>netcdf_document</string>
+                    <key>UTTypeConformsTo</key>
+                    <array>
+                        <string>edu.ucar.unidata.netcdf</string>
+                        <string>public.data</string>
+                        <string>public.content</string>
+                    </array>
+                    <key>UTTypeTagSpecification</key>
+                    <dict>
+                        <key>public.filename-extension</key>
+                        <array>
+                            <string>cdf</string>
+                            <string>nc</string>
+                            <string>andi</string>
+                            <string>aia</string>
+                       </array>
+                        <key>public.mime-type</key>
+                        <string>application/x-netcdf-andi</string>
+                    </dict>
+                </dict>
+            </array>
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
@@ -99,6 +202,37 @@
 			<string>Peacock Statistics File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>nl.johankool.peacock.statistics</string>
+			</array>
+            <key>UTExportedTypeDeclarations</key>
+            <array>
+                <dict>
+                    <key>UTTypeIdentifier</key>
+                    <string>nl.johankool.peacock.statistics</string>
+                    <key>UTTypeReferenceURL</key>
+                    <string>http://peacock.johankool.nl/</string>
+                    <key>UTTypeDescription</key>
+                    <string>Peacock File</string>
+                    <key>UTTypeIconFile</key>
+                    <string>peacock_document</string>
+                    <key>UTTypeConformsTo</key>
+                    <array>
+                        <string>public.data</string>
+                        <string>public.content</string>
+                    </array>
+                    <key>UTTypeTagSpecification</key>
+                    <dict>
+                        <key>public.filename-extension</key>
+                        <array>
+                            <string>peacock-stats</string>
+                       </array>
+                        <key>public.mime-type</key>
+                        <string>application/x-peacock-stats</string>
+                    </dict>
+                </dict>
+            </array>
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
@@ -117,6 +251,10 @@
 			<string>Tab Delimited Text File</string>
 			<key>CFBundleTypeRole</key>
 			<string>None</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.plain-text</string>
+			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
@@ -127,8 +265,6 @@
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>Peacock</string>
-	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2003-2006 Johan Kool ea</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>Peacock Help</string>
 	<key>CFBundleHelpBookName</key>
@@ -155,6 +291,8 @@
 	<string>10.4.6</string>
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2003-2006 Johan Kool ea</string>
 	<key>NSMainNibFile</key>
 	<string>JKMainMenu</string>
 	<key>NSPrincipalClass</key>

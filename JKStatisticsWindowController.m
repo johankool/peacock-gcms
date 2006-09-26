@@ -331,7 +331,8 @@
 	NSDate *date = [NSDate date];
 	int peakCount;
     float certainty;
-    
+    float matchTreshold = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticsAnalysisMatchThreshold"] floatValue];
+
 	NSMutableArray *peaksArray;
 	JKPeakRecord *peak;
 	NSMutableDictionary *combinedPeak;
@@ -405,7 +406,7 @@
 					//NSAssert([combinedPeak valueForKey:@"spectrum"], [combinedPeak description]);
 					peaksCompared++;
 					scoreResult  = [spectrum scoreComparedToSpectrum:[combinedPeak valueForKey:@"spectrum"]];
-					if (scoreResult > 70) {
+					if (scoreResult > matchTreshold) {
 						if (scoreResult > maxScoreResult) {
 							maxScoreResult = scoreResult;
 							isKnownCombinedPeak = YES;
@@ -416,7 +417,7 @@
 			}
 			
 		}
-		if (maxScoreResult > 70 ){
+		if (maxScoreResult > matchTreshold ){
 			isKnownCombinedPeak = YES;
 		}
 		if (!isKnownCombinedPeak) {
