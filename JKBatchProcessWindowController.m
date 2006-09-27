@@ -87,7 +87,7 @@
 	[self setAbortAction:NO];
 	int i;
 	int filesCount = [files count];
-	[fileProgressIndicator setMaxValue:filesCount*7.0];
+	[fileProgressIndicator setMaxValue:filesCount*8.0];
 	[fileProgressIndicator setDoubleValue:0.0];
 	
 	NSError *error = [[NSError alloc] init];
@@ -100,13 +100,21 @@
 		if (document == nil) {
 			JKLogError(@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]);
 			errorOccurred = YES;
-			[fileProgressIndicator setDoubleValue:(i+1)*7.0];
+			[fileProgressIndicator setDoubleValue:(i+1)*8.0];
 			continue;	
 		}
 		[fileStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Processing file \"%@\" (%d of %d)",@"Batch process status text"),[[files objectAtIndex:i] valueForKey:@"filename"],i+1,filesCount]];
 		[detailStatusTextField setStringValue:@"Starting Processing"];
 		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchUseSettings"] intValue] == 1) {
 			[document resetToDefaultValues];
+		}
+		if ([self abortAction]) {
+			break;
+		}		
+		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchIdentifyBaseline"] boolValue]) {
+			[detailStatusTextField setStringValue:NSLocalizedString(@"Identifying Baseline",@"")];
+			[document obtainBaseline];
+			[fileProgressIndicator incrementBy:1.0];
 		}
 		if ([self abortAction]) {
 			break;
@@ -208,7 +216,7 @@
 		if ([self abortAction]) {
 			break;
 		}
-		[fileProgressIndicator setDoubleValue:(i+1)*7.0];
+		[fileProgressIndicator setDoubleValue:(i+1)*8.0];
 	}
 	
 	[error release];

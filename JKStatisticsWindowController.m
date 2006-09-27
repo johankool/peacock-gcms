@@ -170,7 +170,7 @@
 	
 	// Reset
 	unknownCount = 0;
-	peaksToUse = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"peaksForSummary"] intValue]; // 1=all 2=identified 3=confirmed
+	peaksToUse = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticsAnalysisPeaksForSummary"] intValue]; // 1=all 2=identified 3=confirmed
 	NSAssert(peaksToUse > 0 && peaksToUse < 4, @"peaksToUse has invalid value");
 
 	// Reset the comparison window
