@@ -123,7 +123,7 @@
 
 - (IBAction)chooseExistingPath:(id)sender  
 {
-	fileTypes = [NSArray arrayWithObject:@"jdx"];
+	fileTypes = [NSArray arrayWithObjects:@"jdx",@"dx",@"hpj",nil];
 
 	int result;
     NSOpenPanel *oPanel = [NSOpenPanel openPanel];

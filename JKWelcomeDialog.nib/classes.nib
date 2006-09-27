@@ -1,0 +1,26 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                openPreferencesWindowAction = id; 
+                openTestFile = id; 
+                showBatchProcessAction = id; 
+                showLicense = id; 
+                showReadMe = id; 
+                showStatisticsAction = id; 
+            }; 
+            CLASS = JKAppDelegate; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                mwWindowController = MWController; 
+                removeChromatogramMenu = NSMenu; 
+                showPresetMenu = NSMenu; 
+                welcomeWindow = NSWindow; 
+            }; 
+            SUPERCLASS = NSApplication; 
+        }, 
+        {ACTIONS = {openTestFile = id; }; CLASS = NSObject; LANGUAGE = ObjC; }
+    ); 
+    IBVersion = 1; 
+}

@@ -48,7 +48,7 @@
 //		symbol = @"";		// ##$SYMBOL=
 		
 		NSString *xyData = @""; 
-		NSString *scannedString;
+		NSString *scannedString = @"";
 		float scannedFloat;
 		
 		// Remove all comments
@@ -58,6 +58,7 @@
 		// Title
 		[theScanner scanUpToString:@"##TITLE=" intoString:NULL];
 		if ([theScanner scanString:@"##TITLE=" intoString:NULL]) {
+            scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 //			name = [[self fixString:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]] retain];
 			name = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
@@ -83,6 +84,7 @@
 		[theScanner setScanLocation:0];
 		[theScanner scanUpToString:@"##ORIGIN=" intoString:NULL];
 		if ([theScanner scanString:@"##ORIGIN=" intoString:NULL]) {
+            scannedString = @"";
 			if ([theScanner scanUpToString:@"##" intoString:&scannedString]) {
 				origin = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];				
 			} else {
@@ -98,6 +100,7 @@
 		[theScanner setScanLocation:0];
 		[theScanner scanUpToString:@"##OWNER=" intoString:NULL];
 		if ([theScanner scanString:@"##OWNER=" intoString:NULL]) {
+            scannedString = @"";
 			if ([theScanner scanUpToString:@"##" intoString:&scannedString]) {
 				owner = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 			} else {
@@ -114,6 +117,7 @@
 		[theScanner setScanLocation:0];
 		[theScanner scanUpToString:@"##MOLFORM=" intoString:NULL];
 		if ([theScanner scanString:@"##MOLFORM=" intoString:NULL]) {
+            scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			formula = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
@@ -126,6 +130,7 @@
 		[theScanner setScanLocation:0];
 		[theScanner scanUpToString:@"##CAS NAME=" intoString:NULL];
 		if ([theScanner scanString:@"##CAS NAME=" intoString:NULL]) {
+            scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			// CAS NAME overwrites title, but is often more useful anyway.
 			[name release];
@@ -137,6 +142,7 @@
 		[theScanner setScanLocation:0];
 		[theScanner scanUpToString:@"##CAS REGISTRY NO=" intoString:NULL];
 		if ([theScanner scanString:@"##CAS REGISTRY NO=" intoString:NULL]) {
+            scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			CASNumber = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
@@ -148,6 +154,7 @@
 		[theScanner setScanLocation:0];
 		[theScanner scanUpToString:@"##$MOLSTRING=" intoString:NULL];
 		if ([theScanner scanString:@"##$MOLSTRING=" intoString:NULL]) {
+            scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			molString = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
@@ -162,6 +169,7 @@
 		[theScanner setScanLocation:0];
 		[theScanner scanUpToString:@"##$EPA MASS SPEC NO=" intoString:NULL];
 		if ([theScanner scanString:@"##$EPA MASS SPEC NO=" intoString:NULL]) {
+            scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			epaMassSpecNo = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
@@ -173,6 +181,7 @@
 		[theScanner setScanLocation:0];
 		[theScanner scanUpToString:@"##$NIST SOURCE=" intoString:NULL];
 		if ([theScanner scanString:@"##$NIST SOURCE=" intoString:NULL]) {
+            scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			nistSource = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
@@ -212,6 +221,7 @@
 		[theScanner setScanLocation:0];
 		[theScanner scanUpToString:@"##SOURCE=" intoString:NULL];
 		if ([theScanner scanString:@"##SOURCE=" intoString:NULL]) {
+            scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			source = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
@@ -223,6 +233,7 @@
 		[theScanner setScanLocation:0];
 		[theScanner scanUpToString:@"##COMMENT=" intoString:NULL];
 		if ([theScanner scanString:@"##COMMENT=" intoString:NULL]) {
+            scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			comment = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} 
@@ -230,6 +241,7 @@
 		[theScanner setScanLocation:0];
 		[theScanner scanUpToString:@"##$COMMENT=" intoString:NULL];
 		if ([theScanner scanString:@"##$COMMENT=" intoString:NULL]) {
+            scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			comment = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} 
@@ -239,6 +251,7 @@
 		[theScanner setScanLocation:0];
 		[theScanner scanUpToString:@"##XUNITS=" intoString:NULL];
 		if ([theScanner scanString:@"##XUNITS=" intoString:NULL]) {
+            scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			xUnits = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		}
@@ -248,6 +261,7 @@
 		[theScanner setScanLocation:0];
 		[theScanner scanUpToString:@"##YUNITS=" intoString:NULL];
 		if ([theScanner scanString:@"##YUNITS=" intoString:NULL]) {
+            scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			yUnits = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		}
@@ -313,6 +327,7 @@
 		[theScanner setScanLocation:0];
 		[theScanner scanUpToString:@"##XYDATA=" intoString:NULL];
 		if ([theScanner scanString:@"##XYDATA=" intoString:NULL]) {
+            scannedString = @"";
 			[theScanner scanUpToString:@"\n" intoString:&scannedString];
 			scannedString = [scannedString stringByTrimmingCharactersInSet:whiteCharacters];
 			if (![scannedString isEqualToString:@"(XY..XY)"]) {
@@ -322,6 +337,7 @@
 			[theScanner setScanLocation:0];
 			[theScanner scanUpToString:@"##PEAK TABLE=" intoString:NULL];
 			if ([theScanner scanString:@"##PEAK TABLE=" intoString:NULL]) {
+                scannedString = @"";
 				[theScanner scanUpToString:@"\n" intoString:&scannedString];
 				scannedString = [scannedString stringByTrimmingCharactersInSet:whiteCharacters];
 				if (![scannedString isEqualToString:@"(XY..XY)"]) {
@@ -569,7 +585,13 @@ idUndoAccessor(symbol, setSymbol, @"Change Symbol")
 	intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
 	int j, massInt, intensityInt;
 
-	numberOfPoints = [[inString componentsSeparatedByString:@","] count]-1;
+    // Check for silly HP JCAMP file
+    if ([inString rangeOfString:@","].location == NSNotFound) {
+        numberOfPoints = [[inString componentsSeparatedByString:@"\n"] count]-1;
+    } else {
+        numberOfPoints = [[inString componentsSeparatedByString:@","] count]-1;
+    }
+    
 
 #warning [BUG] No undo support
 	

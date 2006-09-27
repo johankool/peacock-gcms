@@ -41,6 +41,10 @@
 	[[self libraryController] addObserver:self forKeyPath:@"selection" options:nil context:nil];
 }
 
+- (void) dealloc {
+    [[self libraryController] removeObserver:self forKeyPath:@"selection"];
+    [super dealloc];
+}
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
 					  ofObject:(id)object

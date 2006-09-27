@@ -20,7 +20,7 @@
 #import "netcdf.h"
 #import "RBSplitSubview.h"
 
-static void *DocumentObservationContext = (void *)1100;
+//static void *DocumentObservationContext = (void *)1100;
 static void *ChromatogramObservationContext = (void *)1101;
 static void *SpectrumObservationContext = (void *)1102;
 //static void *PeaksObservationContext = (void *)1103;
@@ -94,10 +94,7 @@ static void *SpectrumObservationContext = (void *)1102;
 	// Register as observer
 	[searchResultsController addObserver:self forKeyPath:@"selection" options:nil context:nil];
 	[peakController addObserver:self forKeyPath:@"selection" options:nil context:nil];
-	
-	[[self document] addObserver:self forKeyPath:@"metadata.sampleCode" options:nil context:DocumentObservationContext];
-	[[self document] addObserver:self forKeyPath:@"metadata.sampleDescription" options:nil context:DocumentObservationContext];
-	
+		
 	// Double click action
 	[resultsTable setDoubleAction:@selector(resultDoubleClicked:)];
 	
@@ -123,18 +120,11 @@ static void *SpectrumObservationContext = (void *)1102;
 
 - (void)dealloc  
 {
-    NSLog(@"JKMainWindowController - dealloc");
 	[searchResultsController removeObserver:self forKeyPath:@"selection"];
-
-	[[self document] removeObserver:self forKeyPath:@"metadata.sampleCode"];
-	[[self document] removeObserver:self forKeyPath:@"metadata.sampleDescription"];
-
-//    [self removeObserver:self forKeyPath:@"showTICTrace"];
-//	[self removeObserver:self forKeyPath:@"showSpectrum"];
-//	[self removeObserver:self forKeyPath:@"showCombinedSpectrum"];
-//	[self removeObserver:self forKeyPath:@"showLibraryHit"];
-//	[self removeObserver:self forKeyPath:@"showNormalizedSpectra"];
-    
+	[peakController removeObserver:self forKeyPath:@"selection"];
+    if ([RBSplitSubview animating]) {
+        sleep(1);
+    }
     [super dealloc];
 }
 
@@ -580,16 +570,16 @@ static void *SpectrumObservationContext = (void *)1102;
 	if (context == SpectrumObservationContext) {
 		[spectrumView setNeedsDisplay:YES];
 	}
-	if (context == DocumentObservationContext) {
+	if ([keyPath hasPrefix:@"metadata"]) {
 		[self synchronizeWindowTitleWithDocumentName];
 	}
 
-    if (([peakController selection] != NSNoSelectionMarker) ||([peakController selection] != NSMultipleValuesMarker))  {
-        if (([[self peakController] valueForKeyPath:@"selection.identified"]) && ([[[self peakController] valueForKeyPath:@"selection.searchResults"] count] == 1)) {
+    if ([[peakController selectedObjects] count] == 1) {
+        if ([[[self peakController] valueForKeyPath:@"selection.identified"] boolValue]) {
             [detailsTabView selectTabViewItemWithIdentifier:@"details"];
             [detailsSplitSubview setHidden:NO];
             [detailsSplitSubview expandWithAnimation:YES withResize:NO];
-            if ([searchResultsController selection] != NSNoSelectionMarker) {
+            if ([[searchResultsController selectedObjects] count] == 1) {
                 NSString *molString = [[[[self searchResultsController] selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.molString"];
                 if ((molString) && (![molString isEqualToString:@""])) {
                     [moleculeView setModel:[[[JKMoleculeModel alloc] initWithMoleculeString:molString] autorelease]];
@@ -597,17 +587,15 @@ static void *SpectrumObservationContext = (void *)1102;
                     [moleculeSplitSubview expandWithAnimation:YES withResize:NO];                                
                 } else {
                     [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
-                    [moleculeSplitSubview setHidden:YES];
                 }                
             } else {
                 [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
-                [moleculeSplitSubview setHidden:YES];
             } 
-        } else if ([[[self peakController] valueForKeyPath:@"selection.searchResults"] count] > 1) {
+        } else if ([[peakController valueForKeyPath:@"selection.searchResults.@count"] intValue] >= 1) {
             [detailsTabView selectTabViewItemWithIdentifier:@"searchResults"];
+            [detailsSplitSubview setHidden:NO];
             [detailsSplitSubview expandWithAnimation:YES withResize:NO];
-            NSString *molString = [[[[self searchResultsController] selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.molString"];
-            if ([searchResultsController selection] != NSNoSelectionMarker) {
+            if ([[searchResultsController selectedObjects] count] == 1) {
                 NSString *molString = [[[[self searchResultsController] selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.molString"];
                 if ((molString) && (![molString isEqualToString:@""])) {
                     [moleculeView setModel:[[[JKMoleculeModel alloc] initWithMoleculeString:molString] autorelease]];
@@ -615,24 +603,28 @@ static void *SpectrumObservationContext = (void *)1102;
                     [moleculeSplitSubview expandWithAnimation:YES withResize:NO];                                
                 } else {
                     [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
-                    [moleculeSplitSubview setHidden:YES];
-                }                
-            } else {
-                [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
-                [moleculeSplitSubview setHidden:YES];
-            } 
+                }  
+            }
         } else {
             [detailsSplitSubview collapseWithAnimation:YES withResize:NO];
-            [detailsSplitSubview setHidden:YES];
             [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
-            [moleculeSplitSubview setHidden:YES];
         }
     } else {
             [detailsSplitSubview collapseWithAnimation:YES withResize:NO];
-            [detailsSplitSubview setHidden:YES];
             [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
-            [moleculeSplitSubview setHidden:YES];
     }
+}
+
+#pragma mark SPLITVIEW DELEGATE METHODS
+- (void)splitView:(RBSplitView*)sender didCollapse:(RBSplitSubview*)subview {
+    if ((subview == detailsSplitSubview) || (subview == moleculeSplitSubview)) {
+        [self performSelector:@selector(hideSubView:) withObject:subview afterDelay:0.0];
+    }
+}
+
+- (void)hideSubView:(RBSplitSubview*)subview {
+    if (subview)
+        [subview setHidden:YES];
 }
 
 #pragma mark NSTOOLBAR MANAGEMENT
@@ -673,14 +665,26 @@ static void *SpectrumObservationContext = (void *)1102;
 		// Tell the item what message to send when it is clicked 
 		[toolbarItem setTarget: [self document]];
 		[toolbarItem setAction: @selector(saveDocument:)];
-    }  else if ([itemIdent isEqual: @"Identify Peaks Item Identifier"]) {
+    }  else if ([itemIdent isEqual: @"Identify Baseline Item Identifier"]) {
+		// Set the text label to be displayed in the toolbar and customization palette 
+		[toolbarItem setLabel:NSLocalizedString(@"Identify Baseline",@"")];
+		[toolbarItem setPaletteLabel:NSLocalizedString(@"Identify Baseline",@"")];
+		
+		// Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
+		[toolbarItem setToolTip:NSLocalizedString(@"Identify the baseline in your chromatogram",@"")];
+		[toolbarItem setImage: [NSImage imageNamed: @"Identify Baseline"]];
+		
+		// Tell the item what message to send when it is clicked 
+		[toolbarItem setTarget: self];
+		[toolbarItem setAction: @selector(obtainBaseline:)];
+    }   else if ([itemIdent isEqual: @"Identify Peaks Item Identifier"]) {
 		// Set the text label to be displayed in the toolbar and customization palette 
 		[toolbarItem setLabel:NSLocalizedString(@"Identify Peaks",@"")];
 		[toolbarItem setPaletteLabel:NSLocalizedString(@"Identify Peaks",@"")];
 		
 		// Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
 		[toolbarItem setToolTip:NSLocalizedString(@"Identify the peaks in your chromatogram",@"")];
-		[toolbarItem setImage: [NSImage imageNamed: @"question_mark"]];
+		[toolbarItem setImage: [NSImage imageNamed: @"Identify Peaks"]];
 		
 		// Tell the item what message to send when it is clicked 
 		[toolbarItem setTarget: self];
@@ -692,7 +696,7 @@ static void *SpectrumObservationContext = (void *)1102;
 		
 		// Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
 		[toolbarItem setToolTip:NSLocalizedString(@"Identify the compounds associated with the peaks in your chromatogram",@"")];
-		[toolbarItem setImage: [NSImage imageNamed: @"question_mark"]];
+		[toolbarItem setImage: [NSImage imageNamed: @"Identify Compounds"]];
 		
 		// Tell the item what message to send when it is clicked 
 		[toolbarItem setTarget: self];
@@ -722,7 +726,7 @@ static void *SpectrumObservationContext = (void *)1102;
     // Required delegate method:  Returns the ordered list of items to be shown in the toolbar by default    
     // If during the toolbar's initialization, no overriding values are found in the user defaults, or if the
     // user chooses to revert to the default items this set will be used 
-    return [NSArray arrayWithObjects:	@"Save Document Item Identifier", NSToolbarPrintItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, @"Identify Peaks Item Identifier", @"Identify Compounds Item Identifier", NSToolbarFlexibleSpaceItemIdentifier, 
+    return [NSArray arrayWithObjects:	@"Save Document Item Identifier", NSToolbarPrintItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, @"Identify Baseline Item Identifier", @"Identify Peaks Item Identifier", @"Identify Compounds Item Identifier", NSToolbarFlexibleSpaceItemIdentifier, 
         NSToolbarShowColorsItemIdentifier, NSToolbarShowFontsItemIdentifier, NSToolbarSeparatorItemIdentifier, @"Inspector", nil];
 }
 
@@ -731,7 +735,7 @@ static void *SpectrumObservationContext = (void *)1102;
     // Required delegate method:  Returns the list of all allowed items by identifier.  By default, the toolbar 
     // does not assume any items are allowed, even the separator.  So, every allowed item must be explicitly listed   
     // The set of allowed items is used to construct the customization palette 
-    return [NSArray arrayWithObjects:  @"Identify Peaks Item Identifier", @"Identify Compounds Item Identifier",  @"Save Document Item Identifier", NSToolbarPrintItemIdentifier, @"Inspector",
+    return [NSArray arrayWithObjects:  @"Identify Baseline Item Identifier", @"Identify Peaks Item Identifier", @"Identify Compounds Item Identifier",  @"Save Document Item Identifier", NSToolbarPrintItemIdentifier, @"Inspector",
         NSToolbarShowColorsItemIdentifier, NSToolbarShowFontsItemIdentifier, NSToolbarCustomizeToolbarItemIdentifier,
         NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, nil];
 }
@@ -770,6 +774,8 @@ static void *SpectrumObservationContext = (void *)1102;
 		enable = [[self document] isDocumentEdited];
 		enable = YES;
     } else if ([[toolbarItem itemIdentifier] isEqual: NSToolbarPrintItemIdentifier]) {
+		enable = YES;
+    }else if ([[toolbarItem itemIdentifier] isEqual: @"Identify Baseline Item Identifier"]) {
 		enable = YES;
     }else if ([[toolbarItem itemIdentifier] isEqual: @"Identify Peaks Item Identifier"]) {
 		enable = YES;

@@ -57,6 +57,9 @@
 		C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C798C9EA08E17B5400C6C7D1 /* DeleteTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */; };
+		C799B0AA0ACAB30D00D4FCA4 /* Identify Compounds.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A70ACAB30D00D4FCA4 /* Identify Compounds.tiff */; };
+		C799B0AB0ACAB30D00D4FCA4 /* Identify Peaks.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A80ACAB30D00D4FCA4 /* Identify Peaks.tiff */; };
+		C799B0AC0ACAB30D00D4FCA4 /* Identify Baseline.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A90ACAB30D00D4FCA4 /* Identify Baseline.tiff */; };
 		C79A6154094DBE3A00C0887E /* RBSplitSubview.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6150094DBE3A00C0887E /* RBSplitSubview.m */; };
 		C79A6155094DBE3A00C0887E /* RBSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6152094DBE3A00C0887E /* RBSplitView.m */; };
 		C7A7BB370A9DE5D3005E3778 /* library_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB2D0A9DE5D3005E3778 /* library_document.icns */; };
@@ -198,6 +201,9 @@
 		C7859A9909CEBCE900351C87 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		C798C9E808E17B5400C6C7D1 /* DeleteTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteTableView.h; sourceTree = "<group>"; };
 		C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteTableView.m; sourceTree = "<group>"; };
+		C799B0A70ACAB30D00D4FCA4 /* Identify Compounds.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Identify Compounds.tiff"; sourceTree = "<group>"; };
+		C799B0A80ACAB30D00D4FCA4 /* Identify Peaks.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Identify Peaks.tiff"; sourceTree = "<group>"; };
+		C799B0A90ACAB30D00D4FCA4 /* Identify Baseline.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Identify Baseline.tiff"; sourceTree = "<group>"; };
 		C79A614F094DBE3A00C0887E /* RBSplitSubview.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RBSplitSubview.h; sourceTree = "<group>"; };
 		C79A6150094DBE3A00C0887E /* RBSplitSubview.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RBSplitSubview.m; sourceTree = "<group>"; };
 		C79A6151094DBE3A00C0887E /* RBSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RBSplitView.h; sourceTree = "<group>"; };
@@ -665,6 +671,9 @@
 		C7EB17C00898CF2E007FC2ED /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C799B0A70ACAB30D00D4FCA4 /* Identify Compounds.tiff */,
+				C799B0A80ACAB30D00D4FCA4 /* Identify Peaks.tiff */,
+				C799B0A90ACAB30D00D4FCA4 /* Identify Baseline.tiff */,
 				C7A7BB510A9DE6E0005E3778 /* display.tiff */,
 				C7A7BB4D0A9DE6E0005E3778 /* find.icns */,
 				C7A7BB4C0A9DE6E0005E3778 /* general.tiff */,
@@ -840,6 +849,9 @@
 				C7FBE1E40AB6F1A4000E7EF2 /* presets.png in Resources */,
 				C747EC0F0ABEEBC6001F98AF /* JKWelcomeDialog.nib in Resources */,
 				C747ED350ABF43C6001F98AF /* Peacock Test Files in Resources */,
+				C799B0AA0ACAB30D00D4FCA4 /* Identify Compounds.tiff in Resources */,
+				C799B0AB0ACAB30D00D4FCA4 /* Identify Peaks.tiff in Resources */,
+				C799B0AC0ACAB30D00D4FCA4 /* Identify Baseline.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

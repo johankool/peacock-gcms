@@ -92,9 +92,19 @@
 - (NSArray *)readJCAMPString:(NSString *)inString 
 {
 	int count,i;
+    BOOL sillyHPJCAMP;
+    NSArray *array;
 	NSMutableArray *libraryEntriesInString = [[NSMutableArray alloc] init];
 	NSCharacterSet *whiteCharacters = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-	NSArray *array = [inString componentsSeparatedByString:@"##END="];
+    // Check for silly HP JCAMP file
+    if ([inString rangeOfString:@"##END="].location == NSNotFound) {
+        array = [inString componentsSeparatedByString:@"##TITLE="];
+        sillyHPJCAMP = YES;
+    } else {
+        array = [inString componentsSeparatedByString:@"##END="];
+        sillyHPJCAMP = NO;
+    }
+    
 	JKLibraryEntry *libEntry;
 	
 	count = [array count];
@@ -104,7 +114,11 @@
 	for (i=0; i < count; i++) {
 		// If we are dealing with an empty string, bail out
 		if ((![[[array objectAtIndex:i] stringByTrimmingCharactersInSet:whiteCharacters] isEqualToString:@""]) && (![[array objectAtIndex:i] isEqualToString:@""]))  {
-            libEntry = [[JKLibraryEntry alloc] initWithJCAMPString:[array objectAtIndex:i]];
+            if (sillyHPJCAMP) {
+                libEntry = [[JKLibraryEntry alloc] initWithJCAMPString:[[NSString stringWithString:@"##TITLE="] stringByAppendingString:[array objectAtIndex:i]]];
+            } else {
+                libEntry = [[JKLibraryEntry alloc] initWithJCAMPString:[array objectAtIndex:i]];                
+            }
             [libEntry setDocument:self];
             [libraryEntriesInString addObject:libEntry];
             [libEntry release];

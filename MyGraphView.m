@@ -79,54 +79,11 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		[self setLegendAreaColor:[NSColor whiteColor]];
 		[self setLegendFrameColor:[NSColor whiteColor]];
 				
-//		// Observe changes for what values to draw
-//		[self addObserver:self forKeyPath:@"keyForXValue" options:nil context:DataObservationContext];
-//		[self addObserver:self forKeyPath:@"keyForYValue" options:nil context:DataObservationContext];
-//		[self addObserver:self forKeyPath:@"dataSeries" options:nil context:DataObservationContext];
-//		
-//		// Observe changes for plotting area
-//		[self addObserver:self forKeyPath:@"origin" options:nil context:PropertyObservationContext];
-//		[self addObserver:self forKeyPath:@"frame" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:FrameObservationContext];	
-//
-//		// Observe changes for what to draw
-//		[self addObserver:self forKeyPath:@"shouldDrawAxes" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"shouldDrawMajorTickMarks" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"shouldDrawMinorTickMarks" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"shouldDrawLegend" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"shouldDrawGrid" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"shouldDrawLabels" options:nil context:PropertyObservationContext];
-//		[self addObserver:self forKeyPath:@"shouldDrawLabelsOnFrame" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"shouldDrawLegend" options:nil context:PropertyObservationContext];	
-//		
-//		// Observe changes for color
-//		[self addObserver:self forKeyPath:@"backColor" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"plottingAreaColor" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"axesColor" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"gridColor" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"labelsColor" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"labelsOnFrameColor" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"legendAreaColor" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"legendFrameColor" options:nil context:PropertyObservationContext];	
-//		
-//		// Observe changes for zooming
-//		[self addObserver:self forKeyPath:@"minimumPixelsPerMajorGridLine" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"pixelsPerXUnit" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"pixelsPerYUnit" options:nil context:PropertyObservationContext];
-//		
-//		// Observe changes for text
-//		[self addObserver:self forKeyPath:@"titleString" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"xAxisLabelString" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"yAxisLabelString" options:nil context:PropertyObservationContext];	
-
 		// Additions for Peacock
 		[self setShouldDrawBaseline:NO];
 		[self setShouldDrawPeaks:YES];
         [self setSelectedScan:0];
-        
-//		[self addObserver:self forKeyPath:@"baseline" options:nil context:PropertyObservationContext];			
-//		[self addObserver:self forKeyPath:@"shouldDrawBaseline" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"shouldDrawPeaks" options:nil context:PropertyObservationContext];	
-	}
+    }
 	return self;
 }
 
@@ -135,50 +92,6 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[self unbind:@"baseline"];
 	[self unbind:@"peaks"];
 	[self unbind:@"dataSeries"];
-//	[self removeObserver:self forKeyPath:@"dataSeries"];
-
-//	// Observe changes for what values to draw
-//	[self removeObserver:self forKeyPath:@"keyForXValue"];
-//	[self removeObserver:self forKeyPath:@"keyForYValue"];
-//	
-//	// Observe changes for plotting area
-//	[self removeObserver:self forKeyPath:@"origin"];
-//	[self removeObserver:self forKeyPath:@"frame"];	
-//	
-//	// Observe changes for what to draw
-//	[self removeObserver:self forKeyPath:@"shouldDrawAxes"];	
-//	[self removeObserver:self forKeyPath:@"shouldDrawMajorTickMarks"];	
-//	[self removeObserver:self forKeyPath:@"shouldDrawMinorTickMarks"];	
-//	[self removeObserver:self forKeyPath:@"shouldDrawLegend"];	
-//	[self removeObserver:self forKeyPath:@"shouldDrawGrid"];	
-//	[self removeObserver:self forKeyPath:@"shouldDrawLabels"];
-//	[self removeObserver:self forKeyPath:@"shouldDrawLabelsOnFrame"];	
-//	[self removeObserver:self forKeyPath:@"shouldDrawLegend"];	
-//	
-//	// Observe changes for color
-//	[self removeObserver:self forKeyPath:@"backColor"];	
-//	[self removeObserver:self forKeyPath:@"plottingAreaColor"];	
-//	[self removeObserver:self forKeyPath:@"axesColor"];	
-//	[self removeObserver:self forKeyPath:@"gridColor"];	
-//	[self removeObserver:self forKeyPath:@"labelsColor"];	
-//	[self removeObserver:self forKeyPath:@"labelsOnFrameColor"];	
-//	[self removeObserver:self forKeyPath:@"legendAreaColor"];	
-//	[self removeObserver:self forKeyPath:@"legendFrameColor"];	
-//	
-//	// Observe changes for zooming
-//	[self removeObserver:self forKeyPath:@"minimumPixelsPerMajorGridLine"];	
-//	[self removeObserver:self forKeyPath:@"pixelsPerXUnit"];	
-//	[self removeObserver:self forKeyPath:@"pixelsPerYUnit"];
-//	
-//	// Observe changes for text
-//	[self removeObserver:self forKeyPath:@"titleString"];	
-//	[self removeObserver:self forKeyPath:@"xAxisLabelString"];	
-//	[self removeObserver:self forKeyPath:@"yAxisLabelString"];	
-//	
-//	// Additions for Peacock
-//	[self removeObserver:self forKeyPath:@"baseline"];			
-//	[self removeObserver:self forKeyPath:@"shouldDrawBaseline"];	
-//	[self removeObserver:self forKeyPath:@"shouldDrawPeaks"];	
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 

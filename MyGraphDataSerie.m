@@ -27,21 +27,7 @@ static void *PropertyObservationContext = (void *)1093;
 		[self setSeriesType:1];
 		[self setShouldDrawLabels:YES];
 		[self setVerticalScale:[NSNumber numberWithFloat:1.0]];		
-		
-		// Voeg ons toe als observer voor veranderingen in de array met data, zoals toevoegingen en verwijderingen.
-		[self addObserver:self forKeyPath:@"dataArray" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:ArrayObservationContext];	
-		
-		// Voeg ons toe als observer voor veranderingen in de data zelf, bijv. de x-value veranderd.
-		//[self startObservingData:[self dataArray]];
-		
-		// Voeg ons toe als observer voor veranderingen in de properties.
-		[self addObserver:self forKeyPath:@"keyForXValue" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"keyForYValue" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"seriesColor" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"seriesType" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"seriesTitle" options:nil context:PropertyObservationContext];	
-		[self addObserver:self forKeyPath:@"verticalScale" options:nil context:PropertyObservationContext];	
-		
+				
 		// Creeer de plot een eerste keer.
 		[self constructPlotPath];
 	}
@@ -49,18 +35,7 @@ static void *PropertyObservationContext = (void *)1093;
 }
 
 - (void) dealloc  
-{
-	// Voeg ons toe als observer voor veranderingen in de array met data, zoals toevoegingen en verwijderingen.
-	[self removeObserver:self forKeyPath:@"dataArray"];
-	
-	// Voeg ons toe als observer voor veranderingen in de properties.
-	[self removeObserver:self forKeyPath:@"keyForXValue"];	
-	[self removeObserver:self forKeyPath:@"keyForYValue"];	
-	[self removeObserver:self forKeyPath:@"seriesColor"];	
-	[self removeObserver:self forKeyPath:@"seriesType"];	
-	[self removeObserver:self forKeyPath:@"seriesTitle"];	
-	[self removeObserver:self forKeyPath:@"verticalScale"];	
-	
+{	
 	[super dealloc];
 }
 
@@ -312,27 +287,6 @@ static void *PropertyObservationContext = (void *)1093;
 		[self constructPlotPath];
 		return;
     }
-	
-	if (context == DictionaryObservationContext)
-	{		
-		// We hoeven de plot alleen opnieuw te tekenen als de waarde voor de x of de y key veranderde.
-		if ([keyPath isEqualToString:[self keyForXValue]] || [keyPath isEqualToString:[self keyForYValue]]) {
-			[self constructPlotPath];
-			return;
-		} 
-		return;
-	}
-	if (context == PropertyObservationContext)
-	{		
-		// Een verandering in kleur of titel vereist niet het opnieuw samenstellen van de plotpath.
-		if ([keyPath isEqualTo:@"seriesColor"] || [keyPath isEqualTo:@"seriesTitle"]) {
-			// Stuur een bericht naar de view dat deze serie opnieuw getekend wil worden.
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];
-			return;
-		}
-		[self constructPlotPath];
-		return;
-	}
 }
 
 #pragma mark MISC
@@ -348,9 +302,12 @@ static void *PropertyObservationContext = (void *)1093;
 }
 - (void)setDataArray:(NSMutableArray *)inValue  
 {
-	[inValue retain];
-    [dataArray autorelease];
-    dataArray = inValue;
+    if (inValue != dataArray) {
+        [inValue retain];
+        [dataArray autorelease];
+        dataArray = inValue;  
+        [self constructPlotPath];
+    }
 }
 
 - (NSString *)seriesTitle  
@@ -359,58 +316,79 @@ static void *PropertyObservationContext = (void *)1093;
 }
 - (void)setSeriesTitle:(NSString *)inValue  
 {
-	[inValue retain];
-    [seriesTitle autorelease];
-    seriesTitle = inValue;
+	if (inValue != seriesTitle) {
+        [inValue retain];
+        [seriesTitle autorelease];
+        seriesTitle = inValue;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];
+    }
 }
+
 - (NSString *)keyForXValue  
 {
 	return keyForXValue;
 }
 - (void)setKeyForXValue:(NSString *)inValue  
 {
-	[inValue retain];
-    [keyForXValue autorelease];
-    keyForXValue = inValue;
+	if (inValue != keyForXValue) {
+        [inValue retain];
+        [keyForXValue autorelease];
+        keyForXValue = inValue;
+        [self constructPlotPath];
+    }
 }
+
 - (NSString *)keyForYValue  
 {
 	return keyForYValue;
 }
 - (void)setKeyForYValue:(NSString *)inValue  
 {
-	[inValue retain];
-    [keyForYValue autorelease];
-    keyForYValue = inValue;
+	if (inValue != keyForYValue) {
+        [inValue retain];
+        [keyForYValue autorelease];
+        keyForYValue = inValue;
+        [self constructPlotPath];
+    }
 }
+
 - (NSColor *)seriesColor  
 {
 	return seriesColor;
 }
 - (void)setSeriesColor:(NSColor *)inValue  
 {
-	[inValue retain];
-    [seriesColor autorelease];
-    seriesColor = inValue;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];
+    if (inValue != seriesColor) {
+        [inValue retain];
+        [seriesColor autorelease];
+        seriesColor = inValue;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];        
+    }
 }
+
 - (int)seriesType  
 {
 	return seriesType;
 }
 - (void)setSeriesType:(int)inValue  
 {
-    seriesType = inValue;
+    if (inValue != seriesType) {
+        seriesType = inValue;
+        [self constructPlotPath];
+    }
 }
+
 - (NSBezierPath *)plotPath  
 {
 	return plotPath;
 }
 - (void)setPlotPath:(NSBezierPath *)inValue  
 {
-	[inValue retain];
-    [plotPath autorelease];
-    plotPath = inValue;
+    if (inValue != plotPath) {
+        [inValue retain];
+        [plotPath autorelease];
+        plotPath = inValue;        
+    }
 }
 
 - (BOOL)shouldDrawLabels  
@@ -419,7 +397,10 @@ static void *PropertyObservationContext = (void *)1093;
 }
 - (void)setShouldDrawLabels:(BOOL)inValue  
 {
-    shouldDrawLabels = inValue;
+    if (inValue != shouldDrawLabels) {
+        shouldDrawLabels = inValue;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];        
+    }
 }
 
 - (NSNumber *)verticalScale  
@@ -428,10 +409,12 @@ static void *PropertyObservationContext = (void *)1093;
 }
 - (void)setVerticalScale:(NSNumber *)inValue  
 {
-	[inValue retain];
-	[verticalScale autorelease];
-	verticalScale = inValue;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];
+    if (inValue != verticalScale) {
+        [inValue retain];
+        [verticalScale autorelease];
+        verticalScale = inValue;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];        
+    }
 }
 
 - (NSArray *)oldData { 

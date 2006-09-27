@@ -22,22 +22,14 @@
         [self setTextColor:[NSColor blackColor]];
 		[self setMargin:10];
 		[self setFitToView:YES];
-		
-		[self addObserver:self forKeyPath:@"bondColor" options:nil context:nil];
-		[self addObserver:self forKeyPath:@"backgroundColor" options:nil context:nil];
-		[self addObserver:self forKeyPath:@"textColor" options:nil context:nil];
-		[self addObserver:self forKeyPath:@"margin" options:nil context:nil];
-		[self addObserver:self forKeyPath:@"fitToView" options:nil context:nil];
-		[self addObserver:self forKeyPath:@"scaleFactor" options:nil context:nil];
-
-		[self addObserver:self forKeyPath:@"model" options:nil context:nil];
-		[self addObserver:self forKeyPath:@"model.atoms" options:nil context:nil];
-		[self addObserver:self forKeyPath:@"model.bonds" options:nil context:nil];
-
-		
-	}
+    }
     return self;
 }
+
+- (void) dealloc {
+    [super dealloc];
+}
+
 
 - (void)drawRect:(NSRect)rect {
 	if (![self model] | ([[[self model] atoms] count] == 0)) {

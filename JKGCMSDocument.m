@@ -22,6 +22,7 @@ NSString *const JKGCMSDocument_DocumentDeactivateNotification = @"JKGCMSDocument
 NSString *const JKGCMSDocument_DocumentActivateNotification   = @"JKGCMSDocument_DocumentActivateNotification";
 NSString *const JKGCMSDocument_DocumentLoadedNotification     = @"JKGCMSDocument_DocumentLoadedNotification";
 int const JKGCMSDocument_Version = 4;
+static void *DocumentObservationContext = (void *)1100;
 
 @implementation JKGCMSDocument
 
@@ -31,7 +32,7 @@ int const JKGCMSDocument_Version = 4;
 {
 	self = [super init];
     if (self != nil) {
-        mainWindowController = [[JKMainWindowController alloc] init];
+        mainWindowController = [[[JKMainWindowController alloc] init] autorelease];
 		peaks = [[NSMutableArray alloc] init];
 		baseline = [[NSMutableArray alloc] init];
 		metadata = [[NSMutableDictionary alloc] init];
@@ -53,19 +54,26 @@ int const JKGCMSDocument_Version = 4;
 		penalizeForRetentionIndex = [[defaultValues valueForKey:@"penalizeForRetentionIndex"] boolValue];
 		markAsIdentifiedThreshold = [[defaultValues valueForKey:@"markAsIdentifiedThreshold"] retain];
 		minimumScoreSearchResults = [[defaultValues valueForKey:@"minimumScoreSearchResults"] retain];
+        
+        [self addObserver:mainWindowController forKeyPath:@"metadata.sampleCode" options:nil context:DocumentObservationContext];
+        [self addObserver:mainWindowController forKeyPath:@"metadata.sampleDescription" options:nil context:DocumentObservationContext];
+
 	}
     return self;
 }
 
+- (void)removeWindowController:(NSWindowController *)windowController {
+    if (windowController == mainWindowController) {
+        [self removeObserver:mainWindowController forKeyPath:@"metadata.sampleCode"];
+        [self removeObserver:mainWindowController forKeyPath:@"metadata.sampleDescription"];        
+    }
+        
+    [super removeWindowController:windowController];
+}
+
 - (void)dealloc  
 {
-    NSEnumerator *e = [peaks objectEnumerator];
-	JKPeakRecord *peak;
-	while ((peak = [e nextObject])) {
-//		[self stopObservingPeak:peak];
-	}    
-	[peaks release];
-	
+	[peaks release];	
     [baseline release];
 	[metadata release];
 	[chromatograms release];
@@ -83,9 +91,19 @@ int const JKGCMSDocument_Version = 4;
 	int dummy;
 	dummy = nc_close(ncid);
 //	if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"File closing error",@"File closing error") format:NSLocalizedString(@"Closing NetCDF file caused problem.\nNetCDF error: %d",@""), dummy];
-	
+//	[mainWindowController release];
     [super dealloc];
 }
+
+// Great debug snippet!
+//- (void)addObserver:(NSObject *)anObserver forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context {
+//    NSLog(@"addObserver:    %@ %@", anObserver, keyPath);
+//    [super addObserver:anObserver forKeyPath:keyPath options:options context:context];
+//}
+//- (void)removeObserver:(NSObject *)anObserver forKeyPath:(NSString *)keyPath {
+//    NSLog(@"removeObserver: %@ %@", anObserver, keyPath);
+//    [super removeObserver:anObserver forKeyPath:keyPath];
+//}
 
 #pragma mark WINDOW MANAGEMENT
 
@@ -168,7 +186,7 @@ int const JKGCMSDocument_Version = 4;
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError  
 {
-	if ([typeName isEqualToString:@"NetCDF File"]) {
+	if ([typeName isEqualToString:@"NetCDF/ANDI File"]) {
         absolutePathToNetCDF = [absoluteURL path];
         return [self readNetCDFFile:[absoluteURL path] error:outError];
 	} else if ([typeName isEqualToString:@"Peacock File"]) {
@@ -245,6 +263,10 @@ int const JKGCMSDocument_Version = 4;
                 
 		return result;	
 	} else {
+        if (outError != NULL)
+			*outError = [[[NSError alloc] initWithDomain:NSCocoaErrorDomain
+												   code:NSFileReadUnknownError userInfo:nil] autorelease];
+        
 		return NO;
 	}	
 }
@@ -371,8 +393,8 @@ int const JKGCMSDocument_Version = 4;
 	
 	[chromatograms addObject:[self obtainTICChromatogram]];
 	
-	if ([baseline count] <= 0)
-		[self obtainBaseline];
+//	if ([baseline count] <= 0)
+//		[self obtainBaseline];
 	
 	return YES;
 	//	NS_HANDLER
@@ -702,8 +724,9 @@ int const JKGCMSDocument_Version = 4;
 		
 		// Baseline check
 		if ([baseline count] <= 0) {
-			JKLogDebug([baseline description]);
-			JKLogWarning(@"No baseline set. Can't recognize peaks without one.");
+//			JKLogDebug([baseline description]);
+//			JKLogWarning(@"No baseline set. Can't recognize peaks without one.");
+            answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Baseline Set",@""),NSLocalizedString(@"No baseline have yet been identified in the chromatogram. Use the 'Identify Baseline' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
 			return;
 		}
 		
@@ -897,6 +920,7 @@ int const JKGCMSDocument_Version = 4;
 //	[[sender progressIndicator] setIndeterminate:YES];
 //	[[sender progressIndicator] startAnimation:self];
 //
+    [self willChangeValueForKey:@"peaks"];
 	// Determine spectra for peaks
 	int peaksCount = [[self peaks] count];
 	if (peaksCount == 0) {
@@ -955,6 +979,7 @@ int const JKGCMSDocument_Version = 4;
 	if (mainWindowController)
 		[[mainWindowController chromatogramView] setNeedsDisplay:YES];
 	
+    [self didChangeValueForKey:@"peaks"];
 	return YES;
 }
 
@@ -1264,7 +1289,7 @@ int const JKGCMSDocument_Version = 4;
 
 	[chromatogram setVerticalScale:[NSNumber numberWithFloat:1.0]];
     
-    int count;
+    unsigned int count;
     NSArray *presets = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"presets"];
     count = [presets count];
     NSString *title;

@@ -44,8 +44,11 @@
 			<property name="score" code="scor" description="Match factor" type="number" access="r">
 				<cocoa key="score"/>
 			</property>
-			<property name="library entry" code="libe" type="library entry">
+			<property name="library entry" code="libe" description="Library entry matched with the peak" type="library entry">
 				<cocoa key="libraryEntry"/>
+			</property>
+			<property name="delta retention index" code="dlri" description="Difference between retention index of peak and the library hit" type="number" access="r">
+				<cocoa key="deltaRetentionIndex"/>
 			</property>
 		</class>
 		<class name="chromatogram" code="chrm" description="Chromatogram" plural="chromatograms">
@@ -95,13 +98,10 @@
 		<command name="identify baseline" code="idbl" description="Find the baseline in a chromatogram">
 			<cocoa name="identifyBaseline"/>
 		</command>
-		<command name="identify peaks" code="idpk" description="Find the peaks in a chromatogram.">
-			<result description="Returns a list of peaks found in the chromatogram.">
-				<type type="peak" list="yes"/>
-			</result>
-		</command>
+		<command name="identify peaks" code="idpk" description="Find the peaks in a chromatogram."/>
 		<command name="identify compounds">
 			<result type="boolean"/>
 		</command>
+		<command name="exportChromatogramAsPDF" code="xpdf" description="Export the current chromatogram as PDF"/>
 	</suite>
 </dictionary>

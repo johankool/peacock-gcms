@@ -31,30 +31,14 @@ static void *PeaksObservationContext = (void *)1094;
 {
     self = [super init];
     if (self) {
- //       // Zet de standaardwaarden
-//		[self setSeriesTitle:@"New Serie"];
-//		[self setKeyForXValue:@"xValue"];
-//		[self setKeyForYValue:@"yValue"];
+        // Zet de standaardwaarden
 		[self setSeriesColor:[NSColor blueColor]];
 		[self setSeriesType:1];
 		[self setShouldDrawPeaks:NO];
 		[self setShouldDrawLabels:YES];
-//				
-//		// Voeg ons toe als observer voor veranderingen in de array met data, zoals toevoegingen en verwijderingen.
-//		[self addObserver:self forKeyPath:@"dataArray" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:ArrayObservationContext];	
-//		
-//		// Voeg ons toe als observer voor veranderingen in de data zelf, bijv. de x-value veranderd.
-//		//[self startObservingData:[self dataArray]];
-//		
-//		// Voeg ons toe als observer voor veranderingen in de properties.
-//		[self addObserver:self forKeyPath:@"keyForXValue" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"keyForYValue" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"seriesColor" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"seriesType" options:nil context:PropertyObservationContext];	
-//		[self addObserver:self forKeyPath:@"seriesTitle" options:nil context:PropertyObservationContext];	
-//		
-//		// Creeer de plot een eerste keer.
-//		[self constructPlotPath];
+        
+		// Creeer de plot een eerste keer.
+		[self constructPlotPath];
 	}
     return self;
 }
