@@ -637,10 +637,10 @@ static void *SpectrumObservationContext = (void *)1102;
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier: @"PeacockMainWindowToolbarIdentifier"] autorelease];
     
     // Set up toolbar properties: Allow customization, give a default display mode, and remember state in user defaults 
+    [toolbar setVisible:YES];
     [toolbar setAllowsUserCustomization: YES];
     [toolbar setAutosavesConfiguration: YES];
 	//    [toolbar setDisplayMode: NSToolbarDisplayModeIconOnly];
-    [toolbar setVisible:YES];
 	
     // We are the delegate
     [toolbar setDelegate: self];
