@@ -34,7 +34,7 @@ static void *PeaksObservationContext = (void *)1094;
         // Zet de standaardwaarden
 		[self setSeriesColor:[NSColor blueColor]];
 		[self setSeriesType:1];
-		[self setShouldDrawPeaks:NO];
+		[self setShouldDrawPeaks:YES];
 		[self setShouldDrawLabels:YES];
         
 		// Creeer de plot een eerste keer.

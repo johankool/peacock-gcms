@@ -52,9 +52,11 @@
 					   context:(void *)context {
 	if ([[[self libraryController] selectedObjects] count] > 0) {
 		[moleculeView setModel:[[JKMoleculeModel alloc] initWithMoleculeString:[[[[self libraryController] selectedObjects] objectAtIndex:0] valueForKey:@"molString"]]];
+        [moleculeView setNeedsDisplay:YES];
 		[spectrumView showAll:self];
 	} else {
 		[moleculeView setModel:nil];
+        [moleculeView setNeedsDisplay:YES];
 	}
 }
 

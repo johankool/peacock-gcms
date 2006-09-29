@@ -644,7 +644,7 @@ static void *DocumentObservationContext = (void *)1100;
 
     [[self undoManager] registerUndoWithTarget:self
                                       selector:@selector(setBaseline:)
-                                        object:[baseline copy]];
+                                        object:[baseline mutableCopy]];
     [[self undoManager] setActionName:NSLocalizedString(@"Identify Baseline",@"")];
     
 	[self willChangeValueForKey:@"baseline"];

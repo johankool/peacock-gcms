@@ -86,10 +86,12 @@ static void *SpectrumObservationContext = (void *)1102;
 	[spectrumView setYMinimum:[NSNumber numberWithFloat:-1.1]];
 	[spectrumView setYMaximum:[NSNumber numberWithFloat:1.1]];
 	[spectrumView setShouldDrawLegend:YES];
-	[spectrumView setShouldDrawFrame:NO];
+	[spectrumView setShouldDrawFrame:YES];
+	[spectrumView setShouldDrawFrameBottom:NO];
     [spectrumView setShouldDrawLabels:NO];
     [spectrumView setShouldDrawLabelsOnFrame:YES];
     [spectrumView setShouldDrawAxes:YES];
+    [spectrumView setShouldDrawAxesVertical:NO];
     
 	// Register as observer
 	[searchResultsController addObserver:self forKeyPath:@"selection" options:nil context:nil];
@@ -638,7 +640,7 @@ static void *SpectrumObservationContext = (void *)1102;
     [toolbar setAllowsUserCustomization: YES];
     [toolbar setAutosavesConfiguration: YES];
 	//    [toolbar setDisplayMode: NSToolbarDisplayModeIconOnly];
-    [toolbar setVisible:NO];
+    [toolbar setVisible:YES];
 	
     // We are the delegate
     [toolbar setDelegate: self];

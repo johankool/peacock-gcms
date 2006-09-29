@@ -61,7 +61,11 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		[self setSelectedRect:NSMakeRect(0,0,0,0)];
 		
 		[self setShouldDrawAxes:NO];
+		[self setShouldDrawAxesHorizontal:YES];
+		[self setShouldDrawAxesVertical:YES];
 		[self setShouldDrawFrame:YES];
+		[self setShouldDrawFrameLeft:YES];
+		[self setShouldDrawFrameBottom:YES];
 		[self setShouldDrawMajorTickMarks:YES];
 		[self setShouldDrawMinorTickMarks:YES];
 		[self setShouldDrawGrid:YES];
@@ -173,7 +177,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
         
         // Draw line for selected scan
         if (([self selectedScan] > 0) && ([[NSGraphicsContext currentContext] isDrawingToScreen])) {
-            [[NSColor blackColor] set];
+            [[NSColor blueColor] set];
             NSPoint point = [[self transformGraphToScreen] transformPoint:NSMakePoint([self selectedScan]*1.0, 0)];
             
             NSBezierPath *selectedScanBezierPath = [NSBezierPath bezierPath];
@@ -186,15 +190,19 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     
 	[NSGraphicsContext restoreGraphicsState];
     
+    [NSGraphicsContext saveGraphicsState];	
+
 	if ([self shouldDrawFrame]) {
         [self drawFrame];
+        [[NSBezierPath bezierPathWithRect:[self plottingArea]] addClip];
         if ([self shouldDrawMajorTickMarks]) {
             [self drawMajorTickMarksOnFrame];
             if ([self shouldDrawMinorTickMarks])
                 [self drawMinorTickMarksOnFrame];
         }
+        [NSGraphicsContext restoreGraphicsState];
     }
-    
+ 
 	if ([self shouldDrawLabelsOnFrame])
 		[self drawLabelsOnFrame];
 	if (([self shouldDrawLegend]) && ([self needsToDrawRect:[self legendArea]]))
@@ -259,27 +267,31 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	int tickMarksPerUnit = 5;
 	NSBezierPath *tickMarksPath = [[NSBezierPath alloc] init];
 	
-	// Verticale tickmarks
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
-	
-	start = (-[self origin].x/stepInPixels)*tickMarksPerUnit;
-	end = start + ([self frame].size.width/stepInPixels)*tickMarksPerUnit+1;
-	for (i=start; i <= end; i++) {
-		[tickMarksPath moveToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self origin].y)];
-		[tickMarksPath lineToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self origin].y+tickMarksWidth)];
-	}
-	
-	// En de horizontale tickmarks
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
-	
-	start = (-[self origin].y/stepInPixels)*tickMarksPerUnit;
-	end = start + ([self frame].size.height/stepInPixels)*tickMarksPerUnit +1;
-	for (i=start; i <= end; i++) {
-		[tickMarksPath moveToPoint:NSMakePoint([self origin].x,i*stepInPixels/tickMarksPerUnit+[self origin].y)];
-		[tickMarksPath lineToPoint:NSMakePoint([self origin].x+tickMarksWidth, i*stepInPixels/tickMarksPerUnit+[self origin].y)];
-	}	
+	//  horizontale tickmarks
+    if (shouldDrawAxesHorizontal) {
+        stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
+        stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
+        
+        start = (-[self origin].x/stepInPixels)*tickMarksPerUnit-3;
+        end = start + ([self frame].size.width/stepInPixels)*tickMarksPerUnit+3;
+        for (i=start; i <= end; i++) {
+            [tickMarksPath moveToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self origin].y)];
+            [tickMarksPath lineToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self origin].y+tickMarksWidth)];
+        }
+    }
+    
+	// En de Verticale tickmarks
+	if (shouldDrawAxesVertical) {
+        stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
+        stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
+        
+        start = (-[self origin].y/stepInPixels)*tickMarksPerUnit-3;
+        end = start + ([self frame].size.height/stepInPixels)*tickMarksPerUnit+3;
+        for (i=start; i <= end; i++) {
+            [tickMarksPath moveToPoint:NSMakePoint([self origin].x,i*stepInPixels/tickMarksPerUnit+[self origin].y)];
+            [tickMarksPath lineToPoint:NSMakePoint([self origin].x+tickMarksWidth, i*stepInPixels/tickMarksPerUnit+[self origin].y)];
+        }	        
+    }
 	
 	// Hier stellen we in hoe de lijnen eruit moeten zien.
 	[tickMarksPath setLineWidth:.5];
@@ -301,27 +313,30 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	NSBezierPath *tickMarksPath = [[NSBezierPath alloc] init];
 	
 	// Verticale tickmarks
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
-	
-	start = (-[self origin].x/stepInPixels)*tickMarksPerUnit;
-	end = start + ([self frame].size.width/stepInPixels)*tickMarksPerUnit+1;
-	for (i=start; i <= end; i++) {
-		[tickMarksPath moveToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self origin].y)];
-		[tickMarksPath lineToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self origin].y+tickMarksWidth)];
+    if (shouldDrawAxesHorizontal) {
+        stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
+        stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
+        
+        start = (-[self origin].x/stepInPixels)*tickMarksPerUnit-3;
+        end = start + ([self frame].size.width/stepInPixels)*tickMarksPerUnit+3;
+        for (i=start; i <= end; i++) {
+            [tickMarksPath moveToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self origin].y)];
+            [tickMarksPath lineToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self origin].y+tickMarksWidth)];
+        }
 	}
-	
+    
 	// En de horizontale tickmarks
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
-	
-	start = (-[self origin].y/stepInPixels)*tickMarksPerUnit;
-	end = start + ([self frame].size.height/stepInPixels)*tickMarksPerUnit +1;
-	for (i=start; i <= end; i++) {
-		[tickMarksPath moveToPoint:NSMakePoint([self origin].x,i*stepInPixels/tickMarksPerUnit+[self origin].y)];
-		[tickMarksPath lineToPoint:NSMakePoint([self origin].x+tickMarksWidth, i*stepInPixels/tickMarksPerUnit+[self origin].y)];
-	}	
-	
+    if (shouldDrawAxesVertical) {
+        stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
+        stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
+        
+        start = (-[self origin].y/stepInPixels)*tickMarksPerUnit-3;
+        end = start + ([self frame].size.height/stepInPixels)*tickMarksPerUnit +3;
+        for (i=start; i <= end; i++) {
+            [tickMarksPath moveToPoint:NSMakePoint([self origin].x,i*stepInPixels/tickMarksPerUnit+[self origin].y)];
+            [tickMarksPath lineToPoint:NSMakePoint([self origin].x+tickMarksWidth, i*stepInPixels/tickMarksPerUnit+[self origin].y)];
+        }	
+    }	
 	// Hier stellen we in hoe de lijnen eruit moeten zien.
 	[tickMarksPath setLineWidth:.5];
 	[[self axesColor] set];
@@ -342,27 +357,31 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	NSBezierPath *tickMarksPath = [[NSBezierPath alloc] init];
 	
 	// Verticale tickmarks
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
-	
-	start = (([self plottingArea].origin.x-[self origin].x)/stepInPixels)*tickMarksPerUnit;
-	end = start + ([self plottingArea].size.width/stepInPixels)*tickMarksPerUnit;
-	for (i=start; i <= end; i++) {
-		[tickMarksPath moveToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self plottingArea].origin.y)];
-		[tickMarksPath lineToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self plottingArea].origin.y+tickMarksWidth)];
+    if (shouldDrawFrameBottom) {
+        stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
+        stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
+        
+        start = (([self plottingArea].origin.x-[self origin].x)/stepInPixels)*tickMarksPerUnit-3;
+        end = start + ([self plottingArea].size.width/stepInPixels)*tickMarksPerUnit+3;
+        for (i=start; i <= end; i++) {
+            [tickMarksPath moveToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self plottingArea].origin.y)];
+            [tickMarksPath lineToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self plottingArea].origin.y+tickMarksWidth)];
+        }
 	}
-	
+    
 	// En de horizontale tickmarks
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
-	
-	start = (([self plottingArea].origin.y-[self origin].y)/stepInPixels)*tickMarksPerUnit;
-	end = start + ([self plottingArea].size.height/stepInPixels)*tickMarksPerUnit;
-	for (i=start; i <= end; i++) {
-		[tickMarksPath moveToPoint:NSMakePoint([self plottingArea].origin.x,i*stepInPixels/tickMarksPerUnit+[self origin].y)];
-		[tickMarksPath lineToPoint:NSMakePoint([self plottingArea].origin.x+tickMarksWidth, i*stepInPixels/tickMarksPerUnit+[self origin].y)];
-	}	
-	
+    if (shouldDrawFrameLeft) {
+        stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
+        stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
+        
+        start = (([self plottingArea].origin.y-[self origin].y)/stepInPixels)*tickMarksPerUnit-3;
+        end = start + ([self plottingArea].size.height/stepInPixels)*tickMarksPerUnit+3;
+        for (i=start; i <= end; i++) {
+            [tickMarksPath moveToPoint:NSMakePoint([self plottingArea].origin.x,i*stepInPixels/tickMarksPerUnit+[self origin].y)];
+            [tickMarksPath lineToPoint:NSMakePoint([self plottingArea].origin.x+tickMarksWidth, i*stepInPixels/tickMarksPerUnit+[self origin].y)];
+        }	
+	}
+    
 	// Hier stellen we in hoe de lijnen eruit moeten zien.
 	[tickMarksPath setLineWidth:.5];
 	[[self axesColor] set];
@@ -383,26 +402,30 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	NSBezierPath *tickMarksPath = [[NSBezierPath alloc] init];
 	
 	// Verticale tickmarks
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
-	
-	start = (([self plottingArea].origin.x-[self origin].x)/stepInPixels)*tickMarksPerUnit;
-	end = start + ([self plottingArea].size.width/stepInPixels)*tickMarksPerUnit;
-	for (i=start; i <= end; i++) {
-		[tickMarksPath moveToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self plottingArea].origin.y)];
-		[tickMarksPath lineToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self plottingArea].origin.y+tickMarksWidth)];
-	}
+    if (shouldDrawFrameBottom) {
+        stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
+        stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
+        
+        start = (([self plottingArea].origin.x-[self origin].x)/stepInPixels)*tickMarksPerUnit-3;
+        end = start + ([self plottingArea].size.width/stepInPixels)*tickMarksPerUnit+3;
+        for (i=start; i <= end; i++) {
+            [tickMarksPath moveToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self plottingArea].origin.y)];
+            [tickMarksPath lineToPoint:NSMakePoint(i*stepInPixels/tickMarksPerUnit+[self origin].x,[self plottingArea].origin.y+tickMarksWidth)];
+        }
+    }
 	
 	// En de horizontale tickmarks
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
-	
-	start = (([self plottingArea].origin.y-[self origin].y)/stepInPixels)*tickMarksPerUnit;
-	end = start + ([self plottingArea].size.height/stepInPixels)*tickMarksPerUnit;
-	for (i=start; i <= end; i++) {
-		[tickMarksPath moveToPoint:NSMakePoint([self plottingArea].origin.x,i*stepInPixels/tickMarksPerUnit+[self origin].y)];
-		[tickMarksPath lineToPoint:NSMakePoint([self plottingArea].origin.x+tickMarksWidth, i*stepInPixels/tickMarksPerUnit+[self origin].y)];
-	}	
+    if (shouldDrawFrameLeft) {
+        stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
+        stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
+        
+        start = (([self plottingArea].origin.y-[self origin].y)/stepInPixels)*tickMarksPerUnit-3;
+        end = start + ([self plottingArea].size.height/stepInPixels)*tickMarksPerUnit+3;
+        for (i=start; i <= end; i++) {
+            [tickMarksPath moveToPoint:NSMakePoint([self plottingArea].origin.x,i*stepInPixels/tickMarksPerUnit+[self origin].y)];
+            [tickMarksPath lineToPoint:NSMakePoint([self plottingArea].origin.x+tickMarksWidth, i*stepInPixels/tickMarksPerUnit+[self origin].y)];
+        }	
+    }
 	
 	// Hier stellen we in hoe de lijnen eruit moeten zien.
 	[tickMarksPath setLineWidth:.5];
@@ -687,12 +710,16 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	NSBezierPath *axesPath = [[NSBezierPath alloc] init];
 	
 	// De X as.
-    [axesPath moveToPoint:NSMakePoint(0.,[self origin].y)];
-    [axesPath lineToPoint:NSMakePoint([self frame].size.width,[self origin].y)];
+    if (shouldDrawAxesHorizontal) {
+        [axesPath moveToPoint:NSMakePoint(0.,[self origin].y)];
+        [axesPath lineToPoint:NSMakePoint([self frame].size.width,[self origin].y)];        
+    }
 	
 	// En de Y as.
-    [axesPath moveToPoint:NSMakePoint([self origin].x,0.)];
-    [axesPath lineToPoint:NSMakePoint([self origin].x,[self frame].size.height)];
+    if (shouldDrawAxesVertical) {
+        [axesPath moveToPoint:NSMakePoint([self origin].x,0.)];
+        [axesPath lineToPoint:NSMakePoint([self origin].x,[self frame].size.height)];        
+    }
 
 	// Hier stellen we in hoe de lijnen eruit moeten zien.
 	[axesPath setLineWidth:1.0];
@@ -710,12 +737,16 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     NSBezierPath *framesPath = [[NSBezierPath alloc] init];
 	
 	// De X as.
-    [framesPath moveToPoint:[self plottingArea].origin];
-    [framesPath lineToPoint:NSMakePoint([self plottingArea].origin.x+[self plottingArea].size.width,[self plottingArea].origin.y)];
+    if (shouldDrawFrameBottom) {
+        [framesPath moveToPoint:[self plottingArea].origin];
+        [framesPath lineToPoint:NSMakePoint([self plottingArea].origin.x+[self plottingArea].size.width,[self plottingArea].origin.y)];        
+    }
 	
 	// En de Y as.
-    [framesPath moveToPoint:[self plottingArea].origin];
-    [framesPath lineToPoint:NSMakePoint([self plottingArea].origin.x,[self plottingArea].origin.y+[self plottingArea].size.height)];
+    if (shouldDrawFrameLeft) {
+        [framesPath moveToPoint:[self plottingArea].origin];
+        [framesPath lineToPoint:NSMakePoint([self plottingArea].origin.x,[self plottingArea].origin.y+[self plottingArea].size.height)];
+    }
     
 	// Hier stellen we in hoe de lijnen eruit moeten zien.
 	[framesPath setLineWidth:1.0];
@@ -1448,21 +1479,23 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 #pragma mark KEYBOARD INTERACTION MANAGEMENT
 - (void)flagsChanged:(NSEvent *)theEvent  
 {
-//	BOOL isInsidePlottingArea;
-//	NSPoint mouseLocation = [self convertPoint: [[self window] mouseLocationOutsideOfEventStream] fromView:nil];
-//	
-//	// Waar is de muis?
-//	isInsidePlottingArea = [self mouse:mouseLocation inRect:[self plottingArea]];
-    if (([theEvent modifierFlags] & NSAlternateKeyMask ) && ([theEvent modifierFlags] & NSShiftKeyMask )) {
-        NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom_out"] hotSpot:NSMakePoint(12,10)];
-        [zoomCursor set];
-        [zoomCursor release];
-    } else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
-        NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom_in"] hotSpot:NSMakePoint(12,10)];
-        [zoomCursor set];
-        [zoomCursor release];
-    } else {
-        [[NSCursor crosshairCursor] set];
+	BOOL isInsidePlottingArea;
+	NSPoint mouseLocation = [self convertPoint: [[self window] mouseLocationOutsideOfEventStream] fromView:nil];
+	
+	// Waar is de muis?
+	isInsidePlottingArea = [self mouse:mouseLocation inRect:[self plottingArea]];
+    if (isInsidePlottingArea) {
+        if (([theEvent modifierFlags] & NSAlternateKeyMask ) && ([theEvent modifierFlags] & NSShiftKeyMask )) {
+            NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom_out"] hotSpot:NSMakePoint(12,10)];
+            [zoomCursor set];
+            [zoomCursor release];
+        } else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
+            NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom_in"] hotSpot:NSMakePoint(12,10)];
+            [zoomCursor set];
+            [zoomCursor release];
+        } else {
+            [[NSCursor crosshairCursor] set];
+        }
     }
 	
 //	if (!_didDrag){
@@ -2097,6 +2130,30 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     }
 }
 
+- (BOOL)shouldDrawAxesHorizontal
+{
+    return shouldDrawAxesHorizontal;
+}
+- (void)setShouldDrawAxesHorizontal:(BOOL)inValue  
+{
+    if (shouldDrawAxesHorizontal != inValue) {
+        shouldDrawAxesHorizontal = inValue;
+        [self setNeedsDisplayInRect:[self plottingArea]];        
+    }
+}
+
+- (BOOL)shouldDrawAxesVertical
+{
+    return shouldDrawAxesVertical;
+}
+- (void)setShouldDrawAxesVertical:(BOOL)inValue  
+{
+    if (shouldDrawAxesVertical != inValue) {
+        shouldDrawAxesVertical = inValue;
+        [self setNeedsDisplayInRect:[self plottingArea]];        
+    }
+}
+
 - (BOOL)shouldDrawFrame  
 {
     return shouldDrawFrame;
@@ -2105,6 +2162,30 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 {
     if (shouldDrawFrame != inValue) {
         shouldDrawFrame = inValue;
+        [self setNeedsDisplay:YES];        
+    }
+}
+
+- (BOOL)shouldDrawFrameLeft
+{
+    return shouldDrawFrameLeft;
+}
+- (void)setShouldDrawFrameLeft:(BOOL)inValue  
+{
+    if (shouldDrawFrameLeft != inValue) {
+        shouldDrawFrameLeft = inValue;
+        [self setNeedsDisplay:YES];        
+    }
+}
+
+- (BOOL)shouldDrawFrameBottom
+{
+    return shouldDrawFrameBottom;
+}
+- (void)setShouldDrawFrameBottom:(BOOL)inValue  
+{
+    if (shouldDrawFrameBottom != inValue) {
+        shouldDrawFrameBottom = inValue;
         [self setNeedsDisplay:YES];        
     }
 }
