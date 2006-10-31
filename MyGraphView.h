@@ -58,7 +58,8 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 	BOOL shouldDrawGrid;
 	BOOL shouldDrawLabels;
 	BOOL shouldDrawLabelsOnFrame;
-	
+	BOOL shouldDrawShadow;
+    
 	// Additions for Peacock
 	BOOL shouldDrawBaseline;
 	BOOL shouldDrawPeaks;
@@ -203,6 +204,8 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 - (void)setShouldDrawLabels:(BOOL)inValue;
 - (BOOL)shouldDrawLabelsOnFrame;
 - (void)setShouldDrawLabelsOnFrame:(BOOL)inValue;
+- (BOOL)shouldDrawShadow;
+- (void)setShouldDrawShadow:(BOOL)inValue;
 
 // Text
 - (NSAttributedString *)titleString;

@@ -72,6 +72,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		[self setShouldDrawLabels:NO];
 		[self setShouldDrawLegend:YES];
 		[self setShouldDrawLabelsOnFrame:YES];
+		[self setShouldDrawShadow:YES];
 		
 		[self setBackColor:[NSColor clearColor]];
 		[self setPlottingAreaColor:[NSColor whiteColor]];
@@ -125,8 +126,10 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	// Draw shadow with focusring color if firstResponder
 	if (([[self window] isKeyWindow]) && ([[self window] firstResponder] == self) && ([[NSGraphicsContext currentContext] isDrawingToScreen])) {
 		[shadow setShadowColor:[NSColor keyboardFocusIndicatorColor]];
+        [shadow set]; 	    
+    } else if ([self shouldDrawShadow]) {
+    	[shadow set]; 	    
     }
-	[shadow set]; 	    
     [[self plottingAreaColor] set];        
     
 	if (NSIntersectsRect([self plottingArea],rect))
@@ -453,7 +456,9 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 	[shadow setShadowOffset:NSMakeSize(6,-6)];
 	
 	// Achtergrondkleur legendArea (met schaduw)
-	[shadow set]; 	
+    if ([self shouldDrawShadow]) {
+       	[shadow set]; 	 
+    }
 	[[self legendAreaColor] setFill];
 	[[NSBezierPath bezierPathWithRect:[self legendArea]] fill];
 
@@ -870,6 +875,8 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
             if (newRect.origin.y < 0.0) {
                 newRect.origin.y = newRect.origin.y * 1.3;
             }
+            newRect.origin.x = newRect.origin.x - 2.0;
+            newRect.size.width = newRect.size.width + 4.0;
         }
 		totRect = NSUnionRect(totRect, newRect);
 	}
@@ -2249,6 +2256,19 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
         [self setNeedsDisplay:YES];        
     }
 }
+
+- (BOOL)shouldDrawShadow  
+{
+    return shouldDrawShadow;
+}
+- (void)setShouldDrawShadow:(BOOL)inValue  
+{
+    if (shouldDrawShadow != inValue) {
+        shouldDrawShadow = inValue;
+        [self setNeedsDisplay:YES];        
+    }
+}
+
 
 - (NSAttributedString *)titleString  
 {
