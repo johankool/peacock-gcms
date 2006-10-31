@@ -27,6 +27,7 @@
 	[preferencesList setValue:@"General" forKey:@"general"];
 	[preferencesList setValue:@"Processing" forKey:@"processing"];
 	[preferencesList setValue:@"Presets" forKey:@"presets"];
+	[preferencesList setValue:@"Display" forKey:@"display"];
 
 	// Create a new toolbar instance, and attach it to our document window 
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier: @"nl.johankool.Peacock.preferences.toolbar"] autorelease];
@@ -115,6 +116,11 @@
 		deltaWidth = [presetsPreferencesView frame].size.width - [[[self window] contentView] frame].size.width;
 		[[self window] setContentView:presetsPreferencesView];
 		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:YES];
+	} else if ([[sender itemIdentifier] isEqualToString:@"display"]) {
+		deltaHeight = [displayPreferencesView frame].size.height - [[[self window] contentView] frame].size.height;
+		deltaWidth = [displayPreferencesView frame].size.width - [[[self window] contentView] frame].size.width;
+		[[self window] setContentView:displayPreferencesView];
+		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:YES];
 	}
 	
 }
@@ -122,7 +128,7 @@
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar  
 {
-	return [NSArray arrayWithObjects:@"general", @"processing", @"presets", nil];
+	return [NSArray arrayWithObjects:@"general", @"processing", @"presets", @"display", nil];
 }
 
 - (NSArray*) toolbarSelectableItemIdentifiers: (NSToolbar *) toolbar  

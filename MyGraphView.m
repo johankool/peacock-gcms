@@ -60,33 +60,34 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 		[self setLegendArea:NSMakeRect([self bounds].size.width-200-10-10,[self bounds].size.height-18-10-5,200,18)];
 		[self setSelectedRect:NSMakeRect(0,0,0,0)];
 		
-		[self setShouldDrawAxes:NO];
-		[self setShouldDrawAxesHorizontal:YES];
-		[self setShouldDrawAxesVertical:YES];
-		[self setShouldDrawFrame:YES];
-		[self setShouldDrawFrameLeft:YES];
-		[self setShouldDrawFrameBottom:YES];
-		[self setShouldDrawMajorTickMarks:YES];
-		[self setShouldDrawMinorTickMarks:YES];
-		[self setShouldDrawGrid:YES];
-		[self setShouldDrawLabels:NO];
-		[self setShouldDrawLegend:YES];
-		[self setShouldDrawLabelsOnFrame:YES];
-		[self setShouldDrawShadow:YES];
+        NSDictionary *defaultValues = [[NSUserDefaultsController sharedUserDefaultsController] values];
+		[self setShouldDrawAxes:[[defaultValues valueForKey:@"shouldDrawAxes"] boolValue]];
+		[self setShouldDrawAxesHorizontal:[[defaultValues valueForKey:@"shouldDrawAxesHorizontal"] boolValue]];
+		[self setShouldDrawAxesVertical:[[defaultValues valueForKey:@"shouldDrawAxesVertical"] boolValue]];
+		[self setShouldDrawFrame:[[defaultValues valueForKey:@"shouldDrawFrame"] boolValue]];
+		[self setShouldDrawFrameLeft:[[defaultValues valueForKey:@"shouldDrawFrameLeft"] boolValue]];
+		[self setShouldDrawFrameBottom:[[defaultValues valueForKey:@"shouldDrawFrameBottom"] boolValue]];
+		[self setShouldDrawMajorTickMarks:[[defaultValues valueForKey:@"shouldDrawMajorTickMarks"] boolValue]];
+		[self setShouldDrawMinorTickMarks:[[defaultValues valueForKey:@"shouldDrawMinorTickMarks"] boolValue]];
+		[self setShouldDrawGrid:[[defaultValues valueForKey:@"shouldDrawGrid"] boolValue]];
+		[self setShouldDrawLabels:[[defaultValues valueForKey:@"shouldDrawLabels"] boolValue]];
+		[self setShouldDrawLegend:[[defaultValues valueForKey:@"shouldDrawLegend"] boolValue]];
+		[self setShouldDrawLabelsOnFrame:[[defaultValues valueForKey:@"shouldDrawLabelsOnFrame"] boolValue]];
+		[self setShouldDrawShadow:[[defaultValues valueForKey:@"shouldDrawShadow"] boolValue]];
 		
-		[self setBackColor:[NSColor clearColor]];
-		[self setPlottingAreaColor:[NSColor whiteColor]];
-		[self setAxesColor:[NSColor blackColor]];
-		[self setFrameColor:[NSColor clearColor]];
-		[self setGridColor:[NSColor gridColor]];
-		[self setLabelsColor:[NSColor blackColor]];
-		[self setLabelsOnFrameColor:[NSColor blackColor]];
-		[self setLegendAreaColor:[NSColor whiteColor]];
-		[self setLegendFrameColor:[NSColor whiteColor]];
+		[self setBackColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"backColor"]]];
+		[self setPlottingAreaColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"plottingAreaColor"]]];
+		[self setAxesColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"axesColor"]]];
+		[self setFrameColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"frameColor"]]];
+		[self setGridColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"gridColor"]]];
+		[self setLabelsColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"labelsColor"]]];
+		[self setLabelsOnFrameColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"labelsOnFrameColor"]]];
+		[self setLegendAreaColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"legendAreaColor"]]];
+		[self setLegendFrameColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"legendFrameColor"]]];
 				
 		// Additions for Peacock
-		[self setShouldDrawBaseline:NO];
-		[self setShouldDrawPeaks:YES];
+		[self setShouldDrawBaseline:[[defaultValues valueForKey:@"shouldDrawBaseline"] boolValue]];
+		[self setShouldDrawPeaks:[[defaultValues valueForKey:@"shouldDrawPeaks"] boolValue]];
         [self setSelectedScan:0];
     }
 	return self;
@@ -932,7 +933,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
     [transformationMatrix appendTransform:translationMatrix];
     [self setTransformGraphToScreen:transformationMatrix];
     
-	// We zullen ook terug van data serie coördinaten naar scherm-coördinaten willen rekenen. Het zou niet effectief zijn om dat iedere keer dat we dit nodig hebben de inverse matrix uit te rekenen. Daarom hier één keer en vervolgens bewaren.
+	// We zullen ook terug van data serie coordinaten naar scherm-coordinaten willen rekenen. Het zou niet effectief zijn om dat iedere keer dat we dit nodig hebben de inverse matrix uit te rekenen. Daarom hier 1 keer en vervolgens bewaren.
     invertMatrix = [[transformationMatrix copy] autorelease];
     [invertMatrix invert];
     [self setTransformScreenToGraph:invertMatrix];
@@ -1331,6 +1332,7 @@ NSString *const MyGraphView_DidResignFirstResponderNotification = @"MyGraphView_
 				
 				for (i=0; i < peaksCount; i++) {
 					peak = [[self peaks] objectAtIndex:i];
+                 //   [[[[self dataSeries] objectAtIndex:[[peak valueForKey:@"start"] intValue]] valueForKey:keyForXValue] floatValue]
 					if (([[peak valueForKey:@"start"] floatValue] < graphLocation.x) & ([[peak valueForKey:@"end"] floatValue] > graphLocation.x)) {
 						if (_lastSelectedPeakIndex > 0 ) {
 							if (_lastSelectedPeakIndex < i) {

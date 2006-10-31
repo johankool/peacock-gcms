@@ -18,6 +18,7 @@
             CLASS = JKPreferencesWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                displayPreferencesView = NSView; 
                 generalPreferencesView = NSView; 
                 libraryPopUpButton = JKPathPopUpButton; 
                 presetsPreferencesView = NSView; 

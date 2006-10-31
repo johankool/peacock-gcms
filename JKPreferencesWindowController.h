@@ -13,6 +13,7 @@
 	IBOutlet NSView *generalPreferencesView;
 	IBOutlet NSView *processingPreferencesView;
 	IBOutlet NSView *presetsPreferencesView;
+	IBOutlet NSView *displayPreferencesView;
 	IBOutlet JKPathPopUpButton *libraryPopUpButton;
 
 	NSMutableDictionary *preferencesList;
