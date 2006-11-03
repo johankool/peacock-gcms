@@ -58,15 +58,18 @@ static void *DocumentObservationContext = (void *)1100;
         [self addObserver:mainWindowController forKeyPath:@"metadata.sampleCode" options:nil context:DocumentObservationContext];
         [self addObserver:mainWindowController forKeyPath:@"metadata.sampleDescription" options:nil context:DocumentObservationContext];
 
+//        [self setPrintInfo:[NSPrintInfo sharedPrintInfo]];
+        NSLog(@"%d", [[NSPrintInfo sharedPrintInfo] orientation]);
+        NSLog(@"%d", [[self printInfo] orientation]);
 	}
     return self;
 }
 
 - (void)removeWindowController:(NSWindowController *)windowController {
-    if (windowController == mainWindowController) {
-        [self removeObserver:mainWindowController forKeyPath:@"metadata.sampleCode"];
-        [self removeObserver:mainWindowController forKeyPath:@"metadata.sampleDescription"];        
-    }
+//    if (windowController == mainWindowController) {
+//        [self removeObserver:mainWindowController forKeyPath:@"metadata.sampleCode"];
+//        [self removeObserver:mainWindowController forKeyPath:@"metadata.sampleDescription"];        
+//    }
         
     [super removeWindowController:windowController];
 }
@@ -262,7 +265,39 @@ static void *DocumentObservationContext = (void *)1100;
 		}
                 
 		return result;	
-	} else {
+//	} else if ([typeName isEqualToString:@"GAML File"]) {
+//        xmlDoc = [[NSXMLDocument alloc] initWithContentsOfURL:absoluteURL options:nil error:outError];
+//        
+//        NSXMLNode *aNode = [xmlDoc rootElement];
+//        NSMutableString *translator_notes=nil;
+//        while (aNode = [aNode nextNode]) {
+//            if ( [[aNode localName] isEqualToString:@"experiment"] ) {
+//                JKExperiment *experiment = [[JKExperiment alloc] init];
+//                [experiment setName:[aNode attributeForName:@"name"]];
+//                
+//                while (aNode = [aNode nextNode]) {
+//                    if ( [[aNode localName] isEqualToString:@"collectdate"] ) {
+//
+//                    } else if ( [[aNode localName] isEqualToString:@"parameter"] ) {
+//                        
+//                    }
+//                    
+//                if (!translator_notes) {
+//                    translator_notes = [[NSMutableString alloc] init];
+//                }
+//                [translator_notes appendString:[aNode stringValue]];
+//                [translator_notes appendString:@" ========> "];
+//                aNode = [aNode nextNode]; // element to be translated
+//                [translator_notes appendString:[aNode stringValue]];
+//                [translator_notes appendString:@"\n"];
+//            }
+//        }
+////        if (translator_notes) {
+////            [translator_notes writeToFile:[NSString stringWithFormat:@"%@/translator_notes.txt", NSHomeDirectory()] atomically:YES];
+////            [translator_notes release];
+////        }
+//        
+    } else {
         if (outError != NULL)
 			*outError = [[[NSError alloc] initWithDomain:NSCocoaErrorDomain
 												   code:NSFileReadUnknownError userInfo:nil] autorelease];
@@ -503,32 +538,44 @@ static void *DocumentObservationContext = (void *)1100;
 }
 
 #pragma mark PRINTING
-
+- (BOOL)shouldChangePrintInfo:(NSPrintInfo *)newPrintInfo {
+    return NO;
+}
 - (void)printShowingPrintPanel:(BOOL)showPanels  
 {
     // Obtain a custom view that will be printed
     NSView *printView = [[self mainWindowController] chromatogramView];
-	[[self printInfo] setHorizontalPagination:NSFitPagination];
-	[[self printInfo] setVerticalPagination:NSFitPagination];
-	[[self printInfo] setOrientation:NSLandscapeOrientation];
+//	[[self printInfo] setHorizontalPagination:NSFitPagination];
+//	[[self printInfo] setVerticalPagination:NSFitPagination];
+//	[[self printInfo] setOrientation:NSLandscapeOrientation];
+    NSPrintInfo *pInfo = [self printInfo];
+    _originalFrame = [[[self mainWindowController] chromatogramView] frame];
+//    NSData *pdfData;
+    [[[self mainWindowController] chromatogramView] setFrame:[pInfo imageablePageBounds]];
+    [[[self mainWindowController] chromatogramView] showAll:self];
+//    pdfData = [chromatogramView dataWithPDFInsideRect:NSMakeRect(-[pInfo imageablePageBounds].origin.x,-[pInfo imageablePageBounds].origin.y,[pInfo paperSize].width,[pInfo paperSize].height)];
     
     // Construct the print operation and setup Print panel
     NSPrintOperation *op = [NSPrintOperation
                 printOperationWithView:printView
-							 printInfo:[self printInfo]];
+							 printInfo:pInfo];
     [op setShowPanels:showPanels];
     if (showPanels) {
         // Add accessory view, if needed
-		[op setAccessoryView:[mainWindowController printAccessoryView]];
+	//	[op setAccessoryView:[mainWindowController printAccessoryView]];
     }
 	
     // Run operation, which shows the Print panel if showPanels was YES
     [self runModalPrintOperation:op
 						delegate:nil
-				  didRunSelector:NULL
+				  didRunSelector:@selector(documentDidRunModalPrintOperation:success:contextInfo:)
 					 contextInfo:NULL];
 }
-
+- (void)documentDidRunModalPrintOperation:(NSDocument *)document  success:(BOOL)success  contextInfo:(void *)contextInfo {
+    [[[self mainWindowController] chromatogramView] setFrame:_originalFrame];
+    [[[self mainWindowController] chromatogramView] showAll:self];
+    [[[self mainWindowController] chromatogramView] setNeedsDisplay:YES];    
+}
 #pragma mark NOTIFICATIONS
 
 - (void) postNotification: (NSString *) notificationName
@@ -568,31 +615,21 @@ static void *DocumentObservationContext = (void *)1100;
 
 - (ChromatogramGraphDataSerie *)obtainTICChromatogram  
 {
-	ChromatogramGraphDataSerie *chromatogram = [[ChromatogramGraphDataSerie alloc] init];
-	int i, npts;
-	float *xpts, *ypts;
-	npts = [self numberOfPoints];
-	xpts = [self time];
-	ypts = [self totalIntensity];
+	int i;
 	
-	NSMutableArray *mutArray = [[NSMutableArray alloc] init];
-	for (i = 0; i < npts; i++) {
-		NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:xpts[i]/60], @"Time",
+	ChromatogramGraphDataSerie *chromatogram = [[ChromatogramGraphDataSerie alloc] init];
+    NSMutableArray *mutArray = [[NSMutableArray alloc] init];
+	for (i = 0; i < numberOfPoints; i++) {
+		NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:time[i]/60.0f], @"Time",
 			[NSNumber numberWithInt:i], @"Scan",
-			[NSNumber numberWithFloat:ypts[i]], @"Total Intensity", nil];
+			[NSNumber numberWithFloat:totalIntensity[i]], @"Total Intensity", nil];
 		[mutArray addObject:dict];      
 		[dict release];
-		//		 NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
-		//		 [mutDict setValue:[NSNumber numberWithFloat:xpts[i]/60] forKey:@"Time"]; // converting to minutes
-		//		 [mutDict setValue:[NSNumber numberWithInt:i] forKey:@"Scan"];
-		//		 [mutDict setValue:[NSNumber numberWithFloat:ypts[i]] forKey:@"Total Intensity"];
-		//		 [mutArray addObject:mutDict];      
-		//		 [mutDict release];
 	}
 	[chromatogram setDataArray:mutArray];
 	[mutArray release];
 	
-	[chromatogram setKeyForXValue:@"Scan"];
+	[chromatogram setKeyForXValue:@"Time"];
 	[chromatogram setKeyForYValue:@"Total Intensity"];
 	[chromatogram setSeriesTitle:NSLocalizedString(@"TIC Chromatogram",@"")];
 	
@@ -683,13 +720,13 @@ static void *DocumentObservationContext = (void *)1100;
 	normalize(slope, count);
 	normalize(density, count);
 	
-	[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"Scan", [NSNumber numberWithFloat:intensity[0]], @"Total Intensity", [NSNumber numberWithFloat:time[0]], @"Time",nil]];
+	[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"Scan", [NSNumber numberWithFloat:intensity[0]], @"Total Intensity", [NSNumber numberWithFloat:time[0]/60.0], @"Time",nil]];
 	for (i = 0; i < count; i++) {
 		if (distance[i] < baselineDistanceThresholdF && (slope[i] > -baselineSlopeThresholdF  && slope[i] < baselineSlopeThresholdF) && density[i] > baselineDensityThresholdF) { 
-			[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:i], @"Scan", [NSNumber numberWithFloat:intensity[i]], @"Total Intensity", [NSNumber numberWithFloat:time[i]], @"Time",nil]];
+			[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:i], @"Scan", [NSNumber numberWithFloat:intensity[i]], @"Total Intensity", [NSNumber numberWithFloat:time[i]/60.0], @"Time",nil]];
 		}
 	}
-	[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:count-1], @"Scan", [NSNumber numberWithFloat:intensity[count-1]], @"Total Intensity", [NSNumber numberWithFloat:time[count-1]], @"Time",nil]];
+	[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:count-1], @"Scan", [NSNumber numberWithFloat:intensity[count-1]], @"Total Intensity", [NSNumber numberWithFloat:time[count-1]/60.0], @"Time",nil]];
 	[self didChangeValueForKey:@"baseline"];
 }	
 
@@ -875,6 +912,91 @@ static void *DocumentObservationContext = (void *)1100;
 }
 
 
+-(void)identifyPeaksUsingIntensityWeightedVariance {
+    // Identify Peaks using method described in Jarman2003
+    
+    float desiredSignificance = 0.95; // set by user?
+    
+    int windowWidth; // increasing from 11 to 200 increasing by 1.5 times per iteration (that is 7 steps)
+    int stepSize; // = windowWidth/3;
+    int step = 0;
+    int numberOfScans = [self numberOfScans];
+    float iwv[7][numberOfScans];
+    
+    int i,j,n,scan,count,countOfValues;
+    float t,a,q,d,mean,variance,sum,sumDenominator,sumDevisor;
+    float *massValues, *intensityValues;
+    
+    // Vary window width [3.4.0]
+    for (windowWidth = 11; windowWidth < 200; windowWidth = windowWidth *1.5) {
+        stepSize = windowWidth/3;
+        step++;
+        //intensityValues = ??;
+        
+        // Calculate mean
+        sum = 0.0;
+        for (j = i; j < windowWidth; j++) {
+            sum = sum + intensityValues[j];
+        }
+        mean = sum/windowWidth;
+        
+        // Calculate variance
+        sum = 0.0;
+        for (j = i; j < windowWidth; j++) {
+            sum = sum + pow((intensityValues[j]-mean),2);
+        }
+        variance = sqrt(sum/windowWidth);
+        
+        // Calculate threshold [3.4.1]
+        // Solving -q/d*n*(1-t)/sqrt(n*((3*(3*n^2-7))/(5*(n^2-1))-2*t+t^2))=a for t results on
+        // http://www.hostsrv.com/webmab/app1/MSP/quickmath/02/pageGenerate?site=mathcom&s1=equations&s2=solve&s3=basic in
+        // t = (-5*pow(q,2)*pow(n,3)+5*pow(a,2)*pow(d,2)*pow(n,2)+5*pow(q,2)*n-5*pow(a,2)*pow(d,2)-2*sqrt(5) * sqrt(pow(a,2)*pow(d,2)*pow(q,2)*pow(n,5)-pow(a,4)*pow(d,4)*pow(n,4)-5*pow(a,2)*pow(d,2)*pow(q,2)*pow(n,3) + 5*pow(a,4)*pow(d,4)*pow(n,2)+4*pow(a,2)*pow(d,2)*pow(q,2)*n-4*pow(a,4)*pow(d,4))) / (5*(-pow(q,2)*pow(n,3)+pow(a,2)*pow(d,2)*pow(n,2)+pow(q,2)*n-pow(a,2)*pow(d,2)));
+        // and in:
+        n = windowWidth;
+        a = desiredSignificance;
+        q = mean;
+        d = sqrt(variance);
+        t = (-5*pow(q,2)*pow(n,3)+5*pow(a,2)*pow(d,2)*pow(n,2)+5*pow(q,2)*n-5*pow(a,2)*pow(d,2)+2*sqrt(5) * sqrt(pow(a,2)*pow(d,2)*pow(q,2)*pow(n,5)-pow(a,4)*pow(d,4)*pow(n,4)-5*pow(a,2)*pow(d,2)*pow(q,2)*pow(n,3) + 5*pow(a,4)*pow(d,4)*pow(n,2)+4*pow(a,2)*pow(d,2)*pow(q,2)*n-4*pow(a,4)*pow(d,4))) / (5*(-pow(q,2)*pow(n,3)+pow(a,2)*pow(d,2)*pow(n,2)+pow(q,2)*n-pow(a,2)*pow(d,2)));
+        
+        
+        // Step through
+        for (scan = 0; scan < numberOfScans; scan = scan+stepSize) {
+            // Calculate iwv [3.4.2]
+            countOfValues = [self countOfValuesForSpectrum:scan];
+            massValues = [self massValuesForSpectrumAtScan:scan];
+            intensityValues = [self intensityValuesForSpectrumAtScan:scan];
+            // Calculate mean massValues (m/z-values actually)
+            sum = 0.0;
+            for (j = 0; j < countOfValues; j++) {
+                sum = sum + massValues[j];
+            }
+            mean = sum/countOfValues;
+            sumDenominator= 0.0; sumDevisor = 0.0;
+            for (j = 0; j < countOfValues; j++) {
+                sumDenominator = sumDenominator + (intensityValues[j]*pow((massValues[j]-mean),2));
+                sumDevisor = sumDevisor + intensityValues[j];
+            }
+            iwv[step][i] = sumDenominator/sumDevisor;
+        }
+        
+    }
+    
+    // Find occurences below threshold [3.4.3]
+    for (i = 0; i < numberOfScans; i++) {
+        count = 0;
+        for (j = 0; j < 7; j++) {
+            if (iwv[j][i] < t) {
+                count++;
+            }
+        }
+        if (count >= 2) {
+            // A peak has been detected at scan i
+        }
+    }
+    
+    // Compile list, remove duplicates [3.4.4]
+}
+
 - (void)addChromatogramForMass:(NSString *)inString  
 {
 	ChromatogramGraphDataSerie *chromatogram = [self chromatogramForMass:inString];
@@ -891,6 +1013,9 @@ static void *DocumentObservationContext = (void *)1100;
 	int peakColorsArrayCount = [peakColorsArray count];
 	
 	[chromatogram setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatograms count]%peakColorsArrayCount]]];
+    [chromatogram setKeyForXValue:[[[self mainWindowController] chromatogramView] keyForXValue]];
+    [chromatogram setKeyForYValue:[[[self mainWindowController] chromatogramView] keyForYValue]];
+
 	[self willChangeValueForKey:@"chromatograms"];
 	[chromatograms addObject:chromatogram];
 	[self didChangeValueForKey:@"chromatograms"];
@@ -1052,28 +1177,41 @@ static void *DocumentObservationContext = (void *)1100;
 
 - (float)timeForScan:(int)scan  
 {
-    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
-    int dummy, varid_scanaqtime;
-    float   x;
-    
-    dummy = nc_inq_varid(ncid, "scan_acquisition_time", &varid_scanaqtime);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_acquisition_time variable failed. Report error #%d.", dummy); return -1.0;}
-	
-    dummy = nc_get_var1_float(ncid, varid_scanaqtime, (void *) &scan, &x);
-    
-    return x;
+    return time[scan]/60.0f;    
+//    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
+//    int dummy, varid_scanaqtime;
+//    float   x;
+//    
+//    dummy = nc_inq_varid(ncid, "scan_acquisition_time", &varid_scanaqtime);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_acquisition_time variable failed. Report error #%d.", dummy); return -1.0;}
+//	
+//    dummy = nc_get_var1_float(ncid, varid_scanaqtime, (void *) &scan, &x);
+//    
+////    NSLog(@"time[] %g - new fetch %g", time[scan], x);
+//
+//    return x;
+}
+
+- (int)scanForTime:(float)inTime {
+    int i;
+    inTime = inTime * 60.0f;
+    if (inTime <= time[0]) {
+        return 0;
+    } else if (inTime >= time[numberOfPoints-1]) {
+        return numberOfPoints-1;
+    }
+    do {
+        i++;
+    } while ((time[i] < inTime) | (i == numberOfPoints));
+    return time[i];
 }
 
 - (float)retentionIndexForScan:(int)scan  
 {
     NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
-    int dummy, varid_scanaqtime;
     float   x;
     
-    dummy = nc_inq_varid(ncid, "scan_acquisition_time", &varid_scanaqtime);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_acquisition_time variable failed. Report error #%d.", dummy); return -1.0;}
-	
-    dummy = nc_get_var1_float(ncid, varid_scanaqtime, (void *) &scan, &x);
+    x = [self timeForScan:scan];
     
     return (x/60) * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
 }
@@ -1215,8 +1353,8 @@ static void *DocumentObservationContext = (void *)1100;
     dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return nil;}
 
-    dummy = nc_inq_varid(ncid, "time_values", &varid_time_value);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting time_values variable failed. Report error #%d. Continuing...", dummy);}
+//    dummy = nc_inq_varid(ncid, "time_values", &varid_time_value);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting time_values variable failed. Report error #%d. Continuing...", dummy);}
     
     dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return nil;}
@@ -1251,12 +1389,12 @@ static void *DocumentObservationContext = (void *)1100;
 		dummy = nc_get_var1_int(ncid, varid_point_count, (void *) &i, &scanCount);
 		for(j = scan; j < (unsigned)scan + (unsigned)scanCount; j++) {
             mass = 0.0f;
-            timeL = 0.0f;
+//            timeL = 0.0f;
             intensity = 0.0f;
 			dummy = nc_get_var1_float(ncid, varid_mass_value, (void *) &j, &mass);
 			for(k = 0; k < mzValuesCount; k++) {
 				if (fabs(mass-[[mzValues objectAtIndex:k] intValue]) < 0.5) {
-					dummy = nc_get_var1_float(ncid, varid_time_value, (const size_t *) &j, &timeL);
+//					dummy = nc_get_var1_float(ncid, varid_time_value, (const size_t *) &j, &timeL);
 					dummy = nc_get_var1_float(ncid, varid_intensity_value, (const size_t *) &j, &intensity);
 					
 					masses[i] = mass;
@@ -1273,12 +1411,11 @@ static void *DocumentObservationContext = (void *)1100;
 	NSMutableArray *mutArray = [[NSMutableArray alloc] init];
 	
     for(i=0;i<num_scan;i++){
-		NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
-		[mutDict setValue:[NSNumber numberWithFloat:times[i]] forKey:@"Time"];
-		[mutDict setValue:[NSNumber numberWithInt:i] forKey:@"Scan"];
-		[mutDict setValue:[NSNumber numberWithFloat:intensities[i]] forKey:@"Total Intensity"];
-		[mutArray addObject:mutDict];      
-		[mutDict release];
+        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:time[i]/60.0f], @"Time",
+			[NSNumber numberWithInt:i], @"Scan",
+			[NSNumber numberWithFloat:intensities[i]], @"Total Intensity", nil];
+		[mutArray addObject:dict];      
+		[dict release];
     }
 
 	[chromatogram setDataArray:mutArray];

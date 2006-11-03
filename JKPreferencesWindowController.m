@@ -27,7 +27,7 @@
 	[preferencesList setValue:@"General" forKey:@"general"];
 	[preferencesList setValue:@"Processing" forKey:@"processing"];
 	[preferencesList setValue:@"Presets" forKey:@"presets"];
-	[preferencesList setValue:@"Display" forKey:@"display"];
+//	[preferencesList setValue:@"Display" forKey:@"display"];
 
 	// Create a new toolbar instance, and attach it to our document window 
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier: @"nl.johankool.Peacock.preferences.toolbar"] autorelease];
@@ -128,7 +128,7 @@
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar  
 {
-	return [NSArray arrayWithObjects:@"general", @"processing", @"presets", @"display", nil];
+	return [NSArray arrayWithObjects:@"general", @"processing", @"presets", nil];
 }
 
 - (NSArray*) toolbarSelectableItemIdentifiers: (NSToolbar *) toolbar  

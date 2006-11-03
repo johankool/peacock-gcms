@@ -11,6 +11,7 @@
 #import "JKGCMSDocument.h"
 #import "MyGraphView.h"
 #import "netcdf.h"
+#import "FontNameToDisplayNameTransformer.h"
 
 static JKPanelController *theSharedController;
 
@@ -44,6 +45,11 @@ static JKPanelController *theSharedController;
 				   selector: @selector(plotViewDidResignFirstResponderNotification:)
 					   name: MyGraphView_DidResignFirstResponderNotification
 					 object: nil];
+        
+        // Create and register font name value transformer
+        NSValueTransformer *transformer = [[FontNameToDisplayNameTransformer alloc] init];
+        [NSValueTransformer setValueTransformer:transformer forName:@"FontNameToDisplayNameTransformer"];
+        
     }
 	
     return (theSharedController);
@@ -117,6 +123,68 @@ static JKPanelController *theSharedController;
 
 }
 
+#pragma mark IBACTIONS
+
+- (void)changeTextFont:(id)sender
+{
+	/*
+	 The user wants to change the  font selection, so update the default font
+     */
+    if ([sender state] == NSOffState) {
+        return;
+    }
+
+	NSFont *font;
+    
+    if (sender == labelFontButton) {
+        font = [inspectedGraphView labelFont];
+        [axesLabelFontButton setState:NSOffState];
+        [legendFontButton setState:NSOffState];
+    } else if (sender == legendFontButton) {
+        font = [inspectedGraphView legendFont];        
+        [labelFontButton setState:NSOffState];
+        [axesLabelFontButton setState:NSOffState];
+    } else if (sender == axesLabelFontButton) {
+        font = [inspectedGraphView axesLabelFont];        
+        [legendFontButton setState:NSOffState];
+        [labelFontButton setState:NSOffState];
+    } else {
+        [NSException raise:@"Unknown Font" format:@"It is not clear what font you are trying to change. Contact the Peacock developer about this problem."];
+    }
+
+	[[NSFontManager sharedFontManager] setSelectedFont:font 
+											isMultiple:NO];
+    [[NSFontManager sharedFontManager] orderFrontFontPanel:self];
+	
+	// Set window as firstResponder so we get changeFont: messages
+    [[self window] makeFirstResponder:[self window]];
+}
+
+- (void)changeFont:(id)sender
+{
+	/*
+	 This is the message the font panel sends when a new font is selected
+	 */
+	// Get selected font
+	NSFontManager *fontManager = [NSFontManager sharedFontManager];
+	NSFont *selectedFont = [fontManager selectedFont];
+	if (selectedFont == nil)
+	{
+		selectedFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
+	}
+	NSFont *panelFont = [fontManager convertFont:selectedFont];
+	
+    if ([labelFontButton state] == NSOnState) {
+        [inspectedGraphView setLabelFont:panelFont];
+    } else if ([axesLabelFontButton state] == NSOnState) {
+        [inspectedGraphView setAxesLabelFont:panelFont];
+    } else if ([legendFontButton state] == NSOnState) {
+        [inspectedGraphView setLegendFont:panelFont];
+    } else {
+//        [NSException raise:@"Unknown Font" format:@"It is not clear what font you are trying to change. Contact the Peacock developer about this problem."];
+    }
+}
+
 
 #pragma mark NOTIFICATIONS
 
@@ -160,6 +228,10 @@ static JKPanelController *theSharedController;
 		[[self window] setContentView:naPanelView];
 		[self setInspectedDocument:nil];
 	}
+    [legendFontButton setState:NSOffState];
+    [labelFontButton setState:NSOffState];
+    [axesLabelFontButton setState:NSOffState];
+
 }
 
 - (void)documentDeactivateNotification: (NSNotification *) aNotification  

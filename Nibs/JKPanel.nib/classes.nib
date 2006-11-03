@@ -19,14 +19,17 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {resetToDefaultValues = id; showInspector = id; }; 
+            ACTIONS = {changeTextFont = id; resetToDefaultValues = id; showInspector = id; }; 
             CLASS = JKPanelController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                axesLabelFontButton = NSButton; 
                 displayPanelView = NSView; 
                 infoPanelView = NSView; 
                 infoTableView = NSTableView; 
                 inspectedDocumentController = NSObjectController; 
+                labelFontButton = NSButton; 
+                legendFontButton = NSButton; 
                 libraryPopUpButton = JKPathPopUpButton; 
                 naPanelView = NSView; 
                 processingPanelView = NSView; 

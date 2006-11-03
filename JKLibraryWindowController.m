@@ -29,8 +29,13 @@
 
 - (void)windowDidLoad  
 {
-	[spectrumView setShouldDrawLabels:NO];
 	[spectrumView setShouldDrawLegend:NO];
+	[spectrumView setShouldDrawFrame:YES];
+	[spectrumView setShouldDrawFrameBottom:NO];
+    [spectrumView setShouldDrawLabels:NO];
+    [spectrumView setShouldDrawLabelsOnFrame:YES];
+    [spectrumView setShouldDrawAxes:YES];
+    [spectrumView setShouldDrawAxesVertical:NO];
 	[spectrumView setKeyForXValue:@"Mass"];
 	[spectrumView setKeyForYValue:@"Intensity"];
 	[spectrumView setPlottingArea:NSMakeRect(30,20,[spectrumView bounds].size.width-40,[spectrumView bounds].size.height-30)];

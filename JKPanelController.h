@@ -7,6 +7,7 @@
 //
 
 @class JKPathPopUpButton;
+@class MyGraphView;
 
 @interface JKPanelController : NSWindowController {
 	
@@ -27,12 +28,15 @@
 	IBOutlet NSTextField *subTitleTextField;
 	IBOutlet NSTextField *xAxisTextField;
 	IBOutlet NSTextField *yAxisTextField;
-	    
+	IBOutlet NSButton *labelFontButton;
+    IBOutlet NSButton *legendFontButton;
+    IBOutlet NSButton *axesLabelFontButton;
+    
 	NSMutableDictionary*	inspectorListForDocument;		// Auto-generated from tab view's items.
 	NSMutableDictionary*	inspectorListForMyGraphView;		// Auto-generated from tab view's items.
 
 	IBOutlet NSObjectController *inspectedDocumentController;
-    NSView *inspectedGraphView;
+    MyGraphView *inspectedGraphView;
 	NSDocument *inspectedDocument;
     
 } 
@@ -42,7 +46,7 @@
 + (JKPanelController *) sharedController;
 
 #pragma mark IBACTIONS
-
+- (void)changeTextFont:(id)sender;
 - (IBAction)showInspector:(id)sender;
 - (IBAction)resetToDefaultValues:(id)sender;
 

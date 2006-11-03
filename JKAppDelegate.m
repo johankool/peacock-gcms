@@ -87,6 +87,7 @@
     [defaultValues setValue:[NSArchiver archivedDataWithRootObject:[NSColor blackColor]] forKey:@"labelsOnFrameColor"];
     [defaultValues setValue:[NSArchiver archivedDataWithRootObject:[NSColor whiteColor]] forKey:@"legendAreaColor"];
     [defaultValues setValue:[NSArchiver archivedDataWithRootObject:[NSColor whiteColor]] forKey:@"legendFrameColor"];
+    [defaultValues setValue:[NSArchiver archivedDataWithRootObject:[NSColor greenColor]] forKey:@"baselineColor"];
 				
     // Additions for Peacock
     [defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"shouldDrawBaseline"];
@@ -268,7 +269,7 @@
 	} else if (menu == removeChromatogramMenu) {
 		id currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
 		if ((currentDocument != nil) && ([currentDocument isKindOfClass:[JKGCMSDocument class]])) {
-			return [[currentDocument chromatograms] count];
+			return [[currentDocument chromatograms] count]-1;
 		}
 	}
 	return 0;
@@ -293,8 +294,8 @@
 	} else if (menu == removeChromatogramMenu) {
 		id currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
 		if ((currentDocument != nil) && ([currentDocument isKindOfClass:[JKGCMSDocument class]])) {
-			[item setTitle:[[[currentDocument chromatograms] objectAtIndex:x] valueForKey:@"seriesTitle"]];
-			[item setTag:x];
+			[item setTitle:[[[currentDocument chromatograms] objectAtIndex:x+1] valueForKey:@"seriesTitle"]];
+			[item setTag:x+1];
 			[item setAction:@selector(removeChromatogram:)];
 			return YES;
 		}

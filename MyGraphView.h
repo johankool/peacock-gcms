@@ -46,6 +46,7 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 	NSColor *frameColor;
 	NSColor *legendAreaColor;
 	NSColor *legendFrameColor;
+	NSColor *baselineColor;
 	BOOL shouldDrawLegend;
 	BOOL shouldDrawAxes;
 	BOOL shouldDrawAxesHorizontal;
@@ -59,6 +60,9 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 	BOOL shouldDrawLabels;
 	BOOL shouldDrawLabelsOnFrame;
 	BOOL shouldDrawShadow;
+    NSFont *labelFont;
+    NSFont *axesLabelFont;
+    NSFont *legendFont;
     
 	// Additions for Peacock
 	BOOL shouldDrawBaseline;
@@ -73,7 +77,11 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 	BOOL _didDrag;
 	BOOL _startedInsidePlottingArea;
 	BOOL _startedInsideLegendArea;
-	
+	BOOL _startedResizePlottingAreaLeft;
+	BOOL _startedResizePlottingAreaRight;
+	BOOL _startedResizePlottingAreaTop;
+	BOOL _startedResizePlottingAreaBottom;
+    
 	NSPoint _mouseDownAtPoint;
 	NSPoint _oldOrigin;
 	NSPoint _oldLegendOrigin;
@@ -178,6 +186,8 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 - (void)setLegendAreaColor:(NSColor *)inValue;
 - (NSColor *)legendFrameColor;
 - (void)setLegendFrameColor:(NSColor *)inValue;
+- (NSColor *)baselineColor;
+- (void)setBaselineColor:(NSColor *)inValue;
 
 // Drawing options
 - (BOOL)shouldDrawLegend;
@@ -214,6 +224,12 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 - (void)setXAxisLabelString:(NSAttributedString *)inValue;
 - (NSAttributedString *)yAxisLabelString;
 - (void)setYAxisLabelString:(NSAttributedString *)inValue;
+- (NSFont *)labelFont;
+- (void)setLabelFont:(id)inValue;
+- (NSFont *)legendFont;
+- (void)setLegendFont:(id)inValue;
+- (NSFont *)axesLabelFont;
+- (void)setAxesLabelFont:(id)inValue;
 
 // Additions for Peacock
 - (BOOL)shouldDrawBaseline;
@@ -237,6 +253,7 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 - (void)setKeyForXValue:(NSString *)inValue;
 - (NSString *)keyForYValue;
 - (void)setKeyForYValue:(NSString *)inValue;
+- (NSArray *)availableKeys;
 - (NSNumber *)unitsPerMajorX;
 - (void)setUnitsPerMajorX:(NSNumber *)inValue;
 - (NSNumber *)unitsPerMajorY;

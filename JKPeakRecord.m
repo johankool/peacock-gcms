@@ -177,17 +177,17 @@
     return symbol;
 } 
 
-- (void)setTopTime:(NSNumber *)inValue  
-{
-	[inValue retain];
-	[topTime autorelease];
-	topTime = inValue;
-}
+//- (void)setTopTime:(NSNumber *)inValue  
+//{
+//	[inValue retain];
+//	[topTime autorelease];
+//	topTime = inValue;
+//}
 
-- (NSNumber *)topTime  
-{
-    return topTime;
-}
+//- (NSNumber *)topTime  
+//{
+//    return topTime;
+//}
 
 
 - (void)setHeight:(NSNumber *)inValue  
@@ -274,6 +274,12 @@
     return top;
 }
 
+- (NSNumber *)topTime
+{
+    return [NSNumber numberWithFloat:[[self document] timeForScan:[top intValue]]];
+}
+
+
 - (void)setStart:(NSNumber *)inValue  
 {
 	[inValue retain];
@@ -286,6 +292,11 @@
     return start;
 }
 
+- (NSNumber *)startTime
+{
+    return [NSNumber numberWithFloat:[[self document] timeForScan:[start intValue]]];
+}
+
 - (void)setEnd:(NSNumber *)inValue  
 {
 	[inValue retain];
@@ -296,6 +307,11 @@
 - (NSNumber *)end  
 {
     return end;
+}
+
+- (NSNumber *)endTime
+{
+    return [NSNumber numberWithFloat:[[self document] timeForScan:[end intValue]]];
 }
 
 - (void)setSpectrum:(JKSpectrum *)inValue  
@@ -457,7 +473,7 @@
 		[coder encodeObject:start forKey:@"start"];
         [coder encodeObject:end forKey:@"end"];
         [coder encodeObject:top forKey:@"top"];
-        [coder encodeObject:topTime forKey:@"topTime"];
+//        [coder encodeObject:topTime forKey:@"topTime"];
         [coder encodeObject:height forKey:@"height"];
         [coder encodeObject:normalizedHeight forKey:@"normalizedHeight"];
 		[coder encodeObject:baselineLeft forKey:@"baselineLeft"];

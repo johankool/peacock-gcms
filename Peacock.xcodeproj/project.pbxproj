@@ -94,6 +94,8 @@
 		C7B9BA2D0AA881AE00250EFE /* view.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7B9BA2C0AA881AE00250EFE /* view.tiff */; };
 		C7BC505309A62C930093106E /* JKLog.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC505109A62C930093106E /* JKLog.h */; };
 		C7BC505409A62C930093106E /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
+		C7BDA6C10AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */; };
+		C7BDA6C20AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */; };
 		C7C21FC60A5060E2006E82FD /* Peacock.sdef in Resources */ = {isa = PBXBuildFile; fileRef = C7C21FC50A5060E2006E82FD /* Peacock.sdef */; };
 		C7E5B1D70A14934200BB2291 /* BDAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E5B1D20A14934200BB2291 /* BDAlias.h */; };
 		C7E5B1D80A14934200BB2291 /* BDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E5B1D30A14934200BB2291 /* BDAlias.m */; };
@@ -301,6 +303,8 @@
 		C7B9BA2C0AA881AE00250EFE /* view.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = view.tiff; sourceTree = "<group>"; };
 		C7BC505109A62C930093106E /* JKLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKLog.h; sourceTree = "<group>"; };
 		C7BC505209A62C930093106E /* JKLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLog.m; sourceTree = "<group>"; };
+		C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FontNameToDisplayNameTransformer.m; sourceTree = "<group>"; };
+		C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FontNameToDisplayNameTransformer.h; sourceTree = "<group>"; };
 		C7C21FC50A5060E2006E82FD /* Peacock.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = Peacock.sdef; sourceTree = "<group>"; };
 		C7E5B1D20A14934200BB2291 /* BDAlias.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BDAlias.h; sourceTree = "<group>"; };
 		C7E5B1D30A14934200BB2291 /* BDAlias.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BDAlias.m; sourceTree = "<group>"; };
@@ -454,6 +458,8 @@
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */,
+				C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */,
 				C7E5B1C50A14930600BB2291 /* BDAlias */,
 				C773290A08CA612600222B5B /* MolWeight */,
 				C79A6157094DBE4000C0887E /* RBSplitView */,
@@ -888,6 +894,7 @@
 				C729CAA90A4B45CD00FAB04F /* JKDataModelProxy.h in Headers */,
 				C73291070AD68F9800D95E36 /* JKFileWell.h in Headers */,
 				C73291120AD68F9800D95E36 /* JKSynchroScrollView.h in Headers */,
+				C7BDA6C20AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1096,6 +1103,7 @@
 				C777A2D70A1DFEE400CF44D9 /* JKMoleculeModel.m in Sources */,
 				C729CAAA0A4B45CD00FAB04F /* JKDataModelProxy.m in Sources */,
 				C73291130AD68F9800D95E36 /* JKSynchroScrollView.m in Sources */,
+				C7BDA6C10AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

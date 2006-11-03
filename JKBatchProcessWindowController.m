@@ -92,6 +92,7 @@
 	
 	NSError *error = [[NSError alloc] init];
 	JKGCMSDocument *document;
+    MyGraphView *chromatogramView;
 	NSString *path;
 
 	for (i=0; i < filesCount; i++) {
@@ -185,6 +186,7 @@
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Saving PDF File",@"")];
 			path = [[[files objectAtIndex:i] valueForKey:@"path"] stringByDeletingPathExtension];
 			path = [path stringByAppendingPathExtension:@"pdf"];
+            chromatogramView = [[document mainWindowController] chromatogramView];
 			int selectedTag = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchShowPeaksPDFTag"] intValue];
 			if (selectedTag == 1) {
 				[[[document mainWindowController] peakController] setFilterPredicate:[NSPredicate predicateWithFormat:@"identified == YES"]];
@@ -197,8 +199,19 @@
 			} else {
 				[[[document mainWindowController] peakController] setFilterPredicate:nil]; 
 			}
+            NSPrintInfo *pInfo = [NSPrintInfo sharedPrintInfo];
+            [pInfo setOrientation:NSLandscapeOrientation];
+            NSRect originalFrame = [chromatogramView frame];
+            NSAttributedString *originalTitle = [chromatogramView titleString];
+            [chromatogramView setTitleString:[[[NSAttributedString alloc] initWithString:[[[document mainWindowController] window] title]] autorelease]];
 			NSData *pdfData;
-			pdfData = [[[document mainWindowController] chromatogramView] dataWithPDFInsideRect:[[[document mainWindowController] chromatogramView] bounds]];
+            [chromatogramView setFrame:[pInfo imageablePageBounds]];
+            [chromatogramView showAll:self];
+            pdfData = [chromatogramView dataWithPDFInsideRect:NSMakeRect(-[pInfo imageablePageBounds].origin.x,-[pInfo imageablePageBounds].origin.y,[pInfo paperSize].width,[pInfo paperSize].height)];
+            [chromatogramView setFrame:originalFrame];
+            [chromatogramView showAll:self];
+            [chromatogramView setTitleString:originalTitle];
+            [chromatogramView setNeedsDisplay:YES];
 			if (![pdfData writeToFile:path atomically:YES]) {
 				JKLogError(@"ERROR: File at %@ could not be saved as PDF File.",[[files objectAtIndex:i] valueForKey:@"path"]);				
 				errorOccurred = YES;

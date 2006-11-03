@@ -26,6 +26,7 @@
             }; 
             SUPERCLASS = NSWindowController; 
         }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
         {
             ACTIONS = {changePanes = id; }; 
             CLASS = UKPrefsPanel; 

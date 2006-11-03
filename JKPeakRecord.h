@@ -26,7 +26,7 @@
 	NSNumber *baselineRight;
 
 	// number = time axis units (defaults to seconds)
-	NSNumber *topTime;
+//	NSNumber *topTime;
     NSNumber *baselineLeftTime;
     NSNumber *baselineRightTime;
 
@@ -81,8 +81,10 @@
 
 - (void)setStart:(NSNumber *)inValue;
 - (NSNumber *)start;
+- (NSNumber *)startTime;
 - (void)setEnd:(NSNumber *)inValue;
 - (NSNumber *)end;
+- (NSNumber *)endTime;
 - (void)setTop:(NSNumber *)inValue;
 - (NSNumber *)top;
 
@@ -93,7 +95,7 @@
 - (void)setBaselineRight:(NSNumber *)inValue;
 - (NSNumber *)baselineRight;
 
-- (void)setTopTime:(NSNumber *)inValue;
+//- (void)setTopTime:(NSNumber *)inValue;
 - (NSNumber *)topTime;
 - (void)setBaselineLeftTime:(NSNumber *)inValue;
 - (NSNumber *)baselineLeftTime;

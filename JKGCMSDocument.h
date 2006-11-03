@@ -44,7 +44,13 @@ extern int const JKGCMSDocument_Version;
     BOOL hasSpectra;
 	
     NSMutableArray *chromatograms;    
-	
+
+	// GAML
+    NSString *name;
+    NSDate *collectDate;
+    NSMutableDictionary *parameters;
+	NSMutableArray *experiments;
+    
 	// Data stored in Peacock's file because it can't be represented in Andi file format
     NSMutableArray *peaks;
     NSMutableArray *baseline;
@@ -71,6 +77,7 @@ extern int const JKGCMSDocument_Version;
 	BOOL abortAction;
 	NSString *remainingString;
 	JKGCMSDocument *document;
+    NSRect _originalFrame;
 }
 
 #pragma mark IMPORT/EXPORT ACTIONS
@@ -112,6 +119,7 @@ extern int const JKGCMSDocument_Version;
 - (void)setTime:(float *)inArray withCount:(int)inValue;
 - (float *)time;
 - (float)timeForScan:(int)scan;
+- (int)scanForTime:(float)inTime;
 
 - (void)setTotalIntensity:(float *)inArray withCount:(int)inValue;
 - (float *)totalIntensity;

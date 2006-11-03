@@ -332,10 +332,5 @@ static void *PropertyObservationContext = (void *)1093;
 	[self constructPlotPath];
 }
 
-#pragma mark MISC
-- (NSArray *)dataArrayKeys  
-{
-	return [[dataArray objectAtIndex:0] allKeys];
-}
 
 @end

@@ -413,6 +413,7 @@ static void *PropertyObservationContext = (void *)1093;
         [inValue retain];
         [verticalScale autorelease];
         verticalScale = inValue;
+        [self constructPlotPath];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];        
     }
 }

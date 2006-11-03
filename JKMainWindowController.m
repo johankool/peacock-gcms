@@ -53,7 +53,7 @@ static void *SpectrumObservationContext = (void *)1102;
 {
 	// Setup the toolbar after the document nib has been loaded 
     [self setupToolbar];	
-	
+
     [chromatogramView setDelegate:self];
     
 	// ChromatogramView bindings
@@ -75,7 +75,7 @@ static void *SpectrumObservationContext = (void *)1102;
 	
 	// More setup
 	[chromatogramView setShouldDrawLegend:YES];
-	[chromatogramView setKeyForXValue:@"Scan"];
+	[chromatogramView setKeyForXValue:@"Time"];
 	[chromatogramView setKeyForYValue:@"Total Intensity"];
     [chromatogramView setShouldDrawLabels:NO];
     [chromatogramView setShouldDrawLabelsOnFrame:YES];

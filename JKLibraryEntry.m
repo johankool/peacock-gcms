@@ -374,7 +374,7 @@
     } else {
         [outStr appendFormat:@"##TITLE= %@\r\n", [self name]];	        
     }
-	[outStr appendString:@"##JCAMP-DX= 4.24 $$ Peacock 0.18\r\n"];	
+	[outStr appendString:@"##JCAMP-DX= 4.24 $$ Peacock 0.19\r\n"];	
 	[outStr appendString:@"##DATA TYPE= MASS SPECTRUM\r\n"];	
 	[outStr appendString:@"##DATA CLASS= PEAK TABLE\r\n"];	
 	if ([[self CASNumber] isNotEqualTo:@""]) {
@@ -566,7 +566,7 @@ idUndoAccessor(symbol, setSymbol, @"Change Symbol")
 	NSMutableString *outStr = [[[NSMutableString alloc] init] autorelease];
 	int j;
 	for (j=0; j < numberOfPoints; j++) {
-		[outStr appendFormat:@" %.0f, %.0f", masses[j], intensities[j]];
+		[outStr appendFormat:@"%.0f, %.0f ", masses[j], intensities[j]];
 		if (fmod(j,8) == 7 && j != numberOfPoints-1){
 			[outStr appendString:@"\r\n"];
 		}
@@ -581,8 +581,6 @@ idUndoAccessor(symbol, setSymbol, @"Change Symbol")
     }
     
 	NSScanner *theScanner2 = [[NSScanner alloc] initWithString:inString];
-	masses = (float *) realloc(masses, numberOfPoints*sizeof(float));
-	intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
 	int j, massInt, intensityInt;
 
     // Check for silly HP JCAMP file
@@ -591,7 +589,10 @@ idUndoAccessor(symbol, setSymbol, @"Change Symbol")
     } else {
         numberOfPoints = [[inString componentsSeparatedByString:@","] count]-1;
     }
-    
+
+    masses = (float *) realloc(masses, numberOfPoints*sizeof(float));
+	intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
+
 
 #warning [BUG] No undo support
 	
