@@ -60,8 +60,8 @@ static void *DocumentObservationContext = (void *)1100;
         [self addObserver:mainWindowController forKeyPath:@"metadata.sampleDescription" options:nil context:DocumentObservationContext];
 
 //        [self setPrintInfo:[NSPrintInfo sharedPrintInfo]];
-        NSLog(@"%d", [[NSPrintInfo sharedPrintInfo] orientation]);
-        NSLog(@"%d", [[self printInfo] orientation]);
+//        NSLog(@"%d", [[NSPrintInfo sharedPrintInfo] orientation]);
+//        NSLog(@"%d", [[self printInfo] orientation]);
 	}
     return self;
 }
@@ -552,8 +552,8 @@ static void *DocumentObservationContext = (void *)1100;
     NSPrintInfo *pInfo = [self printInfo];
     _originalFrame = [[[self mainWindowController] chromatogramView] frame];
 //    NSData *pdfData;
-    [[[self mainWindowController] chromatogramView] setFrame:[pInfo imageablePageBounds]];
-    [[[self mainWindowController] chromatogramView] showAll:self];
+//    [[[self mainWindowController] chromatogramView] setFrame:[pInfo imageablePageBounds]];
+//    [[[self mainWindowController] chromatogramView] showAll:self];
 //    pdfData = [chromatogramView dataWithPDFInsideRect:NSMakeRect(-[pInfo imageablePageBounds].origin.x,-[pInfo imageablePageBounds].origin.y,[pInfo paperSize].width,[pInfo paperSize].height)];
     
     // Construct the print operation and setup Print panel
@@ -573,8 +573,8 @@ static void *DocumentObservationContext = (void *)1100;
 					 contextInfo:NULL];
 }
 - (void)documentDidRunModalPrintOperation:(NSDocument *)document  success:(BOOL)success  contextInfo:(void *)contextInfo {
-    [[[self mainWindowController] chromatogramView] setFrame:_originalFrame];
-    [[[self mainWindowController] chromatogramView] showAll:self];
+//    [[[self mainWindowController] chromatogramView] setFrame:_originalFrame];
+//    [[[self mainWindowController] chromatogramView] showAll:self];
     [[[self mainWindowController] chromatogramView] setNeedsDisplay:YES];    
 }
 #pragma mark NOTIFICATIONS
@@ -1193,7 +1193,7 @@ static void *DocumentObservationContext = (void *)1100;
 }
 
 - (int)scanForTime:(float)inTime {
-    NSLog(@"%g",inTime);
+//    NSLog(@"%g",inTime);
     int i;
     inTime = inTime * 60.0f;
     if (inTime <= time[0]) {
@@ -1459,10 +1459,14 @@ static void *DocumentObservationContext = (void *)1100;
 
     int npts;
     npts = [self endValuesSpectrum:scan] - [self startValuesSpectrum:scan];
+    [spectrum setKeyForXValue:@"Mass"];
+    [spectrum setKeyForYValue:@"Intensity"];
     
     [spectrum loadDataPoints:npts withXValues:[self massValuesForSpectrumAtScan:scan] andYValues:[self intensityValuesForSpectrumAtScan:scan]];
     
 	[spectrum setSeriesTitle:[NSString localizedStringWithFormat:@"Scan %d", scan]];
+    [spectrum setKeyForXValue:@"Mass"];
+    [spectrum setKeyForYValue:@"Intensity"];
 	    
 	[spectrum autorelease];
 	

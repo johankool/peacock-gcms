@@ -93,7 +93,9 @@ static void *SpectrumObservationContext = (void *)1102;
     [spectrumView setShouldDrawLabelsOnFrame:YES];
     [spectrumView setShouldDrawAxes:YES];
     [spectrumView setShouldDrawAxesVertical:NO];
-    
+    [spectrumView setKeyForXValue:@"Mass"];
+	[spectrumView setKeyForYValue:@"Intensity"];
+
 	// Register as observer
 	[searchResultsController addObserver:self forKeyPath:@"selection" options:nil context:nil];
 	[peakController addObserver:self forKeyPath:@"selection" options:nil context:nil];
