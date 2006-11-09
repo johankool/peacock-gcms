@@ -16,7 +16,7 @@
 }
 
 #pragma mark DRAWING ROUTINES
-- (void)drawPeaksWithTransform:(NSAffineTransform *)trans;
+- (void)drawPeaksWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view;
 
 #pragma mark BINDINGS
 - (NSMutableArray *)peaks;

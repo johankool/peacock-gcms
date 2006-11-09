@@ -193,15 +193,20 @@ static int   kPaddingLabels             = 4;
         while ((object = [enumerator nextObject])) {
             // do something with object...
             //	NSLog([object description]);
-            if ([object respondsToSelector:@selector(plotDataWithTransform:)]) {
-                [object plotDataWithTransform:[self transformGraphToScreen]];
+            if ([object respondsToSelector:@selector(plotDataWithTransform:inView:)]) {
+                [object plotDataWithTransform:[self transformGraphToScreen] inView:self];
             }
         }  
         
         // Draw line for selected scan
         NSPoint point;
         if (([self selectedScan] > 0) && ([[NSGraphicsContext currentContext] isDrawingToScreen])) {
-            [[NSColor blueColor] set];
+            if ([[self window] firstResponder] == self) {
+                [[NSColor alternateSelectedControlColor] set];
+            } else {
+                [[NSColor secondarySelectedControlColor] set];
+            }
+            
             if ([keyForXValue isEqualToString:@"Scan"]) {
                 point = [[self transformGraphToScreen] transformPoint:NSMakePoint([self selectedScan]*1.0, 0)];                
             } else {
@@ -528,9 +533,9 @@ static int   kPaddingLabels             = 4;
 	// Werkt, maar nu niet direct een schoonheidsprijs waard!! ;-)
 	[[self titleString] drawAtPoint:NSMakePoint(([self bounds].size.width - [[self titleString] size].width)/2,([self bounds].size.height - NSMaxY([self plottingArea]))/2 - [[self titleString] size].height/2 + NSMaxY([self plottingArea]))];
 	if ([self shouldDrawLabelsOnFrame]) {
-		[[self xAxisLabelString] drawAtPoint:NSMakePoint(NSMaxX([self plottingArea])-[[self xAxisLabelString] size].width,NSMinY([self plottingArea])-[[self xAxisLabelString] size].height-20)];
+		[[self xAxisLabelString] drawAtPoint:NSMakePoint(NSMaxX([self plottingArea])-[[self xAxisLabelString] size].width,_lowestYOriginLabelsXAxis-kPaddingLabels-[[self xAxisLabelString] size].height)];
 	} else {
-		[[self xAxisLabelString] drawAtPoint:NSMakePoint(NSMaxX([self plottingArea])-[[self xAxisLabelString] size].width,NSMinY([self plottingArea])-[[self xAxisLabelString] size].height)];
+		[[self xAxisLabelString] drawAtPoint:NSMakePoint(NSMaxX([self plottingArea])-[[self xAxisLabelString] size].width,NSMinY([self plottingArea])-[[self xAxisLabelString] size].height-kPaddingLabels)];
 	}
 	
 	// Y axis label
@@ -540,9 +545,9 @@ static int   kPaddingLabels             = 4;
 	[transform rotateByDegrees:90.0];
     [transform concat];
 	if ([self shouldDrawLabelsOnFrame]) {
-		[[self yAxisLabelString] drawAtPoint:NSMakePoint(NSMaxY([self plottingArea])-[[self yAxisLabelString] size].width,-NSMinX([self plottingArea])+20)]; // i.p.v. 20 eigenlijk liever grootte van labels on frame + 4
+		[[self yAxisLabelString] drawAtPoint:NSMakePoint(NSMaxY([self plottingArea])-[[self yAxisLabelString] size].width,-_lowestXOriginLabelsYAxis+kPaddingLabels)]; // i.p.v. 20 eigenlijk liever grootte van labels on frame + 4
 	} else {
-		[[self yAxisLabelString] drawAtPoint:NSMakePoint(NSMaxY([self plottingArea])-[[self yAxisLabelString] size].width,-NSMinX([self plottingArea]))];
+		[[self yAxisLabelString] drawAtPoint:NSMakePoint(NSMaxY([self plottingArea])-[[self yAxisLabelString] size].width,-NSMinX([self plottingArea])+kPaddingLabels)];
 	}
 
 	[NSGraphicsContext restoreGraphicsState];
@@ -663,7 +668,8 @@ static int   kPaddingLabels             = 4;
 	// Labels op X-as
 	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
 	stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
-	
+    _lowestYOriginLabelsXAxis = [self bounds].size.height;
+
 	start = ceil((-[self origin].x + [self plottingArea].origin.x)/stepInPixels);
 	end = floor((-[self origin].x + [self plottingArea].origin.x + [self plottingArea].size.width)/stepInPixels);
 	for (i=start; i <= end; i++) {  
@@ -684,6 +690,9 @@ static int   kPaddingLabels             = 4;
 		pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(i*stepInUnits,0.)];
 		pointToDraw.x = pointToDraw.x - stringSize.width/2;
 		pointToDraw.y = [self plottingArea].origin.y - stringSize.height - kPaddingLabels;
+        if (pointToDraw.y < _lowestYOriginLabelsXAxis) {
+            _lowestYOriginLabelsXAxis = pointToDraw.y;
+        }
 		[string drawAtPoint:pointToDraw];
 		[string release];
         // Ugly fix for overlap
@@ -695,7 +704,8 @@ static int   kPaddingLabels             = 4;
 	// Labels op Y-as
 	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
 	stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
-		
+	_lowestXOriginLabelsYAxis = [self bounds].size.width;
+	
 	start = ceil((-[self origin].y + [self plottingArea].origin.y)/stepInPixels);
 	end = floor((-[self origin].y + [self plottingArea].origin.y + [self plottingArea].size.height)/stepInPixels);
 	for (i=start; i <= end; i++) {
@@ -715,6 +725,9 @@ static int   kPaddingLabels             = 4;
 		stringSize = [string size];
 		pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(0.,i*stepInUnits)];
 		pointToDraw.x = [self plottingArea].origin.x - stringSize.width - kPaddingLabels;
+        if (pointToDraw.x < _lowestXOriginLabelsYAxis) {
+            _lowestXOriginLabelsYAxis = pointToDraw.x;
+        }
 		pointToDraw.y = pointToDraw.y - stringSize.height/2;
 		[string drawAtPoint:pointToDraw];
 		[string release];
@@ -899,30 +912,30 @@ static int   kPaddingLabels             = 4;
     
 	[self zoomToRect:totRect];
 }
-- (void)showMagnifyingGlass:(NSEvent *)theEvent  
-{
-	NSPoint mouseLocation = [theEvent locationInWindow];
-		NSWindow *magnifyingGlassWindow = [[NSWindow alloc] initWithContentRect:NSMakeRect(mouseLocation.x,mouseLocation.y-250,250,250) styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
-    [magnifyingGlassWindow setBackgroundColor: [NSColor clearColor]];
-    [magnifyingGlassWindow setLevel: NSTornOffMenuWindowLevel];
-    [magnifyingGlassWindow setAlphaValue:1.0];
-    [magnifyingGlassWindow setOpaque:YES];
-    [magnifyingGlassWindow setHasShadow: YES];
-		
-//	NSImageView *magnifiedView = [[NSImageView alloc] initWithFrame:[magnifyingGlassWindow frame]];
-//	NSImage *magnifiedImage = [[NSImage alloc] init];
-	
-	MyGraphView *aView = [[MyGraphView alloc] init];
-	[magnifyingGlassWindow setContentView:aView];
-	[aView lockFocus];
-		// In plaats van een loop kunnen we ook deze convenient method gebruiken om iedere dataserie zich te laten tekenen.
-	[[self dataSeries] makeObjectsPerformSelector:@selector(plotDataWithTransform:) withObject:[self transformGraphToScreen]];
-	[aView unlockFocus];
-//	[magnifiedImage addRepresentation:[NSPDFImageRep imageRepWithData:[self dataWithPDFInsideRect:[magnifyingGlassWindow frame]]]];
-//	[magnifiedView setImage:magnifiedImage];
-	[[self window] addChildWindow:magnifyingGlassWindow ordered:NSWindowAbove];
-	[magnifyingGlassWindow orderFront:self];
-}
+//- (void)showMagnifyingGlass:(NSEvent *)theEvent  
+//{
+//	NSPoint mouseLocation = [theEvent locationInWindow];
+//		NSWindow *magnifyingGlassWindow = [[NSWindow alloc] initWithContentRect:NSMakeRect(mouseLocation.x,mouseLocation.y-250,250,250) styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
+//    [magnifyingGlassWindow setBackgroundColor: [NSColor clearColor]];
+//    [magnifyingGlassWindow setLevel: NSTornOffMenuWindowLevel];
+//    [magnifyingGlassWindow setAlphaValue:1.0];
+//    [magnifyingGlassWindow setOpaque:YES];
+//    [magnifyingGlassWindow setHasShadow: YES];
+//		
+////	NSImageView *magnifiedView = [[NSImageView alloc] initWithFrame:[magnifyingGlassWindow frame]];
+////	NSImage *magnifiedImage = [[NSImage alloc] init];
+//	
+//	MyGraphView *aView = [[MyGraphView alloc] init];
+//	[magnifyingGlassWindow setContentView:aView];
+//	[aView lockFocus];
+//		// In plaats van een loop kunnen we ook deze convenient method gebruiken om iedere dataserie zich te laten tekenen.
+//	[[self dataSeries] makeObjectsPerformSelector:@selector(plotDataWithTransform:) withObject:[self transformGraphToScreen]];
+//	[aView unlockFocus];
+////	[magnifiedImage addRepresentation:[NSPDFImageRep imageRepWithData:[self dataWithPDFInsideRect:[magnifyingGlassWindow frame]]]];
+////	[magnifiedView setImage:magnifiedImage];
+//	[[self window] addChildWindow:magnifyingGlassWindow ordered:NSWindowAbove];
+//	[magnifyingGlassWindow orderFront:self];
+//}
 
 #pragma mark HELPER ROUTINES
 - (void)calculateCoordinateConversions  
@@ -1188,8 +1201,6 @@ static int   kPaddingLabels             = 4;
     [self addCursorRect:NSMakeRect([self plottingArea].origin.x,[self plottingArea].origin.y-3.0+[self plottingArea].size.height,[self plottingArea].size.width,6.0) cursor:[NSCursor resizeUpDownCursor]];
 	if (shouldDrawLegend) [self addCursorRect:[self legendArea] cursor:[NSCursor openHandCursor]];
 }
-
-#warning Mouse events currently assume scan as the value on the x-axis, esp. in regards to selecting peaks and scan
 
 - (void)mouseDown:(NSEvent *)theEvent  
 {
@@ -1942,13 +1953,14 @@ static int   kPaddingLabels             = 4;
     pRect = [self plottingArea];
     pRect.size.width = pRect.size.width + newFrect.size.width - oldFrect.size.width;
     pRect.size.height = pRect.size.height + newFrect.size.height - oldFrect.size.height;
-    [self setPlottingArea:pRect];
     lRect = [self legendArea];
     lRect.origin.x = lRect.origin.x + newFrect.size.width - oldFrect.size.width;
     lRect.origin.y = lRect.origin.y + newFrect.size.height - oldFrect.size.height;
     [self setLegendArea:lRect];
     [[self window] invalidateCursorRectsForView:self];
-    [super setFrame:newFrect];            
+    [super setFrame:newFrect];      
+    [self setPlottingArea:pRect];
+
 }
 
 - (NSAffineTransform *)transformGraphToScreen 
@@ -2447,6 +2459,14 @@ static int   kPaddingLabels             = 4;
         [inValue retain];
         [keyForXValue autorelease];
         keyForXValue = inValue;
+
+        if ([keyForXValue isEqualToString:@"Time"]) {
+            [self setXAxisLabelString:[[[NSMutableAttributedString alloc] initWithString:[NSString stringWithUTF8String:"Time (minutes) \u2192"] attributes:[xAxisLabelString attributesAtIndex:0 effectiveRange:nil]] autorelease]];
+        } else if ([keyForXValue isEqualToString:@"Scan"]) {
+            [self setXAxisLabelString:[[[NSMutableAttributedString alloc] initWithString:[NSString stringWithUTF8String:"Scan \u2192"]  attributes:[xAxisLabelString attributesAtIndex:0 effectiveRange:nil]] autorelease]];
+        } else if ([keyForXValue isEqualToString:@"Mass"]) {
+            [self setXAxisLabelString:[[[NSMutableAttributedString alloc] initWithString:[NSString stringWithUTF8String:"m/z Values \u2192"]  attributes:[xAxisLabelString attributesAtIndex:0 effectiveRange:nil]] autorelease]];
+        }
         
         int i, count;
         count = [[self dataSeries] count];
@@ -2475,6 +2495,12 @@ static int   kPaddingLabels             = 4;
         [inValue retain];
         [keyForYValue autorelease];
         keyForYValue = inValue;
+        
+        if ([keyForYValue isEqualToString:@"Total Intensity"]) {
+            [self setYAxisLabelString:[[[NSMutableAttributedString alloc] initWithString:[NSString stringWithUTF8String:"Total Intensity \u2192"] attributes:[yAxisLabelString attributesAtIndex:0 effectiveRange:nil]] autorelease]];
+        } else  if ([keyForYValue isEqualToString:@"Intensity"]) {
+            [self setYAxisLabelString:[[[NSMutableAttributedString alloc] initWithString:[NSString stringWithUTF8String:"Intensity \u2192"] attributes:[yAxisLabelString attributesAtIndex:0 effectiveRange:nil]] autorelease]];
+        }
         
         int i, count;
         count = [[self dataSeries] count];

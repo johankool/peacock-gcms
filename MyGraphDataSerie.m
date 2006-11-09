@@ -10,7 +10,7 @@
 
 static void *DictionaryObservationContext = (void *)1091;
 static void *ArrayObservationContext = (void *)1092;
-static void *PropertyObservationContext = (void *)1093;
+//static void *PropertyObservationContext = (void *)1093;
 
 @implementation MyGraphDataSerie
 
@@ -59,7 +59,7 @@ static void *PropertyObservationContext = (void *)1093;
 
 
 #pragma mark DRAWING ROUTINES
-- (void)plotDataWithTransform:(NSAffineTransform *)trans  
+- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view  
 {
 	NSBezierPath *bezierpath;
 	
@@ -75,7 +75,7 @@ static void *PropertyObservationContext = (void *)1093;
 	
 	if(shouldDrawLabels) {
 		if (seriesType == 2) {
-			[self drawLabelsWithTransform:trans];
+			[self drawLabelsWithTransform:trans inView:view];
 
 		}
 	}
@@ -126,7 +126,7 @@ static void *PropertyObservationContext = (void *)1093;
 	[bezierpath release];
 }
 
-- (void)drawLabelsWithTransform:(NSAffineTransform *)trans  
+- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view  
 {
 	int count = [[self dataArray] count];
 	if (count <= 0) {	
@@ -147,7 +147,7 @@ static void *PropertyObservationContext = (void *)1093;
 	NSRectArray rects;
 	rects = (NSRectArray) calloc(rectCount, sizeof(NSRect));
 	 
-	[attrs setValue:[NSFont systemFontOfSize:10] forKey:NSFontAttributeName];
+	[attrs setValue:[view labelFont] forKey:NSFontAttributeName];
 	
 	// We should go through the values from highest intensity ('y') to lowest instead of along the x-axis.
 	// It is more important to label the higher intensities.

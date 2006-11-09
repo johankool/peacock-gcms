@@ -38,7 +38,7 @@ static void *PropertyObservationContext = (void *)1093;
 
 
 #pragma mark DRAWING ROUTINES
-- (void)plotDataWithTransform:(NSAffineTransform *)trans  
+- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view
 {
 	NSBezierPath *bezierpath;
 //	if (!plotPath) {
@@ -56,7 +56,7 @@ static void *PropertyObservationContext = (void *)1093;
 	
 	if(shouldDrawLabels) {
 		if (seriesType == 2) {
-			[self drawLabelsWithTransform:trans];
+			[self drawLabelsWithTransform:trans inView:view];
 
 		}
 	}
@@ -106,7 +106,7 @@ static void *PropertyObservationContext = (void *)1093;
 	[bezierpath release];
 }
 
-- (void)drawLabelsWithTransform:(NSAffineTransform *)trans  
+- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view
 {
     BOOL belowZero;
 	int count = [[self dataArray] count];

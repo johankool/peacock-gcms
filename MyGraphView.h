@@ -86,6 +86,8 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 	NSPoint _oldOrigin;
 	NSPoint _oldLegendOrigin;
 	int _lastSelectedPeakIndex;
+    float _lowestXOriginLabelsYAxis;
+    float _lowestYOriginLabelsXAxis;
 }
 
 #pragma mark DRAWING ROUTINES

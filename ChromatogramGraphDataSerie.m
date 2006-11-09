@@ -45,7 +45,7 @@ static void *PeaksObservationContext = (void *)1094;
 
 
 #pragma mark DRAWING ROUTINES
-- (void)plotDataWithTransform:(NSAffineTransform *)trans  
+- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view
 {
 	NSBezierPath *bezierpath;
 	
@@ -55,7 +55,7 @@ static void *PeaksObservationContext = (void *)1094;
 	bezierpath = [trans transformBezierPath:[self plotPath]];
 	
 //	if(shouldDrawPeaks)
-    [self drawPeaksWithTransform:trans];
+    [self drawPeaksWithTransform:trans inView:view];
 	
 	// Hier stellen we in hoe de lijnen eruit moeten zien.
     if ([[NSGraphicsContext currentContext] isDrawingToScreen]) {
@@ -69,7 +69,7 @@ static void *PeaksObservationContext = (void *)1094;
 	[bezierpath stroke];
 	
 	if(shouldDrawLabels)
-		[self drawLabelsWithTransform:trans];
+		[self drawLabelsWithTransform:trans inView:view];
 }
 
 - (void)constructPlotPath  
@@ -101,7 +101,7 @@ static void *PeaksObservationContext = (void *)1094;
 	[bezierpath release];
 }
 
-- (void)drawPeaksWithTransform:(NSAffineTransform *)trans  
+- (void)drawPeaksWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view
 {
 	int i, count;
 
@@ -203,38 +203,50 @@ static void *PeaksObservationContext = (void *)1094;
 			//[self addToolTipRect:NSMakeRect(pointToDraw1.x,plottingArea.origin.y,pointToDraw2.x-pointToDraw1.x,plottingArea.size.height) owner:self userData:i];
 			
 			// Set color
-			[[NSColor selectedControlColor] set];
+            if ([[view window] firstResponder] == view) {
+                [[NSColor selectedControlColor] set];
+            } else {
+                [[NSColor secondarySelectedControlColor] set];
+            }
+//			[[NSColor selectedControlColor] set];
 			
 			// Draw
 			[peaksPath fill];
 			
 			// Draw an arrow
-			[arrowPath removeAllPoints];
-			top = [[[selectedPeaks objectAtIndex:i] valueForKey:@"top"] intValue];
-			pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:top] valueForKey:keyForXValue] floatValue],
-									   [[[[self dataArray] objectAtIndex:top] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
-			pointInUnits  = [trans transformPoint:pointInUnits];
-			
-			[arrowPath moveToPoint:pointInUnits];
-			[arrowPath relativeMoveToPoint:NSMakePoint(0.0,18.0)];
-			[arrowPath relativeLineToPoint:NSMakePoint(-8.0,8.0)];
-			[arrowPath relativeLineToPoint:NSMakePoint(4.0,0.0)];
-			[arrowPath relativeLineToPoint:NSMakePoint(0.0,8.0)];
-			[arrowPath relativeLineToPoint:NSMakePoint(8.0,0.0)];
-			[arrowPath relativeLineToPoint:NSMakePoint(0.0,-8.0)];
-			[arrowPath relativeLineToPoint:NSMakePoint(4.0,0.0)];
-			[arrowPath relativeLineToPoint:NSMakePoint(-8.0,-8.0)];
-			[[self seriesColor] setStroke];
-			[[[self seriesColor] colorWithAlphaComponent:0.3] setFill];
-			[arrowPath fill];
-			[arrowPath stroke];			
+            if ([[NSGraphicsContext currentContext] isDrawingToScreen]) {
+                [arrowPath removeAllPoints];
+                top = [[[selectedPeaks objectAtIndex:i] valueForKey:@"top"] intValue];
+                pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:top] valueForKey:keyForXValue] floatValue],
+                                           [[[[self dataArray] objectAtIndex:top] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
+                pointInUnits  = [trans transformPoint:pointInUnits];
+                
+                [arrowPath moveToPoint:pointInUnits];
+                [arrowPath relativeMoveToPoint:NSMakePoint(0.0,18.0)];
+                [arrowPath relativeLineToPoint:NSMakePoint(-8.0,8.0)];
+                [arrowPath relativeLineToPoint:NSMakePoint(4.0,0.0)];
+                [arrowPath relativeLineToPoint:NSMakePoint(0.0,8.0)];
+                [arrowPath relativeLineToPoint:NSMakePoint(8.0,0.0)];
+                [arrowPath relativeLineToPoint:NSMakePoint(0.0,-8.0)];
+                [arrowPath relativeLineToPoint:NSMakePoint(4.0,0.0)];
+                [arrowPath relativeLineToPoint:NSMakePoint(-8.0,-8.0)];
+                if ([[view window] firstResponder] == view) {
+                    [[NSColor alternateSelectedControlColor] setStroke];
+                    [[[NSColor alternateSelectedControlColor] colorWithAlphaComponent:0.3] setFill];
+                } else {
+                    [[NSColor secondarySelectedControlColor] setStroke];
+                    [[[NSColor secondarySelectedControlColor] colorWithAlphaComponent:0.9] setFill];
+                }
+                [arrowPath fill];
+                [arrowPath stroke];			                
+            }
 	}
 	
 	[arrowPath release];
 	[peaksPath release];
 }
 
-- (void)drawLabelsWithTransform:(NSAffineTransform *)trans  
+- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view
 {
 	int count = [[self peaks] count];
 	if (count <= 0)		
@@ -254,9 +266,11 @@ static void *PeaksObservationContext = (void *)1094;
 	rects = (NSRectArray) calloc(rectCount, sizeof(NSRect));
 	 
     if ([[NSGraphicsContext currentContext] isDrawingToScreen]) {
-        [attrs setValue:[NSFont systemFontOfSize:10] forKey:NSFontAttributeName];
+        [attrs setValue:[view labelFont] forKey:NSFontAttributeName];
+//        [attrs setValue:[NSFont systemFontOfSize:10] forKey:NSFontAttributeName];
 	} else  {
-        [attrs setValue:[NSFont systemFontOfSize:8] forKey:NSFontAttributeName];        
+        [attrs setValue:[view labelFont] forKey:NSFontAttributeName];
+//        [attrs setValue:[NSFont systemFontOfSize:8] forKey:NSFontAttributeName];        
     }
     
 	for (i=0; i<count; i++) {

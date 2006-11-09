@@ -6,6 +6,8 @@
 //  Copyright (c) 2003-2005 Johan Kool. All rights reserved.
 //
 
+@class MyGraphView;
+
 @protocol GraphDataSerie
 - (NSString *)seriesTitle;
 - (void)setSeriesTitle:(NSString *)inValue;
@@ -16,7 +18,7 @@
 - (NSColor *)seriesColor;
 - (void)setSeriesColor:(NSColor *)inValue;
 
-- (void)plotDataWithTransform:(NSAffineTransform *)trans;
+- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view;
 - (void)transposeAxes;
 - (NSRect)boundingRect;
 @end
@@ -36,8 +38,8 @@
 }
 
 #pragma mark DRAWING ROUTINES
-- (void)plotDataWithTransform:(NSAffineTransform *)trans;
-- (void)drawLabelsWithTransform:(NSAffineTransform *)trans;
+- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view;
+- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view;
 - (void)constructPlotPath;
 
 #pragma mark HELPER ROUTINES
