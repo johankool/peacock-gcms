@@ -30,7 +30,7 @@ extern int const JKGCMSDocument_Version;
 	NSFileWrapper *peacockFileWrapper;
 	
 	// Data from NetCDF cached for speedier access
-    int numberOfPoints;
+    int numberOfPoints; // == numberOfScans
     int intensityCount;
 	
     float *time;
@@ -138,13 +138,15 @@ extern int const JKGCMSDocument_Version;
 - (NSMutableArray *)baseline;
 - (NSMutableDictionary *)metadata;
 
-- (float *)xValuesSpectrum:(int)scan;
-- (float *)yValuesSpectrum:(int)scan;
+- (float *)massValuesForSpectrumAtScan:(int)scan;
+- (float *)intensityValuesForSpectrumAtScan:(int)scan;
 - (float *)yValuesIonChromatogram:(float)mzValue;
 - (int)startValuesSpectrum:(int)scan;
 - (int)endValuesSpectrum:(int)scan;
 - (float)retentionIndexForScan:(int)scan;
 - (SpectrumGraphDataSerie *)spectrumForScan:(int)scan;
+
+- (int)countOfValuesForSpectrumAtScan:(int)scan;
 
 #pragma mark ACTIONS
 

@@ -49,6 +49,7 @@
 - (void)changeTextFont:(id)sender;
 - (IBAction)showInspector:(id)sender;
 - (IBAction)resetToDefaultValues:(id)sender;
+- (IBAction)changePanes:(id)sender;
 
 #pragma mark ACCESSORS
 

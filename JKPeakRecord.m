@@ -538,8 +538,8 @@
         NSAssert(document != nil, @"updateForNewEncoding - No document found");
         spectrum = [[JKSpectrum alloc] init];
         float npts = [document endValuesSpectrum:[top intValue]] - [document startValuesSpectrum:[top intValue]];
-        float *xpts = [document xValuesSpectrum:[top intValue]];
-        float *ypts = [document yValuesSpectrum:[top intValue]];
+        float *xpts = [document massValuesForSpectrumAtScan:[top intValue]];
+        float *ypts = [document intensityValuesForSpectrumAtScan:[top intValue]];
         [spectrum setMasses:xpts withCount:npts];
         [spectrum setIntensities:ypts withCount:npts];
         [spectrum setDocument:document];

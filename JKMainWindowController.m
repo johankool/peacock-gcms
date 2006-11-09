@@ -19,6 +19,7 @@
 #import "SpectrumGraphDataSerie.h"
 #import "netcdf.h"
 #import "RBSplitSubview.h"
+#include <unistd.h>
 
 //static void *DocumentObservationContext = (void *)1100;
 static void *ChromatogramObservationContext = (void *)1101;
@@ -124,6 +125,7 @@ static void *SpectrumObservationContext = (void *)1102;
 {
 	[searchResultsController removeObserver:self forKeyPath:@"selection"];
 	[peakController removeObserver:self forKeyPath:@"selection"];
+    // hack preventing an animating splitview to get deallocated whilst animating
     if ([RBSplitSubview animating]) {
         sleep(1);
     }

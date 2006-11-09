@@ -225,8 +225,6 @@
 		C73290EC0AD68F9800D95E36 /* JKParameter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKParameter.m; sourceTree = "<group>"; };
 		C73290ED0AD68F9800D95E36 /* JKPeak.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKPeak.h; sourceTree = "<group>"; };
 		C73290EE0AD68F9800D95E36 /* JKPeak.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKPeak.m; sourceTree = "<group>"; };
-		C73290EF0AD68F9800D95E36 /* JKPeakIdentificationWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKPeakIdentificationWindowController.h; sourceTree = "<group>"; };
-		C73290F00AD68F9800D95E36 /* JKPeakIdentificationWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKPeakIdentificationWindowController.m; sourceTree = "<group>"; };
 		C73290F10AD68F9800D95E36 /* JKPeakTable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKPeakTable.h; sourceTree = "<group>"; };
 		C73290F20AD68F9800D95E36 /* JKPeakTable.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKPeakTable.m; sourceTree = "<group>"; };
 		C73290F30AD68F9800D95E36 /* JKSynchroScrollView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKSynchroScrollView.h; sourceTree = "<group>"; };
@@ -726,8 +724,6 @@
 			isa = PBXGroup;
 			children = (
 				C73290E80AD68F9800D95E36 /* JKFileWell.h */,
-				C73290EF0AD68F9800D95E36 /* JKPeakIdentificationWindowController.h */,
-				C73290F00AD68F9800D95E36 /* JKPeakIdentificationWindowController.m */,
 				C73290F30AD68F9800D95E36 /* JKSynchroScrollView.h */,
 				C73290F40AD68F9800D95E36 /* JKSynchroScrollView.m */,
 				C73290E00AD68F9800D95E36 /* JKChromatogram.h */,
@@ -1449,6 +1445,7 @@
 					"$(SRCROOT)",
 					"$(SRCROOT)/Frameworks",
 				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_OPTIMIZATION_LEVEL = 2;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;

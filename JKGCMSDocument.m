@@ -17,6 +17,7 @@
 #import "JKSpectrum.h"
 #import "netcdf.h"
 #import "JKDataModelProxy.h"
+#import "jk_statistics.h"
 
 NSString *const JKGCMSDocument_DocumentDeactivateNotification = @"JKGCMSDocument_DocumentDeactivateNotification";
 NSString *const JKGCMSDocument_DocumentActivateNotification   = @"JKGCMSDocument_DocumentActivateNotification";
@@ -866,8 +867,8 @@ static void *DocumentObservationContext = (void *)1100;
 					
 					spectrum = [[JKSpectrum alloc] init];
 					npts = [self endValuesSpectrum:top] - [self startValuesSpectrum:top];
-					xpts = [self xValuesSpectrum:top];
-					ypts = [self yValuesSpectrum:top];
+					xpts = [self massValuesForSpectrumAtScan:top];
+					ypts = [self intensityValuesForSpectrumAtScan:top];
 					[spectrum setMasses:xpts withCount:npts];
 					[spectrum setIntensities:ypts withCount:npts];
 					[spectrum setDocument:self];
@@ -920,8 +921,7 @@ static void *DocumentObservationContext = (void *)1100;
     int windowWidth; // increasing from 11 to 200 increasing by 1.5 times per iteration (that is 7 steps)
     int stepSize; // = windowWidth/3;
     int step = 0;
-    int numberOfScans = [self numberOfScans];
-    float iwv[7][numberOfScans];
+    float iwv[7][numberOfPoints];
     
     int i,j,n,scan,count,countOfValues;
     float t,a,q,d,mean,variance,sum,sumDenominator,sumDevisor;
@@ -960,9 +960,9 @@ static void *DocumentObservationContext = (void *)1100;
         
         
         // Step through
-        for (scan = 0; scan < numberOfScans; scan = scan+stepSize) {
+        for (scan = 0; scan < numberOfPoints; scan = scan+stepSize) {
             // Calculate iwv [3.4.2]
-            countOfValues = [self countOfValuesForSpectrum:scan];
+            countOfValues = [self countOfValuesForSpectrumAtScan:scan];
             massValues = [self massValuesForSpectrumAtScan:scan];
             intensityValues = [self intensityValuesForSpectrumAtScan:scan];
             // Calculate mean massValues (m/z-values actually)
@@ -982,7 +982,7 @@ static void *DocumentObservationContext = (void *)1100;
     }
     
     // Find occurences below threshold [3.4.3]
-    for (i = 0; i < numberOfScans; i++) {
+    for (i = 0; i < numberOfPoints; i++) {
         count = 0;
         for (j = 0; j < 7; j++) {
             if (iwv[j][i] < t) {
@@ -1193,6 +1193,7 @@ static void *DocumentObservationContext = (void *)1100;
 }
 
 - (int)scanForTime:(float)inTime {
+    NSLog(@"%g",inTime);
     int i;
     inTime = inTime * 60.0f;
     if (inTime <= time[0]) {
@@ -1200,10 +1201,12 @@ static void *DocumentObservationContext = (void *)1100;
     } else if (inTime >= time[numberOfPoints-1]) {
         return numberOfPoints-1;
     }
-    do {
-        i++;
-    } while ((time[i] < inTime) | (i == numberOfPoints));
-    return time[i];
+    for (i=0; i<numberOfPoints; i++) {
+        if (time[i]>inTime) {
+            return i;
+        }
+    }
+    return numberOfPoints-1;
 }
 
 - (float)retentionIndexForScan:(int)scan  
@@ -1216,7 +1219,7 @@ static void *DocumentObservationContext = (void *)1100;
     return (x/60) * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
 }
 
-- (float *)xValuesSpectrum:(int)scan  
+- (float *)massValuesForSpectrumAtScan:(int)scan  
 {
     NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
     int dummy, start, end, varid_mass_value, varid_scan_index;
@@ -1266,7 +1269,7 @@ static void *DocumentObservationContext = (void *)1100;
     return x;    
 }
 
-- (float *)yValuesSpectrum:(int)scan  
+- (float *)intensityValuesForSpectrumAtScan:(int)scan  
 {
     NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
     int dummy, start, end, varid_intensity_value, varid_scan_index;
@@ -1345,8 +1348,8 @@ static void *DocumentObservationContext = (void *)1100;
 	// JKLogDebug(mzValuesString);
 	
 	
-    int     dummy, scan, dimid, varid_intensity_value, varid_mass_value, varid_time_value, varid_scan_index, varid_point_count, scanCount;
-    float  timeL, mass, intensity;
+    int     dummy, scan, dimid, varid_intensity_value, varid_mass_value, varid_scan_index, varid_point_count, scanCount;
+    float   mass, intensity;
     float	*times, *masses,	*intensities;
     unsigned int num_pts, num_scan;
     
@@ -1457,7 +1460,7 @@ static void *DocumentObservationContext = (void *)1100;
     int npts;
     npts = [self endValuesSpectrum:scan] - [self startValuesSpectrum:scan];
     
-    [spectrum loadDataPoints:npts withXValues:[self xValuesSpectrum:scan] andYValues:[self yValuesSpectrum:scan]];
+    [spectrum loadDataPoints:npts withXValues:[self massValuesForSpectrumAtScan:scan] andYValues:[self intensityValuesForSpectrumAtScan:scan]];
     
 	[spectrum setSeriesTitle:[NSString localizedStringWithFormat:@"Scan %d", scan]];
 	    
@@ -1536,6 +1539,10 @@ static void *DocumentObservationContext = (void *)1100;
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
 	
     return end;
+}
+
+- (int)countOfValuesForSpectrumAtScan:(int)scan {
+    return [self endValuesSpectrum:scan] - [self startValuesSpectrum:scan];
 }
 
 - (float)baselineValueAtScan:(int)inValue  

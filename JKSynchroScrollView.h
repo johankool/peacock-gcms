@@ -19,6 +19,6 @@
 - (void)setSynchronizedScrollView2:(NSScrollView*)scrollview;
 - (void)stopSynchronizingWithView1;
 - (void)stopSynchronizingWithView2;
-- (void)synchronizedViewBoundsDidChange:(NSNotification *)notification;
+- (void)synchronizedViewContentBoundsDidChange:(NSNotification *)notification;
 
 @end

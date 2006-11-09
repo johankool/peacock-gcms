@@ -200,29 +200,6 @@ static JKPanelController *theSharedController;
 				[self setInspectedGraphView:nil];
 			}
 		}
-
-		NSRect windowFrame = [[self window] frame];
-		float deltaHeight;
-
-		if ([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"info"]) {
-			deltaHeight = [infoPanelView frame].size.height - [[[self window] contentView] frame].size.height;
-			[[self window] setContentView:infoPanelView];
-			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:NO];
-		} else if ([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"processing"]) {
-			deltaHeight = [processingPanelView frame].size.height - [[[self window] contentView] frame].size.height;
-			[[self window] setContentView:processingPanelView];
-			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:NO];
-		} else if ([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"view"]) {
-			deltaHeight = [viewPanelView frame].size.height - [[[self window] contentView] frame].size.height;
-			[[self window] setContentView:viewPanelView];
-			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:NO];
-		} else if ([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"display"]) {
-			deltaHeight = [displayPanelView frame].size.height - [[[self window] contentView] frame].size.height;
-			[[self window] setContentView:displayPanelView];
-			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:NO];
-		} else {
-			[[self window] setContentView:naPanelView];
-		}		
 		
     }  else {
 		[[self window] setContentView:naPanelView];
@@ -231,13 +208,14 @@ static JKPanelController *theSharedController;
     [legendFontButton setState:NSOffState];
     [labelFontButton setState:NSOffState];
     [axesLabelFontButton setState:NSOffState];
-
+    [self changePanes:self];
 }
 
 - (void)documentDeactivateNotification: (NSNotification *) aNotification  
 {
-	[[self window] setContentView:naPanelView];
+//	[[self window] setContentView:naPanelView];
 	[self setInspectedDocument:nil];	
+    [self changePanes:self];
 } 
 
 - (void)plotViewDidBecomeFirstResponderNotification:(NSNotification *)aNotification 
@@ -245,15 +223,17 @@ static JKPanelController *theSharedController;
 	if ([[aNotification object] isKindOfClass:[MyGraphView class]]) {
 		if ([aNotification object] != inspectedGraphView) {
 			[self setInspectedGraphView:[aNotification object]];
-		}
+		}        
 	} else {
 		[self setInspectedGraphView:nil];
 	}
+    [self changePanes:self];
 }
 
 - (void)plotViewDidResignFirstResponderNotification:(NSNotification *)aNotification 
 {
 	[self setInspectedGraphView:nil];
+    [self changePanes:self];
 }
  
 - (IBAction)showInspector:(id)sender  
@@ -386,19 +366,19 @@ static JKPanelController *theSharedController;
 	if ([self inspectedDocument]) {
 		NSRect windowFrame = [[self window] frame];
 		float deltaHeight;
-		if ([[sender itemIdentifier] isEqualToString:@"info"]) {
+		if ([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"info"]) {
 			deltaHeight = [infoPanelView frame].size.height - [[[self window] contentView] frame].size.height;
 			[[self window] setContentView:infoPanelView];
 			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
-		} else if ([[sender itemIdentifier] isEqualToString:@"processing"]) {
+		} else if ([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"processing"]) {
 			deltaHeight = [processingPanelView frame].size.height - [[[self window] contentView] frame].size.height;
 			[[self window] setContentView:processingPanelView];
 			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
-		} else if ([[sender itemIdentifier] isEqualToString:@"view"]) {
+		} else if (([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"view"]) && ([self inspectedGraphView])) {
 			deltaHeight = [viewPanelView frame].size.height - [[[self window] contentView] frame].size.height;
 			[[self window] setContentView:viewPanelView];
 			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
-		} else if ([[sender itemIdentifier] isEqualToString:@"display"]) {
+		} else if (([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"display"]) && ([self inspectedGraphView])) {
 			deltaHeight = [displayPanelView frame].size.height - [[[self window] contentView] frame].size.height;
 			[[self window] setContentView:displayPanelView];
 			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
