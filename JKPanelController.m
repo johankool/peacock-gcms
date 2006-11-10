@@ -62,7 +62,6 @@ static JKPanelController *theSharedController;
     [center removeObserver: self
 					  name: nil
 					object: nil];
-	
     [super dealloc];
 }
 
@@ -72,14 +71,6 @@ static JKPanelController *theSharedController;
 	
     [self setShouldCascadeWindows: NO];
     [self setWindowFrameAutosaveName: @"JKPanelWindow"];
-	
-	inspectorListForDocument = [[NSMutableDictionary alloc] init];
-	[inspectorListForDocument setValue:@"Info" forKey:@"info"];
-	[inspectorListForDocument setValue:@"Processing" forKey:@"processing"];
-	
-	inspectorListForMyGraphView = [[NSMutableDictionary alloc] init];
-	[inspectorListForMyGraphView setValue:@"View" forKey:@"view"];
-	[inspectorListForMyGraphView setValue:@"Display" forKey:@"display"];
 	
     // Rich text in our fields! 
     [titleTextField setAllowsEditingTextAttributes:YES];
@@ -103,24 +94,14 @@ static JKPanelController *theSharedController;
     // Attach the toolbar to the document window 
     [[self window] setToolbar: toolbar];
 	
-	// Set an initial state
-	[toolbar setSelectedItemIdentifier:@"info"];
-	
-	if ([[[NSApplication sharedApplication] orderedWindows] count] > 0) {
-		if ([[[[[NSApplication sharedApplication] orderedWindows] objectAtIndex:0] document] isKindOfClass:[JKGCMSDocument class]]) {
-			[self setInspectedDocument:[[[[NSApplication sharedApplication] orderedWindows] objectAtIndex:0] document]];
-			[[self window] setContentView:infoPanelView];
-			[infoTableView reloadData];
-		} else {
-			[[self window] setContentView:naPanelView];
-		}
-	} else {
-		[[self window] setContentView:naPanelView];
-	}
-	
+   
 	// Bind libraryPopUpButton manually
 	[libraryPopUpButton bind:@"fileAlias" toObject:inspectedDocumentController withKeyPath:@"selection.libraryAlias" options:nil];
 
+	// Set an initial state
+	[toolbar setSelectedItemIdentifier:@"info"];
+	[self changePanes:self];
+    
 }
 
 #pragma mark IBACTIONS
@@ -194,17 +175,16 @@ static JKPanelController *theSharedController;
 		if ([[aNotification object] document] != inspectedDocument) {
 			[self setInspectedDocument:[[aNotification object] document]];
 			[infoTableView reloadData];
-			if ([[[aNotification object] firstResponder] isKindOfClass:[MyGraphView class]]) {
-				[self setInspectedGraphView:[[aNotification object] firstResponder]];
-			} else {
-				[self setInspectedGraphView:nil];
-			}
 		}
-		
     }  else {
-		[[self window] setContentView:naPanelView];
 		[self setInspectedDocument:nil];
 	}
+    if ([[[aNotification object] firstResponder] isKindOfClass:[MyGraphView class]]) {
+        [self setInspectedGraphView:[[aNotification object] firstResponder]];
+    } else {
+        [self setInspectedGraphView:nil];
+    }
+    
     [legendFontButton setState:NSOffState];
     [labelFontButton setState:NSOffState];
     [axesLabelFontButton setState:NSOffState];
@@ -213,7 +193,7 @@ static JKPanelController *theSharedController;
 
 - (void)documentDeactivateNotification: (NSNotification *) aNotification  
 {
-//	[[self window] setContentView:naPanelView];
+    [self setInspectedGraphView:nil];
 	[self setInspectedDocument:nil];	
     [self changePanes:self];
 } 
@@ -334,28 +314,14 @@ static JKPanelController *theSharedController;
     // The toolbar will use this method to obtain toolbar items that can be displayed in the customization sheet, or in the toolbar itself 
     NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
     NSString*		itemLabel = NSLocalizedString(itemIdent, @"String for toolbar label");//[itemsList objectForKey:itemIdent];
-//    if( (itemLabel = [itemsList objectForKey:itemIdent]) != nil )
-//    {
-        // Set the text label to be displayed in the toolbar and customization palette 
-        [toolbarItem setLabel: itemLabel];
-        [toolbarItem setPaletteLabel: itemLabel];
- //       [toolbarItem setTag:[tabView indexOfTabViewItemWithIdentifier:itemIdent]];
-        
-        // Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
-        [toolbarItem setToolTip: itemLabel];
-        [toolbarItem setImage: [NSImage imageNamed:itemIdent]];
-        
-        // Tell the item what message to send when it is clicked 
-        [toolbarItem setTarget: self];
-        [toolbarItem setAction: @selector(changePanes:)];
-//    }
-//    else
-//    {
-//		JKLogDebug([toolbarItem description]);
-//        // itemIdent refered to a toolbar item that is not provide or supported by us or cocoa 
-//        // Returning nil will inform the toolbar this kind of item is not supported 
-//        toolbarItem = nil;
-//    }
+    [toolbarItem setLabel: itemLabel];
+    [toolbarItem setPaletteLabel: itemLabel];
+    [toolbarItem setToolTip: itemLabel];
+    [toolbarItem setImage: [NSImage imageNamed:itemIdent]];
+    
+    // Tell the item what message to send when it is clicked 
+    [toolbarItem setTarget: self];
+    [toolbarItem setAction: @selector(changePanes:)];
     
     return toolbarItem;
 }
@@ -363,42 +329,37 @@ static JKPanelController *theSharedController;
 
 - (IBAction)changePanes:(id)sender  
 {
-	if ([self inspectedDocument]) {
-		NSRect windowFrame = [[self window] frame];
-		float deltaHeight;
-		if ([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"info"]) {
-			deltaHeight = [infoPanelView frame].size.height - [[[self window] contentView] frame].size.height;
-			[[self window] setContentView:infoPanelView];
-			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
-		} else if ([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"processing"]) {
-			deltaHeight = [processingPanelView frame].size.height - [[[self window] contentView] frame].size.height;
-			[[self window] setContentView:processingPanelView];
-			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
-		} else if (([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"view"]) && ([self inspectedGraphView])) {
-			deltaHeight = [viewPanelView frame].size.height - [[[self window] contentView] frame].size.height;
-			[[self window] setContentView:viewPanelView];
-			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
-		} else if (([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"display"]) && ([self inspectedGraphView])) {
-			deltaHeight = [displayPanelView frame].size.height - [[[self window] contentView] frame].size.height;
-			[[self window] setContentView:displayPanelView];
-			[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
-		} else {
-			[[self window] setContentView:naPanelView];
-		}		
-	} else {
-		[[self window] setContentView:naPanelView];
-	}
+    NSRect windowFrame = [[self window] frame];
+    float deltaHeight;
+    if (([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"info"]) && ([self inspectedDocument])) {
+        deltaHeight = [infoPanelView frame].size.height - [[[self window] contentView] frame].size.height;
+        [[self window] setContentView:infoPanelView];
+        [[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
+    } else if (([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"processing"]) && ([self inspectedDocument])) {
+        deltaHeight = [processingPanelView frame].size.height - [[[self window] contentView] frame].size.height;
+        [[self window] setContentView:processingPanelView];
+        [[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
+    } else if (([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"view"]) && ([self inspectedGraphView])) {
+        deltaHeight = [viewPanelView frame].size.height - [[[self window] contentView] frame].size.height;
+        [[self window] setContentView:viewPanelView];
+        [[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
+    } else if (([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"display"]) && ([self inspectedGraphView])) {
+        deltaHeight = [displayPanelView frame].size.height - [[[self window] contentView] frame].size.height;
+        [[self window] setContentView:displayPanelView];
+        [[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
+    } else {
+        [[self window] setContentView:naPanelView];
+    }		
 }
 
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar  
 {
-     return [[inspectorListForDocument allKeys] arrayByAddingObjectsFromArray:[inspectorListForMyGraphView allKeys]];
-}
+    return [NSArray arrayWithObjects:@"info", @"processing", @"view", @"display", nil];}
 
 - (NSArray*) toolbarSelectableItemIdentifiers: (NSToolbar *) toolbar  
 {
-     return [self toolbarDefaultItemIdentifiers:toolbar];
+    return [self toolbarDefaultItemIdentifiers:toolbar];
 }
 
 - (NSArray*) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar  

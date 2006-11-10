@@ -32,9 +32,6 @@
     IBOutlet NSButton *legendFontButton;
     IBOutlet NSButton *axesLabelFontButton;
     
-	NSMutableDictionary*	inspectorListForDocument;		// Auto-generated from tab view's items.
-	NSMutableDictionary*	inspectorListForMyGraphView;		// Auto-generated from tab view's items.
-
 	IBOutlet NSObjectController *inspectedDocumentController;
     MyGraphView *inspectedGraphView;
 	NSDocument *inspectedDocument;
@@ -52,14 +49,10 @@
 - (IBAction)changePanes:(id)sender;
 
 #pragma mark ACCESSORS
-
-//- (NSDocument *)inspectedDocument;
-//- (void)setInspectedDocument:(NSDocument *)document;
 idAccessor_h(inspectedGraphView, setInspectedGraphView)
 idAccessor_h(inspectedDocument, setInspectedDocument)
 
 #pragma mark MENU VALIDATION
-
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem;
 
 @end
