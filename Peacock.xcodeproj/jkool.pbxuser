@@ -120,7 +120,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					10,
+					717,
 					20,
 					48,
 					43,
@@ -684,6 +684,24 @@
 			C7E7F5020B04B91100C838E5 /* PBXTextBookmark */ = C7E7F5020B04B91100C838E5 /* PBXTextBookmark */;
 			C7E7F5030B04B91100C838E5 /* PBXTextBookmark */ = C7E7F5030B04B91100C838E5 /* PBXTextBookmark */;
 			C7E7F5040B04B92200C838E5 /* PBXTextBookmark */ = C7E7F5040B04B92200C838E5 /* PBXTextBookmark */;
+			C7E7F5060B04BBF400C838E5 /* PBXTextBookmark */ = C7E7F5060B04BBF400C838E5 /* PBXTextBookmark */;
+			C7E7F5070B04BBF400C838E5 /* PBXTextBookmark */ = C7E7F5070B04BBF400C838E5 /* PBXTextBookmark */;
+			C7E7F5080B04BBF400C838E5 /* PBXTextBookmark */ = C7E7F5080B04BBF400C838E5 /* PBXTextBookmark */;
+			C7E7F5090B04BBF400C838E5 /* PBXTextBookmark */ = C7E7F5090B04BBF400C838E5 /* PBXTextBookmark */;
+			C7E7F50A0B04BBF400C838E5 /* PBXTextBookmark */ = C7E7F50A0B04BBF400C838E5 /* PBXTextBookmark */;
+			C7E7F50B0B04BBF400C838E5 /* PBXTextBookmark */ = C7E7F50B0B04BBF400C838E5 /* PBXTextBookmark */;
+			C7E7F50C0B04BBFB00C838E5 /* PBXTextBookmark */ = C7E7F50C0B04BBFB00C838E5 /* PBXTextBookmark */;
+			C7E7F50D0B04BBFB00C838E5 /* PBXTextBookmark */ = C7E7F50D0B04BBFB00C838E5 /* PBXTextBookmark */;
+			C7E7F50E0B04BBFB00C838E5 /* PBXTextBookmark */ = C7E7F50E0B04BBFB00C838E5 /* PBXTextBookmark */;
+			C7E7F50F0B04BBFB00C838E5 /* PBXTextBookmark */ = C7E7F50F0B04BBFB00C838E5 /* PBXTextBookmark */;
+			C7E7F5100B04BE7E00C838E5 /* PBXTextBookmark */ = C7E7F5100B04BE7E00C838E5 /* PBXTextBookmark */;
+			C7E7F5120B04BE8200C838E5 /* PBXTextBookmark */ = C7E7F5120B04BE8200C838E5 /* PBXTextBookmark */;
+			C7E7F5130B04BE8200C838E5 /* PBXTextBookmark */ = C7E7F5130B04BE8200C838E5 /* PBXTextBookmark */;
+			C7E7F5140B04BE8200C838E5 /* PBXTextBookmark */ = C7E7F5140B04BE8200C838E5 /* PBXTextBookmark */;
+			C7E7F5160B04C04600C838E5 /* PBXTextBookmark */ = C7E7F5160B04C04600C838E5 /* PBXTextBookmark */;
+			C7E7F5170B04C04A00C838E5 /* PBXTextBookmark */ = C7E7F5170B04C04A00C838E5 /* PBXTextBookmark */;
+			C7E7F5180B04C04A00C838E5 /* PBXTextBookmark */ = C7E7F5180B04C04A00C838E5 /* PBXTextBookmark */;
+			C7E7F5190B04C04A00C838E5 /* PBXTextBookmark */ = C7E7F5190B04C04A00C838E5 /* PBXTextBookmark */;
 			C7EA82380A96014F00E2523F = C7EA82380A96014F00E2523F /* PBXTextBookmark */;
 			C7EA823A0A96014F00E2523F = C7EA823A0A96014F00E2523F /* PBXTextBookmark */;
 			C7EB17DD0898CF2E007FC2ED = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
@@ -2601,6 +2619,13 @@
 			sepNavIntBoundsRect = "{{0, 0}, {933, 442}}";
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRect = "{{0, 0}, {933, 442}}";
+		};
+	};
+	C73290E60AD68F9800D95E36 /* JKExperiment.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {933, 544}}";
+			sepNavSelRange = "{102, 0}";
+			sepNavVisRect = "{{0, 0}, {933, 544}}";
 		};
 	};
 	C73290E70AD68F9800D95E36 /* JKExperiment.m */ = {
@@ -6438,6 +6463,186 @@
 		vrLen = 1089;
 		vrLoc = 6991;
 	};
+	C7E7F5060B04BBF400C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */;
+		name = "JKPanelController.m: 221";
+		rLen = 0;
+		rLoc = 7070;
+		rType = 0;
+		vrLen = 916;
+		vrLoc = 6991;
+	};
+	C7E7F5070B04BBF400C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DE0898CF2E007FC2ED /* JKPanelController.h */;
+		name = "JKPanelController.h: NSObjectController";
+		rLen = 0;
+		rLoc = 888;
+		rType = 0;
+		vrLen = 963;
+		vrLoc = 275;
+	};
+	C7E7F5080B04BBF400C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C73290E60AD68F9800D95E36 /* JKExperiment.h */;
+		name = "JKExperiment.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 102;
+		vrLoc = 0;
+	};
+	C7E7F5090B04BBF400C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */;
+		name = "JKPanelController.m: 221";
+		rLen = 0;
+		rLoc = 7070;
+		rType = 0;
+		vrLen = 916;
+		vrLoc = 6991;
+	};
+	C7E7F50A0B04BBF400C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DE0898CF2E007FC2ED /* JKPanelController.h */;
+		name = "JKPanelController.h: NSObjectController";
+		rLen = 0;
+		rLoc = 888;
+		rType = 0;
+		vrLen = 963;
+		vrLoc = 275;
+	};
+	C7E7F50B0B04BBF400C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C73290E60AD68F9800D95E36 /* JKExperiment.h */;
+		name = "JKExperiment.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 102;
+		vrLoc = 0;
+	};
+	C7E7F50C0B04BBFB00C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C73290E60AD68F9800D95E36 /* JKExperiment.h */;
+		name = "JKExperiment.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 102;
+		vrLoc = 0;
+	};
+	C7E7F50D0B04BBFB00C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */;
+		name = "JKPanelController.m: 221";
+		rLen = 0;
+		rLoc = 7070;
+		rType = 0;
+		vrLen = 1052;
+		vrLoc = 6597;
+	};
+	C7E7F50E0B04BBFB00C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C73290E60AD68F9800D95E36 /* JKExperiment.h */;
+		name = "JKExperiment.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 102;
+		vrLoc = 0;
+	};
+	C7E7F50F0B04BBFB00C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */;
+		name = "MyGraphDataSerie.h: setDataArray:";
+		rLen = 0;
+		rLoc = 1629;
+		rType = 0;
+		vrLen = 1597;
+		vrLoc = 644;
+	};
+	C7E7F5100B04BE7E00C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C73290E60AD68F9800D95E36 /* JKExperiment.h */;
+		name = "JKExperiment.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 102;
+		vrLoc = 0;
+	};
+	C7E7F5120B04BE8200C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C73290E60AD68F9800D95E36 /* JKExperiment.h */;
+		name = "JKExperiment.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 102;
+		vrLoc = 0;
+	};
+	C7E7F5130B04BE8200C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C73290E60AD68F9800D95E36 /* JKExperiment.h */;
+		name = "JKExperiment.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 102;
+		vrLoc = 0;
+	};
+	C7E7F5140B04BE8200C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */;
+		name = "MyGraphDataSerie.h: setDataArray:";
+		rLen = 0;
+		rLoc = 1629;
+		rType = 0;
+		vrLen = 1597;
+		vrLoc = 644;
+	};
+	C7E7F5160B04C04600C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C73290E60AD68F9800D95E36 /* JKExperiment.h */;
+		name = "JKExperiment.h: 6";
+		rLen = 0;
+		rLoc = 102;
+		rType = 0;
+		vrLen = 102;
+		vrLoc = 0;
+	};
+	C7E7F5170B04C04A00C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C73290E60AD68F9800D95E36 /* JKExperiment.h */;
+		name = "JKExperiment.h: 6";
+		rLen = 0;
+		rLoc = 102;
+		rType = 0;
+		vrLen = 102;
+		vrLoc = 0;
+	};
+	C7E7F5180B04C04A00C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C73290E60AD68F9800D95E36 /* JKExperiment.h */;
+		name = "JKExperiment.h: 6";
+		rLen = 0;
+		rLoc = 102;
+		rType = 0;
+		vrLen = 102;
+		vrLoc = 0;
+	};
+	C7E7F5190B04C04A00C838E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */;
+		name = "MyGraphDataSerie.h: setDataArray:";
+		rLen = 0;
+		rLoc = 1629;
+		rType = 0;
+		vrLen = 1597;
+		vrLoc = 644;
+	};
 	C7EA82380A96014F00E2523F /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = C7EB17EA0898CF2F007FC2ED /* JKSpectrum.h */;
@@ -6702,8 +6907,8 @@
 	C7EB17DE0898CF2E007FC2ED /* JKPanelController.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {933, 826}}";
-			sepNavSelRange = "{1437, 0}";
-			sepNavVisRect = "{{0, 282}, {933, 544}}";
+			sepNavSelRange = "{888, 0}";
+			sepNavVisRect = "{{0, 194}, {933, 478}}";
 			sepNavWindowFrame = "{{15, -5}, {891, 832}}";
 		};
 	};
@@ -6711,7 +6916,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {933, 5362}}";
 			sepNavSelRange = "{7070, 0}";
-			sepNavVisRect = "{{0, 3038}, {933, 478}}";
+			sepNavVisRect = "{{0, 2843}, {933, 544}}";
 			sepNavWindowFrame = "{{15, 7}, {950, 820}}";
 		};
 	};

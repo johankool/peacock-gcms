@@ -13,6 +13,7 @@
                 fix = id; 
                 identifyCompounds = id; 
                 identifyPeaks = id; 
+                next = id; 
                 obtainBaseline = id; 
                 openNext = id; 
                 previous = id; 
