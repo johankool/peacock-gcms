@@ -160,7 +160,6 @@
 		32DBCF750370BD2300C91783 /* Peacock_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Peacock_Prefix.pch; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* Peacock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Peacock.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C70C0F0209881CC700579ACD /* peacock.xml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = peacock.xml; path = ../../Sites/peacock/peacock.xml; sourceTree = SOURCE_ROOT; };
 		C70DB8EB09573BEA00C2B386 /* JKRatio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKRatio.h; sourceTree = "<group>"; };
 		C70DB8EC09573BEA00C2B386 /* JKRatio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKRatio.m; sourceTree = "<group>"; };
 		C70DC00F095B1FDB00C2B386 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
@@ -857,7 +856,6 @@
 		C7EB18070898CFBD007FC2ED /* Text */ = {
 			isa = PBXGroup;
 			children = (
-				C70C0F0209881CC700579ACD /* peacock.xml */,
 				C70DC019095B205500C2B386 /* Credits.rtf */,
 				C7EB180E0898CFBD007FC2ED /* ReadMe.rtf */,
 				C7EB180A0898CFBD007FC2ED /* License.rtf */,

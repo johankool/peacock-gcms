@@ -56,8 +56,6 @@ static void *DocumentObservationContext = (void *)1100;
 		markAsIdentifiedThreshold = [[defaultValues valueForKey:@"markAsIdentifiedThreshold"] retain];
 		minimumScoreSearchResults = [[defaultValues valueForKey:@"minimumScoreSearchResults"] retain];
         
-        [self addObserver:mainWindowController forKeyPath:@"metadata.sampleCode" options:nil context:DocumentObservationContext];
-        [self addObserver:mainWindowController forKeyPath:@"metadata.sampleDescription" options:nil context:DocumentObservationContext];
 
 //        [self setPrintInfo:[NSPrintInfo sharedPrintInfo]];
 //        NSLog(@"%d", [[NSPrintInfo sharedPrintInfo] orientation]);
@@ -66,11 +64,20 @@ static void *DocumentObservationContext = (void *)1100;
     return self;
 }
 
+- (void)addWindowController:(NSWindowController *)windowController {
+    if (windowController == mainWindowController) {
+        [self addObserver:mainWindowController forKeyPath:@"metadata.sampleCode" options:nil context:DocumentObservationContext];
+        [self addObserver:mainWindowController forKeyPath:@"metadata.sampleDescription" options:nil context:DocumentObservationContext];
+    }
+    
+    [super addWindowController:windowController];
+}
+
 - (void)removeWindowController:(NSWindowController *)windowController {
-//    if (windowController == mainWindowController) {
-//        [self removeObserver:mainWindowController forKeyPath:@"metadata.sampleCode"];
-//        [self removeObserver:mainWindowController forKeyPath:@"metadata.sampleDescription"];        
-//    }
+    if (windowController == mainWindowController) {
+        [self removeObserver:mainWindowController forKeyPath:@"metadata.sampleCode"];
+        [self removeObserver:mainWindowController forKeyPath:@"metadata.sampleDescription"];        
+    }
         
     [super removeWindowController:windowController];
 }
