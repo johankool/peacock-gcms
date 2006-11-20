@@ -120,6 +120,7 @@
 		C7EB18570898D1D6007FC2ED /* JKPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17E90898CF2F007FC2ED /* JKPreferencesWindowController.m */; };
 		C7EB18580898D1D7007FC2ED /* JKSpectrum.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */; };
 		C7EB185B0898D20E007FC2ED /* libnetcdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7EB17AE0898CF2E007FC2ED /* libnetcdf.a */; };
+		C7F0D0560B11D9030046F994 /* MWController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D0550B11D9030046F994 /* MWController.h */; };
 		C7F5E8F508EAA98600AC1068 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKLibraryEntry.m */; };
 		C7F897400A188B0D00A65A24 /* JKPathPopUpButton.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8973E0A188B0D00A65A24 /* JKPathPopUpButton.h */; };
 		C7F897410A188B0D00A65A24 /* JKPathPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8973F0A188B0D00A65A24 /* JKPathPopUpButton.m */; };
@@ -333,7 +334,6 @@
 		C7EB17F00898CFBC007FC2ED /* MolTypes.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = MolTypes.c; sourceTree = "<group>"; };
 		C7EB17F10898CFBC007FC2ED /* MolTypes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MolTypes.h; sourceTree = "<group>"; };
 		C7EB17F20898CFBC007FC2ED /* MolWeight.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MolWeight.h; sourceTree = "<group>"; };
-		C7EB17F30898CFBC007FC2ED /* MWController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWController.h; sourceTree = "<group>"; };
 		C7EB17F40898CFBC007FC2ED /* MWController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWController.m; sourceTree = "<group>"; };
 		C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MyGraphDataSerie.h; sourceTree = "<group>"; };
 		C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MyGraphDataSerie.m; sourceTree = "<group>"; };
@@ -350,6 +350,7 @@
 		C7EB180A0898CFBD007FC2ED /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
 		C7EB180D0898CFBD007FC2ED /* periodic.table */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = periodic.table; sourceTree = "<group>"; };
 		C7EB180E0898CFBD007FC2ED /* ReadMe.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ReadMe.rtf; sourceTree = "<group>"; };
+		C7F0D0550B11D9030046F994 /* MWController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWController.h; sourceTree = "<group>"; };
 		C7F5E8F308EAA98600AC1068 /* JKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKLibraryEntry.h; sourceTree = "<group>"; };
 		C7F5E8F408EAA98600AC1068 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = "<group>"; };
 		C7F8973E0A188B0D00A65A24 /* JKPathPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKPathPopUpButton.h; sourceTree = "<group>"; };
@@ -562,7 +563,7 @@
 				C7328F230AD5B5C300D95E36 /* JKGAML.xcdatamodel */,
 				C716B4C30AD6AB2200DA408E /* Generated */,
 			);
-			name = GAML;
+			path = GAML;
 			sourceTree = "<group>";
 		};
 		C72C85C8098BF12600CEF565 /* Tests */ = {
@@ -712,11 +713,11 @@
 				C7EB17F00898CFBC007FC2ED /* MolTypes.c */,
 				C7EB17F10898CFBC007FC2ED /* MolTypes.h */,
 				C7EB17F20898CFBC007FC2ED /* MolWeight.h */,
-				C7EB17F30898CFBC007FC2ED /* MWController.h */,
 				C7EB17F40898CFBC007FC2ED /* MWController.m */,
+				C7F0D0550B11D9030046F994 /* MWController.h */,
 				C7EB18060898CFBD007FC2ED /* Parseable.h */,
 			);
-			name = MolWeight;
+			path = MolWeight;
 			sourceTree = "<group>";
 		};
 		C773290B08CA614200222B5B /* Models */ = {
@@ -783,7 +784,7 @@
 				C79A6152094DBE3A00C0887E /* RBSplitView.m */,
 				C79A6153094DBE3A00C0887E /* RBSplitViewPrivateDefines.h */,
 			);
-			name = RBSplitView;
+			path = RBSplitView;
 			sourceTree = "<group>";
 		};
 		C7E5B1C50A14930600BB2291 /* BDAlias */ = {
@@ -889,6 +890,7 @@
 				C73291070AD68F9800D95E36 /* JKFileWell.h in Headers */,
 				C73291120AD68F9800D95E36 /* JKSynchroScrollView.h in Headers */,
 				C7BDA6C20AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h in Headers */,
+				C7F0D0560B11D9030046F994 /* MWController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

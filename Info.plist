@@ -9,24 +9,6 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>gaml</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>peacock_document</string>
-			<key>CFBundleTypeName</key>
-			<string>GAML Document</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSDocumentClass</key>
-			<string>JKGAMLDocument</string>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>XML</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
 				<string>jdx</string>
 				<string>dx</string>
 				<string>hpj</string>
@@ -161,7 +143,7 @@
 			<key>NSDocumentClass</key>
 			<string>JKGCMSDocument</string>
 		</dict>
-        <dict>
+		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>gaml-xml</string>
@@ -178,6 +160,24 @@
 			<array>
 				<string>????</string>
 			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>JKGAMLDocument</string>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>XML</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>gaml</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>peacock_document</string>
+			<key>CFBundleTypeName</key>
+			<string>GAML Document</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSTypeIsPackage</key>

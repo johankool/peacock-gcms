@@ -19,6 +19,11 @@ extern NSString *const JKGCMSDocument_DocumentActivateNotification;
 extern NSString *const JKGCMSDocument_DocumentLoadedNotification;
 extern int const JKGCMSDocument_Version;
 
+/*!
+    @class
+    @abstract    Document containing GCMS data.
+    @discussion  (comprehensive description)
+*/
 @interface JKGCMSDocument : NSDocument
 {
 	// Window controller
@@ -80,6 +85,9 @@ extern int const JKGCMSDocument_Version;
     NSRect _originalFrame;
 }
 
+/*! 
+    @functiongroup IMPORT/EXPORT ACTIONS
+*/
 #pragma mark IMPORT/EXPORT ACTIONS
 
 - (NSString *)exportTabDelimitedText;
@@ -88,19 +96,43 @@ extern int const JKGCMSDocument_Version;
 - (NSArray *)readJCAMPString:(NSString *)inString;
 - (NSComparisonResult)metadataCompare:(JKGCMSDocument *)otherDocument;
 
+/*! 
+    @functiongroup Actions
+*/
 #pragma mark ACTIONS
 
 - (ChromatogramGraphDataSerie *)obtainTICChromatogram;
 - (void)obtainBaseline;
 - (void)addChromatogramForMass:(NSString *)inString;
 - (ChromatogramGraphDataSerie *)chromatogramForMass:(NSString *)inString;
-- (void)identifyPeaks;
+
+/*!
+    @method     
+    @abstract   Identifies peaks using IWV method.
+    @discussion Identify Peaks using method described in Jarman2003.
+*/
+-(void)identifyPeaks;
+
+/*!
+    @method     
+    @abstract   Reset values for processing data to defaults.
+    @discussion The variables used for the processing of the data can be reset to the defaults in Peacock's preferences using this method.
+*/
 - (void)resetToDefaultValues;
 - (BOOL)searchLibraryForAllPeaks:(id)sender;
 - (void)redistributedSearchResults:(JKPeakRecord *)originatingPeak;
 
+/*!
+    @functiongroup Helper Actions
+*/
 #pragma mark HELPER ACTIONS
 
+/*!
+    @method     
+    @abstract   Calculates the baseline value at a given scan.
+    @param      scan    Scan for which the baseline value needs to be calculated.
+    @result     Returns the baseline value.
+*/
 - (float)baselineValueAtScan:(int)inValue;
 
 #pragma mark ACCESSORS

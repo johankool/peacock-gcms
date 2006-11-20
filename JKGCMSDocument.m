@@ -629,7 +629,7 @@ static void *DocumentObservationContext = (void *)1100;
     NSMutableArray *mutArray = [[NSMutableArray alloc] init];
 	for (i = 0; i < numberOfPoints; i++) {
 		NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:time[i]/60.0f], @"Time",
-			[NSNumber numberWithInt:i], @"Scan",
+			[NSNumber numberWithInt:i], @"Scan", [NSNumber numberWithFloat:[self retentionIndexForScan:i]], @"Retention Index",
 			[NSNumber numberWithFloat:totalIntensity[i]], @"Total Intensity", nil];
 		[mutArray addObject:dict];      
 		[dict release];
@@ -738,7 +738,7 @@ static void *DocumentObservationContext = (void *)1100;
 	[self didChangeValueForKey:@"baseline"];
 }	
 
-- (void)identifyPeaks  
+- (void)identifyPeaksOff
 {
 	int i,j, peakCount, answer;
 	int start, end, top;
@@ -920,39 +920,44 @@ static void *DocumentObservationContext = (void *)1100;
 }
 
 
--(void)identifyPeaksUsingIntensityWeightedVariance {
+-(void)identifyPeaks { //UsingIntensityWeightedVariance {
     // Identify Peaks using method described in Jarman2003
     
     float desiredSignificance = 0.95; // set by user?
     
-    int windowWidth; // increasing from 11 to 200 increasing by 1.5 times per iteration (that is 7 steps)
+    int windowWidth; // increasing from 11 to 200 increasing by 1.5 times per iteration (that is 8 steps) {11, 17, 26, 39, 59, 89, 134, 200}
     int stepSize; // = windowWidth/3;
     int step = 0;
-    float iwv[7][numberOfPoints];
+    float iwv[8][numberOfPoints];
     
     int i,j,n,scan,count,countOfValues;
     float t,a,q,d,mean,variance,sum,sumDenominator,sumDevisor;
     float *massValues, *intensityValues;
+    massValues = [self massValues];
+    intensityValues = [self intensityValues];
+    
     
     // Vary window width [3.4.0]
-    for (windowWidth = 11; windowWidth < 200; windowWidth = windowWidth *1.5) {
+    windowWidth = 7; // *1.5 is 11
+    for (step = 0; step < 8; step++) {
+        windowWidth = lroundf(windowWidth *1.5f);
         stepSize = windowWidth/3;
-        step++;
-        //intensityValues = ??;
-        
+
         // Calculate mean
         sum = 0.0;
-        for (j = i; j < windowWidth; j++) {
+        for (j = 0; j < windowWidth; j++) {
+            NSLog(@"intensityValues[%d]: %f", j, intensityValues[j]);
             sum = sum + intensityValues[j];
         }
         mean = sum/windowWidth;
-        
+
         // Calculate variance
         sum = 0.0;
-        for (j = i; j < windowWidth; j++) {
+        for (j = 0; j < windowWidth; j++) {
             sum = sum + pow((intensityValues[j]-mean),2);
         }
         variance = sqrt(sum/windowWidth);
+
         
         // Calculate threshold [3.4.1]
         // Solving -q/d*n*(1-t)/sqrt(n*((3*(3*n^2-7))/(5*(n^2-1))-2*t+t^2))=a for t results on
@@ -962,12 +967,13 @@ static void *DocumentObservationContext = (void *)1100;
         n = windowWidth;
         a = desiredSignificance;
         q = mean;
-        d = sqrt(variance);
+        d = variance;
+        NSLog(@"windowWidth: %d | desiredSignificance: %g | mean: %g |d: %g", n,a,q,d);
         t = (-5*pow(q,2)*pow(n,3)+5*pow(a,2)*pow(d,2)*pow(n,2)+5*pow(q,2)*n-5*pow(a,2)*pow(d,2)+2*sqrt(5) * sqrt(pow(a,2)*pow(d,2)*pow(q,2)*pow(n,5)-pow(a,4)*pow(d,4)*pow(n,4)-5*pow(a,2)*pow(d,2)*pow(q,2)*pow(n,3) + 5*pow(a,4)*pow(d,4)*pow(n,2)+4*pow(a,2)*pow(d,2)*pow(q,2)*n-4*pow(a,4)*pow(d,4))) / (5*(-pow(q,2)*pow(n,3)+pow(a,2)*pow(d,2)*pow(n,2)+pow(q,2)*n-pow(a,2)*pow(d,2)));
-        
+        NSLog(@"threshold: %g",t);
         
         // Step through
-        for (scan = 0; scan < numberOfPoints; scan = scan+stepSize) {
+        for (scan = 0; scan < numberOfPoints-1; scan = scan+stepSize) {
             // Calculate iwv [3.4.2]
             countOfValues = [self countOfValuesForSpectrumAtScan:scan];
             massValues = [self massValuesForSpectrumAtScan:scan];
@@ -983,7 +989,9 @@ static void *DocumentObservationContext = (void *)1100;
                 sumDenominator = sumDenominator + (intensityValues[j]*pow((massValues[j]-mean),2));
                 sumDevisor = sumDevisor + intensityValues[j];
             }
-            iwv[step][i] = sumDenominator/sumDevisor;
+            //NSLog(@"iwv[%d][%d]: %g",step, scan, (sumDenominator/sumDevisor));
+
+            iwv[step][scan] = (sumDenominator/sumDevisor);
         }
         
     }
@@ -998,6 +1006,7 @@ static void *DocumentObservationContext = (void *)1100;
         }
         if (count >= 2) {
             // A peak has been detected at scan i
+           // NSLog(@"peak at scan %d",i);
         }
     }
     
@@ -1216,15 +1225,15 @@ static void *DocumentObservationContext = (void *)1100;
     return numberOfPoints-1;
 }
 
-- (float)retentionIndexForScan:(int)scan  
-{
-    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
-    float   x;
-    
-    x = [self timeForScan:scan];
-    
-    return (x/60) * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
-}
+//- (float)retentionIndexForScan:(int)scan  
+//{
+//    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
+//    float   x;
+//    
+//    x = [self timeForScan:scan];
+//    
+//    return (x/60) * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
+//}
 
 - (float *)massValuesForSpectrumAtScan:(int)scan  
 {
@@ -1580,6 +1589,51 @@ static void *DocumentObservationContext = (void *)1100;
 	}
 	
 	return (highestInten-lowestInten) * ((inValue-lowestScan)/(highestScan-lowestScan)) + lowestInten; 
+}
+
+- (float)retentionIndexForScan:(int)scan {
+    return (time[scan]/60.0f) * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
+}
+
+
+- (float *)massValues {
+    int     dummy, dimid, num_pts, varid;
+    float 	*result;
+
+    dummy = nc_inq_dimid(ncid, "point_number", &dimid);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension failed. Report error #%d.", dummy); return nil;}
+    
+    dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_pts);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return nil;}
+    
+    dummy = nc_inq_varid(ncid, "mass_values", &varid);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return 0;}
+
+	result = (float *) malloc((num_pts)*sizeof(float));
+        
+	dummy = nc_get_var_float(ncid, varid, result);
+
+    return result;
+}
+
+- (float *)intensityValues {
+    int     dummy, dimid, num_pts, varid;
+    float 	*result;
+    
+    dummy = nc_inq_dimid(ncid, "point_number", &dimid);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension failed. Report error #%d.", dummy); return nil;}
+    
+    dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_pts);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return nil;}
+
+    dummy = nc_inq_varid(ncid, "intensity_values", &varid);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_values variable failed. Report error #%d.", dummy); return 0;}
+    
+	result = (float *) malloc((num_pts)*sizeof(float));
+
+	dummy = nc_get_var_float(ncid, varid, result);
+    
+    return result;
 }
 
 #pragma mark KEY VALUE CODING/OBSERVING
