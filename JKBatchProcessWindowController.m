@@ -207,10 +207,11 @@
 			NSData *pdfData;
             [chromatogramView setFrame:[pInfo imageablePageBounds]];
             [chromatogramView showAll:self];
+            [chromatogramView setShouldDrawShadow:NO];
             pdfData = [chromatogramView dataWithPDFInsideRect:NSMakeRect(-[pInfo imageablePageBounds].origin.x,-[pInfo imageablePageBounds].origin.y,[pInfo paperSize].width,[pInfo paperSize].height)];
             [chromatogramView setFrame:originalFrame];
             [chromatogramView showAll:self];
-            [chromatogramView setTitleString:originalTitle];
+             [chromatogramView setTitleString:originalTitle];
             [chromatogramView setNeedsDisplay:YES];
 			if (![pdfData writeToFile:path atomically:YES]) {
 				JKLogError(@"ERROR: File at %@ could not be saved as PDF File.",[[files objectAtIndex:i] valueForKey:@"path"]);				

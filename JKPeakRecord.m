@@ -54,6 +54,8 @@
 		[searchResults addObject:identifiedSearchResult];
 		return YES;		
 	} else {
+        [self setIdentified:YES];
+        [self setConfirmed:YES];
 		return NO;
 	}
 }

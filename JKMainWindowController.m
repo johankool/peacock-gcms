@@ -329,6 +329,7 @@ static void *SpectrumObservationContext = (void *)1102;
 
 - (IBAction)confirm:(id)sender  
 {
+#warning [BUG] UI not updated to reflect this change
 	NSEnumerator *enumerator = [[peakController selectedObjects] objectEnumerator];
 	id peak;
 	
@@ -338,7 +339,9 @@ static void *SpectrumObservationContext = (void *)1102;
 		} else if ([[searchResultsController selectedObjects] count] == 1) {
 			[peak identifyAs:[[searchResultsController selectedObjects] objectAtIndex:0]];
 			[peak confirm];
-		}
+		} else {
+            [peak confirm];
+        }
 	}
 }
 
@@ -383,9 +386,9 @@ static void *SpectrumObservationContext = (void *)1102;
 	id peak;
 	
 	while ((peak = [enumerator nextObject])) {
-		if ([peak identified]) {
+//		if ([peak identified]) {
 			[peak discard];
-		} 
+//		} 
 	}
 }
 
@@ -589,6 +592,7 @@ static void *SpectrumObservationContext = (void *)1102;
                 NSString *molString = [[[[self searchResultsController] selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.molString"];
                 if ((molString) && (![molString isEqualToString:@""])) {
                     [moleculeView setModel:[[[JKMoleculeModel alloc] initWithMoleculeString:molString] autorelease]];
+                    [moleculeSplitSubview setNeedsDisplay:YES];
                     [moleculeSplitSubview setHidden:NO];
                     [moleculeSplitSubview expandWithAnimation:YES withResize:NO];                                
                 } else {
@@ -605,6 +609,7 @@ static void *SpectrumObservationContext = (void *)1102;
                 NSString *molString = [[[[self searchResultsController] selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.molString"];
                 if ((molString) && (![molString isEqualToString:@""])) {
                     [moleculeView setModel:[[[JKMoleculeModel alloc] initWithMoleculeString:molString] autorelease]];
+                    [moleculeSplitSubview setNeedsDisplay:YES];
                     [moleculeSplitSubview setHidden:NO];
                     [moleculeSplitSubview expandWithAnimation:YES withResize:NO];                                
                 } else {

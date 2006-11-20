@@ -149,6 +149,8 @@ static int   kPaddingLabels             = 4;
         [shadow set]; 	    
     } else if ([self shouldDrawShadow]) {
     	[shadow set]; 	    
+    } else {
+        [noShadow set];
     }
     [[self plottingAreaColor] set];        
     
