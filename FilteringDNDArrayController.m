@@ -15,11 +15,11 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
 
 - (void)awakeFromNib
 {
-    // register for drag and drop
-    [tableView registerForDraggedTypes:
-		[NSArray arrayWithObjects:CopiedRowsType, MovedRowsType, nil]];
-    [tableView setAllowsMultipleSelection:YES];
-//    
+//    // register for drag and drop
+//    [tableView registerForDraggedTypes:
+//		[NSArray arrayWithObjects:CopiedRowsType, MovedRowsType, nil]];
+//    [tableView setAllowsMultipleSelection:YES];
+////    
 
 }
 

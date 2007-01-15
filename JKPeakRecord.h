@@ -13,7 +13,8 @@
 @interface JKPeakRecord : NSObject <NSCoding> {
     NSNumber *peakID;
 	JKGCMSDocument *document;
-	
+	NSString *model;
+    
 	// Set during peak identification
 	// number = actual scan number
     NSNumber *start;

@@ -55,14 +55,21 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
     BOOL shouldDrawFrameLeft;
     BOOL shouldDrawFrameBottom;
 	BOOL shouldDrawMajorTickMarks;
+	BOOL shouldDrawMajorTickMarksHorizontal;
+	BOOL shouldDrawMajorTickMarksVertical;
 	BOOL shouldDrawMinorTickMarks;
+	BOOL shouldDrawMinorTickMarksHorizontal;
+	BOOL shouldDrawMinorTickMarksVertical;
 	BOOL shouldDrawGrid;
 	BOOL shouldDrawLabels;
 	BOOL shouldDrawLabelsOnFrame;
+	BOOL shouldDrawLabelsOnFrameLeft;
+	BOOL shouldDrawLabelsOnFrameBottom;
 	BOOL shouldDrawShadow;
     NSFont *labelFont;
     NSFont *axesLabelFont;
     NSFont *legendFont;
+    int drawingMode; // 0 = normal; 1 = stacked
     
 	// Additions for Peacock
 	BOOL shouldDrawBaseline;
@@ -105,7 +112,7 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 - (void)refresh;
 
 // Additions for Peacock
-- (void)drawBaseline;
+//- (void)drawBaseline;
 //- (void)drawPeaks;
 
 #pragma mark ACTION ROUTINES
@@ -130,14 +137,14 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 
 #pragma mark BINDINGS
 - (NSMutableArray *)dataSeries;
-- (NSObject *)dataSeriesContainer;
-- (void)setDataSeriesContainer:(NSObject *)aDataSeriesContainer;
+- (NSArrayController *)dataSeriesContainer;
+- (void)setDataSeriesContainer:(NSArrayController *)aDataSeriesContainer;
 - (NSString *)dataSeriesKeyPath;
 - (void)setDataSeriesKeyPath:(NSString *)aDataSeriesKeyPath;
 
 - (NSMutableArray *)peaks;
-- (NSObject *)peaksContainer;
-- (void)setPeaksContainer:(NSObject *)aPeaksContainer;
+- (NSArrayController *)peaksContainer;
+- (void)setPeaksContainer:(NSArrayController *)aPeaksContainer;
 - (NSString *)peaksKeyPath;
 - (void)setPeaksKeyPath:(NSString *)aPeaksKeyPath;
 
@@ -208,14 +215,26 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 - (void)setShouldDrawFrame:(BOOL)inValue;
 - (BOOL)shouldDrawMajorTickMarks;
 - (void)setShouldDrawMajorTickMarks:(BOOL)inValue;
+- (BOOL)shouldDrawMajorTickMarksHorizontal;
+- (void)setShouldDrawMajorTickMarksHorizontal:(BOOL)inValue;
+- (BOOL)shouldDrawMajorTickMarksVertical;
+- (void)setShouldDrawMajorTickMarksVertical:(BOOL)inValue;
 - (BOOL)shouldDrawMinorTickMarks;
 - (void)setShouldDrawMinorTickMarks:(BOOL)inValue;
+- (BOOL)shouldDrawMinorTickMarksHorizontal;
+- (void)setShouldDrawMinorTickMarksHorizontal:(BOOL)inValue;
+- (BOOL)shouldDrawMinorTickMarksVertical;
+- (void)setShouldDrawMinorTickMarksVertical:(BOOL)inValue;
 - (BOOL)shouldDrawGrid;
 - (void)setShouldDrawGrid:(BOOL)inValue;
 - (BOOL)shouldDrawLabels;
 - (void)setShouldDrawLabels:(BOOL)inValue;
 - (BOOL)shouldDrawLabelsOnFrame;
 - (void)setShouldDrawLabelsOnFrame:(BOOL)inValue;
+- (BOOL)shouldDrawLabelsOnFrameLeft;
+- (void)setShouldDrawLabelsOnFrameLeft:(BOOL)inValue;
+- (BOOL)shouldDrawLabelsOnFrameBottom;
+- (void)setShouldDrawLabelsOnFrameBottom:(BOOL)inValue;
 - (BOOL)shouldDrawShadow;
 - (void)setShouldDrawShadow:(BOOL)inValue;
 

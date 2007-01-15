@@ -46,6 +46,8 @@ static void *SpectrumObservationContext = (void *)1102;
 		showLibraryHit = YES;
 		showNormalizedSpectra = YES;
 		showPeaks = JKAllPeaks;
+        
+        chromatogramDataSeries = [[NSMutableArray alloc] init];
 	}
     return self;
 }
@@ -60,15 +62,14 @@ static void *SpectrumObservationContext = (void *)1102;
 	// ChromatogramView bindings
 	[chromatogramView bind:@"dataSeries" toObject: chromatogramDataSeriesController
 			   withKeyPath:@"arrangedObjects" options:nil];
-	[chromatogramView bind:@"baseline" toObject: baselineController
-			   withKeyPath:@"arrangedObjects" options:nil];
+//	[chromatogramView bind:@"baseline" toObject: baselineController
+//			   withKeyPath:@"arrangedObjects" options:nil];
 	[chromatogramView bind:@"peaks" toObject: peakController
 			   withKeyPath:@"arrangedObjects" options:nil];
-	NSAssert([[chromatogramView dataSeries] count] > 0, @"No chromatogram dataseries to draw.");
-	if ([[chromatogramView dataSeries] objectAtIndex:0]) {
-		[[[chromatogramView dataSeries] objectAtIndex:0] bind:@"peaks" toObject: peakController
-												  withKeyPath:@"arrangedObjects" options:nil];
-	}
+//	if ([[chromatogramView dataSeries] objectAtIndex:0]) {
+//		[[[chromatogramView dataSeries] objectAtIndex:0] bind:@"peaks" toObject: peakController
+//												  withKeyPath:@"arrangedObjects" options:nil];
+//	}
 	
 	// SpectrumView bindings
 	[spectrumView bind:@"dataSeries" toObject: spectrumDataSeriesController
@@ -99,6 +100,7 @@ static void *SpectrumObservationContext = (void *)1102;
 	// Register as observer
 	[searchResultsController addObserver:self forKeyPath:@"selection" options:nil context:nil];
 	[peakController addObserver:self forKeyPath:@"selection" options:nil context:nil];
+	[[self document] addObserver:self forKeyPath:@"chromatograms" options:nil context:nil];
 		
 	// Double click action
 	[resultsTable setDoubleAction:@selector(resultDoubleClicked:)];
@@ -131,6 +133,7 @@ static void *SpectrumObservationContext = (void *)1102;
     if ([RBSplitSubview animating]) {
         sleep(1);
     }
+    [chromatogramDataSeries release];
     [super dealloc];
 }
 
@@ -138,14 +141,15 @@ static void *SpectrumObservationContext = (void *)1102;
 
 - (IBAction)obtainBaseline:(id)sender 
 {
-	[[self document] obtainBaseline];
+	[[[self document] chromatograms] makeObjectsPerformSelector:@selector(obtainBaseline)];
 	[chromatogramView setShouldDrawBaseline:YES];
 }
 
 
 - (IBAction)identifyPeaks:(id)sender 
 {
-	[[self document] identifyPeaks];
+	[[[self document] chromatograms] makeObjectsPerformSelector:@selector(identifyPeaks)];
+    [chromatogramView setShouldDrawPeaks:YES];
 }
 
 - (IBAction)identifyCompounds:(id)sender 
@@ -566,6 +570,9 @@ static void *SpectrumObservationContext = (void *)1102;
 					  ofObject:(id)object
 						change:(NSDictionary *)change
 					   context:(void *)context {
+    if ([keyPath isEqualToString:@"chromatograms"]) {
+        //[chromatogramDataSeriesController remove
+    }
 	if (((object == peakController) | (object == searchResultsController)) && (([peakController selection] != NSNoSelectionMarker) && ([searchResultsController selection] != NSNoSelectionMarker))) {
 		NSArray *peakArray = [[peakController selectedObjects] valueForKeyPath:@"spectrum.spectrumDataSerie"];
 		NSArray *searchResultsArray = [[searchResultsController selectedObjects] valueForKeyPath:@"libraryHit.spectrumDataSerieUpsideDown"];
@@ -817,10 +824,6 @@ static void *SpectrumObservationContext = (void *)1102;
     return chromatogramDataSeriesController;
 }
 
-- (NSArrayController *)baselineController  
-{
-    return baselineController;
-}
 - (NSTableView *)peaksTable  
 {
 	return peaksTable;
@@ -1037,5 +1040,6 @@ boolAccessor(showCombinedSpectrum, setShowCombinedSpectrum)
 boolAccessor(showLibraryHit, setShowLibraryHit)
 intAccessor(showPeaks, setShowPeaks)	
 idAccessor(printAccessoryView, setPrintAccessoryView)
+idAccessor(chromatogramDataSeries, setChromatogramDataSeries)
 
 @end

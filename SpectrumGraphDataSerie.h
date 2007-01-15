@@ -8,11 +8,15 @@
 
 #import "MyGraphDataSerie.h"
 
+@class JKSpectrum;
+
 @interface SpectrumGraphDataSerie : MyGraphDataSerie {
 	NSRect boundingRect;
 	BOOL drawUpsideDown;
 	BOOL normalizeYData;
 }
+
+- (id)initWithSpectrum:(JKSpectrum *)spectrum;
 
 #pragma mark ACCESSORS
 - (BOOL)drawUpsideDown;

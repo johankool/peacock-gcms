@@ -247,9 +247,12 @@
 	return [self scoreComparedToLibraryEntry:(JKLibraryEntry *)inSpectrum];
 }
 
+- (float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry { // Could be changed to id <protocol> to resolve warning	
+    return [self scoreComparedToSpectrum:libraryEntry usingMethod:[[self document] scoreBasis] penalizingForRententionIndex:[[self document] penalizeForRetentionIndex]];
+}
 //#pragma mark optimization_level 3
 
-- (float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry { // Could be changed to id <protocol> to resolve warning	
+- (float)scoreComparedToSpectrum:(JKSpectrum *)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex { // Could be changed to id <protocol> to resolve warning	
 	int i,j,k,count1,count2;
 	float score, score2, score3, maxIntensityLibraryEntry, maxIntensitySpectrum;
 	i=0; j=0; k=0; 
@@ -269,7 +272,7 @@
 	BOOL peakMassesAtEnd = NO;
 	BOOL libraryEntryMassesAtEnd = NO;
 	
-	switch ([[self document] scoreBasis]) {
+	switch (scoreBasis) {
 		case 0: // Using formula 1 in Gan 2001
 			while ((i < count1) & (j < count2)) {
 				// If we go beyond the bounds, we get unexpected results, so make sure we are within the bounds.
@@ -394,7 +397,7 @@
 	}
 	
 //	JKLogDebug(@"returned score %f score = %f score2 = %f", (1.0-score/score2)*100.0, score, score2);
-	if ([[self document] penalizeForRetentionIndex]) {
+	if (penalizeForRetentionIndex) {
 		float retentionIndexDelta, retentionIndexPenalty;
 		float retentionIndexLibrary         = [[libraryEntry valueForKey:@"retentionIndex"] floatValue];
 		if (retentionIndexLibrary == 0.0 || retentionIndex == nil) {

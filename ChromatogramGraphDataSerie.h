@@ -8,24 +8,25 @@
 
 #import "MyGraphDataSerie.h"
 
+@class JKChromatogram;
+
 @interface ChromatogramGraphDataSerie : MyGraphDataSerie {
-	BOOL shouldDrawPeaks;
-	
-	NSArrayController *peaksContainer;
-    NSString *peaksKeyPath;	
+	BOOL shouldDrawPeaks;	
+    JKChromatogram *chromatogram;
 }
+
+#pragma mark INITIALIZATION
+- (id)initWithChromatogram:(JKChromatogram *)aChromatogram;
 
 #pragma mark DRAWING ROUTINES
 - (void)drawPeaksWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view;
 
-#pragma mark BINDINGS
-- (NSMutableArray *)peaks;
-- (NSObject *)peaksContainer;
-- (void)setPeaksContainer:(NSObject *)aPeaksContainer;
-- (NSString *)peaksKeyPath;
-- (void)setPeaksKeyPath:(NSString *)aPeaksKeyPath;
+#pragma mark CONVENIENCE METHOD
+- (NSArray *)peaks;
 
 #pragma mark ACCESSORS
+- (JKChromatogram *)chromatogram;
+- (void)setChromatogram:(JKChromatogram *)aChromatogram;
 - (BOOL)shouldDrawPeaks;
 - (void)setShouldDrawPeaks:(BOOL)inValue;
 

@@ -7,6 +7,7 @@
 //
 
 #import "MyGraphDataSerie.h"
+#import "MyGraphView.h"
 
 static void *DictionaryObservationContext = (void *)1091;
 static void *ArrayObservationContext = (void *)1092;
@@ -39,6 +40,10 @@ static void *ArrayObservationContext = (void *)1092;
 	[super dealloc];
 }
 
+- (id)initWithArray:(NSArray *)array {
+    return [self init];
+}
+
 - (void)loadDataPoints:(int)npts withXValues:(float *)xpts andYValues:(float *)ypts  
 {
 	int i;
@@ -61,6 +66,7 @@ static void *ArrayObservationContext = (void *)1092;
 #pragma mark DRAWING ROUTINES
 - (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view  
 {
+    graphView = view;
 	NSBezierPath *bezierpath;
 	
 	// Hier gaan we van dataserie-coordinaten naar scherm-coordinaten.
@@ -128,6 +134,7 @@ static void *ArrayObservationContext = (void *)1092;
 
 - (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view  
 {
+    graphView = view;
 	int count = [[self dataArray] count];
 	if (count <= 0) {	
 		return;
@@ -414,6 +421,9 @@ static void *ArrayObservationContext = (void *)1092;
         [verticalScale autorelease];
         verticalScale = inValue;
         [self constructPlotPath];
+        if (graphView) {
+            [graphView setNeedsDisplayInRect:[graphView plottingArea]];
+        }
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];        
     }
 }

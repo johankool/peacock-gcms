@@ -35,7 +35,11 @@
 	NSNumber *verticalScale;
 	
 	NSArray *oldData;		
+    
+    MyGraphView *graphView;
 }
+
+- (id)initWithArray:(NSArray *)array;
 
 #pragma mark DRAWING ROUTINES
 - (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view;

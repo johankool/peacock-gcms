@@ -208,11 +208,21 @@
             [chromatogramView setFrame:[pInfo imageablePageBounds]];
             [chromatogramView showAll:self];
             [chromatogramView setShouldDrawShadow:NO];
+            [chromatogramView setShouldDrawGrid:NO];
+            [chromatogramView setShouldDrawPeaks:NO];
+            [chromatogramView setShouldDrawLegend:NO];
+            [chromatogramView setShouldDrawBaseline:NO];
+            [chromatogramView setLabelFont:[NSFont systemFontOfSize:8.0]];
             pdfData = [chromatogramView dataWithPDFInsideRect:NSMakeRect(-[pInfo imageablePageBounds].origin.x,-[pInfo imageablePageBounds].origin.y,[pInfo paperSize].width,[pInfo paperSize].height)];
             [chromatogramView setFrame:originalFrame];
             [chromatogramView showAll:self];
              [chromatogramView setTitleString:originalTitle];
-            [chromatogramView setNeedsDisplay:YES];
+             [chromatogramView setShouldDrawShadow:YES];
+             [chromatogramView setShouldDrawGrid:YES];
+             [chromatogramView setShouldDrawPeaks:NO];
+             [chromatogramView setShouldDrawLegend:YES];
+             [chromatogramView setNeedsDisplay:YES];
+             [chromatogramView setLabelFont:[NSFont systemFontOfSize:8.0]];
 			if (![pdfData writeToFile:path atomically:YES]) {
 				JKLogError(@"ERROR: File at %@ could not be saved as PDF File.",[[files objectAtIndex:i] valueForKey:@"path"]);				
 				errorOccurred = YES;

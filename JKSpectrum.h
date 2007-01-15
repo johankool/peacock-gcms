@@ -14,18 +14,22 @@
 @interface JKSpectrum : NSObject <NSCoding> {
 	JKGCMSDocument *document;
 	JKPeakRecord *peak;
-	
+	NSString *model;
+    
 	float retentionIndex;
-
-    float minimumIntensity;
-    float maximumIntensity;
-	float minimumMass;
-    float maximumMass;
 	
 	int numberOfPoints;
 	float *masses;
 	float *intensities;
+    
+    @private
+    float minimumIntensity;
+    float maximumIntensity;
+	float minimumMass;
+    float maximumMass;    
 }
+
+-(id)initWithDocument:(JKGCMSDocument *)inDocument forModel:(NSString *)model;
 
 #pragma mark ACTIONS
 
@@ -38,6 +42,7 @@
 
 - (float)scoreComparedToSpectrum:(JKSpectrum *)inSpectrum;
 - (float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry;
+- (float)scoreComparedToSpectrum:(JKSpectrum *)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex;
 
 #pragma mark ACCESSORS
 - (void)setDocument:(JKGCMSDocument *)inValue;

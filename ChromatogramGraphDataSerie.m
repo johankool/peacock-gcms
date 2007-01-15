@@ -7,28 +7,22 @@
 //
 
 #import "ChromatogramGraphDataSerie.h"
+#import "JKChromatogram.h"
+#import "MyGraphView.h"
 
 static void *DictionaryObservationContext = (void *)1091;
 static void *ArrayObservationContext = (void *)1092;
 static void *PropertyObservationContext = (void *)1093;
-static void *PeaksObservationContext = (void *)1094;
 
 @implementation ChromatogramGraphDataSerie
 
 #pragma mark INITIALIZATION
 
-+ (void)initialize 
-{
-	// Bindings support
-	[self exposeBinding:@"peaks"];
-}	
-- (NSArray *)exposedBindings 
-{
-	return [NSArray arrayWithObjects:@"peaks", nil];
+- (id)init {
+    return [self initWithChromatogram:nil];
 }
 
-- (id)init  
-{
+- (id)initWithChromatogram:(JKChromatogram *)aChromatogram {
     self = [super init];
     if (self) {
         // Zet de standaardwaarden
@@ -36,17 +30,18 @@ static void *PeaksObservationContext = (void *)1094;
 		[self setSeriesType:1];
 		[self setShouldDrawPeaks:YES];
 		[self setShouldDrawLabels:YES];
-        
+        [self setVerticalScale:[NSNumber numberWithFloat:1.0]];
+        [self setChromatogram:aChromatogram];
 		// Creeer de plot een eerste keer.
 		[self constructPlotPath];
 	}
     return self;
 }
 
-
 #pragma mark DRAWING ROUTINES
 - (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view
 {
+    graphView = view;
 	NSBezierPath *bezierpath;
 	
 	if (!plotPath) [self constructPlotPath];
@@ -103,6 +98,7 @@ static void *PeaksObservationContext = (void *)1094;
 
 - (void)drawPeaksWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view
 {
+    graphView = view;
 	int i, count;
 
 	// Get peaks count
@@ -169,7 +165,7 @@ static void *PeaksObservationContext = (void *)1094;
 
 	// Draw seleced peak!
 	NSArray *selectedPeaks = [NSArray array];
-	selectedPeaks = [[self peaks] objectsAtIndexes:[peaksContainer selectionIndexes]];
+	selectedPeaks = [[self peaks] objectsAtIndexes:[[view peaksContainer] selectionIndexes]];
 	count = [selectedPeaks count];
 	NSBezierPath *arrowPath = [[NSBezierPath alloc] init];
 	
@@ -248,6 +244,7 @@ static void *PeaksObservationContext = (void *)1094;
 
 - (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view
 {
+    graphView = view;
 	int count = [[self peaks] count];
 	if (count <= 0)		
 		return;
@@ -274,17 +271,20 @@ static void *PeaksObservationContext = (void *)1094;
     }
     
 	for (i=0; i<count; i++) {
-		if ([[[self peaks] objectAtIndex:i] valueForKeyPath:@"symbol"] && ![[[[self peaks] objectAtIndex:i] valueForKeyPath:@"symbol"] isEqualToString:@""]) {
+		if ([[[self peaks] objectAtIndex:i] valueForKeyPath:@"symbol"] && ![[[[self peaks] objectAtIndex:i] valueForKeyPath:@"symbol"] isEqualToString:@""] && [[[[self peaks] objectAtIndex:i] valueForKeyPath:@"identified"] boolValue]) {
 			string = [[NSMutableAttributedString alloc] initWithString:[[[self peaks] objectAtIndex:i] valueForKey:@"symbol"] attributes:attrs];
 			drawVertical = NO; drawLabelAlways = YES;
 		} else if ([[[self peaks] objectAtIndex:i] valueForKeyPath:@"label"] && ![[[[self peaks] objectAtIndex:i] valueForKeyPath:@"label"] isEqualToString:@""]) {
 			string = [[NSMutableAttributedString alloc] initWithString:[[[self peaks] objectAtIndex:i] valueForKey:@"label"] attributes:attrs];
-			drawVertical = YES; drawLabelAlways = NO;
+			drawVertical = YES; drawLabelAlways = YES;
 		} else {
-			string = [[NSMutableAttributedString alloc] initWithString:[[[[self peaks] objectAtIndex:i] valueForKey:@"peakID"] stringValue] attributes:attrs];
-			drawVertical = NO; drawLabelAlways = NO;
-		}
-		
+            continue;
+        }
+      //  else {
+//			string = [[NSMutableAttributedString alloc] initWithString:[[[[self peaks] objectAtIndex:i] valueForKey:@"peakID"] stringValue] attributes:attrs];
+//			drawVertical = NO; drawLabelAlways = NO;
+//		}
+//		
 		// Where will it be drawn?
 		pointToDraw = NSMakePoint([[[[self dataArray] objectAtIndex:[[[[self peaks] objectAtIndex:i] valueForKey:@"top"] intValue]] valueForKey:keyForXValue] floatValue], 
 								  [[[[self dataArray] objectAtIndex:[[[[self peaks] objectAtIndex:i] valueForKey:@"top"] intValue]] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
@@ -403,74 +403,27 @@ static void *PeaksObservationContext = (void *)1094;
 	}
 }
 
-#pragma mark BINDINGS
-- (NSMutableArray *)peaks
+#pragma mark CONVENIENCE METHODS
+- (NSArray *)peaks
 {
-	return [peaksContainer valueForKeyPath:peaksKeyPath];
-}
-
-- (void)bind:(NSString *)bindingName
-	toObject:(id)observableObject
- withKeyPath:(NSString *)observableKeyPath
-	 options:(NSDictionary *)options
-{
-	
-	if ([bindingName isEqualToString:@"peaks"])
-	{
-		[self setPeaksContainer:observableObject];
-		[self setPeaksKeyPath:observableKeyPath];
-		[peaksContainer addObserver:self
-						 forKeyPath:peaksKeyPath
-							options:nil
-							context:PeaksObservationContext];
-	}
-	
-	[super bind:bindingName
-	   toObject:observableObject
-	withKeyPath:observableKeyPath
-		options:options];
-	
-}
-
-
-- (void)unbind:(NSString *)bindingName  
-{
-	
-	if ([bindingName isEqualToString:@"peaks"])
-	{
-		[peaksContainer removeObserver:self forKeyPath:peaksKeyPath];
-		[self setPeaksContainer:nil];
-		[self setPeaksKeyPath:nil];
-	}
-
-	[super unbind:bindingName];
-}
-
-- (NSObject *)peaksContainer
-{
-    return peaksContainer; 
-}
-- (void)setPeaksContainer:(NSObject *)aPeaksContainer
-{
-    if (peaksContainer != aPeaksContainer) {
-        [peaksContainer release];
-        peaksContainer = [aPeaksContainer retain];
-    }
-}
-
-- (NSString *)peaksKeyPath
-{
-    return peaksKeyPath; 
-}
-- (void)setPeaksKeyPath:(NSString *)aPeaksKeyPath
-{
-    if (peaksKeyPath != aPeaksKeyPath) {
-        [peaksKeyPath release];
-        peaksKeyPath = [aPeaksKeyPath copy];
-    }
+	return [[[self chromatogram] document] peaks];
 }
 
 #pragma mark ACCESSORS
+- (JKChromatogram *)chromatogram {
+    return chromatogram;
+}
+
+- (void)setChromatogram:(JKChromatogram *)aChromatogram {
+    if (aChromatogram != chromatogram) {
+        [aChromatogram retain];
+        [chromatogram autorelease];
+        chromatogram = aChromatogram;     
+        
+        [self loadDataPoints:[chromatogram numberOfPoints] withXValues:[chromatogram time] andYValues:[chromatogram totalIntensity]];
+    }    
+}
+
 - (BOOL)shouldDrawPeaks
 {
 	return shouldDrawPeaks;

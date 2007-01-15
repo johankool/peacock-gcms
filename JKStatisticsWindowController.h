@@ -9,19 +9,31 @@
 #import <Cocoa/Cocoa.h>
 
 @class JKGCMSDocument;
+@class MyGraphView;
 
 @interface JKStatisticsWindowController : NSWindowController {
+    // Encoded
 	NSMutableArray *combinedPeaks;
 	NSMutableArray *ratioValues;
-	NSMutableArray *ratios;
 	NSMutableArray *metadata;
 	NSMutableArray *files;
-	
+	NSMutableArray *logMessages;
+	int peaksToUse;
+    int columnSorting;
+    BOOL penalizeForRetentionIndex;
+    BOOL setPeakSymbolToNumber;
+    NSNumber *matchThreshold;
+    int scoreBasis;
+    int valueToUse;
+    BOOL closeDocuments;
+    BOOL calculateRatios;
+    // end Encoded
+    
+    NSMutableArray *ratios;
 	BOOL abortAction;
 	BOOL movingColumnsProgramatically;
 	BOOL scrollingViewProgrammatically;
 	int unknownCount;
-	int peaksToUse;
 	
 	// Main window
 	IBOutlet NSButton *addButton;
@@ -60,6 +72,10 @@
 	// Chromatogram comparison window
 	IBOutlet NSWindow *comparisonWindow;
 	IBOutlet NSScrollView *comparisonScrollView;
+    
+    IBOutlet NSArrayController *chromatogramDataSeriesController;
+    IBOutlet NSArrayController *peaksController;
+    IBOutlet MyGraphView *altGraphView;
 }
 
 #pragma mark ACTIONS
@@ -67,6 +83,7 @@
 - (void)runStatisticalAnalysis;
 - (void)collectMetadataForDocument:(JKGCMSDocument *)document atIndex:(int)index;
 - (void)collectCombinedPeaksForDocument:(JKGCMSDocument *)document atIndex:(int)index;
+- (void)doSanityCheckForDocument:(JKGCMSDocument *)document atIndex:(int)index;
 - (void)calculateRatiosForDocument:(JKGCMSDocument *)document atIndex:(int)index;
 - (void)setupComparisonWindowForDocument:(JKGCMSDocument *)document atIndex:(int)index;
 - (void)sortCombinedPeaks;
@@ -95,6 +112,16 @@ idAccessor_h(ratioValues, setRatioValues)
 idAccessor_h(ratios, setRatios)
 idAccessor_h(metadata, setMetadata)
 idAccessor_h(files, setFiles)
+idAccessor_h(logMessages, setLogMessages)
 boolAccessor_h(abortAction, setAbortAction)
+boolAccessor_h(setPeakSymbolToNumber, setSetPeakSymbolToNumber)
+intAccessor_h(valueToUse, setValueToUse)
+intAccessor_h(peaksToUse, setPeaksToUse)
+intAccessor_h(scoreBasis, setScoreBasis)
+intAccessor_h(columnSorting, setColumnSorting)
+boolAccessor_h(penalizeForRetentionIndex, setPenalizeForRetentionIndex)
+idAccessor_h(matchThreshold, setMatchThreshold)
+boolAccessor_h(closeDocuments, setCloseDocuments)
+boolAccessor_h(calculateRatios, setCalculateRatios)
 
 @end

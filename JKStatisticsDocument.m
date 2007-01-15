@@ -46,11 +46,22 @@
 		NSKeyedArchiver *archiver;
 		data = [NSMutableData data];
 		archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+		[archiver encodeInt:1 forKey:@"version"];
 		[archiver encodeObject:[statisticsWindowController combinedPeaks] forKey:@"combinedPeaks"];
 		[archiver encodeObject:[statisticsWindowController ratioValues] forKey:@"ratioValues"];
 		[archiver encodeObject:[statisticsWindowController metadata] forKey:@"metadata"];
 		[archiver encodeObject:[statisticsWindowController files] forKey:@"files"];
-
+		[archiver encodeObject:[statisticsWindowController logMessages] forKey:@"logMessages"];
+		[archiver encodeInt:[statisticsWindowController peaksToUse] forKey:@"peaksToUse"];
+        [archiver encodeInt:[statisticsWindowController columnSorting] forKey:@"columnSorting"];
+        [archiver encodeBool:[statisticsWindowController penalizeForRetentionIndex] forKey:@"penalizeForRetentionIndex"];
+        [archiver encodeBool:[statisticsWindowController setPeakSymbolToNumber] forKey:@"setPeakSymbolToNumber"];
+        [archiver encodeObject:[statisticsWindowController matchThreshold] forKey:@"matchThreshold"];
+        [archiver encodeInt:[statisticsWindowController scoreBasis] forKey:@"scoreBasis"];
+        [archiver encodeInt:[statisticsWindowController valueToUse] forKey:@"valueToUse"];
+        [archiver encodeBool:[statisticsWindowController closeDocuments] forKey:@"closeDocuments"];
+        [archiver encodeBool:[statisticsWindowController calculateRatios] forKey:@"calculateRatios"];
+               
 		[archiver finishEncoding];
 		[archiver release];
 		
@@ -70,12 +81,23 @@
 		NSKeyedUnarchiver *unarchiver;
 		data = [wrapper regularFileContents];
 		unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+        [statisticsWindowController willChangeValueForKey:@"combinedPeaks"];
 				
 		[statisticsWindowController setCombinedPeaks:[unarchiver decodeObjectForKey:@"combinedPeaks"]];
 		[statisticsWindowController setRatioValues:[unarchiver decodeObjectForKey:@"ratioValues"]];
 		[statisticsWindowController setMetadata:[unarchiver decodeObjectForKey:@"metadata"]];
 		[statisticsWindowController setFiles:[unarchiver decodeObjectForKey:@"files"]];
-		
+		[statisticsWindowController setLogMessages:[unarchiver decodeObjectForKey:@"logMessages"]];
+        [statisticsWindowController setPeaksToUse:[unarchiver decodeIntForKey:@"peaksToUse"]];
+        [statisticsWindowController setColumnSorting:[unarchiver decodeIntForKey:@"columnSorting"]];
+        [statisticsWindowController setPenalizeForRetentionIndex:[unarchiver decodeBoolForKey:@"penalizeForRetentionIndex"]];
+        [statisticsWindowController setSetPeakSymbolToNumber:[unarchiver decodeBoolForKey:@"setPeakSymbolToNumber"]];
+		[statisticsWindowController setMatchThreshold:[unarchiver decodeObjectForKey:@"matchThreshold"]];
+        [statisticsWindowController setScoreBasis:[unarchiver decodeIntForKey:@"scoreBasis"]];
+        [statisticsWindowController setValueToUse:[unarchiver decodeIntForKey:@"valueToUse"]];
+        [statisticsWindowController setCloseDocuments:[unarchiver decodeBoolForKey:@"closeDocuments"]];
+        [statisticsWindowController setCalculateRatios:[unarchiver decodeBoolForKey:@"calculateRatios"]];
+        [statisticsWindowController didChangeValueForKey:@"combinedPeaks"];
 		[unarchiver finishDecoding];
 		[unarchiver release];
 		[wrapper release];

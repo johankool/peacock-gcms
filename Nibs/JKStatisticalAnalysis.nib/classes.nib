@@ -1,5 +1,6 @@
 {
     IBClasses = (
+        {CLASS = DeleteTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
         {
             CLASS = FilteringDNDArrayController; 
             LANGUAGE = ObjC; 
@@ -23,9 +24,9 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 addButton = NSButton; 
+                altGraphView = MyGraphView; 
+                chromatogramDataSeriesController = NSArrayController; 
                 combinedPeaksController = NSArrayController; 
-                comparisonScrollView = NSScrollView; 
-                comparisonWindow = NSWindow; 
                 detailStatusTextField = NSTextField; 
                 doneButton = NSButton; 
                 fileProgressIndicator = NSProgressIndicator; 
@@ -35,6 +36,7 @@
                 metadataTable = NSTableView; 
                 metadataTableScrollView = NSScrollView; 
                 optionsSheet = NSWindow; 
+                peaksController = NSArrayController; 
                 progressSheet = NSWindow; 
                 ratiosController = NSArrayController; 
                 ratiosEditor = NSWindow; 
@@ -47,9 +49,22 @@
                 searchOptionsButton = NSButton; 
                 stopButton = NSButton; 
                 summarizeOptionsSheet = NSWindow; 
-                summaryWindow = NSWindow; 
             }; 
             SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {centerOrigin = id; lowerLeftOrigin = id; showAll = id; squareAxes = id; }; 
+            CLASS = MyGraphView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {delegate = id; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {
+            ACTIONS = {reloadData = id; }; 
+            CLASS = NSTableView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSControl; 
         }
     ); 
     IBVersion = 1; 

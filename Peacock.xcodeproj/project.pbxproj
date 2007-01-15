@@ -56,8 +56,6 @@
 		C7834D440941ED7A005431CD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D430941ED7A005431CD /* Security.framework */; };
 		C7834D4A0941EDAF005431CD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D490941EDAF005431CD /* libz.dylib */; };
 		C7858FEA0951E9990083EC22 /* JKStatisticalAnalysis.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7858FE90951E9990083EC22 /* JKStatisticalAnalysis.nib */; };
-		C78599A209CDBBAD00351C87 /* JKStatisticsDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = C78599A009CDBBAD00351C87 /* JKStatisticsDocument.h */; };
-		C78599A309CDBBAD00351C87 /* JKStatisticsDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C78599A109CDBBAD00351C87 /* JKStatisticsDocument.m */; };
 		C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C798C9EA08E17B5400C6C7D1 /* DeleteTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */; };
@@ -90,13 +88,14 @@
 		C7A7BB610A9DE6E0005E3778 /* save_document.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB540A9DE6E0005E3778 /* save_document.tiff */; };
 		C7AD34C908AFA20800A0F4BE /* JKPeakRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */; };
 		C7AD38AD08B2A0D600A0F4BE /* FilteringDNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */; };
-		C7B3159B0956CE610017ADDC /* JKStatisticsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C785905509541F250083EC22 /* JKStatisticsWindowController.m */; };
 		C7B9BA2D0AA881AE00250EFE /* view.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7B9BA2C0AA881AE00250EFE /* view.tiff */; };
 		C7BC505309A62C930093106E /* JKLog.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC505109A62C930093106E /* JKLog.h */; };
 		C7BC505409A62C930093106E /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
 		C7BDA6C10AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */; };
 		C7BDA6C20AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */; };
 		C7C21FC60A5060E2006E82FD /* Peacock.sdef in Resources */ = {isa = PBXBuildFile; fileRef = C7C21FC50A5060E2006E82FD /* Peacock.sdef */; };
+		C7E25C060B387C0F00CD8D39 /* JKChromatogram.h in Headers */ = {isa = PBXBuildFile; fileRef = C73290E00AD68F9800D95E36 /* JKChromatogram.h */; };
+		C7E25C070B387C0F00CD8D39 /* JKChromatogram.m in Sources */ = {isa = PBXBuildFile; fileRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */; };
 		C7E5B1D70A14934200BB2291 /* BDAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E5B1D20A14934200BB2291 /* BDAlias.h */; };
 		C7E5B1D80A14934200BB2291 /* BDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E5B1D30A14934200BB2291 /* BDAlias.m */; };
 		C7EB18160898CFBD007FC2ED /* MolTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F00898CFBC007FC2ED /* MolTypes.c */; };
@@ -121,6 +120,10 @@
 		C7EB18580898D1D7007FC2ED /* JKSpectrum.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */; };
 		C7EB185B0898D20E007FC2ED /* libnetcdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7EB17AE0898CF2E007FC2ED /* libnetcdf.a */; };
 		C7F0D0560B11D9030046F994 /* MWController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D0550B11D9030046F994 /* MWController.h */; };
+		C7F0D3B30B1497D40046F994 /* NSTableView+Copying.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */; };
+		C7F0D3B40B1497D40046F994 /* NSTableView+Copying.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */; };
+		C7F0D6C50B1732C60046F994 /* JKStatisticsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C785905509541F250083EC22 /* JKStatisticsWindowController.m */; };
+		C7F0D6C60B1732CD0046F994 /* JKStatisticsDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C78599A109CDBBAD00351C87 /* JKStatisticsDocument.m */; };
 		C7F5E8F508EAA98600AC1068 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKLibraryEntry.m */; };
 		C7F897400A188B0D00A65A24 /* JKPathPopUpButton.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8973E0A188B0D00A65A24 /* JKPathPopUpButton.h */; };
 		C7F897410A188B0D00A65A24 /* JKPathPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8973F0A188B0D00A65A24 /* JKPathPopUpButton.m */; };
@@ -351,6 +354,8 @@
 		C7EB180D0898CFBD007FC2ED /* periodic.table */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = periodic.table; sourceTree = "<group>"; };
 		C7EB180E0898CFBD007FC2ED /* ReadMe.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ReadMe.rtf; sourceTree = "<group>"; };
 		C7F0D0550B11D9030046F994 /* MWController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWController.h; sourceTree = "<group>"; };
+		C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+Copying.h"; sourceTree = "<group>"; };
+		C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+Copying.m"; sourceTree = "<group>"; };
 		C7F5E8F308EAA98600AC1068 /* JKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKLibraryEntry.h; sourceTree = "<group>"; };
 		C7F5E8F408EAA98600AC1068 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = "<group>"; };
 		C7F8973E0A188B0D00A65A24 /* JKPathPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKPathPopUpButton.h; sourceTree = "<group>"; };
@@ -449,6 +454,8 @@
 				C747B85309DD5782004837D0 /* TableView */,
 				C777A2C90A1DFEAD00CF44D9 /* JKMoleculeView */,
 				C777A2B70A1DFE7D00CF44D9 /* JKPathPopUpButton */,
+				C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */,
+				C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -599,6 +606,8 @@
 				C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */,
 				C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */,
 				C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */,
+				C73290E00AD68F9800D95E36 /* JKChromatogram.h */,
+				C73290E10AD68F9800D95E36 /* JKChromatogram.m */,
 				C7EB17E40898CF2F007FC2ED /* JKPeakRecord.h */,
 				C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */,
 				C7EB17EA0898CF2F007FC2ED /* JKSpectrum.h */,
@@ -723,16 +732,14 @@
 		C773290B08CA614200222B5B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				C73290E80AD68F9800D95E36 /* JKFileWell.h */,
-				C73290F30AD68F9800D95E36 /* JKSynchroScrollView.h */,
-				C73290F40AD68F9800D95E36 /* JKSynchroScrollView.m */,
-				C73290E00AD68F9800D95E36 /* JKChromatogram.h */,
-				C73290E10AD68F9800D95E36 /* JKChromatogram.m */,
 				C716B5260AD6FE3100DA408E /* GAML */,
 				C747B83909DD5684004837D0 /* MainDocument */,
 				C747B83E09DD56A4004837D0 /* LibraryDocument */,
 				C747B84109DD56BD004837D0 /* StasticsDocument */,
 				C777A2DA0A1DFEE700CF44D9 /* JKMolecule */,
+				C73290E80AD68F9800D95E36 /* JKFileWell.h */,
+				C73290F30AD68F9800D95E36 /* JKSynchroScrollView.h */,
+				C73290F40AD68F9800D95E36 /* JKSynchroScrollView.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -877,7 +884,6 @@
 			files = (
 				C70DB7610957141800C2B386 /* netcdf.h in Headers */,
 				C7BC505309A62C930093106E /* JKLog.h in Headers */,
-				C78599A209CDBBAD00351C87 /* JKStatisticsDocument.h in Headers */,
 				C720AB8809EA7B6C007EF860 /* jk_statistics.h in Headers */,
 				C715DEB40A136AD300348AB5 /* JKGCMSDocument.h in Headers */,
 				C7E5B1D70A14934200BB2291 /* BDAlias.h in Headers */,
@@ -891,6 +897,8 @@
 				C73291120AD68F9800D95E36 /* JKSynchroScrollView.h in Headers */,
 				C7BDA6C20AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h in Headers */,
 				C7F0D0560B11D9030046F994 /* MWController.h in Headers */,
+				C7F0D3B30B1497D40046F994 /* NSTableView+Copying.h in Headers */,
+				C7E25C060B387C0F00CD8D39 /* JKChromatogram.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -901,7 +909,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C7EB179C0898CF22007FC2ED /* Build configuration list for PBXNativeTarget "Peacock" */;
 			buildPhases = (
-				C732909F0AD68EAC00D95E36 /* ShellScript */,
 				8D15AC2B0486D014006FF6A4 /* Resources */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
@@ -1041,19 +1048,6 @@
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
-		C732909F0AD68EAC00D95E36 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./Scripts/mogenerator -model /Users/jkool/Developer/Peacock/JKGAML.xcdatamodel";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1085,10 +1079,8 @@
 				C79A6154094DBE3A00C0887E /* RBSplitSubview.m in Sources */,
 				C79A6155094DBE3A00C0887E /* RBSplitView.m in Sources */,
 				C7713B430950368F00653D2A /* JKBatchProcessWindowController.m in Sources */,
-				C7B3159B0956CE610017ADDC /* JKStatisticsWindowController.m in Sources */,
 				C70DB8EE09573BEA00C2B386 /* JKRatio.m in Sources */,
 				C7BC505409A62C930093106E /* JKLog.m in Sources */,
-				C78599A309CDBBAD00351C87 /* JKStatisticsDocument.m in Sources */,
 				C720AB8909EA7B6C007EF860 /* jk_statistics.c in Sources */,
 				C715DECF0A136B2F00348AB5 /* JKGCMSDocument.m in Sources */,
 				C7E5B1D80A14934200BB2291 /* BDAlias.m in Sources */,
@@ -1100,6 +1092,10 @@
 				C729CAAA0A4B45CD00FAB04F /* JKDataModelProxy.m in Sources */,
 				C73291130AD68F9800D95E36 /* JKSynchroScrollView.m in Sources */,
 				C7BDA6C10AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m in Sources */,
+				C7F0D3B40B1497D40046F994 /* NSTableView+Copying.m in Sources */,
+				C7F0D6C50B1732C60046F994 /* JKStatisticsWindowController.m in Sources */,
+				C7F0D6C60B1732CD0046F994 /* JKStatisticsDocument.m in Sources */,
+				C7E25C070B387C0F00CD8D39 /* JKChromatogram.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1229,7 +1225,7 @@
 				GCC_WARN_MISSING_PARENTHESES = YES;
 				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
 				GCC_WARN_SHADOW = NO;
-				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_SIGN_COMPARE = NO;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = NO;
@@ -1377,7 +1373,7 @@
 				GCC_WARN_MISSING_PARENTHESES = YES;
 				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
 				GCC_WARN_SHADOW = NO;
-				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_SIGN_COMPARE = NO;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = NO;
@@ -1455,7 +1451,7 @@
 				GCC_WARN_MISSING_PARENTHESES = YES;
 				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
 				GCC_WARN_SHADOW = NO;
-				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_SIGN_COMPARE = NO;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = NO;
@@ -1495,7 +1491,7 @@
 				GCC_WARN_MISSING_PARENTHESES = YES;
 				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
 				GCC_WARN_SHADOW = NO;
-				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_SIGN_COMPARE = NO;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = NO;

@@ -72,6 +72,8 @@ enum JKPeakSelection {
 	
 	// Printing
 	IBOutlet NSView *printAccessoryView;
+    
+    NSMutableArray *chromatogramDataSeries;
 }
 
 #pragma mark IBACTIONS

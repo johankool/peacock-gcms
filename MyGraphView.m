@@ -82,11 +82,14 @@ static int   kPaddingLabels             = 4;
 		[self setShouldDrawFrameLeft:[[defaultValues valueForKey:@"shouldDrawFrameLeft"] boolValue]];
 		[self setShouldDrawFrameBottom:[[defaultValues valueForKey:@"shouldDrawFrameBottom"] boolValue]];
 		[self setShouldDrawMajorTickMarks:[[defaultValues valueForKey:@"shouldDrawMajorTickMarks"] boolValue]];
-		[self setShouldDrawMinorTickMarks:[[defaultValues valueForKey:@"shouldDrawMinorTickMarks"] boolValue]];
+		[self setShouldDrawMajorTickMarksHorizontal:YES];
+		[self setShouldDrawMinorTickMarksVertical:YES];
 		[self setShouldDrawGrid:[[defaultValues valueForKey:@"shouldDrawGrid"] boolValue]];
 		[self setShouldDrawLabels:[[defaultValues valueForKey:@"shouldDrawLabels"] boolValue]];
 		[self setShouldDrawLegend:[[defaultValues valueForKey:@"shouldDrawLegend"] boolValue]];
 		[self setShouldDrawLabelsOnFrame:[[defaultValues valueForKey:@"shouldDrawLabelsOnFrame"] boolValue]];
+		[self setShouldDrawLabelsOnFrameLeft:YES];
+		[self setShouldDrawLabelsOnFrameBottom:YES];
 		[self setShouldDrawShadow:[[defaultValues valueForKey:@"shouldDrawShadow"] boolValue]];
 		
 		[self setBackColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"backColor"]]];
@@ -212,8 +215,9 @@ static int   kPaddingLabels             = 4;
             if ([keyForXValue isEqualToString:@"Scan"]) {
                 point = [[self transformGraphToScreen] transformPoint:NSMakePoint([self selectedScan]*1.0, 0)];                
             } else {
-                float thetime = [(JKGCMSDocument *)[[[self window] windowController] document] timeForScan:selectedScan];
-                point = [[self transformGraphToScreen] transformPoint:NSMakePoint(thetime, 0)];
+#warning [BUG] The timeForScan: method has been relocated.
+//                float thetime = [(JKGCMSDocument *)[[[self window] windowController] document] timeForScan:selectedScan];
+//                point = [[self transformGraphToScreen] transformPoint:NSMakePoint(thetime, 0)];
             }
             
             NSBezierPath *selectedScanBezierPath = [NSBezierPath bezierPath];
@@ -387,7 +391,7 @@ static int   kPaddingLabels             = 4;
 	NSBezierPath *tickMarksPath = [[NSBezierPath alloc] init];
 	
 	// Verticale tickmarks
-    if (shouldDrawFrameBottom) {
+    if (shouldDrawFrameBottom & shouldDrawMinorTickMarksHorizontal) {
         stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
         stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
         
@@ -400,7 +404,7 @@ static int   kPaddingLabels             = 4;
 	}
     
 	// En de horizontale tickmarks
-    if (shouldDrawFrameLeft) {
+    if (shouldDrawFrameLeft & shouldDrawMinorTickMarksVertical) {
         stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
         stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
         
@@ -430,7 +434,7 @@ static int   kPaddingLabels             = 4;
 	NSBezierPath *tickMarksPath = [[NSBezierPath alloc] init];
 	
 	// Verticale tickmarks
-    if (shouldDrawFrameBottom) {
+    if (shouldDrawFrameBottom & shouldDrawMajorTickMarksHorizontal) {
         stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
         stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
         
@@ -443,7 +447,7 @@ static int   kPaddingLabels             = 4;
     }
 	
 	// En de horizontale tickmarks
-    if (shouldDrawFrameLeft) {
+    if (shouldDrawFrameLeft & shouldDrawMajorTickMarksVertical) {
         stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
         stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
         
@@ -668,77 +672,81 @@ static int   kPaddingLabels             = 4;
     [attrs2 setValue:[NSFont fontWithName:[[self axesLabelFont] fontName] size:[[self axesLabelFont] pointSize]*0.8] forKey:NSFontAttributeName];
 
 	// Labels op X-as
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
-    _lowestYOriginLabelsXAxis = [self bounds].size.height;
-
-	start = ceil((-[self origin].x + [self plottingArea].origin.x)/stepInPixels);
-	end = floor((-[self origin].x + [self plottingArea].origin.x + [self plottingArea].size.width)/stepInPixels);
-	for (i=start; i <= end; i++) {  
-        label = [NSMutableString localizedStringWithFormat:formatString, i*stepInUnits];
-        if ([label rangeOfString:@"e"].location != NSNotFound) {
-            [label replaceOccurrencesOfString:@"e+0" withString:@"e" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
-            [label replaceOccurrencesOfString:@"e-0" withString:@"e-" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
-            [label replaceOccurrencesOfString:@"e" withString:[NSString stringWithUTF8String:"\u22c510"] options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];                
-            [label replaceOccurrencesOfString:@"+" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
-            string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs]; 
-            NSRange tenRange = [label rangeOfString:[NSString stringWithUTF8String:"\u22c510"]];
-            NSRange superRange = NSMakeRange(tenRange.location+tenRange.length, [label length]-tenRange.location-tenRange.length);
-            [string setAttributes:attrs2 range:superRange];
-        } else {
-            string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs];            
+    _lowestYOriginLabelsXAxis = [self plottingArea].origin.y;
+   if (shouldDrawLabelsOnFrameBottom) {        
+        stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerXUnit] floatValue]];
+        stepInPixels = stepInUnits * [[self pixelsPerXUnit] floatValue];
+ 
+        start = ceil((-[self origin].x + [self plottingArea].origin.x)/stepInPixels);
+        end = floor((-[self origin].x + [self plottingArea].origin.x + [self plottingArea].size.width)/stepInPixels);
+        for (i=start; i <= end; i++) {  
+            label = [NSMutableString localizedStringWithFormat:formatString, i*stepInUnits];
+            if ([label rangeOfString:@"e"].location != NSNotFound) {
+                [label replaceOccurrencesOfString:@"e+0" withString:@"e" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+                [label replaceOccurrencesOfString:@"e-0" withString:@"e-" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+                [label replaceOccurrencesOfString:@"e" withString:[NSString stringWithUTF8String:"\u22c510"] options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];                
+                [label replaceOccurrencesOfString:@"+" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+                string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs]; 
+                NSRange tenRange = [label rangeOfString:[NSString stringWithUTF8String:"\u22c510"]];
+                NSRange superRange = NSMakeRange(tenRange.location+tenRange.length, [label length]-tenRange.location-tenRange.length);
+                [string setAttributes:attrs2 range:superRange];
+            } else {
+                string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs];            
+            }
+            stringSize = [string size];
+            pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(i*stepInUnits,0.)];
+            pointToDraw.x = pointToDraw.x - stringSize.width/2;
+            pointToDraw.y = [self plottingArea].origin.y - stringSize.height - kPaddingLabels;
+            if (pointToDraw.y < _lowestYOriginLabelsXAxis) {
+                _lowestYOriginLabelsXAxis = pointToDraw.y;
+            }
+            [string drawAtPoint:pointToDraw];
+            [string release];
+            // Ugly fix for overlap
+            if (stringSize.width > stepInPixels) {
+                i++;
+            }
         }
-		stringSize = [string size];
-		pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(i*stepInUnits,0.)];
-		pointToDraw.x = pointToDraw.x - stringSize.width/2;
-		pointToDraw.y = [self plottingArea].origin.y - stringSize.height - kPaddingLabels;
-        if (pointToDraw.y < _lowestYOriginLabelsXAxis) {
-            _lowestYOriginLabelsXAxis = pointToDraw.y;
-        }
-		[string drawAtPoint:pointToDraw];
-		[string release];
-        // Ugly fix for overlap
-        if (stringSize.width > stepInPixels) {
-            i++;
-        }
-	}
+    }
 	
 	// Labels op Y-as
-	stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
-	stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
-	_lowestXOriginLabelsYAxis = [self bounds].size.width;
-	
-	start = ceil((-[self origin].y + [self plottingArea].origin.y)/stepInPixels);
-	end = floor((-[self origin].y + [self plottingArea].origin.y + [self plottingArea].size.height)/stepInPixels);
-	for (i=start; i <= end; i++) {
-        label = [NSMutableString localizedStringWithFormat:formatString, i*stepInUnits];
-        if ([label rangeOfString:@"e"].location != NSNotFound) {
-            [label replaceOccurrencesOfString:@"e+0" withString:@"e" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
-            [label replaceOccurrencesOfString:@"e-0" withString:@"e-" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
-            [label replaceOccurrencesOfString:@"e" withString:[NSString stringWithUTF8String:"\u22c510"] options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];                
-            [label replaceOccurrencesOfString:@"+" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
-            string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs]; 
-            NSRange tenRange = [label rangeOfString:[NSString stringWithUTF8String:"\u22c510"]];
-            NSRange superRange = NSMakeRange(tenRange.location+tenRange.length, [label length]-tenRange.location-tenRange.length);
-            [string setAttributes:attrs2 range:superRange];
-        } else {
-            string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs];            
-        }
-		stringSize = [string size];
-		pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(0.,i*stepInUnits)];
-		pointToDraw.x = [self plottingArea].origin.x - stringSize.width - kPaddingLabels;
-        if (pointToDraw.x < _lowestXOriginLabelsYAxis) {
-            _lowestXOriginLabelsYAxis = pointToDraw.x;
-        }
-		pointToDraw.y = pointToDraw.y - stringSize.height/2;
-		[string drawAtPoint:pointToDraw];
-		[string release];
-        // Ugly fix for overlap
-        if (stringSize.height > stepInPixels) {
-            i++;
-        }
+    _lowestXOriginLabelsYAxis = [self plottingArea].origin.x;
+    if (shouldDrawLabelsOnFrameLeft) {        
+        stepInUnits = [self unitsPerMajorGridLine:[[self pixelsPerYUnit] floatValue]];
+        stepInPixels = stepInUnits * [[self pixelsPerYUnit] floatValue];
         
-	}
+        start = ceil((-[self origin].y + [self plottingArea].origin.y)/stepInPixels);
+        end = floor((-[self origin].y + [self plottingArea].origin.y + [self plottingArea].size.height)/stepInPixels);
+        for (i=start; i <= end; i++) {
+            label = [NSMutableString localizedStringWithFormat:formatString, i*stepInUnits];
+            if ([label rangeOfString:@"e"].location != NSNotFound) {
+                [label replaceOccurrencesOfString:@"e+0" withString:@"e" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+                [label replaceOccurrencesOfString:@"e-0" withString:@"e-" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+                [label replaceOccurrencesOfString:@"e" withString:[NSString stringWithUTF8String:"\u22c510"] options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];                
+                [label replaceOccurrencesOfString:@"+" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
+                string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs]; 
+                NSRange tenRange = [label rangeOfString:[NSString stringWithUTF8String:"\u22c510"]];
+                NSRange superRange = NSMakeRange(tenRange.location+tenRange.length, [label length]-tenRange.location-tenRange.length);
+                [string setAttributes:attrs2 range:superRange];
+            } else {
+                string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs];            
+            }
+            stringSize = [string size];
+            pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(0.,i*stepInUnits)];
+            pointToDraw.x = [self plottingArea].origin.x - stringSize.width - kPaddingLabels;
+            if (pointToDraw.x < _lowestXOriginLabelsYAxis) {
+                _lowestXOriginLabelsYAxis = pointToDraw.x;
+            }
+            pointToDraw.y = pointToDraw.y - stringSize.height/2;
+            [string drawAtPoint:pointToDraw];
+            [string release];
+            // Ugly fix for overlap
+            if (stringSize.height > stepInPixels) {
+                i++;
+            }
+            
+        }
+    }
 }
 
 - (void)drawAxes  
@@ -1513,7 +1521,8 @@ static int   kPaddingLabels             = 4;
                         if ([keyForXValue isEqualToString:@"Scan"]) {
                             [self setSelectedScan:lroundf(pointInReal.x)];
                         } else {
-                            [self setSelectedScan:[(JKGCMSDocument *)[[[self window] windowController] document] scanForTime:pointInReal.x]];
+#warning [BUG] The scanForTime: method has been relocated.
+//                            [self setSelectedScan:[(JKGCMSDocument *)[[[self window] windowController] document] scanForTime:pointInReal.x]];
                         }
                         [delegate showSpectrumForScan:[self selectedScan]];                        
                     }
@@ -1642,6 +1651,8 @@ static int   kPaddingLabels             = 4;
 		shouldDrawMinorTickMarks ? [self setShouldDrawMinorTickMarks:NO] : [self setShouldDrawMinorTickMarks:YES];
 	} else if ([[theEvent characters] isEqualToString:@"p"]) {
 		shouldDrawPeaks ? [self setShouldDrawPeaks:NO] : [self setShouldDrawPeaks:YES];
+	} else if ([[theEvent characters] isEqualToString:@"r"]) {
+		[self setNeedsDisplay:YES];
 	} else if ([[theEvent characters] isEqualToString:@"x"]) {
 		shouldDrawAxes ? [self setShouldDrawAxes:NO] : [self setShouldDrawAxes:YES];
 	} else if ([[theEvent characters] isEqualToString:@"z"]) {
@@ -1734,7 +1745,7 @@ static int   kPaddingLabels             = 4;
 - (void)delete:(id)sender {
     [baselineContainer removeObjects:[baselineContainer selectedObjects]];
     [peaksContainer removeObjects:[peaksContainer selectedObjects]];
-
+//    [dataSeriesContainer removeObjects:[dataSeriesContainer selectedObjects]];
 }
 
 
@@ -2347,6 +2358,28 @@ static int   kPaddingLabels             = 4;
         [self setNeedsDisplay:YES];
     }
 }
+- (BOOL)shouldDrawMajorTickMarksHorizontal
+{
+	return shouldDrawMajorTickMarksHorizontal;
+}
+- (void)setShouldDrawMajorTickMarksHorizontal:(BOOL)inValue
+{
+	if (shouldDrawMajorTickMarksHorizontal != inValue) {        
+        shouldDrawMajorTickMarksHorizontal = inValue;
+        [self setNeedsDisplay:YES];
+    }
+}
+- (BOOL)shouldDrawMajorTickMarksVertical
+{
+	return shouldDrawMajorTickMarksVertical;
+}
+- (void)setShouldDrawMajorTickMarksVertical:(BOOL)inValue
+{
+	if (shouldDrawMajorTickMarksVertical != inValue) {        
+        shouldDrawMajorTickMarksVertical = inValue;
+        [self setNeedsDisplay:YES];
+    }
+}
 
 - (BOOL)shouldDrawMinorTickMarks
 {
@@ -2356,6 +2389,28 @@ static int   kPaddingLabels             = 4;
 {
     if (shouldDrawMinorTickMarks != inValue) {
         shouldDrawMinorTickMarks = inValue;
+        [self setNeedsDisplay:YES];        
+    }
+}
+- (BOOL)shouldDrawMinorTickMarksHorizontal
+{
+	return shouldDrawMinorTickMarksHorizontal;
+}
+- (void)setShouldDrawMinorTickMarksHorizontal:(BOOL)inValue
+{
+    if (shouldDrawMinorTickMarksHorizontal != inValue) {
+        shouldDrawMinorTickMarksHorizontal = inValue;
+        [self setNeedsDisplay:YES];        
+    }
+}
+- (BOOL)shouldDrawMinorTickMarksVertical
+{
+	return shouldDrawMinorTickMarksVertical;
+}
+- (void)setShouldDrawMinorTickMarksVertical:(BOOL)inValue
+{
+    if (shouldDrawMinorTickMarksVertical != inValue) {
+        shouldDrawMinorTickMarksVertical = inValue;
         [self setNeedsDisplay:YES];        
     }
 }
@@ -2392,6 +2447,30 @@ static int   kPaddingLabels             = 4;
 {
     if (shouldDrawLabelsOnFrame != inValue) {
         shouldDrawLabelsOnFrame = inValue;
+        [self setNeedsDisplay:YES];        
+    }
+}
+
+- (BOOL)shouldDrawLabelsOnFrameLeft  
+{
+    return shouldDrawLabelsOnFrameLeft;
+}
+- (void)setShouldDrawLabelsOnFrameLeft:(BOOL)inValue  
+{
+    if (shouldDrawLabelsOnFrameLeft != inValue) {
+        shouldDrawLabelsOnFrameLeft = inValue;
+        [self setNeedsDisplay:YES];        
+    }
+}
+
+- (BOOL)shouldDrawLabelsOnFrameBottom  
+{
+    return shouldDrawLabelsOnFrameBottom;
+}
+- (void)setShouldDrawLabelsOnFrameBottom:(BOOL)inValue  
+{
+    if (shouldDrawLabelsOnFrameBottom != inValue) {
+        shouldDrawLabelsOnFrameBottom = inValue;
         [self setNeedsDisplay:YES];        
     }
 }

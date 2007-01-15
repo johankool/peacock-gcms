@@ -2,6 +2,12 @@
     IBClasses = (
         {CLASS = DeleteTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
         {
+            CLASS = FilteringDNDArrayController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {tableView = NSTableView; }; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {
             ACTIONS = {removeSpectrum = id; }; 
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 

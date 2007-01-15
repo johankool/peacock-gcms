@@ -10,14 +10,16 @@
 
 #import "BDAlias.h"
 #import "ChromatogramGraphDataSerie.h"
+#import "JKChromatogram.h"
+#import "JKDataModelProxy.h"
 #import "JKLibrary.h"
 #import "JKLibraryEntry.h"
 #import "JKMainWindowController.h"
+#import "JKPanelController.h"
 #import "JKPeakRecord.h"
 #import "JKSpectrum.h"
-#import "netcdf.h"
-#import "JKDataModelProxy.h"
 #import "jk_statistics.h"
+#import "netcdf.h"
 
 NSString *const JKGCMSDocument_DocumentDeactivateNotification = @"JKGCMSDocument_DocumentDeactivateNotification";
 NSString *const JKGCMSDocument_DocumentActivateNotification   = @"JKGCMSDocument_DocumentActivateNotification";
@@ -35,7 +37,7 @@ static void *DocumentObservationContext = (void *)1100;
     if (self != nil) {
         mainWindowController = [[[JKMainWindowController alloc] init] autorelease];
 		peaks = [[NSMutableArray alloc] init];
-		baseline = [[NSMutableArray alloc] init];
+//		baseline = [[NSMutableArray alloc] init];
 		metadata = [[NSMutableDictionary alloc] init];
 		chromatograms = [[NSMutableArray alloc] init];
 		
@@ -85,7 +87,7 @@ static void *DocumentObservationContext = (void *)1100;
 - (void)dealloc  
 {
 	[peaks release];	
-    [baseline release];
+//    [baseline release];
 	[metadata release];
 	[chromatograms release];
 	[baselineWindowWidth release];
@@ -136,7 +138,7 @@ static void *DocumentObservationContext = (void *)1100;
 		data = [NSMutableData data];
 		archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
 		[archiver encodeInt:JKGCMSDocument_Version forKey:@"version"];
-		[archiver encodeObject:[self baseline] forKey:@"baseline"];
+//		[archiver encodeObject:[self baseline] forKey:@"baseline"];
 		[archiver encodeObject:[self peaks] forKey:@"peaks"];
 		[archiver encodeObject:[self metadata] forKey:@"metadata"];		
 		[archiver encodeObject:baselineWindowWidth forKey:@"baselineWindowWidth"];
@@ -221,7 +223,7 @@ static void *DocumentObservationContext = (void *)1100;
                 //[self startObservingPeak:peak];
             }
             
-			baseline = [[dataModel baseline] retain];
+//			baseline = [[dataModel baseline] retain];
 			metadata = [[dataModel metadata] retain];
 			// These are not stored but refetched from cdf file when needed
 			chromatograms = [[NSMutableArray alloc] init];
@@ -238,7 +240,7 @@ static void *DocumentObservationContext = (void *)1100;
 			return result;	
 			
 		}
-		baseline = [[unarchiver decodeObjectForKey:@"baseline"] retain];
+//		baseline = [[unarchiver decodeObjectForKey:@"baseline"] retain];
 		peaks = [[unarchiver decodeObjectForKey:@"peaks"] retain];
 		NSEnumerator *e = [peaks objectEnumerator];
 		JKPeakRecord *peak;
@@ -343,6 +345,8 @@ static void *DocumentObservationContext = (void *)1100;
 - (BOOL)readNetCDFFile:(NSString *)fileName error:(NSError **)anError  
 {
 	int errCode;
+    int dimid;
+    BOOL	hasVarid_scanaqtime;
 
 	// Get the file's name and pull the id. Test to make sure that this all worked.
 	errCode = nc_open([fileName cString], NC_NOWRITE, &ncid);
@@ -357,11 +361,6 @@ static void *DocumentObservationContext = (void *)1100;
 	
 	absolutePathToNetCDF = fileName;
 
-    int		num_pts;
-    float	*x;
-    float 	*y;
-    int     dummy, dimid, varid_scanaqtime, varid_totintens;
-    BOOL	hasVarid_scanaqtime;
 	
 	//    NS_DURING
 	
@@ -389,55 +388,7 @@ static void *DocumentObservationContext = (void *)1100;
 	} else {
 		// It's a GCMS file
 		[self setHasSpectra:YES];
-	}
-	//	;
-    if ([self hasSpectra]) {
-        // GCMS file
-        dummy = nc_inq_dimid(ncid, "scan_number", &dimid);
-		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting scan_number dimension failed.\nNetCDF error: %d",@""), dummy];
-		
-        dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_pts);
-		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting scan_number dimension length failed.\nNetCDF error: %d",@""), dummy];
-        
-        dummy = nc_inq_varid(ncid, "scan_acquisition_time", &varid_scanaqtime);
-		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting scan_acquisition_time variable failed.\nNetCDF error: %d",@""), dummy];
-		
-        dummy = nc_inq_varid(ncid, "total_intensity", &varid_totintens);
-		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting total_intensity dimension failed.\nNetCDF error: %d",@""), dummy];
-        
-    } else {
-        // GC file
-        dummy = nc_inq_dimid(ncid, "point_number", &dimid);
-		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting point_number dimension failed.\nNetCDF error: %d",@""), dummy];
-		
-        dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_pts);
-		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting point_number dimension length failed.\nNetCDF error: %d",@""), dummy];
-        
-        dummy = nc_inq_varid(ncid, "raw_data_retention", &varid_scanaqtime);
-		//		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting raw_data_retention variable failed.\nNetCDF error: %d",@""), dummy];
-        if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting raw_data_retention variable failed. Report error #%d.", dummy); hasVarid_scanaqtime = NO;}
-        
-        dummy = nc_inq_varid(ncid, "ordinate_values", &varid_totintens);
-		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting ordinate_values variable failed.\nNetCDF error: %d",@""), dummy];
-    }
-	
-    // stored as floats in file, but I need floats which can be converted automatically by NetCDF so no worry!
-    x = (float *) malloc(num_pts*sizeof(float));
-    y = (float *) malloc(num_pts*sizeof(float));
-	
-	dummy = nc_get_var_float(ncid, varid_scanaqtime, x);
-	if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting scanaqtime variables failed.\nNetCDF error: %d",@""), dummy];
-	
-	dummy = nc_get_var_float(ncid, varid_totintens, y);
-	if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting totintens variables failed.\nNetCDF error: %d",@""), dummy];
-	
-	[self setTime:x withCount:num_pts];
-	[self setTotalIntensity:y withCount:num_pts];
-	
-	[chromatograms addObject:[self obtainTICChromatogram]];
-	
-//	if ([baseline count] <= 0)
-//		[self obtainBaseline];
+	}	
 	
 	return YES;
 	//	NS_HANDLER
@@ -584,6 +535,232 @@ static void *DocumentObservationContext = (void *)1100;
 //    [[[self mainWindowController] chromatogramView] showAll:self];
     [[[self mainWindowController] chromatogramView] setNeedsDisplay:YES];    
 }
+
+#pragma mark -
+#pragma mark MODEL
+
+- (JKChromatogram *)ticChromatogram {
+    float *time;
+    float *totalIntensity;
+    int dummy, dimid, numberOfPoints, varid_scanaqtime, varid_totintens;
+    BOOL hasVarid_scanaqtime;
+    
+    if ([self hasSpectra]) {
+        // GCMS file
+        dummy = nc_inq_dimid(ncid, "scan_number", &dimid);
+		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting scan_number dimension failed.\nNetCDF error: %d",@""), dummy];
+		
+        dummy = nc_inq_dimlen(ncid, dimid, (void *) &numberOfPoints);
+		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting scan_number dimension length failed.\nNetCDF error: %d",@""), dummy];
+        
+        dummy = nc_inq_varid(ncid, "scan_acquisition_time", &varid_scanaqtime);
+		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting scan_acquisition_time variable failed.\nNetCDF error: %d",@""), dummy];
+		
+        dummy = nc_inq_varid(ncid, "total_intensity", &varid_totintens);
+		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting total_intensity dimension failed.\nNetCDF error: %d",@""), dummy];
+        
+    } else {
+        // GC file
+        dummy = nc_inq_dimid(ncid, "point_number", &dimid);
+		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting point_number dimension failed.\nNetCDF error: %d",@""), dummy];
+		
+        dummy = nc_inq_dimlen(ncid, dimid, (void *) &numberOfPoints);
+		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting point_number dimension length failed.\nNetCDF error: %d",@""), dummy];
+        
+        dummy = nc_inq_varid(ncid, "raw_data_retention", &varid_scanaqtime);
+		//		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting raw_data_retention variable failed.\nNetCDF error: %d",@""), dummy];
+        if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting raw_data_retention variable failed. Report error #%d.", dummy); hasVarid_scanaqtime = NO;}
+        
+        dummy = nc_inq_varid(ncid, "ordinate_values", &varid_totintens);
+		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting ordinate_values variable failed.\nNetCDF error: %d",@""), dummy];
+    }
+	
+    // stored as floats in file, but I need floats which can be converted automatically by NetCDF so no worry!
+    time = (float *) malloc(numberOfPoints*sizeof(float));
+    totalIntensity = (float *) malloc(numberOfPoints*sizeof(float));
+	
+	dummy = nc_get_var_float(ncid, varid_scanaqtime, time);
+	if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting scanaqtime variables failed.\nNetCDF error: %d",@""), dummy];
+	
+	dummy = nc_get_var_float(ncid, varid_totintens, totalIntensity);
+	if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting totintens variables failed.\nNetCDF error: %d",@""), dummy];
+	
+    
+	JKChromatogram *chromatogram = [[JKChromatogram alloc] initWithDocument:self forModel:@"TIC"];
+//    NSMutableArray *mutArray = [[NSMutableArray alloc] init];
+//	for (i = 0; i < numberOfPoints; i++) {
+//		NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:time[i]/60.0f], @"Time",
+//			[NSNumber numberWithInt:i], @"Scan",
+//			[NSNumber numberWithFloat:totalIntensity[i]], @"Total Intensity", nil];
+//		[mutArray addObject:dict];      
+//		[dict release];
+//	}
+//	[chromatogram setDataArray:mutArray];
+//	[mutArray release];
+    
+    [chromatogram setTime:time withCount:numberOfPoints];
+    [chromatogram setTotalIntensity:totalIntensity withCount:numberOfPoints];
+    
+	[chromatogram autorelease];
+	return chromatogram;
+}
+
+- (JKChromatogram *)chromatogramForModel:(NSString *)model {
+    int     dummy, scan, dimid, varid_time_value, varid_intensity_value, varid_mass_value, varid_scan_index, varid_point_count, scanCount;
+    float   mass, intensity;
+    float	*times, *masses,	*intensities;
+    unsigned int numberOfPoints, num_scan;
+	unsigned int i,j,k, mzValuesCount;
+
+    NSMutableArray *mzValues = [NSMutableArray array];
+	NSArray *mzValuesPlus = [model componentsSeparatedByString:@"+"];
+	
+	for (i = 0; i < [mzValuesPlus count]; i++) {
+		NSArray *mzValuesMin = [[mzValuesPlus objectAtIndex:i] componentsSeparatedByString:@"-"];
+		if ([mzValuesMin count] > 1) {
+			if ([[mzValuesMin objectAtIndex:0] intValue] < [[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]) {
+				for (j = (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j < (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j++) {
+					[mzValues addObject:[NSNumber numberWithInt:j]];
+				}
+			} else {
+				for (j = (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j < (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j++) {
+					[mzValues addObject:[NSNumber numberWithInt:j]];
+				}
+			}
+		} else {
+			[mzValues addObject:[NSNumber numberWithInt:[[mzValuesMin objectAtIndex:0] intValue]]];
+		}
+	}
+	
+#warning [BUG] Constructed string expands "-"-series (from-to).
+	NSString *mzValuesString = [NSString stringWithFormat:@"%d",[[mzValues objectAtIndex:0] intValue]];
+	mzValuesCount = [mzValues count];
+	for (i = 1; i < mzValuesCount; i++) {
+		mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d",[[mzValues objectAtIndex:i] intValue]];
+	}	
+	    
+    dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return nil;}
+    
+    dummy = nc_inq_varid(ncid, "time_values", &varid_time_value);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting time_values variable failed. Report error #%d. Continuing...", dummy);}
+    
+    dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return nil;}
+	
+    dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting varid_scan_index variable failed. Report error #%d.", dummy); return nil;}
+	
+    dummy = nc_inq_varid(ncid, "point_count", &varid_point_count);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_count variable failed. Report error #%d.", dummy); return nil;}
+    
+    dummy = nc_inq_dimid(ncid, "point_number", &dimid);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension failed. Report error #%d.", dummy); return nil;}
+    
+    dummy = nc_inq_dimlen(ncid, dimid, (void *) &numberOfPoints);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return nil;}
+	
+    dummy = nc_inq_dimid(ncid, "scan_number", &dimid);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_number dimension failed. Report error #%d.", dummy); return nil;}
+    
+    dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_scan);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_number dimension length failed. Report error #%d.", dummy); return nil;}
+    
+	masses = (float *) malloc((num_scan)*sizeof(float));
+	times = (float *) malloc((num_scan)*sizeof(float));
+	intensities = (float *) malloc((num_scan)*sizeof(float));
+    
+	for(i = 0; i < num_scan; i++) {
+        masses[i] = 0.0f;
+        times[i] = 0.0f;
+        intensities[i] = 0.0f;
+		dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &i, &scan); // is this the start or the end?
+		dummy = nc_get_var1_int(ncid, varid_point_count, (void *) &i, &scanCount);
+		for(j = scan; j < (unsigned)scan + (unsigned)scanCount; j++) {
+            mass = 0.0f;
+            //            timeL = 0.0f;
+            intensity = 0.0f;
+			dummy = nc_get_var1_float(ncid, varid_mass_value, (void *) &j, &mass);
+			for(k = 0; k < mzValuesCount; k++) {
+				if (fabs(mass-[[mzValues objectAtIndex:k] intValue]) < 0.5) {
+                    //					dummy = nc_get_var1_float(ncid, varid_time_value, (const size_t *) &j, &timeL);
+					dummy = nc_get_var1_float(ncid, varid_intensity_value, (const size_t *) &j, &intensity);
+					
+					masses[i] = mass;
+					//times[i] = [self timeForScan:i];
+					intensities[i] = intensities[i] + intensity;
+				}
+			}
+		}
+	}
+    
+	JKChromatogram *chromatogram;
+	
+    //create a chromatogram object
+    chromatogram = [[JKChromatogram alloc] initWithDocument:self forModel:mzValuesString];
+//	NSMutableArray *mutArray = [[NSMutableArray alloc] init];	
+//    for(i=0;i<num_scan;i++){
+//        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:time[i]/60.0f], @"Time",
+//			[NSNumber numberWithInt:i], @"Scan",
+//			[NSNumber numberWithFloat:intensities[i]], @"Total Intensity", nil];
+//		[mutArray addObject:dict];      
+//		[dict release];
+//    }
+//	[chromatogram setDataArray:mutArray];
+//	[mutArray release];
+    
+    [chromatogram setTime:time withCount:numberOfPoints];
+    [chromatogram setTotalIntensity:intensities withCount:numberOfPoints];
+
+	[chromatogram autorelease];	
+	return chromatogram;    
+}
+
+- (JKSpectrum *)spectrumForScan:(int)scan {
+    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
+    int dummy, start, end, varid_mass_value, varid_intensity_value, varid_scan_index;
+    int numberOfPoints;
+    float 	*massValues;
+    float 	*intensities;
+    
+    dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_value variable failed. Report error #%d.", dummy);        return 0;}
+    
+    dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable failed. Report error #%d.", dummy); return 0;}
+    
+    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &start);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
+    
+    scan++;
+    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &end);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
+    
+    numberOfPoints = end - start;
+    
+    massValues = (float *) malloc(numberOfPoints*sizeof(float));
+    
+    dummy = nc_get_vara_float(ncid, varid_mass_value, (const size_t *) &start, (const size_t *) &numberOfPoints, massValues);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values failed. Report error #%d.", dummy); return nil;}
+
+    
+    dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return 0;}
+        
+    intensities = (float *) malloc((numberOfPoints)*sizeof(float));
+    
+    dummy = nc_get_vara_float(ncid, varid_intensity_value, (const size_t *) &start, (const size_t *) &numberOfPoints, intensities);
+    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_values failed. Report error #%d.", dummy); return nil;}
+    
+    JKSpectrum *spectrum = [[JKSpectrum alloc] initWithDocument:self forModel:[NSString stringWithFormat:@"%d",scan]];
+  
+    [spectrum setMassValues:massValues withCount:numberOfPoints];
+    [spectrum setIntensities:intensities withCount:numberOfPoints];
+
+	[spectrum autorelease];
+	return spectrum;
+}
+
 #pragma mark NOTIFICATIONS
 
 - (void) postNotification: (NSString *) notificationName
@@ -621,401 +798,129 @@ static void *DocumentObservationContext = (void *)1100;
 
 #pragma mark ACTIONS
 
-- (ChromatogramGraphDataSerie *)obtainTICChromatogram  
-{
-	int i;
-	
-	ChromatogramGraphDataSerie *chromatogram = [[ChromatogramGraphDataSerie alloc] init];
-    NSMutableArray *mutArray = [[NSMutableArray alloc] init];
-	for (i = 0; i < numberOfPoints; i++) {
-		NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:time[i]/60.0f], @"Time",
-			[NSNumber numberWithInt:i], @"Scan", [NSNumber numberWithFloat:[self retentionIndexForScan:i]], @"Retention Index",
-			[NSNumber numberWithFloat:totalIntensity[i]], @"Total Intensity", nil];
-		[mutArray addObject:dict];      
-		[dict release];
-	}
-	[chromatogram setDataArray:mutArray];
-	[mutArray release];
-	
-	[chromatogram setKeyForXValue:@"Time"];
-	[chromatogram setKeyForYValue:@"Total Intensity"];
-	[chromatogram setSeriesTitle:NSLocalizedString(@"TIC Chromatogram",@"")];
-	
-	[chromatogram autorelease];
-	
-	return chromatogram;
-}
-
-- (void)obtainBaseline  
-{
-	// get tot intensities
-	// determing running minimum
-	// dilute factor is e.g. 5
-	// get minimum for scan 0 - 5 = min at scan 0
-	// get minimum for scan 0 - 6 = min at scan 1
-	// ...
-	// get minimum for scan 0 - 10 = min at scan 5
-	// get minimum for scan 1 - 11 = min at scan 6
-	// get minimum for scan 2 - 12 = min at scan 7
-	// distance to running min
-	// distance[x] = intensity[x] - minimum[x]
-	// normalize distance[x] ??
-	// determine slope
-	// slope[x] = (intensity[x+1]-intensity[x])/(time[x+1]-time[x])
-	// normalize slope[x] ??
-	// determine pointdensity
-	// pointdensity[x] = sum of (1/distance to point n from x) / n  how about height/width ratio then?!
-	// normalize pointdensity[x] ??
-	// baseline if 
-	// distance[x] = 0 - 0.1 AND
-	// slope[x] = -0.1 - 0 - 0.1 AND
-	// pointdensity[x] = 0.9 - 1
-	int i, j, count;
-	count = [self numberOfPoints];
-	float minimumSoFar, densitySoFar, distanceSquared;
-	float minimum[count];
-	float distance[count];
-	float slope[count];
-	float density[count];
-	float *intensity;
-	//	float *time;
-	intensity = totalIntensity;
-	//	time = [self time];
-	// to minimize object calling
-	float baselineWindowWidthF = [[self baselineWindowWidth] floatValue];
-	float baselineDistanceThresholdF = [[self baselineDistanceThreshold] floatValue];
-	float baselineSlopeThresholdF = [[self baselineSlopeThreshold] floatValue];
-	float baselineDensityThresholdF = [[self baselineDensityThreshold] floatValue];
-
-    [[self undoManager] registerUndoWithTarget:self
-                                      selector:@selector(setBaseline:)
-                                        object:[baseline mutableCopy]];
-    [[self undoManager] setActionName:NSLocalizedString(@"Identify Baseline",@"")];
-    
-	[self willChangeValueForKey:@"baseline"];
-	
-    [baseline removeAllObjects];
-	
-	for (i = 0; i < count; i++) {
-		minimumSoFar = intensity[i];
-		for (j = i - baselineWindowWidthF/2; j < i + baselineWindowWidthF/2; j++) {
-			if (intensity[j] < minimumSoFar) {
-				minimumSoFar = intensity[j];
-			}
-		}
-		minimum[i] = minimumSoFar;	
-	}
-	
-	for (i = 0; i < count; i++) {
-		distance[i] = fabs(intensity[i] - minimum[i]);
-	}
-	
-	for (i = 0; i < count-1; i++) {
-		slope[i] = (fabs((intensity[i+1]-intensity[i])/(time[i+1]-time[i])) + fabs((intensity[i]-intensity[i-1])/(time[i]-time[i-1])))/2;
-	}
-	slope[count-1] = 0.0;
-	
-	for (i = 0; i < count; i++) {
-		densitySoFar = 0.0;
-		for (j = i - baselineWindowWidthF/2; j < i + baselineWindowWidthF/2; j++) {
-			distanceSquared = pow(fabs(intensity[j]-intensity[i]),2) + pow(fabs(time[j]-time[i]),2);
-			if (distanceSquared != 0.0) densitySoFar = densitySoFar + 1/sqrt(distanceSquared);	
-		}
-		density[i] = densitySoFar;		
-	}
-	
-	normalize(distance, count);
-	normalize(slope, count);
-	normalize(density, count);
-	
-	[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"Scan", [NSNumber numberWithFloat:intensity[0]], @"Total Intensity", [NSNumber numberWithFloat:time[0]/60.0], @"Time",nil]];
-	for (i = 0; i < count; i++) {
-		if (distance[i] < baselineDistanceThresholdF && (slope[i] > -baselineSlopeThresholdF  && slope[i] < baselineSlopeThresholdF) && density[i] > baselineDensityThresholdF) { 
-			[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:i], @"Scan", [NSNumber numberWithFloat:intensity[i]], @"Total Intensity", [NSNumber numberWithFloat:time[i]/60.0], @"Time",nil]];
-		}
-	}
-	[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:count-1], @"Scan", [NSNumber numberWithFloat:intensity[count-1]], @"Total Intensity", [NSNumber numberWithFloat:time[count-1]/60.0], @"Time",nil]];
-	[self didChangeValueForKey:@"baseline"];
-}	
-
-- (void)identifyPeaksOff
-{
-	int i,j, peakCount, answer;
-	int start, end, top;
-	float a, b, height, surface, maximumSurface, maximumHeight;
-	float startTime, topTime, endTime, widthTime;
-	float time1, time2;
-	float height1, height2;
-	float retentionIndex;//, retentionIndexSlope, retentionIndexRemainder;
-		JKSpectrum *spectrum;
-		int npts;
-		float *xpts, *ypts;
-		
-		NSMutableArray *array = [[NSMutableArray alloc] init];
-		
-		if ([peaks count] > 0) {
-			answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete current peaks?",@""),NSLocalizedString(@"Peaks that are already identified could cause doublures. It's recommended to delete the current peaks.",@""),NSLocalizedString(@"Delete",@""),NSLocalizedString(@"Cancel",@""),NSLocalizedString(@"Keep",@""));
-			if (answer == NSOKButton) {
-				// Delete contents!
-				[self willChangeValueForKey:@"peaks"];
-				[peaks removeAllObjects];
-				[self didChangeValueForKey:@"peaks"];			
-			} else if (answer == NSCancelButton) {
-				return;
-			} else {
-				// Continue by adding peaks
-			}
-		}
-		
-		// Baseline check
-		if ([baseline count] <= 0) {
-//			JKLogDebug([baseline description]);
-//			JKLogWarning(@"No baseline set. Can't recognize peaks without one.");
-            answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Baseline Set",@""),NSLocalizedString(@"No baseline have yet been identified in the chromatogram. Use the 'Identify Baseline' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
-			return;
-		}
-		
-		// Some initial settings
-		i = 0;
-		peakCount = 1;	
-		maximumSurface = 0.0;
-		maximumHeight = 0.0;
-		float peakIdentificationThresholdF = [[self peakIdentificationThreshold] floatValue];
-		
-		for (i = 0; i < numberOfPoints; i++) {
-			if (totalIntensity[i]/[self baselineValueAtScan:i] > (1.0 + peakIdentificationThresholdF)){
-				
-				// determine: high, start, end
-				// start
-				for (j=i; totalIntensity[j] > totalIntensity[j-1]; j--) {				
-				}
-				start = j;
-				if (start < 0) start = 0; // Don't go outside bounds!
-				
-				// top
-				for (j=start; totalIntensity[j] < totalIntensity[j+1]; j++) {
-				}
-				top=j;
-				if (top >= numberOfPoints) top = numberOfPoints-1; // Don't go outside bounds!
-				
-				// end
-				for (j=top; totalIntensity[j] > totalIntensity[j+1]; j++) {				
-				}
-				end=j;
-				if (end >= numberOfPoints-1) end = numberOfPoints-1; // Don't go outside bounds!
-				
-				// start time
-				startTime = [self timeForScan:start];
-				
-				// top time
-				topTime = [self timeForScan:top];
-				
-				// end time
-				endTime = [self timeForScan:end];
-				
-				// width
-				widthTime = endTime - startTime;
-				
-				// baseline left
-				float baselineAtStart = [self baselineValueAtScan:start];
-				if (baselineAtStart > totalIntensity[start]) {
-					baselineAtStart = totalIntensity[start];
-				}
-				// baseline right
-				float baselineAtEnd = [self baselineValueAtScan:end];
-				if (baselineAtEnd > totalIntensity[end]) {
-					baselineAtEnd = totalIntensity[end];
-				}
-				
-				// Calculations needed for height and width
-				a= baselineAtEnd-baselineAtStart;
-				b= endTime-startTime;
-				
-				// height
-				//height = intensities[top]-(intensities[start] + (a/b)*(topTime-startTime) );
-				height = totalIntensity[top] - [self baselineValueAtScan:top];
-				// Keep track of what the heighest peak is
-				if (height > maximumHeight) maximumHeight = height;
-				
-				// surface  WARNING! This is an absolute, not a relative peak surface!
-				surface = 0.0;
-				for (j=start; j < end; j++) {
-					time1 = [self timeForScan:j];
-					time2 = [self timeForScan:j+1];
-					
-					height1 = totalIntensity[j]-(baselineAtStart + (a/b)*(time1-startTime) );
-					height2 = totalIntensity[j+1]-(baselineAtStart + (a/b)*(time2-startTime) );
-					
-					if (height1 > height2) {
-						surface = surface + (height2 * (time2-time1)) + ((height1-height2) * (time2-time1) * 0.5);
-					} else {
-						surface = surface + (height1 * (time2-time1)) + ((height2-height1) * (time2-time1) * 0.5);					
-					}
-				}
-				// Keep track of what the largest peak is
-				if (surface > maximumSurface) maximumSurface = surface;
-				
-				if (top != start && top != end && surface > 0.0) { // Sanity check
-																   // Add peak
-					JKPeakRecord *record = [[JKPeakRecord alloc] init];
-					[record setDocument:self];
-					[record setValue:[NSNumber numberWithInt:peakCount] forKey:@"peakID"];
-					[record setValue:[NSNumber numberWithInt:start] forKey:@"start"];
-					[record setValue:[NSNumber numberWithInt:top] forKey:@"top"];
-					[record setValue:[NSNumber numberWithInt:end] forKey:@"end"];
-					[record setValue:[NSNumber numberWithFloat:baselineAtStart] forKey:@"baselineLeft"];
-					[record setValue:[NSNumber numberWithFloat:baselineAtEnd] forKey:@"baselineRight"];
-					
-					[record setValue:[NSNumber numberWithFloat:height] forKey:@"height"];
-					[record setValue:[NSNumber numberWithFloat:surface] forKey:@"surface"];
-	
-					retentionIndex = topTime * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
-					[record setValue:[NSNumber numberWithFloat:retentionIndex] forKey:@"retentionIndex"];
-					
-					spectrum = [[JKSpectrum alloc] init];
-					npts = [self endValuesSpectrum:top] - [self startValuesSpectrum:top];
-					xpts = [self massValuesForSpectrumAtScan:top];
-					ypts = [self intensityValuesForSpectrumAtScan:top];
-					[spectrum setMasses:xpts withCount:npts];
-					[spectrum setIntensities:ypts withCount:npts];
-					[spectrum setDocument:self];
-					free(xpts);
-					free(ypts);
-					[spectrum setValue:[NSNumber numberWithFloat:[self retentionIndexForScan:top]] forKey:@"retentionIndex"];
-					
-					[record setSpectrum:spectrum];
-					[spectrum release];
-					
-					
-					[array addObject:record];
-					peakCount++;
-					
-					[record release]; 
-				}
-				
-				// Continue looking for peaks from end of this peak
-				i = end;			
-			}
-		}
-		
-		// Walk through the found peaks to calculate a normalized surface area and normalized height
-		peakCount = [array count];
-		for (i = 0; i < peakCount; i++) {
-			[[array objectAtIndex:i] setValue:[NSNumber numberWithFloat:[[[array objectAtIndex:i] valueForKey:@"height"] floatValue]*100/maximumHeight] forKey:@"normalizedHeight"];
-			[[array objectAtIndex:i] setValue:[NSNumber numberWithFloat:[[[array objectAtIndex:i] valueForKey:@"surface"] floatValue]*100/maximumSurface] forKey:@"normalizedSurface"];
-		}
-		// warning This undo doesn't work correctly(?)
-		
-		[[self undoManager] registerUndoWithTarget:self
-										  selector:@selector(setPeaks:)
-											object:peaks];
-		[[self undoManager] setActionName:NSLocalizedString(@"Identify Peaks",@"")];
-		
-		// Add peak to array
-		[array addObjectsFromArray:peaks];
-		[self setPeaks:array];
-		
-		[array release];
-		return;	
-}
+//- (ChromatogramGraphDataSerie *)obtainTICChromatogram  
+//{
+//	int i;
+//	
+//	ChromatogramGraphDataSerie *chromatogram = [[ChromatogramGraphDataSerie alloc] init];
+//    NSMutableArray *mutArray = [[NSMutableArray alloc] init];
+//	for (i = 0; i < numberOfPoints; i++) {
+//		NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:time[i]/60.0f], @"Time",
+//			[NSNumber numberWithInt:i], @"Scan", [NSNumber numberWithFloat:[self retentionIndexForScan:i]], @"Retention Index",
+//			[NSNumber numberWithFloat:totalIntensity[i]], @"Total Intensity", nil];
+//		[mutArray addObject:dict];      
+//		[dict release];
+//	}
+//	[chromatogram setDataArray:mutArray];
+//	[mutArray release];
+//	
+//	[chromatogram setKeyForXValue:@"Time"];
+//	[chromatogram setKeyForYValue:@"Total Intensity"];
+//	[chromatogram setSeriesTitle:NSLocalizedString(@"TIC Chromatogram",@"")];
+//	
+//	[chromatogram autorelease];
+//	
+//	return chromatogram;
+//}
 
 
--(void)identifyPeaks { //UsingIntensityWeightedVariance {
-    // Identify Peaks using method described in Jarman2003
-    
-    float desiredSignificance = 0.95; // set by user?
-    
-    int windowWidth; // increasing from 11 to 200 increasing by 1.5 times per iteration (that is 8 steps) {11, 17, 26, 39, 59, 89, 134, 200}
-    int stepSize; // = windowWidth/3;
-    int step = 0;
-    float iwv[8][numberOfPoints];
-    
-    int i,j,n,scan,count,countOfValues;
-    float t,a,q,d,mean,variance,sum,sumDenominator,sumDevisor;
-    float *massValues, *intensityValues;
-    massValues = [self massValues];
-    intensityValues = [self intensityValues];
-    
-    
-    // Vary window width [3.4.0]
-    windowWidth = 7; // *1.5 is 11
-    for (step = 0; step < 8; step++) {
-        windowWidth = lroundf(windowWidth *1.5f);
-        stepSize = windowWidth/3;
 
-        // Calculate mean
-        sum = 0.0;
-        for (j = 0; j < windowWidth; j++) {
-            NSLog(@"intensityValues[%d]: %f", j, intensityValues[j]);
-            sum = sum + intensityValues[j];
-        }
-        mean = sum/windowWidth;
-
-        // Calculate variance
-        sum = 0.0;
-        for (j = 0; j < windowWidth; j++) {
-            sum = sum + pow((intensityValues[j]-mean),2);
-        }
-        variance = sqrt(sum/windowWidth);
-
-        
-        // Calculate threshold [3.4.1]
-        // Solving -q/d*n*(1-t)/sqrt(n*((3*(3*n^2-7))/(5*(n^2-1))-2*t+t^2))=a for t results on
-        // http://www.hostsrv.com/webmab/app1/MSP/quickmath/02/pageGenerate?site=mathcom&s1=equations&s2=solve&s3=basic in
-        // t = (-5*pow(q,2)*pow(n,3)+5*pow(a,2)*pow(d,2)*pow(n,2)+5*pow(q,2)*n-5*pow(a,2)*pow(d,2)-2*sqrt(5) * sqrt(pow(a,2)*pow(d,2)*pow(q,2)*pow(n,5)-pow(a,4)*pow(d,4)*pow(n,4)-5*pow(a,2)*pow(d,2)*pow(q,2)*pow(n,3) + 5*pow(a,4)*pow(d,4)*pow(n,2)+4*pow(a,2)*pow(d,2)*pow(q,2)*n-4*pow(a,4)*pow(d,4))) / (5*(-pow(q,2)*pow(n,3)+pow(a,2)*pow(d,2)*pow(n,2)+pow(q,2)*n-pow(a,2)*pow(d,2)));
-        // and in:
-        n = windowWidth;
-        a = desiredSignificance;
-        q = mean;
-        d = variance;
-        NSLog(@"windowWidth: %d | desiredSignificance: %g | mean: %g |d: %g", n,a,q,d);
-        t = (-5*pow(q,2)*pow(n,3)+5*pow(a,2)*pow(d,2)*pow(n,2)+5*pow(q,2)*n-5*pow(a,2)*pow(d,2)+2*sqrt(5) * sqrt(pow(a,2)*pow(d,2)*pow(q,2)*pow(n,5)-pow(a,4)*pow(d,4)*pow(n,4)-5*pow(a,2)*pow(d,2)*pow(q,2)*pow(n,3) + 5*pow(a,4)*pow(d,4)*pow(n,2)+4*pow(a,2)*pow(d,2)*pow(q,2)*n-4*pow(a,4)*pow(d,4))) / (5*(-pow(q,2)*pow(n,3)+pow(a,2)*pow(d,2)*pow(n,2)+pow(q,2)*n-pow(a,2)*pow(d,2)));
-        NSLog(@"threshold: %g",t);
-        
-        // Step through
-        for (scan = 0; scan < numberOfPoints-1; scan = scan+stepSize) {
-            // Calculate iwv [3.4.2]
-            countOfValues = [self countOfValuesForSpectrumAtScan:scan];
-            massValues = [self massValuesForSpectrumAtScan:scan];
-            intensityValues = [self intensityValuesForSpectrumAtScan:scan];
-            // Calculate mean massValues (m/z-values actually)
-            sum = 0.0;
-            for (j = 0; j < countOfValues; j++) {
-                sum = sum + massValues[j];
-            }
-            mean = sum/countOfValues;
-            sumDenominator= 0.0; sumDevisor = 0.0;
-            for (j = 0; j < countOfValues; j++) {
-                sumDenominator = sumDenominator + (intensityValues[j]*pow((massValues[j]-mean),2));
-                sumDevisor = sumDevisor + intensityValues[j];
-            }
-            //NSLog(@"iwv[%d][%d]: %g",step, scan, (sumDenominator/sumDevisor));
-
-            iwv[step][scan] = (sumDenominator/sumDevisor);
-        }
-        
-    }
-    
-    // Find occurences below threshold [3.4.3]
-    for (i = 0; i < numberOfPoints; i++) {
-        count = 0;
-        for (j = 0; j < 7; j++) {
-            if (iwv[j][i] < t) {
-                count++;
-            }
-        }
-        if (count >= 2) {
-            // A peak has been detected at scan i
-           // NSLog(@"peak at scan %d",i);
-        }
-    }
-    
-    // Compile list, remove duplicates [3.4.4]
-}
+//-(void)identifyPeaksOff { //UsingIntensityWeightedVariance {
+//    // Identify Peaks using method described in Jarman2003
+//    
+//    float desiredSignificance = 0.95; // set by user?
+//    
+//    int windowWidth; // increasing from 11 to 200 increasing by 1.5 times per iteration (that is 8 steps) {11, 17, 26, 39, 59, 89, 134, 200}
+//    int stepSize; // = windowWidth/3;
+//    int step = 0;
+//    float iwv[8][numberOfPoints];
+//    
+//    int i,j,n,scan,count,countOfValues;
+//    float t,a,q,d,mean,variance,sum,sumDenominator,sumDevisor;
+//    float *massValues, *intensityValues;
+//    massValues = [self massValues];
+//    intensityValues = [self intensityValues];
+//    
+//    
+//    // Vary window width [3.4.0]
+//    windowWidth = 7; // *1.5 is 11
+//    for (step = 0; step < 8; step++) {
+//        windowWidth = lroundf(windowWidth *1.5f);
+//        stepSize = windowWidth/3;
+//
+//        // Calculate mean
+//        sum = 0.0;
+//        for (j = 0; j < windowWidth; j++) {
+//            NSLog(@"intensityValues[%d]: %f", j, intensityValues[j]);
+//            sum = sum + intensityValues[j];
+//        }
+//        mean = sum/windowWidth;
+//
+//        // Calculate variance
+//        sum = 0.0;
+//        for (j = 0; j < windowWidth; j++) {
+//            sum = sum + pow((intensityValues[j]-mean),2);
+//        }
+//        variance = sqrt(sum/windowWidth);
+//
+//        
+//        // Calculate threshold [3.4.1]
+//        // Solving -q/d*n*(1-t)/sqrt(n*((3*(3*n^2-7))/(5*(n^2-1))-2*t+t^2))=a for t results on
+//        // http://www.hostsrv.com/webmab/app1/MSP/quickmath/02/pageGenerate?site=mathcom&s1=equations&s2=solve&s3=basic in
+//        // t = (-5*pow(q,2)*pow(n,3)+5*pow(a,2)*pow(d,2)*pow(n,2)+5*pow(q,2)*n-5*pow(a,2)*pow(d,2)-2*sqrt(5) * sqrt(pow(a,2)*pow(d,2)*pow(q,2)*pow(n,5)-pow(a,4)*pow(d,4)*pow(n,4)-5*pow(a,2)*pow(d,2)*pow(q,2)*pow(n,3) + 5*pow(a,4)*pow(d,4)*pow(n,2)+4*pow(a,2)*pow(d,2)*pow(q,2)*n-4*pow(a,4)*pow(d,4))) / (5*(-pow(q,2)*pow(n,3)+pow(a,2)*pow(d,2)*pow(n,2)+pow(q,2)*n-pow(a,2)*pow(d,2)));
+//        // and in:
+//        n = windowWidth;
+//        a = desiredSignificance;
+//        q = mean;
+//        d = variance;
+//        NSLog(@"windowWidth: %d | desiredSignificance: %g | mean: %g |d: %g", n,a,q,d);
+//        t = (-5*pow(q,2)*pow(n,3)+5*pow(a,2)*pow(d,2)*pow(n,2)+5*pow(q,2)*n-5*pow(a,2)*pow(d,2)+2*sqrt(5) * sqrt(pow(a,2)*pow(d,2)*pow(q,2)*pow(n,5)-pow(a,4)*pow(d,4)*pow(n,4)-5*pow(a,2)*pow(d,2)*pow(q,2)*pow(n,3) + 5*pow(a,4)*pow(d,4)*pow(n,2)+4*pow(a,2)*pow(d,2)*pow(q,2)*n-4*pow(a,4)*pow(d,4))) / (5*(-pow(q,2)*pow(n,3)+pow(a,2)*pow(d,2)*pow(n,2)+pow(q,2)*n-pow(a,2)*pow(d,2)));
+//        NSLog(@"threshold: %g",t);
+//        
+//        // Step through
+//        for (scan = 0; scan < numberOfPoints-1; scan = scan+stepSize) {
+//            // Calculate iwv [3.4.2]
+//            countOfValues = [self countOfValuesForSpectrumAtScan:scan];
+//            massValues = [self massValuesForSpectrumAtScan:scan];
+//            intensityValues = [self intensityValuesForSpectrumAtScan:scan];
+//            // Calculate mean massValues (m/z-values actually)
+//            sum = 0.0;
+//            for (j = 0; j < countOfValues; j++) {
+//                sum = sum + massValues[j];
+//            }
+//            mean = sum/countOfValues;
+//            sumDenominator= 0.0; sumDevisor = 0.0;
+//            for (j = 0; j < countOfValues; j++) {
+//                sumDenominator = sumDenominator + (intensityValues[j]*pow((massValues[j]-mean),2));
+//                sumDevisor = sumDevisor + intensityValues[j];
+//            }
+//            //NSLog(@"iwv[%d][%d]: %g",step, scan, (sumDenominator/sumDevisor));
+//
+//            iwv[step][scan] = (sumDenominator/sumDevisor);
+//        }
+//        
+//    }
+//    
+//    // Find occurences below threshold [3.4.3]
+//    for (i = 0; i < numberOfPoints; i++) {
+//        count = 0;
+//        for (j = 0; j < 7; j++) {
+//            if (iwv[j][i] < t) {
+//                count++;
+//            }
+//        }
+//        if (count >= 2) {
+//            // A peak has been detected at scan i
+//           // NSLog(@"peak at scan %d",i);
+//        }
+//    }
+//    
+//    // Compile list, remove duplicates [3.4.4]
+//}
 
 - (void)addChromatogramForMass:(NSString *)inString  
 {
-	ChromatogramGraphDataSerie *chromatogram = [self chromatogramForMass:inString];
+	ChromatogramGraphDataSerie *chromatogram = [[self chromatogramForModel:inString] chromatogramDataSerie];
 	
 	// Get colorlist
 	NSColorList *peakColors;
@@ -1033,20 +938,22 @@ static void *DocumentObservationContext = (void *)1100;
     [chromatogram setKeyForYValue:[[[self mainWindowController] chromatogramView] keyForYValue]];
 
 	[self willChangeValueForKey:@"chromatograms"];
+    [[[JKPanelController sharedController] inspectedGraphView] willChangeValueForKey:@"dataSeries"];
 	[chromatograms addObject:chromatogram];
 	[self didChangeValueForKey:@"chromatograms"];
+    [[[JKPanelController sharedController] inspectedGraphView] didChangeValueForKey:@"dataSeries"];
 }
 
-- (void)resetRetentionIndexes  
-{
-	int i; 
-	float calculatedRetentionIndex;
-	int peakCount = [peaks count];
-	for (i=0; i < peakCount; i++){
-		calculatedRetentionIndex = [[[peaks objectAtIndex:i] valueForKey:@"topTime"] floatValue] * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
-		[[peaks objectAtIndex:i] setValue:[NSNumber numberWithFloat:calculatedRetentionIndex] forKey:@"retentionIndex"];				
-	}	
-}
+//- (void)resetRetentionIndexes  
+//{
+//	int i; 
+//	float calculatedRetentionIndex;
+//	int peakCount = [peaks count];
+//	for (i=0; i < peakCount; i++){
+//		calculatedRetentionIndex = [[[peaks objectAtIndex:i] valueForKey:@"topTime"] floatValue] * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
+//		[[peaks objectAtIndex:i] setValue:[NSNumber numberWithFloat:calculatedRetentionIndex] forKey:@"retentionIndex"];				
+//	}	
+//}
 
 - (BOOL)searchLibraryForAllPeaks:(id)sender
 {
@@ -1140,7 +1047,7 @@ static void *DocumentObservationContext = (void *)1100;
 		maximumScore = 0.0;
 		maximumIndex = -1;
 		for (k = 0; k < peaksCount; k++) {
-			if ([[self peaks] objectAtIndex:k] != originatingPeak) {
+			if (([[self peaks] objectAtIndex:k] != originatingPeak) && (![[[self peaks] objectAtIndex:k] confirmed])) {
 				score = [[[[self peaks] objectAtIndex:k] spectrum] scoreComparedToLibraryEntry:[searchResult objectForKey:@"libraryHit"]];
 				if (score >= maximumScore) {
 					maximumScore = score;
@@ -1191,39 +1098,6 @@ static void *DocumentObservationContext = (void *)1100;
 
 #pragma mark HELPER ACTIONS
 
-- (float)timeForScan:(int)scan  
-{
-    return time[scan]/60.0f;    
-//    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
-//    int dummy, varid_scanaqtime;
-//    float   x;
-//    
-//    dummy = nc_inq_varid(ncid, "scan_acquisition_time", &varid_scanaqtime);
-//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_acquisition_time variable failed. Report error #%d.", dummy); return -1.0;}
-//	
-//    dummy = nc_get_var1_float(ncid, varid_scanaqtime, (void *) &scan, &x);
-//    
-////    NSLog(@"time[] %g - new fetch %g", time[scan], x);
-//
-//    return x;
-}
-
-- (int)scanForTime:(float)inTime {
-//    NSLog(@"%g",inTime);
-    int i;
-    inTime = inTime * 60.0f;
-    if (inTime <= time[0]) {
-        return 0;
-    } else if (inTime >= time[numberOfPoints-1]) {
-        return numberOfPoints-1;
-    }
-    for (i=0; i<numberOfPoints; i++) {
-        if (time[i]>inTime) {
-            return i;
-        }
-    }
-    return numberOfPoints-1;
-}
 
 //- (float)retentionIndexForScan:(int)scan  
 //{
@@ -1235,406 +1109,381 @@ static void *DocumentObservationContext = (void *)1100;
 //    return (x/60) * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
 //}
 
-- (float *)massValuesForSpectrumAtScan:(int)scan  
-{
-    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
-    int dummy, start, end, varid_mass_value, varid_scan_index;
-	//   float 	xx;
-    float 	*x;
-    int		num_pts;
-	
-    dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_value variable failed. Report error #%d.", dummy);        return 0;}
-	
-	
-	dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable failed. Report error #%d.", dummy); return 0;}
-	
-    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &start);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
-	
-	scan++;
-    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &end);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
-	
-	//    start = [self startValuesSpectrum:scan];
-	//    end = [self endValuesSpectrum:scan];
-    num_pts = end - start;
-    
-	//	JKLogDebug(@"start= %d, end = %d, count = %d",start, end, num_pts);
-	//   x = (float *) malloc((num_pts+1)*sizeof(float));
-	
-	x = (float *) malloc(num_pts*sizeof(float));
-	//	dummy = nc_get_var_float(ncid, varid_mass_value, x);
-	
-	dummy = nc_get_vara_float(ncid, varid_mass_value, (const size_t *) &start, (const size_t *) &num_pts, x);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values failed. Report error #%d.", dummy); return x;}
-	
-	//    for(i = start; i < end; i++) {
-	//        dummy = nc_get_var1_float(ncid, varid_mass_value, (void *) &i, &xx);
-	//        *(x + (i-start)) = xx;
-	//        if(maxXValuesSpectrum < xx) {
-	//            maxXValuesSpectrum = xx;
-	//        }
-	//        if(minXValuesSpectrum > xx || i == start) {
-	//            minXValuesSpectrum = xx;
-	//        }
-	
-	//    }
-	
-    return x;    
-}
+//- (float *)massValuesForSpectrumAtScan:(int)scan  
+//{
+//    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
+//    int dummy, start, end, varid_mass_value, varid_scan_index;
+//	//   float 	xx;
+//    float 	*x;
+//    int		num_pts;
+//	
+//    dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_value variable failed. Report error #%d.", dummy);        return 0;}
+//	
+//	
+//	dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable failed. Report error #%d.", dummy); return 0;}
+//	
+//    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &start);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
+//	
+//	scan++;
+//    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &end);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
+//	
+//	//    start = [self startValuesSpectrum:scan];
+//	//    end = [self endValuesSpectrum:scan];
+//    num_pts = end - start;
+//    
+//	//	JKLogDebug(@"start= %d, end = %d, count = %d",start, end, num_pts);
+//	//   x = (float *) malloc((num_pts+1)*sizeof(float));
+//	
+//	x = (float *) malloc(num_pts*sizeof(float));
+//	//	dummy = nc_get_var_float(ncid, varid_mass_value, x);
+//	
+//	dummy = nc_get_vara_float(ncid, varid_mass_value, (const size_t *) &start, (const size_t *) &num_pts, x);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values failed. Report error #%d.", dummy); return x;}
+//	
+//	//    for(i = start; i < end; i++) {
+//	//        dummy = nc_get_var1_float(ncid, varid_mass_value, (void *) &i, &xx);
+//	//        *(x + (i-start)) = xx;
+//	//        if(maxXValuesSpectrum < xx) {
+//	//            maxXValuesSpectrum = xx;
+//	//        }
+//	//        if(minXValuesSpectrum > xx || i == start) {
+//	//            minXValuesSpectrum = xx;
+//	//        }
+//	
+//	//    }
+//	
+//    return x;    
+//}
+//
+//- (float *)intensityValuesForSpectrumAtScan:(int)scan  
+//{
+//    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
+//    int dummy, start, end, varid_intensity_value, varid_scan_index;
+//	//   float 	yy;
+//    float 	*y;
+//    int		num_pts;
+//	
+//    dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return 0;}
+//	
+//	dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable failed. Report error #%d.", dummy); return 0;}
+//	
+//    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &start);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
+//	
+//	scan++;
+//    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &end);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
+//	
+//	//    start = [self startValuesSpectrum:scan];
+//	//    end = [self endValuesSpectrum:scan];
+//    num_pts = end - start;
+//	
+//	y = (float *) malloc((num_pts)*sizeof(float));
+//	//	dummy = nc_get_var_float(ncid, varid_intensity_value, y);
+//	
+//	dummy = nc_get_vara_float(ncid, varid_intensity_value, (const size_t *) &start, (const size_t *) &num_pts, y);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_values failed. Report error #%d.", dummy); return y;}
+//	
+//	//	//    minYValuesSpectrum = 0.0; minYValuesSpectrum = 80000.0;	
+//	//    for(i = start; i < end; i++) {
+//	//        dummy = nc_get_var1_float(ncid, varid_intensity_value, (void *) &i, &yy);
+//	//        *(y + (i-start)) = yy;
+//	//		//        if(maxXValuesSpectrum < yy) {
+//	//		//            maxXValuesSpectrum = yy;
+//	//		//        }
+//	//		//        if(minXValuesSpectrum > yy || i == start) {
+//	//		//            minXValuesSpectrum = yy;
+//	//		//        }
+//	//		
+//	//    }
+//	
+//    return y;
+//}
 
-- (float *)intensityValuesForSpectrumAtScan:(int)scan  
-{
-    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
-    int dummy, start, end, varid_intensity_value, varid_scan_index;
-	//   float 	yy;
-    float 	*y;
-    int		num_pts;
-	
-    dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return 0;}
-	
-	dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable failed. Report error #%d.", dummy); return 0;}
-	
-    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &start);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
-	
-	scan++;
-    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &end);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
-	
-	//    start = [self startValuesSpectrum:scan];
-	//    end = [self endValuesSpectrum:scan];
-    num_pts = end - start;
-	
-	y = (float *) malloc((num_pts)*sizeof(float));
-	//	dummy = nc_get_var_float(ncid, varid_intensity_value, y);
-	
-	dummy = nc_get_vara_float(ncid, varid_intensity_value, (const size_t *) &start, (const size_t *) &num_pts, y);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_values failed. Report error #%d.", dummy); return y;}
-	
-	//	//    minYValuesSpectrum = 0.0; minYValuesSpectrum = 80000.0;	
-	//    for(i = start; i < end; i++) {
-	//        dummy = nc_get_var1_float(ncid, varid_intensity_value, (void *) &i, &yy);
-	//        *(y + (i-start)) = yy;
-	//		//        if(maxXValuesSpectrum < yy) {
-	//		//            maxXValuesSpectrum = yy;
-	//		//        }
-	//		//        if(minXValuesSpectrum > yy || i == start) {
-	//		//            minXValuesSpectrum = yy;
-	//		//        }
-	//		
-	//    }
-	
-    return y;
-}
+//- (ChromatogramGraphDataSerie *)chromatogramForMass:(NSString *)inString  
+//{
+//	NSMutableArray *mzValues = [NSMutableArray array];
+//	NSArray *mzValuesPlus = [inString componentsSeparatedByString:@"+"];
+//	
+//	unsigned int i,j,k, mzValuesCount;
+//	
+//	for (i = 0; i < [mzValuesPlus count]; i++) {
+//		NSArray *mzValuesMin = [[mzValuesPlus objectAtIndex:i] componentsSeparatedByString:@"-"];
+//		if ([mzValuesMin count] > 1) {
+//			if ([[mzValuesMin objectAtIndex:0] intValue] < [[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]) {
+//				for (j = (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j < (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j++) {
+//					[mzValues addObject:[NSNumber numberWithInt:j]];
+//				}
+//			} else {
+//				for (j = (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j < (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j++) {
+//					[mzValues addObject:[NSNumber numberWithInt:j]];
+//				}
+//			}
+//		} else {
+//			[mzValues addObject:[NSNumber numberWithInt:[[mzValuesMin objectAtIndex:0] intValue]]];
+//		}
+//	}
+//	
+//	NSString *mzValuesString = [NSString stringWithFormat:@"%d",[[mzValues objectAtIndex:0] intValue]];
+//	mzValuesCount = [mzValues count];
+//	for (i = 1; i < mzValuesCount; i++) {
+//		mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d",[[mzValues objectAtIndex:i] intValue]];
+//	}
+//	// JKLogDebug(mzValuesString);
+//	
+//	
+//    int     dummy, scan, dimid, varid_intensity_value, varid_mass_value, varid_scan_index, varid_point_count, scanCount;
+//    float   mass, intensity;
+//    float	*times, *masses,	*intensities;
+//    unsigned int num_pts, num_scan;
+//    
+//    dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return nil;}
+//
+////    dummy = nc_inq_varid(ncid, "time_values", &varid_time_value);
+////    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting time_values variable failed. Report error #%d. Continuing...", dummy);}
+//    
+//    dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return nil;}
+//	
+//    dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting varid_scan_index variable failed. Report error #%d.", dummy); return nil;}
+//	
+//    dummy = nc_inq_varid(ncid, "point_count", &varid_point_count);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_count variable failed. Report error #%d.", dummy); return nil;}
+//    
+//    dummy = nc_inq_dimid(ncid, "point_number", &dimid);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension failed. Report error #%d.", dummy); return nil;}
+//    
+//    dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_pts);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return nil;}
+//	
+//    dummy = nc_inq_dimid(ncid, "scan_number", &dimid);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_number dimension failed. Report error #%d.", dummy); return nil;}
+//    
+//    dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_scan);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_number dimension length failed. Report error #%d.", dummy); return nil;}
+//    
+//	masses = (float *) malloc((num_scan)*sizeof(float));
+//	times = (float *) malloc((num_scan)*sizeof(float));
+//	intensities = (float *) malloc((num_scan)*sizeof(float));
+//
+//	for(i = 0; i < num_scan; i++) {
+//        masses[i] = 0.0f;
+//        times[i] = 0.0f;
+//        intensities[i] = 0.0f;
+//		dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &i, &scan); // is this the start or the end?
+//		dummy = nc_get_var1_int(ncid, varid_point_count, (void *) &i, &scanCount);
+//		for(j = scan; j < (unsigned)scan + (unsigned)scanCount; j++) {
+//            mass = 0.0f;
+////            timeL = 0.0f;
+//            intensity = 0.0f;
+//			dummy = nc_get_var1_float(ncid, varid_mass_value, (void *) &j, &mass);
+//			for(k = 0; k < mzValuesCount; k++) {
+//				if (fabs(mass-[[mzValues objectAtIndex:k] intValue]) < 0.5) {
+////					dummy = nc_get_var1_float(ncid, varid_time_value, (const size_t *) &j, &timeL);
+//					dummy = nc_get_var1_float(ncid, varid_intensity_value, (const size_t *) &j, &intensity);
+//					
+//					masses[i] = mass;
+//					times[i] = [self timeForScan:i];
+//					intensities[i] = intensities[i] + intensity;
+//				}
+//			}
+//		}
+//	}
+//	ChromatogramGraphDataSerie *chromatogram;
+//	
+//    //create a chromatogram object
+//    chromatogram = [[ChromatogramGraphDataSerie alloc] init];
+//	NSMutableArray *mutArray = [[NSMutableArray alloc] init];
+//	
+//    for(i=0;i<num_scan;i++){
+//        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:time[i]/60.0f], @"Time",
+//			[NSNumber numberWithInt:i], @"Scan",
+//			[NSNumber numberWithFloat:intensities[i]], @"Total Intensity", nil];
+//		[mutArray addObject:dict];      
+//		[dict release];
+//    }
+//
+//	[chromatogram setDataArray:mutArray];
+//	[mutArray release];
+//
+////	NSLog(@"max tot int: %f; max new int: %f", [self maximumTotalIntensity], jk_stats_float_max(intensities,num_scan));
+////	[chromatogram setVerticalScale:[NSNumber numberWithFloat:[self maximumTotalIntensity]/jk_stats_float_max(intensities,num_scan)]];
+//
+//	[chromatogram setVerticalScale:[NSNumber numberWithFloat:1.0]];
+//    
+//    unsigned int count;
+//    NSArray *presets = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"presets"];
+//    count = [presets count];
+//    NSString *title;
+//    title = mzValuesString;
+//    for (i=0; i< count; i++) {
+//        if([[[presets objectAtIndex:i] valueForKey:@"massValue"] isEqualToString:mzValuesString]) {
+//            title = [NSString stringWithFormat:@"%@ (%@)", [[presets objectAtIndex:i] valueForKey:@"name"], mzValuesString];
+//        }
+//    }
+//	[chromatogram setSeriesTitle:title];
+//	[chromatogram setSeriesColor:[NSColor redColor]];
+//	
+//	[chromatogram setKeyForXValue:[[mainWindowController chromatogramView] keyForXValue]];
+//	[chromatogram setKeyForYValue:@"Total Intensity"];
+//
+//	[chromatogram autorelease];
+//	
+//	return chromatogram;
+//}
 
-- (ChromatogramGraphDataSerie *)chromatogramForMass:(NSString *)inString  
-{
-	NSMutableArray *mzValues = [NSMutableArray array];
-	NSArray *mzValuesPlus = [inString componentsSeparatedByString:@"+"];
-	
-	unsigned int i,j,k, mzValuesCount;
-	
-	for (i = 0; i < [mzValuesPlus count]; i++) {
-		NSArray *mzValuesMin = [[mzValuesPlus objectAtIndex:i] componentsSeparatedByString:@"-"];
-		if ([mzValuesMin count] > 1) {
-			if ([[mzValuesMin objectAtIndex:0] intValue] < [[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]) {
-				for (j = (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j < (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j++) {
-					[mzValues addObject:[NSNumber numberWithInt:j]];
-				}
-			} else {
-				for (j = (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j < (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j++) {
-					[mzValues addObject:[NSNumber numberWithInt:j]];
-				}
-			}
-		} else {
-			[mzValues addObject:[NSNumber numberWithInt:[[mzValuesMin objectAtIndex:0] intValue]]];
-		}
-	}
-	
-	NSString *mzValuesString = [NSString stringWithFormat:@"%d",[[mzValues objectAtIndex:0] intValue]];
-	mzValuesCount = [mzValues count];
-	for (i = 1; i < mzValuesCount; i++) {
-		mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d",[[mzValues objectAtIndex:i] intValue]];
-	}
-	// JKLogDebug(mzValuesString);
-	
-	
-    int     dummy, scan, dimid, varid_intensity_value, varid_mass_value, varid_scan_index, varid_point_count, scanCount;
-    float   mass, intensity;
-    float	*times, *masses,	*intensities;
-    unsigned int num_pts, num_scan;
-    
-    dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return nil;}
+//- (SpectrumGraphDataSerie *)spectrumForScan:(int)scan {
+//    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
+//    SpectrumGraphDataSerie *spectrum;
+//	
+//    //create a spectrum object
+//    spectrum = [[SpectrumGraphDataSerie alloc] init];
+//
+//    int npts;
+//    npts = [self endValuesSpectrum:scan] - [self startValuesSpectrum:scan];
+//    [spectrum setKeyForXValue:@"Mass"];
+//    [spectrum setKeyForYValue:@"Intensity"];
+//    
+//    [spectrum loadDataPoints:npts withXValues:[self massValuesForSpectrumAtScan:scan] andYValues:[self intensityValuesForSpectrumAtScan:scan]];
+//    
+//	[spectrum setSeriesTitle:[NSString localizedStringWithFormat:@"Scan %d", scan]];
+//    [spectrum setKeyForXValue:@"Mass"];
+//    [spectrum setKeyForYValue:@"Intensity"];
+//	    
+//	[spectrum autorelease];
+//	
+//	return spectrum;
+//}
+//
 
-//    dummy = nc_inq_varid(ncid, "time_values", &varid_time_value);
-//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting time_values variable failed. Report error #%d. Continuing...", dummy);}
-    
-    dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return nil;}
-	
-    dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting varid_scan_index variable failed. Report error #%d.", dummy); return nil;}
-	
-    dummy = nc_inq_varid(ncid, "point_count", &varid_point_count);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_count variable failed. Report error #%d.", dummy); return nil;}
-    
-    dummy = nc_inq_dimid(ncid, "point_number", &dimid);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension failed. Report error #%d.", dummy); return nil;}
-    
-    dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_pts);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return nil;}
-	
-    dummy = nc_inq_dimid(ncid, "scan_number", &dimid);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_number dimension failed. Report error #%d.", dummy); return nil;}
-    
-    dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_scan);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_number dimension length failed. Report error #%d.", dummy); return nil;}
-    
-	masses = (float *) malloc((num_scan)*sizeof(float));
-	times = (float *) malloc((num_scan)*sizeof(float));
-	intensities = (float *) malloc((num_scan)*sizeof(float));
+//- (float *)yValuesIonChromatogram:(float)mzValue  
+//{
+//    int         i, dummy, dimid, varid_intensity_value, varid_mass_value;
+//    float     	xx, yy;
+//    float 	*y;
+//    int		num_pts, scanCount;
+//    scanCount = 0;
+//    
+//    dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return 0;}
+//    
+//    dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return 0;}
+//    
+//    dummy = nc_inq_dimid(ncid, "point_number", &dimid);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension failed. Report error #%d.", dummy); return 0;}
+//    
+//    dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_pts);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return 0;}
+//    
+//	
+//	//	dummy = nc_get_vara_float(ncid, varid_intensity_value, (const size_t *) &i, (const size_t *) &num_pts, &xx);
+//	//	nc_get_vara_float(int ncid, int varid,
+//	//					   const size_t *startp, const size_t *countp, float *ip);
+//    for(i = 0; i < num_pts; i++) {
+//        dummy = nc_get_var1_float(ncid, varid_mass_value, (void *) &i, &xx);
+//        if (fabs(xx-mzValue) < 0.5) {
+//            y = (float *) malloc((scanCount+1)*sizeof(float));
+//            dummy = nc_get_var1_float(ncid, varid_intensity_value, (const size_t *) &i, &yy);
+//			// *(y + (scanCount)) = yy;
+//            y[scanCount] = yy;
+//			//			JKLogDebug(@"scan %d: mass %f = %f %f", scanCount, xx, yy, y[scanCount]);
+//            scanCount++;
+//        } else {
+//			
+//		}
+//    };
+//    JKLogDebug(@"scanCount = %d", scanCount);
+//    return y;
+//}
+//
+//- (int)startValuesSpectrum:(int)scan  
+//{
+//    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
+//    int dummy, start, varid_scan_index;
+//	
+//    dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable failed. Report error #%d.", dummy); return 0;}
+//	
+//    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &start);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
+//	
+//    return start;
+//}
+//
+//
+//- (int)endValuesSpectrum:(int)scan  
+//{
+//    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
+//    int dummy, end, varid_scan_index;
+//	
+//    dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable failed. Report error #%d.", dummy); return 0;}
+//	
+//    scan++;
+//    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &end);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
+//	
+//    return end;
+//}
 
-	for(i = 0; i < num_scan; i++) {
-        masses[i] = 0.0f;
-        times[i] = 0.0f;
-        intensities[i] = 0.0f;
-		dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &i, &scan); // is this the start or the end?
-		dummy = nc_get_var1_int(ncid, varid_point_count, (void *) &i, &scanCount);
-		for(j = scan; j < (unsigned)scan + (unsigned)scanCount; j++) {
-            mass = 0.0f;
-//            timeL = 0.0f;
-            intensity = 0.0f;
-			dummy = nc_get_var1_float(ncid, varid_mass_value, (void *) &j, &mass);
-			for(k = 0; k < mzValuesCount; k++) {
-				if (fabs(mass-[[mzValues objectAtIndex:k] intValue]) < 0.5) {
-//					dummy = nc_get_var1_float(ncid, varid_time_value, (const size_t *) &j, &timeL);
-					dummy = nc_get_var1_float(ncid, varid_intensity_value, (const size_t *) &j, &intensity);
-					
-					masses[i] = mass;
-					times[i] = [self timeForScan:i];
-					intensities[i] = intensities[i] + intensity;
-				}
-			}
-		}
-	}
-	ChromatogramGraphDataSerie *chromatogram;
-	
-    //create a chromatogram object
-    chromatogram = [[ChromatogramGraphDataSerie alloc] init];
-	NSMutableArray *mutArray = [[NSMutableArray alloc] init];
-	
-    for(i=0;i<num_scan;i++){
-        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:time[i]/60.0f], @"Time",
-			[NSNumber numberWithInt:i], @"Scan",
-			[NSNumber numberWithFloat:intensities[i]], @"Total Intensity", nil];
-		[mutArray addObject:dict];      
-		[dict release];
-    }
-
-	[chromatogram setDataArray:mutArray];
-	[mutArray release];
-
-//	NSLog(@"max tot int: %f; max new int: %f", [self maximumTotalIntensity], jk_stats_float_max(intensities,num_scan));
-//	[chromatogram setVerticalScale:[NSNumber numberWithFloat:[self maximumTotalIntensity]/jk_stats_float_max(intensities,num_scan)]];
-
-	[chromatogram setVerticalScale:[NSNumber numberWithFloat:1.0]];
-    
-    unsigned int count;
-    NSArray *presets = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"presets"];
-    count = [presets count];
-    NSString *title;
-    title = mzValuesString;
-    for (i=0; i< count; i++) {
-        if([[[presets objectAtIndex:i] valueForKey:@"massValue"] isEqualToString:mzValuesString]) {
-            title = [NSString stringWithFormat:@"%@ (%@)", [[presets objectAtIndex:i] valueForKey:@"name"], mzValuesString];
-        }
-    }
-	[chromatogram setSeriesTitle:title];
-	[chromatogram setSeriesColor:[NSColor redColor]];
-	
-	[chromatogram setKeyForXValue:@"Scan"];
-	[chromatogram setKeyForYValue:@"Total Intensity"];
-
-	[chromatogram autorelease];
-	
-	return chromatogram;
-}
-
-- (SpectrumGraphDataSerie *)spectrumForScan:(int)scan {
-    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
-    SpectrumGraphDataSerie *spectrum;
-	
-    //create a spectrum object
-    spectrum = [[SpectrumGraphDataSerie alloc] init];
-
-    int npts;
-    npts = [self endValuesSpectrum:scan] - [self startValuesSpectrum:scan];
-    [spectrum setKeyForXValue:@"Mass"];
-    [spectrum setKeyForYValue:@"Intensity"];
-    
-    [spectrum loadDataPoints:npts withXValues:[self massValuesForSpectrumAtScan:scan] andYValues:[self intensityValuesForSpectrumAtScan:scan]];
-    
-	[spectrum setSeriesTitle:[NSString localizedStringWithFormat:@"Scan %d", scan]];
-    [spectrum setKeyForXValue:@"Mass"];
-    [spectrum setKeyForYValue:@"Intensity"];
-	    
-	[spectrum autorelease];
-	
-	return spectrum;
-}
-
-
-- (float *)yValuesIonChromatogram:(float)mzValue  
-{
-    int         i, dummy, dimid, varid_intensity_value, varid_mass_value;
-    float     	xx, yy;
-    float 	*y;
-    int		num_pts, scanCount;
-    scanCount = 0;
-    
-    dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return 0;}
-    
-    dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return 0;}
-    
-    dummy = nc_inq_dimid(ncid, "point_number", &dimid);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension failed. Report error #%d.", dummy); return 0;}
-    
-    dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_pts);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return 0;}
-    
-	
-	//	dummy = nc_get_vara_float(ncid, varid_intensity_value, (const size_t *) &i, (const size_t *) &num_pts, &xx);
-	//	nc_get_vara_float(int ncid, int varid,
-	//					   const size_t *startp, const size_t *countp, float *ip);
-    for(i = 0; i < num_pts; i++) {
-        dummy = nc_get_var1_float(ncid, varid_mass_value, (void *) &i, &xx);
-        if (fabs(xx-mzValue) < 0.5) {
-            y = (float *) malloc((scanCount+1)*sizeof(float));
-            dummy = nc_get_var1_float(ncid, varid_intensity_value, (const size_t *) &i, &yy);
-			// *(y + (scanCount)) = yy;
-            y[scanCount] = yy;
-			//			JKLogDebug(@"scan %d: mass %f = %f %f", scanCount, xx, yy, y[scanCount]);
-            scanCount++;
-        } else {
-			
-		}
-    };
-    JKLogDebug(@"scanCount = %d", scanCount);
-    return y;
-}
-
-- (int)startValuesSpectrum:(int)scan  
-{
-    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
-    int dummy, start, varid_scan_index;
-	
-    dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable failed. Report error #%d.", dummy); return 0;}
-	
-    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &start);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
-	
-    return start;
-}
-
-
-- (int)endValuesSpectrum:(int)scan  
-{
-    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
-    int dummy, end, varid_scan_index;
-	
-    dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable failed. Report error #%d.", dummy); return 0;}
-	
-    scan++;
-    dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &end);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
-	
-    return end;
-}
-
-- (int)countOfValuesForSpectrumAtScan:(int)scan {
-    return [self endValuesSpectrum:scan] - [self startValuesSpectrum:scan];
-}
-
-- (float)baselineValueAtScan:(int)inValue  
-{
-    NSAssert(inValue >= 0, @"Scan must be equal or larger than zero");
-	int i = 0;
-	int baselineCount = [baseline count];
-	float lowestScan, lowestInten, highestScan, highestInten;
-	
-	while (inValue > [[[baseline objectAtIndex:i] valueForKey:@"Scan"] intValue] && i < baselineCount) {
-		i++;
-	} 
-	
-	if (i <= 0) {
-		lowestScan = 0.0;
-		lowestInten = 0.0;
-		highestScan = [[[baseline objectAtIndex:i] valueForKey:@"Scan"] floatValue];
-		highestInten = [[[baseline objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue];
-	} else {
-		lowestScan = [[[baseline objectAtIndex:i-1] valueForKey:@"Scan"] floatValue];
-		lowestInten = [[[baseline objectAtIndex:i-1] valueForKey:@"Total Intensity"] floatValue];
-		highestScan = [[[baseline objectAtIndex:i] valueForKey:@"Scan"] floatValue];
-		highestInten = [[[baseline objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue];
-	}
-	
-	return (highestInten-lowestInten) * ((inValue-lowestScan)/(highestScan-lowestScan)) + lowestInten; 
-}
-
-- (float)retentionIndexForScan:(int)scan {
-    return (time[scan]/60.0f) * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
-}
+//- (int)countOfValuesForSpectrumAtScan:(int)scan {
+//    return [self endValuesSpectrum:scan] - [self startValuesSpectrum:scan];
+//}
 
 
-- (float *)massValues {
-    int     dummy, dimid, num_pts, varid;
-    float 	*result;
+//- (float)retentionIndexForScan:(int)scan {
+//    return (time[scan]/60.0f) * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
+//}
 
-    dummy = nc_inq_dimid(ncid, "point_number", &dimid);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension failed. Report error #%d.", dummy); return nil;}
-    
-    dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_pts);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return nil;}
-    
-    dummy = nc_inq_varid(ncid, "mass_values", &varid);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return 0;}
 
-	result = (float *) malloc((num_pts)*sizeof(float));
-        
-	dummy = nc_get_var_float(ncid, varid, result);
-
-    return result;
-}
-
-- (float *)intensityValues {
-    int     dummy, dimid, num_pts, varid;
-    float 	*result;
-    
-    dummy = nc_inq_dimid(ncid, "point_number", &dimid);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension failed. Report error #%d.", dummy); return nil;}
-    
-    dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_pts);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return nil;}
-
-    dummy = nc_inq_varid(ncid, "intensity_values", &varid);
-    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_values variable failed. Report error #%d.", dummy); return 0;}
-    
-	result = (float *) malloc((num_pts)*sizeof(float));
-
-	dummy = nc_get_var_float(ncid, varid, result);
-    
-    return result;
-}
+//- (float *)massValues {
+//    int     dummy, dimid, num_pts, varid;
+//    float 	*result;
+//
+//    dummy = nc_inq_dimid(ncid, "point_number", &dimid);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension failed. Report error #%d.", dummy); return nil;}
+//    
+//    dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_pts);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return nil;}
+//    
+//    dummy = nc_inq_varid(ncid, "mass_values", &varid);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return 0;}
+//
+//	result = (float *) malloc((num_pts)*sizeof(float));
+//        
+//	dummy = nc_get_var_float(ncid, varid, result);
+//
+//    return result;
+//}
+//
+//- (float *)intensityValues {
+//    int     dummy, dimid, num_pts, varid;
+//    float 	*result;
+//    
+//    dummy = nc_inq_dimid(ncid, "point_number", &dimid);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension failed. Report error #%d.", dummy); return nil;}
+//    
+//    dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_pts);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return nil;}
+//
+//    dummy = nc_inq_varid(ncid, "intensity_values", &varid);
+//    if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_values variable failed. Report error #%d.", dummy); return 0;}
+//    
+//	result = (float *) malloc((num_pts)*sizeof(float));
+//
+//	dummy = nc_get_var_float(ncid, varid, result);
+//    
+//    return result;
+//}
 
 #pragma mark KEY VALUE CODING/OBSERVING
 
@@ -1691,10 +1540,6 @@ boolAccessor(abortAction, setAbortAction)
     return ncid;
 }
 
-- (int)numberOfPoints  
-{
-    return numberOfPoints;
-}
 
 - (void)setHasSpectra:(BOOL)inValue  
 {
@@ -1706,86 +1551,86 @@ boolAccessor(abortAction, setAbortAction)
     return hasSpectra;
 }
 
-- (int)intensityCount  
-{
-    return intensityCount;
-}
-- (void)setIntensityCount:(int)inValue  
-{
-    intensityCount = inValue;
-}
-
-- (void)setTime:(float *)inArray withCount:(int)inValue  
-{
-    numberOfPoints = inValue;
-    time = (float *) realloc(time, numberOfPoints*sizeof(float));
-    memcpy(time, inArray, numberOfPoints*sizeof(float));
-	//jk_stats_float_minmax(&minimumTime, &maximumTime, time, 1, numberOfPoints);
-	minimumTime = jk_stats_float_min(time, numberOfPoints);
-	maximumTime = jk_stats_float_max(time, numberOfPoints);
-}
-
-- (float *)time  
-{
-    return time;
-}
-
-- (void)setTotalIntensity:(float *)inArray withCount:(int)inValue  
-{
-    numberOfPoints = inValue;
-    totalIntensity = (float *) realloc(totalIntensity, numberOfPoints*sizeof(float));
-    memcpy(totalIntensity, inArray, numberOfPoints*sizeof(float));
-	minimumTotalIntensity = jk_stats_float_min(totalIntensity, numberOfPoints);
-	maximumTotalIntensity = jk_stats_float_max(totalIntensity, numberOfPoints);
-	
-}
-
-- (float *)totalIntensity  
-{
-    return totalIntensity;
-}
-
-- (float)maximumTime  
-{
-    return maximumTime;
-}
-
-- (float)minimumTime  
-{
-    return minimumTime;
-}
-
-- (float)maximumTotalIntensity  
-{
-    return maximumTotalIntensity;
-}
-
-- (float)minimumTotalIntensity  
-{
-    return minimumTotalIntensity;
-}
+//- (int)intensityCount  
+//{
+//    return intensityCount;
+//}
+//- (void)setIntensityCount:(int)inValue  
+//{
+//    intensityCount = inValue;
+//}
+//
+//- (void)setTime:(float *)inArray withCount:(int)inValue  
+//{
+//    numberOfPoints = inValue;
+//    time = (float *) realloc(time, numberOfPoints*sizeof(float));
+//    memcpy(time, inArray, numberOfPoints*sizeof(float));
+//	//jk_stats_float_minmax(&minimumTime, &maximumTime, time, 1, numberOfPoints);
+//	minimumTime = jk_stats_float_min(time, numberOfPoints);
+//	maximumTime = jk_stats_float_max(time, numberOfPoints);
+//}
+//
+//- (float *)time  
+//{
+//    return time;
+//}
+//
+//- (void)setTotalIntensity:(float *)inArray withCount:(int)inValue  
+//{
+//    numberOfPoints = inValue;
+//    totalIntensity = (float *) realloc(totalIntensity, numberOfPoints*sizeof(float));
+//    memcpy(totalIntensity, inArray, numberOfPoints*sizeof(float));
+//	minimumTotalIntensity = jk_stats_float_min(totalIntensity, numberOfPoints);
+//	maximumTotalIntensity = jk_stats_float_max(totalIntensity, numberOfPoints);
+//	
+//}
+//
+//- (float *)totalIntensity  
+//{
+//    return totalIntensity;
+//}
+//
+//- (float)maximumTime  
+//{
+//    return maximumTime;
+//}
+//
+//- (float)minimumTime  
+//{
+//    return minimumTime;
+//}
+//
+//- (float)maximumTotalIntensity  
+//{
+//    return maximumTotalIntensity;
+//}
+//
+//- (float)minimumTotalIntensity  
+//{
+//    return minimumTotalIntensity;
+//}
 
 - (NSMutableDictionary *)metadata  
 {
 	return metadata;
 }
 
-- (void)setBaseline:(NSMutableArray *)inValue  
-{
-    [[self undoManager] registerUndoWithTarget:self
-                                      selector:@selector(setBaseline:)
-                                        object:baseline];
-    [[self undoManager] setActionName:NSLocalizedString(@"Change Baseline",@"")];
-
-    [inValue retain];
-	[baseline autorelease];
-	baseline = inValue;
-}
-
-- (NSMutableArray *)baseline  
-{
-	return baseline;
-}
+//- (void)setBaseline:(NSMutableArray *)inValue  
+//{
+//    [[self undoManager] registerUndoWithTarget:self
+//                                      selector:@selector(setBaseline:)
+//                                        object:baseline];
+//    [[self undoManager] setActionName:NSLocalizedString(@"Change Baseline",@"")];
+//
+//    [inValue retain];
+//	[baseline autorelease];
+//	baseline = inValue;
+//}
+//
+//- (NSMutableArray *)baseline  
+//{
+//	return baseline;
+//}
 
 - (NSMutableArray *)chromatograms  
 {

@@ -7,6 +7,7 @@
 //
 
 #import "SpectrumGraphDataSerie.h"
+#import "JKSpectrum.h"
 
 static void *DictionaryObservationContext = (void *)1091;
 static void *ArrayObservationContext = (void *)1092;
@@ -36,6 +37,9 @@ static void *PropertyObservationContext = (void *)1093;
     return self;
 }
 
+- (id)initWithSpectrum:(JKSpectrum *)spectrum {
+    return [self init];
+}
 
 #pragma mark DRAWING ROUTINES
 - (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view
