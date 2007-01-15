@@ -65,25 +65,6 @@ extern int const JKGCMSDocument_Version;
 	JKGCMSDocument *document;
     NSRect _originalFrame;
     
-    // Obsolete
-//    float *time;
-//    float *totalIntensity;
-//	
-//	float minimumTime;
-//	float maximumTime;
-//	float minimumTotalIntensity;
-//	float maximumTotalIntensity;
-//    NSMutableArray *baseline;
-//    
-//	// GAML
-//    NSString *name;
-//    NSDate *collectDate;
-//    NSMutableDictionary *parameters;
-//	NSMutableArray *experiments;
-//    // Data from NetCDF cached for speedier access
-// //   int numberOfPoints; // == numberOfScans
-//    int intensityCount;
-    
 }
 
 /*! 
@@ -93,22 +74,12 @@ extern int const JKGCMSDocument_Version;
 
 - (NSString *)exportTabDelimitedText;
 - (BOOL)readNetCDFFile:(NSString *)fileName error:(NSError **)anError;
-
 - (NSArray *)readJCAMPString:(NSString *)inString;
-- (NSComparisonResult)metadataCompare:(JKGCMSDocument *)otherDocument;
 
 /*! 
     @functiongroup Actions
 */
 #pragma mark ACTIONS
-
-/*!
-    @method     
-    @abstract   Identifies peaks using IWV method.
-    @discussion Identify Peaks using method described in Jarman2003.
-*/
-// Should use identifyPeaks in JKChromatogram instead?
-//- (void)identifyPeaks;
 
 /*!
     @method     
@@ -121,6 +92,7 @@ extern int const JKGCMSDocument_Version;
 - (void)addChromatogramForMass:(NSString *)inString;
 - (void)redistributedSearchResults:(JKPeakRecord *)originatingPeak;
 - (float)retentionIndexForScan:(int)scan;
+- (NSComparisonResult)metadataCompare:(JKGCMSDocument *)otherDocument;
 
 /*! 
     @functiongroup Model
@@ -153,6 +125,9 @@ extern int const JKGCMSDocument_Version;
 /*!
     @functiongroup Accessors
 */
+
+
+
 #pragma mark ACCESSORS
 - (JKMainWindowController *)mainWindowController;
 
@@ -167,8 +142,9 @@ extern int const JKGCMSDocument_Version;
 
 - (NSMutableArray *)chromatograms;
 - (void)setChromatograms:(NSMutableArray *)inValue;
-- (void)insertObject:(JKChromatogram *)chromatogram inChromatogramsAtIndex:(int)index;
-- (void)removeObjectFromChromatogramsAtIndex:(int)index;
+- (int)countOfChromatograms;
+- (JKChromatogram *)objectInChromatogramsAtIndex:(int)index;
+
 - (void)startObservingChromatogram:(JKChromatogram *)chromatogram;
 - (void)stopObservingChromatogram:(JKChromatogram *)chromatogram;
 
@@ -181,8 +157,8 @@ extern int const JKGCMSDocument_Version;
 
 
 - (float)retentionIndexForScan:(int)scan;
--(float)timeForScan:(int)scan;
--(int)scanForTime:(float)time;
+- (float)timeForScan:(int)scan;
+- (int)scanForTime:(float)time;
 
 
 #pragma mark ACCESSORS (MACROSTYLE)
@@ -200,53 +176,4 @@ idAccessor_h(markAsIdentifiedThreshold, setMarkAsIdentifiedThreshold)
 idAccessor_h(minimumScoreSearchResults, setMinimumScoreSearchResults)
 boolAccessor_h(abortAction, setAbortAction)
 
-
-#pragma mark OBSOLETE METHODS?!
-//- (ChromatogramGraphDataSerie *)obtainTICChromatogram;
-//- (void)obtainBaseline;
-//- (ChromatogramGraphDataSerie *)chromatogramForMass:(NSString *)inString;
-//
-//- (NSMutableArray *)searchLibraryForPeak:(JKPeakRecord *)peak;
-//
-//    /*!
-//    @method     
-//     @abstract   Calculates the baseline value at a given scan.
-//     @param      scan    Scan for which the baseline value needs to be calculated.
-//     @result     Returns the baseline value.
-//     */
-//- (float)baselineValueAtScan:(int)inValue;
-//
-//          //- (void)setPeaks:(NSMutableArray *)inValue;
-//          //- (NSMutableArray *)peaks;
-//- (void)setBaseline:(NSMutableArray *)inValue ;
-//- (NSMutableArray *)baseline;
-//
-////- (SpectrumGraphDataSerie *)spectrumForScan:(int)scan;
-//
-//
-//// Would be better to just return a JKSpectrum or JKChromatogram
-//- (float *)massValuesForSpectrumAtScan:(int)scan;
-//- (float *)intensityValuesForSpectrumAtScan:(int)scan;
-//- (float *)yValuesIonChromatogram:(float)mzValue;
-//- (int)startValuesSpectrum:(int)scan;
-//- (int)endValuesSpectrum:(int)scan;
-//- (int)countOfValuesForSpectrumAtScan:(int)scan;
-//- (int)numberOfPoints;
-//
-//- (int)intensityCount;
-//- (void)setIntensityCount:(int)inValue;
-//
-//- (void)setTime:(float *)inArray withCount:(int)inValue;
-//- (float *)time;
-//- (float)timeForScan:(int)scan;
-//- (int)scanForTime:(float)inTime;
-//
-//- (void)setTotalIntensity:(float *)inArray withCount:(int)inValue;
-//- (float *)totalIntensity;
-//
-//- (float)maximumTime;
-//- (float)minimumTime;
-//- (float)maximumTotalIntensity;
-//- (float)minimumTotalIntensity;
-//
 @end

@@ -60,6 +60,9 @@ static void *ArrayObservationContext = (void *)1092;
 //		[mutDict release];
     }
 	[self setDataArray:mutArray];
+    
+    //?
+    [self constructPlotPath];
 }
 
 

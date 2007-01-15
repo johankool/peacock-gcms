@@ -32,6 +32,7 @@ static void *PropertyObservationContext = (void *)1093;
 		[self setShouldDrawLabels:YES];
         [self setVerticalScale:[NSNumber numberWithFloat:1.0]];
         [self setChromatogram:aChromatogram];
+        [self setSeriesTitle:[aChromatogram model]];
 		// Creeer de plot een eerste keer.
 		[self constructPlotPath];
 	}
@@ -346,6 +347,58 @@ static void *PropertyObservationContext = (void *)1093;
 	free(rects);
 }
 
+// Additions for Peacock
+//- (void)drawBaseline  
+//{
+//	int i, count, count2;
+//	count2 = 0;
+//	NSBezierPath *baselinePath = [[NSBezierPath alloc] init];
+//	NSPoint pointToDraw;
+//	NSMutableArray *baselinePoints;
+//	NSArray *baselinePointsSelected = [NSArray array];
+//	
+//    baselinePoints = [self baseline];
+//	count = [baselinePoints count];
+//	if ([baselineContainer selectionIndexes]) {
+//		baselinePointsSelected = [[self baseline] objectsAtIndexes:[baselineContainer selectionIndexes]];
+//		count2 = [baselinePointsSelected count];
+//	}
+//	
+//    // Draw inside the legendArea
+//    [NSGraphicsContext saveGraphicsState];	
+//	[[NSBezierPath bezierPathWithRect:[self plottingArea]] addClip];
+//	
+//	// De baseline.
+//    
+//	if (count > 0) {
+//		pointToDraw = NSMakePoint([[[baselinePoints objectAtIndex:0] valueForKey:keyForXValue] floatValue],[[[baselinePoints objectAtIndex:0] valueForKey:@"Total Intensity"] floatValue]);
+//		[baselinePath moveToPoint:[[self transformGraphToScreen] transformPoint:pointToDraw]];  	
+//		for (i=1;i<count; i++) {
+//			pointToDraw = NSMakePoint([[[baselinePoints objectAtIndex:i] valueForKey:keyForXValue] floatValue],[[[baselinePoints objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue]);
+//			[baselinePath lineToPoint:[[self transformGraphToScreen] transformPoint:pointToDraw]];			
+//		}
+//	}
+//    
+//	if (count2 > 0) {
+//		for (i=0;i<count2; i++) {
+//			pointToDraw = NSMakePoint([[[baselinePointsSelected objectAtIndex:i] valueForKey:keyForXValue] floatValue],[[[baselinePointsSelected objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue]);
+//			pointToDraw = [[self transformGraphToScreen] transformPoint:pointToDraw];
+//			[baselinePath appendBezierPathWithRect:NSMakeRect(pointToDraw.x-2.5,pointToDraw.y-2.5,5.0,5.0)];			
+//		}
+//	}
+//	
+//	// Hier stellen we in hoe de lijnen eruit moeten zien.
+//	[baselinePath setLineWidth:1.0];
+//	[[self baselineColor] set];
+//	
+//	// Met stroke wordt de bezierpath getekend.
+//	[baselinePath stroke];
+//	
+//	[NSGraphicsContext restoreGraphicsState];
+//	[baselinePath release];
+//}
+//
+
 #pragma mark HELPER ROUTINES
 - (NSRect)boundingRect  
 {
@@ -419,7 +472,9 @@ static void *PropertyObservationContext = (void *)1093;
         [aChromatogram retain];
         [chromatogram autorelease];
         chromatogram = aChromatogram;     
-        
+#warning [BUG] Localisation ignorant code
+        [self setKeyForXValue:@"Time"];
+        [self setKeyForYValue:@"Total Intensity"];
         [self loadDataPoints:[chromatogram numberOfPoints] withXValues:[chromatogram time] andYValues:[chromatogram totalIntensity]];
     }    
 }

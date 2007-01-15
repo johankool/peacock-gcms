@@ -59,6 +59,15 @@ static void *SpectrumObservationContext = (void *)1102;
 
     [chromatogramView setDelegate:self];
     
+    NSEnumerator *chromatogramEnumerator = [[[self document] chromatograms] objectEnumerator];
+    JKChromatogram *chromatogram;
+
+    while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
+        ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+        [chromatogramDataSeries addObject:cgds];
+    }
+    
+    
 	// ChromatogramView bindings
 	[chromatogramView bind:@"dataSeries" toObject: chromatogramDataSeriesController
 			   withKeyPath:@"arrangedObjects" options:nil];
@@ -572,6 +581,40 @@ static void *SpectrumObservationContext = (void *)1102;
 					   context:(void *)context {
     if ([keyPath isEqualToString:@"chromatograms"]) {
         //[chromatogramDataSeriesController remove
+        NSLog(@"chromatograms");
+        if ([[change valueForKey:NSKeyValueChangeKindKey] intValue] == NSKeyValueChangeInsertion) {
+            NSEnumerator *chromatogramEnumerator = [[[[self document] chromatograms] objectsAtIndexes:[change valueForKey:NSKeyValueChangeIndexesKey]] objectEnumerator];
+            JKChromatogram *chromatogram;
+            
+            while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
+                ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+                [chromatogramDataSeries addObject:cgds];
+            }
+            
+        } else if ([[change valueForKey:NSKeyValueChangeKindKey] intValue] == NSKeyValueChangeRemoval) {
+            NSEnumerator *chromatogramEnumerator = [[[[self document] chromatograms] objectsAtIndexes:[change valueForKey:NSKeyValueChangeIndexesKey]] objectEnumerator];
+            JKChromatogram *chromatogram;
+            
+            while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
+                ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+                [chromatogramDataSeries removeObject:cgds];
+            }
+                
+        }  else if ([[change valueForKey:NSKeyValueChangeKindKey] intValue] == NSKeyValueChangeReplacement) {
+            [chromatogramDataSeries removeAllObjects];
+            NSEnumerator *chromatogramEnumerator = [[[[self document] chromatograms] objectsAtIndexes:[change valueForKey:NSKeyValueChangeIndexesKey]] objectEnumerator];
+            JKChromatogram *chromatogram;
+            
+            while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
+                ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+                [chromatogramDataSeries removeObject:cgds];
+            }
+            
+        } else {
+            NSLog(@"chromatograms error");
+
+        }
+        
     }
 	if (((object == peakController) | (object == searchResultsController)) && (([peakController selection] != NSNoSelectionMarker) && ([searchResultsController selection] != NSNoSelectionMarker))) {
 		NSArray *peakArray = [[peakController selectedObjects] valueForKeyPath:@"spectrum.spectrumDataSerie"];

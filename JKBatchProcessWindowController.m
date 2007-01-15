@@ -114,7 +114,7 @@
 		}		
 		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchIdentifyBaseline"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Identifying Baseline",@"")];
-			[document obtainBaseline];
+            [[document chromatograms] makeObjectsPerformSelector:@selector(obtainBaseline)];
 			[fileProgressIndicator incrementBy:1.0];
 		}
 		if ([self abortAction]) {

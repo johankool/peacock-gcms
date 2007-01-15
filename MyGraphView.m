@@ -44,7 +44,7 @@ static int   kPaddingLabels             = 4;
 	// Bindings support
 	[self exposeBinding:@"dataSeries"];
 	[self exposeBinding:@"peaks"];
-	[self exposeBinding:@"baseline"];
+//	[self exposeBinding:@"baseline"];
 	
 	// Dependent keys
 	[self setKeys:[NSArray arrayWithObjects:@"origin",@"plottingArea",@"pixelsPerXUnit",@"trans",nil] triggerChangeNotificationsForDependentKey:@"xMinimum"];	
@@ -55,7 +55,7 @@ static int   kPaddingLabels             = 4;
 
 - (NSArray *)exposedBindings 
 {
-	return [NSArray arrayWithObjects:@"dataSeries", @"peaks", @"baseline", nil];
+	return [NSArray arrayWithObjects:@"dataSeries", @"peaks", nil];
 }
 
 - (id)initWithFrame:(NSRect)frame 
@@ -117,7 +117,6 @@ static int   kPaddingLabels             = 4;
 
 - (void)dealloc
 {
-	[self unbind:@"baseline"];
 	[self unbind:@"peaks"];
 	[self unbind:@"dataSeries"];
     
@@ -186,9 +185,6 @@ static int   kPaddingLabels             = 4;
         if ([self shouldDrawLabels])
             [self drawLabels];
         
-        // Additions for Peacock
-        if ([self shouldDrawBaseline])
-            [self drawBaseline];
         
         // In plaats van een loop kunnen we ook deze convenient method gebruiken om iedere dataserie zich te laten tekenen.
         //NSAssert([[self dataSeries] count] >= 1, @"No dataSeries to draw.");
@@ -197,7 +193,7 @@ static int   kPaddingLabels             = 4;
         
         while ((object = [enumerator nextObject])) {
             // do something with object...
-            //	NSLog([object description]);
+            NSLog([object description]);
             if ([object respondsToSelector:@selector(plotDataWithTransform:inView:)]) {
                 [object plotDataWithTransform:[self transformGraphToScreen] inView:self];
             }
@@ -803,58 +799,6 @@ static int   kPaddingLabels             = 4;
     [framesPath release];    
 }
 
-// Additions for Peacock
-- (void)drawBaseline  
-{
-	int i, count, count2;
-	count2 = 0;
-	NSBezierPath *baselinePath = [[NSBezierPath alloc] init];
-	NSPoint pointToDraw;
-	NSMutableArray *baselinePoints;
-	NSArray *baselinePointsSelected = [NSArray array];
-	
-    baselinePoints = [self baseline];
-	count = [baselinePoints count];
-	if ([baselineContainer selectionIndexes]) {
-		baselinePointsSelected = [[self baseline] objectsAtIndexes:[baselineContainer selectionIndexes]];
-		count2 = [baselinePointsSelected count];
-	}
-	
-    // Draw inside the legendArea
-    [NSGraphicsContext saveGraphicsState];	
-	[[NSBezierPath bezierPathWithRect:[self plottingArea]] addClip];
-	
-	// De baseline.
-
-	if (count > 0) {
-		pointToDraw = NSMakePoint([[[baselinePoints objectAtIndex:0] valueForKey:keyForXValue] floatValue],[[[baselinePoints objectAtIndex:0] valueForKey:@"Total Intensity"] floatValue]);
-		[baselinePath moveToPoint:[[self transformGraphToScreen] transformPoint:pointToDraw]];  	
-		for (i=1;i<count; i++) {
-			pointToDraw = NSMakePoint([[[baselinePoints objectAtIndex:i] valueForKey:keyForXValue] floatValue],[[[baselinePoints objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue]);
-			[baselinePath lineToPoint:[[self transformGraphToScreen] transformPoint:pointToDraw]];			
-		}
-	}
-
-	if (count2 > 0) {
-		for (i=0;i<count2; i++) {
-			pointToDraw = NSMakePoint([[[baselinePointsSelected objectAtIndex:i] valueForKey:keyForXValue] floatValue],[[[baselinePointsSelected objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue]);
-			pointToDraw = [[self transformGraphToScreen] transformPoint:pointToDraw];
-			[baselinePath appendBezierPathWithRect:NSMakeRect(pointToDraw.x-2.5,pointToDraw.y-2.5,5.0,5.0)];			
-		}
-	}
-	
-	// Hier stellen we in hoe de lijnen eruit moeten zien.
-	[baselinePath setLineWidth:1.0];
-	[[self baselineColor] set];
-	
-	// Met stroke wordt de bezierpath getekend.
-	[baselinePath stroke];
-	
-	[NSGraphicsContext restoreGraphicsState];
-	[baselinePath release];
-}
-
-
 - (NSString *)view:(NSView *)view
   stringForToolTip:(NSToolTipTag)tag
              point:(NSPoint)point
@@ -1088,8 +1032,6 @@ static int   kPaddingLabels             = 4;
 
 - (void)selectNextPeak  
 {
-    // deselect any baseline points
-    [baselineContainer setSelectedObjects:nil];
 	if (([peaksContainer selectionIndex] != NSNotFound) & ([peaksContainer selectionIndex] != [[self peaks] count]-1)) {
 		[peaksContainer setSelectionIndex:[peaksContainer selectionIndex]+1];		
 	} else {
@@ -1100,8 +1042,6 @@ static int   kPaddingLabels             = 4;
 
 - (void)selectPreviousPeak  
 {
-    // deselect any baseline points
-    [baselineContainer setSelectedObjects:nil];
 	if (([peaksContainer selectionIndex] != NSNotFound) & ([peaksContainer selectionIndex] != 0)) {
 		[peaksContainer setSelectionIndex:[peaksContainer selectionIndex]-1];
 	} else {
@@ -1311,12 +1251,12 @@ static int   kPaddingLabels             = 4;
 			[self setSelectedRect:draggedRect];
 //			[self setNeedsDisplay:YES];
 		} else if ([theEvent modifierFlags] & NSCommandKeyMask) {
-			//   select baseline points
-			draggedRect.origin.x = (_mouseDownAtPoint.x < mouseLocation.x ? _mouseDownAtPoint.x : mouseLocation.x);
-			draggedRect.origin.y = (_mouseDownAtPoint.y < mouseLocation.y ? _mouseDownAtPoint.y : mouseLocation.y);
-			draggedRect.size.width = fabs(mouseLocation.x-_mouseDownAtPoint.x);
-			draggedRect.size.height = fabs(mouseLocation.y-_mouseDownAtPoint.y);
-			[self setSelectedRect:draggedRect];
+//			//   select baseline points
+//			draggedRect.origin.x = (_mouseDownAtPoint.x < mouseLocation.x ? _mouseDownAtPoint.x : mouseLocation.x);
+//			draggedRect.origin.y = (_mouseDownAtPoint.y < mouseLocation.y ? _mouseDownAtPoint.y : mouseLocation.y);
+//			draggedRect.size.width = fabs(mouseLocation.x-_mouseDownAtPoint.x);
+//			draggedRect.size.height = fabs(mouseLocation.y-_mouseDownAtPoint.y);
+//			[self setSelectedRect:draggedRect];
 //			[self setNeedsDisplay:YES];
 		} else if ([theEvent modifierFlags] & NSShiftKeyMask) {
 			//   move chromatogram
@@ -1362,8 +1302,6 @@ static int   kPaddingLabels             = 4;
 			} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
 				[self zoomIn];
 			} else if ([theEvent modifierFlags] & NSCommandKeyMask ) {
-                // deselect any baseline points
-                [baselineContainer setSelectedObjects:nil];
 				//  select additional peak(/select baseline point/select scan)
 				NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:mouseLocation];
 
@@ -1393,9 +1331,7 @@ static int   kPaddingLabels             = 4;
 				}
 				
 			} else if ([theEvent modifierFlags] & NSShiftKeyMask) {
-                // deselect any baseline points
-                [baselineContainer setSelectedObjects:nil];
-				//  select series of peaks(/select baseline point/select scan)
+ 				//  select series of peaks(/select baseline point/select scan)
 				NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:mouseLocation];
 				int i, peaksCount;
 				peaksCount = [[self peaks] count];
@@ -1448,10 +1384,7 @@ static int   kPaddingLabels             = 4;
 				}
 				
 			} else {
-                // deselect any baseline points
-                [baselineContainer setSelectedObjects:nil];
-
-				//  select peak(/select baseline point/select scan)
+ 				//  select peak(/select baseline point/select scan)
 				NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:mouseLocation];
 				int i, peaksCount;
 				peaksCount = [[self peaks] count];
@@ -1488,30 +1421,30 @@ static int   kPaddingLabels             = 4;
 			} else if ([theEvent modifierFlags] & NSCommandKeyMask) {
                 // deselect any peaks
                 [peaksContainer setSelectedObjects:nil];
-				//  add baseline point
-				int i;
-				NSPoint pointInReal = [[self transformScreenToGraph] transformPoint:mouseLocation];
-				
-				NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
-				[mutDict setValue:[NSNumber numberWithFloat:pointInReal.x] forKey:@"Scan"];
-				[mutDict setValue:[NSNumber numberWithFloat:pointInReal.y] forKey:@"Total Intensity"];
-				// Time?!
-                
-                
-				// Following works, but can fail in circumstances, need error checking!
-				// if count 0 addObject
-				i=0;
-				while (pointInReal.x > [[[[self baseline] objectAtIndex:i] valueForKey:@"Scan"] intValue]) {
-					i++;
-				}
-				// if i == count addObject
-                [[self undoManager] registerUndoWithTarget:[self baselineContainer]
-                                                  selector:@selector(removeObject:)
-                                                    object:mutDict];
-                [[self undoManager] setActionName:NSLocalizedString(@"Add Baseline Point",@"")];
-                
-				[(NSArrayController *)[self  baselineContainer] insertObject:mutDict atArrangedObjectIndex:i];
-				[mutDict release];
+//				//  add baseline point
+//				int i;
+//				NSPoint pointInReal = [[self transformScreenToGraph] transformPoint:mouseLocation];
+//				
+//				NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
+//				[mutDict setValue:[NSNumber numberWithFloat:pointInReal.x] forKey:@"Scan"];
+//				[mutDict setValue:[NSNumber numberWithFloat:pointInReal.y] forKey:@"Total Intensity"];
+//				// Time?!
+//                
+//                
+//				// Following works, but can fail in circumstances, need error checking!
+//				// if count 0 addObject
+//				i=0;
+//				while (pointInReal.x > [[[[self baseline] objectAtIndex:i] valueForKey:@"Scan"] intValue]) {
+//					i++;
+//				}
+//				// if i == count addObject
+//                [[self undoManager] registerUndoWithTarget:[self baselineContainer]
+//                                                  selector:@selector(removeObject:)
+//                                                    object:mutDict];
+//                [[self undoManager] setActionName:NSLocalizedString(@"Add Baseline Point",@"")];
+//                
+//				[(NSArrayController *)[self  baselineContainer] insertObject:mutDict atArrangedObjectIndex:i];
+//				[mutDict release];
 			} else {
 				//  select scan and show spectrum 
 				JKLogDebug(@" select scan and show spectrum");
@@ -1541,29 +1474,29 @@ static int   kPaddingLabels             = 4;
 		} else if ([theEvent modifierFlags] & NSCommandKeyMask) {
             // deselect any peaks
             [peaksContainer setSelectedObjects:nil];
-			//  select baselinpoints
-            int i;
-            float scanValue, intensityValue;
-            NSPoint startPoint = [[self transformScreenToGraph] transformPoint:[self selectedRect].origin];
-            NSSize selectedSize = [[self transformScreenToGraph] transformSize:[self selectedRect].size];
-            NSMutableArray *mutArray = [NSMutableArray array];
-            int count = [[self baseline] count];
-            for (i=0; i< count; i++) {
-                if ([keyForXValue isEqualToString:@"Scan"]) {
-                    scanValue = [[[[self baseline] objectAtIndex:i] valueForKey:@"Scan"] floatValue];
-                } else {
-                    scanValue = [[[[self baseline] objectAtIndex:i] valueForKey:@"Time"] floatValue];                   
-                }
-                intensityValue = [[[[self baseline] objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue];
-                if ((scanValue > startPoint.x) && (scanValue < startPoint.x+selectedSize.width)) {
-                    if ((intensityValue > startPoint.y) && (intensityValue < startPoint.y+selectedSize.height)) {
-                        [mutArray addObject:[[self baseline] objectAtIndex:i]];
-                    }
-                }
-            }
-            
-            [(NSArrayController *)[self  baselineContainer] setSelectedObjects:mutArray];
-            
+//			//  select baselinpoints
+//            int i;
+//            float scanValue, intensityValue;
+//            NSPoint startPoint = [[self transformScreenToGraph] transformPoint:[self selectedRect].origin];
+//            NSSize selectedSize = [[self transformScreenToGraph] transformSize:[self selectedRect].size];
+//            NSMutableArray *mutArray = [NSMutableArray array];
+//            int count = [[self baseline] count];
+//            for (i=0; i< count; i++) {
+//                if ([keyForXValue isEqualToString:@"Scan"]) {
+//                    scanValue = [[[[self baseline] objectAtIndex:i] valueForKey:@"Scan"] floatValue];
+//                } else {
+//                    scanValue = [[[[self baseline] objectAtIndex:i] valueForKey:@"Time"] floatValue];                   
+//                }
+//                intensityValue = [[[[self baseline] objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue];
+//                if ((scanValue > startPoint.x) && (scanValue < startPoint.x+selectedSize.width)) {
+//                    if ((intensityValue > startPoint.y) && (intensityValue < startPoint.y+selectedSize.height)) {
+//                        [mutArray addObject:[[self baseline] objectAtIndex:i]];
+//                    }
+//                }
+//            }
+//            
+//            [(NSArrayController *)[self  baselineContainer] setSelectedObjects:mutArray];
+//            
 		} else if ([theEvent modifierFlags] & NSShiftKeyMask) {
 		} else {
 			// move chromatogram
@@ -1743,7 +1676,7 @@ static int   kPaddingLabels             = 4;
 }
 
 - (void)delete:(id)sender {
-    [baselineContainer removeObjects:[baselineContainer selectedObjects]];
+//    [baselineContainer removeObjects:[baselineContainer selectedObjects]];
     [peaksContainer removeObjects:[peaksContainer selectedObjects]];
 //    [dataSeriesContainer removeObjects:[dataSeriesContainer selectedObjects]];
 }
@@ -1817,15 +1750,15 @@ static int   kPaddingLabels             = 4;
 							options:nil
 							context:PeaksObservationContext];
 	}
-	else if ([bindingName isEqualToString:@"baseline"])
-	{
-		[self setBaselineContainer:observableObject];
-		[self setBaselineKeyPath:observableKeyPath];
-		[baselineContainer addObserver:self
-							forKeyPath:baselineKeyPath
-							   options:nil
-							   context:BaselineObservationContext];
-	}
+//	else if ([bindingName isEqualToString:@"baseline"])
+//	{
+//		[self setBaselineContainer:observableObject];
+//		[self setBaselineKeyPath:observableKeyPath];
+//		[baselineContainer addObserver:self
+//							forKeyPath:baselineKeyPath
+//							   options:nil
+//							   context:BaselineObservationContext];
+//	}
 	
 	[super bind:bindingName
 	   toObject:observableObject
@@ -1851,12 +1784,12 @@ static int   kPaddingLabels             = 4;
 		[self setPeaksContainer:nil];
 		[self setPeaksKeyPath:nil];
 	}
-	else if ([bindingName isEqualToString:@"baseline"])
-	{
-		[baselineContainer removeObserver:self forKeyPath:baselineKeyPath];
-		[self setBaselineContainer:nil];
-		[self setBaselineKeyPath:nil];
-	}
+//	else if ([bindingName isEqualToString:@"baseline"])
+//	{
+//		[baselineContainer removeObserver:self forKeyPath:baselineKeyPath];
+//		[self setBaselineContainer:nil];
+//		[self setBaselineKeyPath:nil];
+//	}
 	
 	[super unbind:bindingName];
 	[self setNeedsDisplay:YES];
@@ -1918,34 +1851,34 @@ static int   kPaddingLabels             = 4;
         peaksKeyPath = [aPeaksKeyPath copy];
     }
 }
-
-#pragma mark baseline bindings
-- (NSMutableArray *)baseline
-{
-	return [baselineContainer valueForKeyPath:baselineKeyPath];
-}
-- (NSObject *)baselineContainer
-{
-    return baselineContainer; 
-}
-- (void)setBaselineContainer:(NSObject *)aBaselineContainer
-{
-    if (baselineContainer != aBaselineContainer) {
-        [baselineContainer release];
-        baselineContainer = [aBaselineContainer retain];
-    }
-}
-- (NSString *)baselineKeyPath
-{
-    return baselineKeyPath; 
-}
-- (void)setBaselineKeyPath:(NSString *)aBaselineKeyPath
-{
-    if (baselineKeyPath != aBaselineKeyPath) {
-        [baselineKeyPath release];
-        baselineKeyPath = [aBaselineKeyPath copy];
-    }
-}
+//
+//#pragma mark baseline bindings
+//- (NSMutableArray *)baseline
+//{
+//	return [baselineContainer valueForKeyPath:baselineKeyPath];
+//}
+//- (NSObject *)baselineContainer
+//{
+//    return baselineContainer; 
+//}
+//- (void)setBaselineContainer:(NSObject *)aBaselineContainer
+//{
+//    if (baselineContainer != aBaselineContainer) {
+//        [baselineContainer release];
+//        baselineContainer = [aBaselineContainer retain];
+//    }
+//}
+//- (NSString *)baselineKeyPath
+//{
+//    return baselineKeyPath; 
+//}
+//- (void)setBaselineKeyPath:(NSString *)aBaselineKeyPath
+//{
+//    if (baselineKeyPath != aBaselineKeyPath) {
+//        [baselineKeyPath release];
+//        baselineKeyPath = [aBaselineKeyPath copy];
+//    }
+//}
 
 #pragma mark ACCESSORS
 
@@ -2690,11 +2623,13 @@ static int   kPaddingLabels             = 4;
 #pragma mark CALCULATED ACCESSORS
 
 - (BOOL)hasBaseline {
-    if ([[self baseline] count] > 0) {
-        return YES;
-    } else {
-        return NO;
-    }
+#warning [BUG]
+    return NO;
+//    if ([[self baseline] count] > 0) {
+//        return YES;
+//    } else {
+//        return NO;
+//    }
 }
 
 - (BOOL)hasPeaks {

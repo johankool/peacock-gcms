@@ -274,6 +274,8 @@ static void *DocumentObservationContext = (void *)1100;
 			peacockFileWrapper = wrapper;
 		}
                 
+        [chromatograms addObject:[self ticChromatogram]];
+        
 		return result;	
 //	} else if ([typeName isEqualToString:@"GAML File"]) {
 //        xmlDoc = [[NSXMLDocument alloc] initWithContentsOfURL:absoluteURL options:nil error:outError];
@@ -1097,6 +1099,13 @@ static void *DocumentObservationContext = (void *)1100;
 }
 
 #pragma mark HELPER ACTIONS
+- (float)timeForScan:(int)scan  
+{
+    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
+    NSAssert([[self chromatograms] count] >= 0, @"[[self chromatograms] count] must be equal or larger than zero");
+    float *time = [[[self chromatograms] objectAtIndex:0] time];
+    return time[scan]/60.0f;    
+}
 
 
 //- (float)retentionIndexForScan:(int)scan  
@@ -1632,9 +1641,22 @@ boolAccessor(abortAction, setAbortAction)
 //	return baseline;
 //}
 
-- (NSMutableArray *)chromatograms  
-{
+- (NSMutableArray *)chromatograms {
 	return chromatograms;
+}
+
+- (void)setChromatograms:(NSMutableArray *)inValue {
+    [inValue retain];
+    [chromatograms release];
+    chromatograms = inValue;
+}
+
+- (int)countOfChromatograms {
+    return [[self chromatograms] count];
+}
+
+- (JKChromatogram *)objectInChromatogramsAtIndex:(int)index {
+    return [[self chromatograms] objectAtIndex:index];
 }
 
 - (NSMutableArray *)peaks

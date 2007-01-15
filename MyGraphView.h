@@ -148,11 +148,11 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 - (NSString *)peaksKeyPath;
 - (void)setPeaksKeyPath:(NSString *)aPeaksKeyPath;
 
-- (NSMutableArray *)baseline;
-- (NSObject *)baselineContainer;
-- (void)setBaselineContainer:(NSObject *)aBaselineContainer;
-- (NSString *)baselineKeyPath;
-- (void)setBaselineKeyPath:(NSString *)aBaselineKeyPath;
+//- (NSMutableArray *)baseline;
+//- (NSObject *)baselineContainer;
+//- (void)setBaselineContainer:(NSObject *)aBaselineContainer;
+//- (NSString *)baselineKeyPath;
+//- (void)setBaselineKeyPath:(NSString *)aBaselineKeyPath;
 
 #pragma mark ACCESSORS
 - (id)delegate;
