@@ -7,7 +7,7 @@
 @implementation JKTrace
 
 // Custom logic goes here.
--(MyGraphDataSerie *)graphDataSerie {
+- (MyGraphDataSerie *)graphDataSerie {
     MyGraphDataSerie *graphDataSerie;
     if ([[self technique] isEqualToString:@"CHROM"]) {
         graphDataSerie = [[ChromatogramGraphDataSerie alloc] init];

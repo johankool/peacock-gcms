@@ -11,8 +11,7 @@
 
 @implementation JKBond
 
-- (void)encodeWithCoder:(NSCoder *)coder
-{
+- (void)encodeWithCoder:(NSCoder *)coder{
 	[coder encodeInt:1 forKey:@"version"];
 	[coder encodeObject:fromAtom forKey:@"fromAtom"];
 	[coder encodeObject:toAtom forKey:@"toAtom"];
@@ -25,8 +24,7 @@
     return;
 }
 
-- (id)initWithCoder:(NSCoder *)coder
-{
+- (id)initWithCoder:(NSCoder *)coder{
 	fromAtom = [[coder decodeObjectForKey:@"fromAtom"] retain];
 	toAtom = [[coder decodeObjectForKey:@"toAtom"] retain];
 	bondKind = [coder decodeIntForKey:@"bondKind"];

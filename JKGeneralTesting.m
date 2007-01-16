@@ -15,27 +15,23 @@
 
 @implementation JKGeneralTesting
 
-- (void)testJKDataModel  
-{
+- (void)testJKDataModel {
 	JKDataModel *object = [[JKDataModel alloc] init];	
 	STAssertNotNil(object, @"Could not create instance.");
 }
 
-- (void)testJKDataModelNoNCID  
-{
+- (void)testJKDataModelNoNCID {
 	JKDataModel *object = [[JKDataModel alloc] init];	
 //	[object getChromatogramData];
 	
 }
 
-- (void)testJKPeakRecord  
-{
+- (void)testJKPeakRecord {
 	JKPeakRecord *object = [[JKPeakRecord alloc] init];	
 	STAssertNotNil(object, @"Could not create instance.");
 }
 
-- (void)testReadingAndSavingFiles  
-{
+- (void)testReadingAndSavingFiles {
 	JKGCMSDocument *CDFDocument;
 	JKGCMSDocument *PeacockDocument;
 	NSError *error = [[NSError alloc] init];

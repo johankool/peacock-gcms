@@ -14,20 +14,17 @@
 @implementation JKPeakRecord
 
 # pragma mark INITIALIZATION
-+ (void)initialize
-{
++ (void)initialize{
 	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"library"];
 	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"deltaRetentionIndex"];
 	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"score"];
 }
 
-- (NSString *)description  
-{
+- (NSString *)description {
 	return [NSString stringWithFormat:@"JKPeakRecord: %@ (top: %f)", [self label], [[self topTime] floatValue]];
 }
 
-- (id)init  
-{
+- (id)init {
 	self = [super init];
 	if (self != nil) {
 		searchResults = [[NSMutableArray alloc] init];
@@ -40,8 +37,7 @@
 
 #pragma mark ACTIONS
 
-- (BOOL)confirm
-{
+- (BOOL)confirm{
 	if ([self identified]) {
 //		// Register to undo stack
 //		NSUndoManager *undo = [[self document] undoManager];
@@ -60,8 +56,7 @@
 	}
 }
 
-- (void)discard
-{
+- (void)discard{
 	[self setIdentified:NO];
 	[self setConfirmed:NO];
 	[self setLabel:@""];
@@ -69,8 +64,7 @@
 	[self setIdentifiedSearchResult:nil];
 }
 
-- (BOOL)identifyAs:(id)searchResult
-{
+- (BOOL)identifyAs:(id)searchResult{
 	[self willChangeValueForKey:@"libraryHit"];
 	[self setIdentifiedSearchResult:searchResult];
 	// Initial default settings after identification, but can be customized by user later on
@@ -88,8 +82,7 @@
 	return YES;
 }
 
-- (void)addSearchResult:(id)searchResult
-{
+- (void)addSearchResult:(id)searchResult{
 	if (![searchResults containsObject:searchResult]) {
 		[searchResults insertObject:searchResult atIndex:[searchResults count]];
 		NSSortDescriptor *sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"score" ascending:NO] autorelease];
@@ -101,14 +94,13 @@
 	}	
 }
 
--(NSUndoManager *)undoManager {
+- (NSUndoManager *)undoManager {
     return [[self document] undoManager];
 }
 
 #pragma mark CALCULATED ACCESSORS
 
-- (NSNumber *)deltaRetentionIndex  
-{
+- (NSNumber *)deltaRetentionIndex {
 	float value = 0.0;
 	if (([[self libraryHit] retentionIndex] == nil) | ([[[self libraryHit] retentionIndex] floatValue] == 0.0)) {
 		return [NSNumber numberWithFloat:0.0];
@@ -119,34 +111,28 @@
 
 #pragma mark ACCESSORS
 
-- (void)setPeakID:(NSNumber *)inValue  
-{
+- (void)setPeakID:(NSNumber *)inValue {
 	[inValue retain];
 	[peakID autorelease];
 	peakID = inValue;
 }
-- (NSNumber *)peakID  
-{
+- (NSNumber *)peakID {
     return peakID;
 }
-- (void)setDocument:(JKGCMSDocument *)inValue  
-{
+- (void)setDocument:(JKGCMSDocument *)inValue {
 	// Weak link
 	document = inValue;
 }
-- (JKGCMSDocument *)document  
-{
+- (JKGCMSDocument *)document {
     return document;
 }
 
-- (NSNumber *)score  
-{
+- (NSNumber *)score {
 	return [identifiedSearchResult objectForKey:@"score"];
 }
 
 
-- (void)setLabel:(NSString *)inValue  
-{
+- (void)setLabel:(NSString *)inValue {
     [[self undoManager] registerUndoWithTarget:self
                                       selector:@selector(setLabel:)
                                         object:label];
@@ -157,13 +143,11 @@
 	label = inValue;
 }
 
-- (NSString *)label  
-{
+- (NSString *)label {
     return label;
 }
 
-- (void)setSymbol:(NSString *)inValue  
-{
+- (void)setSymbol:(NSString *)inValue {
     [[self undoManager] registerUndoWithTarget:self
                                       selector:@selector(setSymbol:)
                                         object:symbol];
@@ -174,8 +158,7 @@
 	symbol = inValue;
 }
 
-- (NSString *)symbol  
-{
+- (NSString *)symbol {
     return symbol;
 } 
 
@@ -192,199 +175,165 @@
 //}
 
 
-- (void)setHeight:(NSNumber *)inValue  
-{
+- (void)setHeight:(NSNumber *)inValue {
 	[inValue retain];
 	[height autorelease];
 	height = inValue;
 }
 
-- (NSNumber *)height  
-{
+- (NSNumber *)height {
     return height;
 }
 
-- (void)setBaselineLeft:(NSNumber *)inValue  
-{
+- (void)setBaselineLeft:(NSNumber *)inValue {
 	[inValue retain];
 	[baselineLeft autorelease];
 	baselineLeft = inValue;
 }
 
-- (NSNumber *)baselineLeft
-{
+- (NSNumber *)baselineLeft{
     return baselineLeft;
 }
 
-- (void)setBaselineRight:(NSNumber *)inValue  
-{
+- (void)setBaselineRight:(NSNumber *)inValue {
 	[inValue retain];
 	[baselineRight autorelease];
 	baselineRight = inValue;
 }
 
-- (NSNumber *)baselineRight 
-{
+- (NSNumber *)baselineRight {
     return baselineRight;
 }
 
-- (void)setBaselineLeftTime:(NSNumber *)inValue  
-{
+- (void)setBaselineLeftTime:(NSNumber *)inValue {
 	[inValue retain];
 	[baselineLeftTime autorelease];
 	baselineLeftTime = inValue;
 }
 
-- (NSNumber *)baselineLeftTime
-{
+- (NSNumber *)baselineLeftTime{
     return baselineLeftTime;
 }
 
-- (void)setBaselineRightTime:(NSNumber *)inValue  
-{
+- (void)setBaselineRightTime:(NSNumber *)inValue {
 	[inValue retain];
 	[baselineRightTime autorelease];
 	baselineRightTime = inValue;
 }
 
-- (NSNumber *)baselineRightTime
-{
+- (NSNumber *)baselineRightTime{
     return baselineRightTime;
 }
 
-- (void)setSurface:(NSNumber *)inValue  
-{
+- (void)setSurface:(NSNumber *)inValue {
 	[inValue retain];
 	[surface autorelease];
 	surface = inValue;
 }
 
-- (NSNumber *)surface  
-{
+- (NSNumber *)surface {
     return surface;
 }
 
-- (void)setTop:(NSNumber *)inValue  
-{
+- (void)setTop:(NSNumber *)inValue {
 	[inValue retain];
 	[top autorelease];
 	top = inValue;
 }
 
-- (NSNumber *)top  
-{
+- (NSNumber *)top {
     return top;
 }
 
-- (NSNumber *)topTime
-{
+- (NSNumber *)topTime{
     return [NSNumber numberWithFloat:[[self document] timeForScan:[top intValue]]];
 }
 
 
-- (void)setStart:(NSNumber *)inValue  
-{
+- (void)setStart:(NSNumber *)inValue {
 	[inValue retain];
 	[start autorelease];
 	start = inValue;
 }
 
-- (NSNumber *)start  
-{
+- (NSNumber *)start {
     return start;
 }
 
-- (NSNumber *)startTime
-{
+- (NSNumber *)startTime{
     return [NSNumber numberWithFloat:[[self document] timeForScan:[start intValue]]];
 }
 
-- (void)setEnd:(NSNumber *)inValue  
-{
+- (void)setEnd:(NSNumber *)inValue {
 	[inValue retain];
 	[end autorelease];
 	end = inValue;
 }
 
-- (NSNumber *)end  
-{
+- (NSNumber *)end {
     return end;
 }
 
-- (NSNumber *)endTime
-{
+- (NSNumber *)endTime{
     return [NSNumber numberWithFloat:[[self document] timeForScan:[end intValue]]];
 }
 
-- (void)setSpectrum:(JKSpectrum *)inValue  
-{
+- (void)setSpectrum:(JKSpectrum *)inValue {
 	[inValue retain];
 	[spectrum autorelease];
 	spectrum = inValue;
 }
 
-- (JKSpectrum *)spectrum  
-{
+- (JKSpectrum *)spectrum {
     NSAssert(spectrum != nil, @"spectrum is nil");
     return spectrum;
 }
 
 
-- (void)setIdentified:(BOOL)inValue  
-{
+- (void)setIdentified:(BOOL)inValue {
 	identified = inValue;
 }
 
-- (BOOL)identified  
-{
+- (BOOL)identified {
     return identified;
 }
 
-- (void)setConfirmed:(BOOL)inValue  
-{
+- (void)setConfirmed:(BOOL)inValue {
 	confirmed = inValue;
 }
 
-- (BOOL)confirmed  
-{
+- (BOOL)confirmed {
     return confirmed;
 }
 
-- (NSString *)library  
-{
+- (NSString *)library {
 	return [identifiedSearchResult objectForKey:@"library"];
 }
 
-- (JKLibraryEntry *)libraryHit  
-{
+- (JKLibraryEntry *)libraryHit {
 	return [identifiedSearchResult objectForKey:@"libraryHit"];
 }
 
-- (void)setRetentionIndex:(NSNumber *)inValue  
-{
+- (void)setRetentionIndex:(NSNumber *)inValue {
 	[inValue retain];
 	[retentionIndex autorelease];
 	retentionIndex = inValue;
 }
 
-- (NSNumber *)retentionIndex  
-{
+- (NSNumber *)retentionIndex {
     return retentionIndex;
 }
 
-- (void)setNormalizedHeight:(NSNumber *)inValue
-{
+- (void)setNormalizedHeight:(NSNumber *)inValue{
 	[inValue retain];
 	[normalizedHeight autorelease];
 	normalizedHeight = inValue;
 	
 }
-- (NSNumber *)normalizedHeight
-{
+- (NSNumber *)normalizedHeight{
 	return normalizedHeight;
 }
-- (void)setNormalizedSurface:(NSNumber *)inValue
-{
+- (void)setNormalizedSurface:(NSNumber *)inValue{
 	[inValue retain];
 	[normalizedSurface autorelease];
 	normalizedSurface = inValue;	
@@ -393,30 +342,25 @@
 	return normalizedSurface;
 }
 
-- (void)setIdentifiedSearchResult:(id)inValue
-{
+- (void)setIdentifiedSearchResult:(id)inValue{
 	[inValue retain];
 	[identifiedSearchResult autorelease];
 	identifiedSearchResult = inValue;
 	
 }
-- (id)identifiedSearchResult
-{
+- (id)identifiedSearchResult{
 	return identifiedSearchResult;
 }
 
-- (int)searchResultsCount
-{
+- (int)searchResultsCount{
 	return [searchResults count];
 }
 
-- (NSMutableArray *)searchResults  
-{
+- (NSMutableArray *)searchResults {
     return searchResults;
 }
 
-- (void)setSearchResults:(NSMutableArray *)array
-{
+- (void)setSearchResults:(NSMutableArray *)array{
 	if (array == searchResults)
 		return;
 	
@@ -433,8 +377,7 @@
 	searchResults = array;
 }
 
-- (void)insertObject:(NSDictionary *)searchResult inSearchResultsAtIndex:(int)index
-{
+- (void)insertObject:(NSDictionary *)searchResult inSearchResultsAtIndex:(int)index{
 	// Add the inverse action to the undo stack
 	NSUndoManager *undo = [[self document] undoManager];
 	[[undo prepareWithInvocationTarget:self] removeObjectFromSearchResultsAtIndex:index];
@@ -447,8 +390,7 @@
 	[searchResults insertObject:searchResult atIndex:index];
 }
 
-- (void)removeObjectFromSearchResultsAtIndex:(int)index
-{
+- (void)removeObjectFromSearchResultsAtIndex:(int)index{
 	NSDictionary *searchResult = [searchResults objectAtIndex:index];
 	
 	// Add the inverse action to the undo stack
@@ -466,8 +408,7 @@
 
 #pragma mark NSCODING
 
-- (void)encodeWithCoder:(NSCoder *)coder
-{
+- (void)encodeWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
 		[coder encodeInt:3 forKey:@"version"];
 		[coder encodeConditionalObject:document forKey:@"document"];
@@ -494,8 +435,7 @@
     return;
 }
 
-- (id)initWithCoder:(NSCoder *)coder
-{
+- (id)initWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) {
 		int version = [coder decodeIntForKey:@"version"];
 		document = [coder decodeObjectForKey:@"document"]; 

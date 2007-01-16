@@ -17,28 +17,34 @@
 
 #pragma mark INITIALIZATION
 
--(id)init {
+- (id)init {
     return [self initWithDocument:nil];
 }
 
--(id)initWithDocument:(JKGCMSDocument *)inDocument {
+- (id)initWithDocument:(JKGCMSDocument *)inDocument {
     return [self initWithDocument:inDocument forModel:@"TIC"];
 }
 
--(id)initWithDocument:(JKGCMSDocument *)inDocument forModel:(NSString *)inModel {
+- (id)initWithDocument:(JKGCMSDocument *)inDocument forModel:(NSString *)inModel {
     // designated initializer
     if ((self = [super init])) {
         [self setDocument:inDocument];
         [self setModel:inModel];
+        peaks = [[NSMutableArray alloc] init];
+        baselinePoints = [[NSMutableArray alloc] init];
     }
     return self;
-    
+}
+
+- (void)dealloc {
+    [peaks release];
+    [baselinePoints release];
+    [super dealloc];
 }
 
 #pragma mark ACTIONS
 
-- (void)obtainBaseline  
-{
+- (void)obtainBaseline {
 	// get tot intensities
 	// determing running minimum
 	// dilute factor is e.g. 5
@@ -77,15 +83,16 @@
 	float baselineDistanceThresholdF = [[[self document] baselineDistanceThreshold] floatValue];
 	float baselineSlopeThresholdF = [[[self document] baselineSlopeThreshold] floatValue];
 	float baselineDensityThresholdF = [[[self document] baselineDensityThreshold] floatValue];
+    NSMutableDictionary *aBaselinePoint = nil;
     
     [[[self document] undoManager] registerUndoWithTarget:self
-                                      selector:@selector(setBaseline:)
-                                        object:[baseline mutableCopy]];
+                                      selector:@selector(setBaselinePoints:)
+                                        object:[baselinePoints mutableCopy]];
     [[[self document] undoManager] setActionName:NSLocalizedString(@"Identify Baseline",@"")];
     
 	[self willChangeValueForKey:@"baseline"];
 	
-    [baseline removeAllObjects];
+    [baselinePoints removeAllObjects];
 	
 	for (i = 0; i < count; i++) {
 		minimumSoFar = intensity[i];
@@ -119,44 +126,54 @@
 	normalize(slope, count);
 	normalize(density, count);
 	
-	[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"Scan", [NSNumber numberWithFloat:intensity[0]], @"Total Intensity", [NSNumber numberWithFloat:time[0]/60.0], @"Time",nil]];
+    // Starting point
+    aBaselinePoint = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"Scan",
+                                                          [NSNumber numberWithFloat:intensity[0]], @"Total Intensity",
+                                                          [NSNumber numberWithFloat:time[0]/60.0], @"Time", nil];
+    [self insertObject:aBaselinePoint inBaselinePointsAtIndex:0];
+    
 	for (i = 0; i < count; i++) {
 		if (distance[i] < baselineDistanceThresholdF && (slope[i] > -baselineSlopeThresholdF  && slope[i] < baselineSlopeThresholdF) && density[i] > baselineDensityThresholdF) { 
-			[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:i], @"Scan", [NSNumber numberWithFloat:intensity[i]], @"Total Intensity", [NSNumber numberWithFloat:time[i]/60.0], @"Time",nil]];
+            aBaselinePoint = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:i], @"Scan",
+                                                                  [NSNumber numberWithFloat:intensity[i]], @"Total Intensity", 
+                                                                  [NSNumber numberWithFloat:time[i]/60.0], @"Time", nil];
+            [self insertObject:aBaselinePoint inBaselinePointsAtIndex:[[self baselinePoints] count]];
 		}
 	}
-	[baseline addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:count-1], @"Scan", [NSNumber numberWithFloat:intensity[count-1]], @"Total Intensity", [NSNumber numberWithFloat:time[count-1]/60.0], @"Time",nil]];
-	[self didChangeValueForKey:@"baseline"];
+    
+    // Ending point
+    aBaselinePoint = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:count-1], @"Scan",
+                                                          [NSNumber numberWithFloat:intensity[count-1]], @"Total Intensity",
+                                                          [NSNumber numberWithFloat:time[count-1]/60.0], @"Time", nil];
+    [self insertObject:aBaselinePoint inBaselinePointsAtIndex:[[self baselinePoints] count]];
 }	
 
-- (float)baselineValueAtScan:(int)inValue  
-{
+- (float)baselineValueAtScan:(int)inValue {
     NSAssert(inValue >= 0, @"Scan must be equal or larger than zero");
 	int i = 0;
-	int baselineCount = [baseline count];
+	int baselineCount = [baselinePoints count];
 	float lowestScan, lowestInten, highestScan, highestInten;
 	
-	while (inValue > [[[baseline objectAtIndex:i] valueForKey:@"Scan"] intValue] && i < baselineCount) {
+	while (inValue > [[[baselinePoints objectAtIndex:i] valueForKey:@"Scan"] intValue] && i < baselineCount) {
 		i++;
 	} 
 	
 	if (i <= 0) {
 		lowestScan = 0.0;
 		lowestInten = 0.0;
-		highestScan = [[[baseline objectAtIndex:i] valueForKey:@"Scan"] floatValue];
-		highestInten = [[[baseline objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue];
+		highestScan = [[[baselinePoints objectAtIndex:i] valueForKey:@"Scan"] floatValue];
+		highestInten = [[[baselinePoints objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue];
 	} else {
-		lowestScan = [[[baseline objectAtIndex:i-1] valueForKey:@"Scan"] floatValue];
-		lowestInten = [[[baseline objectAtIndex:i-1] valueForKey:@"Total Intensity"] floatValue];
-		highestScan = [[[baseline objectAtIndex:i] valueForKey:@"Scan"] floatValue];
-		highestInten = [[[baseline objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue];
+		lowestScan = [[[baselinePoints objectAtIndex:i-1] valueForKey:@"Scan"] floatValue];
+		lowestInten = [[[baselinePoints objectAtIndex:i-1] valueForKey:@"Total Intensity"] floatValue];
+		highestScan = [[[baselinePoints objectAtIndex:i] valueForKey:@"Scan"] floatValue];
+		highestInten = [[[baselinePoints objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue];
 	}
 	
 	return (highestInten-lowestInten) * ((inValue-lowestScan)/(highestScan-lowestScan)) + lowestInten; 
 }
 
-- (void)identifyPeaks
-{
+- (NSArray *)identifyPeaks{
 	int i,j, peakCount, answer;
 	int start, end, top;
 	float a, b, height, surface, maximumSurface, maximumHeight;
@@ -164,182 +181,151 @@
 	float time1, time2;
 	float height1, height2;
 	float retentionIndex;//, retentionIndexSlope, retentionIndexRemainder;
-		JKSpectrum *spectrum;
-		
-		NSMutableArray *array = [[NSMutableArray alloc] init];
-		
-		if ([[[self document] peaks] count] > 0) {
-			answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete current peaks?",@""),NSLocalizedString(@"Peaks that are already identified could cause doublures. It's recommended to delete the current peaks.",@""),NSLocalizedString(@"Delete",@""),NSLocalizedString(@"Cancel",@""),NSLocalizedString(@"Keep",@""));
-			if (answer == NSOKButton) {
-				// Delete contents!
-				[self willChangeValueForKey:@"peaks"];
-				[[[self document] peaks] removeAllObjects];
-				[self didChangeValueForKey:@"peaks"];			
-			} else if (answer == NSCancelButton) {
-				return;
-			} else {
-				// Continue by adding peaks
-			}
-		}
-		
-		// Baseline check
-		if ([baseline count] <= 0) {
-            //			JKLogDebug([baseline description]);
-            //			JKLogWarning(@"No baseline set. Can't recognize peaks without one.");
-            answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Baseline Set",@""),NSLocalizedString(@"No baseline have yet been identified in the chromatogram. Use the 'Identify Baseline' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
-			return;
-		}
-		
-		// Some initial settings
-		i = 0;
-		peakCount = 1;	
-		maximumSurface = 0.0;
-		maximumHeight = 0.0;
-		float peakIdentificationThresholdF = [[[self document] peakIdentificationThreshold] floatValue];
-		
-		for (i = 0; i < numberOfPoints; i++) {
-			if (totalIntensity[i]/[self baselineValueAtScan:i] > (1.0 + peakIdentificationThresholdF)){
-				
-				// determine: high, start, end
-				// start
-				for (j=i; totalIntensity[j] > totalIntensity[j-1]; j--) {				
-				}
-				start = j;
-				if (start < 0) start = 0; // Don't go outside bounds!
-				
-				// top
-				for (j=start; totalIntensity[j] < totalIntensity[j+1]; j++) {
-				}
-				top=j;
-				if (top >= numberOfPoints) top = numberOfPoints-1; // Don't go outside bounds!
-				
-				// end
-				for (j=top; totalIntensity[j] > totalIntensity[j+1]; j++) {				
-				}
-				end=j;
-				if (end >= numberOfPoints-1) end = numberOfPoints-1; // Don't go outside bounds!
-				
-				// start time
-				startTime = [self timeForScan:start];
-				
-				// top time
-				topTime = [self timeForScan:top];
-				
-				// end time
-				endTime = [self timeForScan:end];
-				
-				// width
-				widthTime = endTime - startTime;
-				
-				// baseline left
-				float baselineAtStart = [self baselineValueAtScan:start];
-				if (baselineAtStart > totalIntensity[start]) {
-					baselineAtStart = totalIntensity[start];
-				}
-				// baseline right
-				float baselineAtEnd = [self baselineValueAtScan:end];
-				if (baselineAtEnd > totalIntensity[end]) {
-					baselineAtEnd = totalIntensity[end];
-				}
-				
-				// Calculations needed for height and width
-				a= baselineAtEnd-baselineAtStart;
-				b= endTime-startTime;
-				
-				// height
-				//height = intensities[top]-(intensities[start] + (a/b)*(topTime-startTime) );
-				height = totalIntensity[top] - [self baselineValueAtScan:top];
-				// Keep track of what the heighest peak is
-				if (height > maximumHeight) maximumHeight = height;
-				
-				// surface  WARNING! This is an absolute, not a relative peak surface!
-				surface = 0.0;
-				for (j=start; j < end; j++) {
-					time1 = [self timeForScan:j];
-					time2 = [self timeForScan:j+1];
-					
-					height1 = totalIntensity[j]-(baselineAtStart + (a/b)*(time1-startTime) );
-					height2 = totalIntensity[j+1]-(baselineAtStart + (a/b)*(time2-startTime) );
-					
-					if (height1 > height2) {
-						surface = surface + (height2 * (time2-time1)) + ((height1-height2) * (time2-time1) * 0.5);
-					} else {
-						surface = surface + (height1 * (time2-time1)) + ((height2-height1) * (time2-time1) * 0.5);					
-					}
-				}
-				// Keep track of what the largest peak is
-				if (surface > maximumSurface) maximumSurface = surface;
-				
-				if (top != start && top != end && surface > 0.0) { // Sanity check
-																   // Add peak
-					JKPeakRecord *record = [[JKPeakRecord alloc] init];
-					[record setDocument:[self document]];
-					[record setValue:[NSNumber numberWithInt:peakCount] forKey:@"peakID"];
-					[record setValue:[NSNumber numberWithInt:start] forKey:@"start"];
-					[record setValue:[NSNumber numberWithInt:top] forKey:@"top"];
-					[record setValue:[NSNumber numberWithInt:end] forKey:@"end"];
-					[record setValue:[NSNumber numberWithFloat:baselineAtStart] forKey:@"baselineLeft"];
-					[record setValue:[NSNumber numberWithFloat:baselineAtEnd] forKey:@"baselineRight"];
-					
-					[record setValue:[NSNumber numberWithFloat:height] forKey:@"height"];
-					[record setValue:[NSNumber numberWithFloat:surface] forKey:@"surface"];
-                    
-					retentionIndex = topTime * [[[self document] retentionIndexSlope] floatValue] + [[[self document] retentionIndexRemainder] floatValue];
-					[record setValue:[NSNumber numberWithFloat:retentionIndex] forKey:@"retentionIndex"];
-					
-//					spectrum = [[JKSpectrum alloc] init];
-//					npts = [self endValuesSpectrum:top] - [self startValuesSpectrum:top];
-//					xpts = [self massValuesForSpectrumAtScan:top];
-//					ypts = [self intensityValuesForSpectrumAtScan:top];
-//					[spectrum setMasses:xpts withCount:npts];
-//					[spectrum setIntensities:ypts withCount:npts];
-//					[spectrum setDocument:self];
-//					free(xpts);
-//					free(ypts);
-	//				[spectrum setValue:[NSNumber numberWithFloat:(float)[self retentionIndexForScan:top]] forKey:@"retentionIndex"];
-					
-					[record setSpectrum:[[self document] spectrumForScan:top]];
-					[spectrum release];
-					
-					
-					[array addObject:record];
-					peakCount++;
-					
-					[record release]; 
-				}
-				
-				// Continue looking for peaks from end of this peak
-				i = end;			
-			}
-		}
-		
-		// Walk through the found peaks to calculate a normalized surface area and normalized height
-		peakCount = [array count];
-		for (i = 0; i < peakCount; i++) {
-			[[array objectAtIndex:i] setValue:[NSNumber numberWithFloat:[[[array objectAtIndex:i] valueForKey:@"height"] floatValue]*100/maximumHeight] forKey:@"normalizedHeight"];
-			[[array objectAtIndex:i] setValue:[NSNumber numberWithFloat:[[[array objectAtIndex:i] valueForKey:@"surface"] floatValue]*100/maximumSurface] forKey:@"normalizedSurface"];
-		}
-		// warning This undo doesn't work correctly(?)
-		
-		[[self undoManager] registerUndoWithTarget:self
-										  selector:@selector(setPeaks:)
-											object:[[self document] peaks]];
-		[[self undoManager] setActionName:NSLocalizedString(@"Identify Peaks",@"")];
-		
-		// Add peak to array
-		[array addObjectsFromArray:[[self document] peaks]];
-		[[self document] setPeaks:array];
-		
-		[array release];
+    JKSpectrum *spectrum;
+    
+    
+    if ([[self peaks] count] > 0) {
+        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete current peaks?",@""),NSLocalizedString(@"Peaks that are already identified could cause doublures. It's recommended to delete the current peaks.",@""),NSLocalizedString(@"Delete",@""),NSLocalizedString(@"Cancel",@""),NSLocalizedString(@"Keep",@""));
+        if (answer == NSOKButton) {
+            // Delete contents!
+            [self willChangeValueForKey:@"peaks"];
+            [[self peaks] removeAllObjects];
+            [self didChangeValueForKey:@"peaks"];			
+        } else if (answer == NSCancelButton) {
+            return;
+        } else {
+            // Continue by adding peaks
+        }
+    }
+    
+    // Baseline check
+    if ([[self baselinePointsPoints] count] <= 0) {
+        //			JKLogDebug([baseline description]);
+        //			JKLogWarning(@"No baseline set. Can't recognize peaks without one.");
+        answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Baseline Set",@""),NSLocalizedString(@"No baseline have yet been identified in the chromatogram. Use the 'Identify Baseline' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+        return;
+    }
+    
+    // Some initial settings
+    i = 0;
+    peakCount = 1;	
+    maximumSurface = 0.0;
+    maximumHeight = 0.0;
+    float peakIdentificationThresholdF = [[[self document] peakIdentificationThreshold] floatValue];
+    
+    for (i = 0; i < numberOfPoints; i++) {
+        if (totalIntensity[i]/[self baselineValueAtScan:i] > (1.0 + peakIdentificationThresholdF)){
+            
+            // determine: high, start, end
+            // start
+            for (j=i; totalIntensity[j] > totalIntensity[j-1]; j--) {				
+            }
+            start = j;
+            if (start < 0) start = 0; // Don't go outside bounds!
+            
+            // top
+            for (j=start; totalIntensity[j] < totalIntensity[j+1]; j++) {
+            }
+            top=j;
+            if (top >= numberOfPoints) top = numberOfPoints-1; // Don't go outside bounds!
+            
+            // end
+            for (j=top; totalIntensity[j] > totalIntensity[j+1]; j++) {				
+            }
+            end=j;
+            if (end >= numberOfPoints-1) end = numberOfPoints-1; // Don't go outside bounds!
+            
+            // start time
+            startTime = [self timeForScan:start];
+            
+            // top time
+            topTime = [self timeForScan:top];
+            
+            // end time
+            endTime = [self timeForScan:end];
+            
+            // width
+            widthTime = endTime - startTime;
+            
+            // baseline left
+            float baselineAtStart = [self baselineValueAtScan:start];
+            if (baselineAtStart > totalIntensity[start]) {
+                baselineAtStart = totalIntensity[start];
+            }
+            // baseline right
+            float baselineAtEnd = [self baselineValueAtScan:end];
+            if (baselineAtEnd > totalIntensity[end]) {
+                baselineAtEnd = totalIntensity[end];
+            }
+            
+            // Calculations needed for height and width
+            a= baselineAtEnd-baselineAtStart;
+            b= endTime-startTime;
+            
+            // height
+            //height = intensities[top]-(intensities[start] + (a/b)*(topTime-startTime) );
+            height = totalIntensity[top] - [self baselineValueAtScan:top];
+            // Keep track of what the heighest peak is
+            if (height > maximumHeight) maximumHeight = height;
+            
+            // surface  WARNING! This is an absolute, not a relative peak surface!
+            surface = 0.0;
+            for (j=start; j < end; j++) {
+                time1 = [self timeForScan:j];
+                time2 = [self timeForScan:j+1];
+                
+                height1 = totalIntensity[j]-(baselineAtStart + (a/b)*(time1-startTime) );
+                height2 = totalIntensity[j+1]-(baselineAtStart + (a/b)*(time2-startTime) );
+                
+                if (height1 > height2) {
+                    surface = surface + (height2 * (time2-time1)) + ((height1-height2) * (time2-time1) * 0.5);
+                } else {
+                    surface = surface + (height1 * (time2-time1)) + ((height2-height1) * (time2-time1) * 0.5);					
+                }
+            }
+            // Keep track of what the largest peak is
+            if (surface > maximumSurface) maximumSurface = surface;
+            
+            if (top != start && top != end && surface > 0.0) { // Sanity check
+                                                               // Add peak
+                JKPeakRecord *record = [[JKPeakRecord alloc] init];
+                [record setDocument:[self document]];
+                [record setValue:[NSNumber numberWithInt:peakCount] forKey:@"peakID"];
+                [record setValue:[NSNumber numberWithInt:start] forKey:@"start"];
+                [record setValue:[NSNumber numberWithInt:top] forKey:@"top"];
+                [record setValue:[NSNumber numberWithInt:end] forKey:@"end"];
+                [record setValue:[NSNumber numberWithFloat:baselineAtStart] forKey:@"baselineLeft"];
+                [record setValue:[NSNumber numberWithFloat:baselineAtEnd] forKey:@"baselineRight"];
+                
+                [record setValue:[NSNumber numberWithFloat:height] forKey:@"height"];
+                [record setValue:[NSNumber numberWithFloat:surface] forKey:@"surface"];
+                
+                retentionIndex = topTime * [[[self document] retentionIndexSlope] floatValue] + [[[self document] retentionIndexRemainder] floatValue];
+                [record setValue:[NSNumber numberWithFloat:retentionIndex] forKey:@"retentionIndex"];
+                                
+                [record setSpectrum:[[self document] spectrumForScan:top]];
+                [spectrum release];
+                
+                [self insertObject:record inPeaksAtIndex:[[self peaks] count]];
+                peakCount++;
+                
+                [record release]; 
+            }
+            
+            // Continue looking for peaks from end of this peak
+            i = end;			
+        }
+    }
+    
+    // Walk through the found peaks to calculate a normalized surface area and normalized height
+    peakCount = [[self peaks] count];
+    for (i = 0; i < peakCount; i++) {
+        [[[self peaks] objectAtIndex:i] setValue:[NSNumber numberWithFloat:[[[[self peaks] objectAtIndex:i] valueForKey:@"height"] floatValue]*100/maximumHeight] forKey:@"normalizedHeight"];
+        [[[self peaks] objectAtIndex:i] setValue:[NSNumber numberWithFloat:[[[[self peaks] objectAtIndex:i] valueForKey:@"surface"] floatValue]*100/maximumSurface] forKey:@"normalizedSurface"];
+    }
 }
 
-- (ChromatogramGraphDataSerie *)chromatogramDataSerie {
-    ChromatogramGraphDataSerie *aChromatogramDataSerie = [[ChromatogramGraphDataSerie alloc] initWithChromatogram:self];
-    return [aChromatogramDataSerie autorelease];
-}
-
-- (float)timeForScan:(int)scan  
-{
+- (float)timeForScan:(int)scan {
     NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
     return time[scan]/60.0f;    
 }
@@ -366,11 +352,11 @@
 
 #pragma mark ACCESSORS
 
--(JKGCMSDocument *)document {
+- (JKGCMSDocument *)document {
     return document;
 }
 
--(void)setDocument:(JKGCMSDocument *)inDocument {
+- (void)setDocument:(JKGCMSDocument *)inDocument {
     if (inDocument != document) {
         [inDocument retain];
         [document autorelease];
@@ -378,11 +364,11 @@
     }
 }
 
--(NSString *)model {
+- (NSString *)model {
     return model;
 }
 
--(void)setModel:(NSString *)inString {
+- (void)setModel:(NSString *)inString {
     if (inString != model) {
         [inString retain];
         [model autorelease];
@@ -390,38 +376,173 @@
     }
 }
 
--(void)setNcid:(int)inValue {
-    ncid = inValue;
-}
-
--(int)ncid {
-    return ncid;
-}
-
--(int)numberOfPoints {
+- (int)numberOfPoints {
     return numberOfPoints;
 }
 
--(void)setTime:(float *)inArray withCount:(int)inValue {
+- (void)setTime:(float *)inArray withCount:(int)inValue {
     numberOfPoints = inValue;
     time = (float *) realloc(time, numberOfPoints*sizeof(float));
     memcpy(time, inArray, numberOfPoints*sizeof(float));
 }
 
--(float *)time {
+- (float *)time {
     return time;
 }
 
--(void)setTotalIntensity:(float *)inArray withCount:(int)inValue {
+- (void)setTotalIntensity:(float *)inArray withCount:(int)inValue {
     numberOfPoints = inValue;
     totalIntensity = (float *) realloc(totalIntensity, numberOfPoints*sizeof(float));
     memcpy(totalIntensity, inArray, numberOfPoints*sizeof(float));
 }
 
--(float *)totalIntensity {
+- (float *)totalIntensity {
     return totalIntensity;
 }
 
+// Mutable To-Many relationship baselinePoints
+- (NSMutableArray *)baselinePoints {
+	return baselinePoints;
+}
+
+- (void)setBaselinePoints:(NSMutableArray *)inValue {
+    [inValue retain];
+    [baselinePoints release];
+    baselinePoints = inValue;
+}
+
+- (int)countOfBaselinePoints {
+    return [[self baselinePoints] count];
+}
+
+- (NSMutableDictionary *)objectInBaselinePointsAtIndex:(int)index {
+    return [[self baselinePoints] objectAtIndex:index];
+}
+
+- (void)getBaselinePoint:(NSMutableDictionary **)someBaselinePoints range:(NSRange)inRange {
+    // Return the objects in the specified range in the provided buffer.
+    [baselinePoints getObjects:someBaselinePoints range:inRange];
+}
+
+- (void)insertObject:(NSMutableDictionary *)aBaselinePoint inBaselinePointsAtIndex:(int)index {
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] removeObjectFromBaselinePointsAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Insert BaselinePoint",@"")];
+	}
+	
+	// Add aBaselinePoint to the array baselinePoints
+	[baselinePoints insertObject:aBaselinePoint atIndex:index];
+}
+
+- (void)removeObjectFromBaselinePointsAtIndex:(int)index{
+	NSMutableDictionary *aBaselinePoint = [baselinePoints objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] insertObject:aBaselinePoint inBaselinePointsAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Delete BaselinePoint",@"")];
+	}
+	
+	// Remove the peak from the array
+	[baselinePoints removeObjectAtIndex:index];
+}
+
+- (void)replaceObjectInBaselinePointsAtIndex:(int)index withObject:(NSMutableDictionary *)aBaselinePoint{
+	NSMutableDictionary *replacedBaselinePoint = [baselinePoints objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] replaceObjectAtIndex:index withObject:replacedBaselinePoint];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Replace BaselinePoint",@"")];
+	}
+	
+	// Replace the peak from the array
+	[baselinePoints replaceObjectAtIndex:index withObject:aBaselinePoint];
+}
+
+- (BOOL)validateBaselinePoint:(NSMutableDictionary **)aBaselinePoint error:(NSError **)outError {
+    // Implement validation here...
+    return YES;
+} // end baselinePoints
+
+// Mutable To-Many relationship peaks
+- (NSMutableArray *)peaks {
+	return peaks;
+}
+
+- (void)setPeaks:(NSMutableArray *)inValue {
+    [inValue retain];
+    [peaks release];
+    peaks = inValue;
+}
+
+- (int)countOfPeaks {
+    return [[self peaks] count];
+}
+
+- (JKPeakRecord *)objectInPeaksAtIndex:(int)index {
+    return [[self peaks] objectAtIndex:index];
+}
+
+- (void)getPeak:(JKPeakRecord **)somePeaks range:(NSRange)inRange {
+    // Return the objects in the specified range in the provided buffer.
+    [peaks getObjects:somePeaks range:inRange];
+}
+
+- (void)insertObject:(JKPeakRecord *)aPeak inPeaksAtIndex:(int)index {
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] removeObjectFromPeaksAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Insert Peak",@"")];
+	}
+	
+	// Add aPeak to the array peaks
+	[peaks insertObject:aPeak atIndex:index];
+}
+
+- (void)removeObjectFromPeaksAtIndex:(int)index{
+	JKPeakRecord *aPeak = [peaks objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] insertObject:aPeak inPeaksAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Delete Peak",@"")];
+	}
+	
+	// Remove the peak from the array
+	[peaks removeObjectAtIndex:index];
+}
+
+- (void)replaceObjectInPeaksAtIndex:(int)index withObject:(JKPeakRecord *)aPeak{
+	JKPeakRecord *replacedPeak = [peaks objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] replaceObjectAtIndex:index withObject:replacedPeak];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Replace Peak",@"")];
+	}
+	
+	// Replace the peak from the array
+	[peaks replaceObjectAtIndex:index withObject:aPeak];
+}
+
+- (BOOL)validatePeak:(JKPeakRecord **)aPeak error:(NSError **)outError {
+    // Implement validation here...
+    return YES;
+} // end peaks
 
 
 #pragma mark OBSOLETE ?!

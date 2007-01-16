@@ -47,8 +47,7 @@ static OSStatus PathToFSRef(CFStringRef inPath, FSRef *outRef);
 static CFStringRef FSRefToPathCopy(const FSRef *inRef);
 
 
-static Handle DataToHandle(CFDataRef inData)
-{
+static Handle DataToHandle(CFDataRef inData){
     CFIndex	len;
     Handle	handle = NULL;
     
@@ -69,8 +68,7 @@ static Handle DataToHandle(CFDataRef inData)
     return handle;
 }
 
-static CFDataRef HandleToData(Handle inHandle)
-{
+static CFDataRef HandleToData(Handle inHandle){
     CFDataRef	data = NULL;
     CFIndex	len;
     SInt8	handleState;
@@ -92,8 +90,7 @@ static CFDataRef HandleToData(Handle inHandle)
     return data;
 }
 
-static OSStatus PathToFSRef(CFStringRef inPath, FSRef *outRef)
-{
+static OSStatus PathToFSRef(CFStringRef inPath, FSRef *outRef){
     CFURLRef	tempURL = NULL;
     Boolean	gotRef = false;
     
@@ -115,8 +112,7 @@ static OSStatus PathToFSRef(CFStringRef inPath, FSRef *outRef)
     return noErr;
 }
 
-static CFStringRef FSRefToPathCopy(const FSRef *inRef)
-{
+static CFStringRef FSRefToPathCopy(const FSRef *inRef){
     CFURLRef	tempURL = NULL;
     CFStringRef	result = NULL;
     
@@ -138,8 +134,7 @@ static CFStringRef FSRefToPathCopy(const FSRef *inRef)
 
 @implementation BDAlias
 
-- (id)initWithAliasHandle:(AliasHandle)alias
-{
+- (id)initWithAliasHandle:(AliasHandle)alias{
     id ret = [super init];
     
     if (ret != nil) {
@@ -149,13 +144,11 @@ static CFStringRef FSRefToPathCopy(const FSRef *inRef)
     return ret;
 }
 
-- (id)initWithData:(NSData *)data
-{
+- (id)initWithData:(NSData *)data{
     return [self initWithAliasHandle:(AliasHandle)DataToHandle((CFDataRef) data)];
 }
 
-- (id)initWithPath:(NSString *)fullPath
-{
+- (id)initWithPath:(NSString *)fullPath{
     OSStatus	anErr = noErr;
     FSRef		ref;
     
@@ -168,8 +161,7 @@ static CFStringRef FSRefToPathCopy(const FSRef *inRef)
     return [self initWithFSRef:&ref];;
 }
 
-- (id)initWithPath:(NSString *)path relativeToPath:(NSString *)relPath
-{
+- (id)initWithPath:(NSString *)path relativeToPath:(NSString *)relPath{
     OSStatus	anErr = noErr;
     FSRef		ref, relRef;
     
@@ -189,13 +181,11 @@ static CFStringRef FSRefToPathCopy(const FSRef *inRef)
     return [self initWithFSRef:&ref relativeToFSRef:&relRef];
 }
 
-- (id)initWithFSRef:(FSRef *)ref
-{
+- (id)initWithFSRef:(FSRef *)ref{
     return [self initWithFSRef:ref relativeToFSRef:NULL];
 }
 
-- (id)initWithFSRef:(FSRef *)ref relativeToFSRef:(FSRef *)relRef
-{
+- (id)initWithFSRef:(FSRef *)ref relativeToFSRef:(FSRef *)relRef{
     OSStatus	anErr = noErr;
     AliasHandle	alias = NULL;
     
@@ -208,8 +198,7 @@ static CFStringRef FSRefToPathCopy(const FSRef *inRef)
     return [self initWithAliasHandle:alias];
 }
 
-- (void)dealloc
-{
+- (void)dealloc{
     if (_alias != NULL) {
         DisposeHandle((Handle) _alias);
         _alias = NULL;
@@ -218,13 +207,11 @@ static CFStringRef FSRefToPathCopy(const FSRef *inRef)
     [super dealloc];
 }
 
-- (AliasHandle)alias
-{
+- (AliasHandle)alias{
     return _alias;
 }
 
-- (void)setAlias:(AliasHandle)newAlias
-{
+- (void)setAlias:(AliasHandle)newAlias{
     if (_alias != NULL) {
         DisposeHandle((Handle) _alias);
     }
@@ -232,8 +219,7 @@ static CFStringRef FSRefToPathCopy(const FSRef *inRef)
     _alias = newAlias;
 }
 
-- (NSData *)aliasData
-{
+- (NSData *)aliasData{
     NSData *result;
     
     result = (NSData *)HandleToData((Handle) _alias);
@@ -241,18 +227,15 @@ static CFStringRef FSRefToPathCopy(const FSRef *inRef)
     return [result autorelease];
 }
 
-- (void)setAliasData:(NSData *)newAliasData
-{
+- (void)setAliasData:(NSData *)newAliasData{
     [self setAlias:(AliasHandle) DataToHandle((CFDataRef) newAliasData)];
 }
 
-- (NSString *)fullPath
-{
+- (NSString *)fullPath{
     return [self fullPathRelativeToPath:nil];
 }
 
-- (NSString *)fullPathRelativeToPath:(NSString *)relPath
-{
+- (NSString *)fullPathRelativeToPath:(NSString *)relPath{
     OSStatus	anErr = noErr;
     FSRef	relPathRef;
     FSRef	tempRef;
@@ -282,40 +265,33 @@ static CFStringRef FSRefToPathCopy(const FSRef *inRef)
     return [result autorelease];
 }
 
-+ (BDAlias *)aliasWithAliasHandle:(AliasHandle)alias
-{
++ (BDAlias *)aliasWithAliasHandle:(AliasHandle)alias{
     return [[[BDAlias alloc] initWithAliasHandle:alias] autorelease];
 }
 
-+ (BDAlias *)aliasWithData:(NSData *)data
-{
++ (BDAlias *)aliasWithData:(NSData *)data{
     return [[[BDAlias alloc] initWithData:data] autorelease];
 }
 
-+ (BDAlias *)aliasWithPath:(NSString *)fullPath
-{
++ (BDAlias *)aliasWithPath:(NSString *)fullPath{
     return [[[BDAlias alloc] initWithPath:fullPath] autorelease];
 }
 
-+ (BDAlias *)aliasWithPath:(NSString *)path relativeToPath:(NSString *)relPath
-{
++ (BDAlias *)aliasWithPath:(NSString *)path relativeToPath:(NSString *)relPath{
     return [[[BDAlias alloc] initWithPath:path relativeToPath:relPath] autorelease];
 }
 
-+ (BDAlias *)aliasWithFSRef:(FSRef *)ref
-{
++ (BDAlias *)aliasWithFSRef:(FSRef *)ref{
     return [[[BDAlias alloc] initWithFSRef:ref] autorelease];
 }
 
-+ (BDAlias *)aliasWithFSRef:(FSRef *)ref relativeToFSRef:(FSRef *)relRef
-{
++ (BDAlias *)aliasWithFSRef:(FSRef *)ref relativeToFSRef:(FSRef *)relRef{
     return [[[BDAlias alloc] initWithFSRef:ref relativeToFSRef:relRef] autorelease];
 }
 
 #pragma mark NSCODING
 
-- (void)encodeWithCoder:(NSCoder *)coder
-{
+- (void)encodeWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) { 
 //		NSLog(@"Encoding %@", [self fullPath]);
 		NSData *data = [NSData dataWithBytes:*_alias
@@ -329,8 +305,7 @@ static CFStringRef FSRefToPathCopy(const FSRef *inRef)
     return;
 }
 
-- (id)initWithCoder:(NSCoder *)coder
-{
+- (id)initWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) {
 		NSData *data = [coder decodeObjectForKey:@"aliasHandle"];
 		_alias = (AliasHandle)NewHandle([data length]);

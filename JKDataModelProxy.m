@@ -11,8 +11,7 @@
 
 @implementation JKDataModelProxy
 
-- (id)initWithCoder:(NSCoder *)coder
-{
+- (id)initWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) {
 		peaks = [coder decodeObjectForKey:@"peaks"]; 
 		baseline = [coder decodeObjectForKey:@"baseline"]; 

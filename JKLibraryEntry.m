@@ -15,8 +15,7 @@
 
 @implementation JKLibraryEntry
 
-- (id)initWithJCAMPString:(NSString *)inString
-{
+- (id)initWithJCAMPString:(NSString *)inString{
 	self = [super init];
     if (self != nil) {
         NSAssert(inString != nil, @"JKLibraryEntry inited with nil inString");
@@ -358,18 +357,16 @@
     return self;
 }
 
-- (void) dealloc  
-{
+- (void) dealloc {
 	free(masses);
 	free(intensities);
 	[super dealloc];
 }
 
-- (NSString *)jcampString
-{
+- (NSString *)jcampString{
 	NSMutableString *outStr = [[[NSMutableString alloc] init] autorelease];
     
-    if (([[self name] isEqualToString:@""]) || (![self name]))  {
+    if (([[self name] isEqualToString:@""]) || (![self name])) {
         [outStr appendString:@"##TITLE= Untitled Entry\r\n"];	
     } else {
         [outStr appendFormat:@"##TITLE= %@\r\n", [self name]];	        
@@ -429,8 +426,7 @@
 	return [[self document] undoManager];
 }
 
-- (SpectrumGraphDataSerie *)spectrumDataSerie
-{
+- (SpectrumGraphDataSerie *)spectrumDataSerie{
 	SpectrumGraphDataSerie *spectrumDataSerie = [[SpectrumGraphDataSerie alloc] init];
 	[spectrumDataSerie loadDataPoints:[self numberOfPoints] withXValues:[self masses] andYValues:[self intensities]];
     
@@ -446,8 +442,7 @@
 	return spectrumDataSerie;
 }
 
-- (SpectrumGraphDataSerie *)spectrumDataSerieUpsideDown
-{
+- (SpectrumGraphDataSerie *)spectrumDataSerieUpsideDown{
 	SpectrumGraphDataSerie *spectrumDataSerie = [[SpectrumGraphDataSerie alloc] init];
 	[spectrumDataSerie loadDataPoints:[self numberOfPoints] withXValues:[self masses] andYValues:[self intensities]];
 		
@@ -463,8 +458,7 @@
 	return spectrumDataSerie;
 }
 
-- (NSString *)fixString:(NSString *)inString
-{
+- (NSString *)fixString:(NSString *)inString{
 	NSString *fixedString = [inString lowercaseString];
 	if ([fixedString length] > 1) {
 		NSRange range4 = [fixedString rangeOfString:@"/"]; // don't swap, because probably two names are given
@@ -497,8 +491,7 @@
 	return fixedString;
 }
 
--(NSNumber *)calculateMassWeight:(NSString *)inString 
-{
+- (NSNumber *)calculateMassWeight:(NSString *)inString {
 	CFragment*	atom;
      
     if (CreateSymbolTable([[[[NSBundle mainBundle] resourcePath] stringByAppendingString:@"/periodic.table"] cString]) != 0) {
@@ -532,37 +525,31 @@ idUndoAccessor(molString, setMolString, @"Change Mol String")
 idUndoAccessor(symbol, setSymbol, @"Change Symbol")
 
 //intAccessor(numberOfPoints, setNumberOfPoints);
-- (void)setMasses:(float *)inArray withCount:(int)inValue  
-{
+- (void)setMasses:(float *)inArray withCount:(int)inValue {
     numberOfPoints = inValue;
     masses = (float *) realloc(masses, numberOfPoints*sizeof(float));
     memcpy(masses, inArray, numberOfPoints*sizeof(float));
 }
 
-- (float *)masses  
-{
+- (float *)masses {
     return masses;
 }
 
-- (void)setIntensities:(float *)inArray withCount:(int)inValue  
-{
+- (void)setIntensities:(float *)inArray withCount:(int)inValue {
     numberOfPoints = inValue;
     intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
     memcpy(intensities, inArray, numberOfPoints*sizeof(float));
 	maximumIntensity = jk_stats_float_max(intensities, numberOfPoints);
 }
 
-- (float)maximumIntensity  
-{
+- (float)maximumIntensity {
     return maximumIntensity;
 }
-- (float *)intensities  
-{
+- (float *)intensities {
     return intensities;
 }
 
-- (NSString *)peakTable
-{
+- (NSString *)peakTable{
 	NSMutableString *outStr = [[[NSMutableString alloc] init] autorelease];
 	int j;
 	for (j=0; j < numberOfPoints; j++) {
@@ -574,8 +561,7 @@ idUndoAccessor(symbol, setSymbol, @"Change Symbol")
 	return outStr;
 }
 
-- (void)setPeakTable:(NSString *)inString 
-{
+- (void)setPeakTable:(NSString *)inString {
     if ((inString == nil) || (![inString isKindOfClass:[NSString class]])) {
         return;
     }
@@ -610,45 +596,37 @@ idUndoAccessor(symbol, setSymbol, @"Change Symbol")
 	[theScanner2 release];	
 }
 
-- (IBAction)viewOnline
-{
+- (IBAction)viewOnline{
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi?ID=%@&Units=SI",[self CASNumber]]]];
 }
 
-- (IBAction)downloadMolFile
-{
+- (IBAction)downloadMolFile{
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]]];
 }
 
-- (IBAction)downloadMassSpectrum
-{
+- (IBAction)downloadMassSpectrum{
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",[self CASNumber],[self CASNumber]]]];
 }
 
-- (int)numberOfPoints 
-{
+- (int)numberOfPoints {
 	return numberOfPoints;
 }
 
-- (id)valueForUndefinedKey:(NSString *)key
-{
+- (id)valueForUndefinedKey:(NSString *)key{
 	return key;
 }
 
-- (void)setDocument:(NSDocument *)inValue  
-{
+- (void)setDocument:(NSDocument *)inValue {
 	// Weak link
 	document = inValue;
 }
-- (NSDocument *)document  
-{
+- (NSDocument *)document {
     return document;
 }
 
 #pragma mark Encoding
 
-- (void)encodeWithCoder:(NSCoder *)coder
-{
+- (void)encodeWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
         [coder encodeInt:2 forKey:@"version"];
 		[coder encodeObject:[self jcampString] forKey:@"jcampString"];
@@ -656,8 +634,7 @@ idUndoAccessor(symbol, setSymbol, @"Change Symbol")
     return;
 }
 
-- (id)initWithCoder:(NSCoder *)coder
-{
+- (id)initWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) {
 		int version;
 		

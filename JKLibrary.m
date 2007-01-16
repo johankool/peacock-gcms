@@ -14,8 +14,7 @@
 
 #pragma mark INITIALIZATION
 
-- (id)init  
-{
+- (id)init {
 	self = [super init];
     if (self != nil) {
         libraryWindowController = [[JKLibraryWindowController alloc] init];
@@ -24,15 +23,13 @@
     return self;
 }
 
-- (void)makeWindowControllers  
-{
+- (void)makeWindowControllers {
     [self addWindowController:libraryWindowController];
 }
 
 #pragma mark OPEN/SAVE DOCUMENT
 
-- (BOOL)writeToFile:(NSString *)fileName ofType:(NSString *)docType  
-{
+- (BOOL)writeToFile:(NSString *)fileName ofType:(NSString *)docType {
 	if ([docType isEqualToString:@"JCAMP Library"]) {
 		return [self exportJCAMPToFile:fileName];
 	} else if ([docType isEqualToString:@"AMDIS Target Library"]) {
@@ -41,8 +38,7 @@
     return NO;
 }
 
-- (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
-{
+- (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError{
 	if ([typeName isEqualToString:@"JCAMP Library"]) {
 		NSString *inString = [NSString stringWithContentsOfURL:absoluteURL encoding:NSUTF8StringEncoding error:outError];
 		if (!inString) {
@@ -73,13 +69,11 @@
 
 #pragma mark KEY VALUE CODING/OBSERVING
 
-- (void)changeKeyPath:(NSString *)keyPath ofObject:(id)object toValue:(id)newValue
-{
+- (void)changeKeyPath:(NSString *)keyPath ofObject:(id)object toValue:(id)newValue{
 	[object setValue:newValue forKeyPath:keyPath];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
 	NSUndoManager *undo = [self undoManager];
 	id oldValue = [change objectForKey:NSKeyValueChangeOldKey];
 	[[undo prepareWithInvocationTarget:self] changeKeyPath:keyPath ofObject:object toValue:oldValue];
@@ -89,8 +83,7 @@
 
 #pragma mark IMPORT/EXPORT ACTIONS
 
-- (NSArray *)readJCAMPString:(NSString *)inString 
-{
+- (NSArray *)readJCAMPString:(NSString *)inString {
 	int count,i;
     BOOL sillyHPJCAMP;
     NSArray *array;
@@ -113,7 +106,7 @@
 	// NOTE: we now require at least a return after the last entry in the file or we won't read that entry
 	for (i=0; i < count; i++) {
 		// If we are dealing with an empty string, bail out
-		if ((![[[array objectAtIndex:i] stringByTrimmingCharactersInSet:whiteCharacters] isEqualToString:@""]) && (![[array objectAtIndex:i] isEqualToString:@""]))  {
+		if ((![[[array objectAtIndex:i] stringByTrimmingCharactersInSet:whiteCharacters] isEqualToString:@""]) && (![[array objectAtIndex:i] isEqualToString:@""])) {
             if (sillyHPJCAMP) {
                 libEntry = [[JKLibraryEntry alloc] initWithJCAMPString:[[NSString stringWithString:@"##TITLE="] stringByAppendingString:[array objectAtIndex:i]]];
             } else {
@@ -130,15 +123,13 @@
     return libraryEntriesInString;	
 }
 
-- (BOOL)importJCAMPFromFile:(NSString *)fileName  
-{
+- (BOOL)importJCAMPFromFile:(NSString *)fileName {
 	NSString *inString = [NSString stringWithContentsOfFile:fileName encoding:NSUTF8StringEncoding error:NULL];
 	libraryEntries = [[self readJCAMPString:inString] retain];
 	return YES;		
 }
 
-- (BOOL)exportJCAMPToFile:(NSString *)fileName  
-{
+- (BOOL)exportJCAMPToFile:(NSString *)fileName {
 	NSMutableString *outStr = [[[NSMutableString alloc] init] autorelease]; 
 	int i;
 	int count = [libraryEntries count];
@@ -155,8 +146,7 @@
 	}
 }
 
-- (BOOL)importAMDISFromFile:(NSString *)fileName  
-{
+- (BOOL)importAMDISFromFile:(NSString *)fileName {
 	int count,i,j;
 	NSString *inStr = [NSString stringWithContentsOfFile:fileName];
 	NSArray *array = [inStr componentsSeparatedByString:@"\r\n\r\n"];
@@ -312,8 +302,7 @@
     return YES;
 }
 
-- (BOOL)exportAMDISToFile:(NSString *)fileName  
-{
+- (BOOL)exportAMDISToFile:(NSString *)fileName {
 	NSMutableString *outStr = [[NSMutableString alloc] init]; 
 	NSArray *array;
 	int i,j,count2;
@@ -358,17 +347,14 @@
 
 #pragma mark ACCESSORS
 
-- (NSMutableArray *)libraryEntries  
-{
+- (NSMutableArray *)libraryEntries {
 	return libraryEntries;
 }
-- (JKLibraryWindowController *)libraryWindowController  
-{
+- (JKLibraryWindowController *)libraryWindowController {
 	return libraryWindowController;
 }
 
-- (void)setLibraryEntries:(NSMutableArray *)array
-{
+- (void)setLibraryEntries:(NSMutableArray *)array{
 	if (array == libraryEntries)
 		return;
     
@@ -396,8 +382,7 @@
 	}
 }
 
-- (void)insertObject:(JKLibraryEntry *)libraryEntry inLibraryEntriesAtIndex:(int)index
-{
+- (void)insertObject:(JKLibraryEntry *)libraryEntry inLibraryEntriesAtIndex:(int)index{
 	// Add the inverse action to the undo stack
 	NSUndoManager *undo = [self undoManager];
 	[[undo prepareWithInvocationTarget:self] removeObjectFromLibraryEntriesAtIndex:index];
@@ -411,8 +396,7 @@
 	[libraryEntries insertObject:libraryEntry atIndex:index];
 }
 
-- (void)removeObjectFromLibraryEntriesAtIndex:(int)index
-{
+- (void)removeObjectFromLibraryEntriesAtIndex:(int)index{
 	JKLibraryEntry *libraryEntry = [libraryEntries objectAtIndex:index];
 	
 	// Add the inverse action to the undo stack

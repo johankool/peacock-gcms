@@ -89,7 +89,7 @@
         }
 
         - (NSString *)writeToString
-        {
+       {
 //            short		i = 0;
             NSString *str = @"";
             //    fprintf(stream,"%s",(char*)(&symbol));

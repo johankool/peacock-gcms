@@ -20,8 +20,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 
 // These class methods get and set the cursor used for each type.
 // Pass in nil to reset to the default cursor for that type.
-+ (NSCursor*)cursor:(RBSVCursorType)type  
-{
++ (NSCursor*)cursor:(RBSVCursorType)type {
 	if ((type>=0)&&(type<RBSVCursorTypeCount)) {
 		NSCursor* result = cursors[type];
 		if (result) {
@@ -43,8 +42,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 	return [NSCursor currentCursor];
 }
 
-+ (void)setCursor:(RBSVCursorType)type toCursor:(NSCursor*)cursor  
-{
++ (void)setCursor:(RBSVCursorType)type toCursor:(NSCursor*)cursor {
 	if ((type>=0)&&(type<RBSVCursorTypeCount)) {
 		[cursors[type] release];
 		cursors[type] = [cursor retain];
@@ -52,8 +50,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // This class method clears the saved state(s) for a given autosave name from the defaults.
-+ (void)removeStateUsingName:(NSString*)name  
-{
++ (void)removeStateUsingName:(NSString*)name {
 	if ([name length]) {
 		NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
 		[defaults removeObjectForKey:[[self class] defaultsKeyForName:name isHorizontal:NO]];
@@ -62,16 +59,14 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // This class method returns the actual key used to store autosave data in the defaults.
-+ (NSString*)defaultsKeyForName:(NSString*)name isHorizontal:(BOOL)orientation  
-{
++ (NSString*)defaultsKeyForName:(NSString*)name isHorizontal:(BOOL)orientation {
     return [NSString stringWithFormat:@"RBSplitView %@ %@",orientation?@"H":@"V",name];
 }
 
 // This pair of methods gets and sets the autosave name, which allows restoring the subview's
 // state from the user defaults.
 // We take care not to allow nil autosaveNames.
-- (NSString*)autosaveName  
-{
+- (NSString*)autosaveName {
 	return autosaveName;
 }
 
@@ -79,8 +74,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // in the user defaults. Default is @"", which doesn't save anything. Set flag to YES to set
 // unique names for nested subviews. You are responsible for avoiding duplicates; avoid using
 // the characters '[' and ']' in autosaveNames.
-- (void)setAutosaveName:(NSString*)aString recursively:(BOOL)flag  
-{
+- (void)setAutosaveName:(NSString*)aString recursively:(BOOL)flag {
 	BOOL clear;
 	if ((clear = ![aString length])) {
 		aString = @"";
@@ -105,8 +99,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // Saves the current state of the subviews if there's a valid autosave name set. If the argument
 // is YES, it's then also called recursively for nested RBSplitViews. Returns YES if successful.
 // You must call restoreState explicity at least once before saveState will begin working.
-- (BOOL)saveState:(BOOL)recurse  
-{
+- (BOOL)saveState:(BOOL)recurse {
 // Saving the state is also disabled while dragging.
 	if (canSaveState&&![self isDragging]&&[autosaveName length]) {
 		[[NSUserDefaults standardUserDefaults] setObject:[self stringWithSavedState] forKey:[[self class] defaultsKeyForName:autosaveName isHorizontal:[self isHorizontal]]];
@@ -125,8 +118,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // Restores the saved state of the subviews if there's a valid autosave name set. If the argument
 // is YES, it's also called recursively for nested RBSplitViews. Returns YES if successful.
 // It's good policy to call adjustSubviews immediately after calling restoreState.
-- (BOOL)restoreState:(BOOL)recurse  
-{
+- (BOOL)restoreState:(BOOL)recurse {
 	BOOL result = NO;
 	if ([autosaveName length]) {
 		result = [self setStateFromString:[[NSUserDefaults standardUserDefaults] stringForKey:[[self class] defaultsKeyForName:autosaveName isHorizontal:[self isHorizontal]]]];
@@ -145,8 +137,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // Returns an array with complete state information for the receiver and all subviews, taking
 // nesting into account. Don't store this array in a file, as its format might change in the
 // future; this is for taking a state snapshot and later restoring it with setStatesFromArray.
-- (NSArray*)arrayWithStates  
-{
+- (NSArray*)arrayWithStates {
 	NSMutableArray* array = [NSMutableArray array];
 	[array addObject:[self stringWithSavedState]];
 	NSEnumerator* enumerator = [[self subviews] objectEnumerator];
@@ -166,8 +157,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // previous call to arrayWithStates. Returns YES if successful. This will fail if you have
 // added or removed subviews in the meantime!
 // You need to call adjustSubviews after calling this.
-- (BOOL)setStatesFromArray:(NSArray*)array  
-{
+- (BOOL)setStatesFromArray:(NSArray*)array {
 	NSArray* subviews = [self subviews];
 	int count = [array count];
 	if (count==([subviews count]+1)) {
@@ -196,8 +186,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // Returns a string encoding the current state of all direct subviews. Does not check for nesting.
 // The string contains the number of direct subviews, then the dimension for each subview (which will
 // be negative for collapsed subviews), all separated by blanks.
-- (NSString*)stringWithSavedState  
-{
+- (NSString*)stringWithSavedState {
 	NSArray* subviews = [self subviews];
 	NSMutableString* result = [NSMutableString stringWithFormat:@"%d",[subviews count]];
 	NSEnumerator* enumerator = [subviews objectEnumerator];
@@ -216,8 +205,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 
 // Readjusts all direct subviews according to the encoded string parameter.
 // The number of subviews must match. Returns YES if successful. Does not check for nesting.
-- (BOOL)setStateFromString:(NSString*)aString  
-{
+- (BOOL)setStateFromString:(NSString*)aString {
 	if ([aString length]) {
 		NSArray* parts = [aString componentsSeparatedByString:@" "];
 		NSArray* subviews = [self subviews];
@@ -255,8 +243,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 
 // This is the designated initializer for creating RBSplitViews programmatically. You can set the
 // divider image and other parameters afterwards.
-- (id)initWithFrame:(NSRect)frame  
-{
+- (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
  		dividers = NULL;
@@ -272,8 +259,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // This convenience initializer adds any number of subviews and adjusts them proportionally.
-- (id)initWithFrame:(NSRect)frame andSubviews:(unsigned)count  
-{
+- (id)initWithFrame:(NSRect)frame andSubviews:(unsigned)count {
 	self = [self initWithFrame:frame];
 	if (self) {
 		while (count-->0) {
@@ -285,8 +271,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // Frees retained objects when going away.
-- (void)dealloc  
-{
+- (void)dealloc {
 	if (dividers) {
 		free(dividers);
 	}
@@ -299,8 +284,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // Sets and gets the coupling between the view and its containing RBSplitView (if any). Coupled
 // RBSplitViews take some parameters, such as divider images, from the containing view. The default
 // is for nested RBSplitViews is YES; however, isCoupled returns NO if we're not nested.
-- (void)setCoupled:(BOOL)flag  
-{
+- (void)setCoupled:(BOOL)flag {
 	if (flag!=isCoupled) {
 		isCoupled = flag;
 // If we've just been uncoupled and there's no divider image, we copy it from the containing view. 
@@ -311,71 +295,60 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 	}
 }
 
-- (BOOL)isCoupled  
-{
+- (BOOL)isCoupled {
 	return isCoupled&&([super splitView]!=nil);
 }
 
 // This returns the containing splitview if they are coupled. It's guaranteed to return a RBSplitView or nil.
-- (RBSplitView*)couplingSplitView  
-{
+- (RBSplitView*)couplingSplitView {
 	return isCoupled?[super couplingSplitView]:nil;
 }
 
 // This returns self.
-- (RBSplitView*)asSplitView  
-{
+- (RBSplitView*)asSplitView {
 	return self;
 }
 
 // This return self if we're really coupled to the owning splitview.
-- (RBSplitView*)coupledSplitView  
-{
+- (RBSplitView*)coupledSplitView {
 	return [self isCoupled]?self:nil;
 }
 
 // We always return NO, but do special handling in RBSplitSubview's mouseDown: method.
-- (BOOL)mouseDownCanMoveWindow  
-{
+- (BOOL)mouseDownCanMoveWindow {
 	return NO;
 }
 
 // RBSplitViews must be flipped to work properly for horizontal dividers. As the subviews are never
 // flipped, this won't make your life harder.
-- (BOOL)isFlipped  
-{
+- (BOOL)isFlipped {
 	return YES;
 }
 
 // Call this method to make sure that the subviews and divider rectangles are recalculated
 // properly before display.
-- (void)setMustAdjust  
-{
+- (void)setMustAdjust {
 	mustAdjust = YES;
 	[self setNeedsDisplay:YES];
 }
 
 // Returns YES if there's a pending adjustment.
-- (BOOL)mustAdjust  
-{
+- (BOOL)mustAdjust {
 	return mustAdjust;
 }
 
 // Returns YES if we're in a dragging loop.
-- (BOOL)isDragging  
-{
+- (BOOL)isDragging {
 	return isDragging;
 }
 
 // This pair of methods allows you to move the dividers for background windows while holding down
 // the command key, without bringing the window to the foreground.
-- (BOOL)acceptsFirstMouse:(NSEvent*)theEvent  
-{
+- (BOOL)acceptsFirstMouse:(NSEvent*)theEvent {
 	return ([theEvent modifierFlags]&NSCommandKeyMask)==0;
 }
 
-- (BOOL)shouldDelayWindowOrderingForEvent:(NSEvent*)theEvent  
-{
+- (BOOL)shouldDelayWindowOrderingForEvent:(NSEvent*)theEvent {
 	return ([theEvent modifierFlags]&NSCommandKeyMask)!=0;
 }
 
@@ -385,14 +358,12 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // The view will be considered opaque only if its alpha is equal to 1.0.
 // For a nested, coupled RBSplitView, background and opacity are copied from the containing RBSplitView,
 // and setting the background has no effect.
-- (NSColor*)background  
-{
+- (NSColor*)background {
 	RBSplitView* sv = [self couplingSplitView];
 	return sv?[sv background]:background;
 }
 
-- (void)setBackground:(NSColor*)color  
-{
+- (void)setBackground:(NSColor*)color {
 	if (![self couplingSplitView]) {
 		[background autorelease];
 		background = color?([color alphaComponent]>0.0?[color retain]:nil):nil;
@@ -400,16 +371,14 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 	}
 }
 
-- (BOOL)isOpaque  
-{
+- (BOOL)isOpaque {
 	RBSplitView* sv = [self couplingSplitView];
 	return sv?[sv isOpaque]:(background&&([background alphaComponent]>=1.0));
 }
 
 // This will make debugging a little easier by appending the state string to the
 // default description.
-- (NSString*)description  
-{
+- (NSString*)description {
 	return [NSString stringWithFormat:@"%@ {%@}",[super description],[self stringWithSavedState]];
 }
 
@@ -418,19 +387,16 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // For a nested RBSplitView, orientation is perpendicular to the containing RBSplitView, and
 // setting it has no effect. This parameter is not affected by coupling.
 // After changing the orientation you may want to restore the state with restoreState:.
-- (BOOL)isHorizontal  
-{
+- (BOOL)isHorizontal {
 	RBSplitView* sv = [self splitView];
 	return sv?[sv isVertical]:isHorizontal;
 }
 
-- (BOOL)isVertical  
-{
+- (BOOL)isVertical {
 	return 1-[self isHorizontal];
 }
 
-- (void)setVertical:(BOOL)flag  
-{
+- (void)setVertical:(BOOL)flag {
 	if (![self splitView]&&(isHorizontal!=!flag)) {
 		BOOL ishor = isHorizontal = !flag;
 		NSSize size = divider?[divider size]:NSZeroSize;
@@ -440,8 +406,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // Returns the subview which a given identifier.
-- (RBSplitSubview*)subviewWithIdentifier:(NSString*)anIdentifier  
-{
+- (RBSplitSubview*)subviewWithIdentifier:(NSString*)anIdentifier {
 	NSEnumerator* enumerator = [[self subviews] objectEnumerator];
 	RBSplitSubview* subview;
 	while ((subview = [enumerator nextObject])) {
@@ -453,8 +418,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // Returns the subview at a given position
-- (RBSplitSubview*)subviewAtPosition:(unsigned)position  
-{
+- (RBSplitSubview*)subviewAtPosition:(unsigned)position {
 	NSArray* subviews = [super subviews];
 	int subcount = [subviews count];
 	if (position<subcount) {
@@ -464,13 +428,11 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // This pair of methods gets and sets the delegate object. Delegates aren't retained.
-- (id)delegate  
-{
+- (id)delegate {
 	return delegate;
 }
 
-- (void)setDelegate:(id)anObject  
-{
+- (void)setDelegate:(id)anObject {
 	delegate = anObject;
 }
 
@@ -478,14 +440,12 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // divider thickness. A nil image means a 0-pixel wide divider, unless you set a thickness explicitly.
 // For a nested RBSplitView, the divider is copied from the containing RBSplitView, and
 // setting it has no effect. The returned image is always flipped.
-- (NSImage*)divider  
-{
+- (NSImage*)divider {
 	RBSplitView* sv = [self couplingSplitView];
 	return sv?[sv divider]:divider;
 }
 
-- (void)setDivider:(NSImage*)image  
-{
+- (void)setDivider:(NSImage*)image {
 	if (![self couplingSplitView]) {
 		[divider autorelease];
 		if ([image isFlipped]) {
@@ -504,8 +464,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 
 // This pair of methods gets and sets the divider thickness. It should be an integer value and at least
 // 0.0, so we make sure. Set it to 0.0 to make the image dimensions prevail.
-- (float)dividerThickness  
-{
+- (float)dividerThickness {
 	if (dividerThickness>0.0) {
 		return dividerThickness;
 	}
@@ -518,8 +477,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 	return 0.0;
 }
 
-- (void)setDividerThickness:(float)thickness  
-{
+- (void)setDividerThickness:(float)thickness {
 	float t = MAX(0.0,floorf(thickness));
 	if ((int)dividerThickness!=(int)t) {
 		dividerThickness = t;
@@ -529,8 +487,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 
 // These three methods add subviews. If aView isn't a RBSplitSubview, one is automatically inserted above
 // it, and aView's frame and resizing mask is set to occupy the entire RBSplitSubview.
-- (void)addSubview:(NSView*)aView  
-{
+- (void)addSubview:(NSView*)aView {
 	if ([aView isKindOfClass:[RBSplitSubview class]]) {
 		[super addSubview:aView];
 	} else {
@@ -543,8 +500,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 	[self setMustAdjust];
 }
 
-- (void)addSubview:(NSView*)aView positioned:(NSWindowOrderingMode)place relativeTo:(NSView*)otherView  
-{
+- (void)addSubview:(NSView*)aView positioned:(NSWindowOrderingMode)place relativeTo:(NSView*)otherView {
 	if ([aView isKindOfClass:[RBSplitSubview class]]) {
 		[super addSubview:aView positioned:place relativeTo:otherView];
 	} else {
@@ -558,8 +514,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 	[self setMustAdjust];
 }
 
-- (void)addSubview:(NSView*)aView atPosition:(unsigned)position  
-{
+- (void)addSubview:(NSView*)aView atPosition:(unsigned)position {
 	RBSplitSubview* suv = [self subviewAtPosition:position];
 	if (suv) {
 		[self addSubview:aView positioned:NSWindowBelow relativeTo:suv];
@@ -569,8 +524,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // This makes sure the subviews are adjusted after a subview is removed.
-- (void)willRemoveSubview:(NSView*)subview  
-{
+- (void)willRemoveSubview:(NSView*)subview {
 	if ([subview respondsToSelector:@selector(RB___stopAnimation)]) {
 		[(RBSplitSubview*)subview RB___stopAnimation];
 	}
@@ -579,15 +533,13 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // RBSplitViews never resize their subviews automatically.
-- (BOOL)autoresizesSubviews  
-{
+- (BOOL)autoresizesSubviews {
 	return NO;
 }
 
 // This adjusts the subviews when the size is set. setFrame: calls this, so all is well. It calls
 // the delegate if implemented.
-- (void)setFrameSize:(NSSize)size  
-{
+- (void)setFrameSize:(NSSize)size {
 	NSSize oldsize = [self frame].size;
 //	if (!NSEqualSizes(size,oldsize)) {
 		[super setFrameSize:size];
@@ -611,8 +563,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // This method handles dragging and double-clicking dividers with the mouse. While dragging, the
 // "closed hand" cursor is shown. Double clicks are handled separately. Nothing will happen if
 // no divider image is set.
-- (void)mouseDown:(NSEvent*)theEvent  
-{
+- (void)mouseDown:(NSEvent*)theEvent {
 	if (!dividers) {
 		return;
 	}
@@ -764,8 +715,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // This will be called before the view will be redisplayed, so we adjust subviews if necessary.
-- (BOOL)needsDisplay  
-{
+- (BOOL)needsDisplay {
 	if (mustAdjust&&!isAdjusting) {
 		[self adjustSubviews];
 		return YES;
@@ -774,8 +724,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // We implement awakeFromNib to restore the state. This works if an autosaveName is set in the nib.
-- (void)awakeFromNib  
-{
+- (void)awakeFromNib {
 	if ([[self superclass] instancesRespondToSelector:@selector(awakeFromNib)]) {
 		[super awakeFromNib];
 	}
@@ -785,8 +734,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // We check if subviews must be adjusted before redisplaying programmatically.
-- (void)display  
-{
+- (void)display {
 	if (mustAdjust&&!isAdjusting) {
 		[self adjustSubviews];
 	}
@@ -794,8 +742,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // This method draws the divider rectangles and then the two-axis thumbs if there are any.
-- (void)drawRect:(NSRect)rect  
-{
+- (void)drawRect:(NSRect)rect {
 	[super drawRect:rect];
 	if (!dividers) {
 		return;
@@ -843,8 +790,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // will be the thumb rectangle.
 // If there are nested split views this will be called once to draw the main divider rect,
 // and again for every thumb.
-- (void)drawDivider:(NSImage*)anImage inRect:(NSRect)rect betweenView:(RBSplitSubview*)leading andView:(RBSplitSubview*)trailing  
-{
+- (void)drawDivider:(NSImage*)anImage inRect:(NSRect)rect betweenView:(RBSplitSubview*)leading andView:(RBSplitSubview*)trailing {
 // Fill the view with the background color (if there's any). Don't draw the background again for
 // thumbs.
 	if (leading||trailing) {
@@ -874,21 +820,18 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 
 // This method should be called only from within the splitView:wasResizedFrom:to: delegate method
 // to keep some specific subview the same size.
-- (void)adjustSubviewsExcepting:(RBSplitSubview*)excepting  
-{
+- (void)adjustSubviewsExcepting:(RBSplitSubview*)excepting {
 	[self RB___adjustSubviewsExcepting:[excepting isCollapsed]?nil:excepting];
 }
 
 // This method adjusts subviews and divider rectangles.
-- (void)adjustSubviews  
-{
+- (void)adjustSubviews {
 	[self RB___adjustSubviewsExcepting:nil];
 }
 
 // This resets the appropriate cursors for each divider according to the orientation.
 // No cursors are shown if there is no divider image.
-- (void)resetCursorRects  
-{
+- (void)resetCursorRects {
 	if (!dividers) {
 		return;
 	}
@@ -928,8 +871,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // bitmap representation as data; this makes the nib files larger, but the user can just paste any image
 // into the RBSplitView inspector - or use the default divider image - without having to include it into the
 // project, too.
-- (void)encodeWithCoder:(NSCoder *)coder  
-{
+- (void)encodeWithCoder:(NSCoder *)coder {
 	[super encodeWithCoder:coder];
 	if ([coder allowsKeyedCoding]) {
         [coder encodeConditionalObject:delegate forKey:@"delegate"];
@@ -950,8 +892,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 	}
 }
 
-- (id)initWithCoder:(NSCoder *)coder  
-{
+- (id)initWithCoder:(NSCoder *)coder {
     if ((self = [super initWithCoder:coder])) {
 		NSData* data = nil;
 		float divt = 0.0;
@@ -996,8 +937,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 @implementation RBSplitView (RB___ViewAdditions)
 
 // This sets the dragging status flag. After clearing the flag, the state must be saved explicitly.
-- (void)RB___setDragging:(BOOL)flag  
-{
+- (void)RB___setDragging:(BOOL)flag {
 	BOOL save = isDragging&&!flag;
 	isDragging = flag;
 	if (save) {
@@ -1006,8 +946,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // This returns the number of visible subviews.
-- (unsigned int)RB___numberOfSubviews  
-{
+- (unsigned int)RB___numberOfSubviews {
 	unsigned int result = 0;
 	NSEnumerator* enumerator = [[self subviews] objectEnumerator];
 	RBSplitSubview* sub;
@@ -1018,8 +957,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // This returns the origin coordinate of the Nth divider.
-- (float)RB___dividerOrigin:(int)index  
-{
+- (float)RB___dividerOrigin:(int)index {
 	float result = 0.0;
 	if (dividers) {
 		BOOL ishor = [self isHorizontal];
@@ -1029,8 +967,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // This returns an array with all non-hidden subviews.
-- (NSArray*)RB___subviews  
-{
+- (NSArray*)RB___subviews {
 	NSMutableArray* result = [NSMutableArray arrayWithArray:[self subviews]];
 	int i;
 	for (i=[result count]-1;i>=0;i--) {
@@ -1043,14 +980,12 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // This returns the actual value set in dividerThickness. 
-- (float)RB___dividerThickness  
-{
+- (float)RB___dividerThickness {
 	return dividerThickness;
 }
 
 // This method returns the actual dimension occupied by the subviews; that is, without dividers.
-- (float)RB___dimensionWithoutDividers  
-{
+- (float)RB___dimensionWithoutDividers {
 	BOOL ishor = [self isHorizontal];
 	NSSize size = [self frame].size;
 	return MAX(1.0,DIM(size)-[self dividerThickness]*([self RB___numberOfSubviews]-1));
@@ -1059,8 +994,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // This method returns one of the divider rectangles, or NSZeroRect if the index is invalid.
 // If view is non-nil, the rect will be expressed in that view's coordinates. We assume
 // that view is a superview of self.
-- (NSRect)RB___dividerRect:(unsigned)index relativeToView:(RBSplitView*)view  
-{
+- (NSRect)RB___dividerRect:(unsigned)index relativeToView:(RBSplitView*)view {
 	if (dividers&&(index<[self RB___numberOfSubviews]-1)) {
 		NSRect result = dividers[index];
 		if (view&&(view!=self)) {
@@ -1074,8 +1008,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // Returns the index of the divider hit by the point, or NSNotFound if none.
 // point is in coordinates relative to view. delta is the divider thickness added
 // to both ends of the divider rect, to accomodate two-axis thumbs.
-- (unsigned)RB___dividerHitBy:(NSPoint)point relativeToView:(RBSplitView*)view thickness:(float)delta  
-{
+- (unsigned)RB___dividerHitBy:(NSPoint)point relativeToView:(RBSplitView*)view thickness:(float)delta {
 	if (!dividers) {
 		return NSNotFound;
 	}
@@ -1098,15 +1031,13 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // This method sets a flag to clear all fractions before adjusting.
-- (void)RB___setMustClearFractions  
-{
+- (void)RB___setMustClearFractions {
 	mustClearFractions = YES;
 }
 
 // This local method asks the delegate if we should resize the trailing subview or the window
 // when a divider is dragged.
-- (BOOL)RB___shouldResizeWindowForDivider:(unsigned int)index betweenView:(RBSplitSubview*)leading andView:(RBSplitSubview*)trailing willGrow:(BOOL)grow  
-{
+- (BOOL)RB___shouldResizeWindowForDivider:(unsigned int)index betweenView:(RBSplitSubview*)leading andView:(RBSplitSubview*)trailing willGrow:(BOOL)grow {
 	if ([delegate respondsToSelector:@selector(splitView:shouldResizeWindowForDivider:betweenView:andView:willGrow:)]) {
 		return [delegate splitView:self shouldResizeWindowForDivider:index betweenView:leading andView:trailing willGrow:grow];
 	}
@@ -1115,8 +1046,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 
 
 // This local method tries to expand the leading subview (which is assumed to be collapsed). Delta should be positive.
-- (void)RB___tryToExpandLeading:(RBSplitSubview*)leading divider:(unsigned int)index trailing:(RBSplitSubview*)trailing delta:(float)delta  
-{
+- (void)RB___tryToExpandLeading:(RBSplitSubview*)leading divider:(unsigned int)index trailing:(RBSplitSubview*)trailing delta:(float)delta {
 	NSWindow* window = nil;
 	NSSize maxsize = NSZeroSize;
 	NSRect frame = NSZeroRect;
@@ -1175,8 +1105,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // This local method tries to shorten the leading subview. Both subviews are assumed to be expanded.
 // delta should be negative. If always is NO, the subview will be shortened only if it might also be
 // collapsed; otherwise, it's shortened as much as possible.
-- (void)RB___tryToShortenLeading:(RBSplitSubview*)leading divider:(unsigned int)index trailing:(RBSplitSubview*)trailing delta:(float)delta always:(BOOL)always  
-{
+- (void)RB___tryToShortenLeading:(RBSplitSubview*)leading divider:(unsigned int)index trailing:(RBSplitSubview*)trailing delta:(float)delta always:(BOOL)always {
 	NSWindow* window = nil;
 	NSSize minsize = NSZeroSize;
 	NSRect frame = NSZeroRect;
@@ -1226,8 +1155,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // This local method tries to shorten the trailing subview. Both subviews are assumed to be expanded.
 // delta should be positive. If always is NO, the subview will be shortened only if it might also be
 // collapsed; otherwise, it's shortened as much as possible.
-- (void)RB___tryToShortenTrailing:(RBSplitSubview*)trailing divider:(unsigned int)index leading:(RBSplitSubview*)leading delta:(float)delta always:(BOOL)always  
-{
+- (void)RB___tryToShortenTrailing:(RBSplitSubview*)trailing divider:(unsigned int)index leading:(RBSplitSubview*)leading delta:(float)delta always:(BOOL)always {
 	NSWindow* window = nil;
 	NSSize maxsize = NSZeroSize;
 	NSRect frame = NSZeroRect;
@@ -1277,8 +1205,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // This method tries to expand the trailing subview (which is assumed to be collapsed).
-- (void)RB___tryToExpandTrailing:(RBSplitSubview*)trailing leading:(RBSplitSubview*)leading delta:(float)delta  
-{
+- (void)RB___tryToExpandTrailing:(RBSplitSubview*)trailing leading:(RBSplitSubview*)leading delta:(float)delta {
 // The mouse has to move over half of the expanded size (plus hysteresis) and the expansion shouldn't
 // reduce the leading subview to less than its minimum size. If it does, we try to collapse it first.
 // However, we don't collapse if that would cause the trailing subview to become larger than its maximum.
@@ -1309,8 +1236,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // and expressed in local coordinates.
 // base is an offset (x,y) applied to the mouse location (usually will be zero)
 // index is the number of the divider that's being dragged.
-- (void)RB___trackMouseEvent:(NSEvent*)theEvent from:(NSPoint)where withBase:(NSPoint)base inDivider:(unsigned)index  
-{
+- (void)RB___trackMouseEvent:(NSEvent*)theEvent from:(NSPoint)where withBase:(NSPoint)base inDivider:(unsigned)index {
 	NSPoint result;
 	NSArray* subviews = [self RB___subviews];
 	int subcount = [subviews count];
@@ -1370,8 +1296,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // This is called for nested RBSplitViews, to add the cursor rects for the two-axis thumbs.
-- (void)RB___addCursorRectsTo:(RBSplitView*)masterView forDividerRect:(NSRect)rect thickness:(float)delta  
-{
+- (void)RB___addCursorRectsTo:(RBSplitView*)masterView forDividerRect:(NSRect)rect thickness:(float)delta {
 	if (dividers&&[self divider]) {
 		NSArray* subviews = [self RB___subviews];
 		int divcount = [subviews count]-1;
@@ -1397,8 +1322,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // This is called for nested RBSplitViews, to draw the two-axis thumbs.
-- (void)RB___drawDividersIn:(RBSplitView*)masterView forDividerRect:(NSRect)rect thickness:(float)delta  
-{
+- (void)RB___drawDividersIn:(RBSplitView*)masterView forDividerRect:(NSRect)rect thickness:(float)delta {
 	if (!dividers) {
 		return;
 	}
@@ -1429,8 +1353,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // least one expanded subview, and never make a subview smaller than its minimum dimension, or larger
 // than its maximum dimension.
 // We try to account for most unusual situations but this may fail under some circumstances. YMMV.
-- (void)RB___adjustSubviewsExcepting:(RBSplitSubview*)excepting  
-{
+- (void)RB___adjustSubviewsExcepting:(RBSplitSubview*)excepting {
 	mustAdjust = NO;
 	NSArray* subviews = [self RB___subviews];
 	unsigned subcount = [subviews count];

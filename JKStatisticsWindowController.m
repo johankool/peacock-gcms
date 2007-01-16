@@ -18,8 +18,7 @@
 
 @implementation JKStatisticsWindowController
 
-- (id) init  
-{
+- (id) init {
 	self = [super initWithWindowNibName:@"JKStatisticalAnalysis"];
 	if (self != nil) {
 		combinedPeaks = [[NSMutableArray alloc] init];
@@ -41,8 +40,7 @@
 	}
 	return self;
 }
-- (void) dealloc  
-{
+- (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[combinedPeaks release];
 	[ratioValues release];
@@ -55,8 +53,7 @@
 
 #pragma mark WINDOW MANAGEMENT
 
-- (void)windowDidLoad  
-{
+- (void)windowDidLoad {
 	// Load Ratios file from application support folder
 	NSArray *paths;
 	unsigned int i;
@@ -119,8 +116,7 @@
 
 #pragma mark ACTIONS
 
-- (void)runStatisticalAnalysis
-{
+- (void)runStatisticalAnalysis{
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	BOOL errorOccurred = NO;	
 	[self setAbortAction:NO];
@@ -308,8 +304,7 @@
 	[pool release];
 }
 
-- (void)collectMetadataForDocument:(JKGCMSDocument *)document atIndex:(int)index  
-{
+- (void)collectMetadataForDocument:(JKGCMSDocument *)document atIndex:(int)index {
 	NSMutableDictionary *metadataDictSampleCode = [metadata objectAtIndex:0];
 	NSMutableDictionary *metadataDictDescription = [metadata objectAtIndex:1];
 	NSMutableDictionary *metadataDictPath = [metadata objectAtIndex:2];
@@ -333,8 +328,7 @@
 	return;
 }
 
-- (void)collectCombinedPeaksForDocument:(JKGCMSDocument *)document atIndex:(int)index  
-{
+- (void)collectCombinedPeaksForDocument:(JKGCMSDocument *)document atIndex:(int)index {
 	// This autoreleasepool allows to flush the memory after each file, to prevent using more than 2 GB during this loop!
 	NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
     NSString *warningMsg;
@@ -653,8 +647,7 @@
 	
 }
 
-- (void)calculateRatiosForDocument:(JKGCMSDocument *)document atIndex:(int)index  
-{
+- (void)calculateRatiosForDocument:(JKGCMSDocument *)document atIndex:(int)index {
 	int j;
 	int ratiosCount;
 	float result;
@@ -699,8 +692,7 @@
 	return;
 }
 
-- (void)sortCombinedPeaks 
-{
+- (void)sortCombinedPeaks {
 	JKLogEnteringMethod();
 	NSMutableDictionary *combinedPeak;
 	NSString *key;
@@ -794,8 +786,7 @@
 //}
 
 
-- (void)saveRatiosFile  
-{
+- (void)saveRatiosFile {
 	NSArray *paths;
 	
 	paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSAllDomainsMask, YES);
@@ -806,8 +797,7 @@
     }
 }
 
-- (void)insertTableColumns  
-{
+- (void)insertTableColumns {
 	int i;
 	int filesCount = [files count];
 
@@ -908,14 +898,12 @@
 	[summaryWindow makeKeyAndOrderFront:self];
 }
 
-- (void)setupComparisonWindowForDocument:(JKGCMSDocument *)document atIndex:(int)index
-{
+- (void)setupComparisonWindowForDocument:(JKGCMSDocument *)document atIndex:(int)index{
     [chromatogramDataSeriesController addObjects:[document chromatograms]];
     [peaksController addObjects:[document peaks]];
 }
 
-- (void)synchronizedZooming:(NSNotification *)theNotification
-{
+- (void)synchronizedZooming:(NSNotification *)theNotification{
 	
 		NSEnumerator *enumerator = [[[comparisonScrollView documentView] subviews] objectEnumerator];
 		id subview;
@@ -929,8 +917,7 @@
 }
 #pragma mark IBACTIONS
 
-- (IBAction)addButtonAction:(id)sender  
-{
+- (IBAction)addButtonAction:(id)sender {
 	NSArray *fileTypes = [NSArray arrayWithObjects:@"cdf", @"peacock",nil];
     NSOpenPanel *oPanel = [NSOpenPanel openPanel];
     [oPanel setAllowsMultipleSelection:YES];
@@ -938,8 +925,7 @@
 }
 
 
-- (IBAction)doubleClickAction:(id)sender  
-{
+- (IBAction)doubleClickAction:(id)sender {
 	NSLog(@"row %d column %d",[sender clickedRow], [sender clickedColumn]);
 	NSError *error = [[[NSError alloc] init] autorelease];
 	if (([sender clickedRow] == -1) && ([sender clickedColumn] == -1)) {
@@ -995,8 +981,7 @@
 	}
 }
 
-- (IBAction)options:(id)sender  
-{
+- (IBAction)options:(id)sender {
 	[NSApp beginSheet: optionsSheet
 	   modalForWindow: [self window]
 		modalDelegate: self
@@ -1006,13 +991,11 @@
     // Return processing to the event loop		
 }
 
-- (IBAction)summarizeOptionsDoneAction:(id)sender  
-{
+- (IBAction)summarizeOptionsDoneAction:(id)sender {
 	[NSApp endSheet:summarizeOptionsSheet];
 }
 
-- (IBAction)runStatisticalAnalysisButtonAction:(id)sender  
-{
+- (IBAction)runStatisticalAnalysisButtonAction:(id)sender {
 	[NSApp beginSheet: progressSheet
 	   modalForWindow: [self window]
 		modalDelegate: self
@@ -1025,13 +1008,11 @@
 	
 }
 
-- (IBAction)stopButtonAction:(id)sender 
-{
+- (IBAction)stopButtonAction:(id)sender {
 	[self setAbortAction:YES];
 }
 
-- (IBAction)editRatios:(id)sender  
-{
+- (IBAction)editRatios:(id)sender {
 	[NSApp beginSheet: ratiosEditor
 	   modalForWindow: [self window]
 		modalDelegate: self
@@ -1042,21 +1023,18 @@
 	
 }
 
-- (IBAction)cancelEditRatios:(id)sender  
-{
+- (IBAction)cancelEditRatios:(id)sender {
 	[NSApp endSheet:ratiosEditor];
 
 }
 
-- (IBAction)saveEditRatios:(id)sender  
-{
+- (IBAction)saveEditRatios:(id)sender {
 	[self saveRatiosFile];
 	[NSApp endSheet:ratiosEditor];
 }
 
 
-- (IBAction)exportSummary:(id)sender  
-{
+- (IBAction)exportSummary:(id)sender {
 	NSSavePanel *sp;
 	int runResult;
 	
@@ -1242,8 +1220,7 @@
 
 #pragma mark SYNCHRONIZED SCROLLING
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectTableColumn:(NSTableColumn *)aTableColumn  
-{
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectTableColumn:(NSTableColumn *)aTableColumn {
 	if ([[aTableColumn identifier] isKindOfClass:[NSString class]]) {
 		return NO;
 	} else {
@@ -1251,8 +1228,7 @@
 	}
 }
 
-- (void)scrollViewBoundsDidChange:(NSNotification *)aNotification  
-{
+- (void)scrollViewBoundsDidChange:(NSNotification *)aNotification {
 	NSView *clipView;
 	clipView = [aNotification object];
 	if (!scrollingViewProgrammatically) {
@@ -1301,8 +1277,7 @@
 	scrollingViewProgrammatically = NO;	
 }
 
-- (void)tableViewColumnDidMove:(NSNotification *)aNotification  
-{
+- (void)tableViewColumnDidMove:(NSNotification *)aNotification {
 	NSTableView *tableView;
 	tableView = [aNotification object];
 	if (!movingColumnsProgramatically) {
@@ -1326,8 +1301,7 @@
 	movingColumnsProgramatically = NO;	
 }
 
-- (void)tableViewColumnDidResize:(NSNotification *)aNotification  
-{
+- (void)tableViewColumnDidResize:(NSNotification *)aNotification {
 	NSTableView *tableView;
 	tableView = [aNotification object];
 	if (!movingColumnsProgramatically) {
@@ -1344,15 +1318,13 @@
 	}
 }
 
-- (void)tableView:(NSTableView *)tableView didDragTableColumn:(NSTableColumn *)tableColumn  
-{
+- (void)tableView:(NSTableView *)tableView didDragTableColumn:(NSTableColumn *)tableColumn {
 	[resultsTable moveColumn:[resultsTable columnWithIdentifier:@"firstColumn"] toColumn:0];
 	[ratiosTable moveColumn:[ratiosTable columnWithIdentifier:@"firstColumn"] toColumn:0];
 	[metadataTable moveColumn:[metadataTable columnWithIdentifier:@"firstColumn"] toColumn:0];
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex  
-{
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
 	if (aTableView == metadataTable) {
 		return NO;
 	} else {
@@ -1360,8 +1332,7 @@
 	}
 }
 
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification  
-{
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
 	NSTableView *tableView;
 	tableView = [aNotification object];
 	if ([tableView selectedColumn] == NSNotFound) {
@@ -1389,8 +1360,7 @@
 
 #pragma mark SHEETS
 
-- (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo  
-{
+- (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
     if (returnCode == NSOKButton) {
 		BOOL alreadyInFiles;
         NSArray *filesToOpen = [sheet filenames];
@@ -1419,25 +1389,21 @@
 	}	
 }
 
-- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo  
-{
+- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     [sheet orderOut:self];
 }
 
-- (void)windowWillBeginSheet:(NSNotification *)notification  
-{
+- (void)windowWillBeginSheet:(NSNotification *)notification {
 	return;
 }
 
-- (void)windowDidEndSheet:(NSNotification *)notification  
-{
+- (void)windowDidEndSheet:(NSNotification *)notification {
 	return;
 }
 
 #pragma mark ACCESSORS
 
-- (NSWindow *)summaryWindow  
-{
+- (NSWindow *)summaryWindow {
 	return summaryWindow;
 }
 

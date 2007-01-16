@@ -23,8 +23,7 @@
 }
 
 
-- (void)keyDown:(NSEvent *)event
-{
+- (void)keyDown:(NSEvent *)event{
 	unichar key = [[event charactersIgnoringModifiers] characterAtIndex:0];
     
 	// get flags and strip the lower 16 (device dependant) bits
@@ -49,8 +48,7 @@
 }
 
 
-- (void)unbind:(NSString *)binding
-{
+- (void)unbind:(NSString *)binding{
 	[super unbind:binding];
 	
 	if ( [binding isEqualToString:@"content"] )

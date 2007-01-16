@@ -16,8 +16,7 @@ static void *ArrayObservationContext = (void *)1092;
 @implementation MyGraphDataSerie
 
 #pragma mark INITIALIZATION
-- (id)init  
-{
+- (id)init {
     self = [super init];
     if (self) {
         // Zet de standaardwaarden
@@ -44,8 +43,7 @@ static void *ArrayObservationContext = (void *)1092;
     return [self init];
 }
 
-- (void)loadDataPoints:(int)npts withXValues:(float *)xpts andYValues:(float *)ypts  
-{
+- (void)loadDataPoints:(int)npts withXValues:(float *)xpts andYValues:(float *)ypts {
 	int i;
 	NSMutableArray *mutArray = [[NSMutableArray alloc] init];
     for(i=0;i<npts;i++){
@@ -67,8 +65,7 @@ static void *ArrayObservationContext = (void *)1092;
 
 
 #pragma mark DRAWING ROUTINES
-- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view  
-{
+- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view {
     graphView = view;
 	NSBezierPath *bezierpath;
 	
@@ -90,8 +87,7 @@ static void *ArrayObservationContext = (void *)1092;
 	}
 }
 
-- (void)constructPlotPath  
-{
+- (void)constructPlotPath {
 	int i, count;
 	NSPoint pointInUnits, pointInUnits2;
 	NSBezierPath *bezierpath = [[NSBezierPath alloc] init];
@@ -135,8 +131,7 @@ static void *ArrayObservationContext = (void *)1092;
 	[bezierpath release];
 }
 
-- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view  
-{
+- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view {
     graphView = view;
 	int count = [[self dataArray] count];
 	if (count <= 0) {	
@@ -198,22 +193,19 @@ static void *ArrayObservationContext = (void *)1092;
 }
 
 #pragma mark HELPER ROUTINES
-- (void)transposeAxes  
-{
+- (void)transposeAxes {
 	// Deze routine wisselt de x-as met de y-as om
 	NSString *tempString = [self keyForXValue];
 	[self setKeyForXValue:[self keyForYValue]];
 	[self setKeyForYValue:tempString];
 	[self constructPlotPath];
 }
-- (NSRect)boundingRect  
-{
+- (NSRect)boundingRect {
 	return [[self plotPath] bounds];
 }
 
 #pragma mark KEY VALUE OBSERVING MANAGEMENT
-- (void)startObservingData:(NSArray *)data
-{
+- (void)startObservingData:(NSArray *)data{
 	if ([data isEqual:[NSNull null]]) {
 		return;
 	}
@@ -247,8 +239,7 @@ static void *ArrayObservationContext = (void *)1092;
 	}
 }
 
-- (void)stopObservingData:(NSArray *)data  
-{
+- (void)stopObservingData:(NSArray *)data {
 	if ([data isEqual:[NSNull null]]) {
 		return;
 	}
@@ -300,18 +291,15 @@ static void *ArrayObservationContext = (void *)1092;
 }
 
 #pragma mark MISC
-- (NSArray *)dataArrayKeys  
-{
+- (NSArray *)dataArrayKeys {
 	return [[dataArray objectAtIndex:0] allKeys];
 }
 
 #pragma mark ACCESSORS
-- (NSMutableArray *)dataArray  
-{
+- (NSMutableArray *)dataArray {
 	return dataArray;
 }
-- (void)setDataArray:(NSMutableArray *)inValue  
-{
+- (void)setDataArray:(NSMutableArray *)inValue {
     if (inValue != dataArray) {
         [inValue retain];
         [dataArray autorelease];
@@ -320,12 +308,10 @@ static void *ArrayObservationContext = (void *)1092;
     }
 }
 
-- (NSString *)seriesTitle  
-{
+- (NSString *)seriesTitle {
 	return seriesTitle;
 }
-- (void)setSeriesTitle:(NSString *)inValue  
-{
+- (void)setSeriesTitle:(NSString *)inValue {
 	if (inValue != seriesTitle) {
         [inValue retain];
         [seriesTitle autorelease];
@@ -334,12 +320,10 @@ static void *ArrayObservationContext = (void *)1092;
     }
 }
 
-- (NSString *)keyForXValue  
-{
+- (NSString *)keyForXValue {
 	return keyForXValue;
 }
-- (void)setKeyForXValue:(NSString *)inValue  
-{
+- (void)setKeyForXValue:(NSString *)inValue {
 	if (inValue != keyForXValue) {
         [inValue retain];
         [keyForXValue autorelease];
@@ -348,12 +332,10 @@ static void *ArrayObservationContext = (void *)1092;
     }
 }
 
-- (NSString *)keyForYValue  
-{
+- (NSString *)keyForYValue {
 	return keyForYValue;
 }
-- (void)setKeyForYValue:(NSString *)inValue  
-{
+- (void)setKeyForYValue:(NSString *)inValue {
 	if (inValue != keyForYValue) {
         [inValue retain];
         [keyForYValue autorelease];
@@ -362,12 +344,10 @@ static void *ArrayObservationContext = (void *)1092;
     }
 }
 
-- (NSColor *)seriesColor  
-{
+- (NSColor *)seriesColor {
 	return seriesColor;
 }
-- (void)setSeriesColor:(NSColor *)inValue  
-{
+- (void)setSeriesColor:(NSColor *)inValue {
     if (inValue != seriesColor) {
         [inValue retain];
         [seriesColor autorelease];
@@ -376,24 +356,20 @@ static void *ArrayObservationContext = (void *)1092;
     }
 }
 
-- (int)seriesType  
-{
+- (int)seriesType {
 	return seriesType;
 }
-- (void)setSeriesType:(int)inValue  
-{
+- (void)setSeriesType:(int)inValue {
     if (inValue != seriesType) {
         seriesType = inValue;
         [self constructPlotPath];
     }
 }
 
-- (NSBezierPath *)plotPath  
-{
+- (NSBezierPath *)plotPath {
 	return plotPath;
 }
-- (void)setPlotPath:(NSBezierPath *)inValue  
-{
+- (void)setPlotPath:(NSBezierPath *)inValue {
     if (inValue != plotPath) {
         [inValue retain];
         [plotPath autorelease];
@@ -401,24 +377,20 @@ static void *ArrayObservationContext = (void *)1092;
     }
 }
 
-- (BOOL)shouldDrawLabels  
-{
+- (BOOL)shouldDrawLabels {
 	return shouldDrawLabels;
 }
-- (void)setShouldDrawLabels:(BOOL)inValue  
-{
+- (void)setShouldDrawLabels:(BOOL)inValue {
     if (inValue != shouldDrawLabels) {
         shouldDrawLabels = inValue;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];        
     }
 }
 
-- (NSNumber *)verticalScale  
-{
+- (NSNumber *)verticalScale {
 	return verticalScale;
 }
-- (void)setVerticalScale:(NSNumber *)inValue  
-{
+- (void)setVerticalScale:(NSNumber *)inValue {
     if (inValue != verticalScale) {
         [inValue retain];
         [verticalScale autorelease];
@@ -434,8 +406,7 @@ static void *ArrayObservationContext = (void *)1092;
 - (NSArray *)oldData { 
 	return oldData; 
 }
-- (void)setOldData:(NSArray *)anOldData  
-{
+- (void)setOldData:(NSArray *)anOldData {
 	[anOldData retain];
 	[oldData autorelease];
 	oldData = anOldData;

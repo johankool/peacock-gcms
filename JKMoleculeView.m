@@ -89,7 +89,7 @@
     // Create font from name and size; initialize font panel
 	font = [NSFont fontWithName:[[self font] fontName] size:[self textHeight]];
     if (font == nil)
-    {
+   {
         font = [NSFont systemFontOfSize:[self textHeight]];
     }
 	[attrs setObject:font forKey:NSFontAttributeName];
@@ -247,24 +247,23 @@
 	
     
 }
--(BOOL)canBecomeKeyView {
+- (BOOL)canBecomeKeyView {
 	return YES;
 }
--(BOOL) acceptsFirstResponder{
+- (BOOL) acceptsFirstResponder{
     return YES;
 }
--(BOOL) resignFirstResponder{
+- (BOOL) resignFirstResponder{
     return YES;
 }
--(BOOL) becomeFirstResponder{
+- (BOOL) becomeFirstResponder{
     return YES;
 }
 
--(BOOL)isFlipped {
+- (BOOL)isFlipped {
     return YES;
 }
-- (void)changeFont:(id)sender
-{
+- (void)changeFont:(id)sender{
     /*
      This is the message the font panel sends when a new font is selected
      */
@@ -279,7 +278,7 @@
 	[self setNeedsDisplay:YES];
 }
 
--(void)copy:(id)sender {
+- (void)copy:(id)sender {
     NSData *data;
     NSArray *myPboardTypes;
     NSPasteboard *pb = [NSPasteboard generalPasteboard];
@@ -315,8 +314,7 @@
 }
 
 
-- (void)encodeWithCoder:(NSCoder *)coder
-{
+- (void)encodeWithCoder:(NSCoder *)coder{
 	[super encodeWithCoder:coder];
 	[coder encodeInt:1 forKey:@"version"];
 	[coder encodeFloat:margin forKey:@"margin"];
@@ -331,8 +329,7 @@
     return;
 }
 
-- (id)initWithCoder:(NSCoder *)coder
-{
+- (id)initWithCoder:(NSCoder *)coder{
 	self = [super initWithCoder:coder];
 	margin = [coder decodeFloatForKey:@"margin"];
 	scaleFactor = [coder decodeFloatForKey:@"scaleFactor"];
@@ -347,7 +344,7 @@
 }
 
 
--(void)startObserving {
+- (void)startObserving {
 	// Register to observe each of the new datapoints, and each of their observable properties
 	NSEnumerator *dataEnumerator = [[[self model] atoms] objectEnumerator];
 	JKAtom *newDataPoint;

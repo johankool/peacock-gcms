@@ -30,8 +30,8 @@
 //	int displaySize; // 0 = mini; 1 = small; 2 = regular;
 }
 
--(void)open;
--(void)revealInFinder;
--(void)browse;
+- (void)open;
+- (void)revealInFinder;
+- (void)browse;
 
 @end

@@ -31,8 +31,7 @@ static void *DocumentObservationContext = (void *)1100;
 
 #pragma mark INITIALIZATION
 
-- (id)init  
-{
+- (id)init {
 	self = [super init];
     if (self != nil) {
         mainWindowController = [[[JKMainWindowController alloc] init] autorelease];
@@ -84,8 +83,7 @@ static void *DocumentObservationContext = (void *)1100;
     [super removeWindowController:windowController];
 }
 
-- (void)dealloc  
-{
+- (void)dealloc {
 	[peaks release];	
 //    [baseline release];
 	[metadata release];
@@ -120,8 +118,7 @@ static void *DocumentObservationContext = (void *)1100;
 
 #pragma mark WINDOW MANAGEMENT
 
-- (void)makeWindowControllers  
-{
+- (void)makeWindowControllers {
 	[[NSNotificationCenter defaultCenter] postNotificationName:JKGCMSDocument_DocumentLoadedNotification object:self];
 	NSAssert(mainWindowController != nil, @"mainWindowController is nil");
 	[self addWindowController:mainWindowController];
@@ -129,8 +126,7 @@ static void *DocumentObservationContext = (void *)1100;
 
 #pragma mark FILE ACCESS MANAGEMENT
 
-- (NSFileWrapper *)fileWrapperRepresentationOfType:(NSString *)aType 
-{
+- (NSFileWrapper *)fileWrapperRepresentationOfType:(NSString *)aType {
 	if ([aType isEqualToString:@"Peacock File"]) {
 
 		NSMutableData *data;
@@ -197,8 +193,7 @@ static void *DocumentObservationContext = (void *)1100;
 	}
 }
 
-- (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError  
-{
+- (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
 	if ([typeName isEqualToString:@"NetCDF/ANDI File"]) {
         absolutePathToNetCDF = [absoluteURL path];
         return [self readNetCDFFile:[absoluteURL path] error:outError];
@@ -226,7 +221,7 @@ static void *DocumentObservationContext = (void *)1100;
 //			baseline = [[dataModel baseline] retain];
 			metadata = [[dataModel metadata] retain];
 			// These are not stored but refetched from cdf file when needed
-			chromatograms = [[NSMutableArray alloc] init];
+			//chromatograms = [[NSMutableArray alloc] init];
 			
 			[unarchiver finishDecoding];
 			[unarchiver release];
@@ -264,7 +259,7 @@ static void *DocumentObservationContext = (void *)1100;
 		minimumScoreSearchResults = [[unarchiver decodeObjectForKey:@"minimumScoreSearchResults"] retain];		
 		
 		// These are not stored but refetched from cdf file when needed
-		chromatograms = [[NSMutableArray alloc] init];
+	//	chromatograms = [[NSMutableArray alloc] init];
 		
 		[unarchiver finishDecoding];
 		[unarchiver release];
@@ -274,7 +269,7 @@ static void *DocumentObservationContext = (void *)1100;
 			peacockFileWrapper = wrapper;
 		}
                 
-        [chromatograms addObject:[self ticChromatogram]];
+        [self insertObject:[self ticChromatogram] inChromatogramsAtIndex:0];
         
 		return result;	
 //	} else if ([typeName isEqualToString:@"GAML File"]) {
@@ -324,8 +319,7 @@ static void *DocumentObservationContext = (void *)1100;
 
 #pragma mark IBACTIONS
 
-- (IBAction)openNext:(id)sender  
-{
+- (IBAction)openNext:(id)sender {
 	NSArray *content = [[NSFileManager defaultManager] directoryContentsAtPath:[[self fileName] stringByDeletingLastPathComponent]];
 	NSError *error = [[NSError alloc] init];
 	BOOL openNext = NO;
@@ -344,8 +338,7 @@ static void *DocumentObservationContext = (void *)1100;
 
 #pragma mark IMPORT/EXPORT ACTIONS
 
-- (BOOL)readNetCDFFile:(NSString *)fileName error:(NSError **)anError  
-{
+- (BOOL)readNetCDFFile:(NSString *)fileName error:(NSError **)anError {
 	int errCode;
     int dimid;
     BOOL	hasVarid_scanaqtime;
@@ -399,8 +392,7 @@ static void *DocumentObservationContext = (void *)1100;
 }	 
 
 
-- (NSString *)exportTabDelimitedText  
-{
+- (NSString *)exportTabDelimitedText {
 	NSMutableString *outStr = [[NSMutableString alloc] init]; 
 	NSArray *array = [[[self mainWindowController] peakController] arrangedObjects];
 	int i;
@@ -480,8 +472,7 @@ static void *DocumentObservationContext = (void *)1100;
 #pragma mark SORTING DOCUMENTS
 
 // Used by the summary feature
-- (NSComparisonResult)metadataCompare:(JKGCMSDocument *)otherDocument  
-{
+- (NSComparisonResult)metadataCompare:(JKGCMSDocument *)otherDocument {
 	int metadataChoosen = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"columnSorting"] intValue];
 
 	switch (metadataChoosen) {
@@ -502,8 +493,7 @@ static void *DocumentObservationContext = (void *)1100;
 - (BOOL)shouldChangePrintInfo:(NSPrintInfo *)newPrintInfo {
     return NO;
 }
-- (void)printShowingPrintPanel:(BOOL)showPanels  
-{
+- (void)printShowingPrintPanel:(BOOL)showPanels {
     // Obtain a custom view that will be printed
     NSView *printView = [[self mainWindowController] chromatogramView];
 //	[[self printInfo] setHorizontalPagination:NSFitPagination];
@@ -689,7 +679,7 @@ static void *DocumentObservationContext = (void *)1100;
 					dummy = nc_get_var1_float(ncid, varid_intensity_value, (const size_t *) &j, &intensity);
 					
 					masses[i] = mass;
-					//times[i] = [self timeForScan:i];
+					times[i] = [self timeForScan:i];
 					intensities[i] = intensities[i] + intensity;
 				}
 			}
@@ -700,22 +690,17 @@ static void *DocumentObservationContext = (void *)1100;
 	
     //create a chromatogram object
     chromatogram = [[JKChromatogram alloc] initWithDocument:self forModel:mzValuesString];
-//	NSMutableArray *mutArray = [[NSMutableArray alloc] init];	
-//    for(i=0;i<num_scan;i++){
-//        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:time[i]/60.0f], @"Time",
-//			[NSNumber numberWithInt:i], @"Scan",
-//			[NSNumber numberWithFloat:intensities[i]], @"Total Intensity", nil];
-//		[mutArray addObject:dict];      
-//		[dict release];
-//    }
-//	[chromatogram setDataArray:mutArray];
-//	[mutArray release];
     
-    [chromatogram setTime:time withCount:numberOfPoints];
+    [chromatogram setTime:times withCount:numberOfPoints];
     [chromatogram setTotalIntensity:intensities withCount:numberOfPoints];
 
 	[chromatogram autorelease];	
 	return chromatogram;    
+}
+
+- (void)addChromatogramForModel:(NSString *)modelString {
+    JKChromatogram *chromatogram = [self chromatogramForModel:modelString];
+    [self insertObject:chromatogram inChromatogramsAtIndex:[[self chromatograms] count]];
 }
 
 - (JKSpectrum *)spectrumForScan:(int)scan {
@@ -765,8 +750,7 @@ static void *DocumentObservationContext = (void *)1100;
 
 #pragma mark NOTIFICATIONS
 
-- (void) postNotification: (NSString *) notificationName
-{
+- (void) postNotification: (NSString *) notificationName{
     NSNotificationCenter *center;
     center = [NSNotificationCenter defaultCenter];
     
@@ -776,28 +760,26 @@ static void *DocumentObservationContext = (void *)1100;
 }
 
 
-- (void) windowDidBecomeMain: (NSNotification *) notification
-{
+- (void) windowDidBecomeMain: (NSNotification *) notification{
     [self postNotification: 
 		JKGCMSDocument_DocumentActivateNotification];
 	
 }
 
 
-- (void) windowDidResignMain: (NSNotification *) notification
-{
+- (void) windowDidResignMain: (NSNotification *) notification{
     [self postNotification: 
 		JKGCMSDocument_DocumentDeactivateNotification];
 	
 }
 
 
-- (void) windowWillClose: (NSNotification *) notification
-{
+- (void) windowWillClose: (NSNotification *) notification{
     [self postNotification: 
 		JKGCMSDocument_DocumentDeactivateNotification];
 }
 
+#pragma mark OBSOLETE -- OBSOLETE -- OBSOLETE
 #pragma mark ACTIONS
 
 //- (ChromatogramGraphDataSerie *)obtainTICChromatogram  
@@ -920,31 +902,31 @@ static void *DocumentObservationContext = (void *)1100;
 //    // Compile list, remove duplicates [3.4.4]
 //}
 
-- (void)addChromatogramForMass:(NSString *)inString  
-{
-	ChromatogramGraphDataSerie *chromatogram = [[self chromatogramForModel:inString] chromatogramDataSerie];
-	
-	// Get colorlist
-	NSColorList *peakColors;
-	NSArray *peakColorsArray;
-	
-	peakColors = [NSColorList colorListNamed:@"Peacock Series"];
-	if (peakColors == nil) {
-		peakColors = [NSColorList colorListNamed:@"Crayons"]; // Crayons should always be there, as it can't be removed through the GUI
-	}
-	peakColorsArray = [peakColors allKeys];
-	int peakColorsArrayCount = [peakColorsArray count];
-	
-	[chromatogram setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatograms count]%peakColorsArrayCount]]];
-    [chromatogram setKeyForXValue:[[[self mainWindowController] chromatogramView] keyForXValue]];
-    [chromatogram setKeyForYValue:[[[self mainWindowController] chromatogramView] keyForYValue]];
-
-	[self willChangeValueForKey:@"chromatograms"];
-    [[[JKPanelController sharedController] inspectedGraphView] willChangeValueForKey:@"dataSeries"];
-	[chromatograms addObject:chromatogram];
-	[self didChangeValueForKey:@"chromatograms"];
-    [[[JKPanelController sharedController] inspectedGraphView] didChangeValueForKey:@"dataSeries"];
-}
+//- (void)addChromatogramForMass:(NSString *)inString  
+//{
+//	ChromatogramGraphDataSerie *chromatogram = [[self chromatogramForModel:inString] chromatogramDataSerie];
+//	
+//	// Get colorlist
+//	NSColorList *peakColors;
+//	NSArray *peakColorsArray;
+//	
+//	peakColors = [NSColorList colorListNamed:@"Peacock Series"];
+//	if (peakColors == nil) {
+//		peakColors = [NSColorList colorListNamed:@"Crayons"]; // Crayons should always be there, as it can't be removed through the GUI
+//	}
+//	peakColorsArray = [peakColors allKeys];
+//	int peakColorsArrayCount = [peakColorsArray count];
+//	
+//	[chromatogram setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatograms count]%peakColorsArrayCount]]];
+//    [chromatogram setKeyForXValue:[[[self mainWindowController] chromatogramView] keyForXValue]];
+//    [chromatogram setKeyForYValue:[[[self mainWindowController] chromatogramView] keyForYValue]];
+//
+//	[self willChangeValueForKey:@"chromatograms"];
+//    [[[JKPanelController sharedController] inspectedGraphView] willChangeValueForKey:@"dataSeries"];
+//	[chromatograms addObject:chromatogram];
+//	[self didChangeValueForKey:@"chromatograms"];
+//    [[[JKPanelController sharedController] inspectedGraphView] didChangeValueForKey:@"dataSeries"];
+//}
 
 //- (void)resetRetentionIndexes  
 //{
@@ -957,8 +939,7 @@ static void *DocumentObservationContext = (void *)1100;
 //	}	
 //}
 
-- (BOOL)searchLibraryForAllPeaks:(id)sender
-{
+- (BOOL)searchLibraryForAllPeaks:(id)sender{
 	NSArray *libraryEntries;
 	int j,k;
 	int entriesCount, answer;
@@ -1033,8 +1014,7 @@ static void *DocumentObservationContext = (void *)1100;
 	return YES;
 }
 
-- (void)redistributedSearchResults:(JKPeakRecord *)originatingPeak
-{
+- (void)redistributedSearchResults:(JKPeakRecord *)originatingPeak{
 	int k;
 	int peaksCount;
 	int maximumIndex;
@@ -1065,8 +1045,7 @@ static void *DocumentObservationContext = (void *)1100;
 	}
 }
 
-- (void)resetToDefaultValues
-{
+- (void)resetToDefaultValues{
 	id defaultValues = [[NSUserDefaultsController sharedUserDefaultsController] values];
 	
 	[self setBaselineWindowWidth:[defaultValues valueForKey:@"baselineWindowWidth"]];
@@ -1085,8 +1064,7 @@ static void *DocumentObservationContext = (void *)1100;
 	[[self undoManager] setActionName:NSLocalizedString(@"Reset to Default Values",@"Reset to Default Values")];
 }
 
-- (IBAction)fix:(id)sender 
-{
+- (IBAction)fix:(id)sender {
     NSRunAlertPanel(@"Fix old file-format",@"Do not switch to another window until done.",@"Fix",nil,nil);
     NSEnumerator *e = [[self peaks] objectEnumerator];
     JKPeakRecord *peak;
@@ -1099,8 +1077,7 @@ static void *DocumentObservationContext = (void *)1100;
 }
 
 #pragma mark HELPER ACTIONS
-- (float)timeForScan:(int)scan  
-{
+- (float)timeForScan:(int)scan {
     NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
     NSAssert([[self chromatograms] count] >= 0, @"[[self chromatograms] count] must be equal or larger than zero");
     float *time = [[[self chromatograms] objectAtIndex:0] time];
@@ -1496,13 +1473,11 @@ static void *DocumentObservationContext = (void *)1100;
 
 #pragma mark KEY VALUE CODING/OBSERVING
 
-- (void)changeKeyPath:(NSString *)keyPath ofObject:(id)object toValue:(id)newValue
-{
+- (void)changeKeyPath:(NSString *)keyPath ofObject:(id)object toValue:(id)newValue{
 	[object setValue:newValue forKeyPath:keyPath];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
 	NSUndoManager *undo = [self undoManager];
 	id oldValue = [change objectForKey:NSKeyValueChangeOldKey];
 	[[undo prepareWithInvocationTarget:self] changeKeyPath:keyPath ofObject:object toValue:oldValue];
@@ -1530,8 +1505,7 @@ boolAccessor(abortAction, setAbortAction)
 
 #pragma mark ACCESSORS
 
-- (JKMainWindowController *)mainWindowController  
-{
+- (JKMainWindowController *)mainWindowController {
     if (!mainWindowController) {
 		mainWindowController = [[JKMainWindowController alloc] init];
 		[self makeWindowControllers];
@@ -1539,24 +1513,20 @@ boolAccessor(abortAction, setAbortAction)
 	return mainWindowController;
 }
 
-- (void)setNcid:(int)inValue  
-{
+- (void)setNcid:(int)inValue {
     ncid = inValue;
 }
 
-- (int)ncid  
-{
+- (int)ncid {
     return ncid;
 }
 
 
-- (void)setHasSpectra:(BOOL)inValue  
-{
+- (void)setHasSpectra:(BOOL)inValue {
     hasSpectra = inValue;
 }
 
-- (BOOL)hasSpectra  
-{
+- (BOOL)hasSpectra {
     return hasSpectra;
 }
 
@@ -1619,8 +1589,7 @@ boolAccessor(abortAction, setAbortAction)
 //    return minimumTotalIntensity;
 //}
 
-- (NSMutableDictionary *)metadata  
-{
+- (NSMutableDictionary *)metadata {
 	return metadata;
 }
 
@@ -1641,6 +1610,7 @@ boolAccessor(abortAction, setAbortAction)
 //	return baseline;
 //}
 
+// Mutable To-Many relationship chromatograms
 - (NSMutableArray *)chromatograms {
 	return chromatograms;
 }
@@ -1659,13 +1629,64 @@ boolAccessor(abortAction, setAbortAction)
     return [[self chromatograms] objectAtIndex:index];
 }
 
-- (NSMutableArray *)peaks
-{
+- (void)getChromatogram:(JKChromatogram **)someChromatograms range:(NSRange)inRange {
+    // Return the objects in the specified range in the provided buffer.
+    [chromatograms getObjects:someChromatograms range:inRange];
+}
+
+- (void)insertObject:(JKChromatogram *)aChromatogram inChromatogramsAtIndex:(int)index {
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] removeObjectFromChromatogramsAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Insert Chromatogram",@"")];
+	}
+	
+	// Add aChromatogram to the array chromatograms
+	[chromatograms insertObject:aChromatogram atIndex:index];
+}
+
+- (void)removeObjectFromChromatogramsAtIndex:(int)index{
+	JKChromatogram *aChromatogram = [chromatograms objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] insertObject:aChromatogram inChromatogramsAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Delete Chromatogram",@"")];
+	}
+	
+	// Remove the peak from the array
+	[chromatograms removeObjectAtIndex:index];
+}
+
+- (void)replaceObjectInChromatogramsAtIndex:(int)index withObject:(JKChromatogram *)aChromatogram{
+	JKChromatogram *replacedChromatogram = [chromatograms objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] replaceObjectAtIndex:index withObject:replacedChromatogram];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Replace Chromatogram",@"")];
+	}
+	
+	// Replace the peak from the array
+	[chromatograms replaceObjectAtIndex:index withObject:aChromatogram];
+}
+
+- (BOOL)validateChromatogram:(JKChromatogram **)aChromatogram error:(NSError **)outError {
+    // Implement validation here...
+    return YES;
+} // end chromatograms
+
+- (NSMutableArray *)peaks{
 	return peaks;
 }
 
-- (void)setPeaks:(NSMutableArray *)array
-{
+- (void)setPeaks:(NSMutableArray *)array{
 	if (array == peaks)
 		return;
 
@@ -1694,8 +1715,7 @@ boolAccessor(abortAction, setAbortAction)
 	}
 }
 
-- (void)insertObject:(JKPeakRecord *)peak inPeaksAtIndex:(int)index
-{
+- (void)insertObject:(JKPeakRecord *)peak inPeaksAtIndex:(int)index{
 	// Add the inverse action to the undo stack
 	NSUndoManager *undo = [self undoManager];
 	[[undo prepareWithInvocationTarget:self] removeObjectFromPeaksAtIndex:index];
@@ -1710,8 +1730,7 @@ boolAccessor(abortAction, setAbortAction)
 	[peaks insertObject:peak atIndex:index];
 }
 
-- (void)removeObjectFromPeaksAtIndex:(int)index
-{
+- (void)removeObjectFromPeaksAtIndex:(int)index{
 	JKPeakRecord *peak = [peaks objectAtIndex:index];
 	
 	// Add the inverse action to the undo stack

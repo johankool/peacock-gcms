@@ -13,15 +13,13 @@
 
 @implementation JKMoleculeModel
 
--(id)init
-{
+- (id)init{
     atoms = [[NSMutableArray array] retain];
     bonds = [[NSMutableArray array] retain];
     return self;
 }
 
-- (id)initWithMoleculeString:(NSString *)inString
-{
+- (id)initWithMoleculeString:(NSString *)inString{
 	self = [super init];
 	if (self != nil) {
 		atoms = [[NSMutableArray array] retain];
@@ -98,7 +96,7 @@
 
 	
 
--(NSRect)rectForBounds {
+- (NSRect)rectForBounds {
 	// This doesn't take into account space needed for actually drawing a label!
 	NSArray *xValues;
 	NSArray *yValues;
@@ -134,7 +132,7 @@
 	return NSMakeRect(minX,minY,maxX-minX,maxY-minY);
 } 
 
--(float)estimateLengthOfBonds {
+- (float)estimateLengthOfBonds {
 	// An estimate of the length of the bonds in the coordinate system used. The view can base the size of the labels and the width between double bonds using this value.
 	// We simply return the value of the first bond for now.
 	float fromX, fromY, toX, toY;
@@ -147,8 +145,7 @@
 	return sqrt(pow((toX-fromX),2)+pow((toY-fromY),2));
 }
 
-- (void)encodeWithCoder:(NSCoder *)coder
-{
+- (void)encodeWithCoder:(NSCoder *)coder{
 	[coder encodeInt:1 forKey:@"version"];
 	[coder encodeObject:atoms forKey:@"atoms"];
 	[coder encodeObject:bonds forKey:@"bonds"];
@@ -157,8 +154,7 @@
     return;
 }
 
-- (id)initWithCoder:(NSCoder *)coder
-{
+- (id)initWithCoder:(NSCoder *)coder{
 	atoms = [[coder decodeObjectForKey:@"atoms"] retain];
 	bonds = [[coder decodeObjectForKey:@"bonds"] retain];
 	name = [[coder decodeObjectForKey:@"name"] retain];

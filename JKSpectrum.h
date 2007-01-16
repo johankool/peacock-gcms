@@ -29,7 +29,7 @@
     float maximumMass;    
 }
 
--(id)initWithDocument:(JKGCMSDocument *)inDocument forModel:(NSString *)model;
+- (id)initWithDocument:(JKGCMSDocument *)inDocument forModel:(NSString *)model;
 
 #pragma mark ACTIONS
 

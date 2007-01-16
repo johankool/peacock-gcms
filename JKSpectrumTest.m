@@ -12,15 +12,13 @@
 
 @implementation JKSpectrumTest
 
-- (void)testCase1  
-{
+- (void)testCase1 {
 	JKSpectrum *spectrum = [[JKSpectrum alloc] init];
 	
    STAssertNotNil(spectrum, @"Could not create instance of JKSpectrum.");
 }
 
-- (void)testCase2  
-{
+- (void)testCase2 {
 	JKSpectrum *spectrum = [[JKSpectrum alloc] init];
 	JKSpectrum *spectrum2 = [[JKSpectrum alloc] init];
 

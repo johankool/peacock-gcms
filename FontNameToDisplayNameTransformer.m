@@ -8,18 +8,15 @@
 
 @implementation FontNameToDisplayNameTransformer
 
-+ (Class)transformedValueClass
-{
++ (Class)transformedValueClass{
     return [NSString class];
 }
 
-+ (BOOL)allowsReverseTransformation
-{
++ (BOOL)allowsReverseTransformation{
     return NO;
 }
 
-- (id)transformedValue:(id)aValue
-{
+- (id)transformedValue:(id)aValue{
 //    NSFont *font = [NSFont fontWithName:aValue size:12];
     if (!aValue) {
         return @"Font not set";

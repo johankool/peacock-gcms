@@ -11,7 +11,7 @@
 
 @interface NSTableView (Copying) 
 
--(IBAction)copy:(id)sender;
--(IBAction)reloadData:(id)sender;
+- (IBAction)copy:(id)sender;
+- (IBAction)reloadData:(id)sender;
 
 @end

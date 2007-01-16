@@ -15,8 +15,7 @@
 
 @implementation JKAppDelegate
 
-+ (void)initialize  
-{
++ (void)initialize {
 	// Register default settings
 	NSMutableDictionary *defaultValues = [NSMutableDictionary new];
 	
@@ -102,8 +101,7 @@
 	[defaultValues release];
 }
 
-- (id)init  
-{
+- (id)init {
 	self = [super init];
 	if (self != nil) {
 		[self setDelegate:self];		
@@ -113,8 +111,7 @@
 
 #pragma mark DELEGATE METHODS
 
-- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender  
-{
+- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
     // Delegate method per NSApplication to suppress or allow untitled window at launch.
     return NO;
 }
@@ -155,45 +152,39 @@
 
 #pragma mark ACTIONS
 
-- (IBAction)openPreferencesWindowAction:(id)sender  
-{
+- (IBAction)openPreferencesWindowAction:(id)sender {
     if (!preferencesWindowController) {
         preferencesWindowController = [[JKPreferencesWindowController alloc] init];
     }
     [preferencesWindowController showWindow:self];
 }
 
-- (IBAction)showInspector:(id)sender  
-{
+- (IBAction)showInspector:(id)sender {
     [[JKPanelController sharedController] showInspector:self];
 }
 
-- (IBAction)showReadMe:(id)sender  
-{
+- (IBAction)showReadMe:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"ReadMe" ofType:@"rtf"];
     if (path) {
         if (![[NSWorkspace sharedWorkspace] openFile:path withApplication:@"TextEdit"]) NSBeep();
     }
 }
 
-- (IBAction)showLicense:(id)sender  
-{
+- (IBAction)showLicense:(id)sender {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"License" ofType:@"rtf"];
     if (path) {
         if (![[NSWorkspace sharedWorkspace] openFile:path withApplication:@"TextEdit"]) NSBeep();
     }
 }
 
-- (IBAction)showBatchProcessAction:(id)sender  
-{
+- (IBAction)showBatchProcessAction:(id)sender {
 	if (!batchProcessWindowController) {
         batchProcessWindowController = [[JKBatchProcessWindowController alloc] init];
     }
     [batchProcessWindowController showWindow:self];	
 }
 
-- (IBAction)showStatisticsAction:(id)sender  
-{
+- (IBAction)showStatisticsAction:(id)sender {
 	NSError *error = [[NSError alloc] init];
 	JKStatisticsDocument *document = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"Peacock Statistics File" error:&error];
 	[[NSDocumentController sharedDocumentController] addDocument:document];
@@ -207,8 +198,7 @@
 //    [statisticsWindowController showWindow:self];	
 }
 
-- (IBAction)openTestFile:(id)sender  
-{
+- (IBAction)openTestFile:(id)sender {
     if ([[NSFileManager defaultManager] fileExistsAtPath:[[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:@"Peacock Test Files"]]) {
         if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:@"Peacock Test Files"] stringByAppendingPathComponent:@"Test File.cdf"]]) {
             [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:@"Peacock Test Files"] stringByAppendingPathComponent:@"Test File.cdf"]] display:YES error:NULL];
@@ -238,16 +228,14 @@
 }
 #pragma mark GROWL SUPPORT
 
-- (NSDictionary *) registrationDictionaryForGrowl  
-{
+- (NSDictionary *) registrationDictionaryForGrowl {
 	NSArray *defaultArray = [NSArray arrayWithObjects:@"Batch Process Finished", @"Identifying Compounds Finished", @"Statistical Analysis Finished",nil];
 	NSArray *allArray = [NSArray arrayWithObjects:@"Batch Process Finished", @"Identifying Compounds Finished", @"Statistical Analysis Finished",nil];
 	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:defaultArray, GROWL_NOTIFICATIONS_DEFAULT, allArray, GROWL_NOTIFICATIONS_ALL,nil];
 	return dictionary;
 }
 
-- (BOOL)validateMenuItem:(NSMenuItem *)anItem  
-{
+- (BOOL)validateMenuItem:(NSMenuItem *)anItem {
 	if ([anItem action] == @selector(showInspector:)) {
 		if ([[[JKPanelController sharedController] window] isVisible] == YES) {
 			[anItem setTitle:NSLocalizedString(@"Hide Inspector",@"Menutitle when inspector is visible")];
@@ -262,8 +250,7 @@
 	}
 }
 
-- (int)numberOfItemsInMenu:(NSMenu *)menu
-{
+- (int)numberOfItemsInMenu:(NSMenu *)menu{
 	if (menu == showPresetMenu) {
 		return [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"presets"] count];
 	} else if (menu == removeChromatogramMenu) {
@@ -275,8 +262,7 @@
 	return 0;
 }
 
-- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)x shouldCancel:(BOOL)shouldCancel
-{
+- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)x shouldCancel:(BOOL)shouldCancel{
 	if (menu == showPresetMenu) {
 		id preset = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"presets"] objectAtIndex:x];
 		if (![preset valueForKey:@"name"]) {

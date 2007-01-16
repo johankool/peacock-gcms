@@ -40,8 +40,7 @@ static void *PropertyObservationContext = (void *)1093;
 }
 
 #pragma mark DRAWING ROUTINES
-- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view
-{
+- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
     graphView = view;
 	NSBezierPath *bezierpath;
 	
@@ -68,8 +67,7 @@ static void *PropertyObservationContext = (void *)1093;
 		[self drawLabelsWithTransform:trans inView:view];
 }
 
-- (void)constructPlotPath  
-{
+- (void)constructPlotPath {
 	int i, count;
 	NSPoint pointInUnits;
 	NSBezierPath *bezierpath = [[NSBezierPath alloc] init];
@@ -97,8 +95,7 @@ static void *PropertyObservationContext = (void *)1093;
 	[bezierpath release];
 }
 
-- (void)drawPeaksWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view
-{
+- (void)drawPeaksWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
     graphView = view;
 	int i, count;
 
@@ -243,8 +240,7 @@ static void *PropertyObservationContext = (void *)1093;
 	[peaksPath release];
 }
 
-- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view
-{
+- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
     graphView = view;
 	int count = [[self peaks] count];
 	if (count <= 0)		
@@ -266,7 +262,7 @@ static void *PropertyObservationContext = (void *)1093;
     if ([[NSGraphicsContext currentContext] isDrawingToScreen]) {
         [attrs setValue:[view labelFont] forKey:NSFontAttributeName];
 //        [attrs setValue:[NSFont systemFontOfSize:10] forKey:NSFontAttributeName];
-	} else  {
+	} else {
         [attrs setValue:[view labelFont] forKey:NSFontAttributeName];
 //        [attrs setValue:[NSFont systemFontOfSize:8] forKey:NSFontAttributeName];        
     }
@@ -400,8 +396,7 @@ static void *PropertyObservationContext = (void *)1093;
 //
 
 #pragma mark HELPER ROUTINES
-- (NSRect)boundingRect  
-{
+- (NSRect)boundingRect {
 	return [[self plotPath] bounds];
 }
 
@@ -457,8 +452,7 @@ static void *PropertyObservationContext = (void *)1093;
 }
 
 #pragma mark CONVENIENCE METHODS
-- (NSArray *)peaks
-{
+- (NSArray *)peaks{
 	return [[[self chromatogram] document] peaks];
 }
 
@@ -479,12 +473,10 @@ static void *PropertyObservationContext = (void *)1093;
     }    
 }
 
-- (BOOL)shouldDrawPeaks
-{
+- (BOOL)shouldDrawPeaks{
 	return shouldDrawPeaks;
 }
-- (void)setShouldDrawPeaks:(BOOL)inValue 
-{
+- (void)setShouldDrawPeaks:(BOOL)inValue {
     shouldDrawPeaks = inValue;
 }
 

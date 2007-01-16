@@ -11,7 +11,7 @@
 
 @implementation NSTableView (Copying)
 
--(IBAction)copy:(id)sender {
+- (IBAction)copy:(id)sender {
     NSArray *myPboardTypes;
     NSMutableString *outString = [NSMutableString stringWithString:@""];
     if ([[self dataSource] respondsToSelector:@selector(numberOfRowsInTableView:)]) {
@@ -73,7 +73,7 @@
     }
 }
 
--(IBAction)reloadData:(id)sender {
+- (IBAction)reloadData:(id)sender {
     [self reloadData];
 }
 @end

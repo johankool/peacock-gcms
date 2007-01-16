@@ -19,8 +19,8 @@
 
 - (id)initWithMoleculeString:(NSString *)inString;
 
--(NSRect)rectForBounds;
--(float)estimateLengthOfBonds;
+- (NSRect)rectForBounds;
+- (float)estimateLengthOfBonds;
 
 idAccessor_h(atoms, setAtoms)
 idAccessor_h(bonds, setBonds) 

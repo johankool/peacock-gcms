@@ -38,8 +38,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreServices/CoreServices.h>
 
-@interface BDAlias : NSObject
-{
+@interface BDAlias : NSObject{
 	AliasHandle _alias;
 }
 

@@ -17,8 +17,7 @@ static JKPanelController *theSharedController;
 
 @implementation JKPanelController
 
-+ (JKPanelController *) sharedController  
-{
++ (JKPanelController *) sharedController {
     if (theSharedController == nil) {
 		
         theSharedController = [[JKPanelController alloc] initWithWindowNibName: @"JKPanel"];
@@ -56,8 +55,7 @@ static JKPanelController *theSharedController;
 	
 } 
 
-- (void)dealloc  
-{
+- (void)dealloc {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center removeObserver: self
 					  name: nil
@@ -65,8 +63,7 @@ static JKPanelController *theSharedController;
     [super dealloc];
 }
 
-- (void)windowDidLoad  
-{
+- (void)windowDidLoad {
     [super windowDidLoad];
 	
     [self setShouldCascadeWindows: NO];
@@ -106,8 +103,7 @@ static JKPanelController *theSharedController;
 
 #pragma mark IBACTIONS
 
-- (void)changeTextFont:(id)sender
-{
+- (void)changeTextFont:(id)sender{
 	/*
 	 The user wants to change the  font selection, so update the default font
      */
@@ -141,8 +137,7 @@ static JKPanelController *theSharedController;
     [[self window] makeFirstResponder:[self window]];
 }
 
-- (void)changeFont:(id)sender
-{
+- (void)changeFont:(id)sender{
 	/*
 	 This is the message the font panel sends when a new font is selected
 	 */
@@ -169,8 +164,7 @@ static JKPanelController *theSharedController;
 
 #pragma mark NOTIFICATIONS
 
-- (void)documentActivateNotification:(NSNotification *)aNotification  
-{
+- (void)documentActivateNotification:(NSNotification *)aNotification {
 	if ([[[aNotification object] document] isKindOfClass:[JKGCMSDocument class]]) {
 		if ([[aNotification object] document] != inspectedDocument) {
 			[self setInspectedDocument:[[aNotification object] document]];
@@ -191,15 +185,13 @@ static JKPanelController *theSharedController;
     [self changePanes:self];
 }
 
-- (void)documentDeactivateNotification: (NSNotification *) aNotification  
-{
+- (void)documentDeactivateNotification: (NSNotification *) aNotification {
     [self setInspectedGraphView:nil];
 	[self setInspectedDocument:nil];	
     [self changePanes:self];
 } 
 
-- (void)plotViewDidBecomeFirstResponderNotification:(NSNotification *)aNotification 
-{
+- (void)plotViewDidBecomeFirstResponderNotification:(NSNotification *)aNotification {
 	if ([[aNotification object] isKindOfClass:[MyGraphView class]]) {
 		if ([aNotification object] != inspectedGraphView) {
 			[self setInspectedGraphView:[aNotification object]];
@@ -210,14 +202,12 @@ static JKPanelController *theSharedController;
     [self changePanes:self];
 }
 
-- (void)plotViewDidResignFirstResponderNotification:(NSNotification *)aNotification 
-{
+- (void)plotViewDidResignFirstResponderNotification:(NSNotification *)aNotification {
 	[self setInspectedGraphView:nil];
     [self changePanes:self];
 }
  
-- (IBAction)showInspector:(id)sender  
-{
+- (IBAction)showInspector:(id)sender {
 	if (![[self window] isVisible]) {
         [[self window] orderFront:self];
     } else {
@@ -225,14 +215,12 @@ static JKPanelController *theSharedController;
     }
 }
 
-- (IBAction)resetToDefaultValues:(id)sender  
-{
+- (IBAction)resetToDefaultValues:(id)sender {
 	[[self inspectedDocument] resetToDefaultValues];
 }
 
 // Info tableView
-- (int)numberOfRowsInTableView:(NSTableView *)tableView  
-{
+- (int)numberOfRowsInTableView:(NSTableView *)tableView {
     int count, dummy, ncid;
     if (tableView ==  infoTableView) {
 		if([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKGCMSDocument class]]) {
@@ -248,8 +236,7 @@ static JKPanelController *theSharedController;
     return -1;
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row  
-{
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
     int dummy;
     NSMutableString *nameString, *keyString;
     
@@ -290,8 +277,7 @@ static JKPanelController *theSharedController;
     return nil;
 }
 
-- (BOOL)validateMenuItem:(NSMenuItem *)anItem  
-{
+- (BOOL)validateMenuItem:(NSMenuItem *)anItem {
 	if ([anItem action] == @selector(showWindow:)) {
 		if ([[self window] isVisible] == YES) {
 			[anItem setTitle:NSLocalizedString(@"Hide Inspector",@"Menutitle when inspector is visible")];
@@ -308,8 +294,7 @@ static JKPanelController *theSharedController;
 
 #pragma mark TOOLBAR
 
-- (NSToolbarItem *) toolbar: (NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted  
-{
+- (NSToolbarItem *) toolbar: (NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted {
     // Required delegate method:  Given an item identifier, this method returns an item 
     // The toolbar will use this method to obtain toolbar items that can be displayed in the customization sheet, or in the toolbar itself 
     NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
@@ -327,8 +312,7 @@ static JKPanelController *theSharedController;
 }
 
 
-- (IBAction)changePanes:(id)sender  
-{
+- (IBAction)changePanes:(id)sender {
     NSRect windowFrame = [[self window] frame];
     float deltaHeight;
     if (([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"info"]) && ([self inspectedDocument])) {
@@ -353,17 +337,14 @@ static JKPanelController *theSharedController;
 }
 
 
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar  
-{
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
     return [NSArray arrayWithObjects:@"info", @"processing", @"view", @"display", nil];}
 
-- (NSArray*) toolbarSelectableItemIdentifiers: (NSToolbar *) toolbar  
-{
+- (NSArray*) toolbarSelectableItemIdentifiers: (NSToolbar *) toolbar {
     return [self toolbarDefaultItemIdentifiers:toolbar];
 }
 
-- (NSArray*) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar  
-{
+- (NSArray*) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar {
 	return [self toolbarDefaultItemIdentifiers:toolbar];
 }
 

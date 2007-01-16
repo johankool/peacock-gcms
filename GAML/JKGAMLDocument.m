@@ -11,8 +11,7 @@
 
 @implementation JKGAMLDocument
 
-- (id)init 
-{
+- (id)init {
     self = [super init];
     if (self != nil) {
         // initialization code
@@ -21,13 +20,11 @@
     return self;
 }
 
-- (NSString *)windowNibName 
-{
+- (NSString *)windowNibName {
     return @"JKGAMLDocument";
 }
 
-- (void)windowControllerDidLoadNib:(NSWindowController *)windowController 
-{
+- (void)windowControllerDidLoadNib:(NSWindowController *)windowController {
     [super windowControllerDidLoadNib:windowController];
     // user interface preparation code
 //    [gamlController setContent:gaml];

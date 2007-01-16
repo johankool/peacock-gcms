@@ -18,15 +18,13 @@ static animationData* animation = NULL;
 @implementation RBSplitSubview
 
 // This class method returns YES if an animation is in progress.
-+ (BOOL)animating  
-{
++ (BOOL)animating {
 	return animation!=NULL;
 }
 
 // This is the designated initializer for RBSplitSubview. It sets some reasonable defaults. However, you
 // can't rely on anything working until you insert it into a RBSplitView.
-- (id)initWithFrame:(NSRect)frame  
-{
+- (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
 	fraction = 0.0;
 	canCollapse = NO;
@@ -41,50 +39,42 @@ static animationData* animation = NULL;
 }
 
 // Just releases our stuff when going away.
-- (void)dealloc  
-{
+- (void)dealloc {
 	[identifier release];
 	[super dealloc];
 }
 
 // These return nil since we're not a RBSplitView (they're overridden there).
-- (RBSplitView*)asSplitView  
-{
+- (RBSplitView*)asSplitView {
 	return nil;
 }
 
-- (RBSplitView*)coupledSplitView  
-{
+- (RBSplitView*)coupledSplitView {
 	return nil;
 }
 
 // Sets and gets the coupling between a RBSplitView and its containing RBSplitView (if any).
 // For convenience, these methods are also implemented here.
-- (void)setCoupled:(BOOL)flag  
-{
+- (void)setCoupled:(BOOL)flag {
 }
 
-- (BOOL)isCoupled  
-{
+- (BOOL)isCoupled {
 	return NO;
 }
 
 // RBSplitSubviews are never flipped, unless they're RBSplitViews.
-- (BOOL)isFlipped  
-{
+- (BOOL)isFlipped {
 	return NO;
 }
 
 // We copy the opacity of the owning split view.
-- (BOOL)isOpaque  
-{
+- (BOOL)isOpaque {
 	return [[self couplingSplitView] isOpaque];
 }
 
 // A hidden RBSplitSubview is not redrawn and is not considered for drawing dividers.
 // This won't work on before 10.3, though.
-- (void)setHidden:(BOOL)flag  
-{
+- (void)setHidden:(BOOL)flag {
 	if ([self isHidden]!=flag) {
 		RBSplitView* sv = [self splitView];
 		[self RB___setHidden:flag];
@@ -97,8 +87,7 @@ static animationData* animation = NULL;
 }
 
 // RBSplitSubviews can't be in the responder chain.
-- (BOOL)acceptsFirstResponder  
-{
+- (BOOL)acceptsFirstResponder {
 	return NO;
 }
 
@@ -118,8 +107,7 @@ static animationData* animation = NULL;
 // This returns the owning splitview. It's guaranteed to return a RBSplitView or nil.
 // You should avoid having "orphan" RBSplitSubviews, or at least manipulating
 // them while they're not inserted in a RBSplitView.
-- (RBSplitView*)splitView  
-{
+- (RBSplitView*)splitView {
 	id result = [self superview];
 	if ([result isKindOfClass:[RBSplitView class]]) {
 		return (RBSplitView*)result;
@@ -128,8 +116,7 @@ static animationData* animation = NULL;
 }
 
 // This also returns the owning splitview. It's overridden for nested RBSplitViews.
-- (RBSplitView*)couplingSplitView  
-{
+- (RBSplitView*)couplingSplitView {
 	id result = [self superview];
 	if ([result isKindOfClass:[RBSplitView class]]) {
 		return (RBSplitView*)result;
@@ -138,8 +125,7 @@ static animationData* animation = NULL;
 }
 
 // This returns the outermost directly containing RBSplitView, or nil.
-- (RBSplitView*)outermostSplitView  
-{
+- (RBSplitView*)outermostSplitView {
 	id result = nil;
 	id sv = self;
 	while ((sv = [sv superview])&&[sv isKindOfClass:[RBSplitView class]]) {
@@ -149,51 +135,43 @@ static animationData* animation = NULL;
 }
 
 // This convenience method returns YES if the containing RBSplitView is horizontal.
-- (BOOL)splitViewIsHorizontal  
-{
+- (BOOL)splitViewIsHorizontal {
 	return [[self splitView] isHorizontal];
 }
 
 // You can use either tags (ints) or identifiers (NSStrings) to identify individual subviews.
 // We take care not to have nil identifiers.
-- (void)setTag:(int)theTag  
-{
+- (void)setTag:(int)theTag {
 	tag = theTag;
 }
 
-- (int)tag  
-{
+- (int)tag {
 	return tag;
 }
 
-- (void)setIdentifier:(NSString*)aString  
-{
+- (void)setIdentifier:(NSString*)aString {
 	[identifier autorelease];
 	identifier = aString?[aString retain]:@"";
 }
 
-- (NSString*)identifier  
-{
+- (NSString*)identifier {
 	return identifier;
 }
 
 // If we have an identifier, this will make debugging a little easier by appending it to the
 // default description.
-- (NSString*)description  
-{
+- (NSString*)description {
 	return [identifier length]>0?[NSString stringWithFormat:@"%@(%@)",[super description],identifier]:[super description];
 }
 
 // This pair of methods allows you to get and change the position of a subview (within the split view);
 // this counts from zero from the left or top of the split view.
-- (unsigned)position  
-{
+- (unsigned)position {
 	RBSplitView* sv = [self splitView];
 	return sv?[[sv subviews] indexOfObjectIdenticalTo:self]:0;
 }
 
-- (void)setPosition:(unsigned)newPosition  
-{
+- (void)setPosition:(unsigned)newPosition {
 	RBSplitView* sv = [self splitView];
 	if (sv) {
 		[self retain];
@@ -209,14 +187,12 @@ static animationData* animation = NULL;
 }
 
 // Tests whether the subview is collapsed.
-- (BOOL)isCollapsed  
-{
+- (BOOL)isCollapsed {
 	return [self RB___visibleDimension]<=0.0;
 }
 
 // Returns the subview's status.
-- (RBSSubviewStatus)status  
-{
+- (RBSSubviewStatus)status {
 	animationData* anim = [self RB___animationData:NO resize:NO];
 	if (anim) {
 		return anim->collapsing?RBSSubviewCollapsing:RBSSubviewExpanding;
@@ -226,8 +202,7 @@ static animationData* animation = NULL;
 
 // Tests whether the subview can be collapsed. The local instance variable will be overridden by the
 // delegate method if it's implemented.
-- (BOOL)canCollapse  
-{
+- (BOOL)canCollapse {
 	BOOL result = canCollapse;
 	RBSplitView* sv = [self splitView];
 	if ([sv RB___numberOfSubviews]<2) {
@@ -242,8 +217,7 @@ static animationData* animation = NULL;
 
 // This sets the subview's "canCollapse" flag. Ignored if the delegate's splitView:canCollapse:
 // method is implemented.
-- (void)setCanCollapse:(BOOL)flag  
-{
+- (void)setCanCollapse:(BOOL)flag {
 	canCollapse = flag;
 }
 
@@ -252,8 +226,7 @@ static animationData* animation = NULL;
 // As a convenience to other methods, it returns the subview's dimension after expanding (this may be
 // off by 1 pixel due to rounding) or 0.0 if it couldn't be expanded.
 // The delegate should not change the subview's frame.
-- (float)expand  
-{
+- (float)expand {
 	return [self RB___expandAndSetToMinimum:NO];
 }
 
@@ -262,30 +235,26 @@ static animationData* animation = NULL;
 // As a convenience to other methods, it returns the negative of the subview's dimension before
 // collapsing (or 0.0 if it couldn't be collapsed).
 // The delegate should not change the subview's frame.
-- (float)collapse  
-{
+- (float)collapse {
 	return [self RB___collapse];
 }
 
 // This tries to collapse the subview with animation, and collapses it instantly if some other
 // subview is animating. Returns YES if animation was started successfully.
-- (BOOL)collapseWithAnimation  
-{
+- (BOOL)collapseWithAnimation {
 	return [self collapseWithAnimation:YES withResize:YES];
 }
 
 // This tries to expand the subview with animation, and expands it instantly if some other
 // subview is animating. Returns YES if animation was started successfully.
-- (BOOL)expandWithAnimation  
-{
+- (BOOL)expandWithAnimation {
 	return [self expandWithAnimation:YES withResize:YES];
 }
 
 // These methods collapse and expand subviews with animation, depending on the parameters.
 // They return YES if animation startup was successful. If resize is NO, the subview is
 // collapsed/expanded without resizing it during animation.
-- (BOOL)collapseWithAnimation:(BOOL)animate withResize:(BOOL)resize  
-{
+- (BOOL)collapseWithAnimation:(BOOL)animate withResize:(BOOL)resize {
 	if ([self status]==RBSSubviewNormal) {
 		if ([self canCollapse]) {
 			if (animate&&[self RB___animationData:YES resize:resize]) {
@@ -300,8 +269,7 @@ static animationData* animation = NULL;
 	return NO;
 }
 
-- (BOOL)expandWithAnimation:(BOOL)animate withResize:(BOOL)resize  
-{
+- (BOOL)expandWithAnimation:(BOOL)animate withResize:(BOOL)resize {
 	if ([self status]==RBSSubviewCollapsed) {
 		if (animate&&[self RB___animationData:YES resize:resize]) {
 			[self RB___stepAnimation];
@@ -318,18 +286,15 @@ static animationData* animation = NULL;
 // The minimum dimension ought to be an integer at least equal to 1.0 but we make sure.
 // The maximum dimension ought to be an integer at least equal to the minimum. As a convenience,
 // pass in zero to set it to some huge number.
-- (float)minDimension  
-{
+- (float)minDimension {
 	return minDimension;
 }
 
-- (float)maxDimension  
-{
+- (float)maxDimension {
 	return maxDimension;
 }
 
-- (void)setMinDimension:(float)newMinDimension andMaxDimension:(float)newMaxDimension  
-{
+- (void)setMinDimension:(float)newMinDimension andMaxDimension:(float)newMaxDimension {
 	minDimension = MAX(1.0,floorf(newMinDimension));
 	if (newMaxDimension<1.0) {
 		newMaxDimension = WAYOUT;
@@ -343,8 +308,7 @@ static animationData* animation = NULL;
 
 // This returns the subview's dimension. If it's collapsed, it returns the dimension it would have
 // after expanding.
-- (float)dimension  
-{
+- (float)dimension {
 	float dim = [self RB___visibleDimension];
 	if (dim<=0.0) {
 		dim = [[self splitView] RB___dimensionWithoutDividers]*fraction;
@@ -359,8 +323,7 @@ static animationData* animation = NULL;
 
 // Sets the current dimension of the subview, subject to the current maximum and minimum.
 // If the subview is collapsed, this will have an effect only after reexpanding.
-- (void)setDimension:(float)value  
-{
+- (void)setDimension:(float)value {
 	RBSplitView* sv = [self splitView];
 	NSSize size = [self frame].size;
 	BOOL ishor = [sv isHorizontal];
@@ -378,8 +341,7 @@ static animationData* animation = NULL;
 
 // This just draws the background of a subview, then tells the delegate, if any.
 // The delegate would usually draw a frame inside the subview.
-- (void)drawRect:(NSRect)rect  
-{
+- (void)drawRect:(NSRect)rect {
 	RBSplitView* sv = [self splitView];
 	NSColor* bg = [sv background];
 	if (bg) {
@@ -394,8 +356,7 @@ static animationData* animation = NULL;
 
 // We check if the RBSplitView must be adjusted before redisplaying programmatically.
 // if so, we adjust and display the whole RBSplitView.
-- (void)display  
-{
+- (void)display {
 	RBSplitView* sv = [self splitView];
 	if (sv) {
 		if ([sv mustAdjust]) {
@@ -407,14 +368,12 @@ static animationData* animation = NULL;
 }
 
 // RBSplitSubviews will always resize their own subviews.
-- (BOOL)autoresizesSubviews  
-{
+- (BOOL)autoresizesSubviews {
 	return YES;
 }
 
 // This is method is called automatically when the subview is resized; don't call it yourself.
-- (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize  
-{
+- (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize {
 	RBSplitView* sv = [self splitView];
 	if (sv) {
 		BOOL ishor = [sv isHorizontal];
@@ -441,8 +400,7 @@ static animationData* animation = NULL;
 // This method is used internally when a divider is dragged. It tries to change the subview's dimension
 // and returns the actual change, collapsing or expanding whenever possible. You usually won't need
 // to call this directly.
-- (float)changeDimensionBy:(float)increment mayCollapse:(BOOL)mayCollapse  
-{
+- (float)changeDimensionBy:(float)increment mayCollapse:(BOOL)mayCollapse {
 	RBSplitView* sv = [self splitView];
 	if (!sv||(fabsf(increment)<1.0)) {
 		return 0.0;
@@ -484,15 +442,13 @@ static animationData* animation = NULL;
 }
 
 // This convenience method returns the number of subviews (surprise!)
-- (unsigned)numberOfSubviews  
-{
+- (unsigned)numberOfSubviews {
 	return [[self subviews] count];
 }
 
 // We return the deepest subview that's hit by aPoint. We also check with the delegate if aPoint is
 // within an alternate drag view.
-- (NSView*)hitTest:(NSPoint)aPoint  
-{
+- (NSView*)hitTest:(NSPoint)aPoint {
 	RBSplitView* sv = [self splitView];
 	if ([self mouse:aPoint inRect:[self frame]]) {
 		id delegate = [sv delegate];
@@ -510,8 +466,7 @@ static animationData* animation = NULL;
 
 // This method handles clicking and dragging in an empty portion of the subview, or in an alternate
 // drag view as designated by the delegate.
-- (void)mouseDown:(NSEvent*)theEvent  
-{
+- (void)mouseDown:(NSEvent*)theEvent {
 	NSWindow* window = [self window];
 	NSPoint where = [theEvent locationInWindow];
 	if (actDivider<NSNotFound) {
@@ -571,8 +526,7 @@ static animationData* animation = NULL;
 }
 
 // These two methods encode and decode subviews.
-- (void)encodeWithCoder:(NSCoder*)coder  
-{
+- (void)encodeWithCoder:(NSCoder*)coder {
 	NSRect frame;
 	BOOL coll = [self isCollapsed];
 	if (coll) {
@@ -605,8 +559,7 @@ static animationData* animation = NULL;
 	}
 }
 
-- (id)initWithCoder:(NSCoder*)coder  
-{
+- (id)initWithCoder:(NSCoder*)coder {
     if ((self = [super initWithCoder:coder])) {
 		fraction = 0.0;
 		canCollapse = NO;
@@ -650,8 +603,7 @@ static animationData* animation = NULL;
 @implementation RBSplitSubview (RB___SubviewAdditions)
 
 // This hides/shows the subview without calling adjustSubview.
-- (void)RB___setHidden:(BOOL)flag  
-{
+- (void)RB___setHidden:(BOOL)flag {
 	[super setHidden:flag];
 }
 
@@ -659,8 +611,7 @@ static animationData* animation = NULL;
 // the receiver isn't the current owner and some other subview is already being animated.
 // Otherwise, if the parameter is YES, a new animation will be started (or the current
 // one will be restarted).
-- (animationData*)RB___animationData:(BOOL)start resize:(BOOL)resize  
-{
+- (animationData*)RB___animationData:(BOOL)start resize:(BOOL)resize {
 	if (animation&&(animation->owner!=self)) {
 // There already is an animation in progress on some other subview.
 		return nil;
@@ -702,8 +653,7 @@ static animationData* animation = NULL;
 }
 
 // This internal method steps the animation to the next frame.
-- (void)RB___stepAnimation  
-{
+- (void)RB___stepAnimation {
 	NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
 	animationData* animation = [self RB___animationData:NO resize:NO];
 	if (animation) {
@@ -756,8 +706,7 @@ static animationData* animation = NULL;
 
 // This internal method stops the animation, if the receiver is being animated. It will
 // return YES if the animation was stopped.
-- (BOOL)RB___stopAnimation  
-{
+- (BOOL)RB___stopAnimation {
 	if (animation&&(animation->owner==self)) {
 		[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(RB___stepAnimation) object:nil];
 		free(animation);
@@ -770,8 +719,7 @@ static animationData* animation = NULL;
 
 // This internal method returns the actual visible dimension of the subview. Differs from -dimension in
 // that it returns 0.0 if the subview is collapsed.
-- (float)RB___visibleDimension  
-{
+- (float)RB___visibleDimension {
 	BOOL ishor = [self splitViewIsHorizontal];
 	NSRect frame = [self frame];
 	return MAX(0.0,DIM(frame.size));
@@ -779,8 +727,7 @@ static animationData* animation = NULL;
 
 // This pair of internal methods is used only inside -[RBSplitView adjustSubviews] to copy subview data
 // from and to that method's internal cache.
-- (void)RB___copyIntoCache:(subviewCache*)cache  
-{
+- (void)RB___copyIntoCache:(subviewCache*)cache {
 	cache->sub = self;
 	cache->rect = [self frame];
 	cache->size = [self RB___visibleDimension];
@@ -788,8 +735,7 @@ static animationData* animation = NULL;
 	cache->constrain = NO;
 }
 
-- (void)RB___updateFromCache:(subviewCache*)cache withTotalDimension:(float)value  
-{
+- (void)RB___updateFromCache:(subviewCache*)cache withTotalDimension:(float)value {
 	float dim = [self RB___visibleDimension];
 	if (cache->size>=1.0) {
 // New state is not collapsed.
@@ -815,8 +761,7 @@ static animationData* animation = NULL;
 
 // This internal method sets minimum and maximum values to the same value, saves the old values,
 // and returns the new value (which will be limited to the old values).
-- (float)RB___setMinAndMaxTo:(float)value savingMin:(float*)oldmin andMax:(float*)oldmax  
-{
+- (float)RB___setMinAndMaxTo:(float)value savingMin:(float*)oldmin andMax:(float*)oldmax {
 	*oldmin = [self minDimension];
 	*oldmax = [self maxDimension];
 	if (value<*oldmin) {
@@ -832,8 +777,7 @@ static animationData* animation = NULL;
 // This internal method tries to clear the first responder, if the current responder is a descendant of
 // the receiving subview. If so, it will set first responder to nil, redisplay the former responder and
 // return YES. Returns NO otherwise.
-- (BOOL)RB___clearResponder  
-{
+- (BOOL)RB___clearResponder {
 	NSWindow* window = [self window];
 	if (window) {
 		NSView* responder = (NSView*)[window firstResponder];
@@ -851,8 +795,7 @@ static animationData* animation = NULL;
 
 // This internal method collapses a subview.
 // It returns the negative of the size of the subview before collapsing, or 0.0 if it wasn't collapsed.
-- (float)RB___collapse  
-{
+- (float)RB___collapse {
 	float result = 0.0;
 	if (![self isCollapsed]) {
 		RBSplitView* sv = [self splitView];
@@ -871,8 +814,7 @@ static animationData* animation = NULL;
 
 // This internal method finishes the collapse of a subview, stopping the animation if
 // there is one, and calling the delegate method if there is one.
-- (void)RB___finishCollapse:(NSRect)rect withFraction:(double)value  
-{
+- (void)RB___finishCollapse:(NSRect)rect withFraction:(double)value {
 	RBSplitView* sv = [self splitView];
 	BOOL finish = [self RB___stopAnimation];
 	[self RB___setFrame:rect withFraction:value notify:YES];
@@ -888,8 +830,7 @@ static animationData* animation = NULL;
 
 // This internal method expands a subview. setToMinimum will usually be YES during a divider drag.
 // It returns the size of the subview after expanding, or 0.0 if it wasn't expanded.
-- (float)RB___expandAndSetToMinimum:(BOOL)setToMinimum  
-{
+- (float)RB___expandAndSetToMinimum:(BOOL)setToMinimum {
 	float result = 0.0;
 	RBSplitView* sv = [self splitView];
 	if (sv&&[self isCollapsed]) {
@@ -912,8 +853,7 @@ static animationData* animation = NULL;
 
 // This internal method finishes the the expansion of a subview, stopping the animation if
 // there is one, and calling the delegate method if there is one.
-- (void)RB___finishExpand:(NSRect)rect withFraction:(double)value  
-{
+- (void)RB___finishExpand:(NSRect)rect withFraction:(double)value {
 	RBSplitView* sv = [self splitView];
 	BOOL finish = [self RB___stopAnimation];
 	[self RB___setFrame:rect withFraction:value notify:YES];
@@ -929,8 +869,7 @@ static animationData* animation = NULL;
 
 // These internal methods set the subview's frame or size, and also store a fraction value
 // which is used to ensure repeatability when the whole split view is resized.
-- (void)RB___setFrame:(NSRect)rect withFraction:(double)value notify:(BOOL)notify  
-{
+- (void)RB___setFrame:(NSRect)rect withFraction:(double)value notify:(BOOL)notify {
 	RBSplitView* sv = [self splitView];
 	id delegate = nil;
 	if (notify) {
@@ -952,16 +891,14 @@ static animationData* animation = NULL;
 	previous = delegate?rect:NSZeroRect;
 }
 
-- (void)RB___setFrameSize:(NSSize)size withFraction:(double)value  
-{
+- (void)RB___setFrameSize:(NSSize)size withFraction:(double)value {
 	[[self splitView] setMustAdjust];
 	[self setFrameSize:size];
 	fraction = value;
 }
 
 // This internal method gets the fraction value.
-- (double)RB___fraction  
-{
+- (double)RB___fraction {
 	return fraction;
 }
 

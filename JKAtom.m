@@ -11,8 +11,7 @@
 
 @implementation JKAtom
 
-- (void)encodeWithCoder:(NSCoder *)coder
-{
+- (void)encodeWithCoder:(NSCoder *)coder{
 	[coder encodeInt:1 forKey:@"version"];
 	[coder encodeFloat:x forKey:@"x"];
 	[coder encodeFloat:y forKey:@"y"];
@@ -34,8 +33,7 @@
     return;
 }
 
-- (id)initWithCoder:(NSCoder *)coder
-{
+- (id)initWithCoder:(NSCoder *)coder{
 	x = [coder decodeFloatForKey:@"x"];
 	y = [coder decodeFloatForKey:@"y"];
 	z = [coder decodeFloatForKey:@"z"];

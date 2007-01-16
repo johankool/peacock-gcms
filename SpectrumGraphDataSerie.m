@@ -16,8 +16,7 @@ static void *PropertyObservationContext = (void *)1093;
 @implementation SpectrumGraphDataSerie
 
 #pragma mark INITIALIZATION
-- (id)init  
-{
+- (id)init {
     self = [super init];
     if (self) {
         // Zet de standaardwaarden
@@ -42,8 +41,7 @@ static void *PropertyObservationContext = (void *)1093;
 }
 
 #pragma mark DRAWING ROUTINES
-- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view
-{
+- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
 	NSBezierPath *bezierpath;
 //	if (!plotPath) {
 //		[self constructPlotPath];
@@ -66,8 +64,7 @@ static void *PropertyObservationContext = (void *)1093;
 	}
 }
 
-- (void)constructPlotPath  
-{
+- (void)constructPlotPath {
 	int i, count;
 	NSPoint pointInUnits, pointInUnits2;
 	NSBezierPath *bezierpath = [[NSBezierPath alloc] init];
@@ -110,8 +107,7 @@ static void *PropertyObservationContext = (void *)1093;
 	[bezierpath release];
 }
 
-- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view
-{
+- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
     BOOL belowZero;
 	int count = [[self dataArray] count];
 	if (count <= 0) {	
@@ -195,8 +191,7 @@ static void *PropertyObservationContext = (void *)1093;
 }
 
 #pragma mark HELPER ROUTINES
-- (void)transposeAxes  
-{
+- (void)transposeAxes {
 	// Deze routine wisselt de x-as met de y-as om
 	NSString *tempString = [self keyForXValue];
 	[self setKeyForXValue:[self keyForYValue]];
@@ -208,8 +203,7 @@ static void *PropertyObservationContext = (void *)1093;
 }
 
 #pragma mark KEY VALUE OBSERVING MANAGEMENT
-- (void)startObservingData:(NSArray *)data
-{
+- (void)startObservingData:(NSArray *)data{
 	if ([data isEqual:[NSNull null]]) {
 		return;
 	}
@@ -243,8 +237,7 @@ static void *PropertyObservationContext = (void *)1093;
 	}
 }
 
-- (void)stopObservingData:(NSArray *)data  
-{
+- (void)stopObservingData:(NSArray *)data {
 	if ([data isEqual:[NSNull null]]) {
 		return;
 	}
@@ -316,22 +309,18 @@ static void *PropertyObservationContext = (void *)1093;
 	}
 }
 
-- (BOOL)drawUpsideDown  
-{
+- (BOOL)drawUpsideDown {
 	return drawUpsideDown;
 }
-- (void)setDrawUpsideDown:(BOOL)inValue  
-{
+- (void)setDrawUpsideDown:(BOOL)inValue {
     drawUpsideDown = inValue;
 	[self constructPlotPath];
 }
-- (BOOL)normalizeYData
-{
+- (BOOL)normalizeYData{
 	return normalizeYData;
 }
 
-- (void)setNormalizeYData:(BOOL)inValue
-{
+- (void)setNormalizeYData:(BOOL)inValue{
 	normalizeYData = inValue;
 	[self constructPlotPath];
 }

@@ -13,8 +13,7 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
 
 @implementation FilteringDNDArrayController
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib{
 //    // register for drag and drop
 //    [tableView registerForDraggedTypes:
 //		[NSArray arrayWithObjects:CopiedRowsType, MovedRowsType, nil]];
@@ -27,8 +26,7 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
 
 - (BOOL)tableView:(NSTableView *)tv
 		writeRows:(NSArray*)rows
-	 toPasteboard:(NSPasteboard*)pboard
-{
+	 toPasteboard:(NSPasteboard*)pboard{
 	// declare our own pasteboard types
     NSArray *typesArray = [NSArray arrayWithObjects:CopiedRowsType, MovedRowsType, nil];
 	
@@ -84,8 +82,7 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
 - (NSDragOperation)tableView:(NSTableView*)tv
 				validateDrop:(id <NSDraggingInfo>)info
 				 proposedRow:(int)row
-	   proposedDropOperation:(NSTableViewDropOperation)op
-{
+	   proposedDropOperation:(NSTableViewDropOperation)op{
     
     NSDragOperation dragOp = NSDragOperationCopy;
     
@@ -106,8 +103,7 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
 - (BOOL)tableView:(NSTableView*)tv
 	   acceptDrop:(id <NSDraggingInfo>)info
 			  row:(int)row
-	dropOperation:(NSTableViewDropOperation)op
-{
+	dropOperation:(NSTableViewDropOperation)op{
     if (row < 0)
 	{
 		row = 0;
@@ -115,7 +111,7 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
     
     // if drag source is self, it's a move
     if ([info draggingSource] == tableView)
-    {
+   {
 #warning [BUG] Also non-selected rows can be dragged, if that's the case the move will not occur
 		//NSArray *rows = [[info draggingPasteboard] propertyListForType:MovedRowsType];
 		//NSIndexSet  *indexSet = [self indexSetFromRows:rows];
@@ -167,13 +163,12 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
 
 
 - (void)moveObjectsInArrangedObjectsFromIndexes:(NSIndexSet *)indexSet 
-									   toIndex:(unsigned)index
-{
+									   toIndex:(unsigned)index{
     unsigned off1 = 0, off2 = 0;
     
     unsigned currentIndex = [indexSet firstIndex];
     while (currentIndex != NSNotFound)
-    {
+   {
 		unsigned i = currentIndex;
 		
 		if (i < index)
@@ -192,8 +187,7 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
 }
 
 
-- (NSIndexSet *)indexSetFromRows:(NSArray *)rows
-{
+- (NSIndexSet *)indexSetFromRows:(NSArray *)rows{
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     NSEnumerator *rowEnumerator = [rows objectEnumerator];
     NSNumber *idx;
@@ -205,12 +199,11 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
 }
 
 
-- (int)rowsAboveRow:(int)row inIndexSet:(NSIndexSet *)indexSet
-{
+- (int)rowsAboveRow:(int)row inIndexSet:(NSIndexSet *)indexSet{
     int currentIndex = [indexSet firstIndex];
 	int i = 0;
     while (currentIndex != NSNotFound)
-    {
+   {
 		if (currentIndex < row) { i++; }
 		currentIndex = [indexSet indexGreaterThanIndex:currentIndex];
     }

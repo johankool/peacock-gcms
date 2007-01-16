@@ -39,8 +39,7 @@ static float kMinorTickMarksLineWidth   = 0.5;
 static int   kPaddingLabels             = 4;
 
 #pragma mark INITIALIZATION
-+ (void)initialize 
-{
++ (void)initialize {
 	// Bindings support
 	[self exposeBinding:@"dataSeries"];
 	[self exposeBinding:@"peaks"];
@@ -53,13 +52,11 @@ static int   kPaddingLabels             = 4;
 	[self setKeys:[NSArray arrayWithObjects:@"origin",@"plottingArea",@"pixelsPerYUnit",@"trans",nil] triggerChangeNotificationsForDependentKey:@"yMaximum"];	
 }
 
-- (NSArray *)exposedBindings 
-{
+- (NSArray *)exposedBindings {
 	return [NSArray arrayWithObjects:@"dataSeries", @"peaks", nil];
 }
 
-- (id)initWithFrame:(NSRect)frame 
-{
+- (id)initWithFrame:(NSRect)frame {
 	self = [super initWithFrame:frame];
     if (self) {
 		// Support transparency
@@ -115,8 +112,7 @@ static int   kPaddingLabels             = 4;
 	return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 	[self unbind:@"peaks"];
 	[self unbind:@"dataSeries"];
     
@@ -129,8 +125,7 @@ static int   kPaddingLabels             = 4;
 
 #pragma mark DRAWING ROUTINES
 
-- (void)drawRect:(NSRect)rect  
-{
+- (void)drawRect:(NSRect)rect {
 	[self calculateCoordinateConversions];
         
 	// Fancy schaduw effecten...
@@ -193,7 +188,6 @@ static int   kPaddingLabels             = 4;
         
         while ((object = [enumerator nextObject])) {
             // do something with object...
-            NSLog([object description]);
             if ([object respondsToSelector:@selector(plotDataWithTransform:inView:)]) {
                 [object plotDataWithTransform:[self transformGraphToScreen] inView:self];
             }
@@ -256,8 +250,7 @@ static int   kPaddingLabels             = 4;
 	[noShadow release];
 }
 
-- (void)drawGrid  
-{
+- (void)drawGrid {
 	int i, start, end;
 	float stepInUnits, stepInPixels;
 	NSBezierPath *gridPath = [[NSBezierPath alloc] init];
@@ -295,8 +288,7 @@ static int   kPaddingLabels             = 4;
     [gridPath release];
 }
 
-- (void)drawMinorTickMarks  
-{
+- (void)drawMinorTickMarks {
 	int i, start, end;
 	float stepInUnits, stepInPixels;
 	NSBezierPath *tickMarksPath = [[NSBezierPath alloc] init];
@@ -338,8 +330,7 @@ static int   kPaddingLabels             = 4;
     [tickMarksPath release];
 }
 
-- (void)drawMajorTickMarks  
-{
+- (void)drawMajorTickMarks {
 	int i, start, end;
 	float stepInUnits, stepInPixels;
 	NSBezierPath *tickMarksPath = [[NSBezierPath alloc] init];
@@ -380,8 +371,7 @@ static int   kPaddingLabels             = 4;
     [tickMarksPath release];
 }
 
-- (void)drawMinorTickMarksOnFrame
-{
+- (void)drawMinorTickMarksOnFrame{
 	int i, start, end;
 	float stepInUnits, stepInPixels;
 	NSBezierPath *tickMarksPath = [[NSBezierPath alloc] init];
@@ -423,8 +413,7 @@ static int   kPaddingLabels             = 4;
     [tickMarksPath release];
 }
 
-- (void)drawMajorTickMarksOnFrame
-{
+- (void)drawMajorTickMarksOnFrame{
 	int i, start, end;
 	float stepInUnits, stepInPixels;
 	NSBezierPath *tickMarksPath = [[NSBezierPath alloc] init];
@@ -466,8 +455,7 @@ static int   kPaddingLabels             = 4;
     [tickMarksPath release];
 }
 
-- (void)drawLegend  
-{
+- (void)drawLegend {
 	unsigned int i;
 	NSMutableAttributedString *string; // = [[NSMutableAttributedString alloc] init];
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
@@ -529,8 +517,7 @@ static int   kPaddingLabels             = 4;
 	[shadow release];
 }
 
-- (void)drawTitles  
-{
+- (void)drawTitles {
 	
 	// Werkt, maar nu niet direct een schoonheidsprijs waard!! ;-)
 	[[self titleString] drawAtPoint:NSMakePoint(([self bounds].size.width - [[self titleString] size].width)/2,([self bounds].size.height - NSMaxY([self plottingArea]))/2 - [[self titleString] size].height/2 + NSMaxY([self plottingArea]))];
@@ -556,8 +543,7 @@ static int   kPaddingLabels             = 4;
 	
 }
 
-- (void)drawLabels  
-{
+- (void)drawLabels {
 	NSMutableAttributedString *string;// = [[NSMutableAttributedString alloc] init];
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
 	NSMutableDictionary *attrs2 = [NSMutableDictionary dictionary];
@@ -651,8 +637,7 @@ static int   kPaddingLabels             = 4;
 	}
 }
 
-- (void)drawLabelsOnFrame  
-{
+- (void)drawLabelsOnFrame {
 	NSMutableAttributedString *string;// = [[NSMutableAttributedString alloc] init];
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
 	NSMutableDictionary *attrs2 = [NSMutableDictionary dictionary];
@@ -745,8 +730,7 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (void)drawAxes  
-{
+- (void)drawAxes {
 	NSBezierPath *axesPath = [[NSBezierPath alloc] init];
 	
 	// De X as.
@@ -772,8 +756,7 @@ static int   kPaddingLabels             = 4;
     [axesPath release];
 }
 
-- (void)drawFrame
-{
+- (void)drawFrame{
     NSBezierPath *framesPath = [[NSBezierPath alloc] init];
 	
 	// De X as.
@@ -802,8 +785,7 @@ static int   kPaddingLabels             = 4;
 - (NSString *)view:(NSView *)view
   stringForToolTip:(NSToolTipTag)tag
              point:(NSPoint)point
-          userData:(void *)userData
-{
+          userData:(void *)userData{
 	id peak = [[self peaks] objectAtIndex:(int)userData];
 	return [NSString stringWithFormat:NSLocalizedString(@"Peak no. %d\n%@",@"Tiptool for peak number and label."), userData+1, [peak valueForKey:@"label"]];
 }
@@ -814,8 +796,7 @@ static int   kPaddingLabels             = 4;
 }
 
 #pragma mark ACTION ROUTINES
-- (void)centerOrigin:(id)sender  
-{
+- (void)centerOrigin:(id)sender {
 	NSPoint newOrigin;
 	NSRect theFrame;
 	theFrame = [self plottingArea];
@@ -823,12 +804,10 @@ static int   kPaddingLabels             = 4;
 	newOrigin.y = theFrame.origin.y + theFrame.size.height/2;	
     [self setOrigin:newOrigin];
 }
-- (void)lowerLeftOrigin:(id)sender  
-{
+- (void)lowerLeftOrigin:(id)sender {
     [self setOrigin:[self plottingArea].origin];
 }
-- (void)squareAxes:(id)sender  
-{
+- (void)squareAxes:(id)sender {
 	float x,y,avg;
 	x = [[self pixelsPerXUnit] floatValue];
 	y = [[self pixelsPerYUnit] floatValue];
@@ -838,8 +817,7 @@ static int   kPaddingLabels             = 4;
 }
 
 
-- (IBAction)showAll:(id)sender  
-{
+- (IBAction)showAll:(id)sender {
 	int i, count;
 	NSRect totRect, newRect;
 	MyGraphDataSerie *mgds;
@@ -892,8 +870,7 @@ static int   kPaddingLabels             = 4;
 //}
 
 #pragma mark HELPER ROUTINES
-- (void)calculateCoordinateConversions  
-{
+- (void)calculateCoordinateConversions {
 	NSAffineTransform *translationMatrix, *scalingMatrix, *transformationMatrix, *invertMatrix;
 	
 	// We rekenen eerst in twee aparte matrices uit hoe de verplaatsing en schaling gedaan moet worden.
@@ -921,8 +898,7 @@ static int   kPaddingLabels             = 4;
 	
 }
 
-- (float)unitsPerMajorGridLine:(float)pixelsPerUnit  
-{
+- (float)unitsPerMajorGridLine:(float)pixelsPerUnit {
 	float amountAtMinimum, orderOfMagnitude, fraction;
 	
 	amountAtMinimum = [[self minimumPixelsPerMajorGridLine] floatValue]/pixelsPerUnit;	
@@ -962,8 +938,7 @@ static int   kPaddingLabels             = 4;
 
 }
 
-- (void)zoomIn
-{
+- (void)zoomIn{
 	float xWidth = [[self xMaximum] floatValue] - [[self xMinimum] floatValue];
 	[self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] - xWidth/8]];
 	[self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] + xWidth/8]];
@@ -976,8 +951,7 @@ static int   kPaddingLabels             = 4;
 
 }
 
-- (void)zoomOut  
-{
+- (void)zoomOut {
 	float xWidth = [[self xMaximum] floatValue] - [[self xMinimum] floatValue];
 	[self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] + xWidth/4]];
 	[self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] - xWidth/4]];
@@ -990,8 +964,7 @@ static int   kPaddingLabels             = 4;
 
 }
 
-- (void)moveLeft  
-{
+- (void)moveLeft {
 	float xWidth = [[self xMaximum] floatValue] - [[self xMinimum] floatValue];
 	[self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] - xWidth/4]];
 	[self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] - xWidth/4]];
@@ -1000,8 +973,7 @@ static int   kPaddingLabels             = 4;
 
 }
 
-- (void)moveRight  
-{
+- (void)moveRight {
 	float xWidth = [[self xMaximum] floatValue] - [[self xMinimum] floatValue];
 	[self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] + xWidth/4]];
 	[self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] + xWidth/4]];
@@ -1010,8 +982,7 @@ static int   kPaddingLabels             = 4;
 
 }
 
-- (void)moveUp  
-{
+- (void)moveUp {
 	float yWidth = [[self yMaximum] floatValue] - [[self yMinimum] floatValue];
 	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] + yWidth/4]];
 	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] + yWidth/4]];
@@ -1020,8 +991,7 @@ static int   kPaddingLabels             = 4;
 
 }
 
-- (void)moveDown  
-{
+- (void)moveDown {
 	float yWidth = [[self yMaximum] floatValue] - [[self yMinimum] floatValue];
 	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] - yWidth/4]];
 	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] - yWidth/4]];
@@ -1030,8 +1000,7 @@ static int   kPaddingLabels             = 4;
 
 }
 
-- (void)selectNextPeak  
-{
+- (void)selectNextPeak {
 	if (([peaksContainer selectionIndex] != NSNotFound) & ([peaksContainer selectionIndex] != [[self peaks] count]-1)) {
 		[peaksContainer setSelectionIndex:[peaksContainer selectionIndex]+1];		
 	} else {
@@ -1040,8 +1009,7 @@ static int   kPaddingLabels             = 4;
 	[self setNeedsDisplayInRect:[self plottingArea]];
 }
 
-- (void)selectPreviousPeak  
-{
+- (void)selectPreviousPeak {
 	if (([peaksContainer selectionIndex] != NSNotFound) & ([peaksContainer selectionIndex] != 0)) {
 		[peaksContainer setSelectionIndex:[peaksContainer selectionIndex]-1];
 	} else {
@@ -1050,24 +1018,21 @@ static int   kPaddingLabels             = 4;
 	[self setNeedsDisplayInRect:[self plottingArea]];
 }
 
-- (void)selectNextScan  
-{
+- (void)selectNextScan {
     [self setSelectedScan:[self selectedScan]+1];
     if ([delegate respondsToSelector:@selector(showSpectrumForScan:)]) {
         [delegate showSpectrumForScan:[self selectedScan]];
     }     
 }
 
-- (void)selectPreviousScan  
-{
+- (void)selectPreviousScan {
     [self setSelectedScan:[self selectedScan]-1];
     if ([delegate respondsToSelector:@selector(showSpectrumForScan:)]) {
         [delegate showSpectrumForScan:[self selectedScan]];
     }     
 }
 
-- (void)moveUpwardsInComparisonView
-{
+- (void)moveUpwardsInComparisonView{
 	NSArray *subviews = [[self superview] subviews];
 	if ([subviews count] == 1) {
 		return;
@@ -1103,8 +1068,7 @@ static int   kPaddingLabels             = 4;
     }	
 }
 
-- (void)moveDownwardsInComparisonView //WithAnimation
-{
+- (void)moveDownwardsInComparisonView { //WithAnimation
 	NSArray *subviews = [[self superview] subviews];
 	if ([subviews count] == 1) {
 		return;
@@ -1141,8 +1105,7 @@ static int   kPaddingLabels             = 4;
 }
 
 #pragma mark MOUSE INTERACTION MANAGEMENT
-- (void)resetCursorRects  
-{
+- (void)resetCursorRects {
 	[self addCursorRect:[self frame] cursor:[NSCursor arrowCursor]];
 	[self addCursorRect:[self plottingArea] cursor:[NSCursor crosshairCursor]];
     [self addCursorRect:NSMakeRect([self plottingArea].origin.x-3.0,[self plottingArea].origin.y,6.0,[self plottingArea].size.height) cursor:[NSCursor resizeLeftRightCursor]];
@@ -1152,8 +1115,7 @@ static int   kPaddingLabels             = 4;
 	if (shouldDrawLegend) [self addCursorRect:[self legendArea] cursor:[NSCursor openHandCursor]];
 }
 
-- (void)mouseDown:(NSEvent *)theEvent  
-{
+- (void)mouseDown:(NSEvent *)theEvent {
 	_didDrag = NO;
 	_mouseDownAtPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	_oldOrigin = [self origin];
@@ -1205,8 +1167,7 @@ static int   kPaddingLabels             = 4;
     
 }
 
-- (void)mouseDragged:(NSEvent *)theEvent  
-{
+- (void)mouseDragged:(NSEvent *)theEvent {
 	_didDrag = YES;
 	NSRect draggedRect;
 	NSPoint mouseLocation = [self convertPoint:[theEvent locationInWindow] fromView:nil];
@@ -1291,8 +1252,7 @@ static int   kPaddingLabels             = 4;
 
 }
 
-- (void)mouseUp:(NSEvent *)theEvent  
-{
+- (void)mouseUp:(NSEvent *)theEvent {
 	BOOL foundPeakToSelect = NO;
 	NSPoint mouseLocation = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	if (!_didDrag) {
@@ -1528,8 +1488,7 @@ static int   kPaddingLabels             = 4;
 }
 
 #pragma mark KEYBOARD INTERACTION MANAGEMENT
-- (void)flagsChanged:(NSEvent *)theEvent  
-{
+- (void)flagsChanged:(NSEvent *)theEvent {
 	BOOL isInsidePlottingArea;
 	NSPoint mouseLocation = [self convertPoint: [[self window] mouseLocationOutsideOfEventStream] fromView:nil];
 	
@@ -1566,8 +1525,7 @@ static int   kPaddingLabels             = 4;
 //	}
 }
 
-- (void)keyDown:(NSEvent *)theEvent  
-{
+- (void)keyDown:(NSEvent *)theEvent {
 	if ([[theEvent characters] isEqualToString:@"a"]) {
 		[self showAll:self];
 	} else if ([[theEvent characters] isEqualToString:@"b"]) {
@@ -1641,29 +1599,24 @@ static int   kPaddingLabels             = 4;
 	}
 }
 
-- (BOOL)canBecomeKeyView  
-{
+- (BOOL)canBecomeKeyView {
 	return YES;
 }
-- (BOOL) acceptsFirstResponder 
-{
+- (BOOL) acceptsFirstResponder {
     return YES;
 }
-- (BOOL) resignFirstResponder 
-{
+- (BOOL) resignFirstResponder {
 	[[NSNotificationCenter defaultCenter] postNotificationName:MyGraphView_DidResignFirstResponderNotification object:self];
 	[self setNeedsDisplay:YES];
     return YES;
 }
-- (BOOL) becomeFirstResponder 
-{
+- (BOOL) becomeFirstResponder {
 	[[NSNotificationCenter defaultCenter] postNotificationName:MyGraphView_DidBecomeFirstResponderNotification object:self];
 	[self setNeedsDisplay:YES];
     return YES;
 }
 
-- (void)copy:(id)sender  
-{
+- (void)copy:(id)sender {
     NSData *data;
     NSArray *myPboardTypes;
     NSPasteboard *pb = [NSPasteboard generalPasteboard];
@@ -1687,8 +1640,7 @@ static int   kPaddingLabels             = 4;
 - (void)observeValueForKeyPath:(NSString *)keyPath
 					  ofObject:(id)object
 						change:(NSDictionary *)change
-					   context:(void *)context 
-{
+					   context:(void *)context {
     if (context == PeaksObservationContext)
 	{
 		[self setNeedsDisplayInRect:[self plottingArea]];
@@ -1726,8 +1678,7 @@ static int   kPaddingLabels             = 4;
 - (void)bind:(NSString *)bindingName
     toObject:(id)observableObject
  withKeyPath:(NSString *)observableKeyPath
-     options:(NSDictionary *)options
-{
+     options:(NSDictionary *)options{
 	
     if ([bindingName isEqualToString:@"dataSeries"])
 	{		
@@ -1769,8 +1720,7 @@ static int   kPaddingLabels             = 4;
 }
 
 
-- (void)unbind:(NSString *)bindingName  
-{
+- (void)unbind:(NSString *)bindingName {
 	
     if ([bindingName isEqualToString:@"dataSeries"])
 	{
@@ -1800,23 +1750,19 @@ static int   kPaddingLabels             = 4;
 {	
     return [dataSeriesContainer valueForKeyPath:dataSeriesKeyPath];	
 }
-- (NSObject *)dataSeriesContainer
-{
+- (NSObject *)dataSeriesContainer{
     return dataSeriesContainer; 
 }
-- (void)setDataSeriesContainer:(NSObject *)aDataSeriesContainer
-{
+- (void)setDataSeriesContainer:(NSObject *)aDataSeriesContainer{
     if (dataSeriesContainer != aDataSeriesContainer) {
         [dataSeriesContainer release];
         dataSeriesContainer = [aDataSeriesContainer retain];
     }
 }
-- (NSString *)dataSeriesKeyPath
-{
+- (NSString *)dataSeriesKeyPath{
     return dataSeriesKeyPath; 
 }
-- (void)setDataSeriesKeyPath:(NSString *)aDataSeriesKeyPath
-{
+- (void)setDataSeriesKeyPath:(NSString *)aDataSeriesKeyPath{
     if (dataSeriesKeyPath != aDataSeriesKeyPath) {
         [dataSeriesKeyPath release];
         dataSeriesKeyPath = [aDataSeriesKeyPath copy];
@@ -1825,27 +1771,22 @@ static int   kPaddingLabels             = 4;
 
 
 #pragma mark peaks bindings
-- (NSMutableArray *)peaks
-{
+- (NSMutableArray *)peaks{
 	return [peaksContainer valueForKeyPath:peaksKeyPath];
 }
-- (NSObject *)peaksContainer
-{
+- (NSObject *)peaksContainer{
     return peaksContainer; 
 }
-- (void)setPeaksContainer:(NSObject *)aPeaksContainer
-{
+- (void)setPeaksContainer:(NSObject *)aPeaksContainer{
     if (peaksContainer != aPeaksContainer) {
         [peaksContainer release];
         peaksContainer = [aPeaksContainer retain];
     }
 }
-- (NSString *)peaksKeyPath
-{
+- (NSString *)peaksKeyPath{
     return peaksKeyPath; 
 }
-- (void)setPeaksKeyPath:(NSString *)aPeaksKeyPath
-{
+- (void)setPeaksKeyPath:(NSString *)aPeaksKeyPath{
     if (peaksKeyPath != aPeaksKeyPath) {
         [peaksKeyPath release];
         peaksKeyPath = [aPeaksKeyPath copy];
@@ -1882,18 +1823,16 @@ static int   kPaddingLabels             = 4;
 
 #pragma mark ACCESSORS
 
-- (id)delegate  
-{
+- (id)delegate {
 	return delegate;
 }
-- (void)setDelegate:(id)inValue  
-{
+- (void)setDelegate:(id)inValue {
     if (delegate != inValue) {
         delegate = inValue;        
     }
 }
 
--(void)setFrame:(NSRect)newFrect {
+- (void)setFrame:(NSRect)newFrect {
     NSRect oldFrect, pRect, lRect;
     oldFrect = [self frame];
     pRect = [self plottingArea];
@@ -1909,12 +1848,10 @@ static int   kPaddingLabels             = 4;
 
 }
 
-- (NSAffineTransform *)transformGraphToScreen 
-{
+- (NSAffineTransform *)transformGraphToScreen {
 	return transformGraphToScreen;
 }
-- (void)setTransformGraphToScreen:(NSAffineTransform *)inValue  
-{
+- (void)setTransformGraphToScreen:(NSAffineTransform *)inValue {
     if (transformGraphToScreen != inValue) {
         [inValue retain];
         [transformGraphToScreen autorelease];
@@ -1922,12 +1859,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSAffineTransform *)transformScreenToGraph  
-{
+- (NSAffineTransform *)transformScreenToGraph {
 	return transformScreenToGraph;
 }
-- (void)setTransformScreenToGraph:(NSAffineTransform *)inValue  
-{
+- (void)setTransformScreenToGraph:(NSAffineTransform *)inValue {
     if (transformScreenToGraph != inValue) {
         [inValue retain];
         [transformScreenToGraph autorelease];
@@ -1935,12 +1870,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSNumber *)pixelsPerXUnit  
-{
+- (NSNumber *)pixelsPerXUnit {
 	return pixelsPerXUnit;
 }
-- (void)setPixelsPerXUnit:(NSNumber *)inValue  
-{
+- (void)setPixelsPerXUnit:(NSNumber *)inValue {
 	if (pixelsPerXUnit != inValue) {
         [inValue retain];
         [pixelsPerXUnit autorelease];
@@ -1949,12 +1882,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSNumber *)pixelsPerYUnit  
-{
+- (NSNumber *)pixelsPerYUnit {
 	return pixelsPerYUnit;
 }
-- (void)setPixelsPerYUnit:(NSNumber *)inValue  
-{
+- (void)setPixelsPerYUnit:(NSNumber *)inValue {
 	if (pixelsPerYUnit != inValue) {
         [inValue retain];
         [pixelsPerYUnit autorelease];
@@ -1963,12 +1894,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSNumber *)minimumPixelsPerMajorGridLine  
-{
+- (NSNumber *)minimumPixelsPerMajorGridLine {
 	return minimumPixelsPerMajorGridLine;
 }
-- (void)setMinimumPixelsPerMajorGridLine:(NSNumber *)inValue  
-{
+- (void)setMinimumPixelsPerMajorGridLine:(NSNumber *)inValue {
     if (minimumPixelsPerMajorGridLine != inValue) {
         if ([inValue floatValue] > 0.0f) {
             [inValue retain];
@@ -1979,22 +1908,18 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSPoint)origin  
-{
+- (NSPoint)origin {
 	return origin;
 }
-- (void)setOrigin:(NSPoint)inValue  
-{
+- (void)setOrigin:(NSPoint)inValue {
     origin = inValue;
     [self setNeedsDisplay:YES];        
 }
 
-- (NSRect)plottingArea  
-{
+- (NSRect)plottingArea {
 	return plottingArea;
 }
-- (void)setPlottingArea:(NSRect)inValue  
-{
+- (void)setPlottingArea:(NSRect)inValue {
     if (inValue.origin.x < kMinimumPaddingAroundPlottingArea) {
         inValue.size.width = plottingArea.size.width;
         inValue.origin.x = kMinimumPaddingAroundPlottingArea;
@@ -2022,12 +1947,10 @@ static int   kPaddingLabels             = 4;
     [[self window] invalidateCursorRectsForView:self];
 }
 
-- (NSRect)legendArea  
-{
+- (NSRect)legendArea {
 	return legendArea;
 }
-- (void)setLegendArea:(NSRect)inValue  
-{
+- (void)setLegendArea:(NSRect)inValue {
     NSRect unionRect = NSUnionRect(legendArea,inValue);
     legendArea = inValue;
     if ([self shouldDrawLegend]) {
@@ -2037,23 +1960,19 @@ static int   kPaddingLabels             = 4;
     
 }
 
-- (NSRect)selectedRect  
-{
+- (NSRect)selectedRect {
 	return selectedRect;
 }
-- (void)setSelectedRect:(NSRect)inValue  
-{
+- (void)setSelectedRect:(NSRect)inValue {
     NSRect unionRect = NSUnionRect(selectedRect,inValue);
     selectedRect = inValue;
     [self setNeedsDisplayInRect:NSInsetRect(unionRect, -10.0, -10.0)];        
 }
 
-- (NSColor *)backColor  
-{
+- (NSColor *)backColor {
     return backColor;
 }
-- (void)setBackColor:(NSColor *)inValue  
-{
+- (void)setBackColor:(NSColor *)inValue {
     if (backColor != inValue) {
         [inValue retain];
         [backColor autorelease];
@@ -2062,12 +1981,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSColor *)baselineColor  
-{
+- (NSColor *)baselineColor {
     return baselineColor;
 }
-- (void)setBaselineColor:(NSColor *)inValue  
-{
+- (void)setBaselineColor:(NSColor *)inValue {
     if (baselineColor != inValue) {
         [inValue retain];
         [baselineColor autorelease];
@@ -2076,12 +1993,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSColor *)plottingAreaColor  
-{
+- (NSColor *)plottingAreaColor {
     return plottingAreaColor;
 }
-- (void)setPlottingAreaColor:(NSColor *)inValue  
-{
+- (void)setPlottingAreaColor:(NSColor *)inValue {
     if (plottingAreaColor != inValue) {
         [inValue retain];
         [plottingAreaColor autorelease];
@@ -2090,12 +2005,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSColor *)axesColor  
-{
+- (NSColor *)axesColor {
     return axesColor;
 }
-- (void)setAxesColor:(NSColor *)inValue  
-{
+- (void)setAxesColor:(NSColor *)inValue {
     if (axesColor != inValue) {
         [inValue retain];
         [axesColor autorelease];
@@ -2105,12 +2018,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSColor *)gridColor  
-{
+- (NSColor *)gridColor {
     return gridColor;
 }
-- (void)setGridColor:(NSColor *)inValue  
-{
+- (void)setGridColor:(NSColor *)inValue {
     if (gridColor != inValue) {
         [inValue retain];
         [gridColor autorelease];
@@ -2120,12 +2031,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSColor *)labelsColor  
-{
+- (NSColor *)labelsColor {
     return labelsColor;
 }
-- (void)setLabelsColor:(NSColor *)inValue  
-{
+- (void)setLabelsColor:(NSColor *)inValue {
     if (labelsColor != inValue) {
         [inValue retain];
         [labelsColor autorelease];
@@ -2135,12 +2044,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSColor *)labelsOnFrameColor  
-{
+- (NSColor *)labelsOnFrameColor {
     return labelsOnFrameColor;
 }
-- (void)setLabelsOnFrameColor:(NSColor *)inValue  
-{
+- (void)setLabelsOnFrameColor:(NSColor *)inValue {
     if (labelsOnFrameColor != inValue) {
         [inValue retain];
         [labelsOnFrameColor autorelease];
@@ -2150,12 +2057,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSColor *)frameColor  
-{
+- (NSColor *)frameColor {
     return frameColor;
 }
-- (void)setFrameColor:(NSColor *)inValue  
-{
+- (void)setFrameColor:(NSColor *)inValue {
     if (frameColor != inValue) {
         [inValue retain];
         [frameColor autorelease];
@@ -2165,12 +2070,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSColor *)legendAreaColor  
-{
+- (NSColor *)legendAreaColor {
     return legendAreaColor;
 }
-- (void)setLegendAreaColor:(NSColor *)inValue  
-{
+- (void)setLegendAreaColor:(NSColor *)inValue {
     if (legendAreaColor != inValue) {
         [inValue retain];
         [legendAreaColor autorelease];
@@ -2180,12 +2083,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSColor *)legendFrameColor  
-{
+- (NSColor *)legendFrameColor {
     return legendFrameColor;
 }
-- (void)setLegendFrameColor:(NSColor *)inValue  
-{
+- (void)setLegendFrameColor:(NSColor *)inValue {
     if (legendFrameColor != inValue) {
         [inValue retain];
         [legendFrameColor autorelease];
@@ -2195,12 +2096,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (BOOL)shouldDrawLegend  
-{
+- (BOOL)shouldDrawLegend {
     return shouldDrawLegend;
 }
-- (void)setShouldDrawLegend:(BOOL)inValue  
-{
+- (void)setShouldDrawLegend:(BOOL)inValue {
     if (shouldDrawLegend != inValue) {
         shouldDrawLegend = inValue;
         [[self window] invalidateCursorRectsForView:self];
@@ -2208,212 +2107,176 @@ static int   kPaddingLabels             = 4;
     }    
 }
 
-- (BOOL)shouldDrawAxes  
-{
+- (BOOL)shouldDrawAxes {
     return shouldDrawAxes;
 }
-- (void)setShouldDrawAxes:(BOOL)inValue  
-{
+- (void)setShouldDrawAxes:(BOOL)inValue {
     if (shouldDrawAxes != inValue) {
         shouldDrawAxes = inValue;
         [self setNeedsDisplayInRect:[self plottingArea]];        
     }
 }
 
-- (BOOL)shouldDrawAxesHorizontal
-{
+- (BOOL)shouldDrawAxesHorizontal{
     return shouldDrawAxesHorizontal;
 }
-- (void)setShouldDrawAxesHorizontal:(BOOL)inValue  
-{
+- (void)setShouldDrawAxesHorizontal:(BOOL)inValue {
     if (shouldDrawAxesHorizontal != inValue) {
         shouldDrawAxesHorizontal = inValue;
         [self setNeedsDisplayInRect:[self plottingArea]];        
     }
 }
 
-- (BOOL)shouldDrawAxesVertical
-{
+- (BOOL)shouldDrawAxesVertical{
     return shouldDrawAxesVertical;
 }
-- (void)setShouldDrawAxesVertical:(BOOL)inValue  
-{
+- (void)setShouldDrawAxesVertical:(BOOL)inValue {
     if (shouldDrawAxesVertical != inValue) {
         shouldDrawAxesVertical = inValue;
         [self setNeedsDisplayInRect:[self plottingArea]];        
     }
 }
 
-- (BOOL)shouldDrawFrame  
-{
+- (BOOL)shouldDrawFrame {
     return shouldDrawFrame;
 }
-- (void)setShouldDrawFrame:(BOOL)inValue  
-{
+- (void)setShouldDrawFrame:(BOOL)inValue {
     if (shouldDrawFrame != inValue) {
         shouldDrawFrame = inValue;
         [self setNeedsDisplay:YES];        
     }
 }
 
-- (BOOL)shouldDrawFrameLeft
-{
+- (BOOL)shouldDrawFrameLeft{
     return shouldDrawFrameLeft;
 }
-- (void)setShouldDrawFrameLeft:(BOOL)inValue  
-{
+- (void)setShouldDrawFrameLeft:(BOOL)inValue {
     if (shouldDrawFrameLeft != inValue) {
         shouldDrawFrameLeft = inValue;
         [self setNeedsDisplay:YES];        
     }
 }
 
-- (BOOL)shouldDrawFrameBottom
-{
+- (BOOL)shouldDrawFrameBottom{
     return shouldDrawFrameBottom;
 }
-- (void)setShouldDrawFrameBottom:(BOOL)inValue  
-{
+- (void)setShouldDrawFrameBottom:(BOOL)inValue {
     if (shouldDrawFrameBottom != inValue) {
         shouldDrawFrameBottom = inValue;
         [self setNeedsDisplay:YES];        
     }
 }
 
-- (BOOL)shouldDrawMajorTickMarks
-{
+- (BOOL)shouldDrawMajorTickMarks{
 	return shouldDrawMajorTickMarks;
 }
-- (void)setShouldDrawMajorTickMarks:(BOOL)inValue
-{
+- (void)setShouldDrawMajorTickMarks:(BOOL)inValue{
 	if (shouldDrawMajorTickMarks != inValue) {        
         shouldDrawMajorTickMarks = inValue;
         [self setNeedsDisplay:YES];
     }
 }
-- (BOOL)shouldDrawMajorTickMarksHorizontal
-{
+- (BOOL)shouldDrawMajorTickMarksHorizontal{
 	return shouldDrawMajorTickMarksHorizontal;
 }
-- (void)setShouldDrawMajorTickMarksHorizontal:(BOOL)inValue
-{
+- (void)setShouldDrawMajorTickMarksHorizontal:(BOOL)inValue{
 	if (shouldDrawMajorTickMarksHorizontal != inValue) {        
         shouldDrawMajorTickMarksHorizontal = inValue;
         [self setNeedsDisplay:YES];
     }
 }
-- (BOOL)shouldDrawMajorTickMarksVertical
-{
+- (BOOL)shouldDrawMajorTickMarksVertical{
 	return shouldDrawMajorTickMarksVertical;
 }
-- (void)setShouldDrawMajorTickMarksVertical:(BOOL)inValue
-{
+- (void)setShouldDrawMajorTickMarksVertical:(BOOL)inValue{
 	if (shouldDrawMajorTickMarksVertical != inValue) {        
         shouldDrawMajorTickMarksVertical = inValue;
         [self setNeedsDisplay:YES];
     }
 }
 
-- (BOOL)shouldDrawMinorTickMarks
-{
+- (BOOL)shouldDrawMinorTickMarks{
 	return shouldDrawMinorTickMarks;
 }
-- (void)setShouldDrawMinorTickMarks:(BOOL)inValue
-{
+- (void)setShouldDrawMinorTickMarks:(BOOL)inValue{
     if (shouldDrawMinorTickMarks != inValue) {
         shouldDrawMinorTickMarks = inValue;
         [self setNeedsDisplay:YES];        
     }
 }
-- (BOOL)shouldDrawMinorTickMarksHorizontal
-{
+- (BOOL)shouldDrawMinorTickMarksHorizontal{
 	return shouldDrawMinorTickMarksHorizontal;
 }
-- (void)setShouldDrawMinorTickMarksHorizontal:(BOOL)inValue
-{
+- (void)setShouldDrawMinorTickMarksHorizontal:(BOOL)inValue{
     if (shouldDrawMinorTickMarksHorizontal != inValue) {
         shouldDrawMinorTickMarksHorizontal = inValue;
         [self setNeedsDisplay:YES];        
     }
 }
-- (BOOL)shouldDrawMinorTickMarksVertical
-{
+- (BOOL)shouldDrawMinorTickMarksVertical{
 	return shouldDrawMinorTickMarksVertical;
 }
-- (void)setShouldDrawMinorTickMarksVertical:(BOOL)inValue
-{
+- (void)setShouldDrawMinorTickMarksVertical:(BOOL)inValue{
     if (shouldDrawMinorTickMarksVertical != inValue) {
         shouldDrawMinorTickMarksVertical = inValue;
         [self setNeedsDisplay:YES];        
     }
 }
 
-- (BOOL)shouldDrawGrid  
-{
+- (BOOL)shouldDrawGrid {
     return shouldDrawGrid;
 }
-- (void)setShouldDrawGrid:(BOOL)inValue  
-{
+- (void)setShouldDrawGrid:(BOOL)inValue {
     if (shouldDrawGrid != inValue) {
         shouldDrawGrid = inValue;
         [self setNeedsDisplayInRect:[self plottingArea]];        
     }
 }
 
-- (BOOL)shouldDrawLabels  
-{
+- (BOOL)shouldDrawLabels {
     return shouldDrawLabels;
 }
-- (void)setShouldDrawLabels:(BOOL)inValue  
-{
+- (void)setShouldDrawLabels:(BOOL)inValue {
     if (shouldDrawLabels != inValue) {
         shouldDrawLabels = inValue;
         [self setNeedsDisplayInRect:[self plottingArea]];    
     }
 }
 
-- (BOOL)shouldDrawLabelsOnFrame  
-{
+- (BOOL)shouldDrawLabelsOnFrame {
     return shouldDrawLabelsOnFrame;
 }
-- (void)setShouldDrawLabelsOnFrame:(BOOL)inValue  
-{
+- (void)setShouldDrawLabelsOnFrame:(BOOL)inValue {
     if (shouldDrawLabelsOnFrame != inValue) {
         shouldDrawLabelsOnFrame = inValue;
         [self setNeedsDisplay:YES];        
     }
 }
 
-- (BOOL)shouldDrawLabelsOnFrameLeft  
-{
+- (BOOL)shouldDrawLabelsOnFrameLeft {
     return shouldDrawLabelsOnFrameLeft;
 }
-- (void)setShouldDrawLabelsOnFrameLeft:(BOOL)inValue  
-{
+- (void)setShouldDrawLabelsOnFrameLeft:(BOOL)inValue {
     if (shouldDrawLabelsOnFrameLeft != inValue) {
         shouldDrawLabelsOnFrameLeft = inValue;
         [self setNeedsDisplay:YES];        
     }
 }
 
-- (BOOL)shouldDrawLabelsOnFrameBottom  
-{
+- (BOOL)shouldDrawLabelsOnFrameBottom {
     return shouldDrawLabelsOnFrameBottom;
 }
-- (void)setShouldDrawLabelsOnFrameBottom:(BOOL)inValue  
-{
+- (void)setShouldDrawLabelsOnFrameBottom:(BOOL)inValue {
     if (shouldDrawLabelsOnFrameBottom != inValue) {
         shouldDrawLabelsOnFrameBottom = inValue;
         [self setNeedsDisplay:YES];        
     }
 }
 
-- (BOOL)shouldDrawShadow  
-{
+- (BOOL)shouldDrawShadow {
     return shouldDrawShadow;
 }
-- (void)setShouldDrawShadow:(BOOL)inValue  
-{
+- (void)setShouldDrawShadow:(BOOL)inValue {
     if (shouldDrawShadow != inValue) {
         shouldDrawShadow = inValue;
         [self setNeedsDisplay:YES];        
@@ -2421,12 +2284,10 @@ static int   kPaddingLabels             = 4;
 }
 
 
-- (NSAttributedString *)titleString  
-{
+- (NSAttributedString *)titleString {
     return titleString;
 }
-- (void)setTitleString:(NSAttributedString *)inValue  
-{
+- (void)setTitleString:(NSAttributedString *)inValue {
     if (titleString != inValue) {
         [inValue retain];
         [titleString autorelease];
@@ -2435,12 +2296,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSAttributedString *)xAxisLabelString  
-{
+- (NSAttributedString *)xAxisLabelString {
     return xAxisLabelString;
 }
-- (void)setXAxisLabelString:(NSAttributedString *)inValue  
-{
+- (void)setXAxisLabelString:(NSAttributedString *)inValue {
     if (xAxisLabelString != inValue) {
         [inValue retain];
         [xAxisLabelString autorelease];
@@ -2449,12 +2308,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSAttributedString *)yAxisLabelString  
-{
+- (NSAttributedString *)yAxisLabelString {
     return yAxisLabelString;
 }
-- (void)setYAxisLabelString:(NSAttributedString *)inValue  
-{
+- (void)setYAxisLabelString:(NSAttributedString *)inValue {
     if (yAxisLabelString != inValue) {
         [inValue retain];
         [yAxisLabelString autorelease];
@@ -2463,12 +2320,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSString *)keyForXValue  
-{
+- (NSString *)keyForXValue {
 	return keyForXValue;
 }
-- (void)setKeyForXValue:(NSString *)inValue  
-{
+- (void)setKeyForXValue:(NSString *)inValue {
 	if (keyForXValue != inValue) {
         [inValue retain];
         [keyForXValue autorelease];
@@ -2499,12 +2354,10 @@ static int   kPaddingLabels             = 4;
     return [[[self dataSeries] objectAtIndex:0] dataArrayKeys];
 }
 
-- (NSString *)keyForYValue  
-{
+- (NSString *)keyForYValue {
 	return keyForYValue;
 }
-- (void)setKeyForYValue:(NSString *)inValue  
-{
+- (void)setKeyForYValue:(NSString *)inValue {
 	if (keyForYValue != inValue) {
         [inValue retain];
         [keyForYValue autorelease];
@@ -2566,24 +2419,20 @@ static int   kPaddingLabels             = 4;
 }
 
 
-- (BOOL)shouldDrawBaseline  
-{
+- (BOOL)shouldDrawBaseline {
 	return shouldDrawBaseline;
 }
-- (void)setShouldDrawBaseline:(BOOL)inValue  
-{
+- (void)setShouldDrawBaseline:(BOOL)inValue {
     if (shouldDrawBaseline != inValue) {
         shouldDrawBaseline = inValue;
         [self setNeedsDisplayInRect:[self plottingArea]];        
     }
 }
 
-- (BOOL)shouldDrawPeaks  
-{
+- (BOOL)shouldDrawPeaks {
 	return shouldDrawPeaks;
 }
-- (void)setShouldDrawPeaks:(BOOL)inValue  
-{
+- (void)setShouldDrawPeaks:(BOOL)inValue {
     if (shouldDrawPeaks != inValue) {
         shouldDrawPeaks = inValue;
         
@@ -2595,12 +2444,10 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (int)selectedScan  
-{
+- (int)selectedScan {
 	return selectedScan;
 }
-- (void)setSelectedScan:(int)inValue  
-{
+- (void)setSelectedScan:(int)inValue {
     if (selectedScan != inValue) {
 //        NSPoint startPoint;
 //        startPoint = [[self transformGraphToScreen] transformPoint:NSMakePoint(selectedScan,0.0)];
@@ -2640,14 +2487,12 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-- (NSNumber *)xMinimum  
-{
+- (NSNumber *)xMinimum {
 	NSPoint plotCorner;
 	plotCorner = [[self transformScreenToGraph] transformPoint:[self plottingArea].origin];
 	return [NSNumber numberWithFloat:plotCorner.x];
 }
-- (void)setXMinimum:(NSNumber *)inValue  
-{
+- (void)setXMinimum:(NSNumber *)inValue {
 	NSPoint newOrigin;
 	newOrigin = [self origin];
 	
@@ -2659,16 +2504,14 @@ static int   kPaddingLabels             = 4;
     [self setNeedsDisplay:YES];
 }
 
-- (NSNumber *)xMaximum  
-{
+- (NSNumber *)xMaximum {
 	NSPoint plotCorner;
 	NSSize plotSize;
 	plotCorner = [[self transformScreenToGraph] transformPoint:[self plottingArea].origin];
 	plotSize = [[self transformScreenToGraph] transformSize:[self plottingArea].size];
 	return [NSNumber numberWithFloat:(plotCorner.x + plotSize.width)];	
 }
-- (void)setXMaximum:(NSNumber *)inValue  
-{
+- (void)setXMaximum:(NSNumber *)inValue {
 	NSPoint newOrigin;
 	newOrigin = [self origin];
 	
@@ -2681,14 +2524,12 @@ static int   kPaddingLabels             = 4;
 	
 }
 
-- (NSNumber *)yMinimum  
-{
+- (NSNumber *)yMinimum {
 	NSPoint plotCorner;
 	plotCorner = [[self transformScreenToGraph] transformPoint:[self plottingArea].origin];
 	return [NSNumber numberWithFloat:plotCorner.y];	
 }
-- (void)setYMinimum:(NSNumber *)inValue  
-{
+- (void)setYMinimum:(NSNumber *)inValue {
 	NSPoint newOrigin;
 	newOrigin = [self origin];
 	
@@ -2700,16 +2541,14 @@ static int   kPaddingLabels             = 4;
     [self setNeedsDisplay:YES];
 }
 
-- (NSNumber *)yMaximum  
-{
+- (NSNumber *)yMaximum {
 	NSPoint plotCorner;
 	NSSize plotSize;
 	plotCorner = [[self transformScreenToGraph] transformPoint:[self plottingArea].origin];
 	plotSize = [[self transformScreenToGraph] transformSize:[self plottingArea].size];
 	return [NSNumber numberWithFloat:(plotCorner.y + plotSize.height)];	
 }
-- (void)setYMaximum:(NSNumber *)inValue 
-{
+- (void)setYMaximum:(NSNumber *)inValue {
 	NSPoint newOrigin;
 	newOrigin = [self origin];
 	
@@ -2721,25 +2560,21 @@ static int   kPaddingLabels             = 4;
     [self setNeedsDisplay:YES];
 }
 
-- (NSNumber *)unitsPerMajorX  
-{
+- (NSNumber *)unitsPerMajorX {
 	float a,b;
 	a = [[self pixelsPerXUnit] floatValue];
 	b = [[self minimumPixelsPerMajorGridLine] floatValue];
 	return [NSNumber numberWithFloat:a/b];
 }
 
-- (void)setUnitsPerMajorX:(NSNumber *)inValue  
-{
+- (void)setUnitsPerMajorX:(NSNumber *)inValue {
 }
 
-- (NSNumber *)unitsPerMajorY  
-{
+- (NSNumber *)unitsPerMajorY {
 	return [NSNumber numberWithInt:-1];
 }
 
-- (void)setUnitsPerMajorY:(NSNumber *)inValue  
-{
+- (void)setUnitsPerMajorY:(NSNumber *)inValue {
 }
 
 

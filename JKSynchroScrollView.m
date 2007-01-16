@@ -11,8 +11,7 @@
 
 @implementation JKSynchroScrollView
 
-- (void)setSynchronizedScrollView1:(NSScrollView*)scrollview
-{
+- (void)setSynchronizedScrollView1:(NSScrollView*)scrollview{
     NSView *synchronizedContentView;
 	
     // stop an existing scroll view synchronizing
@@ -37,8 +36,7 @@
 											   object:synchronizedContentView];
 }
 
-- (void)setSynchronizedScrollView2:(NSScrollView*)scrollview
-{
+- (void)setSynchronizedScrollView2:(NSScrollView*)scrollview{
     NSView *synchronizedContentView;
 	
     // stop an existing scroll view synchronizing
@@ -63,8 +61,7 @@
 											   object:synchronizedContentView];
 }
 
-- (void)synchronizedViewContentBoundsDidChange:(NSNotification *)notification
-{
+- (void)synchronizedViewContentBoundsDidChange:(NSNotification *)notification{
     // get the changed content view from the notification
     NSView *changedContentView=[notification object];
 	
@@ -83,7 +80,7 @@
     // If our synced position is different from our current
     // position, reposition our content view.
     if (!NSEqualPoints(curOffset, changedBoundsOrigin))
-    {
+   {
     // note that a scroll view watching this one will
     // get notified here!
 		[[self contentView] scrollToPoint:newOffset];
@@ -93,8 +90,7 @@
     }
 }
 
-- (void)stopSynchronizingWithView1
-{
+- (void)stopSynchronizingWithView1{
     if (synchronizedScrollView1 != nil) {
 		NSView* synchronizedContentView = [synchronizedScrollView1 contentView];
 		
@@ -107,8 +103,7 @@
 		synchronizedScrollView1=nil;
     }
 }
-- (void)stopSynchronizingWithView2
-{
+- (void)stopSynchronizingWithView2{
     if (synchronizedScrollView2 != nil) {
 		NSView* synchronizedContentView = [synchronizedScrollView2 contentView];
 		

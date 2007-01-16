@@ -18,8 +18,7 @@
 
 @implementation JKLibraryWindowController
 
-- (id)init  
-{
+- (id)init {
 	self = [super initWithWindowNibName:@"JKLibrary"];
     if (self != nil) {
         [self setShouldCloseDocument:YES];
@@ -27,8 +26,7 @@
     return self;
 }
 
-- (void)windowDidLoad  
-{
+- (void)windowDidLoad {
 	[spectrumView setShouldDrawLegend:NO];
 	[spectrumView setShouldDrawFrame:YES];
 	[spectrumView setShouldDrawFrameBottom:NO];
@@ -99,25 +97,21 @@
 }
 
 #pragma mark SHEETS
-- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo  
-{
+- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     [sheet orderOut:self];
 }
 
-- (void)windowWillBeginSheet:(NSNotification *)notification  
-{
+- (void)windowWillBeginSheet:(NSNotification *)notification {
 	return;
 }
 
-- (void)windowDidEndSheet:(NSNotification *)notification  
-{
+- (void)windowDidEndSheet:(NSNotification *)notification {
 	return;
 }
 
 #pragma mark ACCESSORS
 
-- (NSArrayController *)libraryController  
-{
+- (NSArrayController *)libraryController {
 	return libraryController;
 }
 @end

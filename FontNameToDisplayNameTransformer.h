@@ -2,8 +2,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface FontNameToDisplayNameTransformer : NSValueTransformer
-{
+@interface FontNameToDisplayNameTransformer : NSValueTransformer{
 }
 
 @end

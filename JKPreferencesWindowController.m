@@ -15,14 +15,12 @@
 
 #pragma mark INITIALIZATION
 
-- (id)init  
-{
+- (id)init {
     self = [super initWithWindowNibName:@"JKPreferences"];
     return self;
 }
 
-- (void)windowDidLoad
-{
+- (void)windowDidLoad{
 	preferencesList = [[NSMutableDictionary alloc] init];
 	[preferencesList setValue:@"General" forKey:@"general"];
 	[preferencesList setValue:@"Processing" forKey:@"processing"];
@@ -64,14 +62,13 @@
 
 #pragma mark TOOLBAR
 
-- (NSToolbarItem *) toolbar: (NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted  
-{
+- (NSToolbarItem *) toolbar: (NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted {
     // Required delegate method:  Given an item identifier, this method returns an item 
     // The toolbar will use this method to obtain toolbar items that can be displayed in the customization sheet, or in the toolbar itself 
     NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
     NSString*		itemLabel = NSLocalizedString(itemIdent, @"String for toolbar label");//[itemsList objectForKey:itemIdent];
 																						  //    if( (itemLabel = [itemsList objectForKey:itemIdent]) != nil )
-																						  //    {
+																						  //   {
 																						  // Set the text label to be displayed in the toolbar and customization palette 
         [toolbarItem setLabel: itemLabel];
         [toolbarItem setPaletteLabel: itemLabel];
@@ -86,7 +83,7 @@
         [toolbarItem setAction: @selector(changePanes:)];
 		//    }
 		//    else
-		//    {
+		//   {
 		//		JKLogDebug([toolbarItem description]);
 		//        // itemIdent refered to a toolbar item that is not provide or supported by us or cocoa 
 		//        // Returning nil will inform the toolbar this kind of item is not supported 
@@ -97,8 +94,7 @@
 }
 
 
-- (IBAction)changePanes:(id)sender  
-{
+- (IBAction)changePanes:(id)sender {
 	NSRect windowFrame = [[self window] frame];
 	float deltaHeight, deltaWidth;
 	if ([[sender itemIdentifier] isEqualToString:@"general"]) {
@@ -126,26 +122,22 @@
 }
 
 
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar  
-{
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
 	return [NSArray arrayWithObjects:@"general", @"processing", @"presets", nil];
 }
 
-- (NSArray*) toolbarSelectableItemIdentifiers: (NSToolbar *) toolbar  
-{
+- (NSArray*) toolbarSelectableItemIdentifiers: (NSToolbar *) toolbar {
 	return [self toolbarDefaultItemIdentifiers:toolbar];
 }
 
-- (NSArray*) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar  
-{
+- (NSArray*) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar {
 	return [self toolbarDefaultItemIdentifiers:toolbar];
 }
 
 
 # pragma mark WINDOW MANAGEMENT
 
-- (void)awakeFromNib  
-{
+- (void)awakeFromNib {
     [[self window] center];
 }
 

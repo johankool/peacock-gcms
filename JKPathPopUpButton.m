@@ -12,14 +12,12 @@
 
 @implementation JKPathPopUpButton
 
-+ (void)initialize 
-{
++ (void)initialize {
 	// Bindings support
 	[self exposeBinding:@"fileAlias"];
 }
 
-- (id)initWithFrame:(NSRect)frameRect pullsDown:(BOOL)flag
-{
+- (id)initWithFrame:(NSRect)frameRect pullsDown:(BOOL)flag{
 	self = [super initWithFrame:frameRect pullsDown:NO];
 	if (self != nil) {
 		[self setupMenu];
@@ -33,21 +31,18 @@
 	[super dealloc];
 }
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib{
 	[self setupMenu];
 }
 
-- (NSArray *)exposedBindings 
-{
+- (NSArray *)exposedBindings {
 	return [[super exposedBindings] arrayByAddingObject:@"fileAlias"];
 }
 #pragma mark BINDINGS
 - (void)bind:(NSString *)bindingName
 	toObject:(id)observableObject
  withKeyPath:(NSString *)observableKeyPath
-	 options:(NSDictionary *)options
-{
+	 options:(NSDictionary *)options{
 	
     if ([bindingName isEqualToString:@"fileAlias"])
 	{		
@@ -69,8 +64,7 @@
 }
 
 
-- (void)unbind:(NSString *)bindingName  
-{
+- (void)unbind:(NSString *)bindingName {
     if ([bindingName isEqualToString:@"fileAlias"]) {
 		[fileAliasContainer removeObserver:self forKeyPath:fileAliasKeyPath];
 		[self setFileAliasContainer:nil];
@@ -84,13 +78,11 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath
 					  ofObject:(id)object
 						change:(NSDictionary *)change
-					   context:(void *)context
-{
+					   context:(void *)context{
 	[self setupMenu];
 }		
 
-- (void)setupMenu 
-{
+- (void)setupMenu {
 	[self removeAllItems];
 	
 	NSMenuItem *noSelectionItem = [[NSMenuItem alloc] initWithTitle:@"No Selection" action:@selector(selectNone:) keyEquivalent:@""];
@@ -121,8 +113,7 @@
 	
 }
 
-- (IBAction)chooseExistingPath:(id)sender  
-{
+- (IBAction)chooseExistingPath:(id)sender {
 	fileTypes = [NSArray arrayWithObjects:@"jdx",@"dx",@"hpj",nil];
 
 	int result;
@@ -144,8 +135,7 @@
 	[self setupMenu];
 }
 
-- (IBAction)selectNone:(id)sender
-{
+- (IBAction)selectNone:(id)sender{
 	[self setFileAlias:nil];
 	[self setupMenu];
 }
@@ -160,13 +150,11 @@
 }
 
 //idAccessor(fileAlias, setFileAlias);
-- (BDAlias *)fileAlias
-{
+- (BDAlias *)fileAlias{
 	return [fileAliasContainer valueForKeyPath:fileAliasKeyPath];	
 }
 
-- (void)setFileAlias:(id)inValue
-{
+- (void)setFileAlias:(id)inValue{
 	[fileAliasContainer setValue:inValue forKeyPath:fileAliasKeyPath];
 }
 

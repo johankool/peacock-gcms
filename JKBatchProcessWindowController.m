@@ -13,8 +13,7 @@
 
 @implementation JKBatchProcessWindowController
 
-- (id)init  
-{
+- (id)init {
 	self = [super initWithWindowNibName:@"JKBatchProcess"];
     if (self != nil) {
 		files = [[NSMutableArray alloc] init];
@@ -24,24 +23,21 @@
     return self;
 }
 
-- (void) dealloc  
-{
+- (void) dealloc {
 	[files release];
 	[super dealloc];
 }
 
 #pragma mark IBACTIONS
 
-- (IBAction)addButtonAction:(id)sender  
-{
+- (IBAction)addButtonAction:(id)sender {
 	NSArray *fileTypes = [NSArray arrayWithObjects:@"cdf", @"peacock",nil];
     NSOpenPanel *oPanel = [NSOpenPanel openPanel];
     [oPanel setAllowsMultipleSelection:YES];
 	[oPanel beginSheetForDirectory:nil file:nil types:fileTypes modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
-- (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo  
-{
+- (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
     if (returnCode == NSOKButton) {
         NSArray *filesToOpen = [sheet filenames];
         int i, count = [filesToOpen count];
@@ -59,8 +55,7 @@
 	}	
 }
 
-- (IBAction)runBatchButtonAction:(id)sender  
-{
+- (IBAction)runBatchButtonAction:(id)sender {
 	[NSApp beginSheet: progressSheet
 	   modalForWindow: [self window]
 		modalDelegate: self
@@ -73,15 +68,13 @@
 	
 }
 
-- (IBAction)stopButtonAction:(id)sender 
-{
+- (IBAction)stopButtonAction:(id)sender {
 	[self setAbortAction:YES];
 }
 
 #pragma mark ACTIONS
 
-- (void)runBatch  
-{
+- (void)runBatch {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	BOOL errorOccurred = NO;	
 	[self setAbortAction:NO];
@@ -267,22 +260,18 @@ boolAccessor(abortAction, setAbortAction)
 
 #pragma mark WINDOW MANAGEMENT
 
-- (void)awakeFromNib  
-{
+- (void)awakeFromNib {
     [[self window] center];
 }
 
 #pragma mark SHEETS
-- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
+- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo{
     [sheet orderOut:self];
 }
-- (void)windowWillBeginSheet:(NSNotification *)notification  
-{
+- (void)windowWillBeginSheet:(NSNotification *)notification {
 	return;
 }
-- (void)windowDidEndSheet:(NSNotification *)notification  
-{
+- (void)windowDidEndSheet:(NSNotification *)notification {
 	return;
 }
 @end

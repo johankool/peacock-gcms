@@ -44,8 +44,7 @@
  * @constant    JK_VERBOSITY_ALL
  *                  Use JK_VERBOSITY_ALL to turn on all logging.
  */
-enum
-{
+enum{
     JK_VERBOSITY_NONE = 0,
     JK_VERBOSITY_ERROR = 10,
     JK_VERBOSITY_WARNING = 20,

@@ -6,8 +6,7 @@
 //  Copyright (c) 2003-2005 Johan Kool. All rights reserved.
 //
 
-@interface FilteringDNDArrayController : NSArrayController
-{
+@interface FilteringDNDArrayController : NSArrayController{
     IBOutlet NSTableView *tableView;
 }
 

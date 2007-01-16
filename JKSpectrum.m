@@ -18,16 +18,14 @@
 
 #pragma mark INITIALIZATION
 
-+ (void)initialize  
-{
++ (void)initialize {
     [self setKeys:[NSArray arrayWithObjects:@"masses",nil] triggerChangeNotificationsForDependentKey:@"minimumMass"];
     [self setKeys:[NSArray arrayWithObjects:@"masses",nil] triggerChangeNotificationsForDependentKey:@"maximumMass"];
     [self setKeys:[NSArray arrayWithObjects:@"intensities",nil] triggerChangeNotificationsForDependentKey:@"minimumIntensity"];
     [self setKeys:[NSArray arrayWithObjects:@"intensities",nil] triggerChangeNotificationsForDependentKey:@"maximumIntensity"];
 }
 
-- (id) init  
-{
+- (id) init {
 	self = [super init];
 	if (self != nil) {
 		masses = (float *) malloc(1*sizeof(float));
@@ -36,54 +34,45 @@
 	return self;
 }
 
-- (void)dealloc  
-{
+- (void)dealloc {
 	free(masses);
 	free(intensities);
 	[super dealloc];
 }
 
 #pragma mark ACCESSORS
-- (void)setDocument:(JKGCMSDocument *)inValue  
-{
+- (void)setDocument:(JKGCMSDocument *)inValue {
 	// Weak reference
 	document = inValue;
 }
-- (JKGCMSDocument *)document  
-{
+- (JKGCMSDocument *)document {
     return document;
 }
 
-- (void)setPeak:(JKPeakRecord *)inValue  
-{
+- (void)setPeak:(JKPeakRecord *)inValue {
 	// Weak reference
 	peak = inValue;
 }
-- (JKPeakRecord *)peak  
-{
+- (JKPeakRecord *)peak {
     return peak;
 }
 
-- (int)numberOfPoints  
-{
+- (int)numberOfPoints {
 	return numberOfPoints;
 }
 
-- (void)setMasses:(float *)inArray withCount:(int)inValue  
-{
+- (void)setMasses:(float *)inArray withCount:(int)inValue {
     numberOfPoints = inValue;
     masses = (float *) realloc(masses, numberOfPoints*sizeof(float));
     memcpy(masses, inArray, numberOfPoints*sizeof(float));
 	minimumMass = jk_stats_float_min(masses, numberOfPoints);
 	maximumMass = jk_stats_float_max(masses, numberOfPoints);
 }
-- (float *)masses  
-{
+- (float *)masses {
     return masses;
 }
 
-- (void)setIntensities:(float *)inArray withCount:(int)inValue  
-{
+- (void)setIntensities:(float *)inArray withCount:(int)inValue {
     numberOfPoints = inValue;
     intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
     memcpy(intensities, inArray, numberOfPoints*sizeof(float));
@@ -91,38 +80,30 @@
 	maximumIntensity = jk_stats_float_max(intensities, numberOfPoints);
 }
 
-- (float *)intensities  
-{
+- (float *)intensities {
     return intensities;
 }
-- (void)setRetentionIndex:(float)inValue  
-{
+- (void)setRetentionIndex:(float)inValue {
 	retentionIndex = inValue;
 }
-- (float)retentionIndex  
-{
+- (float)retentionIndex {
 	return retentionIndex;
 }
 
-- (float)minimumMass  
-{
+- (float)minimumMass {
     return minimumMass;
 }
-- (float)maximumMass  
-{
+- (float)maximumMass {
     return maximumMass;
 }
-- (float)minimumIntensity  
-{
+- (float)minimumIntensity {
     return minimumIntensity;
 }
-- (float)maximumIntensity  
-{
+- (float)maximumIntensity {
     return maximumIntensity;
 }
 
-- (JKSpectrum *)spectrumBySubtractingSpectrum:(JKSpectrum *)inSpectrum  
-{
+- (JKSpectrum *)spectrumBySubtractingSpectrum:(JKSpectrum *)inSpectrum {
 	int i,j,k,count1,count2;
 	float d1, d2, d3, d4;
 	JKSpectrum *outSpectrum = [[JKSpectrum alloc] init];
@@ -167,14 +148,12 @@
 	return outSpectrum;
 }
 
-- (JKSpectrum *)spectrumByAveragingWithSpectrum:(JKSpectrum *)inSpectrum  
-{
+- (JKSpectrum *)spectrumByAveragingWithSpectrum:(JKSpectrum *)inSpectrum {
 	return [self spectrumByAveragingWithSpectrum:inSpectrum withWeight:0.5];	
 }
 
 // the higher the weight the more import the incoming spectrum
-- (JKSpectrum *)spectrumByAveragingWithSpectrum:(JKSpectrum *)inSpectrum  withWeight:(float)weight
-{
+- (JKSpectrum *)spectrumByAveragingWithSpectrum:(JKSpectrum *)inSpectrum  withWeight:(float)weight{
     NSAssert(weight >= 0.0, @"Weight value below 0.0");
     NSAssert(weight <= 1.0, @"Weight value above 1.0");
 	int i,j,k,count1,count2;
@@ -225,8 +204,7 @@
 	return outSpectrum;	
 }
 
-- (JKSpectrum *)normalizedSpectrum  
-{
+- (JKSpectrum *)normalizedSpectrum {
 	int i;
 	JKSpectrum *outSpectrum = [[JKSpectrum alloc] init];
 	float intensitiesOut[numberOfPoints];
@@ -242,8 +220,7 @@
 	return outSpectrum;
 }
 
-- (float)scoreComparedToSpectrum:(JKSpectrum *)inSpectrum  
-{
+- (float)scoreComparedToSpectrum:(JKSpectrum *)inSpectrum {
 	return [self scoreComparedToLibraryEntry:(JKLibraryEntry *)inSpectrum];
 }
 
@@ -413,8 +390,7 @@
 	}
 }
 
-- (SpectrumGraphDataSerie *)spectrumDataSerie
-{
+- (SpectrumGraphDataSerie *)spectrumDataSerie{
 	SpectrumGraphDataSerie *spectrumDataSerie = [[SpectrumGraphDataSerie alloc] init];
 	[spectrumDataSerie loadDataPoints:[self numberOfPoints] withXValues:[self masses] andYValues:[self intensities]];
 	
@@ -434,8 +410,7 @@
 
 #pragma mark Encoding
 
-- (void)encodeWithCoder:(NSCoder *)coder  
-{
+- (void)encodeWithCoder:(NSCoder *)coder {
     if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
         [coder encodeInt:1 forKey:@"version"];
 		[coder encodeConditionalObject:document forKey:@"document"]; // weak reference
@@ -448,8 +423,7 @@
     return;
 }
 
-- (id)initWithCoder:(NSCoder *)coder  
-{
+- (id)initWithCoder:(NSCoder *)coder {
     if ( [coder allowsKeyedCoding] ) {
         // Can decode keys in any order
 		document = [coder decodeObjectForKey:@"document"]; // weak reference

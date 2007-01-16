@@ -25,8 +25,7 @@ extern int const JKGCMSDocument_Version;
     @abstract    Document containing GCMS data.
     @discussion  (comprehensive description)
 */
-@interface JKGCMSDocument : NSDocument
-{
+@interface JKGCMSDocument : NSDocument{
 	// Window controller
     JKMainWindowController *mainWindowController;
 	
@@ -89,7 +88,7 @@ extern int const JKGCMSDocument_Version;
 - (void)resetToDefaultValues;
 //- (BOOL)searchLibraryForAllPeaks;
 - (BOOL)searchLibraryForAllPeaks:(id)sender;
-- (void)addChromatogramForMass:(NSString *)inString;
+//- (void)addChromatogramForMass:(NSString *)inString;
 - (void)redistributedSearchResults:(JKPeakRecord *)originatingPeak;
 - (float)retentionIndexForScan:(int)scan;
 - (NSComparisonResult)metadataCompare:(JKGCMSDocument *)otherDocument;
@@ -126,7 +125,7 @@ extern int const JKGCMSDocument_Version;
     @functiongroup Accessors
 */
 
-
+- (void)addChromatogramForModel:(NSString *)modelString;
 
 #pragma mark ACCESSORS
 - (JKMainWindowController *)mainWindowController;
@@ -140,10 +139,16 @@ extern int const JKGCMSDocument_Version;
 - (NSMutableDictionary *)metadata;
 - (void)setMetadata:(NSMutableDictionary *)inValue;
 
+// Mutable To-Many relationship chromatogram
 - (NSMutableArray *)chromatograms;
 - (void)setChromatograms:(NSMutableArray *)inValue;
 - (int)countOfChromatograms;
 - (JKChromatogram *)objectInChromatogramsAtIndex:(int)index;
+- (void)getChromatogram:(JKChromatogram **)someChromatograms range:(NSRange)inRange;
+- (void)insertObject:(JKChromatogram *)aChromatogram inChromatogramsAtIndex:(int)index;
+- (void)removeObjectFromChromatogramsAtIndex:(int)index;
+- (void)replaceObjectInChromatogramsAtIndex:(int)index withObject:(JKChromatogram *)aChromatogram;
+- (BOOL)validateChromatogram:(JKChromatogram **)aChromatogram error:(NSError **)outError;
 
 - (void)startObservingChromatogram:(JKChromatogram *)chromatogram;
 - (void)stopObservingChromatogram:(JKChromatogram *)chromatogram;
