@@ -129,14 +129,14 @@
     // Starting point
     aBaselinePoint = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"Scan",
                                                           [NSNumber numberWithFloat:intensity[0]], @"Total Intensity",
-                                                          [NSNumber numberWithFloat:time[0]/60.0], @"Time", nil];
+                                                          [NSNumber numberWithFloat:time[0]], @"Time", nil];
     [self insertObject:aBaselinePoint inBaselinePointsAtIndex:0];
     
-	for (i = 0; i < count; i++) {
+	for (i = 1; i < count; i++) {
 		if (distance[i] < baselineDistanceThresholdF && (slope[i] > -baselineSlopeThresholdF  && slope[i] < baselineSlopeThresholdF) && density[i] > baselineDensityThresholdF) { 
             aBaselinePoint = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:i], @"Scan",
                                                                   [NSNumber numberWithFloat:intensity[i]], @"Total Intensity", 
-                                                                  [NSNumber numberWithFloat:time[i]/60.0], @"Time", nil];
+                                                                  [NSNumber numberWithFloat:time[i]], @"Time", nil];
             [self insertObject:aBaselinePoint inBaselinePointsAtIndex:[[self baselinePoints] count]];
 		}
 	}
@@ -144,8 +144,9 @@
     // Ending point
     aBaselinePoint = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:count-1], @"Scan",
                                                           [NSNumber numberWithFloat:intensity[count-1]], @"Total Intensity",
-                                                          [NSNumber numberWithFloat:time[count-1]/60.0], @"Time", nil];
+                                                          [NSNumber numberWithFloat:time[count-1]], @"Time", nil];
     [self insertObject:aBaselinePoint inBaselinePointsAtIndex:[[self baselinePoints] count]];
+//    NSLog([baselinePoints description]);
 }	
 
 - (float)baselineValueAtScan:(int)inValue {
@@ -173,7 +174,7 @@
 	return (highestInten-lowestInten) * ((inValue-lowestScan)/(highestScan-lowestScan)) + lowestInten; 
 }
 
-- (NSArray *)identifyPeaks{
+- (void)identifyPeaks{
 	int i,j, peakCount, answer;
 	int start, end, top;
 	float a, b, height, surface, maximumSurface, maximumHeight;
@@ -199,7 +200,7 @@
     }
     
     // Baseline check
-    if ([[self baselinePointsPoints] count] <= 0) {
+    if ([[self baselinePoints] count] <= 0) {
         //			JKLogDebug([baseline description]);
         //			JKLogWarning(@"No baseline set. Can't recognize peaks without one.");
         answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Baseline Set",@""),NSLocalizedString(@"No baseline have yet been identified in the chromatogram. Use the 'Identify Baseline' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
@@ -304,11 +305,10 @@
                 [record setValue:[NSNumber numberWithFloat:retentionIndex] forKey:@"retentionIndex"];
                                 
                 [record setSpectrum:[[self document] spectrumForScan:top]];
-                [spectrum release];
-                
+                [record setModel:[self model]];
                 [self insertObject:record inPeaksAtIndex:[[self peaks] count]];
+                [[self document] insertObject:record inPeaksAtIndex:[[[self document] peaks] count]];
                 peakCount++;
-                
                 [record release]; 
             }
             

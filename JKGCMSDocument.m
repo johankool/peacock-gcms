@@ -577,18 +577,7 @@ static void *DocumentObservationContext = (void *)1100;
 	dummy = nc_get_var_float(ncid, varid_totintens, totalIntensity);
 	if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting totintens variables failed.\nNetCDF error: %d",@""), dummy];
 	
-    
-	JKChromatogram *chromatogram = [[JKChromatogram alloc] initWithDocument:self forModel:@"TIC"];
-//    NSMutableArray *mutArray = [[NSMutableArray alloc] init];
-//	for (i = 0; i < numberOfPoints; i++) {
-//		NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:time[i]/60.0f], @"Time",
-//			[NSNumber numberWithInt:i], @"Scan",
-//			[NSNumber numberWithFloat:totalIntensity[i]], @"Total Intensity", nil];
-//		[mutArray addObject:dict];      
-//		[dict release];
-//	}
-//	[chromatogram setDataArray:mutArray];
-//	[mutArray release];
+    JKChromatogram *chromatogram = [[JKChromatogram alloc] initWithDocument:self forModel:@"TIC"];
     
     [chromatogram setTime:time withCount:numberOfPoints];
     [chromatogram setTotalIntensity:totalIntensity withCount:numberOfPoints];
@@ -600,7 +589,7 @@ static void *DocumentObservationContext = (void *)1100;
 - (JKChromatogram *)chromatogramForModel:(NSString *)model {
     int     dummy, scan, dimid, varid_time_value, varid_intensity_value, varid_mass_value, varid_scan_index, varid_point_count, scanCount;
     float   mass, intensity;
-    float	*times, *masses,	*intensities;
+    float	*times,	*intensities;
     unsigned int numberOfPoints, num_scan;
 	unsigned int i,j,k, mzValuesCount;
 
@@ -630,7 +619,7 @@ static void *DocumentObservationContext = (void *)1100;
 	for (i = 1; i < mzValuesCount; i++) {
 		mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d",[[mzValues objectAtIndex:i] intValue]];
 	}	
-	    
+	        
     dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return nil;}
     
@@ -658,28 +647,29 @@ static void *DocumentObservationContext = (void *)1100;
     dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_scan);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting scan_number dimension length failed. Report error #%d.", dummy); return nil;}
     
-	masses = (float *) malloc((num_scan)*sizeof(float));
 	times = (float *) malloc((num_scan)*sizeof(float));
 	intensities = (float *) malloc((num_scan)*sizeof(float));
-    
+ 
+    scan = 0;
+    scanCount = 0;
+    // go through all scans
 	for(i = 0; i < num_scan; i++) {
-        masses[i] = 0.0f;
         times[i] = 0.0f;
         intensities[i] = 0.0f;
+
+        times[i] = [self timeForScan:i];
+
+        // go through the masses for the scan
 		dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &i, &scan); // is this the start or the end?
 		dummy = nc_get_var1_int(ncid, varid_point_count, (void *) &i, &scanCount);
 		for(j = scan; j < (unsigned)scan + (unsigned)scanCount; j++) {
             mass = 0.0f;
-            //            timeL = 0.0f;
             intensity = 0.0f;
 			dummy = nc_get_var1_float(ncid, varid_mass_value, (void *) &j, &mass);
+            // find out wether the mass encountered is on the masses we are interested in
 			for(k = 0; k < mzValuesCount; k++) {
 				if (fabs(mass-[[mzValues objectAtIndex:k] intValue]) < 0.5) {
-                    //					dummy = nc_get_var1_float(ncid, varid_time_value, (const size_t *) &j, &timeL);
-					dummy = nc_get_var1_float(ncid, varid_intensity_value, (const size_t *) &j, &intensity);
-					
-					masses[i] = mass;
-					times[i] = [self timeForScan:i];
+					dummy = nc_get_var1_float(ncid, varid_intensity_value, (const size_t *) &j, &intensity);					
 					intensities[i] = intensities[i] + intensity;
 				}
 			}
@@ -691,8 +681,8 @@ static void *DocumentObservationContext = (void *)1100;
     //create a chromatogram object
     chromatogram = [[JKChromatogram alloc] initWithDocument:self forModel:mzValuesString];
     
-    [chromatogram setTime:times withCount:numberOfPoints];
-    [chromatogram setTotalIntensity:intensities withCount:numberOfPoints];
+    [chromatogram setTime:times withCount:num_scan];
+    [chromatogram setTotalIntensity:intensities withCount:num_scan];
 
 	[chromatogram autorelease];	
 	return chromatogram;    
@@ -741,7 +731,7 @@ static void *DocumentObservationContext = (void *)1100;
     
     JKSpectrum *spectrum = [[JKSpectrum alloc] initWithDocument:self forModel:[NSString stringWithFormat:@"%d",scan]];
   
-    [spectrum setMassValues:massValues withCount:numberOfPoints];
+    [spectrum setMasses:massValues withCount:numberOfPoints];
     [spectrum setIntensities:intensities withCount:numberOfPoints];
 
 	[spectrum autorelease];
@@ -1081,7 +1071,7 @@ static void *DocumentObservationContext = (void *)1100;
     NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
     NSAssert([[self chromatograms] count] >= 0, @"[[self chromatograms] count] must be equal or larger than zero");
     float *time = [[[self chromatograms] objectAtIndex:0] time];
-    return time[scan]/60.0f;    
+    return time[scan];    
 }
 
 

@@ -108,6 +108,8 @@ static int   kPaddingLabels             = 4;
 		[self setShouldDrawBaseline:[[defaultValues valueForKey:@"shouldDrawBaseline"] boolValue]];
 		[self setShouldDrawPeaks:[[defaultValues valueForKey:@"shouldDrawPeaks"] boolValue]];
         [self setSelectedScan:0];
+        
+        drawingMode = JKStackedDrawingMode;
     }
 	return self;
 }
@@ -183,15 +185,37 @@ static int   kPaddingLabels             = 4;
         
         // In plaats van een loop kunnen we ook deze convenient method gebruiken om iedere dataserie zich te laten tekenen.
         //NSAssert([[self dataSeries] count] >= 1, @"No dataSeries to draw.");
-        NSEnumerator *enumerator = [[self dataSeries] objectEnumerator];
-        id object;
-        
-        while ((object = [enumerator nextObject])) {
-            // do something with object...
-            if ([object respondsToSelector:@selector(plotDataWithTransform:inView:)]) {
-                [object plotDataWithTransform:[self transformGraphToScreen] inView:self];
+        int dataSeriesCount;
+        int i;
+        NSEnumerator *enumerator;
+         id object;
+        switch (drawingMode) {
+        case JKStackedDrawingMode:
+            dataSeriesCount = [[self dataSeries] count];
+            for (i = 0; i < dataSeriesCount; i++) {
+                object = [[self dataSeries] objectAtIndex:i];
+                if ([object respondsToSelector:@selector(plotDataWithTransform:inView:)]) {
+                    NSAffineTransform *transform = [[NSAffineTransform alloc] init];
+                    [transform translateXBy:0.0 yBy:i*([self plottingArea].size.height/dataSeriesCount)];
+                //    [transform scaleXBy:1.0 yBy:1.0/dataSeriesCount];
+                    [transform prependTransform:[self transformGraphToScreen]];
+                    [object plotDataWithTransform:transform inView:self];
+                    [transform release];
+                }
             }
-        }  
+                
+            break;
+        case JKNormalDrawingMode:
+        default:
+            enumerator = [[self dataSeries] objectEnumerator];
+            while ((object = [enumerator nextObject])) {
+                // do something with object...
+                if ([object respondsToSelector:@selector(plotDataWithTransform:inView:)]) {
+                    [object plotDataWithTransform:[self transformGraphToScreen] inView:self];
+                }
+            }  
+            break;
+        }
         
         // Draw line for selected scan
         NSPoint point;

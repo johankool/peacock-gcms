@@ -26,10 +26,17 @@
 }
 
 - (id) init {
-	self = [super init];
+	return [self initWithDocument:nil forModel:@""];
+}
+
+
+- (id)initWithDocument:(JKGCMSDocument *)inDocument forModel:(NSString *)modelString {
+    self = [super init];
 	if (self != nil) {
 		masses = (float *) malloc(1*sizeof(float));
 		intensities = (float *) malloc(1*sizeof(float));
+        [self setDocument:inDocument];
+        [self setModel:modelString];
 	}
 	return self;
 }
@@ -47,6 +54,17 @@
 }
 - (JKGCMSDocument *)document {
     return document;
+}
+
+- (NSString *)model {
+    return model;
+}
+- (void)setModel:(NSString *)inString {
+    if (inString != model) {
+        [inString retain];
+        [model autorelease];
+        model = inString;        
+    }
 }
 
 - (void)setPeak:(JKPeakRecord *)inValue {

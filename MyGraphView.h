@@ -11,8 +11,12 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 
 @protocol MyGraphViewDelegateProtocol
 - (void)showSpectrumForScan:(int)scan;
-
 @end
+
+typedef enum {
+    JKNormalDrawingMode,
+    JKStackedDrawingMode
+} JKDrawingModes;
 
 @interface MyGraphView : NSView {
 	id delegate; // Conformance to MyGraphViewDelegateProtocol is optional
@@ -69,7 +73,7 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
     NSFont *labelFont;
     NSFont *axesLabelFont;
     NSFont *legendFont;
-    int drawingMode; // 0 = normal; 1 = stacked
+    JKDrawingModes drawingMode;
     
 	// Additions for Peacock
 	BOOL shouldDrawBaseline;

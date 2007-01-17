@@ -258,6 +258,11 @@
 		if ((currentDocument != nil) && ([currentDocument isKindOfClass:[JKGCMSDocument class]])) {
 			return [[currentDocument chromatograms] count]-1;
 		}
+	} else if (menu == viewColumnsMenu) {
+		id currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
+		if ((currentDocument != nil) && ([currentDocument isKindOfClass:[JKGCMSDocument class]])) {
+            return [[[[currentDocument mainWindowController] peaksTable] tableColumns] count] + [[[currentDocument mainWindowController] hiddenColumnsPeaksTable] count];
+		}
 	}
 	return 0;
 }
@@ -280,9 +285,25 @@
 	} else if (menu == removeChromatogramMenu) {
 		id currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
 		if ((currentDocument != nil) && ([currentDocument isKindOfClass:[JKGCMSDocument class]])) {
-			[item setTitle:[[[currentDocument chromatograms] objectAtIndex:x+1] valueForKey:@"seriesTitle"]];
+			[item setTitle:[[[currentDocument chromatograms] objectAtIndex:x+1] valueForKey:@"model"]];
 			[item setTag:x+1];
 			[item setAction:@selector(removeChromatogram:)];
+			return YES;
+		}
+	} else if (menu == viewColumnsMenu) {
+		id currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
+		if ((currentDocument != nil) && ([currentDocument isKindOfClass:[JKGCMSDocument class]])) {
+            if (x < [[[[currentDocument mainWindowController] peaksTable] tableColumns] count]) {
+                [item setTitle:[[[[[[currentDocument mainWindowController] peaksTable] tableColumns] objectAtIndex:x] headerCell] stringValue]];
+                [item setTag:x];
+                [item setState:NSOnState];
+                [item setAction:@selector(hidePeakColumn:)];                
+            } else {
+                [item setTitle:[[[[[currentDocument mainWindowController] hiddenColumnsPeaksTable] objectAtIndex:x-[[[[currentDocument mainWindowController] peaksTable] tableColumns] count]] headerCell] stringValue]];
+                [item setTag:x-[[[[currentDocument mainWindowController] peaksTable] tableColumns] count]];
+                [item setState:NSOffState];
+                [item setAction:@selector(showPeakColumn:)];                                
+            }
 			return YES;
 		}
 	}

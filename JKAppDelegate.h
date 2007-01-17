@@ -20,6 +20,7 @@
     IBOutlet NSMenu *removeChromatogramMenu;
 	IBOutlet MWController *mwWindowController;
     IBOutlet NSWindow *welcomeWindow;
+    IBOutlet NSMenu *viewColumnsMenu;
     
     NSWindowController *preferencesWindowController;
 	JKBatchProcessWindowController *batchProcessWindowController;

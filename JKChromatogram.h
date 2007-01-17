@@ -54,6 +54,7 @@
 
 /*! The document containing our chromatogram. */
 - (JKGCMSDocument *)document;
+- (NSString *)model;
 
 /*! ID needed for reading NetCDF file. */
 - (int)numberOfPoints;

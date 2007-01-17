@@ -147,6 +147,21 @@
     return label;
 }
 
+- (void)setModel:(NSString *)inValue {
+    [[self undoManager] registerUndoWithTarget:self
+                                      selector:@selector(setModel:)
+                                        object:label];
+    [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Model",@"Change Peak Model")];
+    
+	[inValue retain];
+	[model autorelease];
+	model = inValue;
+}
+
+- (NSString *)model {
+    return model;
+}
+
 - (void)setSymbol:(NSString *)inValue {
     [[self undoManager] registerUndoWithTarget:self
                                       selector:@selector(setSymbol:)

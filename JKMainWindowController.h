@@ -30,7 +30,6 @@ enum JKPeakSelection {
 	
 	// Chromatogram
     IBOutlet MyGraphView *chromatogramView;
-    IBOutlet NSArrayController *baselineController;
     IBOutlet NSArrayController *chromatogramDataSeriesController;
 
 	// Spectrum
@@ -58,7 +57,11 @@ enum JKPeakSelection {
 	// Sheets
 	IBOutlet NSWindow *progressSheet;
 	IBOutlet NSProgressIndicator *progressBar;
-	
+	IBOutlet NSWindow *chromatogramSelectionSheet;
+	IBOutlet NSButton *chromatogramSelectionSheetButton;
+    IBOutlet NSArrayController *chromatogramsController;    
+
+    
 	// Misc
 	BOOL abortAction;	
 		
@@ -69,16 +72,20 @@ enum JKPeakSelection {
 	BOOL showLibraryHit;
 	BOOL showNormalizedSpectra;
 	int showPeaks;
-	
+    
 	// Printing
 	IBOutlet NSView *printAccessoryView;
     
     NSMutableArray *chromatogramDataSeries;
+    NSMutableArray *hiddenColumnsPeaksTable;
 }
 
 #pragma mark IBACTIONS
 - (IBAction)obtainBaseline:(id)sender;
+- (void)obtainBaselineForSelectedChromatograms:(id)sender;
 - (IBAction)identifyPeaks:(id)sender;
+- (void)identifyPeaksForSelectedChromatograms:(id)sender;
+- (IBAction)cancel:(id)sender;
 - (IBAction)renumberPeaks:(id)sender;
 - (void)undoRenumberPeaks:(NSArray *)array;
 - (IBAction)showMassChromatogram:(id)sender;	
@@ -99,12 +106,12 @@ enum JKPeakSelection {
 
 #pragma mark ACCESSORS
 - (MyGraphView *)chromatogramView;
-- (NSArrayController *)baselineController;
 - (NSArrayController *)chromatogramDataSeriesController;
 - (NSTableView *)peaksTable;
 - (NSArrayController *)peakController;
 - (NSTableView *)resultsTable;
 - (NSArrayController *)searchResultsController;
+- (NSMutableArray *)hiddenColumnsPeaksTable;
 
 #pragma mark ACCESSORS (MACROSTYLE)
 boolAccessor_h(abortAction, setAbortAction)	

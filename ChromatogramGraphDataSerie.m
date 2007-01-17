@@ -46,6 +46,11 @@ static void *PropertyObservationContext = (void *)1093;
 	
 	if (!plotPath) [self constructPlotPath];
 	
+    if ((![[view keyForXValue] isEqualToString:keyForXValue]) | (![[view keyForYValue] isEqualToString:keyForYValue])) {
+        [self setKeyForXValue:[view keyForXValue]];
+        [self setKeyForYValue:[view keyForYValue]];
+    }
+    
 	// Hier gaan we van dataserie-coordinaten naar scherm-coordinaten.
 	bezierpath = [trans transformBezierPath:[self plotPath]];
 	
@@ -58,6 +63,9 @@ static void *PropertyObservationContext = (void *)1093;
     } else {
         [bezierpath setLineWidth:0.5];
     }
+	[[view baselineColor] set];
+    [[trans transformBezierPath:[self baseline]] stroke];
+    
 	[[self seriesColor] set];
 	
 	// Met stroke wordt de bezierpath getekend.
@@ -90,9 +98,31 @@ static void *PropertyObservationContext = (void *)1093;
 
 	[self setPlotPath:bezierpath];
 	
-	// Stuur een bericht naar de view dat deze serie opnieuw getekend wil worden.
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];
 	[bezierpath release];
+}
+
+- (NSBezierPath *)baseline {
+	int i, count;
+	NSPoint pointInUnits;
+	NSBezierPath *bezierpath = [[[NSBezierPath alloc] init] autorelease];
+	
+	count = [[[self chromatogram] baselinePoints] count];
+	if (count <= 0) {	
+		return bezierpath;
+	}
+	
+	// Creeer het pad.
+	[bezierpath moveToPoint:NSMakePoint([[[[[self chromatogram] baselinePoints] objectAtIndex:0] valueForKey:keyForXValue] floatValue],
+										[[[[[self chromatogram] baselinePoints] objectAtIndex:0] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue])];
+	
+	// We zouden eigenlijk moet controleren of de x- en y-waarden beschikbaar zijn.
+	for (i=1; i<count; i++) {
+		pointInUnits = NSMakePoint([[[[[self chromatogram] baselinePoints] objectAtIndex:i] valueForKey:keyForXValue] floatValue],
+								   [[[[[self chromatogram] baselinePoints] objectAtIndex:i] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
+		[bezierpath lineToPoint:pointInUnits];
+	}
+ // 	NSLog([bezierpath description]);
+	return bezierpath;
 }
 
 - (void)drawPeaksWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
@@ -453,7 +483,7 @@ static void *PropertyObservationContext = (void *)1093;
 
 #pragma mark CONVENIENCE METHODS
 - (NSArray *)peaks{
-	return [[[self chromatogram] document] peaks];
+	return [[self chromatogram] peaks];
 }
 
 #pragma mark ACCESSORS

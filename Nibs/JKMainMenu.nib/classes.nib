@@ -51,6 +51,7 @@
                 mwWindowController = MWController; 
                 removeChromatogramMenu = NSMenu; 
                 showPresetMenu = NSMenu; 
+                viewColumnsMenu = NSMenu; 
                 welcomeWindow = NSWindow; 
             }; 
             SUPERCLASS = NSApplication; 

@@ -29,7 +29,7 @@
     float maximumMass;    
 }
 
-- (id)initWithDocument:(JKGCMSDocument *)inDocument forModel:(NSString *)model;
+- (id)initWithDocument:(JKGCMSDocument *)inDocument forModel:(NSString *)modelString;
 
 #pragma mark ACTIONS
 
@@ -49,7 +49,8 @@
 - (JKGCMSDocument *)document;
 - (void)setPeak:(JKPeakRecord *)inValue;
 - (JKPeakRecord *)peak;
-
+- (NSString *)model;
+- (void)setModel:(NSString *)aString;
 - (int)numberOfPoints;
 - (void)setMasses:(float *)inArray withCount:(int)inValue;
 - (float *)masses;

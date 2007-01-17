@@ -17,6 +17,7 @@
         {
             ACTIONS = {
                 abort = id; 
+                cancel = id; 
                 confirm = id; 
                 discard = id; 
                 editLibrary = id; 
@@ -33,9 +34,11 @@
             CLASS = JKMainWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                baselineController = NSArrayController; 
                 chromatogramDataSeriesController = NSArrayController; 
+                chromatogramSelectionSheet = NSWindow; 
+                chromatogramSelectionSheetButton = NSButton; 
                 chromatogramView = MyGraphView; 
+                chromatogramsController = NSArrayController; 
                 detailsSplitSubview = RBSplitSubview; 
                 detailsTabView = NSTabView; 
                 detailsTabViewItemView = NSView; 

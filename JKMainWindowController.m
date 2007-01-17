@@ -47,6 +47,7 @@ static void *SpectrumObservationContext = (void *)1102;
 		showPeaks = JKAllPeaks;
         
         chromatogramDataSeries = [[NSMutableArray alloc] init];
+        hiddenColumnsPeaksTable = [[NSMutableArray alloc] init];
 	}
     return self;
 }
@@ -146,14 +147,53 @@ static void *SpectrumObservationContext = (void *)1102;
 #pragma mark IBACTIONS
 
 - (IBAction)obtainBaseline:(id)sender {
-	[[[self document] chromatograms] makeObjectsPerformSelector:@selector(obtainBaseline)];
-	[chromatogramView setShouldDrawBaseline:YES];
+    if ([[[self document] chromatograms] count] > 1) {
+        // Run sheet to get selection
+        [chromatogramSelectionSheetButton setTitle:NSLocalizedString(@"Obtain Baseline",@"")];
+        [chromatogramSelectionSheetButton setAction:@selector(obtainBaselineForSelectedChromatograms:)];
+        [chromatogramSelectionSheetButton setTarget:self];
+        [NSApp beginSheet: chromatogramSelectionSheet
+           modalForWindow: [self window]
+            modalDelegate: self
+           didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
+              contextInfo: nil];
+    } else if ([[[self document] chromatograms] count] == 1) {
+        [[[self document] chromatograms] makeObjectsPerformSelector:@selector(obtainBaseline)];
+        [chromatogramView setShouldDrawBaseline:YES];
+    }
 }
 
+- (void)obtainBaselineForSelectedChromatograms:(id)sender {
+    [[chromatogramsController selectedObjects] makeObjectsPerformSelector:@selector(obtainBaseline)];
+	[chromatogramView setShouldDrawBaseline:YES];
+    [NSApp endSheet:chromatogramSelectionSheet];
+}
+
+- (IBAction)cancel:(id)sender {
+    [NSApp endSheet:chromatogramSelectionSheet];
+}
 
 - (IBAction)identifyPeaks:(id)sender {
-	[[[self document] chromatograms] makeObjectsPerformSelector:@selector(identifyPeaks)];
+    if ([[[self document] chromatograms] count] > 1) {
+        // Run sheet to get selection
+        [chromatogramSelectionSheetButton setTitle:NSLocalizedString(@"Identify Peaks",@"")];
+        [chromatogramSelectionSheetButton setAction:@selector(identifyPeaksForSelectedChromatograms:)];
+        [chromatogramSelectionSheetButton setTarget:self];
+        [NSApp beginSheet: chromatogramSelectionSheet
+           modalForWindow: [self window]
+            modalDelegate: self
+           didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
+              contextInfo: nil];
+    } else if ([[[self document] chromatograms] count] == 1) {
+        [[[self document] chromatograms] makeObjectsPerformSelector:@selector(identifyPeaks)];
+        [chromatogramView setShouldDrawPeaks:YES];
+    }
+}
+
+- (void)identifyPeaksForSelectedChromatograms:(id)sender {
+    [[chromatogramsController selectedObjects] makeObjectsPerformSelector:@selector(identifyPeaks)];
     [chromatogramView setShouldDrawPeaks:YES];
+    [NSApp endSheet:chromatogramSelectionSheet];
 }
 
 - (IBAction)identifyCompounds:(id)sender {
@@ -544,6 +584,16 @@ static void *SpectrumObservationContext = (void *)1102;
     }
 }
 
+- (IBAction)showPeakColumn:(id)sender {
+    [peaksTable addTableColumn:[hiddenColumnsPeaksTable objectAtIndex:[sender tag]]];
+    [hiddenColumnsPeaksTable removeObject:[hiddenColumnsPeaksTable objectAtIndex:[sender tag]]];
+}
+
+- (IBAction)hidePeakColumn:(id)sender {
+    [hiddenColumnsPeaksTable addObject:[[peaksTable tableColumns] objectAtIndex:[sender tag]]];
+    [peaksTable removeTableColumn:[[peaksTable tableColumns] objectAtIndex:[sender tag]]];
+}
+
 #pragma mark KEY VALUE OBSERVATION
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -856,6 +906,9 @@ static void *SpectrumObservationContext = (void *)1102;
 
 - (NSProgressIndicator *)progressIndicator{
 	return progressBar;
+}
+- (NSMutableArray *)hiddenColumnsPeaksTable {
+    return hiddenColumnsPeaksTable;
 }
 
 #pragma mark SHEETS
