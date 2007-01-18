@@ -128,13 +128,12 @@ static void *DocumentObservationContext = (void *)1100;
 
 - (NSFileWrapper *)fileWrapperRepresentationOfType:(NSString *)aType {
 	if ([aType isEqualToString:@"Peacock File"]) {
-
 		NSMutableData *data;
 		NSKeyedArchiver *archiver;
 		data = [NSMutableData data];
 		archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
 		[archiver encodeInt:JKGCMSDocument_Version forKey:@"version"];
-//		[archiver encodeObject:[self baseline] forKey:@"baseline"];
+		[archiver encodeObject:[self chromatograms] forKey:@"chromatograms"];
 		[archiver encodeObject:[self peaks] forKey:@"peaks"];
 		[archiver encodeObject:[self metadata] forKey:@"metadata"];		
 		[archiver encodeObject:baselineWindowWidth forKey:@"baselineWindowWidth"];
@@ -194,11 +193,13 @@ static void *DocumentObservationContext = (void *)1100;
 }
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
+    BOOL result;
 	if ([typeName isEqualToString:@"NetCDF/ANDI File"]) {
         absolutePathToNetCDF = [absoluteURL path];
-        return [self readNetCDFFile:[absoluteURL path] error:outError];
-	} else if ([typeName isEqualToString:@"Peacock File"]) {
-		BOOL result;		
+        result = [self readNetCDFFile:[absoluteURL path] error:outError];
+        [self insertObject:[self ticChromatogram] inChromatogramsAtIndex:0];
+        return result;
+	} else if ([typeName isEqualToString:@"Peacock File"]) {		
 		NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath:[absoluteURL path]];
 		NSData *data;
 		NSKeyedUnarchiver *unarchiver;
@@ -206,44 +207,13 @@ static void *DocumentObservationContext = (void *)1100;
 		unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
 		int version = [unarchiver decodeIntForKey:@"version"];
 		if (version < 3) {
-			NSRunAlertPanel(@"File format no longer supported",@"The file you are trying to open was saved with an earlier beta-version of Peacock. It can be opened, but its content is partially incomplete. To fix this, press after loading the key combination \"shift-control-option-command O.\"",@"Continue",nil,nil);
-			[unarchiver setClass:[JKDataModelProxy class] forClassName:@"JKDataModel"];
-			JKDataModelProxy *dataModel = [unarchiver decodeObjectForKey:@"dataModel"];
-			peaks = [[dataModel peaks] retain];
-            NSEnumerator *e = [peaks objectEnumerator];
-            JKPeakRecord *peak;
-            e = [peaks objectEnumerator];
-            while ((peak = [e nextObject])) {
-                [peak setDocument:self];
-                //[self startObservingPeak:peak];
-            }
-            
-//			baseline = [[dataModel baseline] retain];
-			metadata = [[dataModel metadata] retain];
-			// These are not stored but refetched from cdf file when needed
-			//chromatograms = [[NSMutableArray alloc] init];
-			
-			[unarchiver finishDecoding];
-			[unarchiver release];
-			
-			result = [self readNetCDFFile:[[absoluteURL path] stringByAppendingPathComponent:@"netcdf"] error:outError];
-			if (result) {
-				peacockFileWrapper = wrapper;
-			}
-            
-            
-			return result;	
-			
-		}
-//		baseline = [[unarchiver decodeObjectForKey:@"baseline"] retain];
+            if (outError != NULL)
+                *outError = [[[NSError alloc] initWithDomain:NSCocoaErrorDomain
+                                                        code:NSFileReadUnknownError userInfo:nil] autorelease];
+            return NO;
+ 		}
+		chromatograms = [[unarchiver decodeObjectForKey:@"chromatograms"] retain];
 		peaks = [[unarchiver decodeObjectForKey:@"peaks"] retain];
-		NSEnumerator *e = [peaks objectEnumerator];
-		JKPeakRecord *peak;
-		e = [peaks objectEnumerator];
-		while ((peak = [e nextObject])) {
-            [peak setDocument:self];
-//			[self startObservingPeak:peak];
-		}
 		metadata = [[unarchiver decodeObjectForKey:@"metadata"] retain];
 		baselineWindowWidth = [[unarchiver decodeObjectForKey:@"baselineWindowWidth"] retain];
 		baselineDistanceThreshold = [[unarchiver decodeObjectForKey:@"baselineDistanceThreshold"] retain];
@@ -258,9 +228,6 @@ static void *DocumentObservationContext = (void *)1100;
 		markAsIdentifiedThreshold = [[unarchiver decodeObjectForKey:@"markAsIdentifiedThreshold"] retain];		
 		minimumScoreSearchResults = [[unarchiver decodeObjectForKey:@"minimumScoreSearchResults"] retain];		
 		
-		// These are not stored but refetched from cdf file when needed
-	//	chromatograms = [[NSMutableArray alloc] init];
-		
 		[unarchiver finishDecoding];
 		[unarchiver release];
 		
@@ -268,47 +235,12 @@ static void *DocumentObservationContext = (void *)1100;
 		if (result) {
 			peacockFileWrapper = wrapper;
 		}
-                
-        [self insertObject:[self ticChromatogram] inChromatogramsAtIndex:0];
         
 		return result;	
-//	} else if ([typeName isEqualToString:@"GAML File"]) {
-//        xmlDoc = [[NSXMLDocument alloc] initWithContentsOfURL:absoluteURL options:nil error:outError];
-//        
-//        NSXMLNode *aNode = [xmlDoc rootElement];
-//        NSMutableString *translator_notes=nil;
-//        while (aNode = [aNode nextNode]) {
-//            if ( [[aNode localName] isEqualToString:@"experiment"] ) {
-//                JKExperiment *experiment = [[JKExperiment alloc] init];
-//                [experiment setName:[aNode attributeForName:@"name"]];
-//                
-//                while (aNode = [aNode nextNode]) {
-//                    if ( [[aNode localName] isEqualToString:@"collectdate"] ) {
-//
-//                    } else if ( [[aNode localName] isEqualToString:@"parameter"] ) {
-//                        
-//                    }
-//                    
-//                if (!translator_notes) {
-//                    translator_notes = [[NSMutableString alloc] init];
-//                }
-//                [translator_notes appendString:[aNode stringValue]];
-//                [translator_notes appendString:@" ========> "];
-//                aNode = [aNode nextNode]; // element to be translated
-//                [translator_notes appendString:[aNode stringValue]];
-//                [translator_notes appendString:@"\n"];
-//            }
-//        }
-////        if (translator_notes) {
-////            [translator_notes writeToFile:[NSString stringWithFormat:@"%@/translator_notes.txt", NSHomeDirectory()] atomically:YES];
-////            [translator_notes release];
-////        }
-//        
     } else {
         if (outError != NULL)
 			*outError = [[[NSError alloc] initWithDomain:NSCocoaErrorDomain
 												   code:NSFileReadUnknownError userInfo:nil] autorelease];
-        
 		return NO;
 	}	
 }
@@ -1700,7 +1632,7 @@ boolAccessor(abortAction, setAbortAction)
 
 	e = [peaks objectEnumerator];
 	while ((peak = [e nextObject])) {
-        [peak setDocument:self];
+   //     [peak setDocument:self];
 	//	[self startObservingPeak:peak];
 	}
 }
@@ -1715,7 +1647,7 @@ boolAccessor(abortAction, setAbortAction)
 	}
 	
 	// Add the peak to the array
-    [peak setDocument:self];
+//    [peak setDocument:self];
 //	[self startObservingPeak:peak];
 	[peaks insertObject:peak atIndex:index];
 }

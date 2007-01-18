@@ -1277,8 +1277,12 @@ static int   kPaddingLabels             = 4;
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
-	BOOL foundPeakToSelect = NO;
 	NSPoint mouseLocation = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    JKPeakRecord *selectedPeak = nil;
+//    int selectedScan = NSNotFound;
+    int selectedPeakIndex = NSNotFound;
+    
+    //	BOOL foundPeakToSelect = NO;
 	if (!_didDrag) {
 		if ([theEvent clickCount] == 1) { // Single click
             if (([theEvent modifierFlags] & NSAlternateKeyMask) && ([theEvent modifierFlags] & NSShiftKeyMask)) {
@@ -1287,113 +1291,41 @@ static int   kPaddingLabels             = 4;
 				[self zoomIn];
 			} else if ([theEvent modifierFlags] & NSCommandKeyMask ) {
 				//  select additional peak(/select baseline point/select scan)
-				NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:mouseLocation];
-
-				int i, peaksCount;
-				peaksCount = [[self peaks] count];
-				id peak;
-				foundPeakToSelect = NO;
-
-				for (i=0; i < peaksCount; i++) {
-					peak = [[self peaks] objectAtIndex:i];
-                    if ([keyForXValue isEqualToString:@"Scan"]) {
-                        if (([[peak valueForKey:@"start"] floatValue] < graphLocation.x) & ([[peak valueForKey:@"end"] floatValue] > graphLocation.x)) {
-                            [peaksContainer addSelectionIndexes:[NSIndexSet indexSetWithIndex:i]];
-                            _lastSelectedPeakIndex = i;
-                            foundPeakToSelect = YES;
-                        } 
-                    } else {
-                        if (([[peak valueForKey:@"startTime"] floatValue] < graphLocation.x) & ([[peak valueForKey:@"endTime"] floatValue] > graphLocation.x)) {
-                            [peaksContainer addSelectionIndexes:[NSIndexSet indexSetWithIndex:i]];
-                            _lastSelectedPeakIndex = i;
-                            foundPeakToSelect = YES;
-                        }                         
-                    }
-				}
-				if (!foundPeakToSelect) {
-					_lastSelectedPeakIndex = -1;
-				}
-				
+                selectedPeak = [self peakAtPoint:mouseLocation];
+                if (selectedPeak) {
+                    _lastSelectedPeakIndex = [[self peaks] indexOfObject:selectedPeak];
+                    [peaksContainer addSelectedObjects:[NSArray arrayWithObject:selectedPeak]];
+                } else {
+                    _lastSelectedPeakIndex = NSNotFound;
+                }
 			} else if ([theEvent modifierFlags] & NSShiftKeyMask) {
  				//  select series of peaks(/select baseline point/select scan)
-				NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:mouseLocation];
-				int i, peaksCount;
-				peaksCount = [[self peaks] count];
-				id peak;
-				foundPeakToSelect = NO;
-				
-				for (i=0; i < peaksCount; i++) {
-					peak = [[self peaks] objectAtIndex:i];
-                 //   [[[[self dataSeries] objectAtIndex:[[peak valueForKey:@"start"] intValue]] valueForKey:keyForXValue] floatValue]
-                    if ([keyForXValue isEqualToString:@"Scan"]) {
-                        if (([[peak valueForKey:@"start"] floatValue] < graphLocation.x) & ([[peak valueForKey:@"end"] floatValue] > graphLocation.x)) {
-                            if (_lastSelectedPeakIndex > 0 ) {
-                                if (_lastSelectedPeakIndex < i) {
-                                    [peaksContainer addSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(_lastSelectedPeakIndex+1,i-_lastSelectedPeakIndex)]];
-                                    _lastSelectedPeakIndex = i;
-                                    foundPeakToSelect = YES;
-                                } else {
-                                    [peaksContainer addSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(i,_lastSelectedPeakIndex-i)]];
-                                    _lastSelectedPeakIndex = i;
-                                    foundPeakToSelect = YES;
-                                }
-                            } else {
-                                [peaksContainer addSelectionIndexes:[NSIndexSet indexSetWithIndex:i]];
-                                _lastSelectedPeakIndex = i;
-                                foundPeakToSelect = YES;
-                            }
-                        } 
+                selectedPeak = [self peakAtPoint:mouseLocation];
+                if (selectedPeak) {
+                    selectedPeakIndex = [[self peaks] indexOfObject:selectedPeak];
+                    // do we know where the range for the selection started?
+                    if (_lastSelectedPeakIndex != NSNotFound) {
+                        if (_lastSelectedPeakIndex < selectedPeakIndex) {
+                            [peaksContainer addSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(_lastSelectedPeakIndex+1,selectedPeakIndex-_lastSelectedPeakIndex)]];
+                        } else {
+                            [peaksContainer addSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(selectedPeakIndex,_lastSelectedPeakIndex-selectedPeakIndex)]];
+                        }
                     } else {
-                        if (([[peak valueForKey:@"startTime"] floatValue] < graphLocation.x) & ([[peak valueForKey:@"endTime"] floatValue] > graphLocation.x)) {
-                            if (_lastSelectedPeakIndex > 0 ) {
-                                if (_lastSelectedPeakIndex < i) {
-                                    [peaksContainer addSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(_lastSelectedPeakIndex+1,i-_lastSelectedPeakIndex)]];
-                                    _lastSelectedPeakIndex = i;
-                                    foundPeakToSelect = YES;
-                                } else {
-                                    [peaksContainer addSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(i,_lastSelectedPeakIndex-i)]];
-                                    _lastSelectedPeakIndex = i;
-                                    foundPeakToSelect = YES;
-                                }
-                            } else {
-                                [peaksContainer addSelectionIndexes:[NSIndexSet indexSetWithIndex:i]];
-                                _lastSelectedPeakIndex = i;
-                                foundPeakToSelect = YES;
-                            }
-                        }                         
+                        [peaksContainer addSelectedObjects:[NSArray arrayWithObject:selectedPeak]];
                     }
-				}
-				if (!foundPeakToSelect) {
-					_lastSelectedPeakIndex = -1;
-				}
-				
+                    _lastSelectedPeakIndex = [[self peaks] indexOfObject:selectedPeak];
+                } else {
+                    _lastSelectedPeakIndex = NSNotFound;
+                }
 			} else {
  				//  select peak(/select baseline point/select scan)
-				NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:mouseLocation];
-				int i, peaksCount;
-				peaksCount = [[self peaks] count];
-				id peak;
-				foundPeakToSelect = NO;
-
-				for (i=0; i < peaksCount; i++) {
-					peak = [[self peaks] objectAtIndex:i];
-                    if ([keyForXValue isEqualToString:@"Scan"]) {
-                        if (([[peak valueForKey:@"start"] floatValue] < graphLocation.x) & ([[peak valueForKey:@"end"] floatValue] > graphLocation.x)) {
-                            [peaksContainer setSelectionIndexes:[NSIndexSet indexSetWithIndex:i]];
-                            _lastSelectedPeakIndex = i;
-                            foundPeakToSelect = YES;
-                        } 
-                    } else {
-                        if (([[peak valueForKey:@"startTime"] floatValue] < graphLocation.x) & ([[peak valueForKey:@"endTime"] floatValue] > graphLocation.x)) {
-                            [peaksContainer setSelectionIndexes:[NSIndexSet indexSetWithIndex:i]];
-                            _lastSelectedPeakIndex = i;
-                            foundPeakToSelect = YES;
-                        }                         
-                    }
-				}
-				if (!foundPeakToSelect) {
-					_lastSelectedPeakIndex = -1;
-				}
+                selectedPeak = [self peakAtPoint:mouseLocation];
+                if (selectedPeak) {
+                    _lastSelectedPeakIndex = [[self peaks] indexOfObject:selectedPeak];
+                    [peaksContainer setSelectedObjects:[NSArray arrayWithObject:selectedPeak]];
+                } else {
+                    _lastSelectedPeakIndex = NSNotFound;
+                }
                 [self setNeedsDisplayInRect:[self plottingArea]];
 			}
 		} else if ([theEvent clickCount] == 2) { // Float click
@@ -1433,15 +1365,10 @@ static int   kPaddingLabels             = 4;
 				//  select scan and show spectrum 
 				JKLogDebug(@" select scan and show spectrum");
                 if ([delegate respondsToSelector:@selector(showSpectrumForScan:)]) {
-                    NSPoint pointInReal = [[self transformScreenToGraph] transformPoint:mouseLocation];
-                    if (lroundf(pointInReal.x) != [self selectedScan]) {
-                        if ([keyForXValue isEqualToString:@"Scan"]) {
-                            [self setSelectedScan:lroundf(pointInReal.x)];
-                        } else {
-#warning [BUG] The scanForTime: method has been relocated.
-//                            [self setSelectedScan:[(JKGCMSDocument *)[[[self window] windowController] document] scanForTime:pointInReal.x]];
-                        }
-                        [delegate showSpectrumForScan:[self selectedScan]];                        
+                    selectedScan = [self scanAtPoint:mouseLocation];
+                    [self setSelectedScan:selectedScan];
+                    if (selectedScan != NSNotFound) {
+                        [delegate showSpectrumForScan:[self selectedScan]];
                     }
                 } 
             }
@@ -1452,6 +1379,7 @@ static int   kPaddingLabels             = 4;
 		if (([theEvent modifierFlags] & NSCommandKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
 			//   combine spectrum
 			JKLogDebug(@"combine spectrum");
+            NSLog(@"peak drag from scan %d to scan %d",[self scanAtPoint:_mouseDownAtPoint],[self scanAtPoint:mouseLocation]);
 		} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
 			//   zoom in/move baseline point
 			[self zoomToRectInView:[self selectedRect]];
@@ -1510,6 +1438,83 @@ static int   kPaddingLabels             = 4;
         [self zoomOut];
     }
 }
+
+- (int)scanAtPoint:(NSPoint)aPoint {
+    int scan = NSNotFound;
+    NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:aPoint];
+    if ([keyForXValue isEqualToString:@"Scan"]) {
+        scan = lroundf(graphLocation.x);
+    } else if ([keyForXValue isEqualToString:@"Time"]) {
+        JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
+        if (chromatogram) {
+            scan = [chromatogram scanForTime:graphLocation.x];            
+        }
+    } else {
+        NSLog(@"scanAtPoint: - Unexpected keyForXValue '%@'", keyForXValue);
+    }
+    
+    return scan;
+}
+
+- (JKPeakRecord *)peakAtPoint:(NSPoint)aPoint {
+    NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:aPoint];
+    JKPeakRecord *peak = nil;
+    JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
+    int i;
+    
+    if (chromatogram) {
+        int peaksCount = [[chromatogram peaks] count];
+        for (i=0; i < peaksCount; i++) {
+            peak = [[chromatogram peaks] objectAtIndex:i];
+            if ([keyForXValue isEqualToString:@"Scan"]) {
+                if (([[peak valueForKey:@"start"] floatValue] < graphLocation.x) & ([[peak valueForKey:@"end"] floatValue] > graphLocation.x)) {
+                    return peak;
+                } 
+            } else if ([keyForXValue isEqualToString:@"Time"]) {
+                if (([[peak valueForKey:@"startTime"] floatValue] < graphLocation.x) & ([[peak valueForKey:@"endTime"] floatValue] > graphLocation.x)) {
+                    return peak;
+                }                         
+            } else {
+                NSLog(@"peakAtPoint: - Unexpected keyForXValue '%@'", keyForXValue);
+            }
+        }
+    } else {
+        NSLog(@"peakAtPoint: - No chromatogram available");
+    }
+    return peak;
+}
+
+- (JKChromatogram *)chromatogramAtPoint:(NSPoint)aPoint {
+    JKChromatogram *chromatogram = nil;
+    int count, dataSerieIndex;
+    float dataSerieHeight;
+
+    count = [[self dataSeries] count];
+    if (count > 0) {
+        switch (drawingMode) {
+            case JKStackedDrawingMode:
+                dataSerieHeight = [self plottingArea].size.height/count;
+                dataSerieIndex = floor((aPoint.y-[self plottingArea].origin.y)/dataSerieHeight);
+                if ((dataSerieIndex < 0) || (dataSerieIndex >= count)) {
+                    dataSerieIndex = 0;
+                }
+                if ([[[self dataSeries] objectAtIndex:dataSerieIndex] isMemberOfClass:[ChromatogramGraphDataSerie class]]) {
+                    chromatogram = [[[self dataSeries] objectAtIndex:dataSerieIndex] chromatogram];                
+                }                
+                
+                break;
+            case JKNormalDrawingMode:
+            default:
+                if ([[[self dataSeries] objectAtIndex:0] isMemberOfClass:[JKChromatogram class]]) {
+                    chromatogram = [[[self dataSeries] objectAtIndex:0] chromatogram];                
+                }
+                
+                break;
+        } 
+    }
+    return chromatogram;
+}
+
 
 #pragma mark KEYBOARD INTERACTION MANAGEMENT
 - (void)flagsChanged:(NSEvent *)theEvent {

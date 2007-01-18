@@ -192,8 +192,15 @@ static void *PropertyObservationContext = (void *)1093;
     }
 
 	// Draw seleced peak!
-	NSArray *selectedPeaks = [NSArray array];
-	selectedPeaks = [[self peaks] objectsAtIndexes:[[view peaksContainer] selectionIndexes]];
+	NSMutableArray *selectedPeaks = [NSMutableArray array];
+    NSEnumerator *enumerator = [[self peaks] objectEnumerator];
+    JKPeakRecord *aPeak;
+
+    while ((aPeak = [enumerator nextObject]) != nil) {
+    	if ([[[view peaksContainer] selectedObjects] containsObject:aPeak]) {
+            [selectedPeaks addObject:aPeak];
+        } 
+    }
 	count = [selectedPeaks count];
 	NSBezierPath *arrowPath = [[NSBezierPath alloc] init];
 	

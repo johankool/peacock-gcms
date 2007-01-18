@@ -9,51 +9,22 @@
 @class JKGCMSDocument;
 @class JKSpectrum;
 @class JKLibraryEntry;
+@class JKChromatogram;
 
 @interface JKPeakRecord : NSObject <NSCoding> {
-    NSNumber *peakID;
-	JKGCMSDocument *document;
-	NSString *model;
-    
-	// Set during peak identification
-	// number = actual scan number
-    NSNumber *start;
-    NSNumber *end;
-    NSNumber *top;
- 
-	// number = total intensity units (defaults to arbitrary)
-    NSNumber *height;
+    BOOL confirmed;
+    BOOL identified;
+    JKChromatogram *chromatogram;
+    NSMutableArray *searchResults;
     NSNumber *baselineLeft;
-	NSNumber *baselineRight;
-
-	// number = time axis units (defaults to seconds)
-//	NSNumber *topTime;
-    NSNumber *baselineLeftTime;
-    NSNumber *baselineRightTime;
-
-	// number = retention index
-	NSNumber *retentionIndex;
-
-	// number = total intensity units * time axis units
-    NSNumber *surface;
-
-	// relative to highest/largest peak
-	NSNumber *normalizedSurface;
-	NSNumber *normalizedHeight;
-	
-	// Non-normalized representative spectrum for peak
-	JKSpectrum *spectrum;
-	
-	// Set during search
-	NSMutableArray *searchResults;
-	 
-	// Set during compound identification
-	NSString *label;
-	NSString *symbol;
-	BOOL identified;
-	BOOL confirmed;
-	id identifiedSearchResult;
-
+    NSNumber *baselineRight;
+    NSString *label;
+    NSString *symbol;
+    id identifiedSearchResult;
+    int end;
+    int peakID;
+    int start;
+    
     // Support for reading in old file-format
     id _libraryHit;
     id _score;
@@ -72,58 +43,48 @@
 //- (NSNumber *)normalizedSurface;
 //- (NSNumber *)normalizedHeight;
 - (NSNumber *)deltaRetentionIndex;
+- (NSNumber *)startTime;
+- (NSNumber *)endTime;
+- (int)top;
+- (NSNumber *)topTime;
+- (NSNumber *)retentionIndex;
+- (NSNumber *)height;
+- (NSNumber *)surface;
+- (JKSpectrum *)spectrum;
+- (JKSpectrum *)combinedSpectrum;
+- (NSNumber *)score;
+- (NSString *)library;
+- (JKLibraryEntry *)libraryHit;
+- (JKGCMSDocument *)document;
 
 #pragma mark ACCESSORS
 
-- (void)setPeakID:(NSNumber *)inValue;
-- (NSNumber *)peakID;
-- (void)setDocument:(JKGCMSDocument *)inValue;
-- (JKGCMSDocument *)document;
+- (void)setPeakID:(int)inValue;
+- (int)peakID;
+- (void)setChromatogram:(JKChromatogram *)inValue;
+- (JKChromatogram *)chromatogram;
 
-- (void)setStart:(NSNumber *)inValue;
-- (NSNumber *)start;
-- (NSNumber *)startTime;
-- (void)setEnd:(NSNumber *)inValue;
-- (NSNumber *)end;
-- (NSNumber *)endTime;
-- (void)setTop:(NSNumber *)inValue;
-- (NSNumber *)top;
+- (void)setStart:(int)inValue;
+- (int)start;
+- (void)setEnd:(int)inValue;
+- (int)end;
 
-- (void)setHeight:(NSNumber *)inValue;
-- (NSNumber *)height;
 - (void)setBaselineLeft:(NSNumber *)inValue;
 - (NSNumber *)baselineLeft;
 - (void)setBaselineRight:(NSNumber *)inValue;
 - (NSNumber *)baselineRight;
 
-//- (void)setTopTime:(NSNumber *)inValue;
-- (NSNumber *)topTime;
-- (void)setBaselineLeftTime:(NSNumber *)inValue;
-- (NSNumber *)baselineLeftTime;
-- (void)setBaselineRightTime:(NSNumber *)inValue;
-- (NSNumber *)baselineRightTime;
-
-- (void)setRetentionIndex:(NSNumber *)inValue;
-- (NSNumber *)retentionIndex;
-
-- (void)setSurface:(NSNumber *)inValue;
-- (NSNumber *)surface;
-
-- (void)setNormalizedHeight:(NSNumber *)inValue;
-- (NSNumber *)normalizedHeight;
-- (void)setNormalizedSurface:(NSNumber *)inValue;
-- (NSNumber *)normalizedSurface;
-
-- (void)setSpectrum:(JKSpectrum *)inValue;
-- (JKSpectrum *)spectrum;
-
+// Mutable To-Many relationship searchResult
 - (NSMutableArray *)searchResults;
 - (void)setSearchResults:(NSMutableArray *)inValue;
-- (void)insertObject:(NSDictionary *)searchResult inSearchResultsAtIndex:(int)index;
+- (int)countOfSearchResults;
+- (NSDictionary *)objectInSearchResultsAtIndex:(int)index;
+- (void)getSearchResult:(NSDictionary **)someSearchResults range:(NSRange)inRange;
+- (void)insertObject:(NSDictionary *)aSearchResult inSearchResultsAtIndex:(int)index;
 - (void)removeObjectFromSearchResultsAtIndex:(int)index;
+- (void)replaceObjectInSearchResultsAtIndex:(int)index withObject:(NSDictionary *)aSearchResult;
+- (BOOL)validateSearchResult:(NSDictionary **)aSearchResult error:(NSError **)outError;
 
-
-- (JKLibraryEntry *)libraryHit;
 - (void)setLabel:(NSString *)inValue;
 - (NSString *)label;
 - (void)setSymbol:(NSString *)inValue;
@@ -132,12 +93,10 @@
 - (BOOL)identified;
 - (void)setConfirmed:(BOOL)inValue;
 - (BOOL)confirmed;
-//- (void)setScore:(NSNumber *)inValue;
-- (NSNumber *)score;
-//- (void)setLibrary:(NSString *)inValue;
-- (NSString *)library;
+
 - (void)setIdentifiedSearchResult:(id)inValue;
 - (id)identifiedSearchResult;
 
+#pragma mark Support for older formats
 - (void)updateForNewEncoding;
 @end

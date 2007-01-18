@@ -289,27 +289,28 @@
             
             if (top != start && top != end && surface > 0.0) { // Sanity check
                                                                // Add peak
-                JKPeakRecord *record = [[JKPeakRecord alloc] init];
-                [record setDocument:[self document]];
-                [record setValue:[NSNumber numberWithInt:peakCount] forKey:@"peakID"];
-                [record setValue:[NSNumber numberWithInt:start] forKey:@"start"];
-                [record setValue:[NSNumber numberWithInt:top] forKey:@"top"];
-                [record setValue:[NSNumber numberWithInt:end] forKey:@"end"];
-                [record setValue:[NSNumber numberWithFloat:baselineAtStart] forKey:@"baselineLeft"];
-                [record setValue:[NSNumber numberWithFloat:baselineAtEnd] forKey:@"baselineRight"];
-                
-                [record setValue:[NSNumber numberWithFloat:height] forKey:@"height"];
-                [record setValue:[NSNumber numberWithFloat:surface] forKey:@"surface"];
-                
-                retentionIndex = topTime * [[[self document] retentionIndexSlope] floatValue] + [[[self document] retentionIndexRemainder] floatValue];
-                [record setValue:[NSNumber numberWithFloat:retentionIndex] forKey:@"retentionIndex"];
-                                
-                [record setSpectrum:[[self document] spectrumForScan:top]];
-                [record setModel:[self model]];
-                [self insertObject:record inPeaksAtIndex:[[self peaks] count]];
-                [[self document] insertObject:record inPeaksAtIndex:[[[self document] peaks] count]];
+                [self addPeakFromScan:start toScan:end];
+ //               JKPeakRecord *record = [[JKPeakRecord alloc] init];
+//                [record setDocument:[self document]];
+//                [record setValue:[NSNumber numberWithInt:peakCount] forKey:@"peakID"];
+//                [record setValue:[NSNumber numberWithInt:start] forKey:@"start"];
+//                [record setValue:[NSNumber numberWithInt:top] forKey:@"top"];
+//                [record setValue:[NSNumber numberWithInt:end] forKey:@"end"];
+//                [record setValue:[NSNumber numberWithFloat:baselineAtStart] forKey:@"baselineLeft"];
+//                [record setValue:[NSNumber numberWithFloat:baselineAtEnd] forKey:@"baselineRight"];
+//                
+//                [record setValue:[NSNumber numberWithFloat:height] forKey:@"height"];
+//                [record setValue:[NSNumber numberWithFloat:surface] forKey:@"surface"];
+//                
+//                retentionIndex = topTime * [[[self document] retentionIndexSlope] floatValue] + [[[self document] retentionIndexRemainder] floatValue];
+//                [record setValue:[NSNumber numberWithFloat:retentionIndex] forKey:@"retentionIndex"];
+//                                
+//                [record setSpectrum:[[self document] spectrumForScan:top]];
+//                [record setModel:[self model]];
+//                [self insertObject:record inPeaksAtIndex:[[self peaks] count]];
+//                [[self document] insertObject:record inPeaksAtIndex:[[[self document] peaks] count]];
                 peakCount++;
-                [record release]; 
+//                [record release]; 
             }
             
             // Continue looking for peaks from end of this peak
@@ -318,21 +319,46 @@
     }
     
     // Walk through the found peaks to calculate a normalized surface area and normalized height
-    peakCount = [[self peaks] count];
-    for (i = 0; i < peakCount; i++) {
-        [[[self peaks] objectAtIndex:i] setValue:[NSNumber numberWithFloat:[[[[self peaks] objectAtIndex:i] valueForKey:@"height"] floatValue]*100/maximumHeight] forKey:@"normalizedHeight"];
-        [[[self peaks] objectAtIndex:i] setValue:[NSNumber numberWithFloat:[[[[self peaks] objectAtIndex:i] valueForKey:@"surface"] floatValue]*100/maximumSurface] forKey:@"normalizedSurface"];
-    }
+//    peakCount = [[self peaks] count];
+//    for (i = 0; i < peakCount; i++) {
+//        [[[self peaks] objectAtIndex:i] setValue:[NSNumber numberWithFloat:[[[[self peaks] objectAtIndex:i] valueForKey:@"height"] floatValue]*100/maximumHeight] forKey:@"normalizedHeight"];
+//        [[[self peaks] objectAtIndex:i] setValue:[NSNumber numberWithFloat:[[[[self peaks] objectAtIndex:i] valueForKey:@"surface"] floatValue]*100/maximumSurface] forKey:@"normalizedSurface"];
+//    }
 }
+
+- (void)addPeakFromScan:(int)startScan toScan:(int)endScan {
+    JKPeakRecord *newPeak = [[JKPeakRecord alloc] init];
+    [newPeak setStart:[NSNumber numberWithInt:startScan]];
+    [newPeak setEnd:[NSNumber numberWithInt:endScan]];
+    [newPeak setChromatogram:self];
+    [newPeak setValue:[NSNumber numberWithInt:startScan] forKey:@"start"];
+    [newPeak setValue:[NSNumber numberWithInt:endScan] forKey:@"end"];
+    [newPeak setValue:[NSNumber numberWithFloat:[self baselineValueAtScan:startScan]] forKey:@"baselineLeft"];
+    [newPeak setValue:[NSNumber numberWithFloat:[self baselineValueAtScan:endScan]] forKey:@"baselineRight"];
+    
+//        [newPeak setValue:[NSNumber numberWithInt:top] forKey:@"top"];
+//        [newPeak setValue:[NSNumber numberWithInt:peakCount] forKey:@"peakID"];
+//        [newPeak setValue:[NSNumber numberWithFloat:height] forKey:@"height"];
+//    [newPeak setValue:[NSNumber numberWithFloat:surface] forKey:@"surface"];
+//    
+//    retentionIndex = topTime * [[[self document] retentionIndexSlope] floatValue] + [[[self document] retentionIndexRemainder] floatValue];
+//    [newPeak setValue:[NSNumber numberWithFloat:retentionIndex] forKey:@"retentionIndex"];
+//    
+//    [newPeak setSpectrum:[[self document] spectrumForScan:top]];
+    [self insertObject:newPeak inPeaksAtIndex:[[self peaks] count]];
+    [[self document] insertObject:newPeak inPeaksAtIndex:[[[self document] peaks] count]];
+    [newPeak release];     
+}
+
 
 - (float)timeForScan:(int)scan {
     NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
-    return time[scan]/60.0f;    
+    return time[scan];    
 }
 
 - (int)scanForTime:(float)inTime {
     int i;
-    inTime = inTime * 60.0f;
+//    inTime = inTime * 60.0f;
     if (inTime <= time[0]) {
         return 0;
     } else if (inTime >= time[numberOfPoints-1]) {
@@ -348,6 +374,46 @@
 
 - (NSUndoManager *)undoManager {
     return [[self document] undoManager];
+}
+
+#pragma mark NSCODING
+
+- (void)encodeWithCoder:(NSCoder *)coder{
+    if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
+		[coder encodeInt:1 forKey:@"version"];
+		[coder encodeConditionalObject:document forKey:@"document"];
+		[coder encodeObject:model forKey:@"model"];
+		[coder encodeObject:baselinePoints forKey:@"baselinePoints"];
+        [coder encodeObject:peaks forKey:@"peaks"];
+        [coder encodeInt:numberOfPoints forKey:@"numberOfPoints"];
+		[coder encodeBytes:(void *)time length:numberOfPoints*sizeof(float) forKey:@"time"];
+		[coder encodeBytes:(void *)totalIntensity length:numberOfPoints*sizeof(float) forKey:@"totalIntensity"];
+        
+    } 
+    return;
+}
+
+- (id)initWithCoder:(NSCoder *)coder{
+    if ( [coder allowsKeyedCoding] ) {
+        document = [coder decodeObjectForKey:@"document"];            
+        model = [[coder decodeObjectForKey:@"model"] retain];
+        baselinePoints = [[coder decodeObjectForKey:@"baselinePoints"] retain];
+        peaks = [[coder decodeObjectForKey:@"peaks"] retain];
+         
+        numberOfPoints = [coder decodeIntForKey:@"numberOfPoints"];
+        
+        const uint8_t *temporary = NULL; //pointer to a temporary buffer returned by the decoder.
+        unsigned int length;
+        time = (float *) malloc(1*sizeof(float));
+        totalIntensity = (float *) malloc(1*sizeof(float));
+        
+        temporary	= [coder decodeBytesForKey:@"time" returnedLength:&length];
+        [self setTime:(float *)temporary withCount:numberOfPoints];
+        
+        temporary	= [coder decodeBytesForKey:@"totalIntensity" returnedLength:&length];
+        [self setTotalIntensity:(float *)temporary withCount:numberOfPoints];
+ 	} 
+    return self;
 }
 
 #pragma mark ACCESSORS

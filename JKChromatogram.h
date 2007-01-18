@@ -47,7 +47,7 @@
 
 - (void)obtainBaseline;
 - (void)identifyPeaks;
-
+- (void)addPeakFromScan:(int)startScan toScan:(int)endScan withLeftBaseline:(float)baselineLeft andRightBaseline:(float)baselineRight;
 
 #pragma mark ACCESSORS
 /*! @functiongroup Accessors */

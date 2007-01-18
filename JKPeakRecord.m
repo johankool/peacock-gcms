@@ -109,22 +109,110 @@
     return [NSNumber numberWithFloat:value];
 }
 
+- (int)top {
+    int top;
+    int j;
+    float *totalIntensity = [[self chromatogram] totalIntensity];
+    top = start;
+    for (j=start; j <= end; j++) {
+        if (totalIntensity[j] > totalIntensity[top]) {
+            top = j;
+        }
+    }
+    return top;
+}
+
+- (NSNumber *)topTime {
+    float *time = [[self chromatogram] time];
+    float topTime;
+    int top;
+    top = [self top];
+    topTime = time[top];
+    return [NSNumber numberWithFloat:topTime];
+}
+
+- (NSNumber *)retentionIndex {
+    float retentionIndex = [[self topTime] floatValue] * [[[self document] retentionIndexSlope] floatValue] + [[[self document] retentionIndexRemainder] floatValue];
+    return [NSNumber numberWithFloat:retentionIndex];
+}
+
+- (NSNumber *)surface {
+    NSAssert(start < end, @"surface: start scan should be before end scan of peak");
+    int j;
+    float time1, time2, height1, height2;
+    float surface = 0.0;
+    float *time = [[self chromatogram] time];
+    float *totalIntensity = [[self chromatogram] totalIntensity];
+
+    float baselineAtStart = [[self baselineLeft] floatValue];
+    float baselineAtEnd = [[self baselineRight] floatValue];
+    
+    // Calculations needed for height and width
+    float a = baselineAtEnd-baselineAtStart;
+    float b = time[end]-time[start];
+    
+    for (j=start; j < end; j++) {
+        time1 = time[j];//[[self chromatogram] timeForScan:j];
+        time2 = time[j+1];//[[self chromatogram] timeForScan:j+1];
+        
+        height1 = totalIntensity[j]-(baselineAtStart + (a/b)*(time1-time[start]) );
+        height2 = totalIntensity[j+1]-(baselineAtStart + (a/b)*(time2-time[start]) );
+        
+        if (height1 > height2) {
+            surface = surface + (height2 * (time2-time1)) + ((height1-height2) * (time2-time1) * 0.5);
+        } else {
+            surface = surface + (height1 * (time2-time1)) + ((height2-height1) * (time2-time1) * 0.5);					
+        }
+    }
+    
+    return [NSNumber numberWithFloat:surface];
+}
+
+- (NSNumber *)height {
+    int top = [self top];
+    float *time = [[self chromatogram] time];
+    float *totalIntensity = [[self chromatogram] totalIntensity];    
+    float baselineAtStart = [[self baselineLeft] floatValue];
+    float baselineAtEnd = [[self baselineRight] floatValue];
+    
+    // Calculations needed for height and width
+    float a = baselineAtEnd-baselineAtStart;
+    float b = time[end] - time[start];
+     
+    float height = totalIntensity[top]-(baselineAtStart + (a/b)*(time[top]-time[start]) );
+    
+    return [NSNumber numberWithFloat:height];
+}
+
+- (JKSpectrum *)spectrum {
+    return [[self document] spectrumForScan:[self top]];
+}
+
+- (JKSpectrum *)combinedSpectrum {
+    return [[[self document] spectrumForScan:[self top]] spectrumBySubtractingSpectrum:[[[self document] spectrumForScan:[self start]] spectrumByAveragingWithSpectrum:[[self document] spectrumForScan:[self end]]]];
+}
+
+
+
 #pragma mark ACCESSORS
 
-- (void)setPeakID:(NSNumber *)inValue {
-	[inValue retain];
-	[peakID autorelease];
+- (void)setPeakID:(int)inValue {
 	peakID = inValue;
 }
-- (NSNumber *)peakID {
+- (int)peakID {
     return peakID;
 }
-- (void)setDocument:(JKGCMSDocument *)inValue {
+
+- (void)setChromatogram:(JKChromatogram *)inValue {
 	// Weak link
-	document = inValue;
+	chromatogram = inValue;
 }
+- (JKChromatogram *)chromatogram {
+    return chromatogram;
+}
+
 - (JKGCMSDocument *)document {
-    return document;
+    return [[self chromatogram] document];
 }
 
 - (NSNumber *)score {
@@ -147,19 +235,8 @@
     return label;
 }
 
-- (void)setModel:(NSString *)inValue {
-    [[self undoManager] registerUndoWithTarget:self
-                                      selector:@selector(setModel:)
-                                        object:label];
-    [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Model",@"Change Peak Model")];
-    
-	[inValue retain];
-	[model autorelease];
-	model = inValue;
-}
-
 - (NSString *)model {
-    return model;
+    return [[self chromatogram] model];
 }
 
 - (void)setSymbol:(NSString *)inValue {
@@ -176,29 +253,6 @@
 - (NSString *)symbol {
     return symbol;
 } 
-
-//- (void)setTopTime:(NSNumber *)inValue  
-//{
-//	[inValue retain];
-//	[topTime autorelease];
-//	topTime = inValue;
-//}
-
-//- (NSNumber *)topTime  
-//{
-//    return topTime;
-//}
-
-
-- (void)setHeight:(NSNumber *)inValue {
-	[inValue retain];
-	[height autorelease];
-	height = inValue;
-}
-
-- (NSNumber *)height {
-    return height;
-}
 
 - (void)setBaselineLeft:(NSNumber *)inValue {
 	[inValue retain];
@@ -220,90 +274,29 @@
     return baselineRight;
 }
 
-- (void)setBaselineLeftTime:(NSNumber *)inValue {
-	[inValue retain];
-	[baselineLeftTime autorelease];
-	baselineLeftTime = inValue;
-}
-
-- (NSNumber *)baselineLeftTime{
-    return baselineLeftTime;
-}
-
-- (void)setBaselineRightTime:(NSNumber *)inValue {
-	[inValue retain];
-	[baselineRightTime autorelease];
-	baselineRightTime = inValue;
-}
-
-- (NSNumber *)baselineRightTime{
-    return baselineRightTime;
-}
-
-- (void)setSurface:(NSNumber *)inValue {
-	[inValue retain];
-	[surface autorelease];
-	surface = inValue;
-}
-
-- (NSNumber *)surface {
-    return surface;
-}
-
-- (void)setTop:(NSNumber *)inValue {
-	[inValue retain];
-	[top autorelease];
-	top = inValue;
-}
-
-- (NSNumber *)top {
-    return top;
-}
-
-- (NSNumber *)topTime{
-    return [NSNumber numberWithFloat:[[self document] timeForScan:[top intValue]]];
-}
-
-
-- (void)setStart:(NSNumber *)inValue {
-	[inValue retain];
-	[start autorelease];
+- (void)setStart:(int)inValue {
 	start = inValue;
 }
 
-- (NSNumber *)start {
+- (int)start {
     return start;
 }
 
 - (NSNumber *)startTime{
-    return [NSNumber numberWithFloat:[[self document] timeForScan:[start intValue]]];
+    return [NSNumber numberWithFloat:[[self document] timeForScan:start]];
 }
 
-- (void)setEnd:(NSNumber *)inValue {
-	[inValue retain];
-	[end autorelease];
+- (void)setEnd:(int)inValue {
 	end = inValue;
 }
 
-- (NSNumber *)end {
+- (int)end {
     return end;
 }
 
 - (NSNumber *)endTime{
-    return [NSNumber numberWithFloat:[[self document] timeForScan:[end intValue]]];
+    return [NSNumber numberWithFloat:[[self document] timeForScan:end]];
 }
-
-- (void)setSpectrum:(JKSpectrum *)inValue {
-	[inValue retain];
-	[spectrum autorelease];
-	spectrum = inValue;
-}
-
-- (JKSpectrum *)spectrum {
-    NSAssert(spectrum != nil, @"spectrum is nil");
-    return spectrum;
-}
-
 
 - (void)setIdentified:(BOOL)inValue {
 	identified = inValue;
@@ -329,34 +322,6 @@
 	return [identifiedSearchResult objectForKey:@"libraryHit"];
 }
 
-- (void)setRetentionIndex:(NSNumber *)inValue {
-	[inValue retain];
-	[retentionIndex autorelease];
-	retentionIndex = inValue;
-}
-
-- (NSNumber *)retentionIndex {
-    return retentionIndex;
-}
-
-- (void)setNormalizedHeight:(NSNumber *)inValue{
-	[inValue retain];
-	[normalizedHeight autorelease];
-	normalizedHeight = inValue;
-	
-}
-- (NSNumber *)normalizedHeight{
-	return normalizedHeight;
-}
-- (void)setNormalizedSurface:(NSNumber *)inValue{
-	[inValue retain];
-	[normalizedSurface autorelease];
-	normalizedSurface = inValue;	
-}
-- (NSNumber *)normalizedSurface {
-	return normalizedSurface;
-}
-
 - (void)setIdentifiedSearchResult:(id)inValue{
 	[inValue retain];
 	[identifiedSearchResult autorelease];
@@ -367,85 +332,99 @@
 	return identifiedSearchResult;
 }
 
-- (int)searchResultsCount{
-	return [searchResults count];
-}
-
+// Mutable To-Many relationship searchResults
 - (NSMutableArray *)searchResults {
-    return searchResults;
+	return searchResults;
 }
 
-- (void)setSearchResults:(NSMutableArray *)array{
-	if (array == searchResults)
-		return;
-	
-	// Add the inverse action to the undo stack
-	NSUndoManager *undo = [[self document] undoManager];
-	[[undo prepareWithInvocationTarget:self] setSearchResults:searchResults];
-	
-	if (![undo isUndoing]) {
-		[undo setActionName:NSLocalizedString(@"Set Search Results",@"")];
-	}
-	
-	[searchResults release];
-	[array retain];
-	searchResults = array;
+- (void)setSearchResults:(NSMutableArray *)inValue {
+    [inValue retain];
+    [searchResults release];
+    searchResults = inValue;
 }
 
-- (void)insertObject:(NSDictionary *)searchResult inSearchResultsAtIndex:(int)index{
+- (int)countOfSearchResults {
+    return [[self searchResults] count];
+}
+
+- (NSDictionary *)objectInSearchResultsAtIndex:(int)index {
+    return [[self searchResults] objectAtIndex:index];
+}
+
+- (void)getSearchResult:(NSDictionary **)someSearchResults range:(NSRange)inRange {
+    // Return the objects in the specified range in the provided buffer.
+    [searchResults getObjects:someSearchResults range:inRange];
+}
+
+- (void)insertObject:(NSDictionary *)aSearchResult inSearchResultsAtIndex:(int)index {
 	// Add the inverse action to the undo stack
-	NSUndoManager *undo = [[self document] undoManager];
+	NSUndoManager *undo = [self undoManager];
 	[[undo prepareWithInvocationTarget:self] removeObjectFromSearchResultsAtIndex:index];
 	
 	if (![undo isUndoing]) {
 		[undo setActionName:NSLocalizedString(@"Insert Search Result",@"")];
 	}
 	
-	// Add the peak to the array
-	[searchResults insertObject:searchResult atIndex:index];
+	// Add aSearchResult to the array searchResults
+	[searchResults insertObject:aSearchResult atIndex:index];
 }
 
-- (void)removeObjectFromSearchResultsAtIndex:(int)index{
-	NSDictionary *searchResult = [searchResults objectAtIndex:index];
+- (void)removeObjectFromSearchResultsAtIndex:(int)index
+{
+	NSDictionary *aSearchResult = [searchResults objectAtIndex:index];
 	
 	// Add the inverse action to the undo stack
-	NSUndoManager *undo = [[self document] undoManager];
-	[[undo prepareWithInvocationTarget:self] insertObject:searchResult inSearchResultsAtIndex:index];
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] insertObject:aSearchResult inSearchResultsAtIndex:index];
 	
 	if (![undo isUndoing]) {
 		[undo setActionName:NSLocalizedString(@"Delete Search Result",@"")];
 	}
 	
-	// Remove the searchResult from the array
+	// Remove the peak from the array
 	[searchResults removeObjectAtIndex:index];
 }
+
+- (void)replaceObjectInSearchResultsAtIndex:(int)index withObject:(NSDictionary *)aSearchResult
+{
+	NSDictionary *replacedSearchResult = [searchResults objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] replaceObjectAtIndex:index withObject:replacedSearchResult];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Replace Search Result",@"")];
+	}
+	
+	// Replace the peak from the array
+	[searchResults replaceObjectAtIndex:index withObject:aSearchResult];
+}
+
+- (BOOL)validateSearchResult:(NSDictionary **)aSearchResult error:(NSError **)outError {
+    // Implement validation here...
+    return YES;
+} // end searchResults
+
 
 
 #pragma mark NSCODING
 
 - (void)encodeWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
-		[coder encodeInt:3 forKey:@"version"];
-		[coder encodeConditionalObject:document forKey:@"document"];
-		[coder encodeObject:peakID forKey:@"peakID"];
-		[coder encodeObject:start forKey:@"start"];
-        [coder encodeObject:end forKey:@"end"];
-        [coder encodeObject:top forKey:@"top"];
-//        [coder encodeObject:topTime forKey:@"topTime"];
-        [coder encodeObject:height forKey:@"height"];
-        [coder encodeObject:normalizedHeight forKey:@"normalizedHeight"];
+		[coder encodeInt:5 forKey:@"version"];
+		[coder encodeObject:chromatogram forKey:@"chromatogram"];
+		[coder encodeInt:peakID forKey:@"peakID"];
+		[coder encodeInt:start forKey:@"start"];
+        [coder encodeInt:end forKey:@"end"];
 		[coder encodeObject:baselineLeft forKey:@"baselineLeft"];
         [coder encodeObject:baselineRight forKey:@"baselineRight"];
-        [coder encodeObject:surface forKey:@"surface"];
-        [coder encodeObject:normalizedSurface forKey:@"normalizedSurface"];
         [coder encodeObject:label forKey:@"label"];
         [coder encodeObject:symbol forKey:@"symbol"];
         [coder encodeBool:identified forKey:@"identified"];
 		[coder encodeBool:confirmed forKey:@"confirmed"];
 		[coder encodeObject:identifiedSearchResult forKey:@"identifiedSearchResult"];
-		[coder encodeObject:retentionIndex forKey:@"retentionIndex"];
 		[coder encodeObject:searchResults forKey:@"searchResults"];
-		[coder encodeObject:spectrum forKey:@"spectrum"];
     } 
     return;
 }
@@ -453,37 +432,39 @@
 - (id)initWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) {
 		int version = [coder decodeIntForKey:@"version"];
-		document = [coder decodeObjectForKey:@"document"]; 
-        // Support for reading in old file-format
-        if (document == nil) {
-            _needsUpdating = YES;
-            _libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain];
-            _score = [[coder decodeObjectForKey:@"score"] retain];
+        if (version >= 5) {
+            chromatogram = [coder decodeObjectForKey:@"chromatogram"];            
+            peakID = [coder decodeIntForKey:@"peakID"];
+            start = [coder decodeIntForKey:@"start"];
+            end = [coder decodeIntForKey:@"end"];
+            baselineLeft = [[coder decodeObjectForKey:@"baselineLeft"] retain];
+            baselineRight = [[coder decodeObjectForKey:@"baselineRight"] retain];
+        } else {
+            chromatogram = [[[coder decodeObjectForKey:@"document"] chromatograms] objectAtIndex:0];
+            // Support for reading in old file-format
+            if (chromatogram == nil) {
+                _needsUpdating = YES;
+                _libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain];
+                _score = [[coder decodeObjectForKey:@"score"] retain];
+            }
+            peakID = [[coder decodeObjectForKey:@"peakID"] intValue];
+            start = [[coder decodeObjectForKey:@"start"] intValue];
+            end = [[coder decodeObjectForKey:@"end"] intValue];
+            // Support for reading in old file-format
+            if (version < 3) {
+                baselineLeft = [[coder decodeObjectForKey:@"baselineL"] retain];
+                baselineRight = [[coder decodeObjectForKey:@"baselineR"] retain];
+            } else {
+                baselineLeft = [[coder decodeObjectForKey:@"baselineLeft"] retain];
+                baselineRight = [[coder decodeObjectForKey:@"baselineRight"] retain];
+            }
         }
-		peakID = [[coder decodeObjectForKey:@"peakID"] retain];
-		start = [[coder decodeObjectForKey:@"start"] retain];
-        end = [[coder decodeObjectForKey:@"end"] retain];
-        top = [[coder decodeObjectForKey:@"top"] retain];
-        height = [[coder decodeObjectForKey:@"height"] retain];
-        normalizedHeight = [[coder decodeObjectForKey:@"normalizedHeight"] retain];
-        // Support for reading in old file-format
-		if (version < 3) {
-			baselineLeft = [[coder decodeObjectForKey:@"baselineL"] retain];
-			baselineRight = [[coder decodeObjectForKey:@"baselineR"] retain];
-		} else {
-			baselineLeft = [[coder decodeObjectForKey:@"baselineLeft"] retain];
-			baselineRight = [[coder decodeObjectForKey:@"baselineRight"] retain];
-		}
-        surface = [[coder decodeObjectForKey:@"surface"] retain];
-        normalizedSurface = [[coder decodeObjectForKey:@"normalizedSurface"] retain];
         label = [[coder decodeObjectForKey:@"label"] retain];
 		symbol = [[coder decodeObjectForKey:@"symbol"] retain];
         identified = [coder decodeBoolForKey:@"identified"];
 		confirmed = [coder decodeBoolForKey:@"confirmed"];
 		identifiedSearchResult = [[coder decodeObjectForKey:@"identifiedSearchResult"] retain];
-		retentionIndex = [[coder decodeObjectForKey:@"retentionIndex"] retain];
 		searchResults = [[coder decodeObjectForKey:@"searchResults"] retain];
-        spectrum = [[coder decodeObjectForKey:@"spectrum"] retain];		
 	} 
     return self;
 }
@@ -491,41 +472,24 @@
 - (void)updateForNewEncoding {
     if (_needsUpdating) {
         // A bit of a hack really
-        document = [[NSDocumentController sharedDocumentController] currentDocument];
+        JKGCMSDocument *document = [[NSDocumentController sharedDocumentController] currentDocument];
         NSAssert(document != nil, @"updateForNewEncoding - No document found");
-        spectrum = [[JKSpectrum alloc] init];
-        float npts = [document endValuesSpectrum:[top intValue]] - [document startValuesSpectrum:[top intValue]];
-        float *xpts = [document massValuesForSpectrumAtScan:[top intValue]];
-        float *ypts = [document intensityValuesForSpectrumAtScan:[top intValue]];
-        [spectrum setMasses:xpts withCount:npts];
-        [spectrum setIntensities:ypts withCount:npts];
-        [spectrum setDocument:document];
-        free(xpts);
-        free(ypts);
-        [self setSpectrum:spectrum];
-        // Don't release now because no spectrum is yet set in init
-        // [spectrum release];
+        chromatogram = [[document chromatograms] objectAtIndex:0];
 
         searchResults = [[NSMutableArray alloc] init];
 
         if (identified && ((_score != nil) && (_libraryHit != nil))) {
-            
             NSMutableDictionary *searchResult = [[NSMutableDictionary alloc] init];
 			[searchResult setValue:_score forKey:@"score"];
 			[searchResult setValue:_libraryHit forKey:@"libraryHit"];
 
-            [self willChangeValueForKey:@"libraryHit"];
             [self setIdentifiedSearchResult:searchResult];
             // Initial default settings after identification, but can be customized by user later on
             [self setSymbol:[searchResult valueForKeyPath:@"libraryHit.symbol"]];
             
             if (![searchResults containsObject:searchResult]) {
-                [self willChangeValueForKey:@"searchResultCount"];
                 [searchResults insertObject:searchResult atIndex:[searchResults count]];
-                [self didChangeValueForKey:@"searchResultCount"];
-            }
-            [self didChangeValueForKey:@"libraryHit"];
-            
+            }            
 			[searchResult release];
         }
     }
