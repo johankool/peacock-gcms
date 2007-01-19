@@ -11,6 +11,7 @@
 @class JKSpectrum;
 
 @interface SpectrumGraphDataSerie : MyGraphDataSerie {
+    JKSpectrum *spectrum;
 	NSRect boundingRect;
 	BOOL drawUpsideDown;
 	BOOL normalizeYData;
@@ -19,6 +20,8 @@
 - (id)initWithSpectrum:(JKSpectrum *)spectrum;
 
 #pragma mark ACCESSORS
+- (JKSpectrum *)spectrum;
+- (void)setSpectrum:(JKSpectrum *)aSpectrum;
 - (BOOL)drawUpsideDown;
 - (void)setDrawUpsideDown:(BOOL)inValue;
 - (BOOL)normalizeYData;

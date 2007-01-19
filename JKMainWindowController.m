@@ -601,8 +601,6 @@ static void *SpectrumObservationContext = (void *)1102;
 						change:(NSDictionary *)change
 					   context:(void *)context {
     if ([keyPath isEqualToString:@"chromatograms"]) {
-        //[chromatogramDataSeriesController remove
-        NSLog(@"chromatograms");
         if ([[change valueForKey:NSKeyValueChangeKindKey] intValue] == NSKeyValueChangeInsertion) {
             NSEnumerator *chromatogramEnumerator = [[[[self document] chromatograms] objectsAtIndexes:[change valueForKey:NSKeyValueChangeIndexesKey]] objectEnumerator];
             JKChromatogram *chromatogram;
@@ -646,11 +644,37 @@ static void *SpectrumObservationContext = (void *)1102;
         
     }
 	if (((object == peakController) | (object == searchResultsController)) && (([peakController selection] != NSNoSelectionMarker) && ([searchResultsController selection] != NSNoSelectionMarker))) {
-		NSArray *peakArray = [[peakController selectedObjects] valueForKeyPath:@"spectrum.spectrumDataSerie"];
-		NSArray *searchResultsArray = [[searchResultsController selectedObjects] valueForKeyPath:@"libraryHit.spectrumDataSerieUpsideDown"];
-		[spectrumDataSeriesController setContent:[peakArray arrayByAddingObjectsFromArray:searchResultsArray]];
+        NSMutableArray *spectrumArray = [NSMutableArray array];
+        
+        [spectrumDataSeriesController removeObjects:[spectrumDataSeriesController arrangedObjects]];
+
+        NSEnumerator *peakEnumerator = [[peakController selectedObjects] objectEnumerator];
+        JKPeakRecord *peak;
+        SpectrumGraphDataSerie *sgds;
+        
+        while ((peak = [peakEnumerator nextObject]) != nil) {
+            if (showSpectrum) {
+                sgds = [[[SpectrumGraphDataSerie alloc] initWithSpectrum:[peak spectrum]] autorelease];
+            } else if (showCombinedSpectrum) {
+                sgds = [[[SpectrumGraphDataSerie alloc] initWithSpectrum:[peak combinedSpectrum]] autorelease];
+            }
+        	[spectrumArray addObject:sgds];
+        }
+        
+        NSEnumerator *searchResultEnumerator = [[searchResultsController selectedObjects] objectEnumerator];
+        NSDictionary *searchResult;
+        
+        while ((searchResult = [searchResultEnumerator nextObject]) != nil) {
+            sgds = [[[SpectrumGraphDataSerie alloc] initWithSpectrum:[searchResult valueForKey:@"spectrum"]] autorelease];
+            [sgds setDrawUpsideDown:YES];
+            [spectrumArray addObject:sgds];
+        }
+        
+		[spectrumDataSeriesController setContent:spectrumArray];
+
 		[chromatogramView setNeedsDisplay:YES];
-        [spectrumView showAll:self];
+		[spectrumView setNeedsDisplay:YES];
+//        [spectrumView showAll:self];
     }
 	if (context == ChromatogramObservationContext) {
 		[chromatogramView setNeedsDisplay:YES];

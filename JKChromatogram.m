@@ -328,11 +328,9 @@
 
 - (void)addPeakFromScan:(int)startScan toScan:(int)endScan {
     JKPeakRecord *newPeak = [[JKPeakRecord alloc] init];
-    [newPeak setStart:[NSNumber numberWithInt:startScan]];
-    [newPeak setEnd:[NSNumber numberWithInt:endScan]];
+    [newPeak setStart:startScan];
+    [newPeak setEnd:endScan];
     [newPeak setChromatogram:self];
-    [newPeak setValue:[NSNumber numberWithInt:startScan] forKey:@"start"];
-    [newPeak setValue:[NSNumber numberWithInt:endScan] forKey:@"end"];
     [newPeak setValue:[NSNumber numberWithFloat:[self baselineValueAtScan:startScan]] forKey:@"baselineLeft"];
     [newPeak setValue:[NSNumber numberWithFloat:[self baselineValueAtScan:endScan]] forKey:@"baselineRight"];
     

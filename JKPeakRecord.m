@@ -29,6 +29,7 @@
 	if (self != nil) {
 		searchResults = [[NSMutableArray alloc] init];
 		label = @"";
+        symbol = @"";
         identified = NO;
         confirmed = NO;
     }

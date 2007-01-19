@@ -36,8 +36,25 @@ static void *PropertyObservationContext = (void *)1093;
     return self;
 }
 
-- (id)initWithSpectrum:(JKSpectrum *)spectrum {
-    return [self init];
+- (id)initWithSpectrum:(JKSpectrum *)aSpectrum {
+    self = [super init];
+    if (self) {
+        // Zet de standaardwaarden
+		[self setSeriesTitle:[spectrum model]];
+		[self setKeyForXValue:@"Mass"];
+		[self setKeyForYValue:@"Intensity"];
+		[self setSeriesColor:[NSColor blueColor]];
+		[self setSeriesType:2];
+		[self setShouldDrawLabels:YES];
+		drawUpsideDown = NO;
+		normalizeYData = YES;
+		boundingRect = NSZeroRect;
+
+        [self setSpectrum:aSpectrum];
+ 		// Creeer de plot een eerste keer.
+		[self constructPlotPath];
+	}
+    return self;
 }
 
 #pragma mark DRAWING ROUTINES
@@ -307,6 +324,22 @@ static void *PropertyObservationContext = (void *)1093;
 		[self constructPlotPath];
 		return;
 	}
+}
+
+- (JKSpectrum *)spectrum {
+    return spectrum;
+}
+
+- (void)setSpectrum:(JKSpectrum *)aSpectrum {
+    if (aSpectrum != spectrum) {
+        [aSpectrum retain];
+        [spectrum autorelease];
+        spectrum = aSpectrum;     
+#warning [BUG] Localisation ignorant code
+        [self setKeyForXValue:@"Mass"];
+        [self setKeyForYValue:@"Intensity"];
+        [self loadDataPoints:[spectrum numberOfPoints] withXValues:[spectrum masses] andYValues:[spectrum intensities]];
+    }    
 }
 
 - (BOOL)drawUpsideDown {

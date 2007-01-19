@@ -24,7 +24,7 @@
 NSString *const JKGCMSDocument_DocumentDeactivateNotification = @"JKGCMSDocument_DocumentDeactivateNotification";
 NSString *const JKGCMSDocument_DocumentActivateNotification   = @"JKGCMSDocument_DocumentActivateNotification";
 NSString *const JKGCMSDocument_DocumentLoadedNotification     = @"JKGCMSDocument_DocumentLoadedNotification";
-int const JKGCMSDocument_Version = 4;
+int const JKGCMSDocument_Version = 5;
 static void *DocumentObservationContext = (void *)1100;
 
 @implementation JKGCMSDocument
@@ -36,7 +36,6 @@ static void *DocumentObservationContext = (void *)1100;
     if (self != nil) {
         mainWindowController = [[[JKMainWindowController alloc] init] autorelease];
 		peaks = [[NSMutableArray alloc] init];
-//		baseline = [[NSMutableArray alloc] init];
 		metadata = [[NSMutableDictionary alloc] init];
 		chromatograms = [[NSMutableArray alloc] init];
 		
@@ -85,7 +84,6 @@ static void *DocumentObservationContext = (void *)1100;
 
 - (void)dealloc {
 	[peaks release];	
-//    [baseline release];
 	[metadata release];
 	[chromatograms release];
 	[baselineWindowWidth release];
@@ -197,7 +195,9 @@ static void *DocumentObservationContext = (void *)1100;
 	if ([typeName isEqualToString:@"NetCDF/ANDI File"]) {
         absolutePathToNetCDF = [absoluteURL path];
         result = [self readNetCDFFile:[absoluteURL path] error:outError];
+        [[self undoManager] disableUndoRegistration];
         [self insertObject:[self ticChromatogram] inChromatogramsAtIndex:0];
+        [[self undoManager] enableUndoRegistration];
         return result;
 	} else if ([typeName isEqualToString:@"Peacock File"]) {		
 		NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath:[absoluteURL path]];
@@ -206,10 +206,10 @@ static void *DocumentObservationContext = (void *)1100;
 		data = [[[wrapper fileWrappers] valueForKey:@"peacock-data"] regularFileContents];
 		unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
 		int version = [unarchiver decodeIntForKey:@"version"];
-		if (version < 3) {
+		if (version < 5) {
             if (outError != NULL)
-                *outError = [[[NSError alloc] initWithDomain:NSCocoaErrorDomain
-                                                        code:NSFileReadUnknownError userInfo:nil] autorelease];
+                *outError = [[[NSError alloc] initWithDomain:@"JKDomain" 
+                                                       code:4 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Obsolete file format", NSLocalizedDescriptionKey, @"Its file format has become obsolete.", NSLocalizedFailureReasonErrorKey, @"The file package still contains the original NetCDF file. Use 'Show Package Contents' in the Finder.", NSLocalizedRecoverySuggestionErrorKey, nil]] autorelease];
             return NO;
  		}
 		chromatograms = [[unarchiver decodeObjectForKey:@"chromatograms"] retain];

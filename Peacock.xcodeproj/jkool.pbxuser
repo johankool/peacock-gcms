@@ -18,6 +18,8 @@
 		breakpoints = (
 			C7E7EF380A2E53A000849DD5 /* [NSException raise] */,
 			C78DF4D60A3EB4F50001D828 /* _NSKVODeallocateLog */,
+			C79848FB0B60DBF2009F132B /* SpectrumGraphDataSerie.m:34 */,
+			C798491A0B60E0E3009F132B /* -[NSCFString replaceCharactersInRange:withString:] */,
 		);
 		breakpointsGroup = C7AD308508AA232200A0F4BE /* XCBreakpointsBucket */;
 		codeSenseManager = C7EB17A50898CF22007FC2ED /* Code sense */;
@@ -1007,6 +1009,111 @@
 			C79848BF0B603B62009F132B /* PBXTextBookmark */ = C79848BF0B603B62009F132B /* PBXTextBookmark */;
 			C79848C00B603B65009F132B /* PBXTextBookmark */ = C79848C00B603B65009F132B /* PBXTextBookmark */;
 			C79848C10B603B65009F132B /* PBXTextBookmark */ = C79848C10B603B65009F132B /* PBXTextBookmark */;
+			C79848C70B603C5C009F132B /* PBXTextBookmark */ = C79848C70B603C5C009F132B /* PBXTextBookmark */;
+			C79848C80B603C5C009F132B /* PBXTextBookmark */ = C79848C80B603C5C009F132B /* PBXTextBookmark */;
+			C79848D10B603E31009F132B /* PBXTextBookmark */ = C79848D10B603E31009F132B /* PBXTextBookmark */;
+			C79848D20B603E31009F132B /* PBXTextBookmark */ = C79848D20B603E31009F132B /* PBXTextBookmark */;
+			C79848D50B603E96009F132B /* PBXTextBookmark */ = C79848D50B603E96009F132B /* PBXTextBookmark */;
+			C79848D60B603E96009F132B /* PBXTextBookmark */ = C79848D60B603E96009F132B /* PBXTextBookmark */;
+			C79848D90B603EDB009F132B /* PBXTextBookmark */ = C79848D90B603EDB009F132B /* PBXTextBookmark */;
+			C79848DA0B603EDB009F132B /* PBXTextBookmark */ = C79848DA0B603EDB009F132B /* PBXTextBookmark */;
+			C79848E00B603FD2009F132B /* PBXTextBookmark */ = C79848E00B603FD2009F132B /* PBXTextBookmark */;
+			C79848E10B603FD2009F132B /* PBXTextBookmark */ = C79848E10B603FD2009F132B /* PBXTextBookmark */;
+			C79848E20B603FD2009F132B /* PBXTextBookmark */ = C79848E20B603FD2009F132B /* PBXTextBookmark */;
+			C79848E30B603FD2009F132B /* PBXTextBookmark */ = C79848E30B603FD2009F132B /* PBXTextBookmark */;
+			C79848E40B603FD2009F132B /* PBXTextBookmark */ = C79848E40B603FD2009F132B /* PBXTextBookmark */;
+			C79848EA0B60DA75009F132B /* PBXTextBookmark */ = C79848EA0B60DA75009F132B /* PBXTextBookmark */;
+			C79848EB0B60DA75009F132B /* PBXTextBookmark */ = C79848EB0B60DA75009F132B /* PBXTextBookmark */;
+			C79848EC0B60DA75009F132B /* PBXTextBookmark */ = C79848EC0B60DA75009F132B /* PBXTextBookmark */;
+			C79848ED0B60DA75009F132B /* PBXTextBookmark */ = C79848ED0B60DA75009F132B /* PBXTextBookmark */;
+			C79848EE0B60DA75009F132B /* PBXTextBookmark */ = C79848EE0B60DA75009F132B /* PBXTextBookmark */;
+			C79848EF0B60DA75009F132B /* PBXTextBookmark */ = C79848EF0B60DA75009F132B /* PBXTextBookmark */;
+			C79848F30B60DAE8009F132B /* PBXTextBookmark */ = C79848F30B60DAE8009F132B /* PBXTextBookmark */;
+			C79848F40B60DAE8009F132B /* PBXTextBookmark */ = C79848F40B60DAE8009F132B /* PBXTextBookmark */;
+			C79848F80B60DB01009F132B /* PBXTextBookmark */ = C79848F80B60DB01009F132B /* PBXTextBookmark */;
+			C79848F90B60DB01009F132B /* PBXTextBookmark */ = C79848F90B60DB01009F132B /* PBXTextBookmark */;
+			C79849020B60E0D6009F132B /* PBXTextBookmark */ = C79849020B60E0D6009F132B /* PBXTextBookmark */;
+			C79849030B60E0D6009F132B /* PBXTextBookmark */ = C79849030B60E0D6009F132B /* PBXTextBookmark */;
+			C79849040B60E0D6009F132B /* PBXTextBookmark */ = C79849040B60E0D6009F132B /* PBXTextBookmark */;
+			C79849050B60E0D6009F132B /* PBXTextBookmark */ = C79849050B60E0D6009F132B /* PBXTextBookmark */;
+			C79849060B60E0D6009F132B /* PBXTextBookmark */ = C79849060B60E0D6009F132B /* PBXTextBookmark */;
+			C79849070B60E0D6009F132B /* PBXTextBookmark */ = C79849070B60E0D6009F132B /* PBXTextBookmark */;
+			C79849080B60E0D6009F132B /* PBXTextBookmark */ = C79849080B60E0D6009F132B /* PBXTextBookmark */;
+			C79849090B60E0D6009F132B /* PBXTextBookmark */ = C79849090B60E0D6009F132B /* PBXTextBookmark */;
+			C798490A0B60E0D6009F132B /* PBXTextBookmark */ = C798490A0B60E0D6009F132B /* PBXTextBookmark */;
+			C798490B0B60E0D6009F132B /* PBXTextBookmark */ = C798490B0B60E0D6009F132B /* PBXTextBookmark */;
+			C798490C0B60E0D6009F132B /* PBXTextBookmark */ = C798490C0B60E0D6009F132B /* PBXTextBookmark */;
+			C798490D0B60E0D6009F132B /* PBXTextBookmark */ = C798490D0B60E0D6009F132B /* PBXTextBookmark */;
+			C798490E0B60E0D6009F132B /* PBXTextBookmark */ = C798490E0B60E0D6009F132B /* PBXTextBookmark */;
+			C798490F0B60E0D6009F132B /* PBXTextBookmark */ = C798490F0B60E0D6009F132B /* PBXTextBookmark */;
+			C79849100B60E0D6009F132B /* PBXTextBookmark */ = C79849100B60E0D6009F132B /* PBXTextBookmark */;
+			C79849110B60E0D6009F132B /* PBXTextBookmark */ = C79849110B60E0D6009F132B /* PBXTextBookmark */;
+			C79849120B60E0D6009F132B /* PBXTextBookmark */ = C79849120B60E0D6009F132B /* PBXTextBookmark */;
+			C79849130B60E0D6009F132B /* PBXTextBookmark */ = C79849130B60E0D6009F132B /* PBXTextBookmark */;
+			C79849140B60E0D6009F132B /* PBXTextBookmark */ = C79849140B60E0D6009F132B /* PBXTextBookmark */;
+			C79849150B60E0D6009F132B /* PBXTextBookmark */ = C79849150B60E0D6009F132B /* PBXTextBookmark */;
+			C79849160B60E0D6009F132B /* PBXTextBookmark */ = C79849160B60E0D6009F132B /* PBXTextBookmark */;
+			C79849180B60E0E2009F132B /* PBXTextBookmark */ = C79849180B60E0E2009F132B /* PBXTextBookmark */;
+			C79849190B60E0E2009F132B /* PBXTextBookmark */ = C79849190B60E0E2009F132B /* PBXTextBookmark */;
+			C798491B0B60E0FC009F132B /* PBXTextBookmark */ = C798491B0B60E0FC009F132B /* PBXTextBookmark */;
+			C798491C0B60E0FC009F132B /* PBXTextBookmark */ = C798491C0B60E0FC009F132B /* PBXTextBookmark */;
+			C79849200B60E103009F132B /* PBXTextBookmark */ = C79849200B60E103009F132B /* PBXTextBookmark */;
+			C79849210B60E112009F132B /* PBXTextBookmark */ = C79849210B60E112009F132B /* PBXTextBookmark */;
+			C79849220B60E112009F132B /* PBXTextBookmark */ = C79849220B60E112009F132B /* PBXTextBookmark */;
+			C79849240B60E153009F132B /* PBXTextBookmark */ = C79849240B60E153009F132B /* PBXTextBookmark */;
+			C79849250B60E153009F132B /* PBXTextBookmark */ = C79849250B60E153009F132B /* PBXTextBookmark */;
+			C798492C0B60E482009F132B /* PBXTextBookmark */ = C798492C0B60E482009F132B /* PBXTextBookmark */;
+			C798492D0B60E482009F132B /* PBXTextBookmark */ = C798492D0B60E482009F132B /* PBXTextBookmark */;
+			C798492F0B60E81F009F132B /* XDSCDebuggingWindowBookmark */ = C798492F0B60E81F009F132B /* XDSCDebuggingWindowBookmark */;
+			C79849310B60E81F009F132B /* XDModelBookmark */ = C79849310B60E81F009F132B /* XDModelBookmark */;
+			C79849350B60E822009F132B /* PBXTextBookmark */ = C79849350B60E822009F132B /* PBXTextBookmark */;
+			C79849360B60E822009F132B /* PBXTextBookmark */ = C79849360B60E822009F132B /* PBXTextBookmark */;
+			C79849380B60E822009F132B /* PBXTextBookmark */ = C79849380B60E822009F132B /* PBXTextBookmark */;
+			C798493A0B60E822009F132B /* PBXTextBookmark */ = C798493A0B60E822009F132B /* PBXTextBookmark */;
+			C798493B0B60E822009F132B /* PBXTextBookmark */ = C798493B0B60E822009F132B /* PBXTextBookmark */;
+			C798493D0B60E822009F132B /* PBXTextBookmark */ = C798493D0B60E822009F132B /* PBXTextBookmark */;
+			C798493F0B60E822009F132B /* PBXTextBookmark */ = C798493F0B60E822009F132B /* PBXTextBookmark */;
+			C79849410B60E822009F132B /* PBXTextBookmark */ = C79849410B60E822009F132B /* PBXTextBookmark */;
+			C79849430B60E822009F132B /* PBXTextBookmark */ = C79849430B60E822009F132B /* PBXTextBookmark */;
+			C79849440B60E822009F132B /* PBXTextBookmark */ = C79849440B60E822009F132B /* PBXTextBookmark */;
+			C79849450B60E822009F132B /* PBXTextBookmark */ = C79849450B60E822009F132B /* PBXTextBookmark */;
+			C79849470B60E822009F132B /* PBXTextBookmark */ = C79849470B60E822009F132B /* PBXTextBookmark */;
+			C79849490B60E822009F132B /* PBXTextBookmark */ = C79849490B60E822009F132B /* PBXTextBookmark */;
+			C798494B0B60E822009F132B /* PBXTextBookmark */ = C798494B0B60E822009F132B /* PBXTextBookmark */;
+			C798494C0B60E822009F132B /* PBXTextBookmark */ = C798494C0B60E822009F132B /* PBXTextBookmark */;
+			C798494E0B60E822009F132B /* PBXTextBookmark */ = C798494E0B60E822009F132B /* PBXTextBookmark */;
+			C798494F0B60E822009F132B /* PBXTextBookmark */ = C798494F0B60E822009F132B /* PBXTextBookmark */;
+			C79849510B60E822009F132B /* PBXTextBookmark */ = C79849510B60E822009F132B /* PBXTextBookmark */;
+			C79849530B60E822009F132B /* PBXTextBookmark */ = C79849530B60E822009F132B /* PBXTextBookmark */;
+			C79849550B60E822009F132B /* PBXTextBookmark */ = C79849550B60E822009F132B /* PBXTextBookmark */;
+			C79849570B60E822009F132B /* PBXTextBookmark */ = C79849570B60E822009F132B /* PBXTextBookmark */;
+			C79849590B60E822009F132B /* PBXTextBookmark */ = C79849590B60E822009F132B /* PBXTextBookmark */;
+			C798495B0B60E822009F132B /* PBXTextBookmark */ = C798495B0B60E822009F132B /* PBXTextBookmark */;
+			C798495D0B60E822009F132B /* PBXTextBookmark */ = C798495D0B60E822009F132B /* PBXTextBookmark */;
+			C798495F0B60E822009F132B /* PBXTextBookmark */ = C798495F0B60E822009F132B /* PBXTextBookmark */;
+			C79849610B60E822009F132B /* PBXTextBookmark */ = C79849610B60E822009F132B /* PBXTextBookmark */;
+			C79849630B60E822009F132B /* PBXTextBookmark */ = C79849630B60E822009F132B /* PBXTextBookmark */;
+			C79849670B60E8BA009F132B /* PBXTextBookmark */ = C79849670B60E8BA009F132B /* PBXTextBookmark */;
+			C79849680B60E8BA009F132B /* PBXTextBookmark */ = C79849680B60E8BA009F132B /* PBXTextBookmark */;
+			C79849690B60E8BF009F132B /* PBXTextBookmark */ = C79849690B60E8BF009F132B /* PBXTextBookmark */;
+			C798496B0B60E8C7009F132B /* PBXTextBookmark */ = C798496B0B60E8C7009F132B /* PBXTextBookmark */;
+			C798496C0B60E8C7009F132B /* PBXTextBookmark */ = C798496C0B60E8C7009F132B /* PBXTextBookmark */;
+			C79849740B60E98A009F132B /* PBXTextBookmark */ = C79849740B60E98A009F132B /* PBXTextBookmark */;
+			C79849750B60E9A5009F132B /* PBXTextBookmark */ = C79849750B60E9A5009F132B /* PBXTextBookmark */;
+			C79849760B60E9A5009F132B /* PBXTextBookmark */ = C79849760B60E9A5009F132B /* PBXTextBookmark */;
+			C79849770B60E9A5009F132B /* PBXTextBookmark */ = C79849770B60E9A5009F132B /* PBXTextBookmark */;
+			C798497D0B60EA77009F132B /* PBXTextBookmark */ = C798497D0B60EA77009F132B /* PBXTextBookmark */;
+			C798497E0B60EA77009F132B /* PBXTextBookmark */ = C798497E0B60EA77009F132B /* PBXTextBookmark */;
+			C798497F0B60EA77009F132B /* PBXTextBookmark */ = C798497F0B60EA77009F132B /* PBXTextBookmark */;
+			C79849800B60EA77009F132B /* PBXTextBookmark */ = C79849800B60EA77009F132B /* PBXTextBookmark */;
+			C79849810B60EA77009F132B /* PBXTextBookmark */ = C79849810B60EA77009F132B /* PBXTextBookmark */;
+			C79849820B60EA77009F132B /* PBXTextBookmark */ = C79849820B60EA77009F132B /* PBXTextBookmark */;
+			C79849830B60EA77009F132B /* PBXTextBookmark */ = C79849830B60EA77009F132B /* PBXTextBookmark */;
+			C79849840B60EA77009F132B /* PBXTextBookmark */ = C79849840B60EA77009F132B /* PBXTextBookmark */;
+			C79849850B60EA80009F132B /* PBXTextBookmark */ = C79849850B60EA80009F132B /* PBXTextBookmark */;
+			C79849860B60EA80009F132B /* PBXTextBookmark */ = C79849860B60EA80009F132B /* PBXTextBookmark */;
+			C79849870B60EA80009F132B /* PBXTextBookmark */ = C79849870B60EA80009F132B /* PBXTextBookmark */;
+			C79849880B60EAAC009F132B /* PBXTextBookmark */ = C79849880B60EAAC009F132B /* PBXTextBookmark */;
 			C798CA1608E1962600C6C7D1 = C798CA1608E1962600C6C7D1 /* PBXTextBookmark */;
 			C798CA1708E1962600C6C7D1 = C798CA1708E1962600C6C7D1 /* PBXTextBookmark */;
 			C798CE6008E4D87700C6C7D1 = C798CE6008E4D87700C6C7D1 /* PBXTextBookmark */;
@@ -1402,9 +1509,9 @@
 	};
 	C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {617, 26670}}";
-			sepNavSelRange = "{10662, 0}";
-			sepNavVisRect = "{{0, 3218}, {617, 506}}";
+			sepNavIntBoundsRect = "{{0, 0}, {617, 26782}}";
+			sepNavSelRange = "{10984, 0}";
+			sepNavVisRect = "{{0, 3436}, {617, 506}}";
 			sepNavWindowFrame = "{{429, 23}, {782, 809}}";
 		};
 	};
@@ -2320,7 +2427,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 580";
 		rLen = 0;
-		rLoc = 15706;
+		rLoc = 15728;
 		rType = 0;
 		vrLen = 1153;
 		vrLoc = 1703;
@@ -2470,7 +2577,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 1099";
 		rLen = 0;
-		rLoc = 44053;
+		rLoc = 44375;
 		rType = 0;
 		vrLen = 1615;
 		vrLoc = 49612;
@@ -3029,9 +3136,9 @@
 	};
 	C73290E10AD68F9800D95E36 /* JKChromatogram.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {908, 11438}}";
-			sepNavSelRange = "{16773, 18}";
-			sepNavVisRect = "{{0, 5418}, {908, 460}}";
+			sepNavIntBoundsRect = "{{0, 0}, {929, 11410}}";
+			sepNavSelRange = "{14168, 0}";
+			sepNavVisRect = "{{0, 4514}, {929, 478}}";
 		};
 	};
 	C73290E40AD68F9800D95E36 /* JKData.h */ = {
@@ -3695,24 +3802,24 @@
 	};
 	C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {617, 8120}}";
-			sepNavSelRange = "{2792, 0}";
-			sepNavVisRect = "{{0, 1098}, {617, 506}}";
+			sepNavIntBoundsRect = "{{0, 0}, {929, 7532}}";
+			sepNavSelRange = "{12817, 14}";
+			sepNavVisRect = "{{0, 4100}, {929, 478}}";
 			sepNavWindowFrame = "{{15, 7}, {950, 820}}";
 		};
 	};
 	C773669608E02D87002B72F1 /* SpectrumGraphDataSerie.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {908, 460}}";
-			sepNavSelRange = "{172, 0}";
+			sepNavSelRange = "{515, 0}";
 			sepNavVisRect = "{{0, 0}, {908, 460}}";
 		};
 	};
 	C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {908, 4844}}";
-			sepNavSelRange = "{232, 0}";
-			sepNavVisRect = "{{0, 0}, {908, 480}}";
+			sepNavIntBoundsRect = "{{0, 0}, {908, 5152}}";
+			sepNavSelRange = "{10821, 0}";
+			sepNavVisRect = "{{0, 396}, {908, 460}}";
 		};
 	};
 	C777A2C30A1DFEA800CF44D9 /* JKMoleculeView.h */ = {
@@ -3939,7 +4046,7 @@
 		delayBeforeContinue = 2;
 		hitCount = 1;
 		location = Foundation;
-		modificationTime = 190856035.425004;
+		modificationTime = 190900412.161606;
 		state = 1;
 		symbolName = _NSKVODeallocateLog;
 	};
@@ -3988,7 +4095,7 @@
 		fRef = C773669608E02D87002B72F1 /* SpectrumGraphDataSerie.h */;
 		name = "SpectrumGraphDataSerie.h: 32";
 		rLen = 0;
-		rLoc = 395;
+		rLoc = 421;
 		rType = 0;
 		vrLen = 486;
 		vrLoc = 0;
@@ -4008,7 +4115,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: start";
 		rLen = 24;
-		rLoc = 8335;
+		rLoc = 8357;
 		rType = 0;
 		vrLen = 605;
 		vrLoc = 6200;
@@ -4048,7 +4155,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = chromatogramDataSeriesController;
 		rLen = 32;
-		rLoc = 39702;
+		rLoc = 40605;
 		rType = 0;
 		vrLen = 629;
 		vrLoc = 33160;
@@ -4058,7 +4165,7 @@
 		fRef = C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */;
 		name = "- (NSArray *)dataArrayKeys";
 		rLen = 0;
-		rLoc = 10304;
+		rLoc = 11264;
 		rType = 0;
 		vrLen = 746;
 		vrLoc = 9427;
@@ -4088,7 +4195,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 673";
 		rLen = 0;
-		rLoc = 29753;
+		rLoc = 30075;
 		rType = 0;
 		vrLen = 1337;
 		vrLoc = 31696;
@@ -4128,7 +4235,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 673";
 		rLen = 0;
-		rLoc = 29753;
+		rLoc = 30075;
 		rType = 0;
 		vrLen = 1337;
 		vrLoc = 31696;
@@ -4208,7 +4315,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 673";
 		rLen = 0;
-		rLoc = 29753;
+		rLoc = 30075;
 		rType = 0;
 		vrLen = 1283;
 		vrLoc = 31750;
@@ -4238,7 +4345,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 673";
 		rLen = 0;
-		rLoc = 29753;
+		rLoc = 30075;
 		rType = 0;
 		vrLen = 1435;
 		vrLoc = 28456;
@@ -4248,7 +4355,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: setTotalIntensity";
 		rLen = 0;
-		rLoc = 30109;
+		rLoc = 30431;
 		rType = 0;
 		vrLen = 1418;
 		vrLoc = 31526;
@@ -4268,7 +4375,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = num_scan;
 		rLen = 8;
-		rLoc = 28577;
+		rLoc = 28899;
 		rType = 0;
 		vrLen = 1261;
 		vrLoc = 32373;
@@ -4288,7 +4395,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: moveUpwardsInComparisonView";
 		rLen = 0;
-		rLoc = 51503;
+		rLoc = 51604;
 		rType = 0;
 		vrLen = 1289;
 		vrLoc = 49505;
@@ -4308,7 +4415,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 520";
 		rLen = 0;
-		rLoc = 15706;
+		rLoc = 15728;
 		rType = 0;
 		vrLen = 1232;
 		vrLoc = 1699;
@@ -4318,7 +4425,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = num_scan;
 		rLen = 8;
-		rLoc = 28577;
+		rLoc = 28899;
 		rType = 0;
 		vrLen = 1286;
 		vrLoc = 32373;
@@ -4338,7 +4445,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = num_scan;
 		rLen = 8;
-		rLoc = 28577;
+		rLoc = 28899;
 		rType = 0;
 		vrLen = 1261;
 		vrLoc = 32373;
@@ -4358,7 +4465,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: moveUpwardsInComparisonView";
 		rLen = 0;
-		rLoc = 51503;
+		rLoc = 51604;
 		rType = 0;
 		vrLen = 1289;
 		vrLoc = 49505;
@@ -4378,7 +4485,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "- (NSNumber *)baselineLeft";
 		rLen = 26;
-		rLoc = 8006;
+		rLoc = 8028;
 		rType = 0;
 		vrLen = 951;
 		vrLoc = 3989;
@@ -4398,7 +4505,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 162";
 		rLen = 0;
-		rLoc = 7384;
+		rLoc = 7406;
 		rType = 0;
 		vrLen = 906;
 		vrLoc = 4459;
@@ -4408,7 +4515,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 356";
 		rLen = 0;
-		rLoc = 17776;
+		rLoc = 17580;
 		rType = 0;
 		vrLen = 1430;
 		vrLoc = 5900;
@@ -4464,7 +4571,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: label";
 		rLen = 0;
-		rLoc = 7383;
+		rLoc = 7405;
 		rType = 0;
 		vrLen = 906;
 		vrLoc = 4459;
@@ -4484,7 +4591,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 162";
 		rLen = 0;
-		rLoc = 7384;
+		rLoc = 7406;
 		rType = 0;
 		vrLen = 906;
 		vrLoc = 4459;
@@ -4494,7 +4601,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 356";
 		rLen = 0;
-		rLoc = 17776;
+		rLoc = 17580;
 		rType = 0;
 		vrLen = 1430;
 		vrLoc = 5900;
@@ -4564,7 +4671,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = hiddenColumsnPeaksTable;
 		rLen = 23;
-		rLoc = 40132;
+		rLoc = 41035;
 		rType = 0;
 		vrLen = 755;
 		vrLoc = 37405;
@@ -4574,7 +4681,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: progressIndicator";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 788;
 		vrLoc = 37404;
@@ -4584,7 +4691,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 861";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 697;
 		vrLoc = 37335;
@@ -4594,7 +4701,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 861";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 676;
 		vrLoc = 37404;
@@ -4604,7 +4711,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 871";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 679;
 		vrLoc = 37596;
@@ -4624,7 +4731,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 861";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 676;
 		vrLoc = 37404;
@@ -4634,7 +4741,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 861";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 676;
 		vrLoc = 37404;
@@ -4664,7 +4771,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 872";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 707;
 		vrLoc = 37632;
@@ -4674,7 +4781,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = num_scan;
 		rLen = 8;
-		rLoc = 28577;
+		rLoc = 28899;
 		rType = 0;
 		vrLen = 1261;
 		vrLoc = 32373;
@@ -4724,7 +4831,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = num_scan;
 		rLen = 8;
-		rLoc = 28577;
+		rLoc = 28899;
 		rType = 0;
 		vrLen = 1261;
 		vrLoc = 32373;
@@ -4764,7 +4871,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 872";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 707;
 		vrLoc = 37665;
@@ -4784,7 +4891,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 872";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 707;
 		vrLoc = 37665;
@@ -4834,7 +4941,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 872";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 707;
 		vrLoc = 37665;
@@ -4854,7 +4961,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 872";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 707;
 		vrLoc = 37665;
@@ -4914,7 +5021,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 902";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 38190;
@@ -4934,7 +5041,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 356";
 		rLen = 0;
-		rLoc = 17776;
+		rLoc = 17580;
 		rType = 0;
 		vrLen = 1430;
 		vrLoc = 5900;
@@ -4984,7 +5091,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 356";
 		rLen = 0;
-		rLoc = 17776;
+		rLoc = 17580;
 		rType = 0;
 		vrLen = 1430;
 		vrLoc = 5900;
@@ -5014,7 +5121,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 902";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 38190;
@@ -5044,7 +5151,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = didEndSheet;
 		rLen = 11;
-		rLoc = 40188;
+		rLoc = 41091;
 		rType = 0;
 		vrLen = 2202;
 		vrLoc = 32451;
@@ -5084,7 +5191,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 902";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 38190;
@@ -5144,7 +5251,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 908";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 1285;
 		vrLoc = 38119;
@@ -5184,7 +5291,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 908";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 1285;
 		vrLoc = 38119;
@@ -5224,7 +5331,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 908";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 1285;
 		vrLoc = 38121;
@@ -5272,7 +5379,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 907";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 1243;
 		vrLoc = 38111;
@@ -5292,7 +5399,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "@end";
 		rLen = 5;
-		rLoc = 47239;
+		rLoc = 48142;
 		rType = 0;
 		vrLen = 1279;
 		vrLoc = 45718;
@@ -5322,7 +5429,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "@end";
 		rLen = 5;
-		rLoc = 47239;
+		rLoc = 48142;
 		rType = 0;
 		vrLen = 1279;
 		vrLoc = 45718;
@@ -5342,7 +5449,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "@end";
 		rLen = 5;
-		rLoc = 47239;
+		rLoc = 48142;
 		rType = 0;
 		vrLen = 2059;
 		vrLoc = 44938;
@@ -5359,7 +5466,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "@end";
 		rLen = 5;
-		rLoc = 47239;
+		rLoc = 48142;
 		rType = 0;
 		vrLen = 2059;
 		vrLoc = 44938;
@@ -5389,7 +5496,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 907";
 		rLen = 0;
-		rLoc = 40155;
+		rLoc = 41058;
 		rType = 0;
 		vrLen = 1243;
 		vrLoc = 38111;
@@ -5646,7 +5753,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = initWithDocument;
 		rLen = 16;
-		rLoc = 32496;
+		rLoc = 32818;
 		rType = 0;
 		vrLen = 1472;
 		vrLoc = 34521;
@@ -5676,7 +5783,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: model";
 		rLen = 167;
-		rLoc = 18017;
+		rLoc = 17821;
 		rType = 0;
 		vrLen = 750;
 		vrLoc = 14305;
@@ -5706,7 +5813,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = initWithDocument;
 		rLen = 16;
-		rLoc = 32496;
+		rLoc = 32818;
 		rType = 0;
 		vrLen = 1472;
 		vrLoc = 34521;
@@ -5866,7 +5973,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: model";
 		rLen = 167;
-		rLoc = 18017;
+		rLoc = 17821;
 		rType = 0;
 		vrLen = 750;
 		vrLoc = 14305;
@@ -6043,7 +6150,7 @@
 		isa = PBXTextBookmark;
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		rLen = 9;
-		rLoc = 32585;
+		rLoc = 32907;
 		rType = 0;
 	};
 	C798465F0B5E5F46009F132B /* PBXTextBookmark */ = {
@@ -6061,7 +6168,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 736";
 		rLen = 0;
-		rLoc = 32592;
+		rLoc = 32914;
 		rType = 0;
 		vrLen = 1492;
 		vrLoc = 32810;
@@ -6071,7 +6178,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 736";
 		rLen = 0;
-		rLoc = 32592;
+		rLoc = 32914;
 		rType = 0;
 		vrLen = 1492;
 		vrLoc = 32810;
@@ -6091,7 +6198,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 736";
 		rLen = 0;
-		rLoc = 32592;
+		rLoc = 32914;
 		rType = 0;
 		vrLen = 1456;
 		vrLoc = 32846;
@@ -6111,7 +6218,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 736";
 		rLen = 0;
-		rLoc = 32592;
+		rLoc = 32914;
 		rType = 0;
 		vrLen = 1492;
 		vrLoc = 32810;
@@ -6121,7 +6228,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 736";
 		rLen = 0;
-		rLoc = 32592;
+		rLoc = 32914;
 		rType = 0;
 		vrLen = 1456;
 		vrLoc = 32846;
@@ -6141,7 +6248,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 736";
 		rLen = 0;
-		rLoc = 32592;
+		rLoc = 32914;
 		rType = 0;
 		vrLen = 1456;
 		vrLoc = 32846;
@@ -6171,7 +6278,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 736";
 		rLen = 0;
-		rLoc = 32592;
+		rLoc = 32914;
 		rType = 0;
 		vrLen = 1492;
 		vrLoc = 32810;
@@ -6251,7 +6358,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 736";
 		rLen = 0;
-		rLoc = 32592;
+		rLoc = 32914;
 		rType = 0;
 		vrLen = 1492;
 		vrLoc = 32810;
@@ -6291,7 +6398,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 736";
 		rLen = 0;
-		rLoc = 32592;
+		rLoc = 32914;
 		rType = 0;
 		vrLen = 1492;
 		vrLoc = 32810;
@@ -6351,7 +6458,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 736";
 		rLen = 0;
-		rLoc = 32592;
+		rLoc = 32914;
 		rType = 0;
 		vrLen = 1492;
 		vrLoc = 32810;
@@ -6381,7 +6488,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 736";
 		rLen = 0;
-		rLoc = 32592;
+		rLoc = 32914;
 		rType = 0;
 		vrLen = 1492;
 		vrLoc = 32810;
@@ -6441,7 +6548,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 736";
 		rLen = 0;
-		rLoc = 32592;
+		rLoc = 32914;
 		rType = 0;
 		vrLen = 1492;
 		vrLoc = 32810;
@@ -6521,7 +6628,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 736";
 		rLen = 0;
-		rLoc = 32592;
+		rLoc = 32914;
 		rType = 0;
 		vrLen = 1492;
 		vrLoc = 32810;
@@ -6571,7 +6678,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 736";
 		rLen = 0;
-		rLoc = 32592;
+		rLoc = 32914;
 		rType = 0;
 		vrLen = 1698;
 		vrLoc = 27653;
@@ -6598,7 +6705,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: model";
 		rLen = 167;
-		rLoc = 18017;
+		rLoc = 17821;
 		rType = 0;
 		vrLen = 671;
 		vrLoc = 14292;
@@ -6608,7 +6715,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 736";
 		rLen = 0;
-		rLoc = 32592;
+		rLoc = 32914;
 		rType = 0;
 		vrLen = 1698;
 		vrLoc = 27653;
@@ -6818,7 +6925,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 162";
 		rLen = 0;
-		rLoc = 7384;
+		rLoc = 7406;
 		rType = 0;
 		vrLen = 906;
 		vrLoc = 4459;
@@ -6838,7 +6945,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 158";
 		rLen = 0;
-		rLoc = 7383;
+		rLoc = 7405;
 		rType = 0;
 		vrLen = 918;
 		vrLoc = 4357;
@@ -6858,7 +6965,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 158";
 		rLen = 0;
-		rLoc = 7383;
+		rLoc = 7405;
 		rType = 0;
 		vrLen = 918;
 		vrLoc = 4357;
@@ -6878,7 +6985,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 158";
 		rLen = 0;
-		rLoc = 7383;
+		rLoc = 7405;
 		rType = 0;
 		vrLen = 918;
 		vrLoc = 4357;
@@ -7078,7 +7185,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 622";
 		rLen = 0;
-		rLoc = 26920;
+		rLoc = 27242;
 		rType = 0;
 		vrLen = 1490;
 		vrLoc = 28032;
@@ -7176,7 +7283,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 736";
 		rLen = 0;
-		rLoc = 32592;
+		rLoc = 32914;
 		rType = 0;
 		vrLen = 1456;
 		vrLoc = 32846;
@@ -7196,7 +7303,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 622";
 		rLen = 0;
-		rLoc = 26920;
+		rLoc = 27242;
 		rType = 0;
 		vrLen = 1490;
 		vrLoc = 28032;
@@ -7216,7 +7323,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: moveUpwardsInComparisonView";
 		rLen = 0;
-		rLoc = 51503;
+		rLoc = 51604;
 		rType = 0;
 		vrLen = 1987;
 		vrLoc = 33871;
@@ -7546,7 +7653,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 622";
 		rLen = 0;
-		rLoc = 26920;
+		rLoc = 27242;
 		rType = 0;
 		vrLen = 1432;
 		vrLoc = 28090;
@@ -7566,7 +7673,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 622";
 		rLen = 0;
-		rLoc = 26920;
+		rLoc = 27242;
 		rType = 0;
 		vrLen = 1432;
 		vrLoc = 28090;
@@ -7586,7 +7693,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 197";
 		rLen = 0;
-		rLoc = 8731;
+		rLoc = 8659;
 		rType = 0;
 		vrLen = 1544;
 		vrLoc = 12384;
@@ -7606,7 +7713,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 197";
 		rLen = 0;
-		rLoc = 8731;
+		rLoc = 8659;
 		rType = 0;
 		vrLen = 1544;
 		vrLoc = 12384;
@@ -7626,7 +7733,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 197";
 		rLen = 0;
-		rLoc = 8731;
+		rLoc = 8659;
 		rType = 0;
 		vrLen = 1544;
 		vrLoc = 12384;
@@ -7676,7 +7783,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1455";
 		rLen = 0;
-		rLoc = 66333;
+		rLoc = 66434;
 		rType = 0;
 		vrLen = 1704;
 		vrLoc = 69576;
@@ -7706,7 +7813,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1455";
 		rLen = 0;
-		rLoc = 66333;
+		rLoc = 66434;
 		rType = 0;
 		vrLen = 1704;
 		vrLoc = 69576;
@@ -7726,7 +7833,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1455";
 		rLen = 0;
-		rLoc = 66209;
+		rLoc = 66310;
 		rType = 0;
 		vrLen = 1689;
 		vrLoc = 69142;
@@ -7756,7 +7863,7 @@
 		comments = "error: break statement not within loop or switch";
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		rLen = 1;
-		rLoc = 1504;
+		rLoc = 1507;
 		rType = 1;
 	};
 	C79847890B5F940C009F132B /* PBXTextBookmark */ = {
@@ -7764,7 +7871,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "- (int)scanForPoint:(NSPoint)aPoint";
 		rLen = 34;
-		rLoc = 68703;
+		rLoc = 68804;
 		rType = 0;
 		vrLen = 974;
 		vrLoc = 68166;
@@ -7784,7 +7891,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1282";
 		rLen = 0;
-		rLoc = 61112;
+		rLoc = 61213;
 		rType = 0;
 		vrLen = 1465;
 		vrLoc = 60863;
@@ -7804,7 +7911,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "break;";
 		rLen = 23;
-		rLoc = 71390;
+		rLoc = 71491;
 		rType = 0;
 		vrLen = 1302;
 		vrLoc = 70425;
@@ -7814,7 +7921,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1488";
 		rLen = 0;
-		rLoc = 70607;
+		rLoc = 70708;
 		rType = 0;
 		vrLen = 1399;
 		vrLoc = 69968;
@@ -7834,7 +7941,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: peakAtPoint:";
 		rLen = 0;
-		rLoc = 70544;
+		rLoc = 70645;
 		rType = 0;
 		vrLen = 1465;
 		vrLoc = 69553;
@@ -7844,7 +7951,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1488";
 		rLen = 0;
-		rLoc = 70607;
+		rLoc = 70708;
 		rType = 0;
 		vrLen = 1377;
 		vrLoc = 69979;
@@ -7854,7 +7961,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1474";
 		rLen = 0;
-		rLoc = 70204;
+		rLoc = 70305;
 		rType = 0;
 		vrLen = 1465;
 		vrLoc = 69553;
@@ -7864,7 +7971,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1474";
 		rLen = 0;
-		rLoc = 70204;
+		rLoc = 70305;
 		rType = 0;
 		vrLen = 1358;
 		vrLoc = 69305;
@@ -7874,7 +7981,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1474";
 		rLen = 0;
-		rLoc = 70204;
+		rLoc = 70305;
 		rType = 0;
 		vrLen = 1386;
 		vrLoc = 69632;
@@ -7884,7 +7991,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1474";
 		rLen = 0;
-		rLoc = 70204;
+		rLoc = 70305;
 		rType = 0;
 		vrLen = 1401;
 		vrLoc = 69305;
@@ -7894,7 +8001,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1491";
 		rLen = 0;
-		rLoc = 70666;
+		rLoc = 70767;
 		rType = 0;
 		vrLen = 1289;
 		vrLoc = 70499;
@@ -7904,7 +8011,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1474";
 		rLen = 0;
-		rLoc = 70204;
+		rLoc = 70305;
 		rType = 0;
 		vrLen = 1354;
 		vrLoc = 69305;
@@ -7914,7 +8021,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1492";
 		rLen = 0;
-		rLoc = 70671;
+		rLoc = 70772;
 		rType = 0;
 		vrLen = 1260;
 		vrLoc = 70499;
@@ -7924,7 +8031,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1474";
 		rLen = 0;
-		rLoc = 70204;
+		rLoc = 70305;
 		rType = 0;
 		vrLen = 1354;
 		vrLoc = 69305;
@@ -7934,7 +8041,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1498";
 		rLen = 0;
-		rLoc = 70967;
+		rLoc = 71068;
 		rType = 0;
 		vrLen = 1319;
 		vrLoc = 70499;
@@ -7944,7 +8051,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1474";
 		rLen = 0;
-		rLoc = 70204;
+		rLoc = 70305;
 		rType = 0;
 		vrLen = 1354;
 		vrLoc = 69305;
@@ -7954,7 +8061,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1508";
 		rLen = 0;
-		rLoc = 71471;
+		rLoc = 71572;
 		rType = 0;
 		vrLen = 1331;
 		vrLoc = 70499;
@@ -7964,7 +8071,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1474";
 		rLen = 0;
-		rLoc = 70204;
+		rLoc = 70305;
 		rType = 0;
 		vrLen = 1362;
 		vrLoc = 69305;
@@ -7974,7 +8081,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = scanForTime;
 		rLen = 11;
-		rLoc = 69133;
+		rLoc = 69234;
 		rType = 0;
 		vrLen = 972;
 		vrLoc = 68465;
@@ -8004,7 +8111,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = scanForTime;
 		rLen = 11;
-		rLoc = 69133;
+		rLoc = 69234;
 		rType = 0;
 		vrLen = 972;
 		vrLoc = 68465;
@@ -8024,7 +8131,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 335";
 		rLen = 0;
-		rLoc = 15592;
+		rLoc = 15396;
 		rType = 0;
 		vrLen = 1095;
 		vrLoc = 13271;
@@ -8034,7 +8141,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1474";
 		rLen = 0;
-		rLoc = 70204;
+		rLoc = 70305;
 		rType = 0;
 		vrLen = 1362;
 		vrLoc = 69305;
@@ -8044,7 +8151,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 330";
 		rLen = 0;
-		rLoc = 15535;
+		rLoc = 15339;
 		rType = 0;
 		vrLen = 1089;
 		vrLoc = 13271;
@@ -8054,7 +8161,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1474";
 		rLen = 0;
-		rLoc = 70204;
+		rLoc = 70305;
 		rType = 0;
 		vrLen = 1362;
 		vrLoc = 69305;
@@ -8094,7 +8201,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 194";
 		rLen = 0;
-		rLoc = 6481;
+		rLoc = 6503;
 		rType = 0;
 		vrLen = 915;
 		vrLoc = 5793;
@@ -8103,8 +8210,8 @@
 		isa = PBXTextBookmark;
 		comments = "error: 'end' undeclared (first use in this function)";
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
-		rLen = 1;
-		rLoc = 334;
+		rLen = 0;
+		rLoc = 333;
 		rType = 1;
 	};
 	C79847DB0B5FDF0F009F132B /* PBXTextBookmark */ = {
@@ -8112,7 +8219,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 330";
 		rLen = 0;
-		rLoc = 15535;
+		rLoc = 15339;
 		rType = 0;
 		vrLen = 1095;
 		vrLoc = 13265;
@@ -8132,7 +8239,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 337";
 		rLen = 0;
-		rLoc = 14558;
+		rLoc = 14362;
 		rType = 0;
 		vrLen = 1648;
 		vrLoc = 13840;
@@ -8142,7 +8249,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 158";
 		rLen = 0;
-		rLoc = 7383;
+		rLoc = 7405;
 		rType = 0;
 		vrLen = 899;
 		vrLoc = 4376;
@@ -8162,7 +8269,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 162";
 		rLen = 0;
-		rLoc = 7384;
+		rLoc = 7406;
 		rType = 0;
 		vrLen = 941;
 		vrLoc = 4376;
@@ -8182,7 +8289,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 113";
 		rLen = 0;
-		rLoc = 5562;
+		rLoc = 5584;
 		rType = 0;
 		vrLen = 1422;
 		vrLoc = 1700;
@@ -8202,7 +8309,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 121";
 		rLen = 0;
-		rLoc = 5054;
+		rLoc = 5076;
 		rType = 0;
 		vrLen = 1313;
 		vrLoc = 2564;
@@ -8222,7 +8329,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 131";
 		rLen = 0;
-		rLoc = 4061;
+		rLoc = 4083;
 		rType = 0;
 		vrLen = 1025;
 		vrLoc = 1536;
@@ -8242,7 +8349,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 269";
 		rLen = 0;
-		rLoc = 7883;
+		rLoc = 7905;
 		rType = 0;
 		vrLen = 641;
 		vrLoc = 8288;
@@ -8262,7 +8369,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "- (NSNumber *)surface";
 		rLen = 22;
-		rLoc = 4319;
+		rLoc = 4341;
 		rType = 0;
 		vrLen = 1292;
 		vrLoc = 4015;
@@ -8282,7 +8389,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "- (NSNumber *)surface";
 		rLen = 22;
-		rLoc = 4319;
+		rLoc = 4341;
 		rType = 0;
 		vrLen = 952;
 		vrLoc = 3626;
@@ -8302,7 +8409,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: score";
 		rLen = 0;
-		rLoc = 4106;
+		rLoc = 4128;
 		rType = 0;
 		vrLen = 909;
 		vrLoc = 3755;
@@ -8322,7 +8429,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 577";
 		rLen = 0;
-		rLoc = 11610;
+		rLoc = 11632;
 		rType = 0;
 		vrLen = 971;
 		vrLoc = 12870;
@@ -8342,7 +8449,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 197";
 		rLen = 0;
-		rLoc = 6254;
+		rLoc = 6276;
 		rType = 0;
 		vrLen = 881;
 		vrLoc = 5727;
@@ -8362,7 +8469,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: baselineRight";
 		rLen = 0;
-		rLoc = 6828;
+		rLoc = 6850;
 		rType = 0;
 		vrLen = 900;
 		vrLoc = 868;
@@ -8372,7 +8479,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 339";
 		rLen = 631;
-		rLoc = 14590;
+		rLoc = 14394;
 		rType = 0;
 		vrLen = 1637;
 		vrLoc = 13834;
@@ -8392,7 +8499,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 116";
 		rLen = 0;
-		rLoc = 3719;
+		rLoc = 3741;
 		rType = 0;
 		vrLen = 854;
 		vrLoc = 3210;
@@ -8412,7 +8519,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 181";
 		rLen = 0;
-		rLoc = 6083;
+		rLoc = 6105;
 		rType = 0;
 		vrLen = 869;
 		vrLoc = 5841;
@@ -8432,7 +8539,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "return [[[self document] spectrumForScan:[self top]] spectrumBySubtractingSpectrum:[[[self document] spectrumForScan:[self start]] spectrumByAveragingWithSpectrum:[[self document] spectrumForScan:[self end]]];";
 		rLen = 215;
-		rLoc = 6264;
+		rLoc = 6286;
 		rType = 0;
 		vrLen = 1003;
 		vrLoc = 5492;
@@ -8452,7 +8559,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "float b = time[end] - time[start];";
 		rLen = 39;
-		rLoc = 5952;
+		rLoc = 5974;
 		rType = 0;
 		vrLen = 1097;
 		vrLoc = 5383;
@@ -8472,7 +8579,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 194";
 		rLen = 0;
-		rLoc = 6481;
+		rLoc = 6503;
 		rType = 0;
 		vrLen = 915;
 		vrLoc = 5793;
@@ -8482,7 +8589,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 337";
 		rLen = 0;
-		rLoc = 14557;
+		rLoc = 14361;
 		rType = 0;
 		vrLen = 1674;
 		vrLoc = 13842;
@@ -8492,7 +8599,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1474";
 		rLen = 0;
-		rLoc = 70204;
+		rLoc = 70305;
 		rType = 0;
 		vrLen = 1362;
 		vrLoc = 69305;
@@ -8512,7 +8619,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1474";
 		rLen = 0;
-		rLoc = 70204;
+		rLoc = 70305;
 		rType = 0;
 		vrLen = 1362;
 		vrLoc = 69305;
@@ -8522,7 +8629,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 334";
 		rLen = 0;
-		rLoc = 14219;
+		rLoc = 14168;
 		rType = 0;
 		vrLen = 1731;
 		vrLoc = 13171;
@@ -8532,7 +8639,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 334";
 		rLen = 0;
-		rLoc = 14219;
+		rLoc = 14168;
 		rType = 0;
 		vrLen = 1731;
 		vrLoc = 13171;
@@ -8542,7 +8649,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 1474";
 		rLen = 0;
-		rLoc = 70204;
+		rLoc = 70305;
 		rType = 0;
 		vrLen = 1362;
 		vrLoc = 69305;
@@ -8552,7 +8659,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 1720";
 		rLen = 0;
-		rLoc = 71693;
+		rLoc = 72015;
 		rType = 0;
 		vrLen = 1052;
 		vrLoc = 74256;
@@ -8582,7 +8689,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = setDocument;
 		rLen = 0;
-		rLoc = 14556;
+		rLoc = 14578;
 		rType = 0;
 		vrLen = 1678;
 		vrLoc = 19193;
@@ -8619,7 +8726,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 334";
 		rLen = 0;
-		rLoc = 14219;
+		rLoc = 14168;
 		rType = 0;
 		vrLen = 1977;
 		vrLoc = 13067;
@@ -8629,7 +8736,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 1720";
 		rLen = 0;
-		rLoc = 71693;
+		rLoc = 72015;
 		rType = 0;
 		vrLen = 1052;
 		vrLoc = 74256;
@@ -8659,7 +8766,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = setDocument;
 		rLen = 0;
-		rLoc = 14556;
+		rLoc = 14578;
 		rType = 0;
 		vrLen = 1678;
 		vrLoc = 19193;
@@ -8709,7 +8816,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 334";
 		rLen = 0;
-		rLoc = 14219;
+		rLoc = 14168;
 		rType = 0;
 		vrLen = 2031;
 		vrLoc = 13368;
@@ -8895,7 +9002,7 @@
 		isa = PBXTextBookmark;
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		rLen = 0;
-		rLoc = 9226;
+		rLoc = 9248;
 		rType = 0;
 	};
 	C79848360B5FE3F0009F132B /* PBXTextBookmark */ = {
@@ -8913,7 +9020,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = searchResultsCount;
 		rLen = 0;
-		rLoc = 9226;
+		rLoc = 9248;
 		rType = 0;
 		vrLen = 1007;
 		vrLoc = 11912;
@@ -8923,7 +9030,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = searchResultsCount;
 		rLen = 0;
-		rLoc = 9226;
+		rLoc = 9248;
 		rType = 0;
 		vrLen = 1007;
 		vrLoc = 11912;
@@ -8943,7 +9050,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = searchResultsCount;
 		rLen = 0;
-		rLoc = 9226;
+		rLoc = 9248;
 		rType = 0;
 		vrLen = 998;
 		vrLoc = 11912;
@@ -8953,7 +9060,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = countOfSearchResults;
 		rLen = 20;
-		rLoc = 9478;
+		rLoc = 9500;
 		rType = 0;
 		vrLen = 1022;
 		vrLoc = 13464;
@@ -8973,7 +9080,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = countOfSearchResults;
 		rLen = 20;
-		rLoc = 9478;
+		rLoc = 9500;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13386;
@@ -8983,7 +9090,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = searchResultsCount;
 		rLen = 0;
-		rLoc = 9226;
+		rLoc = 9248;
 		rType = 0;
 		vrLen = 1007;
 		vrLoc = 11912;
@@ -8993,7 +9100,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = countOfSearchResults;
 		rLen = 20;
-		rLoc = 9478;
+		rLoc = 9500;
 		rType = 0;
 		vrLen = 1022;
 		vrLoc = 13464;
@@ -9003,7 +9110,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = countOfSearchResults;
 		rLen = 20;
-		rLoc = 9478;
+		rLoc = 9500;
 		rType = 0;
 		vrLen = 1022;
 		vrLoc = 13464;
@@ -9013,7 +9120,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 113";
 		rLen = 0;
-		rLoc = 3624;
+		rLoc = 3646;
 		rType = 0;
 		vrLen = 1226;
 		vrLoc = 2374;
@@ -9043,7 +9150,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "- (void)setDocument:(JKGCMSDocument *)inDocument";
 		rLen = 49;
-		rLoc = 17780;
+		rLoc = 17584;
 		rType = 0;
 		vrLen = 659;
 		vrLoc = 15797;
@@ -9053,7 +9160,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 113";
 		rLen = 0;
-		rLoc = 3624;
+		rLoc = 3646;
 		rType = 0;
 		vrLen = 950;
 		vrLoc = 173;
@@ -9063,7 +9170,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 113";
 		rLen = 0;
-		rLoc = 3624;
+		rLoc = 3646;
 		rType = 0;
 		vrLen = 1279;
 		vrLoc = 2321;
@@ -9083,7 +9190,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 113";
 		rLen = 0;
-		rLoc = 3624;
+		rLoc = 3646;
 		rType = 0;
 		vrLen = 950;
 		vrLoc = 173;
@@ -9103,7 +9210,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 113";
 		rLen = 0;
-		rLoc = 3624;
+		rLoc = 3646;
 		rType = 0;
 		vrLen = 950;
 		vrLoc = 173;
@@ -9133,7 +9240,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "- (void)setDocument:(JKGCMSDocument *)inDocument";
 		rLen = 49;
-		rLoc = 17780;
+		rLoc = 17584;
 		rType = 0;
 		vrLen = 659;
 		vrLoc = 15797;
@@ -9143,7 +9250,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 369";
 		rLen = 0;
-		rLoc = 8431;
+		rLoc = 8453;
 		rType = 0;
 		vrLen = 634;
 		vrLoc = 9964;
@@ -9153,7 +9260,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 369";
 		rLen = 0;
-		rLoc = 8431;
+		rLoc = 8453;
 		rType = 0;
 		vrLen = 626;
 		vrLoc = 9812;
@@ -9163,7 +9270,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 369";
 		rLen = 0;
-		rLoc = 8431;
+		rLoc = 8453;
 		rType = 0;
 		vrLen = 589;
 		vrLoc = 10009;
@@ -9173,7 +9280,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 286";
 		rLen = 0;
-		rLoc = 8431;
+		rLoc = 8453;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 9660;
@@ -9183,7 +9290,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "- (float *)totalIntensity";
 		rLen = 26;
-		rLoc = 18745;
+		rLoc = 18549;
 		rType = 0;
 		vrLen = 887;
 		vrLoc = 16513;
@@ -9213,7 +9320,7 @@
 		comments = "warning: assignment makes integer from pointer without a cast";
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		rLen = 1;
-		rLoc = 449;
+		rLoc = 450;
 		rType = 1;
 	};
 	C79848680B6033C0009F132B /* PBXTextBookmark */ = {
@@ -9221,7 +9328,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 369";
 		rLen = 0;
-		rLoc = 8431;
+		rLoc = 8453;
 		rType = 0;
 		vrLen = 739;
 		vrLoc = 6228;
@@ -9241,7 +9348,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 397";
 		rLen = 0;
-		rLoc = 11317;
+		rLoc = 11339;
 		rType = 0;
 		vrLen = 1338;
 		vrLoc = 11093;
@@ -9261,7 +9368,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 428";
 		rLen = 0;
-		rLoc = 12472;
+		rLoc = 12494;
 		rType = 0;
 		vrLen = 1424;
 		vrLoc = 11617;
@@ -9281,7 +9388,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 428";
 		rLen = 0;
-		rLoc = 12472;
+		rLoc = 12494;
 		rType = 0;
 		vrLen = 1423;
 		vrLoc = 11618;
@@ -9301,7 +9408,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 419";
 		rLen = 0;
-		rLoc = 11963;
+		rLoc = 11985;
 		rType = 0;
 		vrLen = 1414;
 		vrLoc = 11618;
@@ -9321,7 +9428,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "[[self document] redistributedSearchResults:self];";
 		rLen = 53;
-		rLoc = 1447;
+		rLoc = 1469;
 		rType = 0;
 		vrLen = 875;
 		vrLoc = 977;
@@ -9341,7 +9448,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "float *totalIntensity = [[self chromatogram] totalIntensity];";
 		rLen = 66;
-		rLoc = 3637;
+		rLoc = 3659;
 		rType = 0;
 		vrLen = 854;
 		vrLoc = 3208;
@@ -9361,7 +9468,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "- (float *)totalIntensity";
 		rLen = 26;
-		rLoc = 18745;
+		rLoc = 18549;
 		rType = 0;
 		vrLen = 887;
 		vrLoc = 16513;
@@ -9381,7 +9488,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "- (void)setStart:(int)inValue {";
 		rLen = 32;
-		rLoc = 8246;
+		rLoc = 8268;
 		rType = 0;
 		vrLen = 497;
 		vrLoc = 8003;
@@ -9401,7 +9508,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 452";
 		rLen = 0;
-		rLoc = 13670;
+		rLoc = 13692;
 		rType = 0;
 		vrLen = 1889;
 		vrLoc = 12582;
@@ -9411,7 +9518,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 452";
 		rLen = 0;
-		rLoc = 13670;
+		rLoc = 13692;
 		rType = 0;
 		vrLen = 1889;
 		vrLoc = 12582;
@@ -9421,7 +9528,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 452";
 		rLen = 0;
-		rLoc = 13670;
+		rLoc = 13692;
 		rType = 0;
 		vrLen = 2042;
 		vrLoc = 12505;
@@ -9431,7 +9538,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 452";
 		rLen = 0;
-		rLoc = 13670;
+		rLoc = 13692;
 		rType = 0;
 		vrLen = 1885;
 		vrLoc = 12662;
@@ -9441,7 +9548,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "[self chromatogram]";
 		rLen = 19;
-		rLoc = 3666;
+		rLoc = 3688;
 		rType = 0;
 		vrLen = 1412;
 		vrLoc = 11443;
@@ -9451,7 +9558,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 286";
 		rLen = 0;
-		rLoc = 8431;
+		rLoc = 8453;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 9660;
@@ -9461,7 +9568,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "[self chromatogram]";
 		rLen = 19;
-		rLoc = 3666;
+		rLoc = 3688;
 		rType = 0;
 		vrLen = 1284;
 		vrLoc = 11571;
@@ -9471,7 +9578,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "[self chromatogram]";
 		rLen = 19;
-		rLoc = 3666;
+		rLoc = 3688;
 		rType = 0;
 		vrLen = 1284;
 		vrLoc = 11571;
@@ -9481,7 +9588,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 416";
 		rLen = 0;
-		rLoc = 11806;
+		rLoc = 11828;
 		rType = 0;
 		vrLen = 1417;
 		vrLoc = 11373;
@@ -9491,7 +9598,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 286";
 		rLen = 0;
-		rLoc = 8431;
+		rLoc = 8453;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 9660;
@@ -9501,7 +9608,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 416";
 		rLen = 0;
-		rLoc = 11806;
+		rLoc = 11828;
 		rType = 0;
 		vrLen = 1255;
 		vrLoc = 11535;
@@ -9511,7 +9618,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 286";
 		rLen = 0;
-		rLoc = 8431;
+		rLoc = 8453;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 9660;
@@ -9521,7 +9628,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: validateSearchResult:error:";
 		rLen = 2942;
-		rLoc = 11613;
+		rLoc = 11635;
 		rType = 0;
 		vrLen = 1756;
 		vrLoc = 13073;
@@ -9551,7 +9658,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 390";
 		rLen = 0;
-		rLoc = 16635;
+		rLoc = 16439;
 		rType = 0;
 		vrLen = 1058;
 		vrLoc = 15758;
@@ -9561,7 +9668,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: validateSearchResult:error:";
 		rLen = 2942;
-		rLoc = 11613;
+		rLoc = 11635;
 		rType = 0;
 		vrLen = 1756;
 		vrLoc = 13073;
@@ -9581,7 +9688,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 378";
 		rLen = 0;
-		rLoc = 15974;
+		rLoc = 15778;
 		rType = 0;
 		vrLen = 1103;
 		vrLoc = 15752;
@@ -9601,7 +9708,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 383";
 		rLen = 0;
-		rLoc = 16132;
+		rLoc = 15936;
 		rType = 0;
 		vrLen = 1103;
 		vrLoc = 15752;
@@ -9621,7 +9728,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 386";
 		rLen = 0;
-		rLoc = 16262;
+		rLoc = 16066;
 		rType = 0;
 		vrLen = 1145;
 		vrLoc = 15752;
@@ -9641,7 +9748,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: document";
 		rLen = 0;
-		rLoc = 16258;
+		rLoc = 16062;
 		rType = 0;
 		vrLen = 1139;
 		vrLoc = 15752;
@@ -9661,7 +9768,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 389";
 		rLen = 0;
-		rLoc = 16322;
+		rLoc = 16126;
 		rType = 0;
 		vrLen = 1143;
 		vrLoc = 15752;
@@ -9681,7 +9788,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 390";
 		rLen = 0;
-		rLoc = 16374;
+		rLoc = 16178;
 		rType = 0;
 		vrLen = 1127;
 		vrLoc = 15752;
@@ -9701,7 +9808,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 389";
 		rLen = 0;
-		rLoc = 16652;
+		rLoc = 16456;
 		rType = 0;
 		vrLen = 988;
 		vrLoc = 15752;
@@ -9731,7 +9838,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 389";
 		rLen = 0;
-		rLoc = 16528;
+		rLoc = 16332;
 		rType = 0;
 		vrLen = 1055;
 		vrLoc = 15758;
@@ -9751,7 +9858,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 389";
 		rLen = 0;
-		rLoc = 16478;
+		rLoc = 16282;
 		rType = 0;
 		vrLen = 1052;
 		vrLoc = 15758;
@@ -9771,7 +9878,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 390";
 		rLen = 0;
-		rLoc = 16635;
+		rLoc = 16439;
 		rType = 0;
 		vrLen = 1058;
 		vrLoc = 15758;
@@ -9811,7 +9918,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 286";
 		rLen = 0;
-		rLoc = 8431;
+		rLoc = 8453;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 9660;
@@ -9821,7 +9928,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 401";
 		rLen = 0;
-		rLoc = 17002;
+		rLoc = 16806;
 		rType = 0;
 		vrLen = 1519;
 		vrLoc = 15975;
@@ -9831,7 +9938,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 286";
 		rLen = 0;
-		rLoc = 8431;
+		rLoc = 8453;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 9660;
@@ -9841,7 +9948,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 398";
 		rLen = 0;
-		rLoc = 16747;
+		rLoc = 16551;
 		rType = 0;
 		vrLen = 1600;
 		vrLoc = 15998;
@@ -9851,7 +9958,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 286";
 		rLen = 0;
-		rLoc = 8431;
+		rLoc = 8453;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 9660;
@@ -9861,7 +9968,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = decodeObjectForKey;
 		rLen = 18;
-		rLoc = 16773;
+		rLoc = 16577;
 		rType = 0;
 		vrLen = 1600;
 		vrLoc = 15998;
@@ -9871,7 +9978,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 197";
 		rLen = 0;
-		rLoc = 8731;
+		rLoc = 8659;
 		rType = 0;
 		vrLen = 1513;
 		vrLoc = 12419;
@@ -9881,7 +9988,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = decodeObjectForKey;
 		rLen = 18;
-		rLoc = 16773;
+		rLoc = 16577;
 		rType = 0;
 		vrLen = 1600;
 		vrLoc = 15998;
@@ -9891,7 +9998,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 225";
 		rLen = 0;
-		rLoc = 10662;
+		rLoc = 10984;
 		rType = 0;
 		vrLen = 2155;
 		vrLoc = 8924;
@@ -9901,7 +10008,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 225";
 		rLen = 0;
-		rLoc = 10662;
+		rLoc = 10984;
 		rType = 0;
 		vrLen = 2155;
 		vrLoc = 8924;
@@ -9911,7 +10018,7 @@
 		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		name = "JKPeakRecord.m: 416";
 		rLen = 0;
-		rLoc = 11806;
+		rLoc = 11828;
 		rType = 0;
 		vrLen = 1291;
 		vrLoc = 11332;
@@ -9921,10 +10028,1327 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 225";
 		rLen = 0;
-		rLoc = 10662;
+		rLoc = 10984;
 		rType = 0;
 		vrLen = 1895;
 		vrLoc = 9184;
+	};
+	C79848C70B603C5C009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
+		name = "JKPeakRecord.m: 286";
+		rLen = 0;
+		rLoc = 8453;
+		rType = 0;
+		vrLen = 1205;
+		vrLoc = 9660;
+	};
+	C79848C80B603C5C009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
+		name = "JKGCMSDocument.m: 202";
+		rLen = 0;
+		rLoc = 9013;
+		rType = 0;
+		vrLen = 1562;
+		vrLoc = 8246;
+	};
+	C79848D10B603E31009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
+		name = "JKPeakRecord.m: 286";
+		rLen = 0;
+		rLoc = 8453;
+		rType = 0;
+		vrLen = 1205;
+		vrLoc = 9660;
+	};
+	C79848D20B603E31009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
+		name = "JKGCMSDocument.m: 212";
+		rLen = 0;
+		rLoc = 9656;
+		rType = 0;
+		vrLen = 2296;
+		vrLoc = 9036;
+	};
+	C79848D50B603E96009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
+		name = "JKPeakRecord.m: 286";
+		rLen = 0;
+		rLoc = 8453;
+		rType = 0;
+		vrLen = 1205;
+		vrLoc = 9660;
+	};
+	C79848D60B603E96009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
+		name = "JKGCMSDocument.m: 212";
+		rLen = 0;
+		rLoc = 9896;
+		rType = 0;
+		vrLen = 2267;
+		vrLoc = 9203;
+	};
+	C79848D90B603EDB009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
+		name = "JKPeakRecord.m: 286";
+		rLen = 0;
+		rLoc = 8453;
+		rType = 0;
+		vrLen = 1205;
+		vrLoc = 9660;
+	};
+	C79848DA0B603EDB009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
+		name = "JKGCMSDocument.m: 212";
+		rLen = 0;
+		rLoc = 9938;
+		rType = 0;
+		vrLen = 2260;
+		vrLoc = 9252;
+	};
+	C79848E00B603FD2009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
+		name = "JKPeakRecord.m: 286";
+		rLen = 0;
+		rLoc = 8453;
+		rType = 0;
+		vrLen = 1205;
+		vrLoc = 9660;
+	};
+	C79848E10B603FD2009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
+		name = "JKGCMSDocument.m: 212";
+		rLen = 0;
+		rLoc = 9938;
+		rType = 0;
+		vrLen = 2260;
+		vrLoc = 9252;
+	};
+	C79848E20B603FD2009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
+		name = "- (void)identifyPeaksForSelectedChromatograms:(id)sender";
+		rLen = 57;
+		rLoc = 7847;
+		rType = 0;
+		vrLen = 1339;
+		vrLoc = 7232;
+	};
+	C79848E30B603FD2009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
+		name = "JKGCMSDocument.m: 212";
+		rLen = 0;
+		rLoc = 9938;
+		rType = 0;
+		vrLen = 2260;
+		vrLoc = 9252;
+	};
+	C79848E40B603FD2009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
+		name = "JKMainWindowController.m: 647";
+		rLen = 0;
+		rLoc = 26340;
+		rType = 0;
+		vrLen = 1593;
+		vrLoc = 25468;
+	};
+	C79848EA0B60DA75009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
+		name = "JKPeakRecord.m: 286";
+		rLen = 0;
+		rLoc = 8453;
+		rType = 0;
+		vrLen = 1205;
+		vrLoc = 9660;
+	};
+	C79848EB0B60DA75009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DC0898CF2E007FC2ED /* JKMainWindowController.h */;
+		name = "JKMainWindowController.h: identifyPeaksForSelectedChromatograms:";
+		rLen = 0;
+		rLoc = 2216;
+		rType = 0;
+		vrLen = 823;
+		vrLoc = 1176;
+	};
+	C79848EC0B60DA75009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
+		name = "JKMainWindowController.m: 653";
+		rLen = 0;
+		rLoc = 26980;
+		rType = 0;
+		vrLen = 1789;
+		vrLoc = 25149;
+	};
+	C79848ED0B60DA75009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
+		name = "JKMainWindowController.m: 653";
+		rLen = 0;
+		rLoc = 26980;
+		rType = 0;
+		vrLen = 1789;
+		vrLoc = 25149;
+	};
+	C79848EE0B60DA75009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DC0898CF2E007FC2ED /* JKMainWindowController.h */;
+		name = "JKMainWindowController.h: identifyPeaksForSelectedChromatograms:";
+		rLen = 0;
+		rLoc = 2216;
+		rType = 0;
+		vrLen = 823;
+		vrLoc = 1176;
+	};
+	C79848EF0B60DA75009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
+		name = "JKMainWindowController.m: 647";
+		rLen = 0;
+		rLoc = 26276;
+		rType = 0;
+		vrLen = 1467;
+		vrLoc = 26047;
+	};
+	C79848F30B60DAE8009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
+		name = "JKPeakRecord.m: 286";
+		rLen = 0;
+		rLoc = 8453;
+		rType = 0;
+		vrLen = 1205;
+		vrLoc = 9660;
+	};
+	C79848F40B60DAE8009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
+		name = "JKMainWindowController.m: 649";
+		rLen = 0;
+		rLoc = 26439;
+		rType = 0;
+		vrLen = 1541;
+		vrLoc = 26047;
+	};
+	C79848F80B60DB01009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
+		name = "JKPeakRecord.m: 286";
+		rLen = 0;
+		rLoc = 8453;
+		rType = 0;
+		vrLen = 1205;
+		vrLoc = 9660;
+	};
+	C79848F90B60DB01009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
+		name = "JKMainWindowController.m: 668";
+		rLen = 0;
+		rLoc = 27379;
+		rType = 0;
+		vrLen = 1556;
+		vrLoc = 26047;
+	};
+	C79848FB0B60DBF2009F132B /* SpectrumGraphDataSerie.m:34 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		delayBeforeContinue = 0;
+		fileReference = C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */;
+		functionName = "-init";
+		hitCount = 1;
+		lineNumber = 34;
+		location = SpectrumGraphDataSerie.ob;
+		modificationTime = 190900412.152516;
+		state = 1;
+	};
+	C79849020B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
+		name = "JKMainWindowController.m: 668";
+		rLen = 0;
+		rLoc = 27379;
+		rType = 0;
+		vrLen = 1556;
+		vrLoc = 26047;
+	};
+	C79849030B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */;
+		name = "ChromatogramGraphDataSerie.m: chromatogram";
+		rLen = 552;
+		rLoc = 19639;
+		rType = 0;
+		vrLen = 843;
+		vrLoc = 19475;
+	};
+	C79849040B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C773669608E02D87002B72F1 /* SpectrumGraphDataSerie.h */;
+		name = "SpectrumGraphDataSerie.h: setSpectrum:";
+		rLen = 0;
+		rLoc = 515;
+		rType = 0;
+		vrLen = 651;
+		vrLoc = 0;
+	};
+	C79849050B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */;
+		name = "SpectrumGraphDataSerie.m: 340";
+		rLen = 0;
+		rLoc = 10821;
+		rType = 0;
+		vrLen = 858;
+		vrLoc = 824;
+	};
+	C79849060B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17EA0898CF2F007FC2ED /* JKSpectrum.h */;
+		name = "JKSpectrum.h: initWithDocument:forModel:";
+		rLen = 0;
+		rLoc = 681;
+		rType = 0;
+		vrLen = 684;
+		vrLoc = 0;
+	};
+	C79849070B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */;
+		name = "- (id) init";
+		rLen = 12;
+		rLoc = 912;
+		rType = 0;
+		vrLen = 1084;
+		vrLoc = 366;
+	};
+	C79849080B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */;
+		name = "- (id)initWithArray:(NSArray *)array;";
+		rLen = 38;
+		rLoc = 1019;
+		rType = 0;
+		vrLen = 898;
+		vrLoc = 645;
+	};
+	C79849090B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
+		name = "JKMainWindowController.m: 668";
+		rLen = 0;
+		rLoc = 27379;
+		rType = 0;
+		vrLen = 1556;
+		vrLoc = 26047;
+	};
+	C798490A0B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17EA0898CF2F007FC2ED /* JKSpectrum.h */;
+		name = "JKSpectrum.h: initWithDocument:forModel:";
+		rLen = 0;
+		rLoc = 681;
+		rType = 0;
+		vrLen = 1195;
+		vrLoc = 706;
+	};
+	C798490B0B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */;
+		name = "- (id) init";
+		rLen = 12;
+		rLoc = 912;
+		rType = 0;
+		vrLen = 1098;
+		vrLoc = 225;
+	};
+	C798490C0B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C773669608E02D87002B72F1 /* SpectrumGraphDataSerie.h */;
+		name = "SpectrumGraphDataSerie.h: 7";
+		rLen = 0;
+		rLoc = 172;
+		rType = 0;
+		vrLen = 554;
+		vrLoc = 0;
+	};
+	C798490D0B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */;
+		name = "SpectrumGraphDataSerie.m: 11";
+		rLen = 0;
+		rLoc = 232;
+		rType = 0;
+		vrLen = 930;
+		vrLoc = 401;
+	};
+	C798490E0B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */;
+		name = "ChromatogramGraphDataSerie.m: init";
+		rLen = 524;
+		rLoc = 566;
+		rType = 0;
+		vrLen = 918;
+		vrLoc = 174;
+	};
+	C798490F0B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */;
+		name = "SpectrumGraphDataSerie.m: 54";
+		rLen = 0;
+		rLoc = 1488;
+		rType = 0;
+		vrLen = 902;
+		vrLoc = 903;
+	};
+	C79849100B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */;
+		name = "ChromatogramGraphDataSerie.m: chromatogram";
+		rLen = 552;
+		rLoc = 19639;
+		rType = 0;
+		vrLen = 843;
+		vrLoc = 19475;
+	};
+	C79849110B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */;
+		name = "SpectrumGraphDataSerie.m: 340";
+		rLen = 0;
+		rLoc = 10821;
+		rType = 0;
+		vrLen = 1074;
+		vrLoc = 10044;
+	};
+	C79849120B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C773669608E02D87002B72F1 /* SpectrumGraphDataSerie.h */;
+		name = "SpectrumGraphDataSerie.h: setSpectrum:";
+		rLen = 0;
+		rLoc = 515;
+		rType = 0;
+		vrLen = 651;
+		vrLoc = 0;
+	};
+	C79849130B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */;
+		name = "SpectrumGraphDataSerie.m: 340";
+		rLen = 0;
+		rLoc = 10821;
+		rType = 0;
+		vrLen = 858;
+		vrLoc = 824;
+	};
+	C79849140B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17EA0898CF2F007FC2ED /* JKSpectrum.h */;
+		name = "JKSpectrum.h: initWithDocument:forModel:";
+		rLen = 0;
+		rLoc = 681;
+		rType = 0;
+		vrLen = 684;
+		vrLoc = 0;
+	};
+	C79849150B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */;
+		name = "- (id) init";
+		rLen = 12;
+		rLoc = 912;
+		rType = 0;
+		vrLen = 1084;
+		vrLoc = 366;
+	};
+	C79849160B60E0D6009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */;
+		name = "- (id)initWithArray:(NSArray *)array;";
+		rLen = 38;
+		rLoc = 1019;
+		rType = 0;
+		vrLen = 893;
+		vrLoc = 195;
+	};
+	C79849180B60E0E2009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
+		name = "JKGCMSDocument.m: 225";
+		rLen = 0;
+		rLoc = 10984;
+		rType = 0;
+		vrLen = 1625;
+		vrLoc = 9980;
+	};
+	C79849190B60E0E2009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */;
+		name = "- (id)initWithArray:(NSArray *)array;";
+		rLen = 38;
+		rLoc = 1019;
+		rType = 0;
+		vrLen = 1086;
+		vrLoc = 174;
+	};
+	C798491A0B60E0E3009F132B /* -[NSCFString replaceCharactersInRange:withString:] */ = {
+		isa = PBXSymbolicBreakpoint;
+		actions = (
+			C79849640B60E841009F132B /* XCBreakpointAnimationAction */,
+		);
+		breakpointStyle = 1;
+		continueAfterActions = 0;
+		delayBeforeContinue = 0;
+		hitCount = 1;
+		location = Foundation;
+		modificationTime = 190900412.164493;
+		state = 1;
+		symbolName = "-[NSCFString replaceCharactersInRange:withString:]";
+	};
+	C798491B0B60E0FC009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
+		name = "JKPeakRecord.m: 286";
+		rLen = 0;
+		rLoc = 8453;
+		rType = 0;
+		vrLen = 1205;
+		vrLoc = 9660;
+	};
+	C798491C0B60E0FC009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */;
+		name = "- (id)initWithArray:(NSArray *)array;";
+		rLen = 38;
+		rLoc = 1019;
+		rType = 0;
+		vrLen = 863;
+		vrLoc = 195;
+	};
+	C79849200B60E103009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */;
+		name = "- (id)initWithArray:(NSArray *)array;";
+		rLen = 38;
+		rLoc = 1019;
+		rType = 0;
+		vrLen = 863;
+		vrLoc = 195;
+	};
+	C79849210B60E112009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
+		name = "JKPeakRecord.m: 286";
+		rLen = 0;
+		rLoc = 8453;
+		rType = 0;
+		vrLen = 1205;
+		vrLoc = 9660;
+	};
+	C79849220B60E112009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */;
+		name = "- (id)initWithArray:(NSArray *)array;";
+		rLen = 38;
+		rLoc = 1019;
+		rType = 0;
+		vrLen = 863;
+		vrLoc = 195;
+	};
+	C79849240B60E153009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
+		name = "JKPeakRecord.m: 286";
+		rLen = 0;
+		rLoc = 8453;
+		rType = 0;
+		vrLen = 1205;
+		vrLoc = 9660;
+	};
+	C79849250B60E153009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */;
+		name = "- (id)initWithArray:(NSArray *)array;";
+		rLen = 38;
+		rLoc = 1019;
+		rType = 0;
+		vrLen = 863;
+		vrLoc = 195;
+	};
+	C798492C0B60E482009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
+		name = "JKPeakRecord.m: 286";
+		rLen = 0;
+		rLoc = 8453;
+		rType = 0;
+		vrLen = 1205;
+		vrLoc = 9660;
+	};
+	C798492D0B60E482009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */;
+		name = "- (id)initWithArray:(NSArray *)array;";
+		rLen = 38;
+		rLoc = 1019;
+		rType = 0;
+		vrLen = 863;
+		vrLoc = 195;
+	};
+	C798492F0B60E81F009F132B /* XDSCDebuggingWindowBookmark */ = {
+		isa = XDSCDebuggingWindowBookmark;
+		fRef = C79849300B60E81F009F132B /* MyGraphView.m_1.xcclassmodel */;
+		fallbackIsa = PBXBookmark;
+	};
+	C79849300B60E81F009F132B /* MyGraphView.m_1.xcclassmodel */ = {
+		isa = PBXFileReference;
+		path = MyGraphView.m_1.xcclassmodel;
+		sourceTree = "<group>";
+	};
+	C79849310B60E81F009F132B /* XDModelBookmark */ = {
+		isa = XDModelBookmark;
+		fRef = C79849320B60E81F009F132B /* MyGraphView.m_1.xcclassmodel */;
+		fallbackIsa = PBXBookmark;
+		uiCtxt = {
+			UIContextForClassArea = {
+				_indexOfSelectedView = 0;
+				chosenTableColumnns = (
+					"CT Class",
+					"CT Kind",
+					"CT Superclass",
+					"CT Documentation",
+				);
+				chosenTableColumnns_sortDirections = (
+				);
+				chosenTableColumnns_sortKeys = (
+				);
+				chosenTableColumnns_sortSelectors = (
+				);
+				chosenTableWidths = (
+					76.000000,
+					45.000000,
+					56.454102,
+					22.000000,
+				);
+			};
+			UIContextForDetailArea = {
+				_indexOfSelectedView = 1;
+			};
+			UIContextForLayoutManager = {
+				detailSplitGeometry = {
+					_collapsingFrameDimension = 0;
+					_indexOfCollapsedView = 0;
+					_percentageOfCollapsedView = 0;
+					isCollapsed = yes;
+					sizes = (
+						"{{0, 0}, {452, 0}}",
+						"{{457, 0}, {241, 0}}",
+					);
+				};
+				diagramSplitGeometry = {
+					_collapsingFrameDimension = 0;
+					_indexOfCollapsedView = 0;
+					_percentageOfCollapsedView = 0;
+					isCollapsed = yes;
+					sizes = (
+						"{{0, 0}, {698, 0}}",
+						"{{0, 5}, {698, 437}}",
+					);
+				};
+				tableSplitGeometry = {
+					_collapsingFrameDimension = 0;
+					_indexOfCollapsedView = 0;
+					_percentageOfCollapsedView = 0;
+					isCollapsed = yes;
+					sizes = (
+						"{{0, 0}, {144, 0}}",
+						"{{149, 0}, {302, 0}}",
+					);
+				};
+			};
+			UIContextForPropertyArea = {
+				_indexOfSelectedView = 0;
+				chosenTableColumnnsAT = (
+					"PR Type Icon",
+					"PR Member",
+					"PR Kind",
+					"PR Type",
+					"PR Visibility",
+					"PR Documentation",
+				);
+				chosenTableColumnnsAT_sortDirections = (
+				);
+				chosenTableColumnnsAT_sortKeys = (
+				);
+				chosenTableColumnnsAT_sortSelectors = (
+				);
+				chosenTableColumnnsPT = (
+					"AL Type Icon",
+					"AL Member",
+					"AL Kind",
+					"AL Type",
+					"AL Visibility",
+					"AL Documentation",
+				);
+				chosenTableColumnnsPT_sortDirections = (
+				);
+				chosenTableColumnnsPT_sortKeys = (
+				);
+				chosenTableColumnnsPT_sortSelectors = (
+				);
+				chosenTableColumnnsRT = (
+					"OP Type Icon",
+					"OP Member",
+					"OP Kind",
+					"OP Type",
+					"OP Visibility",
+					"OP Documentation",
+				);
+				chosenTableColumnnsRT_sortDirections = (
+				);
+				chosenTableColumnnsRT_sortKeys = (
+				);
+				chosenTableColumnnsRT_sortSelectors = (
+				);
+				chosenTableWidthsAT = (
+					22.000000,
+					122.000000,
+					66.000000,
+					82.000000,
+					44.000000,
+					22.000000,
+				);
+				chosenTableWidthsPT = (
+					22.000000,
+					122.000000,
+					61.000000,
+					87.000000,
+					44.000000,
+					22.000000,
+				);
+				chosenTableWidthsRT = (
+					22.000000,
+					122.000000,
+					62.000000,
+					86.000000,
+					44.000000,
+					22.000000,
+				);
+			};
+			"xdesign model browser state key - shown/hidden" = 0;
+			"xdesign model diagram view visible rect key" = "{{-1, 187}, {683, 422}}";
+			"xdesign model selected entities key" = (
+				"<XDSCClass: 0xbb0fd00>{name=MyGraphView, package=}",
+			);
+			"xdesign model selected properties key" = (
+				"<XDSCProperty: 0x8d7e6f0>{name=legendFont, type=<XDUMLDataTypeImp: 0x814ef90>{name=*, package=}}",
+			);
+		};
+	};
+	C79849320B60E81F009F132B /* MyGraphView.m_1.xcclassmodel */ = {
+		isa = PBXFileReference;
+		path = MyGraphView.m_1.xcclassmodel;
+		sourceTree = "<group>";
+	};
+	C79849350B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */;
+		name = "- (id)initWithArray:(NSArray *)array;";
+		rLen = 38;
+		rLoc = 1019;
+		rType = 0;
+		vrLen = 999;
+		vrLoc = 174;
+	};
+	C79849360B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C79849370B60E822009F132B /* asm -[NSObject(NSKeyValueCoding) valueForUndefinedKey:]  0x92a13cb4 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1526;
+		vrLoc = 1417;
+	};
+	C79849370B60E822009F132B /* asm -[NSObject(NSKeyValueCoding) valueForUndefinedKey:]  0x92a13cb4 */ = {
+		isa = PBXFileReference;
+		path = "asm -[NSObject(NSKeyValueCoding) valueForUndefinedKey:]  0x92a13cb4";
+		sourceTree = "<group>";
+	};
+	C79849380B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C79849390B60E822009F132B /* asm -[NSArrayController setContent:]  0x9395d5f8 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1516;
+		vrLoc = 2152;
+	};
+	C79849390B60E822009F132B /* asm -[NSArrayController setContent:]  0x9395d5f8 */ = {
+		isa = PBXFileReference;
+		path = "asm -[NSArrayController setContent:]  0x9395d5f8";
+		sourceTree = "<group>";
+	};
+	C798493A0B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */;
+		name = "JKPanelController.m: 197";
+		rLen = 0;
+		rLoc = 6707;
+		rType = 0;
+		vrLen = 1130;
+		vrLoc = 6499;
+	};
+	C798493B0B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C798493C0B60E822009F132B /* asm -[NSException raise]  0x9297c008 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 144;
+		vrLoc = 0;
+	};
+	C798493C0B60E822009F132B /* asm -[NSException raise]  0x9297c008 */ = {
+		isa = PBXFileReference;
+		path = "asm -[NSException raise]  0x9297c008";
+		sourceTree = "<group>";
+	};
+	C798493D0B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C798493E0B60E822009F132B /* asm _DPSNextEvent  0x9370b9e4 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1803;
+		vrLoc = 2029;
+	};
+	C798493E0B60E822009F132B /* asm _DPSNextEvent  0x9370b9e4 */ = {
+		isa = PBXFileReference;
+		path = "asm _DPSNextEvent  0x9370b9e4";
+		sourceTree = "<group>";
+	};
+	C798493F0B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C79849400B60E822009F132B /* asm mach_msg_trap  0x9000ab40 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 270;
+		vrLoc = 0;
+	};
+	C79849400B60E822009F132B /* asm mach_msg_trap  0x9000ab40 */ = {
+		isa = PBXFileReference;
+		path = "asm mach_msg_trap  0x9000ab40";
+		sourceTree = "<group>";
+	};
+	C79849410B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C79849420B60E822009F132B /* asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1158;
+		vrLoc = 0;
+	};
+	C79849420B60E822009F132B /* asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464 */ = {
+		isa = PBXFileReference;
+		path = "asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464";
+		sourceTree = "<group>";
+	};
+	C79849430B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
+		rLen = 0;
+		rLoc = 701;
+		rType = 1;
+	};
+	C79849440B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */;
+		name = "- (id)initWithArray:(NSArray *)array;";
+		rLen = 38;
+		rLoc = 1019;
+		rType = 0;
+		vrLen = 999;
+		vrLoc = 174;
+	};
+	C79849450B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C79849460B60E822009F132B /* asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1158;
+		vrLoc = 0;
+	};
+	C79849460B60E822009F132B /* asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464 */ = {
+		isa = PBXFileReference;
+		path = "asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464";
+		sourceTree = "<group>";
+	};
+	C79849470B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C79849480B60E822009F132B /* asm -[NSException raise]  0x9297c008 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 144;
+		vrLoc = 0;
+	};
+	C79849480B60E822009F132B /* asm -[NSException raise]  0x9297c008 */ = {
+		isa = PBXFileReference;
+		path = "asm -[NSException raise]  0x9297c008";
+		sourceTree = "<group>";
+	};
+	C79849490B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C798494A0B60E822009F132B /* asm -[NSObject(NSKeyValueCoding) valueForUndefinedKey:]  0x92a13cb4 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1526;
+		vrLoc = 1417;
+	};
+	C798494A0B60E822009F132B /* asm -[NSObject(NSKeyValueCoding) valueForUndefinedKey:]  0x92a13cb4 */ = {
+		isa = PBXFileReference;
+		path = "asm -[NSObject(NSKeyValueCoding) valueForUndefinedKey:]  0x92a13cb4";
+		sourceTree = "<group>";
+	};
+	C798494B0B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */;
+		name = "JKPanelController.m: 197";
+		rLen = 0;
+		rLoc = 6707;
+		rType = 0;
+		vrLen = 1130;
+		vrLoc = 6499;
+	};
+	C798494C0B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C798494D0B60E822009F132B /* asm -[NSArrayController setContent:]  0x9395d5f8 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1516;
+		vrLoc = 2152;
+	};
+	C798494D0B60E822009F132B /* asm -[NSArrayController setContent:]  0x9395d5f8 */ = {
+		isa = PBXFileReference;
+		path = "asm -[NSArrayController setContent:]  0x9395d5f8";
+		sourceTree = "<group>";
+	};
+	C798494E0B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */;
+		name = "JKPanelController.m: 197";
+		rLen = 0;
+		rLoc = 6707;
+		rType = 0;
+		vrLen = 1130;
+		vrLoc = 6499;
+	};
+	C798494F0B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C79849500B60E822009F132B /* asm -[NSException raise]  0x9297c008 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 144;
+		vrLoc = 0;
+	};
+	C79849500B60E822009F132B /* asm -[NSException raise]  0x9297c008 */ = {
+		isa = PBXFileReference;
+		path = "asm -[NSException raise]  0x9297c008";
+		sourceTree = "<group>";
+	};
+	C79849510B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C79849520B60E822009F132B /* asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1158;
+		vrLoc = 0;
+	};
+	C79849520B60E822009F132B /* asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464 */ = {
+		isa = PBXFileReference;
+		path = "asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464";
+		sourceTree = "<group>";
+	};
+	C79849530B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C79849540B60E822009F132B /* asm -[NSException raise]  0x9297c008 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 144;
+		vrLoc = 0;
+	};
+	C79849540B60E822009F132B /* asm -[NSException raise]  0x9297c008 */ = {
+		isa = PBXFileReference;
+		path = "asm -[NSException raise]  0x9297c008";
+		sourceTree = "<group>";
+	};
+	C79849550B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C79849560B60E822009F132B /* asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1158;
+		vrLoc = 0;
+	};
+	C79849560B60E822009F132B /* asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464 */ = {
+		isa = PBXFileReference;
+		path = "asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464";
+		sourceTree = "<group>";
+	};
+	C79849570B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C79849580B60E822009F132B /* asm -[NSException raise]  0x9297c008 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 144;
+		vrLoc = 0;
+	};
+	C79849580B60E822009F132B /* asm -[NSException raise]  0x9297c008 */ = {
+		isa = PBXFileReference;
+		path = "asm -[NSException raise]  0x9297c008";
+		sourceTree = "<group>";
+	};
+	C79849590B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C798495A0B60E822009F132B /* asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1158;
+		vrLoc = 0;
+	};
+	C798495A0B60E822009F132B /* asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464 */ = {
+		isa = PBXFileReference;
+		path = "asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464";
+		sourceTree = "<group>";
+	};
+	C798495B0B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C798495C0B60E822009F132B /* asm mach_msg_trap  0x9000ab40 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 270;
+		vrLoc = 0;
+	};
+	C798495C0B60E822009F132B /* asm mach_msg_trap  0x9000ab40 */ = {
+		isa = PBXFileReference;
+		path = "asm mach_msg_trap  0x9000ab40";
+		sourceTree = "<group>";
+	};
+	C798495D0B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C798495E0B60E822009F132B /* asm _DPSNextEvent  0x9370b9e4 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1803;
+		vrLoc = 2029;
+	};
+	C798495E0B60E822009F132B /* asm _DPSNextEvent  0x9370b9e4 */ = {
+		isa = PBXFileReference;
+		path = "asm _DPSNextEvent  0x9370b9e4";
+		sourceTree = "<group>";
+	};
+	C798495F0B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C79849600B60E822009F132B /* asm mach_msg_trap  0x9000ab40 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 270;
+		vrLoc = 0;
+	};
+	C79849600B60E822009F132B /* asm mach_msg_trap  0x9000ab40 */ = {
+		isa = PBXFileReference;
+		path = "asm mach_msg_trap  0x9000ab40";
+		sourceTree = "<group>";
+	};
+	C79849610B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C79849620B60E822009F132B /* asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464 */;
+		name = "(null): 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1158;
+		vrLoc = 0;
+	};
+	C79849620B60E822009F132B /* asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464 */ = {
+		isa = PBXFileReference;
+		path = "asm -[NSCFString replaceCharactersInRange:withString:]  0x9296a464";
+		sourceTree = "<group>";
+	};
+	C79849630B60E822009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
+		name = "MyGraphView.m: 699";
+		rLen = 0;
+		rLoc = 33631;
+		rType = 0;
+		vrLen = 1989;
+		vrLoc = 32320;
+	};
+	C79849640B60E841009F132B /* XCBreakpointAnimationAction */ = {
+		isa = XCBreakpointAnimationAction;
+		animate = 1;
+		fallbackIsa = XCBreakpointAction;
+		useDebuggerSideImplementation = 0;
+	};
+	C79849670B60E8BA009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */;
+		name = "- (id)initWithArray:(NSArray *)array;";
+		rLen = 38;
+		rLoc = 1019;
+		rType = 0;
+		vrLen = 863;
+		vrLoc = 195;
+	};
+	C79849680B60E8BA009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
+		name = "MyGraphView.m: 700";
+		rLen = 0;
+		rLoc = 33612;
+		rType = 0;
+		vrLen = 2341;
+		vrLoc = 31404;
+	};
+	C79849690B60E8BF009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
+		name = "MyGraphView.m: 700";
+		rLen = 0;
+		rLoc = 33612;
+		rType = 0;
+		vrLen = 2192;
+		vrLoc = 31553;
+	};
+	C798496B0B60E8C7009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
+		name = "JKPeakRecord.m: 286";
+		rLen = 0;
+		rLoc = 8453;
+		rType = 0;
+		vrLen = 1205;
+		vrLoc = 9660;
+	};
+	C798496C0B60E8C7009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
+		name = "MyGraphView.m: 700";
+		rLen = 0;
+		rLoc = 33612;
+		rType = 0;
+		vrLen = 2405;
+		vrLoc = 31484;
+	};
+	C79849740B60E98A009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
+		name = "NSMutableString *label";
+		rLen = 22;
+		rLoc = 25741;
+		rType = 0;
+		vrLen = 1525;
+		vrLoc = 25294;
+	};
+	C79849750B60E9A5009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
+		name = "JKPeakRecord.m: 286";
+		rLen = 0;
+		rLoc = 8453;
+		rType = 0;
+		vrLen = 1205;
+		vrLoc = 9660;
+	};
+	C79849760B60E9A5009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
+		name = "NSMutableString *label";
+		rLen = 22;
+		rLoc = 25741;
+		rType = 0;
+		vrLen = 1692;
+		vrLoc = 25164;
+	};
+	C79849770B60E9A5009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
+		name = "NSMutableString *label";
+		rLen = 22;
+		rLoc = 25741;
+		rType = 0;
+		vrLen = 1525;
+		vrLoc = 25294;
+	};
+	C798497D0B60EA77009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
+		name = initWithString;
+		rLen = 14;
+		rLoc = 28388;
+		rType = 0;
+		vrLen = 2179;
+		vrLoc = 27079;
+	};
+	C798497E0B60EA77009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */;
+		name = initWithString;
+		rLen = 14;
+		rLoc = 12817;
+		rType = 0;
+		vrLen = 1651;
+		vrLoc = 11699;
+	};
+	C798497F0B60EA77009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
+		name = "JKPeakRecord.m: 32";
+		rLen = 0;
+		rLoc = 973;
+		rType = 0;
+		vrLen = 922;
+		vrLoc = 952;
+	};
+	C79849800B60EA77009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
+		name = "- (void)setDocument:(JKGCMSDocument *)inDocument";
+		rLen = 49;
+		rLoc = 17584;
+		rType = 0;
+		vrLen = 1118;
+		vrLoc = 15590;
+	};
+	C79849810B60EA77009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
+		name = initWithString;
+		rLen = 14;
+		rLoc = 28388;
+		rType = 0;
+		vrLen = 2179;
+		vrLoc = 27079;
+	};
+	C79849820B60EA77009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */;
+		name = initWithString;
+		rLen = 14;
+		rLoc = 12817;
+		rType = 0;
+		vrLen = 1651;
+		vrLoc = 11699;
+	};
+	C79849830B60EA77009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
+		name = "JKPeakRecord.m: 32";
+		rLen = 0;
+		rLoc = 973;
+		rType = 0;
+		vrLen = 922;
+		vrLoc = 952;
+	};
+	C79849840B60EA77009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
+		name = "JKChromatogram.m: 334";
+		rLen = 0;
+		rLoc = 14168;
+		rType = 0;
+		vrLen = 1887;
+		vrLoc = 13328;
+	};
+	C79849850B60EA80009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
+		name = "JKChromatogram.m: 334";
+		rLen = 0;
+		rLoc = 14168;
+		rType = 0;
+		vrLen = 1855;
+		vrLoc = 13362;
+	};
+	C79849860B60EA80009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
+		name = "NSMutableString *label";
+		rLen = 22;
+		rLoc = 25741;
+		rType = 0;
+		vrLen = 1525;
+		vrLoc = 25294;
+	};
+	C79849870B60EA80009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
+		name = "JKChromatogram.m: 334";
+		rLen = 0;
+		rLoc = 14168;
+		rType = 0;
+		vrLen = 1853;
+		vrLoc = 13362;
+	};
+	C79849880B60EAAC009F132B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
+		name = "JKChromatogram.m: 334";
+		rLen = 0;
+		rLoc = 14168;
+		rType = 0;
+		vrLen = 1853;
+		vrLoc = 13362;
 	};
 	C798C9E808E17B5400C6C7D1 /* DeleteTableView.h */ = {
 		uiCtxt = {
@@ -10729,6 +12153,8 @@
 		objects = (
 			C7E7EF380A2E53A000849DD5 /* [NSException raise] */,
 			C78DF4D60A3EB4F50001D828 /* _NSKVODeallocateLog */,
+			C79848FB0B60DBF2009F132B /* SpectrumGraphDataSerie.m:34 */,
+			C798491A0B60E0E3009F132B /* -[NSCFString replaceCharactersInRange:withString:] */,
 		);
 	};
 	C7AD38AB08B2A0D600A0F4BE /* FilteringDNDArrayController.h */ = {
@@ -10918,7 +12344,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 1105";
 		rLen = 0;
-		rLoc = 46828;
+		rLoc = 47150;
 		rType = 0;
 		vrLen = 1183;
 		vrLoc = 46561;
@@ -10928,7 +12354,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		name = "JKMainWindowController.m: 616";
 		rLen = 0;
-		rLoc = 25720;
+		rLoc = 25636;
 		rType = 0;
 		vrLen = 1719;
 		vrLoc = 22835;
@@ -10938,7 +12364,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "- (JKChromatogram *)chromatogramForModel:(NSString *)model";
 		rLen = 59;
-		rLoc = 25266;
+		rLoc = 25588;
 		rType = 0;
 		vrLen = 1465;
 		vrLoc = 33349;
@@ -10958,7 +12384,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 725";
 		rLen = 0;
-		rLoc = 30398;
+		rLoc = 30720;
 		rType = 0;
 		vrLen = 1307;
 		vrLoc = 33316;
@@ -10978,7 +12404,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 807";
 		rLen = 0;
-		rLoc = 33485;
+		rLoc = 33807;
 		rType = 0;
 		vrLen = 1091;
 		vrLoc = 37019;
@@ -11038,7 +12464,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 1666";
 		rLen = 0;
-		rLoc = 70630;
+		rLoc = 70952;
 		rType = 0;
 		vrLen = 578;
 		vrLoc = 72155;
@@ -11058,7 +12484,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 1714";
 		rLen = 0;
-		rLoc = 70630;
+		rLoc = 70952;
 		rType = 0;
 		vrLen = 927;
 		vrLoc = 73624;
@@ -11108,7 +12534,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 1713";
 		rLen = 0;
-		rLoc = 70630;
+		rLoc = 70952;
 		rType = 0;
 		vrLen = 1161;
 		vrLoc = 72468;
@@ -11178,7 +12604,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 1528";
 		rLen = 0;
-		rLoc = 65874;
+		rLoc = 66196;
 		rType = 0;
 		vrLen = 1692;
 		vrLoc = 67946;
@@ -11208,7 +12634,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "- (void)addChromatogramForModel:(NSString *)modelString";
 		rLen = 56;
-		rLoc = 30172;
+		rLoc = 30494;
 		rType = 0;
 		vrLen = 1273;
 		vrLoc = 33320;
@@ -11508,7 +12934,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 396";
 		rLen = 0;
-		rLoc = 14615;
+		rLoc = 14937;
 		rType = 0;
 		vrLen = 1495;
 		vrLoc = 17155;
@@ -11538,7 +12964,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: 2578";
 		rLen = 0;
-		rLoc = 106706;
+		rLoc = 106807;
 		rType = 0;
 		vrLen = 1269;
 		vrLoc = 5332;
@@ -11578,7 +13004,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 396";
 		rLen = 0;
-		rLoc = 14615;
+		rLoc = 14937;
 		rType = 0;
 		vrLen = 1495;
 		vrLoc = 17155;
@@ -11598,7 +13024,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: moveUpwardsInComparisonView";
 		rLen = 0;
-		rLoc = 51503;
+		rLoc = 51604;
 		rType = 0;
 		vrLen = 1289;
 		vrLoc = 49505;
@@ -11618,7 +13044,7 @@
 		fRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
 		name = "MyGraphView.m: moveUpwardsInComparisonView";
 		rLen = 0;
-		rLoc = 51503;
+		rLoc = 51604;
 		rType = 0;
 		vrLen = 1289;
 		vrLoc = 49505;
@@ -11648,7 +13074,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "@end";
 		rLen = 5;
-		rLoc = 30807;
+		rLoc = 30611;
 		rType = 0;
 		vrLen = 849;
 		vrLoc = 26575;
@@ -11678,7 +13104,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 356";
 		rLen = 0;
-		rLoc = 17776;
+		rLoc = 17580;
 		rType = 0;
 		vrLen = 707;
 		vrLoc = 13918;
@@ -11718,7 +13144,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 356";
 		rLen = 0;
-		rLoc = 17776;
+		rLoc = 17580;
 		rType = 0;
 		vrLen = 707;
 		vrLoc = 13918;
@@ -11798,7 +13224,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 356";
 		rLen = 0;
-		rLoc = 17776;
+		rLoc = 17580;
 		rType = 0;
 		vrLen = 1538;
 		vrLoc = 5792;
@@ -11808,7 +13234,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 1084";
 		rLen = 0;
-		rLoc = 46952;
+		rLoc = 47274;
 		rType = 0;
 		vrLen = 1217;
 		vrLoc = 49537;
@@ -11818,7 +13244,7 @@
 		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
 		name = "JKChromatogram.m: 356";
 		rLen = 0;
-		rLoc = 17776;
+		rLoc = 17580;
 		rType = 0;
 		vrLen = 1538;
 		vrLoc = 5792;
@@ -11828,7 +13254,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 663";
 		rLen = 0;
-		rLoc = 29353;
+		rLoc = 29675;
 		rType = 0;
 		vrLen = 1251;
 		vrLoc = 31691;
@@ -11848,7 +13274,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 663";
 		rLen = 0;
-		rLoc = 29353;
+		rLoc = 29675;
 		rType = 0;
 		vrLen = 1251;
 		vrLoc = 31691;
@@ -11932,11 +13358,11 @@
 		actions = (
 		);
 		breakpointStyle = 1;
-		continueAfterActions = 0;
+		continueAfterActions = 1;
 		delayBeforeContinue = 0;
 		hitCount = 1;
 		location = Foundation;
-		modificationTime = 190856035.423567;
+		modificationTime = 190900412.158741;
 		state = 1;
 		symbolName = "[NSException raise]";
 	};
@@ -12288,17 +13714,17 @@
 	};
 	C7EB17DC0898CF2E007FC2ED /* JKMainWindowController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {756, 1764}}";
-			sepNavSelRange = "{2893, 0}";
-			sepNavVisRect = "{{0, 913}, {756, 718}}";
+			sepNavIntBoundsRect = "{{0, 0}, {908, 1764}}";
+			sepNavSelRange = "{2216, 0}";
+			sepNavVisRect = "{{0, 674}, {908, 460}}";
 			sepNavWindowFrame = "{{67, 16}, {801, 816}}";
 		};
 	};
 	C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {908, 15554}}";
-			sepNavSelRange = "{7847, 57}";
-			sepNavVisRect = "{{0, 2507}, {908, 460}}";
+			sepNavIntBoundsRect = "{{0, 0}, {908, 15890}}";
+			sepNavSelRange = "{27379, 0}";
+			sepNavVisRect = "{{0, 9056}, {908, 460}}";
 			sepNavWindowFrame = "{{67, 16}, {801, 816}}";
 		};
 	};
@@ -12328,9 +13754,9 @@
 	};
 	C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {617, 7280}}";
-			sepNavSelRange = "{11806, 0}";
-			sepNavVisRect = "{{0, 5816}, {617, 506}}";
+			sepNavIntBoundsRect = "{{0, 0}, {929, 7042}}";
+			sepNavSelRange = "{973, 0}";
+			sepNavVisRect = "{{0, 444}, {929, 478}}";
 			sepNavWindowFrame = "{{18, 16}, {801, 816}}";
 		};
 	};
@@ -12351,17 +13777,17 @@
 	};
 	C7EB17EA0898CF2F007FC2ED /* JKSpectrum.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {929, 952}}";
-			sepNavSelRange = "{1347, 11}";
-			sepNavVisRect = "{{0, 426}, {929, 478}}";
+			sepNavIntBoundsRect = "{{0, 0}, {908, 966}}";
+			sepNavSelRange = "{681, 0}";
+			sepNavVisRect = "{{0, 0}, {908, 460}}";
 			sepNavWindowFrame = "{{15, 7}, {950, 820}}";
 		};
 	};
 	C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {908, 6650}}";
-			sepNavSelRange = "{15495, 574}";
-			sepNavVisRect = "{{0, 6141}, {908, 460}}";
+			sepNavSelRange = "{912, 12}";
+			sepNavVisRect = "{{0, 247}, {908, 460}}";
 			sepNavWindowFrame = "{{15, 7}, {950, 820}}";
 		};
 	};
@@ -12407,7 +13833,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {908, 1176}}";
 			sepNavSelRange = "{1019, 38}";
-			sepNavVisRect = "{{0, 351}, {908, 460}}";
+			sepNavVisRect = "{{0, 140}, {908, 460}}";
 			sepNavWindowFrame = "{{583, 0}, {782, 832}}";
 		};
 	};
@@ -12429,9 +13855,9 @@
 	};
 	C7EB17F80898CFBC007FC2ED /* MyGraphView.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {929, 37380}}";
-			sepNavSelRange = "{70204, 0}";
-			sepNavVisRect = "{{0, 21076}, {929, 478}}";
+			sepNavIntBoundsRect = "{{0, 0}, {908, 37422}}";
+			sepNavSelRange = "{25741, 22}";
+			sepNavVisRect = "{{0, 8078}, {908, 460}}";
 			sepNavWindowFrame = "{{37, 16}, {801, 816}}";
 		};
 	};

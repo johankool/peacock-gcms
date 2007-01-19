@@ -576,7 +576,7 @@ static int   kPaddingLabels             = 4;
 	NSSize stringSize;
 	NSPoint pointToDraw;
 	NSString *formatString = @"%g";
-	NSMutableString *label;
+	NSMutableString *label = @"";
 	
 	[attrs setValue:[self axesLabelFont] forKey:NSFontAttributeName];
     [attrs2 setValue:[NSNumber numberWithInt:1] forKey:NSSuperscriptAttributeName];
@@ -670,7 +670,7 @@ static int   kPaddingLabels             = 4;
 	NSSize stringSize;
 	NSPoint pointToDraw;
 	NSString *formatString = @"%g";
-	NSMutableString *label;
+	NSMutableString *label = @"";
 	
 	[attrs setValue:[self axesLabelFont] forKey:NSFontAttributeName];
     [attrs2 setValue:[NSNumber numberWithInt:1] forKey:NSSuperscriptAttributeName];
@@ -696,6 +696,9 @@ static int   kPaddingLabels             = 4;
                 NSRange superRange = NSMakeRange(tenRange.location+tenRange.length, [label length]-tenRange.location-tenRange.length);
                 [string setAttributes:attrs2 range:superRange];
             } else {
+                if (!label) {
+                    label = @"No Label";
+                }
                 string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs];            
             }
             stringSize = [string size];
@@ -1467,7 +1470,7 @@ static int   kPaddingLabels             = 4;
         for (i=0; i < peaksCount; i++) {
             peak = [[chromatogram peaks] objectAtIndex:i];
             if ([keyForXValue isEqualToString:@"Scan"]) {
-                if (([[peak valueForKey:@"start"] floatValue] < graphLocation.x) & ([[peak valueForKey:@"end"] floatValue] > graphLocation.x)) {
+                if ([peak start] < graphLocation.x) & ([peak end] > graphLocation.x)) {
                     return peak;
                 } 
             } else if ([keyForXValue isEqualToString:@"Time"]) {

@@ -157,15 +157,15 @@ static void *PropertyObservationContext = (void *)1093;
         for (i=0; i < count; i++) {
             [peaksPath removeAllPoints];
             
-            pointToDrawFirst = NSMakePoint([[[[self dataArray] objectAtIndex:[[[[self peaks] objectAtIndex:i] valueForKey:@"start"] intValue]] valueForKey:keyForXValue] floatValue],
+            pointToDrawFirst = NSMakePoint([[[[self dataArray] objectAtIndex:[[[self peaks] objectAtIndex:i] start]] valueForKey:keyForXValue] floatValue],
                                                [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]*[verticalScale floatValue]); 
             pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
             
             [peaksPath moveToPoint:pointToDrawFirst];
             
             // fori over data points
-            start = [[[[self peaks] objectAtIndex:i] valueForKey:@"start"] intValue];
-            end   = [[[[self peaks] objectAtIndex:i] valueForKey:@"end"] intValue]+1;
+            start = [[(JKPeakRecord *)[self peaks] objectAtIndex:i] start];
+            end   = [[(JKPeakRecord *)[self peaks] objectAtIndex:i] end]+1;
             for (j=start; j < end; j++) {
                 pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:j] valueForKey:keyForXValue] floatValue],
                                            [[[[self dataArray] objectAtIndex:j] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
@@ -173,7 +173,7 @@ static void *PropertyObservationContext = (void *)1093;
                 [peaksPath lineToPoint:pointInUnits];
             }
             
-            pointToDrawLast  = NSMakePoint([[[[self dataArray] objectAtIndex:[[[[self peaks] objectAtIndex:i] valueForKey:@"end"] intValue]] valueForKey:keyForXValue] floatValue],
+            pointToDrawLast  = NSMakePoint([[[[self dataArray] objectAtIndex:[[(JKPeakRecord *)[self peaks] objectAtIndex:i] end]] valueForKey:keyForXValue] floatValue],
                                            [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]*[verticalScale floatValue]);
             pointToDrawLast  = [trans transformPoint:pointToDrawLast];
                 
