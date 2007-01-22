@@ -12,6 +12,8 @@
 #import "ChromatogramGraphDataSerie.h"
 #import "SpectrumGraphDataSerie.h"
 #import "JKGCMSDocument.h"
+#import "JKPeakRecord.h"
+#import "JKChromatogram.h"
 
 static void *DataSeriesObservationContext = (void *)1092;
 static void *PeaksObservationContext = (void *)1093;
@@ -1381,8 +1383,9 @@ static int   kPaddingLabels             = 4;
 	} else if (_didDrag) {
 		if (([theEvent modifierFlags] & NSCommandKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
 			//   combine spectrum
-			JKLogDebug(@"combine spectrum");
+			//JKLogDebug(@"combine spectrum");
             NSLog(@"peak drag from scan %d to scan %d",[self scanAtPoint:_mouseDownAtPoint],[self scanAtPoint:mouseLocation]);
+            [[self chromatogramAtPoint:_mouseDownAtPoint] addPeakFromScan:[self scanAtPoint:_mouseDownAtPoint] toScan:[self scanAtPoint:mouseLocation]];
 		} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
 			//   zoom in/move baseline point
 			[self zoomToRectInView:[self selectedRect]];
@@ -1470,7 +1473,7 @@ static int   kPaddingLabels             = 4;
         for (i=0; i < peaksCount; i++) {
             peak = [[chromatogram peaks] objectAtIndex:i];
             if ([keyForXValue isEqualToString:@"Scan"]) {
-                if ([peak start] < graphLocation.x) & ([peak end] > graphLocation.x)) {
+                if (([peak start] < graphLocation.x) & ([peak end] > graphLocation.x)) {
                     return peak;
                 } 
             } else if ([keyForXValue isEqualToString:@"Time"]) {

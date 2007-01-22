@@ -498,7 +498,7 @@
             if ([[combinedPeak valueForKey:@"label"] hasPrefix:NSLocalizedString(@"Unknown compound",@"Unknown compounds in stats summary.")]) {
                 if ([peak confirmed]) {
                     // WARNING: A confirmed peak was matched to a hitherto unidentified compound. 
-                    warningMsg = [NSString stringWithFormat:@"WARNING: The confirmed peak '%@' at index %d was matched to a hitherto unidentified compound. It was previously encountered", [peak label], [[peak peakID] intValue]];
+                    warningMsg = [NSString stringWithFormat:@"WARNING: The confirmed peak '%@' at index %d was matched to a hitherto unidentified compound. It was previously encountered", [peak label], [peak peakID]];
                     warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
                      [combinedPeak setObject:[peak valueForKey:@"label"] forKey:@"label"];
                    // Should log the peaks that were unidentified

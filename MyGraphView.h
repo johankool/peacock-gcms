@@ -6,6 +6,9 @@
 //  Copyright (c) 2003-2005 Johan Kool. All rights reserved.
 //
 
+@class JKPeakRecord;
+@class JKChromatogram;
+
 extern NSString *const MyGraphView_DidBecomeFirstResponderNotification;
 extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 
@@ -138,6 +141,10 @@ typedef enum {
 - (void)selectNextPeak; 
 - (void)selectPreviousPeak;
 - (float)unitsPerMajorGridLine:(float)pixelsPerUnit;
+
+- (int)scanAtPoint:(NSPoint)aPoint;
+- (JKPeakRecord *)peakAtPoint:(NSPoint)aPoint;
+- (JKChromatogram *)chromatogramAtPoint:(NSPoint)aPoint;
 
 #pragma mark BINDINGS
 - (NSMutableArray *)dataSeries;

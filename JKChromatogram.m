@@ -327,22 +327,17 @@
 }
 
 - (void)addPeakFromScan:(int)startScan toScan:(int)endScan {
+    if (startScan > endScan) {
+        int temp = startScan;
+        startScan = endScan;
+        endScan = temp;
+    }
     JKPeakRecord *newPeak = [[JKPeakRecord alloc] init];
     [newPeak setStart:startScan];
     [newPeak setEnd:endScan];
     [newPeak setChromatogram:self];
     [newPeak setValue:[NSNumber numberWithFloat:[self baselineValueAtScan:startScan]] forKey:@"baselineLeft"];
     [newPeak setValue:[NSNumber numberWithFloat:[self baselineValueAtScan:endScan]] forKey:@"baselineRight"];
-    
-//        [newPeak setValue:[NSNumber numberWithInt:top] forKey:@"top"];
-//        [newPeak setValue:[NSNumber numberWithInt:peakCount] forKey:@"peakID"];
-//        [newPeak setValue:[NSNumber numberWithFloat:height] forKey:@"height"];
-//    [newPeak setValue:[NSNumber numberWithFloat:surface] forKey:@"surface"];
-//    
-//    retentionIndex = topTime * [[[self document] retentionIndexSlope] floatValue] + [[[self document] retentionIndexRemainder] floatValue];
-//    [newPeak setValue:[NSNumber numberWithFloat:retentionIndex] forKey:@"retentionIndex"];
-//    
-//    [newPeak setSpectrum:[[self document] spectrumForScan:top]];
     [self insertObject:newPeak inPeaksAtIndex:[[self peaks] count]];
     [[self document] insertObject:newPeak inPeaksAtIndex:[[[self document] peaks] count]];
     [newPeak release];     
