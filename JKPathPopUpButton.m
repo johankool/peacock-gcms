@@ -110,7 +110,6 @@
 	[chooseExistingPathItem setTarget:self];
 	[[self menu] addItem:chooseExistingPathItem];	
 	[chooseExistingPathItem release];
-	
 }
 
 - (IBAction)chooseExistingPath:(id)sender {

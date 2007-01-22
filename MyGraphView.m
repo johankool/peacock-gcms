@@ -72,7 +72,10 @@ static int   kPaddingLabels             = 4;
 		[self setPlottingArea:NSMakeRect(50.5,20.5,[self bounds].size.width-60.5,[self bounds].size.height-25.5)];
 		[self setLegendArea:NSMakeRect([self bounds].size.width-200-10-10,[self bounds].size.height-18-10-5,200,18)];
 		[self setSelectedRect:NSMakeRect(0,0,0,0)];
-		
+        NSAttributedString *emptyLabel = [[[NSAttributedString alloc] initWithString:@""] autorelease];
+        [self setXAxisLabelString:emptyLabel];    
+        [self setYAxisLabelString:emptyLabel];    
+        
         NSDictionary *defaultValues = [[NSUserDefaultsController sharedUserDefaultsController] values];
 		[self setShouldDrawAxes:[[defaultValues valueForKey:@"shouldDrawAxes"] boolValue]];
 		[self setShouldDrawAxesHorizontal:[[defaultValues valueForKey:@"shouldDrawAxesHorizontal"] boolValue]];
@@ -231,9 +234,8 @@ static int   kPaddingLabels             = 4;
             if ([keyForXValue isEqualToString:@"Scan"]) {
                 point = [[self transformGraphToScreen] transformPoint:NSMakePoint([self selectedScan]*1.0, 0)];                
             } else {
-#warning [BUG] The timeForScan: method has been relocated.
-//                float thetime = [(JKGCMSDocument *)[[[self window] windowController] document] timeForScan:selectedScan];
-//                point = [[self transformGraphToScreen] transformPoint:NSMakePoint(thetime, 0)];
+                float thetime = [(JKGCMSDocument *)[[[self window] windowController] document] timeForScan:selectedScan];
+                point = [[self transformGraphToScreen] transformPoint:NSMakePoint(thetime, 0)];
             }
             
             NSBezierPath *selectedScanBezierPath = [NSBezierPath bezierPath];
@@ -509,12 +511,19 @@ static int   kPaddingLabels             = 4;
 	
 	[attrs setValue:[self legendFont] forKey:NSFontAttributeName];
     NSBezierPath *line = [NSBezierPath bezierPath];
-		
+    NSString *seriesTitle = nil;
+    
 	if ([[self dataSeries] count] > 0) {
 		for (i=0;i<[[self dataSeries] count]; i++) {
             [line removeAllPoints];
-			string = [[NSMutableAttributedString alloc] initWithString:[[[self dataSeries] objectAtIndex:i] valueForKey:@"seriesTitle"] attributes:attrs];
-			stringSize = [string size];
+//            NSLog(@"legend seriesTitle: %@",[[[self dataSeries] objectAtIndex:i] valueForKey:@"seriesTitle"]);
+            seriesTitle = [[[self dataSeries] objectAtIndex:i] valueForKey:@"seriesTitle"];
+            if (!seriesTitle) {
+                seriesTitle = @"Untitled Series";
+            }
+			string = [[NSMutableAttributedString alloc] initWithString:seriesTitle attributes:attrs];
+            NSAssert(string,@"string is nil");
+            stringSize = [string size];
 			pointToDraw = [self legendArea].origin;
 			pointToDraw.x = pointToDraw.x + 24;
 			pointToDraw.y = pointToDraw.y - stringSize.height*(i+1) + [self legendArea].size.height - (4*i) - 4;
@@ -570,7 +579,7 @@ static int   kPaddingLabels             = 4;
 }
 
 - (void)drawLabels {
-	NSMutableAttributedString *string;// = [[NSMutableAttributedString alloc] init];
+	NSMutableAttributedString *string = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
 	NSMutableDictionary *attrs2 = [NSMutableDictionary dictionary];
 	int i, start, end;
@@ -602,6 +611,7 @@ static int   kPaddingLabels             = 4;
 	end = start + [self frame].size.width/stepInPixels+1;
 	for (i=start; i <= end; i++) {
         label = [NSMutableString localizedStringWithFormat:formatString, i*stepInUnits];
+        NSAssert(label,@"label is nil");
         if ([label rangeOfString:@"e"].location != NSNotFound) {
             [label replaceOccurrencesOfString:@"e+0" withString:@"e" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
             [label replaceOccurrencesOfString:@"e-0" withString:@"e-" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
@@ -614,6 +624,7 @@ static int   kPaddingLabels             = 4;
         } else {
             string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs];            
         }
+        NSAssert(string,@"string is nil");
 		stringSize = [string size];
 		pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(i*stepInUnits,0.)];
 		pointToDraw.x = pointToDraw.x - stringSize.width/2;
@@ -637,6 +648,7 @@ static int   kPaddingLabels             = 4;
 	end = start + [self frame].size.height/stepInPixels+1;
 	for (i=start; i <= end; i++) {
         label = [NSMutableString localizedStringWithFormat:formatString, i*stepInUnits];
+        NSAssert(label,@"label is nil");
         if ([label rangeOfString:@"e"].location != NSNotFound) {
             [label replaceOccurrencesOfString:@"e+0" withString:@"e" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
             [label replaceOccurrencesOfString:@"e-0" withString:@"e-" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
@@ -649,6 +661,7 @@ static int   kPaddingLabels             = 4;
         } else {
             string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs];            
         }
+        NSAssert(string,@"label is nil");
 		stringSize = [string size];
 		pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(0.,i*stepInUnits)];
 		pointToDraw.x = pointToDraw.x - stringSize.width - kPaddingLabels;
@@ -664,7 +677,7 @@ static int   kPaddingLabels             = 4;
 }
 
 - (void)drawLabelsOnFrame {
-	NSMutableAttributedString *string;// = [[NSMutableAttributedString alloc] init];
+	NSMutableAttributedString *string = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
 	NSMutableDictionary *attrs2 = [NSMutableDictionary dictionary];
 	int i, start, end;
@@ -688,6 +701,7 @@ static int   kPaddingLabels             = 4;
         end = floor((-[self origin].x + [self plottingArea].origin.x + [self plottingArea].size.width)/stepInPixels);
         for (i=start; i <= end; i++) {  
             label = [NSMutableString localizedStringWithFormat:formatString, i*stepInUnits];
+            NSAssert(label,@"label is nil");
             if ([label rangeOfString:@"e"].location != NSNotFound) {
                 [label replaceOccurrencesOfString:@"e+0" withString:@"e" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
                 [label replaceOccurrencesOfString:@"e-0" withString:@"e-" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
@@ -698,11 +712,9 @@ static int   kPaddingLabels             = 4;
                 NSRange superRange = NSMakeRange(tenRange.location+tenRange.length, [label length]-tenRange.location-tenRange.length);
                 [string setAttributes:attrs2 range:superRange];
             } else {
-                if (!label) {
-                    label = @"No Label";
-                }
                 string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs];            
             }
+            NSAssert(string,@"string is nil");
             stringSize = [string size];
             pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(i*stepInUnits,0.)];
             pointToDraw.x = pointToDraw.x - stringSize.width/2;
@@ -728,19 +740,23 @@ static int   kPaddingLabels             = 4;
         start = ceil((-[self origin].y + [self plottingArea].origin.y)/stepInPixels);
         end = floor((-[self origin].y + [self plottingArea].origin.y + [self plottingArea].size.height)/stepInPixels);
         for (i=start; i <= end; i++) {
+            NSAssert(formatString,@"formatString is nil");
             label = [NSMutableString localizedStringWithFormat:formatString, i*stepInUnits];
+            NSAssert(label,@"label is nil");
             if ([label rangeOfString:@"e"].location != NSNotFound) {
                 [label replaceOccurrencesOfString:@"e+0" withString:@"e" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
                 [label replaceOccurrencesOfString:@"e-0" withString:@"e-" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
                 [label replaceOccurrencesOfString:@"e" withString:[NSString stringWithUTF8String:"\u22c510"] options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];                
                 [label replaceOccurrencesOfString:@"+" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
-                string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs]; 
+                NSAssert(label,@"label is nil");
+               string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs]; 
                 NSRange tenRange = [label rangeOfString:[NSString stringWithUTF8String:"\u22c510"]];
                 NSRange superRange = NSMakeRange(tenRange.location+tenRange.length, [label length]-tenRange.location-tenRange.length);
                 [string setAttributes:attrs2 range:superRange];
             } else {
                 string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs];            
             }
+            NSAssert(string,@"label is nil");
             stringSize = [string size];
             pointToDraw = [[self transformGraphToScreen] transformPoint:NSMakePoint(0.,i*stepInUnits)];
             pointToDraw.x = [self plottingArea].origin.x - stringSize.width - kPaddingLabels;
@@ -976,7 +992,7 @@ static int   kPaddingLabels             = 4;
 	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] - yWidth/8]];
 	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] + yWidth/8]];
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
+//	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
 
 }
 
@@ -989,7 +1005,7 @@ static int   kPaddingLabels             = 4;
 	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] + yWidth/4]];
 	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] - yWidth/4]];
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
+//	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
 
 }
 
@@ -998,7 +1014,7 @@ static int   kPaddingLabels             = 4;
 	[self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] - xWidth/4]];
 	[self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] - xWidth/4]];
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
+//	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
 
 }
 
@@ -1007,7 +1023,7 @@ static int   kPaddingLabels             = 4;
 	[self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] + xWidth/4]];
 	[self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] + xWidth/4]];
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
+//	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
 
 }
 
@@ -1016,7 +1032,7 @@ static int   kPaddingLabels             = 4;
 	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] + yWidth/4]];
 	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] + yWidth/4]];
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
+//	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
 
 }
 
@@ -1025,7 +1041,7 @@ static int   kPaddingLabels             = 4;
 	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] - yWidth/4]];
 	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] - yWidth/4]];
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
+//	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
 
 }
 
@@ -1333,39 +1349,17 @@ static int   kPaddingLabels             = 4;
                 }
                 [self setNeedsDisplayInRect:[self plottingArea]];
 			}
-		} else if ([theEvent clickCount] == 2) { // Float click
+		} else if ([theEvent clickCount] == 2) { // Double click
             if (([theEvent modifierFlags] & NSShiftKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
 				[self showAll:self];
 			} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
 				//  add peak
 				JKLogDebug(@"add peak");
 			} else if ([theEvent modifierFlags] & NSCommandKeyMask) {
-                // deselect any peaks
-                [peaksContainer setSelectedObjects:nil];
-//				//  add baseline point
-//				int i;
-//				NSPoint pointInReal = [[self transformScreenToGraph] transformPoint:mouseLocation];
-//				
-//				NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
-//				[mutDict setValue:[NSNumber numberWithFloat:pointInReal.x] forKey:@"Scan"];
-//				[mutDict setValue:[NSNumber numberWithFloat:pointInReal.y] forKey:@"Total Intensity"];
-//				// Time?!
-//                
-//                
-//				// Following works, but can fail in circumstances, need error checking!
-//				// if count 0 addObject
-//				i=0;
-//				while (pointInReal.x > [[[[self baseline] objectAtIndex:i] valueForKey:@"Scan"] intValue]) {
-//					i++;
-//				}
-//				// if i == count addObject
-//                [[self undoManager] registerUndoWithTarget:[self baselineContainer]
-//                                                  selector:@selector(removeObject:)
-//                                                    object:mutDict];
-//                [[self undoManager] setActionName:NSLocalizedString(@"Add Baseline Point",@"")];
-//                
-//				[(NSArrayController *)[self  baselineContainer] insertObject:mutDict atArrangedObjectIndex:i];
-//				[mutDict release];
+                // add baseline point
+                JKChromatogram *chromatogram = [self chromatogramAtPoint:mouseLocation];
+                [chromatogram insertObject:[self pointAtPoint:mouseLocation] inBaselinePointsAtIndex:[chromatogram baselinePointsIndexAtScan:[self scanAtPoint:mouseLocation]]];
+                [self setNeedsDisplayInRect:[self plottingArea]];
 			} else {
 				//  select scan and show spectrum 
 				JKLogDebug(@" select scan and show spectrum");
@@ -1490,6 +1484,35 @@ static int   kPaddingLabels             = 4;
     return peak;
 }
 
+- (NSMutableDictionary *)pointAtPoint:(NSPoint)aPoint {
+    int scan = NSNotFound;
+    NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:aPoint];
+    NSMutableDictionary *thePoint = [NSMutableDictionary dictionaryWithCapacity:3];
+    
+    if ([keyForXValue isEqualToString:@"Scan"]) {
+        scan = lroundf(graphLocation.x);
+        [thePoint setValue:[NSNumber numberWithInt:scan] forKey:@"Scan"];
+        JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
+        if (chromatogram) {
+            [thePoint setValue:[NSNumber numberWithFloat:[[self chromatogramAtPoint:aPoint] timeForScan:scan]] forKey:@"Time"];
+        }
+        [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"Total Intensity"];
+    } else if ([keyForXValue isEqualToString:@"Time"]) {
+        JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
+        if (chromatogram) {
+            scan = [chromatogram scanForTime:graphLocation.x];            
+            [thePoint setValue:[NSNumber numberWithInt:scan] forKey:@"Scan"];
+        }
+        [thePoint setValue:[NSNumber numberWithFloat:graphLocation.x] forKey:@"Time"];
+        [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"Total Intensity"];
+        
+    } else {
+        NSLog(@"pointAtPoint: - Unexpected keyForXValue '%@'", keyForXValue);
+    }
+    
+    return thePoint;
+}
+
 - (JKChromatogram *)chromatogramAtPoint:(NSPoint)aPoint {
     JKChromatogram *chromatogram = nil;
     int count, dataSerieIndex;
@@ -1534,6 +1557,8 @@ static int   kPaddingLabels             = 4;
             NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom_out"] hotSpot:NSMakePoint(12,10)];
             [zoomCursor set];
             [zoomCursor release];
+        } else if (([theEvent modifierFlags] & NSAlternateKeyMask ) && ([theEvent modifierFlags] & NSCommandKeyMask )) {
+            [[NSCursor crosshairCursor] set];
         } else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
             NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom_in"] hotSpot:NSMakePoint(12,10)];
             [zoomCursor set];
@@ -1684,11 +1709,11 @@ static int   kPaddingLabels             = 4;
 	{
 		int i, count;
 		// Als de inhoud van onze dataArray wijzigt, bijv. als er een dataserie wordt toegevoegd, dan willen we ons registreren voor wijzingen die de dataserie post. Eerst verwijderen we onszelf voor alle notificaties, en daarna registreren we voor de op dit moment beschikbare dataseries. Dit is eenvoudiger (en waarschijnlijk sneller) dan uitzoeken wat er precies veranderd is.
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"MyGraphDataSerieDidChangeNotification" object:nil];
-		count = [[self dataSeries] count];
-		for (i=0;i<count; i++){
-			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"MyGraphDataSerieDidChangeNotification" object:[[self dataSeries] objectAtIndex:i]];
-		}
+//		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"MyGraphDataSerieDidChangeNotification" object:nil];
+//		count = [[self dataSeries] count];
+//		for (i=0;i<count; i++){
+//			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"MyGraphDataSerieDidChangeNotification" object:[[self dataSeries] objectAtIndex:i]];
+//		}
 		[self setNeedsDisplayInRect:[self plottingArea]];
     } 
     else if (context == DataSeriesObservationContext) 

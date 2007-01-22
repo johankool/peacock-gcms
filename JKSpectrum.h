@@ -38,7 +38,7 @@
 - (JKSpectrum *)spectrumByAveragingWithSpectrum:(JKSpectrum *)inSpectrum  withWeight:(float)weight;
 - (JKSpectrum *)normalizedSpectrum;
 
-- (SpectrumGraphDataSerie *)spectrumDataSerie;
+//- (SpectrumGraphDataSerie *)spectrumDataSerie;
 
 - (float)scoreComparedToSpectrum:(JKSpectrum *)inSpectrum;
 - (float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry;

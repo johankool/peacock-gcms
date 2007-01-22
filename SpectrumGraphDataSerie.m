@@ -27,7 +27,7 @@ static void *PropertyObservationContext = (void *)1093;
 		[self setSeriesType:2];
 		[self setShouldDrawLabels:YES];
 		drawUpsideDown = NO;
-		normalizeYData = YES;
+		normalizeYData = NO;
 		boundingRect = NSZeroRect;
 		
 		// Creeer de plot een eerste keer.
@@ -40,14 +40,14 @@ static void *PropertyObservationContext = (void *)1093;
     self = [super init];
     if (self) {
         // Zet de standaardwaarden
-		[self setSeriesTitle:[spectrum model]];
+		[self setSeriesTitle:[aSpectrum model]];
 		[self setKeyForXValue:@"Mass"];
 		[self setKeyForYValue:@"Intensity"];
 		[self setSeriesColor:[NSColor blueColor]];
 		[self setSeriesType:2];
 		[self setShouldDrawLabels:YES];
 		drawUpsideDown = NO;
-		normalizeYData = YES;
+		normalizeYData = NO;
 		boundingRect = NSZeroRect;
 
         [self setSpectrum:aSpectrum];
@@ -60,9 +60,9 @@ static void *PropertyObservationContext = (void *)1093;
 #pragma mark DRAWING ROUTINES
 - (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
 	NSBezierPath *bezierpath;
-//	if (!plotPath) {
-//		[self constructPlotPath];
-//	}
+	if (!plotPath) {
+		[self constructPlotPath];
+	}
 	// Hier gaan we van dataserie-coordinaten naar scherm-coordinaten.
 	bezierpath = [trans transformBezierPath:[self plotPath]];
 	
@@ -75,7 +75,7 @@ static void *PropertyObservationContext = (void *)1093;
 	
 	if(shouldDrawLabels) {
 		if (seriesType == 2) {
-			[self drawLabelsWithTransform:trans inView:view];
+//			[self drawLabelsWithTransform:trans inView:view];
 
 		}
 	}

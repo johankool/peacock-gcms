@@ -2,6 +2,7 @@
     IBClasses = (
         {
             ACTIONS = {
+                combinePeaksAction = id; 
                 confirm = id; 
                 discard = id; 
                 displayAutopilotSheet = id; 

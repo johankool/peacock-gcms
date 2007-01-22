@@ -36,6 +36,7 @@
 		masses = (float *) malloc(1*sizeof(float));
 		intensities = (float *) malloc(1*sizeof(float));
         [self setDocument:inDocument];
+        NSAssert(modelString, @"modelString is nil");
         [self setModel:modelString];
 	}
 	return self;
@@ -133,7 +134,8 @@
 	float massesOut[count1+count2];
 	float intensitiesOut[count1+count2];
 	float roundd1, roundd2;
-	
+	[outSpectrum setModel:[NSString stringWithFormat:@"%@ - %@",[self model], [inSpectrum model]]];
+    
 	do {
 		d1 = masses[i];
 		d2 = massesIn[i];
@@ -186,6 +188,8 @@
 	float intensitiesOut[count1+count2];
 	float roundd1, roundd2, diff;
 	float counterweight = 1.0 - weight;
+	[outSpectrum setModel:[NSString stringWithFormat:@"(%g %@ + %g %@)", counterweight, [self model], weight, [inSpectrum model]]];
+
 	do {
 		d1 = masses[i];
 		d2 = massesIn[j];
@@ -408,20 +412,20 @@
 	}
 }
 
-- (SpectrumGraphDataSerie *)spectrumDataSerie{
-	SpectrumGraphDataSerie *spectrumDataSerie = [[SpectrumGraphDataSerie alloc] init];
-	[spectrumDataSerie loadDataPoints:[self numberOfPoints] withXValues:[self masses] andYValues:[self intensities]];
-	
-	[spectrumDataSerie setSeriesType:2]; // Spectrum kind of plot
-	[spectrumDataSerie setSeriesTitle:NSLocalizedString(@"Peak",@"")];
-	[spectrumDataSerie setSeriesColor:[NSColor blueColor]];
-	[spectrumDataSerie setKeyForXValue:@"Mass"];
-	[spectrumDataSerie setKeyForYValue:@"Intensity"];
-	[spectrumDataSerie setDrawUpsideDown:NO];
-	
-	[spectrumDataSerie autorelease];
-	return spectrumDataSerie;
-}
+//- (SpectrumGraphDataSerie *)spectrumDataSerie{
+//	SpectrumGraphDataSerie *spectrumDataSerie = [[SpectrumGraphDataSerie alloc] init];
+//	[spectrumDataSerie loadDataPoints:[self numberOfPoints] withXValues:[self masses] andYValues:[self intensities]];
+//	
+//	[spectrumDataSerie setSeriesType:2]; // Spectrum kind of plot
+//	[spectrumDataSerie setSeriesTitle:NSLocalizedString(@"Peak",@"")];
+//	[spectrumDataSerie setSeriesColor:[NSColor blueColor]];
+//	[spectrumDataSerie setKeyForXValue:@"Mass"];
+//	[spectrumDataSerie setKeyForYValue:@"Intensity"];
+//	[spectrumDataSerie setDrawUpsideDown:NO];
+//	
+//	[spectrumDataSerie autorelease];
+//	return spectrumDataSerie;
+//}
 
 
 //#pragma mark optimization_level reset

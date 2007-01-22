@@ -67,7 +67,6 @@ enum JKPeakSelection {
 		
 	// View options
 	BOOL showTICTrace;
-	BOOL showSpectrum;
 	BOOL showCombinedSpectrum;
 	BOOL showLibraryHit;
 	BOOL showNormalizedSpectra;
@@ -116,7 +115,6 @@ enum JKPeakSelection {
 #pragma mark ACCESSORS (MACROSTYLE)
 boolAccessor_h(abortAction, setAbortAction)	
 boolAccessor_h(showTICTrace, setShowTICTrace)
-boolAccessor_h(showSpectrum, setShowSpectrum)
 boolAccessor_h(showNormalizedSpectra, setShowNormalizedSpectra)
 boolAccessor_h(showCombinedSpectrum, setShowCombinedSpectrum)
 boolAccessor_h(showLibraryHit, setShowLibraryHit)

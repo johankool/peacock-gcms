@@ -661,7 +661,7 @@ static void *DocumentObservationContext = (void *)1100;
     dummy = nc_get_vara_float(ncid, varid_intensity_value, (const size_t *) &start, (const size_t *) &numberOfPoints, intensities);
     if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting intensity_values failed. Report error #%d.", dummy); return nil;}
     
-    JKSpectrum *spectrum = [[JKSpectrum alloc] initWithDocument:self forModel:[NSString stringWithFormat:@"%d",scan]];
+    JKSpectrum *spectrum = [[JKSpectrum alloc] initWithDocument:self forModel:[NSString stringWithFormat:@"scan %d",scan-1]];
   
     [spectrum setMasses:massValues withCount:numberOfPoints];
     [spectrum setIntensities:intensities withCount:numberOfPoints];

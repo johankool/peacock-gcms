@@ -426,37 +426,37 @@
 	return [[self document] undoManager];
 }
 
-- (SpectrumGraphDataSerie *)spectrumDataSerie{
-	SpectrumGraphDataSerie *spectrumDataSerie = [[SpectrumGraphDataSerie alloc] init];
-	[spectrumDataSerie loadDataPoints:[self numberOfPoints] withXValues:[self masses] andYValues:[self intensities]];
-    
-	[spectrumDataSerie setSeriesType:2]; // Spectrum kind of plot
-	[spectrumDataSerie setSeriesTitle:[NSString stringWithFormat:@"%@ (%@)", NSLocalizedString(@"Library Entry",@"Spectrum legend entry"), [self name]]];
-	[spectrumDataSerie setSeriesColor:[NSColor orangeColor]];
-	[spectrumDataSerie setKeyForXValue:@"Mass"];
-	[spectrumDataSerie setKeyForYValue:@"Intensity"];
-	
-	[spectrumDataSerie setDrawUpsideDown:NO];
-	
-	[spectrumDataSerie autorelease];
-	return spectrumDataSerie;
-}
-
-- (SpectrumGraphDataSerie *)spectrumDataSerieUpsideDown{
-	SpectrumGraphDataSerie *spectrumDataSerie = [[SpectrumGraphDataSerie alloc] init];
-	[spectrumDataSerie loadDataPoints:[self numberOfPoints] withXValues:[self masses] andYValues:[self intensities]];
-		
-	[spectrumDataSerie setSeriesType:2]; // Spectrum kind of plot
-	[spectrumDataSerie setSeriesTitle:[NSString stringWithFormat:@"%@ (%@)", NSLocalizedString(@"Library Entry",@"Spectrum legend entry"), [self name]]];
-	[spectrumDataSerie setSeriesColor:[NSColor orangeColor]];
-	[spectrumDataSerie setKeyForXValue:@"Mass"];
-	[spectrumDataSerie setKeyForYValue:@"Intensity"];
-	
-	[spectrumDataSerie setDrawUpsideDown:YES];
-	
-	[spectrumDataSerie autorelease];
-	return spectrumDataSerie;
-}
+//- (SpectrumGraphDataSerie *)spectrumDataSerie{
+//	SpectrumGraphDataSerie *spectrumDataSerie = [[SpectrumGraphDataSerie alloc] init];
+//	[spectrumDataSerie loadDataPoints:[self numberOfPoints] withXValues:[self masses] andYValues:[self intensities]];
+//    
+//	[spectrumDataSerie setSeriesType:2]; // Spectrum kind of plot
+//	[spectrumDataSerie setSeriesTitle:[NSString stringWithFormat:@"%@ (%@)", NSLocalizedString(@"Library Entry",@"Spectrum legend entry"), [self name]]];
+//	[spectrumDataSerie setSeriesColor:[NSColor orangeColor]];
+//	[spectrumDataSerie setKeyForXValue:@"Mass"];
+//	[spectrumDataSerie setKeyForYValue:@"Intensity"];
+//	
+//	[spectrumDataSerie setDrawUpsideDown:NO];
+//	
+//	[spectrumDataSerie autorelease];
+//	return spectrumDataSerie;
+//}
+//
+//- (SpectrumGraphDataSerie *)spectrumDataSerieUpsideDown{
+//	SpectrumGraphDataSerie *spectrumDataSerie = [[SpectrumGraphDataSerie alloc] init];
+//	[spectrumDataSerie loadDataPoints:[self numberOfPoints] withXValues:[self masses] andYValues:[self intensities]];
+//		
+//	[spectrumDataSerie setSeriesType:2]; // Spectrum kind of plot
+//	[spectrumDataSerie setSeriesTitle:[NSString stringWithFormat:@"%@ (%@)", NSLocalizedString(@"Library Entry",@"Spectrum legend entry"), [self name]]];
+//	[spectrumDataSerie setSeriesColor:[NSColor orangeColor]];
+//	[spectrumDataSerie setKeyForXValue:@"Mass"];
+//	[spectrumDataSerie setKeyForYValue:@"Intensity"];
+//	
+//	[spectrumDataSerie setDrawUpsideDown:YES];
+//	
+//	[spectrumDataSerie autorelease];
+//	return spectrumDataSerie;
+//}
 
 - (NSString *)fixString:(NSString *)inString{
 	NSString *fixedString = [inString lowercaseString];

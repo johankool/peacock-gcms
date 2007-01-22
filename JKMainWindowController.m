@@ -40,7 +40,6 @@ static void *SpectrumObservationContext = (void *)1102;
         [self setShouldCloseDocument:YES];
 
 		showTICTrace = YES;
-		showSpectrum = YES;
 		showCombinedSpectrum = NO;
 		showLibraryHit = YES;
 		showNormalizedSpectra = YES;
@@ -66,18 +65,11 @@ static void *SpectrumObservationContext = (void *)1102;
         [chromatogramDataSeries addObject:cgds];
     }
     
-    
 	// ChromatogramView bindings
 	[chromatogramView bind:@"dataSeries" toObject: chromatogramDataSeriesController
 			   withKeyPath:@"arrangedObjects" options:nil];
-//	[chromatogramView bind:@"baseline" toObject: baselineController
-//			   withKeyPath:@"arrangedObjects" options:nil];
 	[chromatogramView bind:@"peaks" toObject: peakController
 			   withKeyPath:@"arrangedObjects" options:nil];
-//	if ([[chromatogramView dataSeries] objectAtIndex:0]) {
-//		[[[chromatogramView dataSeries] objectAtIndex:0] bind:@"peaks" toObject: peakController
-//												  withKeyPath:@"arrangedObjects" options:nil];
-//	}
 	
 	// SpectrumView bindings
 	[spectrumView bind:@"dataSeries" toObject: spectrumDataSeriesController
@@ -108,8 +100,14 @@ static void *SpectrumObservationContext = (void *)1102;
 	// Register as observer
 	[searchResultsController addObserver:self forKeyPath:@"selection" options:nil context:nil];
 	[peakController addObserver:self forKeyPath:@"selection" options:nil context:nil];
+	[peakController addObserver:self forKeyPath:@"selection.confirmed" options:nil context:nil];
+	[peakController addObserver:self forKeyPath:@"selection.identified" options:nil context:nil];
 	[[self document] addObserver:self forKeyPath:@"chromatograms" options:nil context:nil];
-		
+	[self addObserver:self forKeyPath:@"showNormalizedSpectra" options:nil context:SpectrumObservationContext];
+	[self addObserver:self forKeyPath:@"showCombinedSpectrum" options:nil context:SpectrumObservationContext];
+    [self addObserver:self forKeyPath:@"showLibraryHit" options:nil context:SpectrumObservationContext];
+	[self addObserver:self forKeyPath:@"showTICTrace" options:nil context:ChromatogramObservationContext];
+
 	// Double click action
 	[resultsTable setDoubleAction:@selector(resultDoubleClicked:)];
 	
@@ -256,6 +254,15 @@ static void *SpectrumObservationContext = (void *)1102;
 									  selector:@selector(undoRenumberPeaks:)
 										object:array];
 	[[[self document] undoManager] setActionName:NSLocalizedString(@"Renumber Peaks",@"")];
+}
+
+- (IBAction)combinePeaksAction:(id)sender{
+	[[[self document] undoManager] setActionName:NSLocalizedString(@"Combine Peaks",@"")];
+    if ([[[self peakController] selectedObjects] count] != NSNotFound) {
+        if ([[[[peakController selectedObjects] objectAtIndex:0] chromatogram] combinePeaks:[peakController selectedObjects]]) {            
+            [chromatogramView setNeedsDisplay:YES];
+        }
+    }
 }
 
 - (void)undoRenumberPeaks:(NSArray *)array {
@@ -511,22 +518,18 @@ static void *SpectrumObservationContext = (void *)1102;
 }
 
 - (IBAction)showSpectrumAction:(id)sender {
-	if (showSpectrum) {
-		[self setShowSpectrum:NO];
-		[self setShowCombinedSpectrum:YES];
-	} else {
-		[self setShowSpectrum:YES];
+	if (showCombinedSpectrum) {
 		[self setShowCombinedSpectrum:NO];
+	} else {
+		[self setShowCombinedSpectrum:YES];
 	}
 }
 
 - (IBAction)showCombinedSpectrumAction:(id)sender {
 	if (showCombinedSpectrum) {
 		[self setShowCombinedSpectrum:NO];
-		[self setShowSpectrum:YES];
 	} else {
 		[self setShowCombinedSpectrum:YES];
-		[self setShowSpectrum:NO];
 	}
 }
 
@@ -579,7 +582,11 @@ static void *SpectrumObservationContext = (void *)1102;
 
 - (void)showSpectrumForScan:(int)scan {
     if (scan > 0) {
-        [spectrumDataSeriesController setContent:[NSArray arrayWithObject:[[self document] spectrumForScan:scan]]];
+        SpectrumGraphDataSerie *sgds = [[[SpectrumGraphDataSerie alloc] initWithSpectrum:[[self document] spectrumForScan:scan]] autorelease];
+        if (showNormalizedSpectra) {
+            [sgds setNormalizeYData:YES];
+        }
+        [spectrumDataSeriesController setContent:[NSMutableArray arrayWithObject:sgds]];
         [spectrumView setNeedsDisplay:YES];        
     }
 }
@@ -600,14 +607,16 @@ static void *SpectrumObservationContext = (void *)1102;
 					  ofObject:(id)object
 						change:(NSDictionary *)change
 					   context:(void *)context {
-    if ([keyPath isEqualToString:@"chromatograms"]) {
+    if (([keyPath isEqualToString:@"chromatograms"]) || (context == ChromatogramObservationContext)) {
         if ([[change valueForKey:NSKeyValueChangeKindKey] intValue] == NSKeyValueChangeInsertion) {
             NSEnumerator *chromatogramEnumerator = [[[[self document] chromatograms] objectsAtIndexes:[change valueForKey:NSKeyValueChangeIndexesKey]] objectEnumerator];
             JKChromatogram *chromatogram;
             
             while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
-                ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
-                [chromatogramDataSeries addObject:cgds];
+                if (!(!showTICTrace && [[chromatogram model] isEqualToString:@"TIC"])) {
+                    ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+                    [chromatogramDataSeries addObject:cgds];                    
+                }
             }
             
         } else if ([[change valueForKey:NSKeyValueChangeKindKey] intValue] == NSKeyValueChangeRemoval) {
@@ -625,25 +634,28 @@ static void *SpectrumObservationContext = (void *)1102;
             JKChromatogram *chromatogram;
             
             while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
-                ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
-                [chromatogramDataSeries removeObject:cgds];
+                if (!(!showTICTrace && [[chromatogram model] isEqualToString:@"TIC"])) {
+                    ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+                    [chromatogramDataSeries addObject:cgds];                    
+                }
             }
             
         } else {
-            NSLog(@"chromatograms error");
             [chromatogramDataSeries removeAllObjects];
             NSEnumerator *chromatogramEnumerator = [[[self document] chromatograms] objectEnumerator];
             JKChromatogram *chromatogram;
             
             while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
-                ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
-                [chromatogramDataSeries removeObject:cgds];
+                if (!(!showTICTrace && [[chromatogram model] isEqualToString:@"TIC"])) {
+                    ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+                    [chromatogramDataSeries addObject:cgds];                    
+                }
             }
             
         }
         
     }
-	if (((object == peakController) | (object == searchResultsController)) && (([peakController selection] != NSNoSelectionMarker) && ([searchResultsController selection] != NSNoSelectionMarker))) {
+	if ((((object == peakController) | (object == searchResultsController)) && (([peakController selection] != NSNoSelectionMarker) && ([searchResultsController selection] != NSNoSelectionMarker))) || (context == SpectrumObservationContext)) {
         NSMutableArray *spectrumArray = [NSMutableArray array];
         
         [spectrumDataSeriesController removeObjects:[spectrumDataSeriesController arrangedObjects]];
@@ -653,10 +665,13 @@ static void *SpectrumObservationContext = (void *)1102;
         SpectrumGraphDataSerie *sgds;
         
         while ((peak = [peakEnumerator nextObject]) != nil) {
-            if (showSpectrum) {
-                sgds = [[[SpectrumGraphDataSerie alloc] initWithSpectrum:[peak spectrum]] autorelease];
-            } else if (showCombinedSpectrum) {
+            if (showCombinedSpectrum) {
                 sgds = [[[SpectrumGraphDataSerie alloc] initWithSpectrum:[peak combinedSpectrum]] autorelease];
+            } else {
+                sgds = [[[SpectrumGraphDataSerie alloc] initWithSpectrum:[peak spectrum]] autorelease];
+            }
+            if (showNormalizedSpectra) {
+                [sgds setNormalizeYData:YES];
             }
         	[spectrumArray addObject:sgds];
         }
@@ -667,14 +682,20 @@ static void *SpectrumObservationContext = (void *)1102;
         while ((searchResult = [searchResultEnumerator nextObject]) != nil) {
             sgds = [[[SpectrumGraphDataSerie alloc] initWithSpectrum:[searchResult valueForKey:@"spectrum"]] autorelease];
             [sgds setDrawUpsideDown:YES];
+            if (showNormalizedSpectra) {
+                [sgds setNormalizeYData:YES];
+            }
             [spectrumArray addObject:sgds];
         }
         
 		[spectrumDataSeriesController setContent:spectrumArray];
 
+        // chromatogramView needs updating to reflect peak selection
 		[chromatogramView setNeedsDisplay:YES];
+        
+        // spectrumView resizes to show all data
+        [spectrumView showAll:self];
 		[spectrumView setNeedsDisplay:YES];
-//        [spectrumView showAll:self];
     }
 	if (context == ChromatogramObservationContext) {
 		[chromatogramView setNeedsDisplay:YES];
@@ -959,7 +980,7 @@ static void *SpectrumObservationContext = (void *)1102;
 		}
 		return YES;
 	} else if ([anItem action] == @selector(showSpectrumAction:)) {
-		if (showSpectrum) {
+		if (!showCombinedSpectrum) {
 			[anItem setState:NSOnState];
 		} else {
 			[anItem setState:NSOffState];
@@ -1111,7 +1132,6 @@ static void *SpectrumObservationContext = (void *)1102;
 #pragma mark ACCESSORS (MACROSTYLE)
 boolAccessor(abortAction, setAbortAction)
 boolAccessor(showTICTrace, setShowTICTrace)
-boolAccessor(showSpectrum, setShowSpectrum)
 boolAccessor(showNormalizedSpectra, setShowNormalizedSpectra)
 boolAccessor(showCombinedSpectrum, setShowCombinedSpectrum)
 boolAccessor(showLibraryHit, setShowLibraryHit)

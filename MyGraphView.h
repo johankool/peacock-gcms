@@ -145,6 +145,7 @@ typedef enum {
 - (int)scanAtPoint:(NSPoint)aPoint;
 - (JKPeakRecord *)peakAtPoint:(NSPoint)aPoint;
 - (JKChromatogram *)chromatogramAtPoint:(NSPoint)aPoint;
+- (NSMutableDictionary *)pointAtPoint:(NSPoint)aPoint;
 
 #pragma mark BINDINGS
 - (NSMutableArray *)dataSeries;

@@ -174,6 +174,20 @@
 	return (highestInten-lowestInten) * ((inValue-lowestScan)/(highestScan-lowestScan)) + lowestInten; 
 }
 
+- (int)baselinePointsIndexAtScan:(int)inValue {
+    NSAssert(inValue >= 0, @"Scan must be equal or larger than zero");
+	int i = 0;
+	int baselineCount = [baselinePoints count];
+	
+	while (inValue > [[[baselinePoints objectAtIndex:i] valueForKey:@"Scan"] intValue] && i < baselineCount) {
+		i++;
+	} 
+	
+	return i; 
+}
+
+ 
+
 - (void)identifyPeaks{
 	int i,j, peakCount, answer;
 	int start, end, top;
@@ -327,6 +341,11 @@
 }
 
 - (void)addPeakFromScan:(int)startScan toScan:(int)endScan {
+    // Baseline check
+    if ([[self baselinePoints] count] <= 0) {
+       NSRunInformationalAlertPanel(NSLocalizedString(@"No Baseline Set",@""),NSLocalizedString(@"No baseline have yet been identified in the chromatogram. Use the 'Identify Baseline' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+        return;
+    }
     if (startScan > endScan) {
         int temp = startScan;
         startScan = endScan;
@@ -343,6 +362,87 @@
     [newPeak release];     
 }
 
+- (BOOL)combinePeaks:(NSArray *)peaksToCombine {
+    int indexForStart, indexForEnd, peakCount, i, indexForIdentified, indexForConfirmed, indexForCombinedPeak;
+    BOOL twoOrMoreIdentified = NO;
+    JKPeakRecord *peak;
+    
+    peakCount = [peaksToCombine count];
+    if (peakCount <= 1) {
+        NSRunInformationalAlertPanel(NSLocalizedString(@"Combining Peaks Failed",@""),NSLocalizedString(@"Can't combine one or less peaks.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+        return NO;
+    }
+    peak = [peaksToCombine objectAtIndex:0];
+    indexForStart = 0;
+    indexForEnd = 0;
+    BOOL identified = [peak identified];
+    indexForIdentified = 0;
+    BOOL confirmed = [peak confirmed];
+    indexForConfirmed = 0;
+    
+    for (i = 1; i < peakCount; i++) {
+        peak = [peaksToCombine objectAtIndex:i];
+        
+        if (![peaks containsObject:peak]) {
+            NSRunInformationalAlertPanel(NSLocalizedString(@"Combining Peaks Failed",@""),NSLocalizedString(@"Can't combine peaks not in same chromatogram.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+            return NO;
+        }
+
+    	if ([peak start] < [[peaksToCombine objectAtIndex:indexForStart] start]) {
+            indexForStart = i;
+        }
+    	if ([peak end] > [[peaksToCombine objectAtIndex:indexForEnd] end]) {
+            indexForEnd = i;
+        }
+        
+        if ([peak identified]) {
+            indexForIdentified = i;
+            if (identified) {
+                twoOrMoreIdentified = YES;
+            }
+            identified = YES;
+        }
+        if ([peak confirmed]) {
+            indexForConfirmed = i;
+            if (confirmed) {
+                NSRunInformationalAlertPanel(NSLocalizedString(@"Combining Peaks Failed",@""),NSLocalizedString(@"Can't combine peaks two or more confirmed peaks.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+                return NO;
+            }
+            confirmed = YES;
+        }
+    }
+    
+    if (twoOrMoreIdentified && !confirmed) {
+        NSRunInformationalAlertPanel(NSLocalizedString(@"Combining Peaks Failed",@""),NSLocalizedString(@"Can't combine peaks two or more identified peaks, if none is confirmed.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+        return NO;
+    }
+    
+    if (confirmed) {
+        indexForCombinedPeak = indexForConfirmed;        
+    } else if (identified) {
+        indexForCombinedPeak = indexForIdentified;        
+    } else {
+        indexForCombinedPeak = indexForStart;
+    }
+    peak = [peaksToCombine objectAtIndex:indexForCombinedPeak];
+    [peak setStart:[[peaksToCombine objectAtIndex:indexForStart] start]];
+    [peak setEnd:[[peaksToCombine objectAtIndex:indexForEnd] end]];
+    [peak setBaselineLeft:[[peaksToCombine objectAtIndex:indexForStart] baselineLeft]];
+    [peak setBaselineRight:[[peaksToCombine objectAtIndex:indexForEnd] baselineRight]];
+    
+    // Remove the peaks we don't need anymore
+    [self willChangeValueForKey:@"peaks"];
+    [[self document] willChangeValueForKey:@"peaks"];
+    for (i = 0; i < peakCount; i++) {
+        if (i != indexForCombinedPeak) {
+            [[self peaks] removeObject:[peaksToCombine objectAtIndex:i]];
+            [[[self document] peaks] removeObject:[peaksToCombine objectAtIndex:i]];
+        }
+    }
+    [self didChangeValueForKey:@"peaks"];
+    [[self document] didChangeValueForKey:@"peaks"];
+    return YES;
+}
 
 - (float)timeForScan:(int)scan {
     NSAssert(scan >= 0, @"Scan must be equal or larger than zero");

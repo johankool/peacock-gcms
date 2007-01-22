@@ -18,6 +18,16 @@
 	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"library"];
 	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"deltaRetentionIndex"];
 	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"score"];
+    NSArray *startEndArray = [NSArray arrayWithObjects:@"start", @"end", @"baselineLeft", @"baselineRight", nil];
+	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"startTime"];
+	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"endTime"];
+	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"top"];
+	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"topTime"];
+	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"retentionIndex"];
+	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"surface"];
+	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"height"];
+	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"spectrum"];
+	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"combinedSpectrum"];
 }
 
 - (NSString *)description {
