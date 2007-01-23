@@ -509,7 +509,7 @@
                     	if ([key hasPrefix:@"file_"]) {
                             JKPeakRecord *oldPeak = [combinedPeak valueForKey:key];
                             if ([oldPeak document] != document)
-                                warningMsg = [warningMsg stringByAppendingFormat:@" in document '%@' as peak %d;", [[oldPeak document] displayName], [[oldPeak peakID] intValue]];
+                                warningMsg = [warningMsg stringByAppendingFormat:@" in document '%@' as peak %d;", [[oldPeak document] displayName], [oldPeak peakID]];
                             
                         }
                     }            
@@ -520,7 +520,7 @@
                     
                 } else if ([peak identified]) {
                     // WARNING: An identified peak was matched to a hitherto unidentified compound. 
-                    warningMsg = [NSString stringWithFormat:@"WARNING: The identified peak '%@' at index %d was matched to a hitherto unidentified compound. It was previously encountered", [peak label], [[peak peakID] intValue]];
+                    warningMsg = [NSString stringWithFormat:@"WARNING: The identified peak '%@' at index %d was matched to a hitherto unidentified compound. It was previously encountered", [peak label], [peak peakID]];
                     warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
                     // Do not change combinedPeak label because not confirmed
                     // Should log the peaks that were unidentified
@@ -531,7 +531,7 @@
                     	if ([key hasPrefix:@"file_"]) {
                             JKPeakRecord *oldPeak = [combinedPeak valueForKey:key];
                             if ([oldPeak document] != document)
-                                warningMsg = [warningMsg stringByAppendingFormat:@" in document '%@' as peak %d;", [[oldPeak document] displayName], [[oldPeak peakID] intValue]];                            
+                                warningMsg = [warningMsg stringByAppendingFormat:@" in document '%@' as peak %d;", [[oldPeak document] displayName], [oldPeak peakID]];                            
                         }
                     }            
                     warningMsg = [warningMsg substringToIndex:[warningMsg length]-2];
@@ -543,12 +543,12 @@
             } else {
                 if ((![peak confirmed]) && (![peak identified])) {
                     // WARNING: An unidentified peak was matched to a known compound. 
-                    warningMsg = [NSString stringWithFormat:@"WARNING: The unidentified peak %d was matched to the known compound '%@'.", [[peak peakID] intValue], [combinedPeak valueForKey:@"label"]];
+                    warningMsg = [NSString stringWithFormat:@"WARNING: The unidentified peak %d was matched to the known compound '%@'.", [peak peakID], [combinedPeak valueForKey:@"label"]];
                     warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
                     [[self logMessages] addObject:warning];                   
                 } else if ((![peak confirmed]) && ([peak identified])) {
                     // WARNING: An unconfirmed peak was matched to a known compound. 
-                    warningMsg = [NSString stringWithFormat:@"WARNING: The unconfirmed peak %d was matched to the known compound '%@'.", [[peak peakID] intValue], [combinedPeak valueForKey:@"label"]];
+                    warningMsg = [NSString stringWithFormat:@"WARNING: The unconfirmed peak %d was matched to the known compound '%@'.", [peak peakID], [combinedPeak valueForKey:@"label"]];
                     warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
                     [[self logMessages] addObject:warning];                   
                 }    

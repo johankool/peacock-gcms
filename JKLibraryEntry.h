@@ -47,8 +47,6 @@
 
 - (id)initWithJCAMPString:(NSString *)inString;
 - (NSString *)jcampString;
-- (SpectrumGraphDataSerie *)spectrumDataSerie;
-- (SpectrumGraphDataSerie *)spectrumDataSerieUpsideDown;
 - (NSNumber *)calculateMassWeight:(NSString *)inString;
 
 //- (JKLibraryEntry *)normalizedLibraryEntry;
@@ -79,7 +77,6 @@ idAccessor_h(molString, setMolString)
 idAccessor_h(symbol, setSymbol)
 
 - (int)numberOfPoints;
-- (SpectrumGraphDataSerie *)spectrumDataSerie;
 - (void)setDocument:(NSDocument *)inValue;
 - (NSDocument *)document;
 

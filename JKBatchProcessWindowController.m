@@ -123,7 +123,7 @@
 		}		
 		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchIdentifyPeaks"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Identifying Peaks",@"")];
-			[document identifyPeaks];
+            [[document chromatograms] makeObjectsPerformSelector:@selector(identifyPeaks)];
 			[fileProgressIndicator incrementBy:1.0];
 		}
 		if ([self abortAction]) {

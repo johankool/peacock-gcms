@@ -65,7 +65,7 @@ static void *PropertyObservationContext = (void *)1093;
         [bezierpath setLineWidth:0.5];
     }
 	[[view baselineColor] set];
-    [[trans transformBezierPath:[self baseline]] stroke];
+    [[trans transformBezierPath:[self baselineBezierPath]] stroke];
     
 	[[self seriesColor] set];
 	
@@ -102,7 +102,7 @@ static void *PropertyObservationContext = (void *)1093;
 	[bezierpath release];
 }
 
-- (NSBezierPath *)baseline {
+- (NSBezierPath *)baselineBezierPath {
 	int i, count;
 	NSPoint pointInUnits;
 	NSBezierPath *bezierpath = [[[NSBezierPath alloc] init] autorelease];
@@ -504,9 +504,8 @@ static void *PropertyObservationContext = (void *)1093;
         [aChromatogram retain];
         [chromatogram autorelease];
         chromatogram = aChromatogram;     
-#warning [BUG] Localisation ignorant code
-        [self setKeyForXValue:@"Time"];
-        [self setKeyForYValue:@"Total Intensity"];
+        [self setKeyForXValue:NSLocalizedString(@"Time",@"")];
+        [self setKeyForYValue:NSLocalizedString(@"Total Intensity", @"")];
         [self loadDataPoints:[chromatogram numberOfPoints] withXValues:[chromatogram time] andYValues:[chromatogram totalIntensity]];
     }    
 }

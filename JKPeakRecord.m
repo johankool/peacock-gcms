@@ -8,8 +8,10 @@
 
 #import "JKPeakRecord.h"
 
-#import "JKLibraryEntry.h"
+#import "JKChromatogram.h"
 #import "JKGCMSDocument.h"
+#import "JKLibraryEntry.h"
+#import "JKSpectrum.h"
 
 @implementation JKPeakRecord
 

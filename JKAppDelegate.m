@@ -12,6 +12,7 @@
 #import "JKLog.h"
 #import "JKPanelController.h"
 #import "JKStatisticsDocument.h"
+#import "JKMainWindowController.h"
 
 @implementation JKAppDelegate
 

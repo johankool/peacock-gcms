@@ -7,11 +7,13 @@
 //
 
 #import "JKChromatogram.h"
-#import "JKSpectrum.h"
-#import "JKGCMSDocument.h"
-#import "netcdf.h"
+
 #import "ChromatogramGraphDataSerie.h"
+#import "JKGCMSDocument.h"
 #import "JKPeakRecord.h"
+#import "JKSpectrum.h"
+#import "jk_statistics.h"
+#import "netcdf.h"
 
 @implementation JKChromatogram
 
@@ -195,9 +197,6 @@
 	float startTime, topTime, endTime, widthTime;
 	float time1, time2;
 	float height1, height2;
-	float retentionIndex;//, retentionIndexSlope, retentionIndexRemainder;
-    JKSpectrum *spectrum;
-    
     
     if ([[self peaks] count] > 0) {
         answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete current peaks?",@""),NSLocalizedString(@"Peaks that are already identified could cause doublures. It's recommended to delete the current peaks.",@""),NSLocalizedString(@"Delete",@""),NSLocalizedString(@"Cancel",@""),NSLocalizedString(@"Keep",@""));
@@ -766,21 +765,21 @@
 //}
     
 
-//-(float)maxTime {
-//    return maxTime;
-//}
-//
-//-(float)minTime {
-//    return minTime;
-//}
-//
-//-(float)maxTotalIntensity {
-//    return maxTotalIntensity;
-//}
-//
-//-(float)minTotalIntensity {
-//    return minTotalIntensity;
-//}
+-(float)maxTime {
+    return jk_stats_float_max(time, numberOfPoints);
+}
+
+-(float)minTime {
+    return jk_stats_float_min(time, numberOfPoints);
+}
+
+-(float)maxTotalIntensity {
+    return jk_stats_float_max(totalIntensity, numberOfPoints);
+}
+
+-(float)minTotalIntensity {
+    return jk_stats_float_min(totalIntensity, numberOfPoints);
+}
 
 
 //-(float)timeForScan:(int)scan {
@@ -887,8 +886,7 @@
 //
 //
 //-(unsigned int)countOfSpectra {
-//    // implementation specific code
-//    return [self numberOfPoints]; 
+//    return numberOfPoints; 
 //}
 //
 //-(JKSpectrum *)objectInSpectraAtIndex:(unsigned int)index {

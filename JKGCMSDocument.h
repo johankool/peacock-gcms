@@ -150,15 +150,15 @@ extern int const JKGCMSDocument_Version;
 - (void)replaceObjectInChromatogramsAtIndex:(int)index withObject:(JKChromatogram *)aChromatogram;
 - (BOOL)validateChromatogram:(JKChromatogram **)aChromatogram error:(NSError **)outError;
 
-- (void)startObservingChromatogram:(JKChromatogram *)chromatogram;
-- (void)stopObservingChromatogram:(JKChromatogram *)chromatogram;
+//- (void)startObservingChromatogram:(JKChromatogram *)chromatogram;
+//- (void)stopObservingChromatogram:(JKChromatogram *)chromatogram;
 
 - (NSMutableArray *)peaks;
 - (void)setPeaks:(NSMutableArray *)array;
 - (void)insertObject:(JKPeakRecord *)peak inPeaksAtIndex:(int)index;
 - (void)removeObjectFromPeaksAtIndex:(int)index;
-- (void)startObservingPeak:(JKPeakRecord *)peak;
-- (void)stopObservingPeak:(JKPeakRecord *)peak;
+//- (void)startObservingPeak:(JKPeakRecord *)peak;
+//- (void)stopObservingPeak:(JKPeakRecord *)peak;
 
 
 - (float)retentionIndexForScan:(int)scan;

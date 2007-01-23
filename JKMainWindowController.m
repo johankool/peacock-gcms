@@ -7,19 +7,22 @@
 //
 
 #import "JKMainWindowController.h"
-#import "JKMoleculeView.h"
-#import "JKMoleculeModel.h"
+
 #import "BDAlias.h"
 #import "ChromatogramGraphDataSerie.h"
+#import "JKChromatogram.h"
 #import "JKGCMSDocument.h"
 #import "JKLibraryEntry.h"
+#import "JKMoleculeModel.h"
+#import "JKMoleculeView.h"
 #import "JKPeakRecord.h"
 #import "JKSpectrum.h"
 #import "MyGraphView.h"
+#import "RBSplitSubview.h"
 #import "SpectrumGraphDataSerie.h"
 #import "netcdf.h"
-#import "RBSplitSubview.h"
 #include <unistd.h>
+
 
 //static void *DocumentObservationContext = (void *)1100;
 static void *ChromatogramObservationContext = (void *)1101;
@@ -259,7 +262,7 @@ static void *SpectrumObservationContext = (void *)1102;
 - (IBAction)combinePeaksAction:(id)sender{
 	[[[self document] undoManager] setActionName:NSLocalizedString(@"Combine Peaks",@"")];
     if ([[[self peakController] selectedObjects] count] != NSNotFound) {
-        if ([[[[peakController selectedObjects] objectAtIndex:0] chromatogram] combinePeaks:[peakController selectedObjects]]) {            
+        if ([(JKChromatogram *)[[[peakController selectedObjects] objectAtIndex:0] chromatogram] combinePeaks:[peakController selectedObjects]]) {            
             [chromatogramView setNeedsDisplay:YES];
         }
     }
@@ -376,7 +379,6 @@ static void *SpectrumObservationContext = (void *)1102;
 }
 
 - (IBAction)confirm:(id)sender {
-#warning [BUG] UI not updated to reflect this change
 	NSEnumerator *enumerator = [[peakController selectedObjects] objectEnumerator];
 	id peak;
 	

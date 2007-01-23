@@ -335,9 +335,8 @@ static void *PropertyObservationContext = (void *)1093;
         [aSpectrum retain];
         [spectrum autorelease];
         spectrum = aSpectrum;     
-#warning [BUG] Localisation ignorant code
-        [self setKeyForXValue:@"Mass"];
-        [self setKeyForYValue:@"Intensity"];
+        [self setKeyForXValue:NSLocalizedString(@"Mass",@"")];
+        [self setKeyForYValue:NSLocalizedString(@"Intensity",@"")];
         [self loadDataPoints:[spectrum numberOfPoints] withXValues:[spectrum masses] andYValues:[spectrum intensities]];
     }    
 }

@@ -1006,16 +1006,20 @@ static void *DocumentObservationContext = (void *)1100;
     return time[scan];    
 }
 
+- (int)scanForTime:(float)time {
+    NSAssert([[self chromatograms] count] >= 0, @"[[self chromatograms] count] must be equal or larger than zero");
+    return [[[self chromatograms] objectAtIndex:0] scanForTime:time];
+}
 
-//- (float)retentionIndexForScan:(int)scan  
-//{
-//    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
-//    float   x;
-//    
-//    x = [self timeForScan:scan];
-//    
-//    return (x/60) * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
-//}
+- (float)retentionIndexForScan:(int)scan  
+{
+    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
+    float x;
+    
+    x = [self timeForScan:scan];
+    
+    return x * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
+}
 
 //- (float *)massValuesForSpectrumAtScan:(int)scan  
 //{
@@ -1513,6 +1517,17 @@ boolAccessor(abortAction, setAbortAction)
 
 - (NSMutableDictionary *)metadata {
 	return metadata;
+}
+
+- (void)setMetadata:(NSMutableDictionary *)inValue {
+    [[self undoManager] registerUndoWithTarget:self
+                                      selector:@selector(setMetadata:)
+                                        object:metadata];
+    [[self undoManager] setActionName:NSLocalizedString(@"Set Metadata",@"")];
+
+    [inValue retain];
+	[metadata autorelease];
+	metadata = inValue;    
 }
 
 //- (void)setBaseline:(NSMutableArray *)inValue  

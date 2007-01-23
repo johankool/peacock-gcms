@@ -1707,7 +1707,7 @@ static int   kPaddingLabels             = 4;
 	}
 	else if (context == DataObservationContext) 
 	{
-		int i, count;
+//		int i, count;
 		// Als de inhoud van onze dataArray wijzigt, bijv. als er een dataserie wordt toegevoegd, dan willen we ons registreren voor wijzingen die de dataserie post. Eerst verwijderen we onszelf voor alle notificaties, en daarna registreren we voor de op dit moment beschikbare dataseries. Dit is eenvoudiger (en waarschijnlijk sneller) dan uitzoeken wat er precies veranderd is.
 //		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"MyGraphDataSerieDidChangeNotification" object:nil];
 //		count = [[self dataSeries] count];
@@ -1810,10 +1810,10 @@ static int   kPaddingLabels             = 4;
 {	
     return [dataSeriesContainer valueForKeyPath:dataSeriesKeyPath];	
 }
-- (NSObject *)dataSeriesContainer{
+- (NSArrayController *)dataSeriesContainer{
     return dataSeriesContainer; 
 }
-- (void)setDataSeriesContainer:(NSObject *)aDataSeriesContainer{
+- (void)setDataSeriesContainer:(NSArrayController *)aDataSeriesContainer{
     if (dataSeriesContainer != aDataSeriesContainer) {
         [dataSeriesContainer release];
         dataSeriesContainer = [aDataSeriesContainer retain];
@@ -1834,10 +1834,10 @@ static int   kPaddingLabels             = 4;
 - (NSMutableArray *)peaks{
 	return [peaksContainer valueForKeyPath:peaksKeyPath];
 }
-- (NSObject *)peaksContainer{
+- (NSArrayController *)peaksContainer{
     return peaksContainer; 
 }
-- (void)setPeaksContainer:(NSObject *)aPeaksContainer{
+- (void)setPeaksContainer:(NSArrayController *)aPeaksContainer{
     if (peaksContainer != aPeaksContainer) {
         [peaksContainer release];
         peaksContainer = [aPeaksContainer retain];
@@ -2528,16 +2528,6 @@ static int   kPaddingLabels             = 4;
 
 
 #pragma mark CALCULATED ACCESSORS
-
-- (BOOL)hasBaseline {
-#warning [BUG]
-    return NO;
-//    if ([[self baseline] count] > 0) {
-//        return YES;
-//    } else {
-//        return NO;
-//    }
-}
 
 - (BOOL)hasPeaks {
     if ([[self peaks] count] > 0) {

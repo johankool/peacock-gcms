@@ -29,5 +29,6 @@
 - (void)setChromatogram:(JKChromatogram *)aChromatogram;
 - (BOOL)shouldDrawPeaks;
 - (void)setShouldDrawPeaks:(BOOL)inValue;
+- (NSBezierPath *)baselineBezierPath;
 
 @end

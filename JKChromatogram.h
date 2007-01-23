@@ -47,6 +47,7 @@
 
 - (void)obtainBaseline;
 - (void)identifyPeaks;
+- (void)addPeakFromScan:(int)startScan toScan:(int)endScan;
 - (void)addPeakFromScan:(int)startScan toScan:(int)endScan withLeftBaseline:(float)baselineLeft andRightBaseline:(float)baselineRight;
 - (BOOL)combinePeaks:(NSArray *)peaksToCombine;
 
@@ -58,7 +59,9 @@
 
 /*! The document containing our chromatogram. */
 - (JKGCMSDocument *)document;
+- (void)setDocument:(JKGCMSDocument *)inDocument;
 - (NSString *)model;
+- (void)setModel:(NSString *)inString;
 
 /*! ID needed for reading NetCDF file. */
 - (int)numberOfPoints;
@@ -70,9 +73,9 @@
 - (float *)totalIntensity;
 - (void)setTotalIntensity:(float *)inArray withCount:(int)inValue;
 
-- (unsigned int)countOfSpectra;
 
 - (float)timeForScan:(int)scan;
+- (int)scanForTime:(float)inTime;
 
 // Mutable To-Many relationship baselinePoint
 - (NSMutableArray *)baselinePoints;
@@ -105,17 +108,17 @@
 
 #pragma mark OBSOLETE
 
-- (void)getChromatogramData;
-
-- (JKSpectrum *)objectInSpectraAtIndex:(unsigned int)index;
-- (float *)xValuesSpectrum:(int)scan;
-- (float *)yValuesSpectrum:(int)scan;
-- (int)startValuesSpectrum:(int)scan;
-- (int)endValuesSpectrum:(int)scan;
-- (float)maxXValuesSpectrum;
-- (float)minXValuesSpectrum;
-- (float)maxYValuesSpectrum;
-- (float)minYValuesSpectrum;
+//- (void)getChromatogramData;
+//
+//- (JKSpectrum *)objectInSpectraAtIndex:(unsigned int)index;
+//- (float *)xValuesSpectrum:(int)scan;
+//- (float *)yValuesSpectrum:(int)scan;
+//- (int)startValuesSpectrum:(int)scan;
+//- (int)endValuesSpectrum:(int)scan;
+//- (float)maxXValuesSpectrum;
+//- (float)minXValuesSpectrum;
+//- (float)maxYValuesSpectrum;
+//- (float)minYValuesSpectrum;
 
 @end
 

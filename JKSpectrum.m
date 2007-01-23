@@ -246,7 +246,7 @@
 	return [self scoreComparedToLibraryEntry:(JKLibraryEntry *)inSpectrum];
 }
 
-- (float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry { // Could be changed to id <protocol> to resolve warning	
+- (float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry { // Could be changed to id <protocol> to resolve warning or making JKLibraryEntry a subclass of JKSpectrum
     return [self scoreComparedToSpectrum:libraryEntry usingMethod:[[self document] scoreBasis] penalizingForRententionIndex:[[self document] penalizeForRetentionIndex]];
 }
 //#pragma mark optimization_level 3
