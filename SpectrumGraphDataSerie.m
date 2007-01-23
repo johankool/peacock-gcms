@@ -75,7 +75,7 @@ static void *PropertyObservationContext = (void *)1093;
 	
 	if(shouldDrawLabels) {
 		if (seriesType == 2) {
-//			[self drawLabelsWithTransform:trans inView:view];
+			[self drawLabelsWithTransform:trans inView:view];
 
 		}
 	}

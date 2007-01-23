@@ -56,7 +56,8 @@ static void *DocumentObservationContext = (void *)1100;
 		markAsIdentifiedThreshold = [[defaultValues valueForKey:@"markAsIdentifiedThreshold"] retain];
 		minimumScoreSearchResults = [[defaultValues valueForKey:@"minimumScoreSearchResults"] retain];
         
-
+        _peakIDCounter = 0;
+        _documentProxy = [[NSDictionary alloc] initWithObjectsAndKeys:@"_documentProxy", @"_documentProxy",nil];
 //        [self setPrintInfo:[NSPrintInfo sharedPrintInfo]];
 //        NSLog(@"%d", [[NSPrintInfo sharedPrintInfo] orientation]);
 //        NSLog(@"%d", [[self printInfo] orientation]);
@@ -83,6 +84,7 @@ static void *DocumentObservationContext = (void *)1100;
 }
 
 - (void)dealloc {
+    [_documentProxy release];
 	[peaks release];	
 	[metadata release];
 	[chromatograms release];
@@ -130,8 +132,9 @@ static void *DocumentObservationContext = (void *)1100;
 		NSKeyedArchiver *archiver;
 		data = [NSMutableData data];
 		archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+        [archiver setDelegate:self];
 		[archiver encodeInt:JKGCMSDocument_Version forKey:@"version"];
-		[archiver encodeObject:[self chromatograms] forKey:@"chromatograms"];
+ 		[archiver encodeObject:[self chromatograms] forKey:@"chromatograms"];
 		[archiver encodeObject:[self peaks] forKey:@"peaks"];
 		[archiver encodeObject:[self metadata] forKey:@"metadata"];		
 		[archiver encodeObject:baselineWindowWidth forKey:@"baselineWindowWidth"];
@@ -205,6 +208,7 @@ static void *DocumentObservationContext = (void *)1100;
 		NSKeyedUnarchiver *unarchiver;
 		data = [[[wrapper fileWrappers] valueForKey:@"peacock-data"] regularFileContents];
 		unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+        [unarchiver setDelegate:self];
 		int version = [unarchiver decodeIntForKey:@"version"];
 		if (version < 5) {
             if (outError != NULL)
@@ -243,6 +247,22 @@ static void *DocumentObservationContext = (void *)1100;
 												   code:NSFileReadUnknownError userInfo:nil] autorelease];
 		return NO;
 	}	
+}
+
+- (id)archiver:(NSKeyedArchiver *)archiver willEncodeObject:(id)object {
+    if (object == self) {
+        return _documentProxy;
+    }
+    return object;
+}
+
+- (id)unarchiver:(NSKeyedUnarchiver *)unarchiver didDecodeObject:(id)object {
+    if ([object isKindOfClass:[NSDictionary class]]) {
+        if ([[object valueForKey:@"_documentProxy"] isEqualToString:@"_documentProxy"]) {
+            return self;
+        }
+    }
+    return object;
 }
 
 - (NSString *)autosavingFileType {
@@ -1020,6 +1040,12 @@ static void *DocumentObservationContext = (void *)1100;
     
     return x * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
 }
+
+- (int)nextPeakID {
+    _peakIDCounter++;    
+    return _peakIDCounter;
+}
+
 
 //- (float *)massValuesForSpectrumAtScan:(int)scan  
 //{

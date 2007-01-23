@@ -63,7 +63,8 @@ extern int const JKGCMSDocument_Version;
 	NSString *remainingString;
 	JKGCMSDocument *document;
     NSRect _originalFrame;
-    
+    int _peakIDCounter;
+    NSDictionary *_documentProxy;
 }
 
 /*! 
@@ -126,6 +127,8 @@ extern int const JKGCMSDocument_Version;
 */
 
 - (void)addChromatogramForModel:(NSString *)modelString;
+
+- (int)nextPeakID;
 
 #pragma mark ACCESSORS
 - (JKMainWindowController *)mainWindowController;

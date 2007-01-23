@@ -656,12 +656,11 @@ static void *SpectrumObservationContext = (void *)1102;
             
         }
         
+        [chromatogramView setNeedsDisplay:YES];
     }
 	if ((((object == peakController) | (object == searchResultsController)) && (([peakController selection] != NSNoSelectionMarker) && ([searchResultsController selection] != NSNoSelectionMarker))) || (context == SpectrumObservationContext)) {
         NSMutableArray *spectrumArray = [NSMutableArray array];
         
-        [spectrumDataSeriesController removeObjects:[spectrumDataSeriesController arrangedObjects]];
-
         NSEnumerator *peakEnumerator = [[peakController selectedObjects] objectEnumerator];
         JKPeakRecord *peak;
         SpectrumGraphDataSerie *sgds;

@@ -351,6 +351,7 @@
         endScan = temp;
     }
     JKPeakRecord *newPeak = [[JKPeakRecord alloc] init];
+    [newPeak setPeakID:[document nextPeakID]];
     [newPeak setStart:startScan];
     [newPeak setEnd:endScan];
     [newPeak setChromatogram:self];
@@ -473,7 +474,7 @@
 - (void)encodeWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
 		[coder encodeInt:1 forKey:@"version"];
-		[coder encodeConditionalObject:document forKey:@"document"];
+		[coder encodeObject:document forKey:@"document"];
 		[coder encodeObject:model forKey:@"model"];
 		[coder encodeObject:baselinePoints forKey:@"baselinePoints"];
         [coder encodeObject:peaks forKey:@"peaks"];
@@ -487,7 +488,7 @@
 
 - (id)initWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) {
-        document = [coder decodeObjectForKey:@"document"];            
+        document = [[coder decodeObjectForKey:@"document"] retain];            
         model = [[coder decodeObjectForKey:@"model"] retain];
         baselinePoints = [[coder decodeObjectForKey:@"baselinePoints"] retain];
         peaks = [[coder decodeObjectForKey:@"peaks"] retain];

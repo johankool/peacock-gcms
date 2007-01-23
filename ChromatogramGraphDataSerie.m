@@ -55,8 +55,8 @@ static void *PropertyObservationContext = (void *)1093;
 	// Hier gaan we van dataserie-coordinaten naar scherm-coordinaten.
 	bezierpath = [trans transformBezierPath:[self plotPath]];
 	
-//	if(shouldDrawPeaks)
-    [self drawPeaksWithTransform:trans inView:view];
+	if(shouldDrawPeaks)
+        [self drawPeaksWithTransform:trans inView:view];
 	
 	// Hier stellen we in hoe de lijnen eruit moeten zien.
     if ([[NSGraphicsContext currentContext] isDrawingToScreen]) {
@@ -313,13 +313,10 @@ static void *PropertyObservationContext = (void *)1093;
 			string = [[NSMutableAttributedString alloc] initWithString:[[[self peaks] objectAtIndex:i] valueForKey:@"label"] attributes:attrs];
 			drawVertical = YES; drawLabelAlways = YES;
 		} else {
-            continue;
-        }
-      //  else {
-//			string = [[NSMutableAttributedString alloc] initWithString:[[[[self peaks] objectAtIndex:i] valueForKey:@"peakID"] stringValue] attributes:attrs];
-//			drawVertical = NO; drawLabelAlways = NO;
-//		}
-//		
+			string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"#%d",[(JKPeakRecord *)[[self peaks] objectAtIndex:i] peakID]] attributes:attrs];
+			drawVertical = YES; drawLabelAlways = NO;
+		}
+		
 		// Where will it be drawn?
 		pointToDraw = NSMakePoint([[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[[self peaks] objectAtIndex:i] top]] valueForKey:keyForXValue] floatValue], 
 								  [[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[[self peaks] objectAtIndex:i] top]] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);

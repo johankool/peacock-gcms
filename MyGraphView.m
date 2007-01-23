@@ -1363,13 +1363,19 @@ static int   kPaddingLabels             = 4;
 			} else {
 				//  select scan and show spectrum 
 				JKLogDebug(@" select scan and show spectrum");
-                if ([delegate respondsToSelector:@selector(showSpectrumForScan:)]) {
-                    selectedScan = [self scanAtPoint:mouseLocation];
-                    [self setSelectedScan:selectedScan];
-                    if (selectedScan != NSNotFound) {
+                selectedScan = [self scanAtPoint:mouseLocation];
+                if (selectedScan != NSNotFound) {
+                    if ([delegate respondsToSelector:@selector(showSpectrumForScan:)]) {
+                        [self setSelectedScan:selectedScan];
                         [delegate showSpectrumForScan:[self selectedScan]];
-                    }
-                } 
+                    }                     
+                } else {
+                    // or show chromatogram for mass
+                    selectedMass = [self massAtPoint:mouseLocation];
+                    if ([delegate respondsToSelector:@selector(showChromatogramForModel:)]) {
+                        [delegate showChromatogramForModel:[NSString stringWithFormat:@"%d",[self selectedScan]]];
+                    }                                         
+                }                
             }
 		} else {
 			NSBeep();
