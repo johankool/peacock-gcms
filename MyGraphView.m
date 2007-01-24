@@ -2175,6 +2175,14 @@ static int   kPaddingLabels             = 4;
     }
 }
 
+- (JKDrawingModes)drawingMode {
+	return drawingMode;
+}
+- (void)setDrawingMode:(JKDrawingModes)aDrawingMode {
+	drawingMode = aDrawingMode;
+}
+
+
 - (BOOL)shouldDrawLegend {
     return shouldDrawLegend;
 }

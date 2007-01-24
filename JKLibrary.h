@@ -26,6 +26,7 @@
 #pragma mark ACCESSORS
 
 - (JKLibraryWindowController *)libraryWindowController;
+
 - (NSMutableArray *)libraryEntries;
 - (void)setLibraryEntries:(NSMutableArray *)array;
 - (void)insertObject:(JKLibraryEntry *)libraryEntry inLibraryEntriesAtIndex:(int)index;

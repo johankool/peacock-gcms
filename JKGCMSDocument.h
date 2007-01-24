@@ -25,7 +25,7 @@ extern int const JKGCMSDocument_Version;
     @abstract    Document containing GCMS data.
     @discussion  (comprehensive description)
 */
-@interface JKGCMSDocument : NSDocument{
+@interface JKGCMSDocument : NSDocument {
 	// Window controller
     JKMainWindowController *mainWindowController;
 	
@@ -34,7 +34,6 @@ extern int const JKGCMSDocument_Version;
 	NSString *absolutePathToNetCDF;
 	NSFileWrapper *peacockFileWrapper;
 	
-    BOOL hasSpectra;
     NSMutableArray *chromatograms;    
     
 	// Data stored in Peacock's file because it can't be represented in Andi file format
@@ -57,14 +56,15 @@ extern int const JKGCMSDocument_Version;
 	BOOL penalizeForRetentionIndex;
 	NSNumber *markAsIdentifiedThreshold;
 	NSNumber *minimumScoreSearchResults;
+
+    int peakIDCounter;
 		
 	@private
 	BOOL abortAction;
-	NSString *remainingString;
-	JKGCMSDocument *document;
-    NSRect _originalFrame;
-    int _peakIDCounter;
+    BOOL hasSpectra;
+	NSString *_remainingString;
     NSDictionary *_documentProxy;
+    NSRect _originalFrame;
 }
 
 /*! 

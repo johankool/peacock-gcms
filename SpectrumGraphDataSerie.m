@@ -28,7 +28,7 @@ static void *PropertyObservationContext = (void *)1093;
 		[self setShouldDrawLabels:YES];
 		drawUpsideDown = NO;
 		normalizeYData = NO;
-		boundingRect = NSZeroRect;
+		_boundingRect = NSZeroRect;
 		
 		// Creeer de plot een eerste keer.
 		[self constructPlotPath];
@@ -48,7 +48,7 @@ static void *PropertyObservationContext = (void *)1093;
 		[self setShouldDrawLabels:YES];
 		drawUpsideDown = NO;
 		normalizeYData = NO;
-		boundingRect = NSZeroRect;
+		_boundingRect = NSZeroRect;
 
         [self setSpectrum:aSpectrum];
  		// Creeer de plot een eerste keer.
@@ -117,7 +117,7 @@ static void *PropertyObservationContext = (void *)1093;
 			
 	
 	[self setPlotPath:bezierpath];
-	boundingRect = [bezierpath bounds];
+	_boundingRect = [bezierpath bounds];
 	
 	// Stuur een bericht naar de view dat deze serie opnieuw getekend wil worden.
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];
@@ -195,7 +195,7 @@ static void *PropertyObservationContext = (void *)1093;
 			[string drawAtPoint:pointToDraw];
 			rects[i] = labelRect;		
 //			labelRect.size = [ transformSize:stringSize];
-//			boundingRect = NSUnionRect(boundingRect,labelRect);
+//			_boundingRect = NSUnionRect(_boundingRect,labelRect);
 		} else {
 			// Try to see if we can draw the label if we move it to the left and up
 			
@@ -215,8 +215,9 @@ static void *PropertyObservationContext = (void *)1093;
 	[self setKeyForYValue:tempString];
 	[self constructPlotPath];
 }
+
 - (NSRect)boundingRect {	
-	return boundingRect;
+	return _boundingRect;
 }
 
 #pragma mark KEY VALUE OBSERVING MANAGEMENT

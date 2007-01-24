@@ -112,6 +112,7 @@ enum JKPeakSelection {
 - (NSTableView *)resultsTable;
 - (NSArrayController *)searchResultsController;
 - (NSMutableArray *)hiddenColumnsPeaksTable;
+- (NSProgressIndicator *)progressIndicator;
 
 #pragma mark ACCESSORS (MACROSTYLE)
 boolAccessor_h(abortAction, setAbortAction)	

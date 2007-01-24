@@ -84,8 +84,6 @@
     numberOfPoints = inValue;
     masses = (float *) realloc(masses, numberOfPoints*sizeof(float));
     memcpy(masses, inArray, numberOfPoints*sizeof(float));
-	minimumMass = jk_stats_float_min(masses, numberOfPoints);
-	maximumMass = jk_stats_float_max(masses, numberOfPoints);
 }
 - (float *)masses {
     return masses;
@@ -95,32 +93,30 @@
     numberOfPoints = inValue;
     intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
     memcpy(intensities, inArray, numberOfPoints*sizeof(float));
-	minimumIntensity = jk_stats_float_min(intensities, numberOfPoints);
-	maximumIntensity = jk_stats_float_max(intensities, numberOfPoints);
 }
 
 - (float *)intensities {
     return intensities;
 }
-- (void)setRetentionIndex:(float)inValue {
-	retentionIndex = inValue;
-}
-- (float)retentionIndex {
-	return retentionIndex;
-}
-
-- (float)minimumMass {
-    return minimumMass;
-}
-- (float)maximumMass {
-    return maximumMass;
-}
-- (float)minimumIntensity {
-    return minimumIntensity;
-}
-- (float)maximumIntensity {
-    return maximumIntensity;
-}
+//- (void)setRetentionIndex:(float)inValue {
+//	retentionIndex = inValue;
+//}
+//- (float)retentionIndex {
+//	return retentionIndex;
+//}
+//
+//- (float)minimumMass {
+//    return minimumMass;
+//}
+//- (float)maximumMass {
+//    return maximumMass;
+//}
+//- (float)minimumIntensity {
+//    return minimumIntensity;
+//}
+//- (float)maximumIntensity {
+//    return maximumIntensity;
+//}
 
 - (JKSpectrum *)spectrumBySubtractingSpectrum:(JKSpectrum *)inSpectrum {
 	int i,j,k,count1,count2;
@@ -230,14 +226,14 @@
 	int i;
 	JKSpectrum *outSpectrum = [[JKSpectrum alloc] init];
 	float intensitiesOut[numberOfPoints];
-
+    float maximumIntensity = jk_stats_float_max(intensities,numberOfPoints);
+    
 	for (i = 0; i < numberOfPoints; i++) {
 		intensitiesOut[i] = intensities[i]/maximumIntensity;
 	}
 
 	[outSpectrum setMasses:masses withCount:numberOfPoints];
 	[outSpectrum setIntensities:intensitiesOut withCount:numberOfPoints];
-	[outSpectrum setRetentionIndex:retentionIndex];
 	[outSpectrum autorelease];
 	return outSpectrum;
 }
@@ -246,7 +242,7 @@
 	return [self scoreComparedToLibraryEntry:(JKLibraryEntry *)inSpectrum];
 }
 
-- (float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry { // Could be changed to id <protocol> to resolve warning or making JKLibraryEntry a subclass of JKSpectrum
+- (float)scoreComparedToLibraryEntry:(JKSpectrum *)libraryEntry { 
     return [self scoreComparedToSpectrum:libraryEntry usingMethod:[[self document] scoreBasis] penalizingForRententionIndex:[[self document] penalizeForRetentionIndex]];
 }
 //#pragma mark optimization_level 3
@@ -258,8 +254,8 @@
 	score = 0.0;
 	score2 = 0.0;
 	score3 = 0.0;
-	maxIntensityLibraryEntry = [libraryEntry maximumIntensity];
-	maxIntensitySpectrum = [self maximumIntensity];
+	maxIntensityLibraryEntry = jk_stats_float_max([libraryEntry intensities],numberOfPoints);
+	maxIntensitySpectrum = jk_stats_float_max(intensities,numberOfPoints);;
 	count1 = [self numberOfPoints];
 	count2 = [libraryEntry numberOfPoints];
 	float *peakMasses = [self masses];
@@ -399,11 +395,11 @@
 	if (penalizeForRetentionIndex) {
 		float retentionIndexDelta, retentionIndexPenalty;
 		float retentionIndexLibrary         = [[libraryEntry valueForKey:@"retentionIndex"] floatValue];
-		if (retentionIndexLibrary == 0.0 || retentionIndex == nil) {
+		if (retentionIndexLibrary == 0.0 || [[self peak] retentionIndex] == nil) {
 			return (1.0-score/score2)*90.0;			//10% penalty!!
 		}
 					
-		retentionIndexDelta = retentionIndexLibrary - retentionIndex;
+		retentionIndexDelta = retentionIndexLibrary - [[[self peak] retentionIndex] floatValue];
 		retentionIndexPenalty = pow(retentionIndexDelta,2) *  -0.000004 + 1;
 		
 		return (1.0-score/score2) * retentionIndexPenalty * 100.0; 
@@ -435,9 +431,9 @@
 - (void)encodeWithCoder:(NSCoder *)coder {
     if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
         [coder encodeInt:1 forKey:@"version"];
-		[coder encodeConditionalObject:document forKey:@"document"]; // weak reference
-		[coder encodeConditionalObject:peak forKey:@"peak"]; // weak reference
-		[coder encodeFloat:retentionIndex forKey:@"retentionIndex"];
+		[coder encodeObject:document forKey:@"document"]; // weak reference
+		[coder encodeObject:peak forKey:@"peak"]; // weak reference
+//		[coder encodeFloat:retentionIndex forKey:@"retentionIndex"];
         [coder encodeInt:numberOfPoints forKey:@"numberOfPoints"];
 		[coder encodeBytes:(void *)masses length:numberOfPoints*sizeof(float) forKey:@"masses"];
 		[coder encodeBytes:(void *)intensities length:numberOfPoints*sizeof(float) forKey:@"intensities"];
@@ -451,7 +447,7 @@
 		document = [coder decodeObjectForKey:@"document"]; // weak reference
 		peak = [coder decodeObjectForKey:@"peak"]; // weak reference
 		
-		retentionIndex = [coder decodeFloatForKey:@"retentionIndex"];
+//		retentionIndex = [coder decodeFloatForKey:@"retentionIndex"];
         numberOfPoints = [coder decodeIntForKey:@"numberOfPoints"];
 		
 		const uint8_t *temporary = NULL; //pointer to a temporary buffer returned by the decoder.

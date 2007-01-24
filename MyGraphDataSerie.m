@@ -66,7 +66,7 @@ static void *ArrayObservationContext = (void *)1092;
 
 #pragma mark DRAWING ROUTINES
 - (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view {
-    graphView = view;
+    _graphView = view;
 	NSBezierPath *bezierpath;
 	
 	// Hier gaan we van dataserie-coordinaten naar scherm-coordinaten.
@@ -132,7 +132,7 @@ static void *ArrayObservationContext = (void *)1092;
 }
 
 - (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view {
-    graphView = view;
+    _graphView = view;
 	int count = [[self dataArray] count];
 	if (count <= 0) {	
 		return;
@@ -270,17 +270,17 @@ static void *ArrayObservationContext = (void *)1092;
 	{
 		//		NSArray *newData = [self dataArray];
 		////		NSMutableArray *onlyNew = [newData mutableCopy];
-		////		[onlyNew removeObjectsInArray:oldData];
+		////		[onlyNew removeObjectsInArray:_oldData];
 		////		[self startObservingData:onlyNew];
 		////		[onlyNew release];
 		////		
-		////		NSMutableArray *removed = [oldData mutableCopy];
+		////		NSMutableArray *removed = [_oldData mutableCopy];
 		////		[removed removeObjectsInArray:newData];
 		////		[self stopObservingData:removed];
 		////		[removed release];
 		//		
 		//		// Slordig, kan veel slimmer, maar dit is veel sneller dan wat hierboven staat!
-		//		[self stopObservingData:oldData];
+		//		[self stopObservingData:_oldData];
 		//		[self startObservingData:newData];
 		//		
 		//		[self setOldData:newData];
@@ -396,19 +396,19 @@ static void *ArrayObservationContext = (void *)1092;
         [verticalScale autorelease];
         verticalScale = inValue;
         [self constructPlotPath];
-        if (graphView) {
-            [graphView setNeedsDisplayInRect:[graphView plottingArea]];
+        if (_graphView) {
+            [_graphView setNeedsDisplayInRect:[_graphView plottingArea]];
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];        
     }
 }
 
-- (NSArray *)oldData { 
-	return oldData; 
-}
-- (void)setOldData:(NSArray *)anOldData {
-	[anOldData retain];
-	[oldData autorelease];
-	oldData = anOldData;
-}
+//- (NSArray *)_oldData { 
+//	return _oldData; 
+//}
+//- (void)setOldData:(NSArray *)anOldData {
+//	[anOldData retain];
+//	[_oldData autorelease];
+//	_oldData = anOldData;
+//}
 @end

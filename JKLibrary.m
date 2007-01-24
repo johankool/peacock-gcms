@@ -40,7 +40,9 @@
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError{
 	if ([typeName isEqualToString:@"JCAMP Library"]) {
-		NSString *inString = [NSString stringWithContentsOfURL:absoluteURL encoding:NSUTF8StringEncoding error:outError];
+        unsigned int usedEncoding;
+        NSString *inString = [NSString stringWithContentsOfURL:absoluteURL usedEncoding:&usedEncoding error:outError];
+		//NSString *inString = [NSString stringWithContentsOfURL:absoluteURL encoding:NSUTF8StringEncoding error:outError];
 		if (!inString) {
 			NSLog(@"Library is not readable as UTF8, perhaps as ASCII?");
 			inString = [NSString stringWithContentsOfURL:absoluteURL encoding:NSASCIIStringEncoding error:outError];

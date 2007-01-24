@@ -6,11 +6,9 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
-@class SpectrumGraphDataSerie;
+#import "JKSpectrum.h"
 
-@interface JKLibraryEntry : NSObject <NSCoding> {
-	NSDocument *document;
-	
+@interface JKLibraryEntry : JKSpectrum <NSCoding> {	
 	// Required in JCAMP-DX
 	NSString *name;			// ##TITLE=
 							// ##JCAMP-DX= (string) 5.00 $$ (Name and version number of the JCAMP-DX program) 
@@ -37,21 +35,14 @@
 	NSString *comment;		// ##$COMMENT=
 	NSString *molString;	// ##$MOLSTRING=
 	NSString *symbol;		// ##$SYMBOL=
+	NSString *modelChr;		// ##$MODEL=
 			
-	int numberOfPoints;		// ##NPOINTS=
-	float *masses;
-	float *intensities;
-	
-	float maximumIntensity;
+	//int numberOfPoints;		// ##NPOINTS=
 }
 
 - (id)initWithJCAMPString:(NSString *)inString;
 - (NSString *)jcampString;
 - (NSNumber *)calculateMassWeight:(NSString *)inString;
-
-//- (JKLibraryEntry *)normalizedLibraryEntry;
-//- (JKLibraryEntry *)negativeLibraryEntry;
-//- (JKLibraryEntry *)negativeNormalizedLibraryEntry;
 
 - (NSUndoManager *)undoManager;
 
@@ -75,18 +66,19 @@ idAccessor_h(source, setSource)
 idAccessor_h(comment, setComment)
 idAccessor_h(molString, setMolString)
 idAccessor_h(symbol, setSymbol)
+idAccessor_h(modelChr, setModelChr)
 
-- (int)numberOfPoints;
-- (void)setDocument:(NSDocument *)inValue;
-- (NSDocument *)document;
+//- (int)numberOfPoints;
+//- (void)setDocument:(NSDocument *)inValue;
+//- (NSDocument *)document;
 
 //intAccessor_h(numberOfPoints, setNumberOfPoints);
-- (void)setMasses:(float *)inArray withCount:(int)inValue;
-- (float *)masses;
-
-- (void)setIntensities:(float *)inArray withCount:(int)inValue;
-- (float *)intensities;
-- (float)maximumIntensity;
+//- (void)setMasses:(float *)inArray withCount:(int)inValue;
+//- (float *)masses;
+//
+//- (void)setIntensities:(float *)inArray withCount:(int)inValue;
+//- (float *)intensities;
+//- (float)maximumIntensity;
 - (NSString *)peakTable;
 - (void)setPeakTable:(NSString *)inString;
 

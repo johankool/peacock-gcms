@@ -244,7 +244,17 @@
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			comment = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} 
-		
+
+        // MODEL
+        // Back to start of entry as order of entries is undefined
+		[theScanner setScanLocation:0];
+		[theScanner scanUpToString:@"##$MODEL=" intoString:NULL];
+		if ([theScanner scanString:@"##$MODEL=" intoString:NULL]) {
+            scannedString = @"";
+			[theScanner scanUpToString:@"##" intoString:&scannedString];
+			modelChr = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
+		} 
+        
 		// XUNITS
 		// Back to start of entry as order of entries is undefined
 		[theScanner setScanLocation:0];
@@ -415,6 +425,8 @@
 		[outStr appendFormat:@"##$MOLSTRING= %@\r\n", [self molString]];
 	if ([[self symbol] isNotEqualTo:@""])
 		[outStr appendFormat:@"##$SYMBOL= %@\r\n", [self symbol]];
+	if ([[self modelChr] isNotEqualTo:@""])
+		[outStr appendFormat:@"##$MODEL= %@\r\n", [self modelChr]];
 
 	[outStr appendFormat:@"##NPOINTS= %i\r\n##XYDATA= (XY..XY)\r\n%@\r\n", [self numberOfPoints], [self peakTable]];
 	[outStr appendString:@"##END= \r\n"];
@@ -425,38 +437,6 @@
 //    NSLog(@"undoManager %@ document %@", [[self document] undoManager], [self document]);
 	return [[self document] undoManager];
 }
-
-//- (SpectrumGraphDataSerie *)spectrumDataSerie{
-//	SpectrumGraphDataSerie *spectrumDataSerie = [[SpectrumGraphDataSerie alloc] init];
-//	[spectrumDataSerie loadDataPoints:[self numberOfPoints] withXValues:[self masses] andYValues:[self intensities]];
-//    
-//	[spectrumDataSerie setSeriesType:2]; // Spectrum kind of plot
-//	[spectrumDataSerie setSeriesTitle:[NSString stringWithFormat:@"%@ (%@)", NSLocalizedString(@"Library Entry",@"Spectrum legend entry"), [self name]]];
-//	[spectrumDataSerie setSeriesColor:[NSColor orangeColor]];
-//	[spectrumDataSerie setKeyForXValue:@"Mass"];
-//	[spectrumDataSerie setKeyForYValue:@"Intensity"];
-//	
-//	[spectrumDataSerie setDrawUpsideDown:NO];
-//	
-//	[spectrumDataSerie autorelease];
-//	return spectrumDataSerie;
-//}
-//
-//- (SpectrumGraphDataSerie *)spectrumDataSerieUpsideDown{
-//	SpectrumGraphDataSerie *spectrumDataSerie = [[SpectrumGraphDataSerie alloc] init];
-//	[spectrumDataSerie loadDataPoints:[self numberOfPoints] withXValues:[self masses] andYValues:[self intensities]];
-//		
-//	[spectrumDataSerie setSeriesType:2]; // Spectrum kind of plot
-//	[spectrumDataSerie setSeriesTitle:[NSString stringWithFormat:@"%@ (%@)", NSLocalizedString(@"Library Entry",@"Spectrum legend entry"), [self name]]];
-//	[spectrumDataSerie setSeriesColor:[NSColor orangeColor]];
-//	[spectrumDataSerie setKeyForXValue:@"Mass"];
-//	[spectrumDataSerie setKeyForYValue:@"Intensity"];
-//	
-//	[spectrumDataSerie setDrawUpsideDown:YES];
-//	
-//	[spectrumDataSerie autorelease];
-//	return spectrumDataSerie;
-//}
 
 - (NSString *)fixString:(NSString *)inString{
 	NSString *fixedString = [inString lowercaseString];
@@ -523,31 +503,32 @@ idUndoAccessor(source, setSource, @"Change Source")
 idUndoAccessor(comment, setComment, @"Change Comment")
 idUndoAccessor(molString, setMolString, @"Change Mol String")
 idUndoAccessor(symbol, setSymbol, @"Change Symbol")
+idUndoAccessor(modelChr, setModelChr, @"Change Model")
 
 //intAccessor(numberOfPoints, setNumberOfPoints);
-- (void)setMasses:(float *)inArray withCount:(int)inValue {
-    numberOfPoints = inValue;
-    masses = (float *) realloc(masses, numberOfPoints*sizeof(float));
-    memcpy(masses, inArray, numberOfPoints*sizeof(float));
-}
-
-- (float *)masses {
-    return masses;
-}
-
-- (void)setIntensities:(float *)inArray withCount:(int)inValue {
-    numberOfPoints = inValue;
-    intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
-    memcpy(intensities, inArray, numberOfPoints*sizeof(float));
-	maximumIntensity = jk_stats_float_max(intensities, numberOfPoints);
-}
-
-- (float)maximumIntensity {
-    return maximumIntensity;
-}
-- (float *)intensities {
-    return intensities;
-}
+//- (void)setMasses:(float *)inArray withCount:(int)inValue {
+//    numberOfPoints = inValue;
+//    masses = (float *) realloc(masses, numberOfPoints*sizeof(float));
+//    memcpy(masses, inArray, numberOfPoints*sizeof(float));
+//}
+//
+//- (float *)masses {
+//    return masses;
+//}
+//
+//- (void)setIntensities:(float *)inArray withCount:(int)inValue {
+//    numberOfPoints = inValue;
+//    intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
+//    memcpy(intensities, inArray, numberOfPoints*sizeof(float));
+//	maximumIntensity = jk_stats_float_max(intensities, numberOfPoints);
+//}
+//
+//- (float)maximumIntensity {
+//    return maximumIntensity;
+//}
+//- (float *)intensities {
+//    return intensities;
+//}
 
 - (NSString *)peakTable{
 	NSMutableString *outStr = [[[NSMutableString alloc] init] autorelease];
@@ -591,7 +572,6 @@ idUndoAccessor(symbol, setSymbol, @"Change Symbol")
 		//				NSAssert(intensityInt > 0, @"intensityInt");
 		intensities[j] = intensityInt*1.0;
 	}
-	maximumIntensity = jk_stats_float_max(intensities, numberOfPoints);
 
 	[theScanner2 release];	
 }
@@ -608,21 +588,21 @@ idUndoAccessor(symbol, setSymbol, @"Change Symbol")
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",[self CASNumber],[self CASNumber]]]];
 }
 
-- (int)numberOfPoints {
-	return numberOfPoints;
-}
+//- (int)numberOfPoints {
+//	return numberOfPoints;
+//}
 
-- (id)valueForUndefinedKey:(NSString *)key{
-	return key;
-}
-
-- (void)setDocument:(NSDocument *)inValue {
-	// Weak link
-	document = inValue;
-}
-- (NSDocument *)document {
-    return document;
-}
+//- (id)valueForUndefinedKey:(NSString *)key{
+//	return key;
+//}
+//
+//- (void)setDocument:(NSDocument *)inValue {
+//	// Weak link
+//	document = inValue;
+//}
+//- (NSDocument *)document {
+//    return document;
+//}
 
 #pragma mark Encoding
 

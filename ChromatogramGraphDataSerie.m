@@ -42,7 +42,7 @@ static void *PropertyObservationContext = (void *)1093;
 
 #pragma mark DRAWING ROUTINES
 - (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
-    graphView = view;
+    _graphView = view;
 	NSBezierPath *bezierpath;
 	
 	if (!plotPath) [self constructPlotPath];
@@ -127,7 +127,7 @@ static void *PropertyObservationContext = (void *)1093;
 }
 
 - (void)drawPeaksWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
-    graphView = view;
+    _graphView = view;
 	int i, count;
 
 	// Get peaks count
@@ -279,7 +279,7 @@ static void *PropertyObservationContext = (void *)1093;
 }
 
 - (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
-    graphView = view;
+    _graphView = view;
 	int count = [[self peaks] count];
 	if (count <= 0)		
 		return;

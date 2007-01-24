@@ -20,6 +20,7 @@
 #import "JKSpectrum.h"
 #import "jk_statistics.h"
 #import "netcdf.h"
+#import "JKSearchResult.h"
 
 NSString *const JKGCMSDocument_DocumentDeactivateNotification = @"JKGCMSDocument_DocumentDeactivateNotification";
 NSString *const JKGCMSDocument_DocumentActivateNotification   = @"JKGCMSDocument_DocumentActivateNotification";
@@ -39,7 +40,7 @@ static void *DocumentObservationContext = (void *)1100;
 		metadata = [[NSMutableDictionary alloc] init];
 		chromatograms = [[NSMutableArray alloc] init];
 		
-		remainingString = [NSString stringWithString:@""];
+		_remainingString = [NSString stringWithString:@""];
 		
 		id defaultValues = [[NSUserDefaultsController sharedUserDefaultsController] values];
         absolutePathToNetCDF = @"";
@@ -56,7 +57,7 @@ static void *DocumentObservationContext = (void *)1100;
 		markAsIdentifiedThreshold = [[defaultValues valueForKey:@"markAsIdentifiedThreshold"] retain];
 		minimumScoreSearchResults = [[defaultValues valueForKey:@"minimumScoreSearchResults"] retain];
         
-        _peakIDCounter = 0;
+        peakIDCounter = 0;
         _documentProxy = [[NSDictionary alloc] initWithObjectsAndKeys:@"_documentProxy", @"_documentProxy",nil];
 //        [self setPrintInfo:[NSPrintInfo sharedPrintInfo]];
 //        NSLog(@"%d", [[NSPrintInfo sharedPrintInfo] orientation]);
@@ -414,7 +415,7 @@ static void *DocumentObservationContext = (void *)1100;
 	
 	// library Array should be returned
 	// and the remaining string
-	remainingString = [array objectAtIndex:count-1];
+	_remainingString = [array objectAtIndex:count-1];
 	
 	JKLogDebug(@"Found %d entries", [libraryEntries count]);
 	[libraryEntries autorelease];
@@ -689,6 +690,108 @@ static void *DocumentObservationContext = (void *)1100;
 	[spectrum autorelease];
 	return spectrum;
 }
+- (BOOL)performBackwardSearch {
+	NSArray *libraryEntries = nil;
+    JKLibraryEntry *libraryEntry = nil;
+    JKChromatogram *chromatogramToSearch = nil;
+	int j,k,l;
+	int entriesCount, answer, chromatogramCount;
+	int maximumIndex;
+	float score, maximumScore;	
+    NSString *libraryEntryModel = @"";
+
+	[self setAbortAction:NO];
+    NSProgressIndicator *progressIndicator = nil;
+    
+	if (mainWindowController) {
+        progressIndicator = [mainWindowController progressIndicator];
+    }
+    
+	[progressIndicator setDoubleValue:0.0];
+	[progressIndicator setIndeterminate:YES];
+	[progressIndicator startAnimation:self];
+    
+    [self willChangeValueForKey:@"peaks"];
+	// Determine spectra for peaks
+	int peaksCount = [[self peaks] count];
+	if (peaksCount == 0) {
+		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Peaks Identified",@""),NSLocalizedString(@"No peaks have yet been identified in the chromatogram. Use the 'Identify Peaks' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+		return NO;
+	}
+	
+	// Read library 
+	NSError *error = [[NSError alloc] init];
+	if (![self libraryAlias]) {
+		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Library Selected",@""),NSLocalizedString(@"Select a Library to use for the identification of the peaks.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+		return NO;
+	}
+	JKLibrary *aLibrary = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[self libraryAlias] fullPath]] display:NO error:&error];
+	if (!aLibrary) {
+		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Library Selected",@""),NSLocalizedString(@"Select a Library to use for the identification of the peaks.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+		return NO;
+	}
+	[error release];
+    
+	libraryEntries = [aLibrary libraryEntries];
+	float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];
+	// Loop through inPeaks(=combined spectra) and determine score
+	entriesCount = [libraryEntries count];
+	[progressIndicator setIndeterminate:NO];
+	[progressIndicator setMaxValue:entriesCount*1.0];
+    JKLogDebug(@"entriesCount %d peaksCount %d",entriesCount, peaksCount);
+	
+    for (j = 0; j < entriesCount; j++) {
+		maximumScore = 0.0;
+		maximumIndex = -1;
+        libraryEntry = [libraryEntries objectAtIndex:j];
+        // Search through TIC by default
+        chromatogramToSearch = nil;
+        libraryEntryModel = [libraryEntry modelChr];
+        if (libraryEntryModel) {
+            chromatogramCount = [[self chromatograms] count];
+            for (l = 0; l < chromatogramCount; l++) {
+                if ([libraryEntryModel isEqualToString:[[[self chromatograms] objectAtIndex:l] model]]) {
+                    chromatogramToSearch = [[self chromatograms] objectAtIndex:l];
+                }
+            }
+            if (!chromatogramToSearch) {
+                JKLogWarning(@"No chromatogram for model '%@'. Using TIC chromatogram instead.", libraryEntryModel);                           
+                chromatogramToSearch = [[self chromatograms] objectAtIndex:0];
+           }
+        } else {
+            chromatogramToSearch = [[self chromatograms] objectAtIndex:0];
+        }
+        peaksCount = [[chromatogramToSearch peaks] count];
+		for (k = 0; k < peaksCount; k++) {
+			score = [[[[chromatogramToSearch peaks] objectAtIndex:k] spectrum] scoreComparedToLibraryEntry:libraryEntry];
+			if (score >= maximumScore) {
+				maximumScore = score;
+				maximumIndex = k;
+			}
+		}
+        
+		// Add libentry as result to highest scoring peak if it is within range of acceptance
+		if (maximumScore >= minimumScoreSearchResultsF) {
+			JKSearchResult *searchResult = [[JKSearchResult alloc] init];
+			[searchResult setScore:[NSNumber numberWithFloat:maximumScore]];
+			[searchResult setLibraryHit:[libraryEntries objectAtIndex:j]];
+            [searchResult setPeak:[[chromatogramToSearch peaks] objectAtIndex:maximumIndex]];
+			[[[chromatogramToSearch peaks] objectAtIndex:maximumIndex] addSearchResult:searchResult];
+			[searchResult release];
+		}
+		if(abortAction){
+			JKLogInfo(@"Identifying Compounds Search Aborted by User at entry %d/%d peak %d/%d.",j,entriesCount, k, peaksCount);
+			return NO;
+		}
+        [progressIndicator incrementBy:1.0];
+	}
+	
+	if (mainWindowController)
+		[[mainWindowController chromatogramView] setNeedsDisplay:YES];
+	
+    [self didChangeValueForKey:@"peaks"];
+	return YES;
+}
 
 #pragma mark NOTIFICATIONS
 
@@ -720,6 +823,7 @@ static void *DocumentObservationContext = (void *)1100;
     [self postNotification: 
 		JKGCMSDocument_DocumentDeactivateNotification];
 }
+
 
 #pragma mark OBSOLETE -- OBSOLETE -- OBSOLETE
 #pragma mark ACTIONS
@@ -881,80 +985,6 @@ static void *DocumentObservationContext = (void *)1100;
 //	}	
 //}
 
-- (BOOL)searchLibraryForAllPeaks:(id)sender{
-	NSArray *libraryEntries;
-	int j,k;
-	int entriesCount, answer;
-	int maximumIndex;
-	float score, maximumScore;	
-	float delta;
-	[self setAbortAction:NO];
-
-//	[[sender progressIndicator] setIndeterminate:YES];
-//	[[sender progressIndicator] startAnimation:self];
-//
-    [self willChangeValueForKey:@"peaks"];
-	// Determine spectra for peaks
-	int peaksCount = [[self peaks] count];
-	if (peaksCount == 0) {
-		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Peaks Identified",@""),NSLocalizedString(@"No peaks have yet been identified in the chromatogram. Use the 'Identify Peaks' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
-		return NO;
-	}
-	
-	// Read library 
-	NSError *error = [[NSError alloc] init];
-	if (![self libraryAlias]) {
-		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Library Selected",@""),NSLocalizedString(@"Select a Library to use for the identification of the peaks.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
-		return NO;
-	}
-	JKLibrary *aLibrary = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[self libraryAlias] fullPath]] display:NO error:&error];
-	if (!aLibrary) {
-		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Library Selected",@""),NSLocalizedString(@"Select a Library to use for the identification of the peaks.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
-		return NO;
-	}
-	[error release];
-	
-//	[progressIndicator setIndeterminate:NO];
-//	[progressIndicator setMaxValue:libraryEntries/1000.0];
-
-	libraryEntries = [aLibrary libraryEntries];
-	float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];
-	// Loop through inPeaks(=combined spectra) and determine score
-	entriesCount = [libraryEntries count];
-//	JKLogDebug(@"entriesCount %d peaksCount %d",entriesCount, peaksCount);
-	for (j = 0; j < entriesCount; j++) {
-		maximumScore = 0.0;
-		maximumIndex = -1;
-		for (k = 0; k < peaksCount; k++) {
-			score = [[[[self peaks] objectAtIndex:k] spectrum] scoreComparedToLibraryEntry:[libraryEntries objectAtIndex:j]];
-			if (score >= maximumScore) {
-				maximumScore = score;
-				maximumIndex = k;
-			}
-		}
-		// Add libentry as result to highest scoring peak if it is within range of acceptance
-		if (maximumScore >= minimumScoreSearchResultsF) {
-			NSMutableDictionary *searchResult = [[NSMutableDictionary alloc] init];
-			[searchResult setValue:[NSNumber numberWithFloat:maximumScore] forKey:@"score"];
-			[searchResult setValue:[libraryEntries objectAtIndex:j] forKey:@"libraryHit"];
-			delta = [[[[self peaks] objectAtIndex:maximumIndex] retentionIndex] floatValue] - [[[libraryEntries objectAtIndex:j] retentionIndex] floatValue];
-			[searchResult setValue:[NSNumber numberWithFloat:delta] forKey:@"deltaRetentionIndex"];
-			[searchResult setValue:[[libraryAlias fullPath] lastPathComponent] forKey:@"library"];
-			[[peaks objectAtIndex:maximumIndex] addSearchResult:searchResult];
-			[searchResult release];
-		}
-		if(abortAction){
-			JKLogInfo(@"Identifying Compounds Search Aborted by User at entry %d/%d peak %d/%d.",j,entriesCount, k, peaksCount);
-			return NO;
-		}
-	}
-	
-	if (mainWindowController)
-		[[mainWindowController chromatogramView] setNeedsDisplay:YES];
-	
-    [self didChangeValueForKey:@"peaks"];
-	return YES;
-}
 
 - (void)redistributedSearchResults:(JKPeakRecord *)originatingPeak{
 	int k;
@@ -1042,8 +1072,8 @@ static void *DocumentObservationContext = (void *)1100;
 }
 
 - (int)nextPeakID {
-    _peakIDCounter++;    
-    return _peakIDCounter;
+    peakIDCounter++;    
+    return peakIDCounter;
 }
 
 

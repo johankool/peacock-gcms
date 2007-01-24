@@ -15,18 +15,10 @@
 	JKGCMSDocument *document;
 	JKPeakRecord *peak;
 	NSString *model;
-    
-	float retentionIndex;
-	
+    	
 	int numberOfPoints;
 	float *masses;
 	float *intensities;
-    
-    @private
-    float minimumIntensity;
-    float maximumIntensity;
-	float minimumMass;
-    float maximumMass;    
 }
 
 - (id)initWithDocument:(JKGCMSDocument *)inDocument forModel:(NSString *)modelString;
@@ -38,10 +30,8 @@
 - (JKSpectrum *)spectrumByAveragingWithSpectrum:(JKSpectrum *)inSpectrum  withWeight:(float)weight;
 - (JKSpectrum *)normalizedSpectrum;
 
-//- (SpectrumGraphDataSerie *)spectrumDataSerie;
-
 - (float)scoreComparedToSpectrum:(JKSpectrum *)inSpectrum;
-- (float)scoreComparedToLibraryEntry:(JKLibraryEntry *)libraryEntry;
+- (float)scoreComparedToLibraryEntry:(JKSpectrum *)libraryEntry;
 - (float)scoreComparedToSpectrum:(JKSpectrum *)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex;
 
 #pragma mark ACCESSORS
@@ -56,12 +46,5 @@
 - (float *)masses;
 - (void)setIntensities:(float *)inArray withCount:(int)inValue;
 - (float *)intensities;
-- (void)setRetentionIndex:(float)inValue;
-- (float)retentionIndex;
-
-- (float)minimumMass;
-- (float)maximumMass;
-- (float)minimumIntensity;
-- (float)maximumIntensity;
 
 @end

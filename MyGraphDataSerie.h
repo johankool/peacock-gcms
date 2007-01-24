@@ -23,20 +23,25 @@
 - (NSRect)boundingRect;
 @end
 
+typedef enum {
+    JKPointsSeriesType,
+    JKLineSeriesType,
+    JKSpectrumSeriesType
+} JKSeriesTypes;
+
 @interface MyGraphDataSerie : NSObject <GraphDataSerie> {
+	BOOL shouldDrawLabels;
+	JKSeriesTypes seriesType;
+	NSBezierPath *plotPath;
+	NSColor *seriesColor;
 	NSMutableArray *dataArray; 
-	NSString *seriesTitle;
+	NSNumber *verticalScale;
 	NSString *keyForXValue;
 	NSString *keyForYValue;
-	NSColor *seriesColor;
-	int seriesType; // 0 = points, 1 = lines, 2 = spectrum
-	NSBezierPath *plotPath;
-	BOOL shouldDrawLabels;
-	NSNumber *verticalScale;
-	
-	NSArray *oldData;		
-    
-    MyGraphView *graphView;
+	NSString *seriesTitle;
+
+	NSArray *_oldData;		
+    MyGraphView *_graphView;
 }
 
 - (id)initWithArray:(NSArray *)array;
@@ -78,6 +83,6 @@
 - (NSNumber *)verticalScale;
 - (void)setVerticalScale:(NSNumber *)inValue;
 
-- (NSArray *)oldData;
-- (void)setOldData:(NSArray *)anOldData;
+//- (NSArray *)oldData;
+//- (void)setOldData:(NSArray *)anOldData;
 @end

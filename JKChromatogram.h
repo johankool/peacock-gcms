@@ -11,7 +11,7 @@
 @class ChromatogramGraphDataSerie;
 @class JKPeakRecord;
 
-@interface JKChromatogram : NSObject {
+@interface JKChromatogram : NSObject <NSCoding> {
     JKGCMSDocument *document;
     NSString *model;
     NSMutableArray *baselinePoints;
@@ -21,18 +21,6 @@
     
     float *time;
     float *totalIntensity;
-
-    @private
-    float maxTime;
-    float minTime;
-    float maxTotalIntensity;
-    float minTotalIntensity;
-    
-    float maxXValuesSpectrum;
-    float minXValuesSpectrum;
-    float maxYValuesSpectrum;
-    float minYValuesSpectrum;   
-
 }
 
 /*! @functiongroup Initialization */
@@ -105,20 +93,6 @@
 - (float)minTime;
 - (float)maxTotalIntensity;
 - (float)minTotalIntensity;
-
-#pragma mark OBSOLETE
-
-//- (void)getChromatogramData;
-//
-//- (JKSpectrum *)objectInSpectraAtIndex:(unsigned int)index;
-//- (float *)xValuesSpectrum:(int)scan;
-//- (float *)yValuesSpectrum:(int)scan;
-//- (int)startValuesSpectrum:(int)scan;
-//- (int)endValuesSpectrum:(int)scan;
-//- (float)maxXValuesSpectrum;
-//- (float)minXValuesSpectrum;
-//- (float)maxYValuesSpectrum;
-//- (float)minYValuesSpectrum;
 
 @end
 

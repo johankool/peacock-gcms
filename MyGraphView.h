@@ -213,6 +213,8 @@ typedef enum {
 - (void)setBaselineColor:(NSColor *)inValue;
 
 // Drawing options
+- (JKDrawingModes)drawingMode;
+- (void)setDrawingMode:(JKDrawingModes)drawingMode;
 - (BOOL)shouldDrawLegend;
 - (void)setShouldDrawLegend:(BOOL)inValue;
 - (BOOL)shouldDrawAxes;

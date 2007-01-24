@@ -12,9 +12,11 @@
 
 @interface SpectrumGraphDataSerie : MyGraphDataSerie {
     JKSpectrum *spectrum;
-	NSRect boundingRect;
 	BOOL drawUpsideDown;
 	BOOL normalizeYData;
+
+    @private
+	NSRect _boundingRect;
 }
 
 - (id)initWithSpectrum:(JKSpectrum *)spectrum;

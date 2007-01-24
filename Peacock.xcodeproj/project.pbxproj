@@ -42,6 +42,8 @@
 		C7713B430950368F00653D2A /* JKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */; };
 		C773669808E02D87002B72F1 /* ChromatogramGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */; };
 		C773669908E02D88002B72F1 /* SpectrumGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */; };
+		C7752C380B6778DA0010EE72 /* JKSearchResult.h in Headers */ = {isa = PBXBuildFile; fileRef = C7752C360B6778DA0010EE72 /* JKSearchResult.h */; };
+		C7752C390B6778DA0010EE72 /* JKSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = C7752C370B6778DA0010EE72 /* JKSearchResult.m */; };
 		C777A2C50A1DFEA800CF44D9 /* JKMoleculeView.h in Headers */ = {isa = PBXBuildFile; fileRef = C777A2C30A1DFEA800CF44D9 /* JKMoleculeView.h */; };
 		C777A2C60A1DFEA800CF44D9 /* JKMoleculeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C777A2C40A1DFEA800CF44D9 /* JKMoleculeView.m */; };
 		C777A2D20A1DFEE400CF44D9 /* JKAtom.h in Headers */ = {isa = PBXBuildFile; fileRef = C777A2CC0A1DFEE400CF44D9 /* JKAtom.h */; };
@@ -169,14 +171,8 @@
 		C70DC00F095B1FDB00C2B386 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKGCMSDocument.h; sourceTree = "<group>"; };
 		C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKGCMSDocument.m; sourceTree = "<group>"; };
-		C716B49D0AD6A9B900DA408E /* JKGAMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKGAMLDocument.h; sourceTree = "<group>"; };
-		C716B49E0AD6A9B900DA408E /* JKGAMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKGAMLDocument.m; sourceTree = "<group>"; };
 		C716B4AD0AD6AA8F00DA408E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		C716B4D70AD6ACA400DA408E /* JKGAMLDocument.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = JKGAMLDocument.nib; sourceTree = "<group>"; };
-		C716B5A40ADA6F9700DA408E /* JKBasic.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKBasic.h; sourceTree = "<group>"; };
-		C716B5A50ADA6F9700DA408E /* JKBasic.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKBasic.m; sourceTree = "<group>"; };
-		C716B5A80ADA6FA800DA408E /* _JKBasic.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = _JKBasic.h; sourceTree = "<group>"; };
-		C716B5A90ADA6FA800DA408E /* _JKBasic.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = _JKBasic.m; sourceTree = "<group>"; };
 		C71D9FCB099CD19D007EB10D /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		C720AB8609EA7B6C007EF860 /* jk_statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jk_statistics.h; sourceTree = "<group>"; };
 		C720AB8709EA7B6C007EF860 /* jk_statistics.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jk_statistics.c; sourceTree = "<group>"; };
@@ -188,58 +184,11 @@
 		C72C8508098BE83600CEF565 /* JKSpectrumTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSpectrumTest.m; sourceTree = "<group>"; };
 		C72C85D5098BF1B800CEF565 /* JKGeneralTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKGeneralTesting.h; sourceTree = "<group>"; };
 		C72C85D6098BF1B800CEF565 /* JKGeneralTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKGeneralTesting.m; sourceTree = "<group>"; };
-		C7328F230AD5B5C300D95E36 /* JKGAML.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = JKGAML.xcdatamodel; sourceTree = "<group>"; };
-		C73290AE0AD68F5F00D95E36 /* _JKBaseline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = _JKBaseline.h; sourceTree = "<group>"; };
-		C73290AF0AD68F6000D95E36 /* _JKBaseline.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = _JKBaseline.m; sourceTree = "<group>"; };
-		C73290B00AD68F6000D95E36 /* _JKCoordinates.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = _JKCoordinates.h; sourceTree = "<group>"; };
-		C73290B10AD68F6000D95E36 /* _JKCoordinates.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = _JKCoordinates.m; sourceTree = "<group>"; };
-		C73290B20AD68F6000D95E36 /* _JKData.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = _JKData.h; sourceTree = "<group>"; };
-		C73290B30AD68F6000D95E36 /* _JKData.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = _JKData.m; sourceTree = "<group>"; };
-		C73290B40AD68F6000D95E36 /* _JKExperiment.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = _JKExperiment.h; sourceTree = "<group>"; };
-		C73290B50AD68F6000D95E36 /* _JKExperiment.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = _JKExperiment.m; sourceTree = "<group>"; };
-		C73290B60AD68F6000D95E36 /* _JKGAML.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = _JKGAML.h; sourceTree = "<group>"; };
-		C73290B70AD68F6000D95E36 /* _JKGAML.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = _JKGAML.m; sourceTree = "<group>"; };
-		C73290B80AD68F6000D95E36 /* _JKParameter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = _JKParameter.h; sourceTree = "<group>"; };
-		C73290B90AD68F6000D95E36 /* _JKParameter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = _JKParameter.m; sourceTree = "<group>"; };
-		C73290BA0AD68F6000D95E36 /* _JKPeak.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = _JKPeak.h; sourceTree = "<group>"; };
-		C73290BB0AD68F6000D95E36 /* _JKPeak.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = _JKPeak.m; sourceTree = "<group>"; };
-		C73290BC0AD68F6000D95E36 /* _JKPeakTable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = _JKPeakTable.h; sourceTree = "<group>"; };
-		C73290BD0AD68F6000D95E36 /* _JKPeakTable.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = _JKPeakTable.m; sourceTree = "<group>"; };
-		C73290BE0AD68F6000D95E36 /* _JKTrace.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = _JKTrace.h; sourceTree = "<group>"; };
-		C73290BF0AD68F6000D95E36 /* _JKTrace.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = _JKTrace.m; sourceTree = "<group>"; };
-		C73290C20AD68F6000D95E36 /* _JKXData.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = _JKXData.h; sourceTree = "<group>"; };
-		C73290C30AD68F6000D95E36 /* _JKXData.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = _JKXData.m; sourceTree = "<group>"; };
-		C73290C40AD68F6000D95E36 /* _JKYData.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = _JKYData.h; sourceTree = "<group>"; };
-		C73290C50AD68F6000D95E36 /* _JKYData.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = _JKYData.m; sourceTree = "<group>"; };
-		C73290DE0AD68F9800D95E36 /* JKBaseline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKBaseline.h; sourceTree = "<group>"; };
-		C73290DF0AD68F9800D95E36 /* JKBaseline.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKBaseline.m; sourceTree = "<group>"; };
 		C73290E00AD68F9800D95E36 /* JKChromatogram.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKChromatogram.h; sourceTree = "<group>"; };
 		C73290E10AD68F9800D95E36 /* JKChromatogram.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKChromatogram.m; sourceTree = "<group>"; };
-		C73290E20AD68F9800D95E36 /* JKCoordinates.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKCoordinates.h; sourceTree = "<group>"; };
-		C73290E30AD68F9800D95E36 /* JKCoordinates.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKCoordinates.m; sourceTree = "<group>"; };
-		C73290E40AD68F9800D95E36 /* JKData.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKData.h; sourceTree = "<group>"; };
-		C73290E50AD68F9800D95E36 /* JKData.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKData.m; sourceTree = "<group>"; };
-		C73290E60AD68F9800D95E36 /* JKExperiment.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKExperiment.h; sourceTree = "<group>"; };
-		C73290E70AD68F9800D95E36 /* JKExperiment.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKExperiment.m; sourceTree = "<group>"; };
 		C73290E80AD68F9800D95E36 /* JKFileWell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKFileWell.h; sourceTree = "<group>"; };
-		C73290E90AD68F9800D95E36 /* JKGAML.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKGAML.h; sourceTree = "<group>"; };
-		C73290EA0AD68F9800D95E36 /* JKGAML.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKGAML.m; sourceTree = "<group>"; };
-		C73290EB0AD68F9800D95E36 /* JKParameter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKParameter.h; sourceTree = "<group>"; };
-		C73290EC0AD68F9800D95E36 /* JKParameter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKParameter.m; sourceTree = "<group>"; };
-		C73290ED0AD68F9800D95E36 /* JKPeak.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKPeak.h; sourceTree = "<group>"; };
-		C73290EE0AD68F9800D95E36 /* JKPeak.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKPeak.m; sourceTree = "<group>"; };
-		C73290F10AD68F9800D95E36 /* JKPeakTable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKPeakTable.h; sourceTree = "<group>"; };
-		C73290F20AD68F9800D95E36 /* JKPeakTable.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKPeakTable.m; sourceTree = "<group>"; };
 		C73290F30AD68F9800D95E36 /* JKSynchroScrollView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKSynchroScrollView.h; sourceTree = "<group>"; };
 		C73290F40AD68F9800D95E36 /* JKSynchroScrollView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKSynchroScrollView.m; sourceTree = "<group>"; };
-		C73290F50AD68F9800D95E36 /* JKTrace.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKTrace.h; sourceTree = "<group>"; };
-		C73290F60AD68F9800D95E36 /* JKTrace.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKTrace.m; sourceTree = "<group>"; };
-		C73290F70AD68F9800D95E36 /* JKValues.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKValues.h; sourceTree = "<group>"; };
-		C73290F80AD68F9800D95E36 /* JKValues.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKValues.m; sourceTree = "<group>"; };
-		C73290F90AD68F9800D95E36 /* JKXData.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKXData.h; sourceTree = "<group>"; };
-		C73290FA0AD68F9800D95E36 /* JKXData.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKXData.m; sourceTree = "<group>"; };
-		C73290FB0AD68F9800D95E36 /* JKYData.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKYData.h; sourceTree = "<group>"; };
-		C73290FC0AD68F9800D95E36 /* JKYData.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKYData.m; sourceTree = "<group>"; };
 		C747ED320ABF43C6001F98AF /* Peacock Test Files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Peacock Test Files"; sourceTree = "<group>"; };
 		C7713B35095029C200653D2A /* JKBatchProcess.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = JKBatchProcess.nib; sourceTree = "<group>"; };
 		C7713B410950368F00653D2A /* JKBatchProcessWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKBatchProcessWindowController.h; sourceTree = "<group>"; };
@@ -248,6 +197,8 @@
 		C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ChromatogramGraphDataSerie.m; sourceTree = "<group>"; };
 		C773669608E02D87002B72F1 /* SpectrumGraphDataSerie.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SpectrumGraphDataSerie.h; sourceTree = "<group>"; };
 		C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SpectrumGraphDataSerie.m; sourceTree = "<group>"; };
+		C7752C360B6778DA0010EE72 /* JKSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSearchResult.h; sourceTree = "<group>"; };
+		C7752C370B6778DA0010EE72 /* JKSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSearchResult.m; sourceTree = "<group>"; };
 		C777A2C30A1DFEA800CF44D9 /* JKMoleculeView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKMoleculeView.h; sourceTree = "<group>"; };
 		C777A2C40A1DFEA800CF44D9 /* JKMoleculeView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKMoleculeView.m; sourceTree = "<group>"; };
 		C777A2CC0A1DFEE400CF44D9 /* JKAtom.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKAtom.h; sourceTree = "<group>"; };
@@ -505,74 +456,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C716B4C30AD6AB2200DA408E /* Generated */ = {
-			isa = PBXGroup;
-			children = (
-				C716B5A80ADA6FA800DA408E /* _JKBasic.h */,
-				C716B5A90ADA6FA800DA408E /* _JKBasic.m */,
-				C73290AE0AD68F5F00D95E36 /* _JKBaseline.h */,
-				C73290AF0AD68F6000D95E36 /* _JKBaseline.m */,
-				C73290B00AD68F6000D95E36 /* _JKCoordinates.h */,
-				C73290B10AD68F6000D95E36 /* _JKCoordinates.m */,
-				C73290B20AD68F6000D95E36 /* _JKData.h */,
-				C73290B30AD68F6000D95E36 /* _JKData.m */,
-				C73290B40AD68F6000D95E36 /* _JKExperiment.h */,
-				C73290B50AD68F6000D95E36 /* _JKExperiment.m */,
-				C73290B60AD68F6000D95E36 /* _JKGAML.h */,
-				C73290B70AD68F6000D95E36 /* _JKGAML.m */,
-				C73290B80AD68F6000D95E36 /* _JKParameter.h */,
-				C73290B90AD68F6000D95E36 /* _JKParameter.m */,
-				C73290BA0AD68F6000D95E36 /* _JKPeak.h */,
-				C73290BB0AD68F6000D95E36 /* _JKPeak.m */,
-				C73290BC0AD68F6000D95E36 /* _JKPeakTable.h */,
-				C73290BD0AD68F6000D95E36 /* _JKPeakTable.m */,
-				C73290BE0AD68F6000D95E36 /* _JKTrace.h */,
-				C73290BF0AD68F6000D95E36 /* _JKTrace.m */,
-				C73290C20AD68F6000D95E36 /* _JKXData.h */,
-				C73290C30AD68F6000D95E36 /* _JKXData.m */,
-				C73290C40AD68F6000D95E36 /* _JKYData.h */,
-				C73290C50AD68F6000D95E36 /* _JKYData.m */,
-			);
-			name = Generated;
-			sourceTree = "<group>";
-		};
-		C716B5260AD6FE3100DA408E /* GAML */ = {
-			isa = PBXGroup;
-			children = (
-				C716B5A40ADA6F9700DA408E /* JKBasic.h */,
-				C716B5A50ADA6F9700DA408E /* JKBasic.m */,
-				C73290DE0AD68F9800D95E36 /* JKBaseline.h */,
-				C73290DF0AD68F9800D95E36 /* JKBaseline.m */,
-				C73290E20AD68F9800D95E36 /* JKCoordinates.h */,
-				C73290E30AD68F9800D95E36 /* JKCoordinates.m */,
-				C73290E40AD68F9800D95E36 /* JKData.h */,
-				C73290E50AD68F9800D95E36 /* JKData.m */,
-				C73290E60AD68F9800D95E36 /* JKExperiment.h */,
-				C73290E70AD68F9800D95E36 /* JKExperiment.m */,
-				C73290E90AD68F9800D95E36 /* JKGAML.h */,
-				C73290EA0AD68F9800D95E36 /* JKGAML.m */,
-				C73290EB0AD68F9800D95E36 /* JKParameter.h */,
-				C73290EC0AD68F9800D95E36 /* JKParameter.m */,
-				C73290ED0AD68F9800D95E36 /* JKPeak.h */,
-				C73290EE0AD68F9800D95E36 /* JKPeak.m */,
-				C73290F10AD68F9800D95E36 /* JKPeakTable.h */,
-				C73290F20AD68F9800D95E36 /* JKPeakTable.m */,
-				C73290F50AD68F9800D95E36 /* JKTrace.h */,
-				C73290F60AD68F9800D95E36 /* JKTrace.m */,
-				C73290F70AD68F9800D95E36 /* JKValues.h */,
-				C73290F80AD68F9800D95E36 /* JKValues.m */,
-				C73290F90AD68F9800D95E36 /* JKXData.h */,
-				C73290FA0AD68F9800D95E36 /* JKXData.m */,
-				C73290FB0AD68F9800D95E36 /* JKYData.h */,
-				C73290FC0AD68F9800D95E36 /* JKYData.m */,
-				C716B49D0AD6A9B900DA408E /* JKGAMLDocument.h */,
-				C716B49E0AD6A9B900DA408E /* JKGAMLDocument.m */,
-				C7328F230AD5B5C300D95E36 /* JKGAML.xcdatamodel */,
-				C716B4C30AD6AB2200DA408E /* Generated */,
-			);
-			path = GAML;
-			sourceTree = "<group>";
-		};
 		C72C85C8098BF12600CEF565 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -612,6 +495,8 @@
 				C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */,
 				C7EB17EA0898CF2F007FC2ED /* JKSpectrum.h */,
 				C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */,
+				C7752C360B6778DA0010EE72 /* JKSearchResult.h */,
+				C7752C370B6778DA0010EE72 /* JKSearchResult.m */,
 			);
 			name = MainDocument;
 			sourceTree = "<group>";
@@ -732,7 +617,6 @@
 		C773290B08CA614200222B5B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				C716B5260AD6FE3100DA408E /* GAML */,
 				C747B83909DD5684004837D0 /* MainDocument */,
 				C747B83E09DD56A4004837D0 /* LibraryDocument */,
 				C747B84109DD56BD004837D0 /* StasticsDocument */,
@@ -899,6 +783,7 @@
 				C7F0D0560B11D9030046F994 /* MWController.h in Headers */,
 				C7F0D3B30B1497D40046F994 /* NSTableView+Copying.h in Headers */,
 				C7E25C060B387C0F00CD8D39 /* JKChromatogram.h in Headers */,
+				C7752C380B6778DA0010EE72 /* JKSearchResult.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1096,6 +981,7 @@
 				C7F0D6C50B1732C60046F994 /* JKStatisticsWindowController.m in Sources */,
 				C7F0D6C60B1732CD0046F994 /* JKStatisticsDocument.m in Sources */,
 				C7E25C070B387C0F00CD8D39 /* JKChromatogram.m in Sources */,
+				C7752C390B6778DA0010EE72 /* JKSearchResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

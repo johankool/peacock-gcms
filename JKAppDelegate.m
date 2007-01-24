@@ -119,10 +119,10 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {	
 	// Execute startup preferences
-#warning Custom level debug verbosity set.
-    JKSetVerbosityLevel([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue]);
-//#warning High level debug verbosity set.
-//	JKSetVerbosityLevel(JK_VERBOSITY_ALL);
+//#warning Custom level debug verbosity set.
+//    JKSetVerbosityLevel([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue]);
+#warning High level debug verbosity set.
+	JKSetVerbosityLevel(JK_VERBOSITY_ALL);
     
     
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSave"] boolValue] == YES) {
