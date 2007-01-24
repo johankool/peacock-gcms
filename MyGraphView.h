@@ -3,7 +3,7 @@
 //  Peacock
 //
 //  Created by Johan Kool.
-//  Copyright (c) 2003-2005 Johan Kool. All rights reserved.
+//  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
 @class JKPeakRecord;
@@ -14,6 +14,7 @@ extern NSString *const MyGraphView_DidResignFirstResponderNotification;
 
 @protocol MyGraphViewDelegateProtocol
 - (void)showSpectrumForScan:(int)scan;
+- (void)showChromatogramForModel:(NSString *)modelString;
 @end
 
 typedef enum {
@@ -146,6 +147,7 @@ typedef enum {
 - (JKPeakRecord *)peakAtPoint:(NSPoint)aPoint;
 - (JKChromatogram *)chromatogramAtPoint:(NSPoint)aPoint;
 - (NSMutableDictionary *)pointAtPoint:(NSPoint)aPoint;
+- (int)massAtPoint:(NSPoint)aPoint;
 
 #pragma mark BINDINGS
 - (NSMutableArray *)dataSeries;

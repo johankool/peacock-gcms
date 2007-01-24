@@ -3,7 +3,7 @@
 //  Peacock
 //
 //  Created by Johan Kool.
-//  Copyright (c) 2003-2005 Johan Kool. All rights reserved.
+//  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
 @class JKDataModel;
@@ -87,7 +87,8 @@ enum JKPeakSelection {
 - (IBAction)cancel:(id)sender;
 - (IBAction)renumberPeaks:(id)sender;
 - (void)undoRenumberPeaks:(NSArray *)array;
-- (IBAction)showMassChromatogram:(id)sender;	
+- (IBAction)showMassChromatogram:(id)sender;
+- (void)showChromatogramForModel:(NSString *)modelString;
 - (void)addMassChromatogram:(id)object;
 - (void)removeMassChromatogram:(id)object;
 - (IBAction)confirm:(id)sender;

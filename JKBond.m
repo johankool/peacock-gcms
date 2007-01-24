@@ -3,7 +3,7 @@
 //  MoleculeView
 //
 //  Created by Johan Kool on Wed Dec 03 2003.
-//  Copyright (c) 2003 __MyCompanyName__. All rights reserved.
+//  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
 #import "JKBond.h"

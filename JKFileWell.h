@@ -3,7 +3,7 @@
 //  JKFileWell
 //
 //  Created by Johan Kool on 7-11-05.
-//  Copyright 2005 __MyCompanyName__. All rights reserved.
+//  Copyright 2005-2007 Johan Kool. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

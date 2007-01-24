@@ -3,7 +3,7 @@
 //  Peacock
 //
 //  Created by Johan Kool on 15-5-06.
-//  Copyright 2006 __MyCompanyName__. All rights reserved.
+//  Copyright 2006-2007 Johan Kool. All rights reserved.
 //
 
 #import "JKPathPopUpButton.h"

@@ -3,7 +3,7 @@
 //  Peacock
 //
 //  Created by Johan Kool on 19-12-05.
-//  Copyright 2005 __MyCompanyName__. All rights reserved.
+//  Copyright 2005-2007 Johan Kool. All rights reserved.
 //
 
 #import "JKRatio.h"

@@ -3,7 +3,7 @@
 //  Peacock
 //
 //  Created by Johan Kool.
-//  Copyright (c) 2003-2006 Johan Kool. All rights reserved.
+//  Copyright (c) 2003-2007 Johan Kool. All rights reserved.
 //
 
 
@@ -1371,9 +1371,9 @@ static int   kPaddingLabels             = 4;
                     }                     
                 } else {
                     // or show chromatogram for mass
-                    selectedMass = [self massAtPoint:mouseLocation];
+                    int selectedMass = [self massAtPoint:mouseLocation];
                     if ([delegate respondsToSelector:@selector(showChromatogramForModel:)]) {
-                        [delegate showChromatogramForModel:[NSString stringWithFormat:@"%d",[self selectedScan]]];
+                        [delegate showChromatogramForModel:[NSString stringWithFormat:@"%d",selectedMass]];
                     }                                         
                 }                
             }
@@ -1517,6 +1517,19 @@ static int   kPaddingLabels             = 4;
     }
     
     return thePoint;
+}
+
+- (int)massAtPoint:(NSPoint)aPoint {
+    int mass = NSNotFound;
+    NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:aPoint];
+    
+    if ([keyForXValue isEqualToString:@"Mass"]) {
+        mass = lroundf(graphLocation.x);
+    } else {
+        NSLog(@"massAtPoint: - Unexpected keyForXValue '%@'", keyForXValue);
+    }
+    
+    return mass;
 }
 
 - (JKChromatogram *)chromatogramAtPoint:(NSPoint)aPoint {

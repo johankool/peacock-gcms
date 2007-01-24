@@ -3,7 +3,7 @@
 //  Peacock
 //
 //  Created by Johan Kool.
-//  Copyright (c) 2003-2005 Johan Kool. All rights reserved.
+//  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
 #import "JKMainWindowController.h"
@@ -59,6 +59,7 @@ static void *SpectrumObservationContext = (void *)1102;
     [self setupToolbar];	
 
     [chromatogramView setDelegate:self];
+    [spectrumView setDelegate:self];
     
     NSEnumerator *chromatogramEnumerator = [[[self document] chromatograms] objectEnumerator];
     JKChromatogram *chromatogram;
@@ -220,6 +221,11 @@ static void *SpectrumObservationContext = (void *)1102;
 	[[self document] addChromatogramForModel:[sender stringValue]];
 
 	[sender setStringValue:@""];
+}
+
+- (void)showChromatogramForModel:(NSString *)modelString {
+    NSLog(@"showChromatogramForModel %@",modelString);
+  	[[self document] addChromatogramForModel:modelString];  
 }
 
 - (void)addMassChromatogram:(id)object {
