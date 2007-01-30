@@ -53,6 +53,8 @@ static void *DocumentObservationContext = (void *)1100;
 		retentionIndexRemainder = [[defaultValues valueForKey:@"retentionIndexRemainder"] retain];
 		libraryAlias = [[BDAlias aliasWithPath:[defaultValues valueForKey:@"libraryAlias"]] retain];
 		scoreBasis = [[defaultValues valueForKey:@"scoreBasis"] intValue];
+		searchDirection = [[defaultValues valueForKey:@"searchDirection"] intValue];
+		spectrumToUse = [[defaultValues valueForKey:@"spectrumToUse"] intValue];
 		penalizeForRetentionIndex = [[defaultValues valueForKey:@"penalizeForRetentionIndex"] boolValue];
 		markAsIdentifiedThreshold = [[defaultValues valueForKey:@"markAsIdentifiedThreshold"] retain];
 		minimumScoreSearchResults = [[defaultValues valueForKey:@"minimumScoreSearchResults"] retain];
@@ -147,6 +149,8 @@ static void *DocumentObservationContext = (void *)1100;
 		[archiver encodeObject:[self retentionIndexRemainder] forKey:@"retentionIndexRemainder"];
 		[archiver encodeObject:libraryAlias forKey:@"libraryAlias"];
 		[archiver encodeInt:scoreBasis forKey:@"scoreBasis"];
+		[archiver encodeInt:searchDirection forKey:@"searchDirection"];
+		[archiver encodeInt:spectrumToUse forKey:@"spectrumToUse"];
 		[archiver encodeBool:penalizeForRetentionIndex forKey:@"penalizeForRetentionIndex"];
 		[archiver encodeObject:[self markAsIdentifiedThreshold] forKey:@"markAsIdentifiedThreshold"];
 		[archiver encodeObject:[self minimumScoreSearchResults] forKey:@"minimumScoreSearchResults"];
@@ -229,6 +233,8 @@ static void *DocumentObservationContext = (void *)1100;
 		retentionIndexRemainder = [[unarchiver decodeObjectForKey:@"retentionIndexRemainder"] retain];		
 		libraryAlias = [[unarchiver decodeObjectForKey:@"libraryAlias"] retain];
 		scoreBasis = [unarchiver decodeIntForKey:@"scoreBasis"];
+		searchDirection = [unarchiver decodeIntForKey:@"searchDirection"];
+		spectrumToUse = [unarchiver decodeIntForKey:@"spectrumToUse"];
 		penalizeForRetentionIndex = [unarchiver decodeBoolForKey:@"penalizeForRetentionIndex"];
 		markAsIdentifiedThreshold = [[unarchiver decodeObjectForKey:@"markAsIdentifiedThreshold"] retain];		
 		minimumScoreSearchResults = [[unarchiver decodeObjectForKey:@"minimumScoreSearchResults"] retain];		
@@ -690,7 +696,129 @@ static void *DocumentObservationContext = (void *)1100;
 	[spectrum autorelease];
 	return spectrum;
 }
-- (BOOL)performBackwardSearch {
+
+- (BOOL)performLibrarySearchForChromatograms:(NSArray *)someChromatograms {
+    NSAssert([someChromatograms count] > 0, @"No chromatograms were selected to be searched.");
+
+    switch (searchDirection) {
+    case JKForwardSearchDirection:
+        return [self performForwardSearchForChromatograms:someChromatograms];
+        break;
+    case JKBackwardSearchDirection:
+        return [self performBackwardSearchForChromatograms:someChromatograms];
+        break;
+    default:
+        [NSException raise:@"Search Direction Unknown" format:@"The search direction was not set."];
+        break;
+    }
+    
+    return NO;
+}
+
+- (BOOL)performForwardSearchForChromatograms:(NSArray *)someChromatograms {
+	NSArray *libraryEntries = nil;
+    JKLibraryEntry *libraryEntry = nil;
+    JKPeakRecord *peak = nil;
+    JKChromatogram *chromatogramToSearch = nil;
+	int j,k,l;
+	int entriesCount, answer, chromatogramCount;
+	int maximumIndex;
+	float score, maximumScore;	
+    NSString *libraryEntryModel = @"";
+    
+	[self setAbortAction:NO];
+    NSProgressIndicator *progressIndicator = nil;
+    NSTextField *progressText = nil;
+    
+	if (mainWindowController) {
+        progressIndicator = [mainWindowController progressIndicator];
+        progressText = [mainWindowController progressText];
+    }
+    
+	[progressIndicator setDoubleValue:0.0];
+	[progressIndicator setIndeterminate:YES];
+	[progressIndicator startAnimation:self];
+    [progressText setStringValue:NSLocalizedString(@"Opening Library",@"")];
+        
+    [self willChangeValueForKey:@"peaks"];
+	// Determine spectra for peaks
+	int peaksCount = [[self peaks] count];
+	if (peaksCount == 0) {
+		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Peaks Identified",@""),NSLocalizedString(@"No peaks have yet been identified in the chromatogram. Use the 'Identify Peaks' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+		return NO;
+	}
+	
+	// Read library 
+	NSError *error = [[NSError alloc] init];
+	if (![self libraryAlias]) {
+		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Library Selected",@""),NSLocalizedString(@"Select a Library to use for the identification of the peaks.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+		return NO;
+	}
+	JKLibrary *aLibrary = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[self libraryAlias] fullPath]] display:NO error:&error];
+	if (!aLibrary) {
+		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Library Selected",@""),NSLocalizedString(@"Select a Library to use for the identification of the peaks.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+		return NO;
+	}
+	[error release];
+    
+	libraryEntries = [aLibrary libraryEntries];
+	float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];
+	// Loop through inPeaks(=combined spectra) and determine score
+    chromatogramCount = [someChromatograms count];
+	entriesCount = [libraryEntries count];
+	[progressIndicator setIndeterminate:NO];
+	[progressIndicator setMaxValue:chromatogramCount*1.0];
+    JKLogDebug(@"entriesCount %d peaksCount %d",entriesCount, peaksCount);
+    
+    for (l = 0; l < chromatogramCount; l++) {  
+        chromatogramToSearch = [someChromatograms objectAtIndex:l];
+        [progressText setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Searching for Chromatogram '%@'",@""),[chromatogramToSearch model]]];
+
+        peaksCount = [[chromatogramToSearch peaks] count];
+        for (k = 0; k < peaksCount; k++) {
+            peak = [[chromatogramToSearch peaks] objectAtIndex:k];
+            for (j = 0; j < entriesCount; j++) {
+                libraryEntry = [libraryEntries objectAtIndex:j];
+                libraryEntryModel = [libraryEntry modelChr];
+                if ([libraryEntryModel isEqualToString:[chromatogramToSearch model]]) {
+                    chromatogramToSearch = [someChromatograms objectAtIndex:l];
+                } else if ([libraryEntryModel isEqualToString:@""] && [[chromatogramToSearch model] isEqualToString:@"TIC"]) {
+                    // Search through TIC by default
+
+                } else {
+                    continue;
+                }
+                if (spectrumToUse == JKSpectrumSearchSpectrum) {
+                    score = [[peak spectrum] scoreComparedToLibraryEntry:libraryEntry];                    
+                } else if (spectrumToUse == JKCombinedSpectrumSearchSpectrum) {
+                    score = [[peak combinedSpectrum] scoreComparedToLibraryEntry:libraryEntry];
+                }
+                if (score >= minimumScoreSearchResultsF) {
+                    JKSearchResult *searchResult = [[JKSearchResult alloc] init];
+                    [searchResult setScore:[NSNumber numberWithFloat:score]];
+                    [searchResult setLibraryHit:[libraryEntries objectAtIndex:j]];
+                    [searchResult setPeak:peak];
+                    [peak addSearchResult:searchResult];
+                    [searchResult release];
+                }
+            }
+        }
+        if(abortAction){
+			JKLogInfo(@"Identifying Compounds Search Aborted by User at entry %d/%d peak %d/%d.",j,entriesCount, k, peaksCount);
+			break;
+		}       
+        [progressIndicator incrementBy:1.0];
+    }
+    
+	
+	if (mainWindowController)
+		[[mainWindowController chromatogramView] setNeedsDisplay:YES];
+	
+    [self didChangeValueForKey:@"peaks"];
+	return YES;
+}
+
+- (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms {
 	NSArray *libraryEntries = nil;
     JKLibraryEntry *libraryEntry = nil;
     JKChromatogram *chromatogramToSearch = nil;
@@ -739,6 +867,8 @@ static void *DocumentObservationContext = (void *)1100;
 	[progressIndicator setIndeterminate:NO];
 	[progressIndicator setMaxValue:entriesCount*1.0];
     JKLogDebug(@"entriesCount %d peaksCount %d",entriesCount, peaksCount);
+
+    chromatogramCount = [someChromatograms count];
 	
     for (j = 0; j < entriesCount; j++) {
 		maximumScore = 0.0;
@@ -748,18 +878,25 @@ static void *DocumentObservationContext = (void *)1100;
         chromatogramToSearch = nil;
         libraryEntryModel = [libraryEntry modelChr];
         if (libraryEntryModel) {
-            chromatogramCount = [[self chromatograms] count];
             for (l = 0; l < chromatogramCount; l++) {
-                if ([libraryEntryModel isEqualToString:[[[self chromatograms] objectAtIndex:l] model]]) {
-                    chromatogramToSearch = [[self chromatograms] objectAtIndex:l];
+                if ([libraryEntryModel isEqualToString:[[someChromatograms objectAtIndex:l] model]]) {
+                    chromatogramToSearch = [someChromatograms objectAtIndex:l];
                 }
             }
             if (!chromatogramToSearch) {
-                JKLogWarning(@"No chromatogram for model '%@'. Using TIC chromatogram instead.", libraryEntryModel);                           
-                chromatogramToSearch = [[self chromatograms] objectAtIndex:0];
-           }
+                if ([someChromatograms containsObject:[[self chromatograms] objectAtIndex:0]]) {
+                    JKLogWarning(@"No chromatogram for model '%@'. Using TIC chromatogram instead.", libraryEntryModel);                           
+                    chromatogramToSearch = [[self chromatograms] objectAtIndex:0];
+                } else {
+                    continue;
+                }
+            }
         } else {
-            chromatogramToSearch = [[self chromatograms] objectAtIndex:0];
+            if ([someChromatograms containsObject:[[self chromatograms] objectAtIndex:0]]) {
+                chromatogramToSearch = [[self chromatograms] objectAtIndex:0];
+            } else {
+                continue;
+            }
         }
         peaksCount = [[chromatogramToSearch peaks] count];
 		for (k = 0; k < peaksCount; k++) {
@@ -1479,6 +1616,8 @@ idUndoAccessor(retentionIndexSlope, setRetentionIndexSlope, @"Change Retention I
 idUndoAccessor(retentionIndexRemainder, setRetentionIndexRemainder, @"Change Retention Index Remainder")
 idUndoAccessor(libraryAlias, setLibraryAlias, @"Change Library")
 intUndoAccessor(scoreBasis, setScoreBasis, @"Change Score Basis")
+intUndoAccessor(searchDirection, setSearchDirection, @"Change Search Direction")
+intUndoAccessor(spectrumToUse, setSpectrumToUse,@"Change Spectrum")
 boolUndoAccessor(penalizeForRetentionIndex, setPenalizeForRetentionIndex, @"Change Penalize for Offset Retention Index")
 idUndoAccessor(markAsIdentifiedThreshold, setMarkAsIdentifiedThreshold, @"Change Identification Score")
 idUndoAccessor(minimumScoreSearchResults, setMinimumScoreSearchResults, @"Change Minimum Score")

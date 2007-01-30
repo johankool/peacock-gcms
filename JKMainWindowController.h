@@ -57,6 +57,7 @@ enum JKPeakSelection {
 	// Sheets
 	IBOutlet NSWindow *progressSheet;
 	IBOutlet NSProgressIndicator *progressBar;
+    IBOutlet NSTextField *progressText;
 	IBOutlet NSWindow *chromatogramSelectionSheet;
 	IBOutlet NSButton *chromatogramSelectionSheetButton;
     IBOutlet NSArrayController *chromatogramsController;    
@@ -84,6 +85,7 @@ enum JKPeakSelection {
 - (void)obtainBaselineForSelectedChromatograms:(id)sender;
 - (IBAction)identifyPeaks:(id)sender;
 - (void)identifyPeaksForSelectedChromatograms:(id)sender;
+- (void)identifyCompounds;
 - (IBAction)cancel:(id)sender;
 - (IBAction)renumberPeaks:(id)sender;
 - (void)undoRenumberPeaks:(NSArray *)array;
@@ -113,6 +115,7 @@ enum JKPeakSelection {
 - (NSArrayController *)searchResultsController;
 - (NSMutableArray *)hiddenColumnsPeaksTable;
 - (NSProgressIndicator *)progressIndicator;
+- (NSTextField *)progressText;
 
 #pragma mark ACCESSORS (MACROSTYLE)
 boolAccessor_h(abortAction, setAbortAction)	

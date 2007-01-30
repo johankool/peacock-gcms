@@ -200,7 +200,25 @@ static void *SpectrumObservationContext = (void *)1102;
 }
 
 - (IBAction)identifyCompounds:(id)sender {
-	[NSThread detachNewThreadSelector:@selector(identifyCompounds) toTarget:self withObject:nil];
+    if ([[[self document] chromatograms] count] > 1) {
+        // Run sheet to get selection
+        [chromatogramSelectionSheetButton setTitle:NSLocalizedString(@"Identify Compounds",@"")];
+        [chromatogramSelectionSheetButton setAction:@selector(identifyCompoundsForSelectedChromatograms:)];
+        [chromatogramSelectionSheetButton setTarget:self];
+        [NSApp beginSheet: chromatogramSelectionSheet
+           modalForWindow: [self window]
+            modalDelegate: self
+           didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
+              contextInfo: nil];
+    } else if ([[[self document] chromatograms] count] == 1) {
+        [[self document] performLibrarySearchForChromatograms:[chromatogramsController arrangedObjects]];
+        [chromatogramView setShouldDrawPeaks:YES];
+    }
+}
+
+- (void)identifyCompoundsForSelectedChromatograms:(id)sender {
+    [NSApp endSheet:chromatogramSelectionSheet];
+    [self identifyCompounds];
 }
 
 - (void)identifyCompounds {
@@ -211,7 +229,7 @@ static void *SpectrumObservationContext = (void *)1102;
 	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
 		  contextInfo: nil];
 		
-	[[self document] performBackwardSearch];
+	[[self document] performLibrarySearchForChromatograms:[chromatogramsController selectedObjects]];
 	
 	[NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];
 	
@@ -962,6 +980,11 @@ static void *SpectrumObservationContext = (void *)1102;
 - (NSProgressIndicator *)progressIndicator{
 	return progressBar;
 }
+
+- (NSTextField *)progressText {
+    return progressText;
+}
+
 - (NSMutableArray *)hiddenColumnsPeaksTable {
     return hiddenColumnsPeaksTable;
 }

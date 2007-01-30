@@ -24,8 +24,10 @@
                 fitChromatogramDataToView = id; 
                 fitSpectrumDataToView = id; 
                 identifyPeaks = id; 
+                identifyPeaksForSelectedChromatograms = id; 
                 next = id; 
                 obtainBaseline = id; 
+                obtainBaselineForSelectedChromatograms = id; 
                 other = id; 
                 previous = id; 
                 renumberPeaks = id; 
@@ -50,6 +52,7 @@
                 printAccessoryView = NSView; 
                 progressBar = NSProgressIndicator; 
                 progressSheet = NSWindow; 
+                progressText = NSTextField; 
                 resultsTable = NSTableView; 
                 searchResultsController = NSArrayController; 
                 searchResultsTabViewItemView = NSView; 

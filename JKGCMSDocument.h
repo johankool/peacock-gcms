@@ -20,6 +20,22 @@ extern NSString *const JKGCMSDocument_DocumentActivateNotification;
 extern NSString *const JKGCMSDocument_DocumentLoadedNotification;
 extern int const JKGCMSDocument_Version;
 
+typedef enum {
+    JKAbundanceScoreBasis,
+    JKMZValuesScoreBasis,
+    JKLiteratureReferenceScoreBasis
+} JKScoreBases;
+
+typedef enum {
+    JKForwardSearchDirection,
+    JKBackwardSearchDirection
+} JKSearchDirections;
+
+typedef enum {
+    JKSpectrumSearchSpectrum,
+    JKCombinedSpectrumSearchSpectrum
+} JKSearchSpectra;
+
 /*!
     @class
     @abstract    Document containing GCMS data.
@@ -53,6 +69,8 @@ extern int const JKGCMSDocument_Version;
 	// Search options
 	BDAlias *libraryAlias;
 	int scoreBasis;
+    JKSearchDirections searchDirection;
+    JKSearchSpectra spectrumToUse;
 	BOOL penalizeForRetentionIndex;
 	NSNumber *markAsIdentifiedThreshold;
 	NSNumber *minimumScoreSearchResults;
@@ -88,7 +106,12 @@ extern int const JKGCMSDocument_Version;
 */
 - (void)resetToDefaultValues;
 //- (BOOL)searchLibraryForAllPeaks;
-- (BOOL)searchLibraryForAllPeaks:(id)sender;
+
+- (BOOL)performLibrarySearchForChromatograms:(NSArray *)someChromatograms;
+- (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms;
+- (BOOL)performForwardSearchForChromatograms:(NSArray *)someChromatograms;
+
+//- (BOOL)searchLibraryForAllPeaks:(id)sender;
 //- (void)addChromatogramForMass:(NSString *)inString;
 - (void)redistributedSearchResults:(JKPeakRecord *)originatingPeak;
 - (float)retentionIndexForScan:(int)scan;
@@ -179,6 +202,9 @@ idAccessor_h(retentionIndexSlope, setRetentionIndexSlope)
 idAccessor_h(retentionIndexRemainder, setRetentionIndexRemainder)
 idAccessor_h(libraryAlias, setLibraryAlias)
 intAccessor_h(scoreBasis, setScoreBasis)
+intAccessor_h(searchDirection, setSearchDirection)
+intAccessor_h(spectrumToUse, setSpectrumToUse)
+
 boolAccessor_h(penalizeForRetentionIndex, setPenalizeForRetentionIndex)
 idAccessor_h(markAsIdentifiedThreshold, setMarkAsIdentifiedThreshold)
 idAccessor_h(minimumScoreSearchResults, setMinimumScoreSearchResults)
