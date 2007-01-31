@@ -9,7 +9,7 @@
 		};
 	};
 	2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
-		activeBuildConfigurationName = Debug;
+		activeBuildConfigurationName = Release;
 		activeExecutable = C7EB17970898CF04007FC2ED /* Peacock */;
 		activeTarget = 8D15AC270486D014006FF6A4 /* Peacock */;
 		addToTargets = (
@@ -2336,7 +2336,7 @@
 		fRef = C7EB17D50898CF2E007FC2ED /* JKLibrary.m */;
 		name = "JKLibrary.m: 190";
 		rLen = 0;
-		rLoc = 5050;
+		rLoc = 5128;
 		rType = 0;
 		vrLen = 1457;
 		vrLoc = 5813;
@@ -3088,7 +3088,7 @@
 		fRef = C7EB17D50898CF2E007FC2ED /* JKLibrary.m */;
 		name = stringWithContentsOfURL;
 		rLen = 23;
-		rLoc = 2154;
+		rLoc = 2232;
 		rType = 0;
 		vrLen = 1543;
 		vrLoc = 1040;
@@ -5504,9 +5504,9 @@
 	};
 	C7EB17D40898CF2E007FC2ED /* JKLibrary.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {908, 504}}";
+			sepNavIntBoundsRect = "{{0, 0}, {908, 541}}";
 			sepNavSelRange = "{227, 0}";
-			sepNavVisRect = "{{0, 0}, {908, 460}}";
+			sepNavVisRect = "{{0, 0}, {908, 541}}";
 		};
 	};
 	C7EB17D50898CF2E007FC2ED /* JKLibrary.m */ = {
@@ -5543,9 +5543,9 @@
 	};
 	C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {929, 16618}}";
-			sepNavSelRange = "{18811, 13}";
-			sepNavVisRect = "{{0, 5505}, {929, 478}}";
+			sepNavIntBoundsRect = "{{0, 0}, {908, 16646}}";
+			sepNavSelRange = "{9203, 0}";
+			sepNavVisRect = "{{0, 2790}, {908, 541}}";
 			sepNavWindowFrame = "{{67, 16}, {801, 816}}";
 		};
 	};
@@ -5707,9 +5707,9 @@
 	};
 	C7EB180E0898CFBD007FC2ED /* ReadMe.rtf */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {933, 478}}";
-			sepNavSelRange = "{482, 0}";
-			sepNavVisRect = "{{0, 0}, {933, 478}}";
+			sepNavIntBoundsRect = "{{0, 0}, {908, 541}}";
+			sepNavSelRange = "{499, 238}";
+			sepNavVisRect = "{{0, 0}, {908, 541}}";
 			sepNavWindowFrame = "{{15, 7}, {950, 820}}";
 		};
 	};
