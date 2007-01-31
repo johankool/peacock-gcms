@@ -381,7 +381,7 @@
     } else {
         [outStr appendFormat:@"##TITLE= %@\r\n", [self name]];	        
     }
-	[outStr appendString:@"##JCAMP-DX= 4.24 $$ Peacock 0.20\r\n"];	
+	[outStr appendString:@"##JCAMP-DX= 4.24 $$ Peacock 0.21\r\n"];	
 	[outStr appendString:@"##DATA TYPE= MASS SPECTRUM\r\n"];	
 	[outStr appendString:@"##DATA CLASS= PEAK TABLE\r\n"];	
 	if ([[self CASNumber] isNotEqualTo:@""]) {
@@ -662,4 +662,8 @@ idUndoAccessor(modelChr, setModelChr, @"Change Model")
     return self;
 }
 
+- (id)valueForUndefinedKey:(NSString *)key {
+    NSLog(@"%@ %@",[self description], key);
+    return key;
+}
 @end

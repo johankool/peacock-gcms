@@ -41,7 +41,7 @@
 	
 	[spectrumView bind:@"dataSeries" toObject:spectrumViewDataseriesController withKeyPath:@"arrangedObjects" options:nil];
 	
-	[[self libraryController] addObserver:self forKeyPath:@"selection" options:nil context:nil];
+	[libraryController addObserver:self forKeyPath:@"selection" options:nil context:nil];
 }
 
 - (void) dealloc {
@@ -56,8 +56,28 @@
 	if ([[[self libraryController] selectedObjects] count] > 0) {
 		[moleculeView setModel:[[JKMoleculeModel alloc] initWithMoleculeString:[[[[self libraryController] selectedObjects] objectAtIndex:0] valueForKey:@"molString"]]];
         [moleculeView setNeedsDisplay:YES];
-		[spectrumView showAll:self];
-	} else {
+      
+        [spectrumViewDataseriesController removeObjects:[spectrumViewDataseriesController arrangedObjects]];
+        NSMutableArray *spectrumArray = [NSMutableArray array];
+        
+        NSEnumerator *libraryEntryEnumerator = [[libraryController selectedObjects] objectEnumerator];
+        JKLibraryEntry *libraryEntry;
+        SpectrumGraphDataSerie *sgds;
+        
+        while ((libraryEntry = [libraryEntryEnumerator nextObject]) != nil) {
+            sgds = [[[SpectrumGraphDataSerie alloc] initWithSpectrum:libraryEntry] autorelease];
+            if (showNormalizedSpectra) {
+                [sgds setNormalizeYData:YES];
+            }
+            [spectrumArray addObject:sgds];
+        }
+        
+        [spectrumViewDataseriesController setContent:spectrumArray];
+        
+         // spectrumView resizes to show all data
+        [spectrumView showAll:self];
+        [spectrumView setNeedsDisplay:YES];
+ 	} else {
 		[moleculeView setModel:nil];
         [moleculeView setNeedsDisplay:YES];
 	}

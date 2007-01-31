@@ -18,6 +18,8 @@
 	IBOutlet JKMoleculeView *moleculeView;
     IBOutlet NSTextField *casNumberField;
     IBOutlet NSWindow *addCasNumberSheet;
+    
+    BOOL showNormalizedSpectra;
 }
 
 #pragma mark ACITONS
