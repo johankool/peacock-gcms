@@ -483,6 +483,11 @@
 	return [NSNumber numberWithFloat:[atom calculateWeight]];
 }
 
+- (NSString *)model {
+    return [NSString stringWithFormat:NSLocalizedString(@"Library Entry '%@'",@""),[self name]];
+}
+
+
 idUndoAccessor(name, setName, @"Change Name")
 idUndoAccessor(origin, setOrigin, @"Change Origin")
 idUndoAccessor(owner, setOwner, @"Change Owner")

@@ -11,6 +11,7 @@
 #import "JKChromatogram.h"
 #import "JKGCMSDocument.h"
 #import "JKLibraryEntry.h"
+#import "JKSearchResult.h"
 #import "JKSpectrum.h"
 
 @implementation JKPeakRecord
@@ -198,11 +199,23 @@
 }
 
 - (JKSpectrum *)spectrum {
-    return [[self document] spectrumForScan:[self top]];
+    JKSpectrum *spectrum = [[self document] spectrumForScan:[self top]];
+    if (![[self label] isEqualToString:@""]) {
+        [spectrum setModel:[NSString stringWithFormat:NSLocalizedString(@"Spectrum for Peak '%@' (#%d)",@""),[self label], [self peakID]]];        
+    } else {
+        [spectrum setModel:[NSString stringWithFormat:NSLocalizedString(@"Spectrum for Peak #%d",@""), [self peakID]]];        
+    }
+    return spectrum;
 }
 
 - (JKSpectrum *)combinedSpectrum {
-    return [[[self document] spectrumForScan:[self top]] spectrumBySubtractingSpectrum:[[[self document] spectrumForScan:[self start]] spectrumByAveragingWithSpectrum:[[self document] spectrumForScan:[self end]]]];
+    JKSpectrum *spectrum = [[[self document] spectrumForScan:[self top]] spectrumBySubtractingSpectrum:[[[self document] spectrumForScan:[self start]] spectrumByAveragingWithSpectrum:[[self document] spectrumForScan:[self end]]]];
+    if (![[self label] isEqualToString:@""]) {
+        [spectrum setModel:[NSString stringWithFormat:NSLocalizedString(@"Combined Spectrum for Peak '%@' (#%d)",@""),[self label], [self peakID]]];        
+    } else {
+        [spectrum setModel:[NSString stringWithFormat:NSLocalizedString(@"Combined Spectrum for Peak #%d",@""), [self peakID]]];        
+    }
+    return spectrum;
 }
 
 
@@ -229,7 +242,7 @@
 }
 
 - (NSNumber *)score {
-	return [identifiedSearchResult objectForKey:@"score"];
+	return [identifiedSearchResult score];
 }
 
 
@@ -328,11 +341,11 @@
 }
 
 - (NSString *)library {
-	return [identifiedSearchResult objectForKey:@"library"];
+	return [[NSFileManager defaultManager] displayNameAtPath:[[identifiedSearchResult library] fullPath]];
 }
 
 - (JKLibraryEntry *)libraryHit {
-	return [identifiedSearchResult objectForKey:@"libraryHit"];
+	return [identifiedSearchResult libraryHit];
 }
 
 - (void)setIdentifiedSearchResult:(id)inValue{

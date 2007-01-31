@@ -42,7 +42,10 @@
 	if ([typeName isEqualToString:@"JCAMP Library"]) {
         unsigned int usedEncoding;
         NSString *inString = [NSString stringWithContentsOfURL:absoluteURL usedEncoding:&usedEncoding error:outError];
-		//NSString *inString = [NSString stringWithContentsOfURL:absoluteURL encoding:NSUTF8StringEncoding error:outError];
+		if (!inString) {
+			NSLog(@"Library encoding is not recognized, trying as UTF8.");
+			inString = [NSString stringWithContentsOfURL:absoluteURL encoding:NSUTF8StringEncoding error:outError];
+		}
 		if (!inString) {
 			NSLog(@"Library is not readable as UTF8, perhaps as ASCII?");
 			inString = [NSString stringWithContentsOfURL:absoluteURL encoding:NSASCIIStringEncoding error:outError];

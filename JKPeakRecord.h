@@ -6,10 +6,11 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
-@class JKGCMSDocument;
-@class JKSpectrum;
-@class JKLibraryEntry;
 @class JKChromatogram;
+@class JKGCMSDocument;
+@class JKLibraryEntry;
+@class JKSearchResult;
+@class JKSpectrum;
 
 @interface JKPeakRecord : NSObject <NSCoding> {
     BOOL confirmed;
@@ -20,7 +21,7 @@
     NSNumber *baselineRight;
     NSString *label;
     NSString *symbol;
-    id identifiedSearchResult;
+    JKSearchResult *identifiedSearchResult;
     int end;
     int peakID;
     int start;

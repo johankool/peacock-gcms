@@ -10,11 +10,13 @@
 
 @class JKLibraryEntry;
 @class JKPeakRecord;
+@class BDAlias;
 
 @interface JKSearchResult : NSObject <NSCoding> {
     NSNumber *score;
     JKLibraryEntry *libraryHit;
     JKPeakRecord *peak;
+    BDAlias *library;
 }
 
 - (NSNumber *)deltaRetentionIndex;
@@ -26,6 +28,9 @@
 - (void)setLibraryHit:(JKLibraryEntry *)libraryHit;
 
 - (JKPeakRecord *)peak;
-- (void)setPeak:(JKPeakRecord *)peak;
+- (void)setPeak:(JKPeakRecord *)aPeak;
+
+- (BDAlias *)library;
+- (void)setLibrary:(BDAlias *)aLibrary;
 
 @end

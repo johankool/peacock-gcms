@@ -211,8 +211,9 @@ static void *SpectrumObservationContext = (void *)1102;
            didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
               contextInfo: nil];
     } else if ([[[self document] chromatograms] count] == 1) {
-        [[self document] performLibrarySearchForChromatograms:[chromatogramsController arrangedObjects]];
-        [chromatogramView setShouldDrawPeaks:YES];
+        // ensure the chromatogram is selected
+        [chromatogramsController setSelectedObjects:[chromatogramsController arrangedObjects]];
+        [self identifyCompounds];
     }
 }
 
