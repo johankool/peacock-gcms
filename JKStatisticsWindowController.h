@@ -21,6 +21,7 @@
 	int peaksToUse;
     int columnSorting;
     BOOL penalizeForRetentionIndex;
+    NSNumber *maximumRetentionIndexDifference;
     BOOL setPeakSymbolToNumber;
     NSNumber *matchThreshold;
     int scoreBasis;
@@ -121,6 +122,7 @@ intAccessor_h(scoreBasis, setScoreBasis)
 intAccessor_h(columnSorting, setColumnSorting)
 boolAccessor_h(penalizeForRetentionIndex, setPenalizeForRetentionIndex)
 idAccessor_h(matchThreshold, setMatchThreshold)
+idAccessor_h(maximumRetentionIndexDifference, setMaximumRetentionIndexDifference)
 boolAccessor_h(closeDocuments, setCloseDocuments)
 boolAccessor_h(calculateRatios, setCalculateRatios)
 

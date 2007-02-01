@@ -383,9 +383,10 @@
 			continue;
 		} else if (![peak identified] && peaksToUse >= 2) {
 			continue;
-		} else if ([[peak normalizedSurface] floatValue] < 0.1 && ![peak confirmed]) { // filter small peaks, but not if it's a confirmed peak
-			continue;
-		}
+		} 
+//        else if ([[peak normalizedSurface] floatValue] < 0.1 && ![peak confirmed]) { // filter small peaks, but not if it's a confirmed peak
+//			continue;
+//		}
 		
 		// Match with combined peaks
 		combinedPeaksCount = [combinedPeaks count];
@@ -419,10 +420,10 @@
 				} 					
 			} else { // Or if it's an unidentified peak, match according to score
 				isUnknownCompound = YES;
-				if (fabsf([[peak retentionIndex] floatValue] - [[combinedPeak valueForKey:@"retentionIndex"] floatValue]) < 50.0) {
+				if (fabsf([[peak retentionIndex] floatValue] - [[combinedPeak valueForKey:@"retentionIndex"] floatValue]) <= [maximumRetentionIndexDifference floatValue]) {
 					//NSAssert([combinedPeak valueForKey:@"spectrum"], [combinedPeak description]);
 					peaksCompared++;
-					scoreResult  = [spectrum scoreComparedToSpectrum:[combinedPeak valueForKey:@"spectrum"] usingMethod:scoreBasis penalizingForRententionIndex:penalizeForRetentionIndex];
+					scoreResult  = [spectrum scoreComparedToSpectrum:[combinedPeak valueForKey:@"spectrum"] usingMethod:scoreBasis penalizingForRententionIndex:NO];
 					if (scoreResult > matchTreshold) {
 						if (scoreResult > maxScoreResult) {
 							maxScoreResult = scoreResult;
@@ -1167,19 +1168,21 @@
 			[outStr appendString:@"\n"];
 		}
 		
-		int ratiosCount = [ratios count];
-		[outStr appendString:@"\nRatios\nLabel\t\t\t\t\t\t\t"];
-		for (i=0; i < fileCount; i++) { // Sample code
-			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
-		}
-		[outStr appendString:@"\n"];
-		for (j=0; j < ratiosCount; j++) {
-			[outStr appendFormat:@"%@\t\t\t\t\t\t\t", [[[self ratios] objectAtIndex:j] valueForKey:@"name"]];
-			for (i=0; i < fileCount; i++) {
-				[outStr appendFormat:@"\t%@", [[[self ratioValues] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d.ratioResult",i]] ];
-			}
-			[outStr appendString:@"\n"];
-		}
+        if (calculateRatios) {
+            int ratiosCount = [ratios count];
+            [outStr appendString:@"\nRatios\nLabel\t\t\t\t\t\t\t"];
+            for (i=0; i < fileCount; i++) { // Sample code
+                [outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+            }
+            [outStr appendString:@"\n"];
+            for (j=0; j < ratiosCount; j++) {
+                [outStr appendFormat:@"%@\t\t\t\t\t\t\t", [[[self ratios] objectAtIndex:j] valueForKey:@"name"]];
+                for (i=0; i < fileCount; i++) {
+                    [outStr appendFormat:@"\t%@", [[[self ratioValues] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d.ratioResult",i]] ];
+                }
+                [outStr appendString:@"\n"];
+            }            
+        }
 
 		if (![outStr writeToFile:[sp filename] atomically:YES encoding:NSUTF8StringEncoding error:NULL])
 			NSBeep();
@@ -1433,6 +1436,7 @@ intAccessor(scoreBasis, setScoreBasis)
 intAccessor(columnSorting, setColumnSorting)
 boolAccessor(penalizeForRetentionIndex, setPenalizeForRetentionIndex)
 idAccessor(matchThreshold, setMatchThreshold)
+idAccessor(maximumRetentionIndexDifference, setMaximumRetentionIndexDifference)
 boolAccessor(closeDocuments, setCloseDocuments)
 boolAccessor(calculateRatios, setCalculateRatios)
 

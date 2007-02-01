@@ -219,6 +219,7 @@
     } else {
         [spectrum setModel:[NSString stringWithFormat:NSLocalizedString(@"Spectrum for Peak #%d",@""), [self peakID]]];        
     }
+    [spectrum setPeak:self];
     return spectrum;
 }
 
@@ -229,6 +230,7 @@
     } else {
         [spectrum setModel:[NSString stringWithFormat:NSLocalizedString(@"Combined Spectrum for Peak #%d",@""), [self peakID]]];        
     }
+    [spectrum setPeak:self];
     return spectrum;
 }
 

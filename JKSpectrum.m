@@ -232,6 +232,9 @@
 		intensitiesOut[i] = intensities[i]/maximumIntensity;
 	}
 
+    [outSpectrum setPeak:[self peak]];
+    [outSpectrum setModel:[self model]];
+    [outSpectrum setDocument:[self document]];
 	[outSpectrum setMasses:masses withCount:numberOfPoints];
 	[outSpectrum setIntensities:intensitiesOut withCount:numberOfPoints];
 	[outSpectrum autorelease];
@@ -410,11 +413,17 @@
 
 - (NSNumber *)retentionIndex {
     if (peak) {
+//        NSLog(@"retentionIndex spectrum '%@' = %g", [self model], [[peak retentionIndex] floatValue]);
         return [peak retentionIndex];
     } else {
-        NSLog(@"retentionIndex for spectrum without peak");
-        return nil;
+        if (document) {
+            if ([[self model] intValue] != 0) {
+                return [NSNumber numberWithFloat:[document retentionIndexForScan:[[self model] intValue]]];                
+            }
+        }
     }
+    NSLog(@"retentionIndex requested for spectrum '%@' without peak, document or recognized model", [self model]);
+    return nil;
 }
 
 //#pragma mark optimization_level reset
