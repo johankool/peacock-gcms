@@ -394,7 +394,7 @@
 //	JKLogDebug(@"returned score %f score = %f score2 = %f", (1.0-score/score2)*100.0, score, score2);
 	if (penalizeForRetentionIndex) {
 		float retentionIndexDelta, retentionIndexPenalty;
-		float retentionIndexLibrary         = [[libraryEntry valueForKey:@"retentionIndex"] floatValue];
+		float retentionIndexLibrary = [[libraryEntry retentionIndex] floatValue];
 		if (retentionIndexLibrary == 0.0 || [[self peak] retentionIndex] == nil) {
 			return (1.0-score/score2)*90.0;			//10% penalty!!
 		}
@@ -408,21 +408,14 @@
 	}
 }
 
-//- (SpectrumGraphDataSerie *)spectrumDataSerie{
-//	SpectrumGraphDataSerie *spectrumDataSerie = [[SpectrumGraphDataSerie alloc] init];
-//	[spectrumDataSerie loadDataPoints:[self numberOfPoints] withXValues:[self masses] andYValues:[self intensities]];
-//	
-//	[spectrumDataSerie setSeriesType:2]; // Spectrum kind of plot
-//	[spectrumDataSerie setSeriesTitle:NSLocalizedString(@"Peak",@"")];
-//	[spectrumDataSerie setSeriesColor:[NSColor blueColor]];
-//	[spectrumDataSerie setKeyForXValue:@"Mass"];
-//	[spectrumDataSerie setKeyForYValue:@"Intensity"];
-//	[spectrumDataSerie setDrawUpsideDown:NO];
-//	
-//	[spectrumDataSerie autorelease];
-//	return spectrumDataSerie;
-//}
-
+- (NSNumber *)retentionIndex {
+    if (peak) {
+        return [peak retentionIndex];
+    } else {
+        NSLog(@"retentionIndex for spectrum without peak");
+        return nil;
+    }
+}
 
 //#pragma mark optimization_level reset
 

@@ -469,6 +469,38 @@
     return [[self document] undoManager];
 }
 
+- (float)highestPeakHeight {
+    highestPeakHeight = 0.0f;
+    
+    NSEnumerator *peakEnumerator = [[self peaks] objectEnumerator];
+    JKPeakRecord *peak;
+
+    while ((peak = [peakEnumerator nextObject]) != nil) {
+    	if ([[peak height] floatValue] > highestPeakHeight) {
+            highestPeakHeight = [[peak height] floatValue];
+        }
+    }
+    
+    return highestPeakHeight;
+}
+
+- (float)largestPeakSurface {
+    largestPeakSurface = 0.0f;
+    
+    NSEnumerator *peakEnumerator = [[self peaks] objectEnumerator];
+    JKPeakRecord *peak;
+    
+    while ((peak = [peakEnumerator nextObject]) != nil) {
+    	if ([[peak surface] floatValue] > largestPeakSurface) {
+            largestPeakSurface = [[peak surface] floatValue];
+        }
+    }
+    
+    return largestPeakSurface;
+}
+
+
+
 #pragma mark NSCODING
 
 - (void)encodeWithCoder:(NSCoder *)coder{

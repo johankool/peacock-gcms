@@ -131,7 +131,7 @@
 		}		
 		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchIdentifyCompounds"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Identifying Compounds",@"")];
-			[document searchLibraryForAllPeaks:self];
+			[document performLibrarySearchForChromatograms:[document chromatograms]];
 			[fileProgressIndicator incrementBy:1.0];
 		}
 		if ([self abortAction]) {

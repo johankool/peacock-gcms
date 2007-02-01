@@ -96,6 +96,8 @@
 		C7BDA6C10AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */; };
 		C7BDA6C20AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */; };
 		C7C21FC60A5060E2006E82FD /* Peacock.sdef in Resources */ = {isa = PBXBuildFile; fileRef = C7C21FC50A5060E2006E82FD /* Peacock.sdef */; };
+		C7D7D66A0B7203B0004ABEB5 /* NSBezierPath+RoundRect.h in Headers */ = {isa = PBXBuildFile; fileRef = C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */; };
+		C7D7D66B0B7203B0004ABEB5 /* NSBezierPath+RoundRect.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */; };
 		C7E25C060B387C0F00CD8D39 /* JKChromatogram.h in Headers */ = {isa = PBXBuildFile; fileRef = C73290E00AD68F9800D95E36 /* JKChromatogram.h */; };
 		C7E25C070B387C0F00CD8D39 /* JKChromatogram.m in Sources */ = {isa = PBXBuildFile; fileRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */; };
 		C7E5B1D70A14934200BB2291 /* BDAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E5B1D20A14934200BB2291 /* BDAlias.h */; };
@@ -258,6 +260,8 @@
 		C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FontNameToDisplayNameTransformer.m; sourceTree = "<group>"; };
 		C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FontNameToDisplayNameTransformer.h; sourceTree = "<group>"; };
 		C7C21FC50A5060E2006E82FD /* Peacock.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = Peacock.sdef; sourceTree = "<group>"; };
+		C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+RoundRect.h"; sourceTree = "<group>"; };
+		C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+RoundRect.m"; sourceTree = "<group>"; };
 		C7E5B1D20A14934200BB2291 /* BDAlias.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BDAlias.h; sourceTree = "<group>"; };
 		C7E5B1D30A14934200BB2291 /* BDAlias.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BDAlias.m; sourceTree = "<group>"; };
 		C7EB17A60898CF2D007FC2ED /* AccessorMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccessorMacros.h; sourceTree = "<group>"; };
@@ -642,6 +646,8 @@
 			children = (
 				C777A2C30A1DFEA800CF44D9 /* JKMoleculeView.h */,
 				C777A2C40A1DFEA800CF44D9 /* JKMoleculeView.m */,
+				C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */,
+				C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */,
 			);
 			name = JKMoleculeView;
 			sourceTree = "<group>";
@@ -784,6 +790,7 @@
 				C7F0D3B30B1497D40046F994 /* NSTableView+Copying.h in Headers */,
 				C7E25C060B387C0F00CD8D39 /* JKChromatogram.h in Headers */,
 				C7752C380B6778DA0010EE72 /* JKSearchResult.h in Headers */,
+				C7D7D66A0B7203B0004ABEB5 /* NSBezierPath+RoundRect.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -982,6 +989,7 @@
 				C7F0D6C60B1732CD0046F994 /* JKStatisticsDocument.m in Sources */,
 				C7E25C070B387C0F00CD8D39 /* JKChromatogram.m in Sources */,
 				C7752C390B6778DA0010EE72 /* JKSearchResult.m in Sources */,
+				C7D7D66B0B7203B0004ABEB5 /* NSBezierPath+RoundRect.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -21,6 +21,8 @@
     
     float *time;
     float *totalIntensity;
+    float highestPeakHeight;
+    float largestPeakSurface;
 }
 
 /*! @functiongroup Initialization */
@@ -41,6 +43,9 @@
 
 - (int)baselinePointsIndexAtScan:(int)inValue;
 - (float)baselineValueAtScan:(int)inValue;
+
+- (float)highestPeakHeight;
+- (float)largestPeakSurface;
 
 #pragma mark ACCESSORS
 /*! @functiongroup Accessors */

@@ -42,6 +42,8 @@
 	[spectrumView bind:@"dataSeries" toObject:spectrumViewDataseriesController withKeyPath:@"arrangedObjects" options:nil];
 	
 	[libraryController addObserver:self forKeyPath:@"selection" options:nil context:nil];
+#warning [BUG] molecule not stored
+    //	[moleculeView addObserver:self forKeyPath:@"model" options:nil context:nil];
 }
 
 - (void) dealloc {
@@ -77,7 +79,9 @@
          // spectrumView resizes to show all data
         [spectrumView showAll:self];
         [spectrumView setNeedsDisplay:YES];
- 	} else {
+ 	} else if (object == moleculeView) {
+      //  [[[[self libraryController] selectedObjects] objectAtIndex:0] setMolString:[[moleculeView model] molString]];
+	} else {
 		[moleculeView setModel:nil];
         [moleculeView setNeedsDisplay:YES];
 	}

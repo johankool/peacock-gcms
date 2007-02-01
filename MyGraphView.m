@@ -233,8 +233,8 @@ static int   kPaddingLabels             = 4;
             
             if ([keyForXValue isEqualToString:@"Scan"]) {
                 point = [[self transformGraphToScreen] transformPoint:NSMakePoint([self selectedScan]*1.0, 0)];                
-            } else {
-                float thetime = [(JKGCMSDocument *)[[[self window] windowController] document] timeForScan:selectedScan];
+            } else if ([keyForXValue isEqualToString:@"Time"]) {
+                float thetime = [(JKGCMSDocument *)[[[[self dataSeries] objectAtIndex:0] chromatogram] document] timeForScan:selectedScan];
                 point = [[self transformGraphToScreen] transformPoint:NSMakePoint(thetime, 0)];
             }
             

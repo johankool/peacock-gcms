@@ -22,6 +22,7 @@
 	// private!
 	float xOffSet, yOffSet, xScaleFactor, yScaleFactor;
 	float bondDistance, textHeight;
+    BOOL _isTargettedForDrop;
 }
 
 //- (void)initWithString:(NSString *)inString;

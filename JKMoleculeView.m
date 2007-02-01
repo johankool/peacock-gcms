@@ -9,6 +9,8 @@
 #import "JKMoleculeView.h"
 #import "AccessorMacros.h"
 #import "JKMoleculeModel.h"
+#import "NSBezierPath+RoundRect.h"
+
 //#import <LinkBack/LinkBack.h>
 
 @implementation JKMoleculeView
@@ -22,6 +24,7 @@
         [self setTextColor:[NSColor blackColor]];
 		[self setMargin:10];
 		[self setFitToView:YES];
+        [self registerForDraggedTypes:[NSArray arrayWithObjects:NSStringPboardType, NSFilenamesPboardType, nil]];
     }
     return self;
 }
@@ -30,13 +33,15 @@
     [super dealloc];
 }
 
+- (void)awakeFromNib {
+    [self registerForDraggedTypes:[NSArray arrayWithObjects:NSStringPboardType, NSFilenamesPboardType, nil]]; 
+}
 
 - (void)drawRect:(NSRect)rect {
 	if (![self model] | ([[[self model] atoms] count] == 0)) {
-		NSString *noModelString = @"Structure data not available";
+		NSString *noModelString = @"Structure data not available\nDrag-'n-drop a mol-file here";
         NSSize noModelStringSize = [noModelString sizeWithAttributes:nil];
-		[noModelString drawAtPoint:NSMakePoint([self bounds].size.width/2-noModelStringSize.width/2,[self bounds].size.height/2) withAttributes:nil];
-		return;
+		[noModelString drawAtPoint:NSMakePoint([self bounds].size.width/2-noModelStringSize.width/2,[self bounds].size.height/2-noModelStringSize.height/2) withAttributes:nil];
 	}
     if ([[[self model] atoms] count] > 0) {
 		NSRect rectForBounds = [model rectForBounds];
@@ -65,10 +70,18 @@
 		[self setBondDistance:[[self model] estimateLengthOfBonds]*0.7*[self yScaleFactor]/20];
 		[self setTextHeight:[[self model] estimateLengthOfBonds]*0.7*[self yScaleFactor]/2];
 		
-		
-    // Drawing code here.
-    [self drawMolecule];
+        // Drawing code here.
+        [self drawMolecule];
+    }    
+    if (_isTargettedForDrop) {
+        NSRect insetRect = NSInsetRect([self frame], 10.0f, 10.0f);
+        NSBezierPath *roundedRect = [NSBezierPath bezierPathWithRoundedRect:insetRect cornerRadius:10.0];
+        
+        [[NSColor alternateSelectedControlColor] set];
+        [roundedRect setLineWidth:3.0];
+        [roundedRect stroke];
     }
+    
 }
 
 - (void)drawMolecule {
@@ -392,4 +405,77 @@ floatAccessor(yScaleFactor, setYScaleFactor)
 floatAccessor(bondDistance, setBondDistance)
 floatAccessor(textHeight, setTextHeight)
 
+
+#pragma mark DROP SUPPORT (NSDraggingDestination)
+
+// Before releasing image/mouse button
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
+    _isTargettedForDrop = YES;
+    [self setNeedsDisplay:YES];
+    return NSDragOperationGeneric;
+}
+
+- (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender {
+    _isTargettedForDrop = YES;
+    [self setNeedsDisplay:YES];
+    return NSDragOperationGeneric;    
+}
+
+- (void)draggingEnded:(id <NSDraggingInfo>)sender {
+    _isTargettedForDrop = NO;
+    [self setNeedsDisplay:YES];
+}
+
+- (void)draggingExited:(id <NSDraggingInfo>)sender {
+    _isTargettedForDrop = NO;
+    [self setNeedsDisplay:YES];    
+}
+
+// After the image is released
+- (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender {
+    return YES;
+}
+
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
+	BOOL isDirectory;
+    NSPasteboard *pboard;
+    NSDragOperation sourceDragMask;
+    sourceDragMask = [sender draggingSourceOperationMask];
+    pboard = [sender draggingPasteboard];
+    
+	if ([[pboard types] containsObject:NSFilenamesPboardType] ) {
+        NSArray *filesComingIn = [pboard propertyListForType:NSFilenamesPboardType];
+        // Do we get a real file?
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[filesComingIn objectAtIndex:0] isDirectory:&isDirectory]) {
+            // Is it a folder? Do we accept it?
+            if (isDirectory) {
+                return NO;
+            }
+            NSString *molString = [NSString stringWithContentsOfFile:[filesComingIn objectAtIndex:0]];
+            JKMoleculeModel *newModel = [[JKMoleculeModel alloc] initWithMoleculeString:molString];
+            if (!newModel) {
+                _isTargettedForDrop = NO;
+                return NO;
+            }
+            [self setModel:newModel];
+        }
+    } else if ([[pboard types] containsObject:NSStringPboardType] ) {
+        NSString *molString = [pboard propertyListForType:NSStringPboardType];
+        JKMoleculeModel *newModel = [[JKMoleculeModel alloc] initWithMoleculeString:molString];
+        if (!newModel) {
+            _isTargettedForDrop = NO;
+            return NO;
+        }
+        [self setModel:newModel];        
+    }
+
+    _isTargettedForDrop = NO;
+    [self setNeedsDisplay:YES];
+    return YES;    
+}
+
+- (void)concludeDragOperation:(id <NSDraggingInfo>)sender {
+    _isTargettedForDrop = NO;
+    [self setNeedsDisplay:YES];    
+}
 @end

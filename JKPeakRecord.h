@@ -50,7 +50,9 @@
 - (NSNumber *)topTime;
 - (NSNumber *)retentionIndex;
 - (NSNumber *)height;
+- (NSNumber *)normalizedHeight;
 - (NSNumber *)surface;
+- (NSNumber *)normalizedSurface;
 - (JKSpectrum *)spectrum;
 - (JKSpectrum *)combinedSpectrum;
 - (NSNumber *)score;

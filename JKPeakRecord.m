@@ -182,6 +182,13 @@
     return [NSNumber numberWithFloat:surface];
 }
 
+- (NSNumber *)normalizedSurface {
+    float surface = [[self surface] floatValue];
+    float largestPeakSurface = [[self chromatogram] largestPeakSurface];
+    return [NSNumber numberWithFloat:surface/largestPeakSurface];
+}
+
+
 - (NSNumber *)height {
     int top = [self top];
     float *time = [[self chromatogram] time];
@@ -197,6 +204,13 @@
     
     return [NSNumber numberWithFloat:height];
 }
+
+- (NSNumber *)normalizedHeight {
+    float height = [[self height] floatValue];
+    float highestPeakHeight = [[self chromatogram] highestPeakHeight];
+    return [NSNumber numberWithFloat:height/highestPeakHeight];
+}
+
 
 - (JKSpectrum *)spectrum {
     JKSpectrum *spectrum = [[self document] spectrumForScan:[self top]];

@@ -34,6 +34,8 @@
 - (float)scoreComparedToLibraryEntry:(JKSpectrum *)libraryEntry;
 - (float)scoreComparedToSpectrum:(JKSpectrum *)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex;
 
+- (NSNumber *)retentionIndex;
+
 #pragma mark ACCESSORS
 - (void)setDocument:(JKGCMSDocument *)inValue;
 - (JKGCMSDocument *)document;

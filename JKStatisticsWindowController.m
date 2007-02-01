@@ -110,6 +110,9 @@
     [altGraphView bind:@"peaks" toObject: peaksController
            withKeyPath:@"arrangedObjects" options:nil];
     
+    [altGraphView setKeyForXValue:@"Time"];
+    [altGraphView setKeyForYValue:@"Total Intensity"];
+    
     // Register as observer
 	[combinedPeaksController addObserver:self forKeyPath:@"selection" options:nil context:nil];
 }
@@ -175,10 +178,9 @@
 	
 	// Reset
 	unknownCount = 0;
-//	peaksToUse = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"statisticsAnalysisPeaksForSummary"] intValue]; // 1=all 2=identified 3=confirmed
+
 	NSAssert(peaksToUse > 0 && peaksToUse < 4, @"peaksToUse has invalid value");
 
-	
 	[fileProgressIndicator setIndeterminate:NO];
 	for (i=0; i < filesCount; i++) {
 		[detailStatusTextField setStringValue:@"Opening Document"];
@@ -899,7 +901,12 @@
 }
 
 - (void)setupComparisonWindowForDocument:(JKGCMSDocument *)document atIndex:(int)index{
-    [chromatogramDataSeriesController addObjects:[document chromatograms]];
+    NSEnumerator *chromatogramEnum = [[document chromatograms] objectEnumerator];
+    JKChromatogram *chromatogram;
+
+    while ((chromatogram = [chromatogramEnum nextObject]) != nil) {
+    	[chromatogramDataSeriesController addObject:[[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease]];
+    }
     [peaksController addObjects:[document peaks]];
 }
 
@@ -918,7 +925,7 @@
 #pragma mark IBACTIONS
 
 - (IBAction)addButtonAction:(id)sender {
-	NSArray *fileTypes = [NSArray arrayWithObjects:@"cdf", @"peacock",nil];
+	NSArray *fileTypes = [NSArray arrayWithObjects:@"peacock",nil];
     NSOpenPanel *oPanel = [NSOpenPanel openPanel];
     [oPanel setAllowsMultipleSelection:YES];
 	[oPanel beginSheetForDirectory:nil file:nil types:fileTypes modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
@@ -1052,11 +1059,14 @@
 		NSMutableString *outStr = [[NSMutableString alloc] init]; 
 //		NSMutableString *outStr = [NSMutableString stringWithCString:"\t"];
 		int i,j;
-		int fileCount = [[[self metadata] objectAtIndex:0] count]-1;
+//		int fileCount = [[[self metadata] objectAtIndex:0] count]-1; incorrect because metadata can be empty
+#warning Incorrect file count if user adds a file and hasn't yet rerun the calculations 
+        int fileCount = [[self files] count];
 		int compoundCount = [combinedPeaks count];
 		NSString *normalizedSurface;
 		NSString *normalizedHeight;
-			
+        NSString *retentionTime;
+        
 		// Sort array
 		NSSortDescriptor *retentionIndexDescriptor =[[NSSortDescriptor alloc] initWithKey:@"averageRetentionIndex" 
 																			   ascending:YES];
@@ -1147,9 +1157,9 @@
 //			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageSurface"]];
 //			[outStr appendFormat:@"%@",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationSurface"]];
 			for (i=0; i < fileCount; i++) {
-				normalizedSurface = [[[[[self combinedPeaks] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"topTime"] stringValue];
+				retentionTime = [[[[[self combinedPeaks] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"topTime"] stringValue];
 				if (normalizedSurface != nil) {
-					[outStr appendFormat:@"\t%@", normalizedSurface];					
+					[outStr appendFormat:@"\t%@", retentionTime];					
 				} else {
 					[outStr appendString:@"\t-"];										
 				}
