@@ -65,7 +65,8 @@ static void *PropertyObservationContext = (void *)1093;
         [bezierpath setLineWidth:0.5];
     }
 	[[view baselineColor] set];
-    [[trans transformBezierPath:[self baselineBezierPath]] stroke];
+ 	if(shouldDrawBaseline)
+        [[trans transformBezierPath:[self baselineBezierPath]] stroke];
     
 	[[self seriesColor] set];
 	
@@ -512,6 +513,15 @@ static void *PropertyObservationContext = (void *)1093;
 }
 - (void)setShouldDrawPeaks:(BOOL)inValue {
     shouldDrawPeaks = inValue;
+    [_graphView setNeedsDisplay:YES];
+}
+
+- (BOOL)shouldDrawBaseline{
+	return shouldDrawBaseline;
+}
+- (void)setShouldDrawBaseline:(BOOL)inValue {
+    shouldDrawBaseline = inValue;
+    [_graphView setNeedsDisplay:YES];
 }
 
 @end

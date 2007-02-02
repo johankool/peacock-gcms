@@ -12,6 +12,7 @@
 
 @interface ChromatogramGraphDataSerie : MyGraphDataSerie {
 	BOOL shouldDrawPeaks;	
+	BOOL shouldDrawBaseline;	
     JKChromatogram *chromatogram;
 }
 
@@ -29,6 +30,8 @@
 - (void)setChromatogram:(JKChromatogram *)aChromatogram;
 - (BOOL)shouldDrawPeaks;
 - (void)setShouldDrawPeaks:(BOOL)inValue;
+- (BOOL)shouldDrawBaseline;
+- (void)setShouldDrawBaseline:(BOOL)inValue;
 - (NSBezierPath *)baselineBezierPath;
 
 @end

@@ -158,7 +158,8 @@
 	[combinedPeaks removeAllObjects];
 	[ratioValues removeAllObjects];
     [logMessages removeAllObjects];
-	
+	[chromatogramDataSeriesController removeObjects:[chromatogramDataSeriesController arrangedObjects]];
+    
 	NSMutableDictionary *metadataDictSampleCode = [[NSMutableDictionary alloc] init];
 	NSMutableDictionary *metadataDictDescription = [[NSMutableDictionary alloc] init];
 	NSMutableDictionary *metadataDictPath = [[NSMutableDictionary alloc] init];
@@ -906,7 +907,9 @@
     JKChromatogram *chromatogram;
 
     while ((chromatogram = [chromatogramEnum nextObject]) != nil) {
-    	[chromatogramDataSeriesController addObject:[[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease]];
+        ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+        [cgds setSeriesTitle:[NSString stringWithFormat:@"%@ - %@ - %@",[[metadata objectAtIndex:index] valueForKey:@"sampleCode"],[[metadata objectAtIndex:index] valueForKey:@"sampleDescription"],[chromatogram model]]];
+    	[chromatogramDataSeriesController addObject:cgds];
     }
     [peaksController addObjects:[document peaks]];
 }

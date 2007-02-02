@@ -594,6 +594,7 @@
 - (id)initWithCoder:(NSCoder *)coder{
     if ([coder allowsKeyedCoding]) {
 		int version = [coder decodeIntForKey:@"version"];
+//        NSLog(@"peak version %d", version);
         switch (version) {
             case 0:
             case 1:
@@ -638,10 +639,10 @@
             case 0:
             case 1:
             case 2:
-            case 3:
                 baselineLeft = [[coder decodeObjectForKey:@"baselineL"] retain];
                 baselineRight = [[coder decodeObjectForKey:@"baselineR"] retain];
                 break;
+            case 3:
             case 4:
             case 5:
             default:

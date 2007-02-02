@@ -127,7 +127,7 @@ static void *ArrayObservationContext = (void *)1092;
 	[self setPlotPath:bezierpath];
 	
 	// Stuur een bericht naar de view dat deze serie opnieuw getekend wil worden.
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];
+	[_graphView setNeedsDisplayInRect:[_graphView plottingArea]];
 	[bezierpath release];
 }
 
@@ -316,7 +316,7 @@ static void *ArrayObservationContext = (void *)1092;
         [inValue retain];
         [seriesTitle autorelease];
         seriesTitle = inValue;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];
+        [_graphView setNeedsDisplayInRect:[_graphView legendArea]];
     }
 }
 
@@ -352,7 +352,7 @@ static void *ArrayObservationContext = (void *)1092;
         [inValue retain];
         [seriesColor autorelease];
         seriesColor = inValue;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];        
+        [_graphView setNeedsDisplayInRect:[_graphView plottingArea]];        
     }
 }
 
@@ -383,7 +383,7 @@ static void *ArrayObservationContext = (void *)1092;
 - (void)setShouldDrawLabels:(BOOL)inValue {
     if (inValue != shouldDrawLabels) {
         shouldDrawLabels = inValue;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];        
+        [_graphView setNeedsDisplay:YES];
     }
 }
 
@@ -399,7 +399,6 @@ static void *ArrayObservationContext = (void *)1092;
         if (_graphView) {
             [_graphView setNeedsDisplayInRect:[_graphView plottingArea]];
         }
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];        
     }
 }
 

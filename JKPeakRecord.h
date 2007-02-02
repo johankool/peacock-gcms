@@ -106,6 +106,6 @@
 - (void)setIdentifiedSearchResult:(id)inValue;
 - (id)identifiedSearchResult;
 
-#pragma mark Support for older formats
-- (void)updateForNewEncoding;
+//#pragma mark Support for older formats
+//- (void)updateForNewEncoding;
 @end

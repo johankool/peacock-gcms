@@ -236,6 +236,7 @@ static void *DocumentObservationContext = (void *)1100;
         case 4:
             [chromatograms removeAllObjects];
             [chromatograms addObject:[self ticChromatogram]];
+            [[chromatograms objectAtIndex:0] setBaselinePoints:[unarchiver decodeObjectForKey:@"baseline"]];
             break;
         case 5:
         default:

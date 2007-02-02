@@ -792,7 +792,7 @@ static int   kPaddingLabels             = 4;
 
 	// Hier stellen we in hoe de lijnen eruit moeten zien.
 	[axesPath setLineWidth:1.0];
-	[[NSColor blackColor] set];
+	[[self axesColor] set];
 
 	// Met stroke wordt de bezierpath getekend.
 	[axesPath stroke];
@@ -818,7 +818,8 @@ static int   kPaddingLabels             = 4;
     
 	// Hier stellen we in hoe de lijnen eruit moeten zien.
 	[framesPath setLineWidth:1.0];
-	[[NSColor blackColor] set];
+#warning [BUG] Wrong color used?
+	[[self axesColor] set];
     
 	// Met stroke wordt de bezierpath getekend.
 	[framesPath stroke];
@@ -2180,6 +2181,7 @@ static int   kPaddingLabels             = 4;
 }
 - (void)setDrawingMode:(JKDrawingModes)aDrawingMode {
 	drawingMode = aDrawingMode;
+    [self setNeedsDisplayInRect:[self plottingArea]];
 }
 
 
