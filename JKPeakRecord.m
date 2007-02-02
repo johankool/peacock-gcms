@@ -225,7 +225,7 @@
 
 - (JKSpectrum *)combinedSpectrum {
     JKSpectrum *spectrum = [[[self document] spectrumForScan:[self top]] spectrumBySubtractingSpectrum:[[[self document] spectrumForScan:[self start]] spectrumByAveragingWithSpectrum:[[self document] spectrumForScan:[self end]]]];
-    if (![[self label] isEqualToString:@""]) {
+    if ((![[self label] isEqualToString:@""]) && ([self label])) {
         [spectrum setModel:[NSString stringWithFormat:NSLocalizedString(@"Combined Spectrum for Peak '%@' (#%d)",@""),[self label], [self peakID]]];        
     } else {
         [spectrum setModel:[NSString stringWithFormat:NSLocalizedString(@"Combined Spectrum for Peak #%d",@""), [self peakID]]];        
@@ -453,7 +453,7 @@
 #pragma mark NSCODING
 
 - (void)encodeWithCoder:(NSCoder *)coder{
-    if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
+    if ([coder allowsKeyedCoding]) {
 		[coder encodeInt:5 forKey:@"version"];
 		[coder encodeObject:chromatogram forKey:@"chromatogram"];
 		[coder encodeInt:peakID forKey:@"peakID"];
@@ -472,69 +472,69 @@
 }
 
 - (id)initWithCoder:(NSCoder *)coder{
-    if ( [coder allowsKeyedCoding] ) {
+    if ([coder allowsKeyedCoding]) {
 		int version = [coder decodeIntForKey:@"version"];
-        if (version >= 5) {
-            chromatogram = [coder decodeObjectForKey:@"chromatogram"];            
-            peakID = [coder decodeIntForKey:@"peakID"];
-            start = [coder decodeIntForKey:@"start"];
-            end = [coder decodeIntForKey:@"end"];
-            baselineLeft = [[coder decodeObjectForKey:@"baselineLeft"] retain];
-            baselineRight = [[coder decodeObjectForKey:@"baselineRight"] retain];
-        } else {
-            chromatogram = [[[coder decodeObjectForKey:@"document"] chromatograms] objectAtIndex:0];
-            // Support for reading in old file-format
-            if (chromatogram == nil) {
-                _needsUpdating = YES;
-                _libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain];
-                _score = [[coder decodeObjectForKey:@"score"] retain];
-            }
-            peakID = [[coder decodeObjectForKey:@"peakID"] intValue];
-            start = [[coder decodeObjectForKey:@"start"] intValue];
-            end = [[coder decodeObjectForKey:@"end"] intValue];
-            // Support for reading in old file-format
-            if (version < 3) {
+        switch (version) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+                chromatogram = [[[coder delegate] chromatograms] objectAtIndex:0];
+                NSAssert(chromatogram, @"peak should have chromatogram");
+                [chromatogram insertObject:self inPeaksAtIndex:[[chromatogram peaks] count]];
+                peakID = [[coder decodeObjectForKey:@"peakID"] intValue];
+                start = [[coder decodeObjectForKey:@"start"] intValue];
+                end = [[coder decodeObjectForKey:@"end"] intValue];
+                 
+                searchResults = [[NSMutableArray alloc] init];
+                NSArray *oldSearchResults = [coder decodeObjectForKey:@"searchResults"];
+                NSEnumerator *resultsEnum = [oldSearchResults objectEnumerator];
+                NSDictionary *result;
+
+                while ((result = [resultsEnum nextObject]) != nil) {
+                	JKSearchResult *newResult = [[JKSearchResult alloc] init];
+                    [newResult setPeak:self];
+                    [newResult setScore:[result valueForKey:@"score"]];
+                    [newResult setLibraryHit:[result valueForKey:@"libraryHit"]];
+                    [newResult setLibrary:nil];
+                    [searchResults addObject:newResult];
+                }
+                if (([searchResults count] > 0) && ([coder decodeBoolForKey:@"identified"]))
+                    identifiedSearchResult = [searchResults objectAtIndex:0];
+
+                break;
+            case 5:
+            default:
+                chromatogram = [[coder decodeObjectForKey:@"chromatogram"] retain];            
+                peakID = [coder decodeIntForKey:@"peakID"];
+                start = [coder decodeIntForKey:@"start"];
+                end = [coder decodeIntForKey:@"end"];
+                identifiedSearchResult = [[coder decodeObjectForKey:@"identifiedSearchResult"] retain];
+                searchResults = [[coder decodeObjectForKey:@"searchResults"] retain];
+                break;
+        }
+        switch (version) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
                 baselineLeft = [[coder decodeObjectForKey:@"baselineL"] retain];
                 baselineRight = [[coder decodeObjectForKey:@"baselineR"] retain];
-            } else {
+                break;
+            case 4:
+            case 5:
+            default:
                 baselineLeft = [[coder decodeObjectForKey:@"baselineLeft"] retain];
                 baselineRight = [[coder decodeObjectForKey:@"baselineRight"] retain];
-            }
+                break;
         }
         label = [[coder decodeObjectForKey:@"label"] retain];
 		symbol = [[coder decodeObjectForKey:@"symbol"] retain];
         identified = [coder decodeBoolForKey:@"identified"];
-		confirmed = [coder decodeBoolForKey:@"confirmed"];
-		identifiedSearchResult = [[coder decodeObjectForKey:@"identifiedSearchResult"] retain];
-		searchResults = [[coder decodeObjectForKey:@"searchResults"] retain];
+		confirmed = [coder decodeBoolForKey:@"confirmed"];        
 	} 
     return self;
-}
-
-- (void)updateForNewEncoding {
-    if (_needsUpdating) {
-        // A bit of a hack really
-        JKGCMSDocument *document = [[NSDocumentController sharedDocumentController] currentDocument];
-        NSAssert(document != nil, @"updateForNewEncoding - No document found");
-        chromatogram = [[document chromatograms] objectAtIndex:0];
-
-        searchResults = [[NSMutableArray alloc] init];
-
-        if (identified && ((_score != nil) && (_libraryHit != nil))) {
-            NSMutableDictionary *searchResult = [[NSMutableDictionary alloc] init];
-			[searchResult setValue:_score forKey:@"score"];
-			[searchResult setValue:_libraryHit forKey:@"libraryHit"];
-
-            [self setIdentifiedSearchResult:searchResult];
-            // Initial default settings after identification, but can be customized by user later on
-            [self setSymbol:[searchResult valueForKeyPath:@"libraryHit.symbol"]];
-            
-            if (![searchResults containsObject:searchResult]) {
-                [searchResults insertObject:searchResult atIndex:[searchResults count]];
-            }            
-			[searchResult release];
-        }
-    }
 }
 
 @end

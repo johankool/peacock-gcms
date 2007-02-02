@@ -134,9 +134,9 @@
     
 	do {
 		d1 = masses[i];
-		d2 = massesIn[i];
+		d2 = massesIn[j];
 		d3 = intensities[i];
-		d4 = intensitiesIn[i];
+		d4 = intensitiesIn[j];
 		roundd1 = roundf(d1);
 		roundd2 = roundf(d2);
 		

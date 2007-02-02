@@ -209,44 +209,58 @@ static void *DocumentObservationContext = (void *)1100;
         return result;
 	} else if ([typeName isEqualToString:@"Peacock File"]) {		
 		NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath:[absoluteURL path]];
-		NSData *data;
-		NSKeyedUnarchiver *unarchiver;
-		data = [[[wrapper fileWrappers] valueForKey:@"peacock-data"] regularFileContents];
-		unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-        [unarchiver setDelegate:self];
-		int version = [unarchiver decodeIntForKey:@"version"];
-		if (version < 5) {
-            if (outError != NULL)
-                *outError = [[[NSError alloc] initWithDomain:@"JKDomain" 
-                                                       code:4 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Obsolete file format", NSLocalizedDescriptionKey, @"Its file format has become obsolete.", NSLocalizedFailureReasonErrorKey, @"The file package still contains the original NetCDF file. Use 'Show Package Contents' in the Finder.", NSLocalizedRecoverySuggestionErrorKey, nil]] autorelease];
-            return NO;
- 		}
-		chromatograms = [[unarchiver decodeObjectForKey:@"chromatograms"] retain];
-		peaks = [[unarchiver decodeObjectForKey:@"peaks"] retain];
-		metadata = [[unarchiver decodeObjectForKey:@"metadata"] retain];
-		baselineWindowWidth = [[unarchiver decodeObjectForKey:@"baselineWindowWidth"] retain];
-		baselineDistanceThreshold = [[unarchiver decodeObjectForKey:@"baselineDistanceThreshold"] retain];
-		baselineSlopeThreshold = [[unarchiver decodeObjectForKey:@"baselineSlopeThreshold"] retain];
-		baselineDensityThreshold = [[unarchiver decodeObjectForKey:@"baselineDensityThreshold"] retain];
-		peakIdentificationThreshold = [[unarchiver decodeObjectForKey:@"peakIdentificationThreshold"] retain];
-		retentionIndexSlope = [[unarchiver decodeObjectForKey:@"retentionIndexSlope"] retain];
-		retentionIndexRemainder = [[unarchiver decodeObjectForKey:@"retentionIndexRemainder"] retain];		
-		libraryAlias = [[unarchiver decodeObjectForKey:@"libraryAlias"] retain];
-		scoreBasis = [unarchiver decodeIntForKey:@"scoreBasis"];
-		searchDirection = [unarchiver decodeIntForKey:@"searchDirection"];
-		spectrumToUse = [unarchiver decodeIntForKey:@"spectrumToUse"];
-		penalizeForRetentionIndex = [unarchiver decodeBoolForKey:@"penalizeForRetentionIndex"];
-		markAsIdentifiedThreshold = [[unarchiver decodeObjectForKey:@"markAsIdentifiedThreshold"] retain];		
-		minimumScoreSearchResults = [[unarchiver decodeObjectForKey:@"minimumScoreSearchResults"] retain];		
-		
-		[unarchiver finishDecoding];
-		[unarchiver release];
-		
-		result = [self readNetCDFFile:[[absoluteURL path] stringByAppendingPathComponent:@"netcdf"] error:outError];
+
+        result = [self readNetCDFFile:[[absoluteURL path] stringByAppendingPathComponent:@"netcdf"] error:outError];
 		if (result) {
 			peacockFileWrapper = wrapper;
 		}
         
+        NSData *data = nil;
+		NSKeyedUnarchiver *unarchiver = nil;
+		data = [[[wrapper fileWrappers] valueForKey:@"peacock-data"] regularFileContents];
+		unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+        [unarchiver setDelegate:self];
+		int version = [unarchiver decodeIntForKey:@"version"];
+        switch (version) {
+        case 0:
+            if (outError != NULL)
+                *outError = [[[NSError alloc] initWithDomain:@"JKDomain" 
+                                                        code:4 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Obsolete file format", NSLocalizedDescriptionKey, @"Its file format has become obsolete.", NSLocalizedFailureReasonErrorKey, @"The file package still contains the original NetCDF file. Use 'Show Package Contents' in the Finder.", NSLocalizedRecoverySuggestionErrorKey, nil]] autorelease];
+            [unarchiver finishDecoding];
+            [unarchiver release];
+            return NO;
+            break;            
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+            [chromatograms addObject:[self ticChromatogram]];
+            break;
+        case 5:
+        default:
+            chromatograms = [[unarchiver decodeObjectForKey:@"chromatograms"] retain];
+            break;
+        }
+        peaks = [[unarchiver decodeObjectForKey:@"peaks"] retain];
+        metadata = [[unarchiver decodeObjectForKey:@"metadata"] retain];
+        baselineWindowWidth = [[unarchiver decodeObjectForKey:@"baselineWindowWidth"] retain];
+        baselineDistanceThreshold = [[unarchiver decodeObjectForKey:@"baselineDistanceThreshold"] retain];
+        baselineSlopeThreshold = [[unarchiver decodeObjectForKey:@"baselineSlopeThreshold"] retain];
+        baselineDensityThreshold = [[unarchiver decodeObjectForKey:@"baselineDensityThreshold"] retain];
+        peakIdentificationThreshold = [[unarchiver decodeObjectForKey:@"peakIdentificationThreshold"] retain];
+        retentionIndexSlope = [[unarchiver decodeObjectForKey:@"retentionIndexSlope"] retain];
+        retentionIndexRemainder = [[unarchiver decodeObjectForKey:@"retentionIndexRemainder"] retain];		
+        libraryAlias = [[unarchiver decodeObjectForKey:@"libraryAlias"] retain];
+        scoreBasis = [unarchiver decodeIntForKey:@"scoreBasis"];
+        searchDirection = [unarchiver decodeIntForKey:@"searchDirection"];
+        spectrumToUse = [unarchiver decodeIntForKey:@"spectrumToUse"];
+        penalizeForRetentionIndex = [unarchiver decodeBoolForKey:@"penalizeForRetentionIndex"];
+        markAsIdentifiedThreshold = [[unarchiver decodeObjectForKey:@"markAsIdentifiedThreshold"] retain];		
+        minimumScoreSearchResults = [[unarchiver decodeObjectForKey:@"minimumScoreSearchResults"] retain];		            
+        
+		[unarchiver finishDecoding];
+		[unarchiver release];
+		        
 		return result;	
     } else {
         if (outError != NULL)
