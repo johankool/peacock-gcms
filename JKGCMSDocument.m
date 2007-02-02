@@ -234,6 +234,7 @@ static void *DocumentObservationContext = (void *)1100;
         case 2:
         case 3:
         case 4:
+            [chromatograms removeAllObjects];
             [chromatograms addObject:[self ticChromatogram]];
             break;
         case 5:
@@ -1189,17 +1190,17 @@ static void *DocumentObservationContext = (void *)1100;
 	[[self undoManager] setActionName:NSLocalizedString(@"Reset to Default Values",@"Reset to Default Values")];
 }
 
-- (IBAction)fix:(id)sender {
-    NSRunAlertPanel(@"Fix old file-format",@"Do not switch to another window until done.",@"Fix",nil,nil);
-    NSEnumerator *e = [[self peaks] objectEnumerator];
-    JKPeakRecord *peak;
-    e = [[self peaks] objectEnumerator];
-    while ((peak = [e nextObject])) {
-        [peak updateForNewEncoding];
-    }
-    NSRunAlertPanel(@"Finished Fix",@"Save your file to save it in the new file format.",@"Done",nil,nil);
-    [self saveDocumentAs:self];
-}
+//- (IBAction)fix:(id)sender {
+//    NSRunAlertPanel(@"Fix old file-format",@"Do not switch to another window until done.",@"Fix",nil,nil);
+//    NSEnumerator *e = [[self peaks] objectEnumerator];
+//    JKPeakRecord *peak;
+//    e = [[self peaks] objectEnumerator];
+//    while ((peak = [e nextObject])) {
+//        [peak updateForNewEncoding];
+//    }
+//    NSRunAlertPanel(@"Finished Fix",@"Save your file to save it in the new file format.",@"Done",nil,nil);
+//    [self saveDocumentAs:self];
+//}
 
 #pragma mark HELPER ACTIONS
 - (float)timeForScan:(int)scan {

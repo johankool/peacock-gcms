@@ -77,6 +77,12 @@
 - (void)setBaselineRight:(NSNumber *)inValue;
 - (NSNumber *)baselineRight;
 
+// Value validation
+- (BOOL)validateBaselineLeft:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateBaselineRight:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateStart:(id *)ioValue error:(NSError **)outError;
+- (BOOL)validateEnd:(id *)ioValue error:(NSError **)outError;
+                
 // Mutable To-Many relationship searchResult
 - (NSMutableArray *)searchResults;
 - (void)setSearchResults:(NSMutableArray *)inValue;

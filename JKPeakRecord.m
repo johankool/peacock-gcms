@@ -29,6 +29,8 @@
 	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"retentionIndex"];
 	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"surface"];
 	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"height"];
+	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"normalizedSurface"];
+	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"normalizedHeight"];
 	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"spectrum"];
 	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"combinedSpectrum"];
 }
@@ -302,8 +304,38 @@
 	baselineLeft = inValue;
 }
 
-- (NSNumber *)baselineLeft{
+- (NSNumber *)baselineLeft {
     return baselineLeft;
+}
+
+- (BOOL)validateBaselineLeft:(id *)ioValue error:(NSError **)outError {
+    if (*ioValue == nil) {
+        // trap this in setNilValueForKey
+        // alternative might be to create new NSNumber with value 0 here
+        return YES;
+    }
+    float *intensities = [[self chromatogram] totalIntensity];
+    if ([*ioValue floatValue] > intensities[start]) {
+        NSString *errorString = NSLocalizedString(@"Invalid value for baseline intensity",@"baseline to big error");
+        NSString *recoverySuggestionString = [NSString stringWithFormat:NSLocalizedString(@"The value for the baseline intensity should be smaller than the value of the intensity at scan %d. Enter a value smaller than or equal to %g.",@"baseline to big error"),[self start],intensities[start]];
+        NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:errorString,NSLocalizedDescriptionKey,recoverySuggestionString,NSLocalizedRecoverySuggestionErrorKey,nil];
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock Peak domain"
+                                                     code:5
+                                                 userInfo:userInfoDict] autorelease];
+        *outError = error;
+        return NO;
+    } else if ([*ioValue floatValue] < 0.0) {
+        NSString *errorString = NSLocalizedString(@"Invalid value for baseline intensity",@"baseline to small error");
+        NSString *recoverySuggestionString = [NSString stringWithFormat:NSLocalizedString(@"The value for the baseline intensity should be larger than or equal to 0.",@"baseline to small error")];
+        NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:errorString,NSLocalizedDescriptionKey,recoverySuggestionString,NSLocalizedRecoverySuggestionErrorKey,nil];
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock Peak domain"
+                                                     code:6
+                                                 userInfo:userInfoDict] autorelease];
+        *outError = error;
+        return NO;
+    } else {
+        return YES;
+    }
 }
 
 - (void)setBaselineRight:(NSNumber *)inValue {
@@ -316,12 +348,71 @@
     return baselineRight;
 }
 
+- (BOOL)validateBaselineRight:(id *)ioValue error:(NSError **)outError {
+    if (*ioValue == nil) {
+        // trap this in setNilValueForKey
+        // alternative might be to create new NSNumber with value 0 here
+        return YES;
+    }
+    float *intensities = [[self chromatogram] totalIntensity];
+    if ([*ioValue floatValue] > intensities[end]) {
+        NSString *errorString = NSLocalizedString(@"Invalid value for baseline intensity",@"baseline to big error");
+        NSString *recoverySuggestionString = [NSString stringWithFormat:NSLocalizedString(@"The value for the baseline intensity should be smaller than the value of the intensity at scan %d. Enter a value smaller than or equal to %g.",@"baseline to big error"),[self end],intensities[end]];
+        NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:errorString,NSLocalizedDescriptionKey,recoverySuggestionString,NSLocalizedRecoverySuggestionErrorKey,nil];
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock Peak domain"
+                                                     code:7
+                                                 userInfo:userInfoDict] autorelease];
+        *outError = error;
+        return NO;
+    } else if ([*ioValue floatValue] < 0.0) {
+        NSString *errorString = NSLocalizedString(@"Invalid value for baseline intensity",@"baseline to small error");
+        NSString *recoverySuggestionString = [NSString stringWithFormat:NSLocalizedString(@"The value for the baseline intensity should be larger than or equal to 0.",@"baseline to small error")];
+        NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:errorString,NSLocalizedDescriptionKey,recoverySuggestionString,NSLocalizedRecoverySuggestionErrorKey,nil];
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock Peak domain"
+                                                     code:8
+                                                 userInfo:userInfoDict] autorelease];
+        *outError = error;
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
 - (void)setStart:(int)inValue {
 	start = inValue;
 }
 
 - (int)start {
     return start;
+}
+
+- (BOOL)validateStart:(id *)ioValue error:(NSError **)outError {
+    if (*ioValue == nil) {
+        // trap this in setNilValueForKey
+        // alternative might be to create new NSNumber with value 0 here
+        return YES;
+    }
+    if ([*ioValue intValue] >= [self end]) {
+        NSString *errorString = NSLocalizedString(@"Invalid value for start scan",@"start to big error");
+        NSString *recoverySuggestionString = [NSString stringWithFormat:NSLocalizedString(@"The value for start scan should be smaller than the value for the end scan. Enter a value smaller than %d.",@"start to big error"),[self end]];
+        NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:errorString,NSLocalizedDescriptionKey,recoverySuggestionString,NSLocalizedRecoverySuggestionErrorKey,nil];
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock Peak domain"
+                                                     code:1
+                                                 userInfo:userInfoDict] autorelease];
+        *outError = error;
+        return NO;
+    } else if ([*ioValue intValue] < 0) {
+        NSString *errorString = NSLocalizedString(@"Invalid value for start scan",@"start to small error");
+        NSString *recoverySuggestionString = [NSString stringWithFormat:NSLocalizedString(@"The value for start scan should be larger than or equal to 0.",@"start to small error"),[self end]];
+        NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:errorString,NSLocalizedDescriptionKey,recoverySuggestionString,NSLocalizedRecoverySuggestionErrorKey,nil];
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock Peak domain"
+                                                     code:2
+                                                 userInfo:userInfoDict] autorelease];
+        *outError = error;
+        return NO;
+    } else {
+        return YES;
+    }
 }
 
 - (NSNumber *)startTime{
@@ -338,6 +429,35 @@
 
 - (NSNumber *)endTime{
     return [NSNumber numberWithFloat:[[self document] timeForScan:end]];
+}
+
+- (BOOL)validateEnd:(id *)ioValue error:(NSError **)outError {
+    if (*ioValue == nil) {
+        // trap this in setNilValueForKey
+        // alternative might be to create new NSNumber with value 0 here
+        return YES;
+    }
+    if ([*ioValue intValue] <= [self start]) {
+        NSString *errorString = NSLocalizedString(@"Invalid value for end scan",@"end to small error");
+        NSString *recoverySuggestionString = [NSString stringWithFormat:NSLocalizedString(@"The value for end scan should be higher than the value for the start scan. Enter a value higher than %d.",@"end to small error"),[self start]];
+        NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:errorString,NSLocalizedDescriptionKey,recoverySuggestionString,NSLocalizedRecoverySuggestionErrorKey,nil];
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock Peak domain"
+                                                     code:3
+                                                 userInfo:userInfoDict] autorelease];
+        *outError = error;
+        return NO;
+    } else if ([*ioValue intValue] >= [[self chromatogram] numberOfPoints]) {
+        NSString *errorString = NSLocalizedString(@"Invalid value for end scan",@"end to big error");
+        NSString *recoverySuggestionString = [NSString stringWithFormat:NSLocalizedString(@"The value for end scan should be smaller than the number of scans in the chromatogram. Enter a value smaller than %d.",@"end to small error"),[[self chromatogram] numberOfPoints]];
+        NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:errorString,NSLocalizedDescriptionKey,recoverySuggestionString,NSLocalizedRecoverySuggestionErrorKey,nil];
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock Peak domain"
+                                                     code:4
+                                                 userInfo:userInfoDict] autorelease];
+        *outError = error;
+        return NO;
+    } else {
+        return YES;
+    }
 }
 
 - (void)setIdentified:(BOOL)inValue {
@@ -480,7 +600,7 @@
             case 2:
             case 3:
             case 4:
-                chromatogram = [[[coder delegate] chromatograms] objectAtIndex:0];
+                chromatogram = [[[[coder delegate] chromatograms] objectAtIndex:0] retain];
                 NSAssert(chromatogram, @"peak should have chromatogram");
                 [chromatogram insertObject:self inPeaksAtIndex:[[chromatogram peaks] count]];
                 peakID = [[coder decodeObjectForKey:@"peakID"] intValue];

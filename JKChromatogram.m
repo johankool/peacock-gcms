@@ -355,8 +355,26 @@
     [newPeak setStart:startScan];
     [newPeak setEnd:endScan];
     [newPeak setChromatogram:self];
-    [newPeak setValue:[NSNumber numberWithFloat:[self baselineValueAtScan:startScan]] forKey:@"baselineLeft"];
-    [newPeak setValue:[NSNumber numberWithFloat:[self baselineValueAtScan:endScan]] forKey:@"baselineRight"];
+    
+    NSError *outError;
+    
+    NSNumber *leftBaseline = [NSNumber numberWithFloat:[self baselineValueAtScan:startScan]];
+    if ([newPeak validateBaselineLeft:&leftBaseline error:&outError]) {
+        [newPeak setValue:leftBaseline forKey:@"baselineLeft"];
+    } else {
+        leftBaseline = [NSNumber numberWithFloat:totalIntensity[startScan]];
+        [newPeak setValue:leftBaseline forKey:@"baselineLeft"];
+    }
+    NSNumber *rightBaseline = [NSNumber numberWithFloat:[self baselineValueAtScan:endScan]];
+    if ([newPeak validateBaselineRight:&rightBaseline error:&outError]) {
+        [newPeak setValue:rightBaseline forKey:@"baselineRight"];
+    } else {
+        rightBaseline = [NSNumber numberWithFloat:totalIntensity[endScan]];
+        [newPeak setValue:rightBaseline forKey:@"baselineRight"];
+    }
+    
+//    [newPeak setValue:[NSNumber numberWithFloat:[self baselineValueAtScan:startScan]] forKey:@"baselineLeft"];
+//    [newPeak setValue:[NSNumber numberWithFloat:[self baselineValueAtScan:endScan]] forKey:@"baselineRight"];
     [self insertObject:newPeak inPeaksAtIndex:[[self peaks] count]];
     [[self document] insertObject:newPeak inPeaksAtIndex:[[[self document] peaks] count]];
     [newPeak release];     
