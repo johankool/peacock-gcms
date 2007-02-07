@@ -223,13 +223,13 @@ static void *DocumentObservationContext = (void *)1100;
 		int version = [unarchiver decodeIntForKey:@"version"];
         switch (version) {
         case 0:
-            if (outError != NULL)
-                *outError = [[[NSError alloc] initWithDomain:@"JKDomain" 
-                                                        code:4 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Obsolete file format", NSLocalizedDescriptionKey, @"Its file format has become obsolete.", NSLocalizedFailureReasonErrorKey, @"The file package still contains the original NetCDF file. Use 'Show Package Contents' in the Finder.", NSLocalizedRecoverySuggestionErrorKey, nil]] autorelease];
-            [unarchiver finishDecoding];
-            [unarchiver release];
-            return NO;
-            break;            
+//            if (outError != NULL)
+//                *outError = [[[NSError alloc] initWithDomain:@"JKDomain" 
+//                                                        code:4 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Obsolete file format", NSLocalizedDescriptionKey, @"Its file format has become obsolete.", NSLocalizedFailureReasonErrorKey, @"The file package still contains the original NetCDF file. Use 'Show Package Contents' in the Finder.", NSLocalizedRecoverySuggestionErrorKey, nil]] autorelease];
+//            [unarchiver finishDecoding];
+//            [unarchiver release];
+//            return NO;
+//            break;            
         case 1:
         case 2:
         case 3:

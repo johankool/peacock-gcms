@@ -41,14 +41,14 @@
 
 #pragma mark CALCULATED ACCESSORS
 
-//- (NSNumber *)normalizedSurface;
-//- (NSNumber *)normalizedHeight;
 - (NSNumber *)deltaRetentionIndex;
 - (NSNumber *)startTime;
 - (NSNumber *)endTime;
 - (int)top;
 - (NSNumber *)topTime;
 - (NSNumber *)retentionIndex;
+- (NSNumber *)startRetentionIndex;
+- (NSNumber *)endRetentionIndex;
 - (NSNumber *)height;
 - (NSNumber *)normalizedHeight;
 - (NSNumber *)surface;

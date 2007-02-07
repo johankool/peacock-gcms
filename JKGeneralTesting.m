@@ -7,24 +7,13 @@
 //
 
 #import "JKGeneralTesting.h"
-#import "JKDataModel.h"
+//#import "JKDataModel.h"
 #import "JKGCMSDocument.h"
 #import "JKRatio.h"
 
 @class JKPeakRecord;
 
 @implementation JKGeneralTesting
-
-- (void)testJKDataModel {
-	JKDataModel *object = [[JKDataModel alloc] init];	
-	STAssertNotNil(object, @"Could not create instance.");
-}
-
-- (void)testJKDataModelNoNCID {
-	JKDataModel *object = [[JKDataModel alloc] init];	
-//	[object getChromatogramData];
-	
-}
 
 - (void)testJKPeakRecord {
 	JKPeakRecord *object = [[JKPeakRecord alloc] init];	

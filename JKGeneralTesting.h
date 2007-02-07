@@ -8,6 +8,8 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
+#import "AccessorMacros.h"
+#import "JKLog.h"
 
 @interface JKGeneralTesting : SenTestCase {
 

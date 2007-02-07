@@ -8,9 +8,14 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
+#import "AccessorMacros.h"
+#import "JKLog.h"
+#import "JKSpectrum.h"
 
 @interface JKSpectrumTest : SenTestCase {
-
+    JKSpectrum *testSpectrum1;
+    JKSpectrum *testSpectrum2;
+    JKSpectrum *testSpectrum3;
 }
 
 @end

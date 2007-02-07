@@ -8,23 +8,164 @@
 
 #import "JKSpectrumTest.h"
 
-#import "JKSpectrum.h"
 
 @implementation JKSpectrumTest
 
-- (void)testCase1 {
-	JKSpectrum *spectrum = [[JKSpectrum alloc] init];
-	
-   STAssertNotNil(spectrum, @"Could not create instance of JKSpectrum.");
+- (void)setUp {
+    // Create data structures here.
+    testSpectrum1 = [[JKSpectrum alloc] init];
+    testSpectrum2 = [[JKSpectrum alloc] init];
+    testSpectrum3 = [[JKSpectrum alloc] init];
+    float masses[10];
+    float intensities[10];
+
+    masses[0] = 50.0f;
+    masses[1] = 60.0f;
+    masses[2] = 70.0f;
+    masses[3] = 80.0f;
+    masses[4] = 90.0f;
+    masses[5] = 100.0f;
+    masses[6] = 110.0f;
+    masses[7] = 120.0f;
+    masses[8] = 130.0f;
+    masses[9] = 140.0f;
+    intensities[0] = 100.0f;
+    intensities[1] = 90.0f;
+    intensities[2] = 80.0f;
+    intensities[3] = 90.0f;
+    intensities[4] = 100.0f;
+    intensities[5] = 120.0f;
+    intensities[6] = 130.0f;
+    intensities[7] = 200.0f;
+    intensities[8] = 100.0f;
+    intensities[9] = 100.0f;
+    [testSpectrum1 setMasses:masses withCount:10];
+    [testSpectrum1 setIntensities:intensities withCount:10];
+    
+    masses[0] = 50.0f;
+    masses[1] = 60.0f;
+    masses[2] = 70.0f;
+    masses[3] = 80.0f;
+    masses[4] = 90.0f;
+    masses[5] = 100.0f;
+    masses[6] = 110.0f;
+    masses[7] = 120.0f;
+    masses[8] = 130.0f;
+    masses[9] = 140.0f;
+    intensities[0] = 50.0f;
+    intensities[1] = 50.0f;
+    intensities[2] = 50.0f;
+    intensities[3] = 50.0f;
+    intensities[4] = 50.0f;
+    intensities[5] = 50.0f;
+    intensities[6] = 50.0f;
+    intensities[7] = 50.0f;
+    intensities[8] = 50.0f;
+    intensities[9] = 50.0f;
+    [testSpectrum2 setMasses:masses withCount:10];
+    [testSpectrum2 setIntensities:intensities withCount:10];
+    
+    masses[0] = 50.0f;
+    masses[1] = 60.1f;
+    masses[2] = 70.2f;
+    masses[3] = 80.3f;
+    masses[4] = 90.4f;
+    masses[5] = 99.9f;
+    masses[6] = 109.8f;
+    masses[7] = 119.7f;
+    masses[8] = 129.6f;
+    masses[9] = 139.5f;
+    intensities[0] = 100.0f;
+    intensities[1] = 100.0f;
+    intensities[2] = 100.0f;
+    intensities[3] = 100.0f;
+    intensities[4] = 100.0f;
+    intensities[5] = 100.0f;
+    intensities[6] = 100.0f;
+    intensities[7] = 100.0f;
+    intensities[8] = 100.0f;
+    intensities[9] = 100.0f;
+    [testSpectrum3 setMasses:masses withCount:10];
+    [testSpectrum3 setIntensities:intensities withCount:10];
+    
+
 }
 
-- (void)testCase2 {
-	JKSpectrum *spectrum = [[JKSpectrum alloc] init];
-	JKSpectrum *spectrum2 = [[JKSpectrum alloc] init];
+- (void)tearDown {
+    // Release data structures here.
+    [testSpectrum1 release];
+    [testSpectrum2 release];
+    [testSpectrum3 release];
+}
 
-	JKSpectrum *spectrum3 = [spectrum spectrumBySubtractingSpectrum:spectrum2];
+- (void)testCase1 {
+    JKSpectrum *spectrum = [[JKSpectrum alloc] init];
+    STAssertNotNil(spectrum, @"Could not create instance of JKSpectrum.");
+}
 
+- (void)testCaseSubtracting {
+	JKSpectrum *spectrum3 = [testSpectrum1 spectrumBySubtractingSpectrum:testSpectrum2];
+    float *masses = [spectrum3 masses];
+    float *intensities = [spectrum3 intensities];
+    
+    STAssertEquals(masses[3], 80.0f, @"Error substracting spectrum");
+    STAssertEquals(intensities[3], 40.0f, @"Error substracting spectrum");
 	STAssertNotNil(spectrum3, @"Could not return subtracted instance of JKSpectrum.");
 }
 
+- (void)testCaseAveraging {
+	JKSpectrum *spectrum = [testSpectrum2 spectrumByAveragingWithSpectrum:testSpectrum3];
+	STAssertNotNil(spectrum, @"Could not return averaged instance of JKSpectrum.");
+
+    float *masses = [spectrum masses];
+    float *intensities = [spectrum intensities];
+    STAssertEquals(masses[0], 50.0f, @"Error averaging spectrum");
+    STAssertEquals(intensities[0], 75.0f, @"Error averaging spectrum");
+    STAssertEquals(masses[3], 80.0f, @"Error averaging spectrum");
+    STAssertEquals(intensities[3], 75.0f, @"Error averaging spectrum");
+    STAssertEquals(masses[9], 140.0f, @"Error averaging spectrum");
+    STAssertEquals(intensities[9], 75.0f, @"Error averaging spectrum");
+}
+
+- (void)testCaseAveragingReverse {
+	JKSpectrum *spectrum = [testSpectrum3 spectrumByAveragingWithSpectrum:testSpectrum2];
+	STAssertNotNil(spectrum, @"Could not return averaged instance of JKSpectrum.");
+    
+    float *masses = [spectrum masses];
+    float *intensities = [spectrum intensities];
+    STAssertEquals(masses[0], 50.0f, @"Error averaging spectrum");
+    STAssertEquals(intensities[0], 75.0f, @"Error averaging spectrum");
+    STAssertEquals(masses[3], 80.0f, @"Error averaging spectrum");
+    STAssertEquals(intensities[3], 75.0f, @"Error averaging spectrum");
+    STAssertEquals(masses[9], 140.0f, @"Error averaging spectrum");
+    STAssertEquals(intensities[9], 75.0f, @"Error averaging spectrum");
+}
+
+- (void)testCaseAveragingWithWeight {
+	JKSpectrum *spectrum = [testSpectrum1 spectrumByAveragingWithSpectrum:testSpectrum3 withWeight:0.8];
+	STAssertNotNil(spectrum, @"Could not return averaged instance of JKSpectrum.");
+    
+    float *masses = [spectrum masses];
+    float *intensities = [spectrum intensities];
+    STAssertEquals(masses[0], 50.0f, @"Error averaging spectrum");
+    STAssertEquals(intensities[0], 100.0f, @"Error averaging spectrum");
+    STAssertEquals(masses[3], 80.0f, @"Error averaging spectrum");
+    STAssertEquals(intensities[3], 98.0f, @"Error averaging spectrum");
+    STAssertEquals(masses[5], 100.0f, @"Error averaging spectrum");
+    STAssertEquals(intensities[5], 104.0f, @"Error averaging spectrum");
+}
+
+- (void)testCaseNormalizedSpectrum {
+	JKSpectrum *spectrum = [testSpectrum1 normalizedSpectrum];
+	STAssertNotNil(spectrum, @"Could not return averaged instance of JKSpectrum.");
+    
+    float *masses = [spectrum masses];
+    float *intensities = [spectrum intensities];
+    STAssertEquals(masses[0], 50.0f, @"Error averaging spectrum");
+    STAssertEquals(intensities[0], 0.50f, @"Error averaging spectrum");
+    STAssertEquals(masses[3], 80.0f, @"Error averaging spectrum");
+    STAssertEquals(intensities[3], 90.0f/200.0f, @"Error averaging spectrum");
+    STAssertEquals(masses[9], 140.0f, @"Error averaging spectrum");
+    STAssertEquals(intensities[9], 0.50f, @"Error averaging spectrum");
+}
 @end

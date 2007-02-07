@@ -152,6 +152,16 @@
     return [NSNumber numberWithFloat:retentionIndex];
 }
 
+- (NSNumber *)startRetentionIndex {
+    float retentionIndex = [[self startTime] floatValue] * [[[self document] retentionIndexSlope] floatValue] + [[[self document] retentionIndexRemainder] floatValue];
+    return [NSNumber numberWithFloat:retentionIndex];
+}
+
+- (NSNumber *)endRetentionIndex {
+    float retentionIndex = [[self endTime] floatValue] * [[[self document] retentionIndexSlope] floatValue] + [[[self document] retentionIndexRemainder] floatValue];
+    return [NSNumber numberWithFloat:retentionIndex];
+}
+
 - (NSNumber *)surface {
     NSAssert(start < end, @"surface: start scan should be before end scan of peak");
     int j;

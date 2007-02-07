@@ -197,7 +197,7 @@
         
 		if (diff == 0.0) {
 			massesOut[k] = round(d1);
-			intensitiesOut[k] = (d3+d4)/2;
+			intensitiesOut[k] = d3+d4;
 			
 			k++; i++; j++;
 		} else if (diff < 0.0) {
