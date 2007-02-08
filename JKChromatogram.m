@@ -475,7 +475,12 @@
     }
     for (i=0; i<numberOfPoints; i++) {
         if (time[i]>inTime) {
-            return i;
+            // this calculates wether i or i-1 is closer the inTime
+            if ((time[i]-inTime) <= 0.5) {
+                return i;
+            } else {
+                return i-1;                
+            }
         }
     }
     return numberOfPoints-1;

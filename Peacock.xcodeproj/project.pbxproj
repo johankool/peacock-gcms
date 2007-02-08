@@ -37,6 +37,7 @@
 		C73291070AD68F9800D95E36 /* JKFileWell.h in Headers */ = {isa = PBXBuildFile; fileRef = C73290E80AD68F9800D95E36 /* JKFileWell.h */; };
 		C73291120AD68F9800D95E36 /* JKSynchroScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = C73290F30AD68F9800D95E36 /* JKSynchroScrollView.h */; };
 		C73291130AD68F9800D95E36 /* JKSynchroScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C73290F40AD68F9800D95E36 /* JKSynchroScrollView.m */; };
+		C73533D20B7A703C00F7634B /* JKChromatogramTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C73533D10B7A703C00F7634B /* JKChromatogramTest.m */; };
 		C747ED350ABF43C6001F98AF /* Peacock Test Files in Resources */ = {isa = PBXBuildFile; fileRef = C747ED320ABF43C6001F98AF /* Peacock Test Files */; };
 		C7713B36095029C200653D2A /* JKBatchProcess.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7713B35095029C200653D2A /* JKBatchProcess.nib */; };
 		C7713B430950368F00653D2A /* JKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */; };
@@ -191,6 +192,8 @@
 		C73290E80AD68F9800D95E36 /* JKFileWell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKFileWell.h; sourceTree = "<group>"; };
 		C73290F30AD68F9800D95E36 /* JKSynchroScrollView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKSynchroScrollView.h; sourceTree = "<group>"; };
 		C73290F40AD68F9800D95E36 /* JKSynchroScrollView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKSynchroScrollView.m; sourceTree = "<group>"; };
+		C73533D00B7A703C00F7634B /* JKChromatogramTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKChromatogramTest.h; sourceTree = "<group>"; };
+		C73533D10B7A703C00F7634B /* JKChromatogramTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKChromatogramTest.m; sourceTree = "<group>"; };
 		C747ED320ABF43C6001F98AF /* Peacock Test Files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Peacock Test Files"; sourceTree = "<group>"; };
 		C7713B35095029C200653D2A /* JKBatchProcess.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = JKBatchProcess.nib; sourceTree = "<group>"; };
 		C7713B410950368F00653D2A /* JKBatchProcessWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKBatchProcessWindowController.h; sourceTree = "<group>"; };
@@ -463,10 +466,12 @@
 		C72C85C8098BF12600CEF565 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				C72C8507098BE83600CEF565 /* JKSpectrumTest.h */,
-				C72C8508098BE83600CEF565 /* JKSpectrumTest.m */,
 				C72C85D5098BF1B800CEF565 /* JKGeneralTesting.h */,
 				C72C85D6098BF1B800CEF565 /* JKGeneralTesting.m */,
+				C72C8507098BE83600CEF565 /* JKSpectrumTest.h */,
+				C72C8508098BE83600CEF565 /* JKSpectrumTest.m */,
+				C73533D00B7A703C00F7634B /* JKChromatogramTest.h */,
+				C73533D10B7A703C00F7634B /* JKChromatogramTest.m */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -999,6 +1004,7 @@
 			files = (
 				C72C8509098BE83600CEF565 /* JKSpectrumTest.m in Sources */,
 				C72C85D7098BF1B800CEF565 /* JKGeneralTesting.m in Sources */,
+				C73533D20B7A703C00F7634B /* JKChromatogramTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
