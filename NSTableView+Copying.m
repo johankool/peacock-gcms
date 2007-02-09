@@ -19,6 +19,13 @@
         int i;
         NSEnumerator *columns;
         NSTableColumn *column;
+        columns = [[self tableColumns] objectEnumerator];
+        
+        while ((column = [columns nextObject]) != nil) {
+            [outString appendString:[[column headerCell] stringValue]];
+            [outString appendString:@"\t"];
+        }
+        [outString appendString:@"\n"];
         for (i=0;i<numberOfRows;i++) {
             columns = [[self tableColumns] objectEnumerator];
             
@@ -43,14 +50,21 @@
         NSEnumerator *rows;
         NSTableColumn *column;
         NSEnumerator *columns;
+        columns = [[self tableColumns] objectEnumerator];
+        
+        while ((column = [columns nextObject]) != nil) {
+            [outString appendString:[[column headerCell] stringValue]];
+            [outString appendString:@"\t"];
+        }
+        [outString appendString:@"\n"];
+
         id row;
         rows = [[[self dataSource] arrangedObjects] objectEnumerator];
-        
         while ((row = [rows nextObject]) != nil) {
             columns = [[self tableColumns] objectEnumerator];
             
             while ((column = [columns nextObject]) != nil) {
-                id object = [row valueForKey:[column identifier]];
+                id object = [row valueForKeyPath:[column identifier]];
                 if (![object isKindOfClass:[NSString class]])
                     object= [object stringValue];
                 if (object)

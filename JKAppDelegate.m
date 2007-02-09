@@ -150,6 +150,8 @@
     
 	// Growl support
 	[GrowlApplicationBridge setGrowlDelegate:self];
+    
+//    [self loadPlugins];
 }
 
 
@@ -312,5 +314,33 @@
 	}
 	return NO;
 }
+
+#pragma mark PLUGINS
+
+//- (void)loadPlugins {
+//    NSLog(@"Loading plugins from %@",[[NSBundle mainBundle] builtInPlugInsPath]);
+//    
+//    NSEnumerator *enumerator = [[NSBundle pathsForResourcesOfType:@"peacock-plugin" inDirectory:[[NSBundle mainBundle] builtInPlugInsPath]] objectEnumerator];
+//    NSString *path;
+//
+//    while ((path = [enumerator nextObject]) != nil) {
+//        NSLog(@"Loading bundle from %@",path);
+//    	[self loadBundle:path];
+//    }
+//    
+//}
+//
+//- (void)loadBundle:(NSString*)bundlePath {
+//    Class exampleClass;
+//    id newInstance;
+//    NSBundle *bundleToLoad = [NSBundle bundleWithPath:bundlePath];
+////NSLog(@"bundle %@",[bundleToLoad infoDictionary]);
+//    if (exampleClass = [bundleToLoad principalClass]) {
+//        newInstance = [[exampleClass alloc] init];
+//        // [newInstance doSomething];
+//    } else {
+//        NSLog(@"No principalClass for bundle");
+//    }
+//}
 
 @end

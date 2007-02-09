@@ -496,6 +496,14 @@ static int   kPaddingLabels             = 4;
 	[shadow setShadowBlurRadius:10];
 	[shadow setShadowOffset:NSMakeSize(6,-6)];
 	
+    // Set legendarea to right size
+    // resize legend area to fit all entries
+    NSRect newLegendArea = [self legendArea];
+    newLegendArea.size.height = [[self dataSeries] count] * 18;
+    newLegendArea.origin.y = newLegendArea.origin.y - (newLegendArea.size.height - [self legendArea].size.height);
+    [self setLegendArea:newLegendArea];
+    
+    
 	// Achtergrondkleur legendArea (met schaduw)
     if ([self shouldDrawShadow]) {
        	[shadow set]; 	 

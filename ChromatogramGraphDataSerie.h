@@ -14,6 +14,7 @@
 	BOOL shouldDrawPeaks;	
 	BOOL shouldDrawBaseline;	
     JKChromatogram *chromatogram;
+    NSPredicate *filterPredicate;
 }
 
 #pragma mark INITIALIZATION
@@ -30,6 +31,8 @@
 - (void)setChromatogram:(JKChromatogram *)aChromatogram;
 - (BOOL)shouldDrawPeaks;
 - (void)setShouldDrawPeaks:(BOOL)inValue;
+- (NSPredicate *)filterPredicate;
+- (void)setFilterPredicate:(NSPredicate *)filterPredicate;
 - (BOOL)shouldDrawBaseline;
 - (void)setShouldDrawBaseline:(BOOL)inValue;
 - (NSBezierPath *)baselineBezierPath;

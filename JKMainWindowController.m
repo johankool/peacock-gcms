@@ -389,6 +389,7 @@ static void *SpectrumObservationContext = (void *)1102;
 	if ([sender tag] == 1) {
 		[self setShowPeaks:JKIdenitifiedPeaks];
 		[peakController setFilterPredicate:[NSPredicate predicateWithFormat:@"identified == YES"]];
+#warning Should set predicate for chromatrogram data series as well
 	} else if ([sender tag] == 2) {
 		[self setShowPeaks:JKUnidentifiedPeaks];
 		[peakController setFilterPredicate:[NSPredicate predicateWithFormat:@"identified == NO"]];		

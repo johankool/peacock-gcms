@@ -49,6 +49,7 @@
                 searchOptionsButton = NSButton; 
                 stopButton = NSButton; 
                 summarizeOptionsSheet = NSWindow; 
+                tabView = NSTabView; 
             }; 
             SUPERCLASS = NSWindowController; 
         }, 

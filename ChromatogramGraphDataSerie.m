@@ -36,6 +36,7 @@ static void *PropertyObservationContext = (void *)1093;
         [self setSeriesTitle:[aChromatogram model]];
 		// Creeer de plot een eerste keer.
 		[self constructPlotPath];
+        [self setFilterPredicate:nil];
 	}
     return self;
 }
@@ -489,7 +490,12 @@ static void *PropertyObservationContext = (void *)1093;
 
 #pragma mark CONVENIENCE METHODS
 - (NSArray *)peaks{
-	return [[self chromatogram] peaks];
+    if ([self filterPredicate]) {
+        return [[[self chromatogram] peaks] filteredArrayUsingPredicate:[self filterPredicate]];;        
+    } else {
+        // if not predicate defined, we plot all peaks
+        return [[self chromatogram] peaks];;
+    }
 }
 
 #pragma mark ACCESSORS
@@ -514,6 +520,14 @@ static void *PropertyObservationContext = (void *)1093;
 - (void)setShouldDrawPeaks:(BOOL)inValue {
     shouldDrawPeaks = inValue;
     [_graphView setNeedsDisplay:YES];
+}
+
+- (NSPredicate *)filterPredicate {
+	return filterPredicate;
+}
+- (void)setFilterPredicate:(NSPredicate *)aFilterPredicate {
+	[filterPredicate autorelease];
+	filterPredicate = [aFilterPredicate retain];
 }
 
 - (BOOL)shouldDrawBaseline{

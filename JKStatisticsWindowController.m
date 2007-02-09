@@ -37,6 +37,8 @@
         valueToUse = 0;
         closeDocuments = NO;
         calculateRatios = NO;
+        comparePeaks = YES;
+        performSanityCheck = YES;
 	}
 	return self;
 }
@@ -83,7 +85,6 @@
 	}
 		
 //	[filesTableView registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
-//	[filesTableView setDataSource:self];
 	
 	[resultsTable setDelegate:self];
 	[ratiosTable setDelegate:self];
@@ -95,17 +96,14 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[resultsTable superview]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[ratiosTable superview]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[metadataTable superview]];
-	if ([combinedPeaks count] > 0) {
-		[summaryWindow makeKeyAndOrderFront:self];
-	}
 	
-	if ([files count] > 0 ) {
-		// Insert table columns (in case we're opening from a file)
-       [combinedPeaksController setContent:combinedPeaks];
-		[self insertTableColumns];
+	if ([files count] > 0) {
+        // Insert table columns (in case we're opening from a file)
+        [combinedPeaksController setContent:combinedPeaks];
+        [self insertTableColumns];
  	}
     
-    [altGraphView bind:@"dataSeries" toObject: chromatogramDataSeriesController
+    [altGraphView bind:@"dataSeries" toObject:chromatogramDataSeriesController
            withKeyPath:@"arrangedObjects" options:nil];
     [altGraphView bind:@"peaks" toObject: peaksController
            withKeyPath:@"arrangedObjects" options:nil];
@@ -121,18 +119,13 @@
 
 - (void)runStatisticalAnalysis{
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
 	BOOL errorOccurred = NO;	
 	[self setAbortAction:NO];
     int i;
     int filesCount = [files count];
-	[fileProgressIndicator setMaxValue:filesCount*7.0];
-	[fileProgressIndicator setDoubleValue:0.0];
 	NSError *error = [[NSError alloc] init];
-	JKGCMSDocument *document;
-	[self willChangeValueForKey:@"metadata"];
-	[self willChangeValueForKey:@"combinedPeaks"];
-	[self willChangeValueForKey:@"ratioValues"];
-    [self willChangeValueForKey:@"logMessages"];
+	JKGCMSDocument *document = nil;
 
 	// Prepations before starting processing files
 	[detailStatusTextField setStringValue:NSLocalizedString(@"Preparing processing",@"")];
@@ -154,12 +147,14 @@
 		[ratiosTable removeTableColumn:[[ratiosTable tableColumns] objectAtIndex:i]];
 	} 
 	
+    // Reset things we'll be collecting
 	[metadata removeAllObjects];
 	[combinedPeaks removeAllObjects];
 	[ratioValues removeAllObjects];
     [logMessages removeAllObjects];
 	[chromatogramDataSeriesController removeObjects:[chromatogramDataSeriesController arrangedObjects]];
     
+    // Recreate metadata structure
 	NSMutableDictionary *metadataDictSampleCode = [[NSMutableDictionary alloc] init];
 	NSMutableDictionary *metadataDictDescription = [[NSMutableDictionary alloc] init];
 	NSMutableDictionary *metadataDictPath = [[NSMutableDictionary alloc] init];
@@ -183,52 +178,59 @@
 	NSAssert(peaksToUse > 0 && peaksToUse < 4, @"peaksToUse has invalid value");
 
 	[fileProgressIndicator setIndeterminate:NO];
+	[fileProgressIndicator setMaxValue:filesCount*5.0];
+	[fileProgressIndicator setDoubleValue:0.0];
 	for (i=0; i < filesCount; i++) {
 		[detailStatusTextField setStringValue:@"Opening Document"];
 		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:!closeDocuments error:&error];
 		[[self window] makeKeyAndOrderFront:self];
 		if (document == nil) {
-			JKLogError(@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]);
+			//JKLogError(@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]);
 			errorOccurred = YES;
+            NSString *errorMsg = [NSString stringWithFormat:@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]];
+            NSDictionary *warning = [NSDictionary dictionaryWithObjectsAndKeys:@"UNKNOWN", @"document", errorMsg, @"warning", nil];
+            [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];
 			[fileProgressIndicator setDoubleValue:(i+1)*5.0];
 			continue;	
 		}
 		[fileStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Processing file '%@' (%d of %d)",@"Batch process status text"),[[files objectAtIndex:i] valueForKey:@"filename"],i+1,filesCount]];
-		if ([self abortAction]) {
+		if (abortAction) {
 			break;
 		}		
 		[detailStatusTextField setStringValue:NSLocalizedString(@"Collecting metadata",@"")];
 		[self collectMetadataForDocument:document atIndex:i];
 		[fileProgressIndicator incrementBy:1.0];
-		if ([self abortAction]) {
+		if (abortAction) {
 			break;
-		}		
-        [detailStatusTextField setStringValue:NSLocalizedString(@"Comparing Peaks",@"")];
-        [self collectCombinedPeaksForDocument:document atIndex:i];
+		}
+		if (comparePeaks) {
+            [detailStatusTextField setStringValue:NSLocalizedString(@"Comparing Peaks",@"")];
+            [self collectCombinedPeaksForDocument:document atIndex:i];  
+        }
         [fileProgressIndicator incrementBy:1.0];
-		if ([self abortAction]) {
+		if (abortAction) {
 			break;
 		}		
 		if (calculateRatios) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Calculating Ratios",@"")];
 			[self calculateRatiosForDocument:document atIndex:i];
-			[fileProgressIndicator incrementBy:1.0];
 		}
-		if ([self abortAction]) {
+        [fileProgressIndicator incrementBy:1.0];
+		if (abortAction) {
 			break;
 		}
         [detailStatusTextField setStringValue:NSLocalizedString(@"Setting up Comparison Window",@"")];
         [self setupComparisonWindowForDocument:document atIndex:i];
         [fileProgressIndicator incrementBy:1.0];
-		if ([self abortAction]) {
+		if (abortAction) {
 			break;
 		}		
 		if (closeDocuments) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Closing Document",@"")];
 			[document close];
-			[fileProgressIndicator incrementBy:1.0];
 		}
-		if ([self abortAction]) {
+        [fileProgressIndicator incrementBy:1.0];
+		if (abortAction) {
 			break;
 		}
 		[fileProgressIndicator setDoubleValue:(i+1)*5.0];
@@ -236,18 +238,17 @@
 	// Out of scope for files
 	
 	
-	// Finishing
+	// Sorting results
     [detailStatusTextField setStringValue:NSLocalizedString(@"Sorting Results",@"")];
-    [fileProgressIndicator incrementBy:1.0];
+	[fileProgressIndicator setIndeterminate:YES];
     [self sortCombinedPeaks];
     
-    NSEnumerator *peaksEnumerator;
-    NSString *key;
-    JKPeakRecord *peak;
- 	int combinedPeaksCount = [[self combinedPeaks] count];
-   if (setPeakSymbolToNumber) {        
+    if (setPeakSymbolToNumber) {        
+        NSEnumerator *peaksEnumerator = nil;
+        NSString *key = nil;
+        JKPeakRecord *peak = nil;
+        int combinedPeaksCount = [[self combinedPeaks] count];
         [detailStatusTextField setStringValue:NSLocalizedString(@"Assigning Symbols",@"")];
-        [fileProgressIndicator incrementBy:1.0];
         // Number in order of occurence
         for (i = 0; i < combinedPeaksCount; i++) {
             peaksEnumerator = [[combinedPeaks objectAtIndex:i] keyEnumerator];		
@@ -261,25 +262,22 @@
         }
     }
     
-    [detailStatusTextField setStringValue:NSLocalizedString(@"Checking Sanity",@"")];
-	for (i=0; i < filesCount; i++) {
- 		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:!closeDocuments error:&error];
-       [self doSanityCheckForDocument:document atIndex:i];
-        [fileProgressIndicator incrementBy:1.0];
-        if ([self abortAction]) {
-            break;
-        }        
-    }
-    
+   if (performSanityCheck) {
+       [detailStatusTextField setStringValue:NSLocalizedString(@"Checking Sanity",@"")];
+       for (i=0; i < filesCount; i++) {
+           document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:!closeDocuments error:&error];
+           [self doSanityCheckForDocument:document atIndex:i];
+           if (abortAction) {
+               break;
+           }        
+       }       
+   }
+     
 	[error release];
 	[[self window] makeKeyAndOrderFront:self];
 	
-	// This way we don't get bolded text!
-	[NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];
-	
-	[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Statistical Analysis Finished",@"") description:NSLocalizedString(@"Peacock finished processing your data.",@"") notificationName:@"Statistical Analysis Finished" iconData:nil priority:0 isSticky:NO clickContext:nil];
     
-	// Present results
+	// Present graphdataseries in colors
     NSColorList *peakColors = [NSColorList colorListNamed:@"Peacock Series"];
     if (peakColors == nil) {
         peakColors = [NSColorList colorListNamed:@"Crayons"]; // Crayons should always be there, as it can't be removed through the GUI
@@ -292,18 +290,19 @@
         [(ChromatogramGraphDataSerie *)[[chromatogramDataSeriesController arrangedObjects] objectAtIndex:i] setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:i%peakColorsArrayCount]]];
     }
     [altGraphView showAll:self];
+
+	// This way we don't get bolded text!
+	[NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];
     
 	if (errorOccurred) {
-		NSRunCriticalAlertPanel(NSLocalizedString(@"Error(s) during batch processing",@""),NSLocalizedString(@"One or more errors occurred during batch processing your files. The console.log available from the Console application contains more details about the error. Common errors include files moved after being added to the list and full disks.",@""),NSLocalizedString(@"OK",@""),nil,nil);
-	} else if ([self abortAction]) {
+		NSRunCriticalAlertPanel(NSLocalizedString(@"Error(s) during processing",@""),NSLocalizedString(@"One or more errors occurred during processing your files. The log contains more details about the error. Common errors include files moved after being added to the list and full disks.",@""),NSLocalizedString(@"OK",@""),nil,nil);
+	} else if (abortAction) {
 		NSRunInformationalAlertPanel(NSLocalizedString(@"Statistical Analysis aborted",@""),NSLocalizedString(@"The execution of the statistical analysis was aborted by the user. Be advised to check the current state of the files that were being processed.",@""),NSLocalizedString(@"OK",@""),nil,nil);
-	}
-	
-	[self didChangeValueForKey:@"metadata"];
-	[self didChangeValueForKey:@"combinedPeaks"];
-	[self didChangeValueForKey:@"ratioValues"];
-    [self didChangeValueForKey:@"logMessages"];
-	
+	} else {
+        [GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Statistical Analysis Finished",@"") description:NSLocalizedString(@"Peacock finished processing your data.",@"") notificationName:@"Statistical Analysis Finished" iconData:nil priority:0 isSticky:NO clickContext:nil];
+        [tabView performSelectorOnMainThread:@selector(selectTabViewItemWithIdentifier:) withObject:@"tabular" waitUntilDone:NO];
+    }
+		
 	[pool release];
 }
 
@@ -347,13 +346,12 @@
     float certainty;
     float matchTreshold = [[self matchThreshold] floatValue];
 
-	NSMutableArray *peaksArray;
-	JKPeakRecord *peak;
-	NSMutableDictionary *combinedPeak;
-	NSString *peakName;
-	NSString *combinedPeakName;
-	NSMutableArray *peakToAddToCombinedPeaks = [[NSMutableArray alloc] init];
-	JKSpectrum *spectrum;
+	NSMutableArray *peaksArray = nil;
+	JKPeakRecord *peak = nil;
+	NSMutableDictionary *combinedPeak = nil;
+	NSString *peakName = nil;
+	NSString *combinedPeakName = nil;
+	JKSpectrum *spectrum = nil;
 	
 	// Problems!
 	//  - should use retention index instead of retention time
@@ -365,7 +363,7 @@
 	
 	date = [NSDate date];
 	peaksCompared = 0;
-	peaksArray = [document peaks];
+	peaksArray = [[document peaks] filteredArrayUsingPredicate:[self filterPredicate]];
 	peaksCount = [peaksArray count];
 	
 	// Go through the peaks
@@ -379,15 +377,15 @@
             [peak setSymbol:@""];
         }
         
-		// Determine wether or not the user wants to use this peak
-		if (![peak confirmed] && peaksToUse >= 3) {
-			continue;
-		} else if (![peak identified] && peaksToUse >= 2) {
-			continue;
-		} 
-//        else if ([[peak normalizedSurface] floatValue] < 0.1 && ![peak confirmed]) { // filter small peaks, but not if it's a confirmed peak
+//		// Determine wether or not the user wants to use this peak
+//		if (![peak confirmed] && peaksToUse >= 3) {
 //			continue;
-//		}
+//		} else if (![peak identified] && peaksToUse >= 2) {
+//			continue;
+//		} 
+////        else if ([[peak normalizedSurface] floatValue] < 0.1 && ![peak confirmed]) { // filter small peaks, but not if it's a confirmed peak
+////			continue;
+////		}
 		
 		// Match with combined peaks
 		combinedPeaksCount = [combinedPeaks count];
@@ -450,8 +448,7 @@
                     [NSNumber numberWithInt:1], @"peakCount", 
                     [NSNumber numberWithFloat:1.0], @"certainty", 
                     nil];
-//				NSLog(@"%@", [combinedPeak description]);
-				[peakToAddToCombinedPeaks addObject:combinedPeak];	
+                [self insertObject:combinedPeak inCombinedPeaksAtIndex:[self countOfCombinedPeaks]];
 				[combinedPeak release];
 			} else {
 				NSAssert([peak spectrum], [peak description]);
@@ -462,8 +459,7 @@
                     [NSNumber numberWithInt:1], @"peakCount", 
                     [NSNumber numberWithFloat:0.0], @"certainty", 
                     nil];
-//				NSLog(@"%@", [combinedPeak description]);
-				[peakToAddToCombinedPeaks addObject:combinedPeak];
+                [self insertObject:combinedPeak inCombinedPeaksAtIndex:[self countOfCombinedPeaks]];
 				[combinedPeak release];
 				unknownCount++;
 			}
@@ -520,7 +516,7 @@
                     warningMsg = [warningMsg substringToIndex:[warningMsg length]-2];
                     warningMsg = [warningMsg stringByAppendingString:@"."];
                     warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
-                    [[self logMessages] addObject:warning];
+                    [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];
                     
                 } else if ([peak identified]) {
                     // WARNING: An identified peak was matched to a hitherto unidentified compound. 
@@ -541,7 +537,7 @@
                     warningMsg = [warningMsg substringToIndex:[warningMsg length]-2];
                     warningMsg = [warningMsg stringByAppendingString:@"."];
                     warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
-                    [[self logMessages] addObject:warning];
+                    [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];
                 } 
                 // Nothing to do when matching unknown peak to unknown compound
             } else {
@@ -549,24 +545,21 @@
                     // WARNING: An unidentified peak was matched to a known compound. 
                     warningMsg = [NSString stringWithFormat:@"WARNING: The unidentified peak %d was matched to the known compound '%@'.", [peak peakID], [combinedPeak valueForKey:@"label"]];
                     warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
-                    [[self logMessages] addObject:warning];                   
+                    [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];                   
                 } else if ((![peak confirmed]) && ([peak identified])) {
                     // WARNING: An unconfirmed peak was matched to a known compound. 
                     warningMsg = [NSString stringWithFormat:@"WARNING: The unconfirmed peak %d was matched to the known compound '%@'.", [peak peakID], [combinedPeak valueForKey:@"label"]];
                     warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
-                    [[self logMessages] addObject:warning];                   
+                    [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];                   
                 }    
                 // Nothing to do when matching confirmed peak to known compound
             }
 		}
 	} 	
-	
-	[combinedPeaks addObjectsFromArray:peakToAddToCombinedPeaks];
-	[peakToAddToCombinedPeaks release];
-	
+		
     warningMsg = [NSString stringWithFormat:@"INFO: processing time: %.2g s; peaks: %d; peaks compared: %d; combined peaks: %d; speed: %.f peaks/s", -[date timeIntervalSinceNow], peaksCount, peaksCompared, [combinedPeaks count], peaksCompared/-[date timeIntervalSinceNow]];
     warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
-    [[self logMessages] addObject:warning];
+    [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];
     
     //	JKLogInfo(@"File %d: %@; time: %.2g s; peaks: %d; peaks comp.: %d; comb. peaks: %d; speed: %.f peaks/s",index, [document displayName], -[date timeIntervalSinceNow], peaksCount, peaksCompared, [combinedPeaks count], peaksCompared/-[date timeIntervalSinceNow]);
 	
@@ -634,16 +627,16 @@
             if (foundIndex == NSNotFound) {
                 [peakLabels addObject:[peak label]];
             } else {
-                warningMsg = [NSString stringWithFormat:@"WARNING: The peak '%@' at index %d has a label that occurred earlier in the same chromatogram.", [peak label], j];
+                warningMsg = [NSString stringWithFormat:@"WARNING: The peak '%@' at index %d has a label that occurred earlier in the same chromatogram.", [peak label], [peak peakID]];
                 warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
-                [[self logMessages] addObject:warning];            
+                [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];            
             }
         }
         if (([peak symbol]) && (![[peak symbol] isEqualToString:@""])) {
             if ([[peak symbol] intValue] < lastSymbolEncountered) {
-                warningMsg = [NSString stringWithFormat:@"WARNING: The peak '%@' with symbol '%@' at index %d was encountered out of the normal or average order of elution.", [peak label], [peak symbol], j];
+                warningMsg = [NSString stringWithFormat:@"WARNING: The peak '%@' with symbol '%@' at index %d was encountered out of the normal or average order of elution.", [peak label], [peak symbol], [peak peakID]];
                 warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
-                [[self logMessages] addObject:warning];
+                [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];
             }
             lastSymbolEncountered = [[peak symbol] intValue];
         }
@@ -655,27 +648,25 @@
 	int j;
 	int ratiosCount;
 	float result;
-	NSMutableDictionary *mutDict;
-	NSString *keyPath;
+	NSMutableDictionary *mutDict = nil;
+	NSString *keyPath = nil;
 	
-	[self willChangeValueForKey:@"ratioValues"];
 	ratiosCount = [ratios count];
 	
 	for (j=0; j < ratiosCount; j++) {
 		if (index == 0) {
 			mutDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[[ratios objectAtIndex:j] valueForKey:@"name"], @"name", nil];
-			[ratioValues addObject:mutDict];
+            [self insertObject:mutDict inRatioValuesAtIndex:[self countOfRatioValues]];
 			[mutDict release];
 		} else {
 			mutDict = [ratioValues objectAtIndex:j];
 		}
 		result = 0.0;
 		result = [[ratios objectAtIndex:j] calculateRatioForKey:[NSString stringWithFormat:@"file_%d",index] inCombinedPeaksArray:combinedPeaks];
-//        NSLog(@"ratio %@: %g", [mutDict valueForKey:@"name"], result);
 		[mutDict setValue:[NSNumber numberWithFloat:result] forKey:[NSString stringWithFormat:@"file_%d",index]];
 	}
-    [self didChangeValueForKey:@"ratioValues"];
 
+    // Create and insert table column
 	NSTableColumn *tableColumn = [[NSTableColumn alloc] init];
 	[tableColumn setIdentifier:document];
 	[[tableColumn headerCell] setStringValue:[document displayName]];
@@ -707,7 +698,7 @@
 	float standardDeviationRetentionIndex, standardDeviationSurface, standardDeviationHeight;
 	// int filesCount = [[self files] count];
 	
-	combinedPeaksCount = [[self combinedPeaks] count];
+	combinedPeaksCount = [self countOfCombinedPeaks];
 	for (i = 0; i < combinedPeaksCount; i++) {
 		combinedPeak = [[self combinedPeaks] objectAtIndex:i];
 		peaksEnumerator = [combinedPeak keyEnumerator];
@@ -898,8 +889,6 @@
 	
 	// Finishing
 	[self sortCombinedPeaks];
-	
-	[summaryWindow makeKeyAndOrderFront:self];
 }
 
 - (void)setupComparisonWindowForDocument:(JKGCMSDocument *)document atIndex:(int)index{
@@ -908,7 +897,9 @@
 
     while ((chromatogram = [chromatogramEnum nextObject]) != nil) {
         ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
-        [cgds setSeriesTitle:[NSString stringWithFormat:@"%@ - %@ - %@",[[metadata objectAtIndex:index] valueForKey:@"sampleCode"],[[metadata objectAtIndex:index] valueForKey:@"sampleDescription"],[chromatogram model]]];
+        // sets title to "filename: code - description (model)"
+        [cgds setSeriesTitle:[NSString stringWithFormat:@"%@: %@ - %@ (%@)",[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",index]], [[metadata objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",index]],[[metadata objectAtIndex:1] valueForKey:[NSString stringWithFormat:@"file_%d",index]],[chromatogram model]]];
+        [cgds setFilterPredicate:[self filterPredicate]];
     	[chromatogramDataSeriesController addObject:cgds];
     }
     [peaksController addObjects:[document peaks]];
@@ -926,6 +917,30 @@
 			[subview setXMaximum:newXMaximum];
 		}
 }
+
+- (NSPredicate *)filterPredicate {
+    switch (peaksToUse) {
+    case 0:
+        return nil;
+        break;
+    case 1: // JKIdenitifiedPeaks
+        return [NSPredicate predicateWithFormat:@"identified == YES"];
+        break;
+    case 2: // JKUnidenitifiedPeaks
+        return [NSPredicate predicateWithFormat:@"identified == NO"];
+        break;
+    case 3: // JKConfirmedPeaks
+        return [NSPredicate predicateWithFormat:@"confirmed == YES"];
+        break;
+    case 4: // JKUnconfirmedPeaks
+        return [NSPredicate predicateWithFormat:@"(identified == YES) AND (confirmed == NO)"];
+        break;
+    default:
+        break;
+    }
+    return nil;
+}
+
 #pragma mark IBACTIONS
 
 - (IBAction)addButtonAction:(id)sender {
@@ -962,33 +977,6 @@
 			document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:url display:YES error:&error];
 		}
 		[[[document mainWindowController] window] makeKeyAndOrderFront:self];
-
-//#warning [BUG] Double click in Summary window doesn't select peak
-//        // Fails because the peaks in combinedPeaksController are not the same objects?! 
-//        
-//        // get e.g. file_1, file_2, etc.
-//        // Ugliest code ever! note that keyPath depends on the binding, so if we bind to something else e.g. height, this will fail!
-//        NSString *keyPath = [[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] infoForBinding:@"value"] valueForKey:NSObservedKeyPathKey];
-//        keyPath = [keyPath substringWithRange:NSMakeRange(16,[keyPath length]-18-16)];
-//
-//		// Check that we don't look for an empty cell
-//		int index = [[[[document mainWindowController] peakController] arrangedObjects] indexOfObjectIdenticalTo:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]];
-//		[[[document mainWindowController] peakController] setSelectionIndex:index];
-//
-//		if ([[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]) {
-//			NSLog(@"%@",[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]);
-//			NSLog(@"%@",[[[[document mainWindowController] peakController] arrangedObjects] objectAtIndex:0]);
-//            if([[[[document mainWindowController] peakController] arrangedObjects] containsObject:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]]) {
-//                NSLog(@"contains");
-//            } else {
-//                NSLog(@"doesn't contain");;
-//            }
-//			if(![[[document mainWindowController] peakController] setSelectedObjects:[NSArray arrayWithObject:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:keyPath]]]){
-//				NSLog(@"selection didn't change");
-//			}
-//			NSLog(@"%@", [[[document mainWindowController] peakController] selectedObjects]);
-//			
-//		}
 	}
 }
 
@@ -1199,17 +1187,11 @@
 						change:(NSDictionary *)change
 					   context:(void *)context {
     int i,combinedPeaksCount;
-    NSEnumerator *peaksEnumerator;
-    NSString *key;
-    NSEnumerator *enumerator = [[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
     id document;
-    
-    while ((document = [enumerator nextObject]) != nil) {
-        if ([document isKindOfClass:[JKGCMSDocument class]]) {
-            [[[document mainWindowController] peakController] setSelectedObjects:nil];
-        }
-    }
-    
+    NSEnumerator *enumerator = nil;
+    NSEnumerator *peaksEnumerator = nil;
+    NSString *key = nil;
+     
 	if ((object == combinedPeaksController) && ([combinedPeaksController selection] != NSNoSelectionMarker)) {
         combinedPeaksCount = [[combinedPeaksController selectedObjects] count];;
         for (i = 0; i < combinedPeaksCount; i++) {
@@ -1230,7 +1212,14 @@
                 }
             }	
         }
-        [altGraphView setNeedsDisplay:YES];
+    } else if ((object == combinedPeaksController) && ([combinedPeaksController selection] == NSNoSelectionMarker)) {
+        enumerator = [[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
+        
+        while ((document = [enumerator nextObject]) != nil) {
+            if ([document isKindOfClass:[JKGCMSDocument class]]) {
+                [[[document mainWindowController] peakController] setSelectedObjects:nil];
+            }
+        }
     }
 }
 
@@ -1419,18 +1408,293 @@
 
 #pragma mark ACCESSORS
 
-- (NSWindow *)summaryWindow {
-	return summaryWindow;
+// Mutable To-Many relationship combinedPeaks
+- (NSMutableArray *)combinedPeaks {
+	return combinedPeaks;
+}
+
+- (void)setCombinedPeaks:(NSMutableArray *)inValue {
+    [inValue retain];
+    [combinedPeaks release];
+    combinedPeaks = inValue;
+}
+
+- (int)countOfCombinedPeaks {
+    return [[self combinedPeaks] count];
+}
+
+- (NSDictionary *)objectInCombinedPeaksAtIndex:(int)index {
+    return [[self combinedPeaks] objectAtIndex:index];
+}
+
+- (void)getCombinedPeak:(NSDictionary **)someCombinedPeaks range:(NSRange)inRange {
+    // Return the objects in the specified range in the provided buffer.
+    [combinedPeaks getObjects:someCombinedPeaks range:inRange];
+}
+
+- (void)insertObject:(NSDictionary *)aCombinedPeak inCombinedPeaksAtIndex:(int)index {
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] removeObjectFromCombinedPeaksAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Insert CombinedPeak",@"")];
+	}
+	
+	// Add aCombinedPeak to the array combinedPeaks
+	[combinedPeaks insertObject:aCombinedPeak atIndex:index];
+}
+
+- (void)removeObjectFromCombinedPeaksAtIndex:(int)index
+{
+	NSDictionary *aCombinedPeak = [combinedPeaks objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] insertObject:aCombinedPeak inCombinedPeaksAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Delete CombinedPeak",@"")];
+	}
+	
+	// Remove the peak from the array
+	[combinedPeaks removeObjectAtIndex:index];
+}
+
+- (void)replaceObjectInCombinedPeaksAtIndex:(int)index withObject:(NSDictionary *)aCombinedPeak
+{
+	NSDictionary *replacedCombinedPeak = [combinedPeaks objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] replaceObjectAtIndex:index withObject:replacedCombinedPeak];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Replace CombinedPeak",@"")];
+	}
+	
+	// Replace the peak from the array
+	[combinedPeaks replaceObjectAtIndex:index withObject:aCombinedPeak];
+}
+
+- (BOOL)validateCombinedPeak:(NSDictionary **)aCombinedPeak error:(NSError **)outError {
+    // Implement validation here...
+    return YES;
+} // end combinedPeaks
+
+// Mutable To-Many relationship ratios
+- (NSMutableArray *)ratios {
+	return ratios;
+}
+
+- (void)setRatios:(NSMutableArray *)inValue {
+    [inValue retain];
+    [ratios release];
+    ratios = inValue;
+}
+
+- (int)countOfRatios {
+    return [[self ratios] count];
+}
+
+- (JKRatio *)objectInRatiosAtIndex:(int)index {
+    return [[self ratios] objectAtIndex:index];
+}
+
+- (void)getRatio:(JKRatio **)someRatios range:(NSRange)inRange {
+    // Return the objects in the specified range in the provided buffer.
+    [ratios getObjects:someRatios range:inRange];
+}
+
+- (void)insertObject:(JKRatio *)aRatio inRatiosAtIndex:(int)index {
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] removeObjectFromRatiosAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Insert Ratio",@"")];
+	}
+	
+	// Add aRatio to the array ratios
+	[ratios insertObject:aRatio atIndex:index];
+}
+
+- (void)removeObjectFromRatiosAtIndex:(int)index
+{
+	JKRatio *aRatio = [ratios objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] insertObject:aRatio inRatiosAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Delete Ratio",@"")];
+	}
+	
+	// Remove the peak from the array
+	[ratios removeObjectAtIndex:index];
+}
+
+- (void)replaceObjectInRatiosAtIndex:(int)index withObject:(JKRatio *)aRatio
+{
+	JKRatio *replacedRatio = [ratios objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] replaceObjectAtIndex:index withObject:replacedRatio];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Replace Ratio",@"")];
+	}
+	
+	// Replace the peak from the array
+	[ratios replaceObjectAtIndex:index withObject:aRatio];
+}
+
+- (BOOL)validateRatio:(JKRatio **)aRatio error:(NSError **)outError {
+    // Implement validation here...
+    return YES;
+} // end ratios
+
+// Mutable To-Many relationship ratioValues
+- (NSMutableArray *)ratioValues {
+	return ratioValues;
+}
+
+- (void)setRatioValues:(NSMutableArray *)inValue {
+    [inValue retain];
+    [ratioValues release];
+    ratioValues = inValue;
+}
+
+- (int)countOfRatioValues {
+    return [[self ratioValues] count];
+}
+
+- (NSDictionary *)objectInRatioValuesAtIndex:(int)index {
+    return [[self ratioValues] objectAtIndex:index];
+}
+
+- (void)getRatioValue:(NSDictionary **)someRatioValues range:(NSRange)inRange {
+    // Return the objects in the specified range in the provided buffer.
+    [ratioValues getObjects:someRatioValues range:inRange];
+}
+
+- (void)insertObject:(NSDictionary *)aRatioValue inRatioValuesAtIndex:(int)index {
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] removeObjectFromRatioValuesAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Insert RatioValue",@"")];
+	}
+	
+	// Add aRatioValue to the array ratioValues
+	[ratioValues insertObject:aRatioValue atIndex:index];
+}
+
+- (void)removeObjectFromRatioValuesAtIndex:(int)index
+{
+	NSDictionary *aRatioValue = [ratioValues objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] insertObject:aRatioValue inRatioValuesAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Delete RatioValue",@"")];
+	}
+	
+	// Remove the peak from the array
+	[ratioValues removeObjectAtIndex:index];
+}
+
+- (void)replaceObjectInRatioValuesAtIndex:(int)index withObject:(NSDictionary *)aRatioValue
+{
+	NSDictionary *replacedRatioValue = [ratioValues objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] replaceObjectAtIndex:index withObject:replacedRatioValue];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Replace RatioValue",@"")];
+	}
+	
+	// Replace the peak from the array
+	[ratioValues replaceObjectAtIndex:index withObject:aRatioValue];
+}
+
+- (BOOL)validateRatioValue:(NSDictionary **)aRatioValue error:(NSError **)outError {
+    // Implement validation here...
+    return YES;
+} // end ratioValues
+
+// Mutable To-Many relationship logMessages (without undo)
+- (NSMutableArray *)logMessages {
+	return logMessages;
+}
+
+- (void)setLogMessages:(NSMutableArray *)inValue {
+    [inValue retain];
+    [logMessages release];
+    logMessages = inValue;
+}
+
+- (int)countOfLogMessages {
+    return [[self logMessages] count];
+}
+
+- (NSDictionary *)objectInLogMessagesAtIndex:(int)index {
+    return [[self logMessages] objectAtIndex:index];
+}
+
+- (void)getLogMessage:(NSDictionary **)someLogMessages range:(NSRange)inRange {
+    // Return the objects in the specified range in the provided buffer.
+    [logMessages getObjects:someLogMessages range:inRange];
+}
+
+- (void)insertObject:(NSDictionary *)aLogMessage inLogMessagesAtIndex:(int)index {
+	// Add aLogMessage to the array logMessages
+	[logMessages insertObject:aLogMessage atIndex:index];
+}
+
+- (void)removeObjectFromLogMessagesAtIndex:(int)index
+{
+	// Remove the peak from the array
+	[logMessages removeObjectAtIndex:index];
+}
+
+- (void)replaceObjectInLogMessagesAtIndex:(int)index withObject:(NSDictionary *)aLogMessage
+{
+	// Replace the peak from the array
+	[logMessages replaceObjectAtIndex:index withObject:aLogMessage];
+}
+
+- (BOOL)validateLogMessage:(NSDictionary **)aLogMessage error:(NSError **)outError {
+    // Implement validation here...
+    return YES;
+} // end logMessages
+
+
+- (NSString *)keyForValueInSummary {
+	return keyForValueInSummary;
+}
+- (void)setKeyForValueInSummary:(NSString *)aKeyForValueInSummary {
+	[[self undoManager] registerUndoWithTarget:self selector:@selector(setKeyForValueInSummary:) object:keyForValueInSummary];
+	[[self undoManager] setActionName:NSLocalizedString(@"Set Key For Value In Summary",@"Set KeyForValueInSummary")];
+	[keyForValueInSummary autorelease];
+	keyForValueInSummary = [aKeyForValueInSummary retain];
 }
 
 #pragma mark ACCESSORS (MACROSTYLE)
 
-idAccessor(combinedPeaks, setCombinedPeaks)
-idAccessor(ratioValues, setRatioValues)
-idAccessor(ratios, setRatios)
+//idAccessor(combinedPeaks, setCombinedPeaks)
+//idAccessor(ratioValues, setRatioValues)
+//idAccessor(ratios, setRatios)
 idAccessor(metadata, setMetadata)
 idAccessor(files, setFiles)
-idAccessor(logMessages, setLogMessages)
+//idAccessor(logMessages, setLogMessages)
 boolAccessor(abortAction, setAbortAction)
 boolAccessor(setPeakSymbolToNumber, setSetPeakSymbolToNumber)
 intAccessor(valueToUse, setValueToUse)
