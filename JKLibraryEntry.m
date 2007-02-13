@@ -255,6 +255,26 @@
 			modelChr = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} 
         
+        // GROUP
+        // Back to start of entry as order of entries is undefined
+		[theScanner setScanLocation:0];
+		[theScanner scanUpToString:@"##$GROUP=" intoString:NULL];
+		if ([theScanner scanString:@"##$GROUP=" intoString:NULL]) {
+            scannedString = @"";
+			[theScanner scanUpToString:@"##" intoString:&scannedString];
+			group = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
+		} 
+        
+        // SYNONYMS
+        // Back to start of entry as order of entries is undefined
+		[theScanner setScanLocation:0];
+		[theScanner scanUpToString:@"##$SYNONYMS=" intoString:NULL];
+		if ([theScanner scanString:@"##$SYNONYMS=" intoString:NULL]) {
+            scannedString = @"";
+			[theScanner scanUpToString:@"##" intoString:&scannedString];
+			synonyms = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
+		} 
+        
 		// XUNITS
 		// Back to start of entry as order of entries is undefined
 		[theScanner setScanLocation:0];
@@ -381,7 +401,7 @@
     } else {
         [outStr appendFormat:@"##TITLE= %@\r\n", [self name]];	        
     }
-	[outStr appendString:@"##JCAMP-DX= 4.24 $$ Peacock 0.21\r\n"];	
+	[outStr appendString:@"##JCAMP-DX= 4.24 $$ Peacock 0.22\r\n"];	
 	[outStr appendString:@"##DATA TYPE= MASS SPECTRUM\r\n"];	
 	[outStr appendString:@"##DATA CLASS= PEAK TABLE\r\n"];	
 	if ([[self CASNumber] isNotEqualTo:@""]) {
@@ -427,6 +447,10 @@
 		[outStr appendFormat:@"##$SYMBOL= %@\r\n", [self symbol]];
 	if ([[self modelChr] isNotEqualTo:@""])
 		[outStr appendFormat:@"##$MODEL= %@\r\n", [self modelChr]];
+	if ([[self group] isNotEqualTo:@""])
+		[outStr appendFormat:@"##$GROUP= %@\r\n", [self group]];
+	if ([[self synonyms] isNotEqualTo:@""])
+		[outStr appendFormat:@"##$SYNONYMS= %@\r\n", [self synonyms]];
 
 	[outStr appendFormat:@"##NPOINTS= %i\r\n##XYDATA= (XY..XY)\r\n%@\r\n", [self numberOfPoints], [self peakTable]];
 	[outStr appendString:@"##END= \r\n"];
@@ -509,6 +533,8 @@ idUndoAccessor(comment, setComment, @"Change Comment")
 idUndoAccessor(molString, setMolString, @"Change Mol String")
 idUndoAccessor(symbol, setSymbol, @"Change Symbol")
 idUndoAccessor(modelChr, setModelChr, @"Change Model")
+idUndoAccessor(group, setGroup, @"Change Group")
+idUndoAccessor(synonyms, setSynonyms, @"Change Synonyms")
 
 //intAccessor(numberOfPoints, setNumberOfPoints);
 //- (void)setMasses:(float *)inArray withCount:(int)inValue {
@@ -551,6 +577,14 @@ idUndoAccessor(modelChr, setModelChr, @"Change Model")
     if ((inString == nil) || (![inString isKindOfClass:[NSString class]])) {
         return;
     }
+
+ 	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] setPeakTable:[self peakTable]];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Change Peak Table",@"")];
+	}
     
 	NSScanner *theScanner2 = [[NSScanner alloc] initWithString:inString];
 	int j, massInt, intensityInt;
@@ -564,9 +598,6 @@ idUndoAccessor(modelChr, setModelChr, @"Change Model")
 
     masses = (float *) realloc(masses, numberOfPoints*sizeof(float));
 	intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
-
-
-#warning [BUG] No undo support
 	
 	for (j=0; j < numberOfPoints; j++){
 		if (![theScanner2 scanInt:&massInt]) JKLogError(@"Error during reading library (masses).");

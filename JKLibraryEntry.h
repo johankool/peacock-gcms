@@ -32,11 +32,12 @@
 	NSString *source;		// ##SOURCE=
 	
 	// Peacock additions
+	NSString *synonyms;		// ##$SYNONYMS=
 	NSString *comment;		// ##$COMMENT=
 	NSString *molString;	// ##$MOLSTRING=
 	NSString *symbol;		// ##$SYMBOL=
 	NSString *modelChr;		// ##$MODEL=
-			
+	NSString *group;        // ##$GROUP=
 	//int numberOfPoints;		// ##NPOINTS=
 }
 
@@ -67,18 +68,9 @@ idAccessor_h(comment, setComment)
 idAccessor_h(molString, setMolString)
 idAccessor_h(symbol, setSymbol)
 idAccessor_h(modelChr, setModelChr)
+idAccessor_h(group, setGroup)
+idAccessor_h(synonyms, setSynonyms)
 
-//- (int)numberOfPoints;
-//- (void)setDocument:(NSDocument *)inValue;
-//- (NSDocument *)document;
-
-//intAccessor_h(numberOfPoints, setNumberOfPoints);
-//- (void)setMasses:(float *)inArray withCount:(int)inValue;
-//- (float *)masses;
-//
-//- (void)setIntensities:(float *)inArray withCount:(int)inValue;
-//- (float *)intensities;
-//- (float)maximumIntensity;
 - (NSString *)peakTable;
 - (void)setPeakTable:(NSString *)inString;
 
