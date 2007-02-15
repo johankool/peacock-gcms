@@ -213,13 +213,13 @@ static void *SpectrumObservationContext = (void *)1102;
     } else if ([[[self document] chromatograms] count] == 1) {
         // ensure the chromatogram is selected
         [chromatogramsController setSelectedObjects:[chromatogramsController arrangedObjects]];
-        [self identifyCompounds];
+        [NSThread detachNewThreadSelector:@selector(identifyCompounds) toTarget:self withObject:nil];
     }
 }
 
 - (void)identifyCompoundsForSelectedChromatograms:(id)sender {
     [NSApp endSheet:chromatogramSelectionSheet];
-    [self identifyCompounds];
+    [NSThread detachNewThreadSelector:@selector(identifyCompounds) toTarget:self withObject:nil];
 }
 
 - (void)identifyCompounds {

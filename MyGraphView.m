@@ -1394,7 +1394,9 @@ static int   kPaddingLabels             = 4;
 			//   combine spectrum
 			//JKLogDebug(@"combine spectrum");
             NSLog(@"peak drag from scan %d to scan %d",[self scanAtPoint:_mouseDownAtPoint],[self scanAtPoint:mouseLocation]);
-            [[self chromatogramAtPoint:_mouseDownAtPoint] addPeakFromScan:[self scanAtPoint:_mouseDownAtPoint] toScan:[self scanAtPoint:mouseLocation]];
+            JKChromatogram *theChromatogram = [self chromatogramAtPoint:_mouseDownAtPoint]; 
+            JKPeakRecord *newPeak = [theChromatogram peakFromScan:[self scanAtPoint:_mouseDownAtPoint] toScan:[self scanAtPoint:mouseLocation]];
+            [theChromatogram insertObject:newPeak inPeaksAtIndex:[theChromatogram countOfPeaks]];
 		} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
 			//   zoom in/move baseline point
 			[self zoomToRectInView:[self selectedRect]];

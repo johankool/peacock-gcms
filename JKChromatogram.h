@@ -23,6 +23,11 @@
     float *totalIntensity;
     float highestPeakHeight;
     float largestPeakSurface;
+    
+    // baseline points cache (for baselineValueAtScan bottle neck)
+    int *baselinePointsScans;
+    float *baselinePointsIntensities;
+
 }
 
 /*! @functiongroup Initialization */
@@ -37,8 +42,8 @@
 
 - (void)obtainBaseline;
 - (void)identifyPeaks;
-- (void)addPeakFromScan:(int)startScan toScan:(int)endScan;
-- (void)addPeakFromScan:(int)startScan toScan:(int)endScan withLeftBaseline:(float)baselineLeft andRightBaseline:(float)baselineRight;
+- (JKPeakRecord *)peakFromScan:(int)startScan toScan:(int)endScan;
+//- (void)addPeakFromScan:(int)startScan toScan:(int)endScan withLeftBaseline:(float)baselineLeft andRightBaseline:(float)baselineRight;
 - (BOOL)combinePeaks:(NSArray *)peaksToCombine;
 
 - (int)baselinePointsIndexAtScan:(int)inValue;

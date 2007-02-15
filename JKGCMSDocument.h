@@ -50,10 +50,10 @@ typedef enum {
 	NSString *absolutePathToNetCDF;
 	NSFileWrapper *peacockFileWrapper;
 	
-    NSMutableArray *chromatograms;    
     
 	// Data stored in Peacock's file because it can't be represented in Andi file format
-    NSMutableArray *peaks;
+    NSMutableArray *chromatograms;    
+//    NSMutableArray *peaks;
 	NSMutableDictionary *metadata;
 	
 	// Baseline
@@ -180,9 +180,9 @@ typedef enum {
 //- (void)stopObservingChromatogram:(JKChromatogram *)chromatogram;
 
 - (NSMutableArray *)peaks;
-- (void)setPeaks:(NSMutableArray *)array;
-- (void)insertObject:(JKPeakRecord *)peak inPeaksAtIndex:(int)index;
-- (void)removeObjectFromPeaksAtIndex:(int)index;
+//- (void)setPeaks:(NSMutableArray *)array;
+//- (void)insertObject:(JKPeakRecord *)peak inPeaksAtIndex:(int)index;
+//- (void)removeObjectFromPeaksAtIndex:(int)index;
 //- (void)startObservingPeak:(JKPeakRecord *)peak;
 //- (void)stopObservingPeak:(JKPeakRecord *)peak;
 

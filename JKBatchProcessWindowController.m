@@ -115,7 +115,7 @@
 		}		
 		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchDeleteCurrentPeaksFirst"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Deleting Current Peaks",@"")];
-			[document setPeaks:[NSMutableArray array]];
+#warning Action not implemented
 			[fileProgressIndicator incrementBy:1.0];
 		}
 		if ([self abortAction]) {

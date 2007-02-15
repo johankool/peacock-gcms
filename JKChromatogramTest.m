@@ -85,10 +85,11 @@
 
 - (void)testCaseAddPeak {
     [testChromatogram obtainBaseline];
-    [testChromatogram addPeakFromScan:3 toScan:7];
+    JKPeakRecord *peak = [testChromatogram peakFromScan:3 toScan:7];
+    [testChromatogram insertObject:peak inPeaksAtIndex:0];
     unsigned int count= 1; // is expected value?
     STAssertEquals([[testChromatogram peaks] count], count, @"Number of baseline points");
-    JKPeakRecord *peak = [[testChromatogram peaks] objectAtIndex:0];
+    peak = [[testChromatogram peaks] objectAtIndex:0];
     STAssertEquals([peak start], 3, @"Peak start");
     STAssertEquals([peak end], 7, @"Peak end");
     STAssertEquals([peak top], 5, @"Peak top");
