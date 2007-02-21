@@ -53,6 +53,7 @@
 - (NSNumber *)normalizedHeight;
 - (NSNumber *)surface;
 - (NSNumber *)normalizedSurface;
+- (NSNumber *)width;
 - (JKSpectrum *)spectrum;
 - (JKSpectrum *)combinedSpectrum;
 - (NSNumber *)score;

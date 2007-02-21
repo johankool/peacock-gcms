@@ -16,6 +16,8 @@
     JKSpectrum *testSpectrum1;
     JKSpectrum *testSpectrum2;
     JKSpectrum *testSpectrum3;
+    JKSpectrum *testSpectrum4;
+    JKSpectrum *testSpectrum5;
 }
 
 @end

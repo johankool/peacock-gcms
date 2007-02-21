@@ -148,6 +148,7 @@
 	} 
 	
     // Reset things we'll be collecting
+    [self willChangeValueForKey:@"metadata"];
 	[metadata removeAllObjects];
 	[combinedPeaks removeAllObjects];
 	[ratioValues removeAllObjects];
@@ -276,6 +277,7 @@
 	[error release];
 	[[self window] makeKeyAndOrderFront:self];
 	
+    [self insertTableColumns];
     
 	// Present graphdataseries in colors
     NSColorList *peakColors = [NSColorList colorListNamed:@"Peacock Series"];
@@ -303,6 +305,7 @@
         [tabView performSelectorOnMainThread:@selector(selectTabViewItemWithIdentifier:) withObject:@"tabular" waitUntilDone:NO];
     }
 		
+    [self didChangeValueForKey:@"metadata"];
 	[pool release];
 }
 
@@ -563,36 +566,51 @@
     
     //	JKLogInfo(@"File %d: %@; time: %.2g s; peaks: %d; peaks comp.: %d; comb. peaks: %d; speed: %.f peaks/s",index, [document displayName], -[date timeIntervalSinceNow], peaksCount, peaksCompared, [combinedPeaks count], peaksCompared/-[date timeIntervalSinceNow]);
 	
-	NSTableColumn *tableColumn = [[NSTableColumn alloc] init];
-	[tableColumn setIdentifier:document];
-	[[tableColumn headerCell] setStringValue:[document displayName]];
-    NSString *keyPath;
-    switch (valueToUse) {
-    case 1:
-        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.normalizedHeight",[NSString stringWithFormat:@"file_%d",index]];
-        break;
-    case 2:
-        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.retentionIndex",[NSString stringWithFormat:@"file_%d",index]];
-        break;
-    case 3:
-        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.topTime",[NSString stringWithFormat:@"file_%d",index]];
-        break;
-    case 0:
-    default:
-        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.normalizedSurface",[NSString stringWithFormat:@"file_%d",index]];
-        break;
-    }
-	[tableColumn bind:@"value" toObject:combinedPeaksController withKeyPath:keyPath options:nil];
-	[[tableColumn dataCell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
-	NSNumberFormatter *formatter = [[[NSNumberFormatter alloc] init] autorelease];
-	[formatter setFormatterBehavior:NSNumberFormatterDecimalStyle];
-	[formatter setPositiveFormat:@"#0.0"];
-	[formatter setLocalizesFormat:YES];
-	[[tableColumn dataCell] setFormatter:formatter];
-	[[tableColumn dataCell] setAlignment:NSRightTextAlignment];
-	[tableColumn setEditable:NO];
-	[resultsTable addTableColumn:tableColumn];
-	[tableColumn release];
+//	NSTableColumn *tableColumn = [[NSTableColumn alloc] init];
+//	[tableColumn setIdentifier:document];
+//	[[tableColumn headerCell] setStringValue:[document displayName]];
+//    NSString *keyPath;
+//    switch (valueToUse) {
+//    case 1:
+//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.normalizedHeight",[NSString stringWithFormat:@"file_%d",index]];
+//        break;
+//    case 2:
+//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.retentionIndex",[NSString stringWithFormat:@"file_%d",index]];
+//        break;
+//    case 3:
+//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.topTime",[NSString stringWithFormat:@"file_%d",index]];
+//        break;
+//    case 4:
+//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.top",[NSString stringWithFormat:@"file_%d",index]];
+//        break;
+//    case 5:
+//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.surface",[NSString stringWithFormat:@"file_%d",index]];
+//        break;
+//    case 6:
+//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.height",[NSString stringWithFormat:@"file_%d",index]];
+//        break;
+//    case 7:
+//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.width",[NSString stringWithFormat:@"file_%d",index]];
+//        break;
+//    case 8:
+//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.score",[NSString stringWithFormat:@"file_%d",index]];
+//        break;
+//    case 0:
+//    default:
+//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.normalizedSurface",[NSString stringWithFormat:@"file_%d",index]];
+//        break;
+//    }
+//	[tableColumn bind:@"value" toObject:combinedPeaksController withKeyPath:keyPath options:nil];
+//	[[tableColumn dataCell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+//	NSNumberFormatter *formatter = [[[NSNumberFormatter alloc] init] autorelease];
+//	[formatter setFormatterBehavior:NSNumberFormatterDecimalStyle];
+//	[formatter setPositiveFormat:@"#0.0"];
+//	[formatter setLocalizesFormat:YES];
+//	[[tableColumn dataCell] setFormatter:formatter];
+//	[[tableColumn dataCell] setAlignment:NSRightTextAlignment];
+//	[tableColumn setEditable:NO];
+//	[resultsTable addTableColumn:tableColumn];
+//	[tableColumn release];
 	
 	[subPool release];
 }
@@ -797,7 +815,7 @@
 	int filesCount = [files count];
 
 //	NSError *error = [[NSError alloc] init];
-//	JKMainDocument *document;
+	NSDocument *document;
 	
 	// Remove all but the first column from the tableview
 	int columnCount = [metadataTable numberOfColumns];
@@ -818,10 +836,12 @@
 	NSString *keyPath;
 	NSNumberFormatter *formatter;
 	for (i=0; i < filesCount; i++) {
-//		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:NO error:&error];
-
+		document = [[NSDocumentController sharedDocumentController] documentForURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]]];
+        // If document not open, ignore...
+        if (!document) continue;
+        
 		tableColumn = [[NSTableColumn alloc] init];
-//		[tableColumn setIdentifier:document];
+		[tableColumn setIdentifier:document];
 		keyPath = [NSString stringWithFormat:@"arrangedObjects.%@",[NSString stringWithFormat:@"file_%d",i]];
 		[[tableColumn headerCell] setStringValue:[[metadata objectAtIndex:3] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
 		[tableColumn bind:@"value" toObject:metadataController withKeyPath:keyPath options:nil];
@@ -833,26 +853,41 @@
 		
 		// Combined peaks
 		tableColumn = [[NSTableColumn alloc] init];
-//		[tableColumn setIdentifier:document];
-//		[[tableColumn headerCell] setStringValue:[document displayName]];
+		[tableColumn setIdentifier:document];
+		[[tableColumn headerCell] setStringValue:[document displayName]];
 //		keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.normalizedSurface",[NSString stringWithFormat:@"file_%d",i]];
         NSString *keyPath;
         switch (valueToUse) {
             case 1:
-                keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.normalizedHeight",[NSString stringWithFormat:@"file_%d",index]];
+                keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.normalizedHeight",[NSString stringWithFormat:@"file_%d",i]];
                 break;
             case 2:
-                keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.retentionIndex",[NSString stringWithFormat:@"file_%d",index]];
+                keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.retentionIndex",[NSString stringWithFormat:@"file_%d",i]];
                 break;
             case 3:
-                keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.topTime",[NSString stringWithFormat:@"file_%d",index]];
+                keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.topTime",[NSString stringWithFormat:@"file_%d",i]];
+                break;
+            case 4:
+                keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.top",[NSString stringWithFormat:@"file_%d",i]];
+                break;
+            case 5:
+                keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.surface",[NSString stringWithFormat:@"file_%d",i]];
+                break;
+            case 6:
+                keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.height",[NSString stringWithFormat:@"file_%d",i]];
+                break;
+            case 7:
+                keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.width",[NSString stringWithFormat:@"file_%d",i]];
+                break;
+            case 8:
+                keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.score",[NSString stringWithFormat:@"file_%d",i]];
                 break;
             case 0:
             default:
-                keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.normalizedSurface",[NSString stringWithFormat:@"file_%d",index]];
+                keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.normalizedSurface",[NSString stringWithFormat:@"file_%d",i]];
                 break;
         }
-		[[tableColumn headerCell] setStringValue:[[metadata objectAtIndex:3] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+		[[tableColumn headerCell] setStringValue:[document displayName]];
 		[tableColumn bind:@"value" toObject:combinedPeaksController withKeyPath:keyPath options:nil];
 		[[tableColumn dataCell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
 		formatter = [[[NSNumberFormatter alloc] init] autorelease];
@@ -867,8 +902,8 @@
 		
 		// Ratios
 		tableColumn = [[NSTableColumn alloc] init];
-//		[tableColumn setIdentifier:document];
-//		[[tableColumn headerCell] setStringValue:[document displayName]];
+		[tableColumn setIdentifier:document];
+		[[tableColumn headerCell] setStringValue:[document displayName]];
 		keyPath = [NSString stringWithFormat:@"arrangedObjects.%@",[NSString stringWithFormat:@"file_%d",i]];
 		[[tableColumn headerCell] setStringValue:[[metadata objectAtIndex:3] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
 		[tableColumn bind:@"value" toObject:ratiosValuesController withKeyPath:keyPath options:nil];
@@ -883,12 +918,10 @@
 		[tableColumn setEditable:NO];
 		[ratiosTable addTableColumn:tableColumn];
 		[tableColumn release];
-		
-//		[document close];
-	}
+    }
 	
 	// Finishing
-	[self sortCombinedPeaks];
+//	[self sortCombinedPeaks];
 }
 
 - (void)setupComparisonWindowForDocument:(JKGCMSDocument *)document atIndex:(int)index{
@@ -939,6 +972,15 @@
         break;
     }
     return nil;
+}
+
+- (IBAction)repopulate:(id)sender {
+    [self insertTableColumns];
+}
+
+- (IBAction)repopulateContextMenuAction:(id)sender {
+    valueToUse = [sender tag];
+    [self insertTableColumns];
 }
 
 #pragma mark IBACTIONS

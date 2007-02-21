@@ -246,6 +246,9 @@
     return spectrum;
 }
 
+- (NSNumber *)width {
+    return [NSNumber numberWithInt:end-start];
+}
 
 
 #pragma mark ACCESSORS

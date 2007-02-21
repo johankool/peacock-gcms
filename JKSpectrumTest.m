@@ -17,6 +17,8 @@
     testSpectrum1 = [[JKSpectrum alloc] init];
     testSpectrum2 = [[JKSpectrum alloc] init];
     testSpectrum3 = [[JKSpectrum alloc] init];
+    testSpectrum4 = [[JKSpectrum alloc] init];
+    testSpectrum5 = [[JKSpectrum alloc] init];
     float masses[10];
     float intensities[10];
 
@@ -89,7 +91,51 @@
     [testSpectrum3 setMasses:masses withCount:10];
     [testSpectrum3 setIntensities:intensities withCount:10];
     
-
+    masses[0] = 55.0f;
+    masses[1] = 65.0f;
+    masses[2] = 75.0f;
+    masses[3] = 85.0f;
+    masses[4] = 95.0f;
+    masses[5] = 105.0f;
+    masses[6] = 115.0f;
+    masses[7] = 125.0f;
+    masses[8] = 135.0f;
+    masses[9] = 145.0f;
+    intensities[0] = 100.0f;
+    intensities[1] = 90.0f;
+    intensities[2] = 80.0f;
+    intensities[3] = 90.0f;
+    intensities[4] = 100.0f;
+    intensities[5] = 120.0f;
+    intensities[6] = 130.0f;
+    intensities[7] = 200.0f;
+    intensities[8] = 100.0f;
+    intensities[9] = 100.0f;
+    [testSpectrum4 setMasses:masses withCount:10];
+    [testSpectrum4 setIntensities:intensities withCount:10];
+    
+    masses[0] = 50.0f;
+    masses[1] = 60.0f;
+    masses[2] = 70.0f;
+    masses[3] = 80.0f;
+    masses[4] = 90.0f;
+    masses[5] = 100.0f;
+    masses[6] = 110.0f;
+    masses[7] = 121.0f;
+    masses[8] = 130.0f;
+    masses[9] = 140.0f;
+    intensities[0] = 50.0f;
+    intensities[1] = 45.0f;
+    intensities[2] = 40.0f;
+    intensities[3] = 45.0f;
+    intensities[4] = 50.0f;
+    intensities[5] = 60.0f;
+    intensities[6] = 65.0f;
+    intensities[7] = 200.0f;
+    intensities[8] = 50.0f;
+    intensities[9] = 50.0f;
+    [testSpectrum5 setMasses:masses withCount:10];
+    [testSpectrum5 setIntensities:intensities withCount:10];
 }
 
 - (void)tearDown {
@@ -97,6 +143,8 @@
     [testSpectrum1 release];
     [testSpectrum2 release];
     [testSpectrum3 release];
+    [testSpectrum4 release];
+    [testSpectrum5 release];
 }
 
 - (void)testCase1 {
@@ -178,6 +226,10 @@
     STAssertEquals(score, 100.0f, @"Error JKMZValuesScoreBasis spectrum1");
 	score = [testSpectrum1 scoreComparedToSpectrum:testSpectrum1 usingMethod:JKLiteratureReferenceScoreBasis penalizingForRententionIndex:NO];
     STAssertEquals(score, 100.0f, @"Error JKLiteratureReferenceScoreBasis spectrum1");
+    score = [testSpectrum1 scoreComparedToSpectrum:testSpectrum4 usingMethod:JKAbundanceScoreBasis penalizingForRententionIndex:NO];
+    STAssertEquals(score, 0.0f, @"Error JKAbundanceScoreBasis spectrum1-4");
+    score = [testSpectrum1 scoreComparedToSpectrum:testSpectrum5 usingMethod:JKAbundanceScoreBasis penalizingForRententionIndex:NO];
+//    STAssertEquals(score, 50.0f, @"Error JKAbundanceScoreBasis spectrum1-5");
     
 	score = [testSpectrum2 scoreComparedToSpectrum:testSpectrum2 usingMethod:JKAbundanceScoreBasis penalizingForRententionIndex:NO];
     STAssertEquals(score, 100.0f, @"Error JKAbundanceScoreBasis spectrum2");

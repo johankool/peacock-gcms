@@ -85,6 +85,7 @@
 - (void)removeObjectFromBaselinePointsAtIndex:(int)index;
 - (void)replaceObjectInBaselinePointsAtIndex:(int)index withObject:(NSMutableDictionary *)aBaselinePoint;
 - (BOOL)validateBaselinePoint:(NSMutableDictionary **)aBaselinePoint error:(NSError **)outError;
+- (void)cacheBaselinePoints;
 
 // Mutable To-Many relationship peak
 - (NSMutableArray *)peaks;

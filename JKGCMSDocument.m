@@ -25,7 +25,7 @@
 NSString *const JKGCMSDocument_DocumentDeactivateNotification = @"JKGCMSDocument_DocumentDeactivateNotification";
 NSString *const JKGCMSDocument_DocumentActivateNotification   = @"JKGCMSDocument_DocumentActivateNotification";
 NSString *const JKGCMSDocument_DocumentLoadedNotification     = @"JKGCMSDocument_DocumentLoadedNotification";
-int const JKGCMSDocument_Version = 5;
+int const JKGCMSDocument_Version = 6;
 static void *DocumentObservationContext = (void *)1100;
 
 @implementation JKGCMSDocument
@@ -57,6 +57,8 @@ static void *DocumentObservationContext = (void *)1100;
 		penalizeForRetentionIndex = [[defaultValues valueForKey:@"penalizeForRetentionIndex"] boolValue];
 		markAsIdentifiedThreshold = [[defaultValues valueForKey:@"markAsIdentifiedThreshold"] retain];
 		minimumScoreSearchResults = [[defaultValues valueForKey:@"minimumScoreSearchResults"] retain];
+		minimumScannedMassRange = [[defaultValues valueForKey:@"minimumScannedMassRange"] retain];
+		maximumScannedMassRange = [[defaultValues valueForKey:@"maximumScannedMassRange"] retain];
         
         peakIDCounter = 0;
         _documentProxy = [[NSDictionary alloc] initWithObjectsAndKeys:@"_documentProxy", @"_documentProxy",nil];
@@ -152,6 +154,8 @@ static void *DocumentObservationContext = (void *)1100;
 		[archiver encodeBool:penalizeForRetentionIndex forKey:@"penalizeForRetentionIndex"];
 		[archiver encodeObject:[self markAsIdentifiedThreshold] forKey:@"markAsIdentifiedThreshold"];
 		[archiver encodeObject:[self minimumScoreSearchResults] forKey:@"minimumScoreSearchResults"];
+		[archiver encodeObject:[self minimumScannedMassRange] forKey:@"minimumScannedMassRange"];
+		[archiver encodeObject:[self maximumScannedMassRange] forKey:@"maximumScannedMassRange"];
 		
 		[archiver finishEncoding];
 		[archiver release];
@@ -238,8 +242,13 @@ static void *DocumentObservationContext = (void *)1100;
             [[chromatograms objectAtIndex:0] setPeaks:[unarchiver decodeObjectForKey:@"peaks"]];
             break;
         case 5:
+            chromatograms = [[unarchiver decodeObjectForKey:@"chromatograms"] retain];
+            break;
+        case 6:
         default:
             chromatograms = [[unarchiver decodeObjectForKey:@"chromatograms"] retain];
+            minimumScannedMassRange = [[unarchiver decodeObjectForKey:@"minimumScannedMassRange"] retain];
+            maximumScannedMassRange = [[unarchiver decodeObjectForKey:@"maximumScannedMassRange"] retain];
             break;
         }
         metadata = [[unarchiver decodeObjectForKey:@"metadata"] retain];
@@ -560,7 +569,7 @@ static void *DocumentObservationContext = (void *)1100;
 }
 
 - (JKChromatogram *)chromatogramForModel:(NSString *)model {
-    int     dummy, scan, dimid, varid_time_value, varid_intensity_value, varid_mass_value, varid_scan_index, varid_point_count, scanCount;
+    int     dummy, scan, dimid, varid_intensity_value, varid_mass_value, varid_scan_index, varid_point_count, scanCount; //varid_time_value
     float   mass, intensity;
     float	*times,	*intensities;
     unsigned int numberOfPoints, num_scan;
@@ -750,7 +759,7 @@ static void *DocumentObservationContext = (void *)1100;
 	int j,k,l;
 	int entriesCount, answer, chromatogramCount;
 	float score;	
-    NSString *libraryEntryModel = @"";
+//    NSString *libraryEntryModel = @"";
     
 	[self setAbortAction:NO];
     NSProgressIndicator *progressIndicator = nil;
@@ -774,6 +783,7 @@ static void *DocumentObservationContext = (void *)1100;
 	}
 	
 	// Read library 
+    [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:NSLocalizedString(@"Reading Library",@"") waitUntilDone:NO];
 	NSError *error = [[NSError alloc] init];
 	if (![self libraryAlias]) {
 		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Library Selected",@""),NSLocalizedString(@"Select a Library to use for the identification of the peaks.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
@@ -793,30 +803,32 @@ static void *DocumentObservationContext = (void *)1100;
 	entriesCount = [libraryEntries count];
 	[progressIndicator setIndeterminate:NO];
 	[progressIndicator setMaxValue:chromatogramCount*1.0];
-    JKLogDebug(@"entriesCount %d peaksCount %d",entriesCount, peaksCount);
+//    JKLogDebug(@"entriesCount %d peaksCount %d",entriesCount, peaksCount);
     
     for (l = 0; l < chromatogramCount; l++) {  
         chromatogramToSearch = [someChromatograms objectAtIndex:l];
-        [progressText setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Searching for Chromatogram '%@'",@""),[chromatogramToSearch model]]];
+        [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Searching for Chromatogram '%@'",@""),[chromatogramToSearch model]] waitUntilDone:NO];
 
         peaksCount = [[chromatogramToSearch peaks] count];
         for (k = 0; k < peaksCount; k++) {
             peak = [[chromatogramToSearch peaks] objectAtIndex:k];
             for (j = 0; j < entriesCount; j++) {
                 libraryEntry = [libraryEntries objectAtIndex:j];
-                libraryEntryModel = [libraryEntry modelChr];
-                if ([libraryEntryModel isEqualToString:[chromatogramToSearch model]]) {
-                    chromatogramToSearch = [someChromatograms objectAtIndex:l];
-                } else if ([libraryEntryModel isEqualToString:@""] && [[chromatogramToSearch model] isEqualToString:@"TIC"]) {
-                    // Search through TIC by default
-
-                } else {
-                    continue;
-                }
+//                libraryEntryModel = [libraryEntry modelChr];
+//                if ([libraryEntryModel isEqualToString:[chromatogramToSearch model]]) {
+//                    chromatogramToSearch = [someChromatograms objectAtIndex:l];
+//                } else if ([libraryEntryModel isEqualToString:@""] && [[chromatogramToSearch model] isEqualToString:@"TIC"]) {
+//                    // Search through TIC by default
+//
+//                } else {
+//                    continue;
+//                }
                 if (spectrumToUse == JKSpectrumSearchSpectrum) {
                     score = [[peak spectrum] scoreComparedToLibraryEntry:libraryEntry];                    
                 } else if (spectrumToUse == JKCombinedSpectrumSearchSpectrum) {
                     score = [[peak combinedSpectrum] scoreComparedToLibraryEntry:libraryEntry];
+                } else {
+                    NSLog(@"This should NOT happen!");
                 }
                 if (score >= minimumScoreSearchResultsF) {
                     JKSearchResult *searchResult = [[JKSearchResult alloc] init];
@@ -828,12 +840,14 @@ static void *DocumentObservationContext = (void *)1100;
                     [searchResult release];
                 }
             }
+            [progressIndicator incrementBy:(k*1.0/peaksCount)/chromatogramCount];
+
         }
         if(abortAction){
 			JKLogInfo(@"Identifying Compounds Search Aborted by User at entry %d/%d peak %d/%d.",j,entriesCount, k, peaksCount);
 			break;
 		}       
-        [progressIndicator incrementBy:1.0];
+        [progressIndicator incrementBy:chromatogramCount];
     }
     
 	
@@ -929,6 +943,7 @@ static void *DocumentObservationContext = (void *)1100;
              }
         } else {
             if ([searchChromatograms containsObject:[[self chromatograms] objectAtIndex:0]]) {
+                JKLogWarning(@"Using TIC chromatogram for library entry '%@'.", [libraryEntry name]); 
                 chromatogramToSearch = [[self chromatograms] objectAtIndex:0];
             } else {
                 continue;
@@ -942,6 +957,7 @@ static void *DocumentObservationContext = (void *)1100;
             [newChromatograms addObject:chromatogramToSearch];
             [chromatogramToSearch identifyPeaks];                          
         }
+        [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Library Entry '%@'",@""),[libraryEntry name]] waitUntilDone:NO];
         peaksCount = [[chromatogramToSearch peaks] count];
 		for (k = 0; k < peaksCount; k++) {
 			score = [[[[chromatogramToSearch peaks] objectAtIndex:k] spectrum] scoreComparedToLibraryEntry:libraryEntry];
@@ -978,14 +994,14 @@ static void *DocumentObservationContext = (void *)1100;
 	while ((chrom = [newEnum nextObject]) != nil) {
 		NSEnumerator *peakEnum = [[chrom peaks] objectEnumerator];
 		JKPeakRecord *peak;
-        [chrom willChangeValueForKey:@"peaks"];
+//        [chrom willChangeValueForKey:@"peaks"];
 
 		while ((peak = [peakEnum nextObject]) != nil) {
-			if ([peak countOfSearchResults] == 0) {
+			if (([peak countOfSearchResults] == 0) && ([peak identified] == NO) && ([peak confirmed] == NO)) {
                 [[chrom peaks] removeObject:peak];
             }
 		}    
-        [chrom didChangeValueForKey:@"peaks"];
+//        [chrom didChangeValueForKey:@"peaks"];
         if ((![[self chromatograms] containsObject:chrom]) && ([[chrom peaks] count] > 0)){
             [self insertObject:chrom inChromatogramsAtIndex:[self countOfChromatograms]];
         }            
@@ -998,6 +1014,29 @@ static void *DocumentObservationContext = (void *)1100;
 		[[mainWindowController chromatogramView] setNeedsDisplay:YES];
 	
 	return YES;
+}
+
+- (void)resetToDefaultValues{
+	id defaultValues = [[NSUserDefaultsController sharedUserDefaultsController] values];
+	
+	[self setBaselineWindowWidth:[defaultValues valueForKey:@"baselineWindowWidth"]];
+	[self setBaselineDistanceThreshold:[defaultValues valueForKey:@"baselineDistanceThreshold"]];
+	[self setBaselineSlopeThreshold:[defaultValues valueForKey:@"baselineSlopeThreshold"]];
+	[self setBaselineDensityThreshold:[defaultValues valueForKey:@"baselineDensityThreshold"]];
+	[self setPeakIdentificationThreshold:[defaultValues valueForKey:@"peakIdentificationThreshold"]];
+	[self setRetentionIndexSlope:[defaultValues valueForKey:@"retentionIndexSlope"]];
+	[self setRetentionIndexRemainder:[defaultValues valueForKey:@"retentionIndexRemainder"]];
+	[self setLibraryAlias:[BDAlias aliasWithPath:[defaultValues valueForKey:@"libraryAlias"]]];
+	[self setScoreBasis:[[defaultValues valueForKey:@"scoreBasis"] intValue]];
+	[self setSearchDirection:[[defaultValues valueForKey:@"searchDirection"] intValue]];
+	[self setSpectrumToUse:[[defaultValues valueForKey:@"spectrumToUse"] intValue]];
+	[self setPenalizeForRetentionIndex:[[defaultValues valueForKey:@"penalizeForRetentionIndex"] boolValue]];
+	[self setMarkAsIdentifiedThreshold:[defaultValues valueForKey:@"markAsIdentifiedThreshold"]];
+	[self setMinimumScoreSearchResults:[defaultValues valueForKey:@"minimumScoreSearchResults"]];
+	[self setMinimumScannedMassRange:[defaultValues valueForKey:@"minimumScannedMassRange"]];
+	[self setMaximumScannedMassRange:[defaultValues valueForKey:@"maximumScannedMassRange"]];
+	
+	[[self undoManager] setActionName:NSLocalizedString(@"Reset to Default Values",@"Reset to Default Values")];
 }
 
 #pragma mark NOTIFICATIONS
@@ -1224,24 +1263,6 @@ static void *DocumentObservationContext = (void *)1100;
 	}
 }
 
-- (void)resetToDefaultValues{
-	id defaultValues = [[NSUserDefaultsController sharedUserDefaultsController] values];
-	
-	[self setBaselineWindowWidth:[defaultValues valueForKey:@"baselineWindowWidth"]];
-	[self setBaselineDistanceThreshold:[defaultValues valueForKey:@"baselineDistanceThreshold"]];
-	[self setBaselineSlopeThreshold:[defaultValues valueForKey:@"baselineSlopeThreshold"]];
-	[self setBaselineDensityThreshold:[defaultValues valueForKey:@"baselineDensityThreshold"]];
-	[self setPeakIdentificationThreshold:[defaultValues valueForKey:@"peakIdentificationThreshold"]];
-	[self setRetentionIndexSlope:[defaultValues valueForKey:@"retentionIndexSlope"]];
-	[self setRetentionIndexRemainder:[defaultValues valueForKey:@"retentionIndexRemainder"]];
-	[self setLibraryAlias:[BDAlias aliasWithPath:[defaultValues valueForKey:@"libraryAlias"]]];
-	[self setScoreBasis:[[defaultValues valueForKey:@"scoreBasis"] intValue]];
-	[self setPenalizeForRetentionIndex:[[defaultValues valueForKey:@"penalizeForRetentionIndex"] boolValue]];
-	[self setMarkAsIdentifiedThreshold:[defaultValues valueForKey:@"markAsIdentifiedThreshold"]];
-	[self setMinimumScoreSearchResults:[defaultValues valueForKey:@"minimumScoreSearchResults"]];
-	
-	[[self undoManager] setActionName:NSLocalizedString(@"Reset to Default Values",@"Reset to Default Values")];
-}
 
 //- (IBAction)fix:(id)sender {
 //    NSRunAlertPanel(@"Fix old file-format",@"Do not switch to another window until done.",@"Fix",nil,nil);
@@ -1691,6 +1712,8 @@ intUndoAccessor(spectrumToUse, setSpectrumToUse,@"Change Spectrum")
 boolUndoAccessor(penalizeForRetentionIndex, setPenalizeForRetentionIndex, @"Change Penalize for Offset Retention Index")
 idUndoAccessor(markAsIdentifiedThreshold, setMarkAsIdentifiedThreshold, @"Change Identification Score")
 idUndoAccessor(minimumScoreSearchResults, setMinimumScoreSearchResults, @"Change Minimum Score")
+idUndoAccessor(minimumScannedMassRange, setMinimumScannedMassRange, @"Change Minimum Scanned Mass Range")
+idUndoAccessor(maximumScannedMassRange, setMaximumScannedMassRange, @"Change Maximum Scanned Mass Range")
 
 boolAccessor(abortAction, setAbortAction)
 

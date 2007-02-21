@@ -1347,7 +1347,7 @@ static int   kPaddingLabels             = 4;
                 } else {
                     _lastSelectedPeakIndex = NSNotFound;
                 }
-			} else {
+			} else if (_startedInsidePlottingArea) {
  				//  select peak(/select baseline point/select scan)
                 selectedPeak = [self peakAtPoint:mouseLocation];
                 if (selectedPeak) {

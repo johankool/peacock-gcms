@@ -30,6 +30,7 @@
                 showLibraryHitAction = id; 
                 showNormalizedSpectraAction = id; 
                 showPeaksAction = id; 
+                showSelectedChromatogramsOnlyAction = id; 
                 showSpectrumAction = id; 
                 showTICTraceAction = id; 
             }; 

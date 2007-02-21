@@ -106,6 +106,7 @@
 - (IBAction)exportSummary:(id)sender;
 - (IBAction)runStatisticalAnalysisButtonAction:(id)sender;
 - (IBAction)stopButtonAction:(id)sender;
+- (IBAction)repopulate:(id)sender;
 
 #pragma mark ACCESSORS
 // Mutable To-Many relationship combinedPeak

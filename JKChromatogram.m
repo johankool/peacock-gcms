@@ -14,6 +14,7 @@
 #import "JKSpectrum.h"
 #import "jk_statistics.h"
 #import "netcdf.h"
+#import "NSCoder+CArrayEncoding.h"
 
 @implementation JKChromatogram
 
@@ -464,6 +465,8 @@
 		[coder encodeBytes:(void *)time length:numberOfPoints*sizeof(float) forKey:@"time"];
 		[coder encodeBytes:(void *)totalIntensity length:numberOfPoints*sizeof(float) forKey:@"totalIntensity"];
         
+//        [coder encodeFloatArray:time withCount:numberOfPoints forKey:@"newTime"];
+//        [coder encodeFloatArray:totalIntensity withCount:numberOfPoints forKey:@"newTotalIntensity"];
     } 
     return;
 }
@@ -491,6 +494,11 @@
         baselinePointsScans = (int *) malloc(2*sizeof(int));
         baselinePointsIntensities = (float *) malloc(2*sizeof(float));
 
+//        float *temporaryF = [coder decodeFloatArrayForKey:@"newTime" returnedCount:&length];
+//        [self setTime:(float *)temporaryF withCount:length];
+//        temporaryF = [coder decodeFloatArrayForKey:@"newTotalIntensity" returnedCount:&length];
+//        [self setTotalIntensity:(float *)temporaryF withCount:length];
+        
  	} 
     return self;
 }

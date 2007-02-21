@@ -74,6 +74,8 @@ typedef enum {
 	BOOL penalizeForRetentionIndex;
 	NSNumber *markAsIdentifiedThreshold;
 	NSNumber *minimumScoreSearchResults;
+	NSNumber *minimumScannedMassRange;
+	NSNumber *maximumScannedMassRange;
 
     int peakIDCounter;
 		
@@ -209,5 +211,7 @@ boolAccessor_h(penalizeForRetentionIndex, setPenalizeForRetentionIndex)
 idAccessor_h(markAsIdentifiedThreshold, setMarkAsIdentifiedThreshold)
 idAccessor_h(minimumScoreSearchResults, setMinimumScoreSearchResults)
 boolAccessor_h(abortAction, setAbortAction)
+idAccessor_h(minimumScannedMassRange, setMinimumScannedMassRange)
+idAccessor_h(maximumScannedMassRange, setMaximumScannedMassRange)
 
 @end

@@ -71,6 +71,7 @@ enum JKPeakSelection {
 	BOOL showCombinedSpectrum;
 	BOOL showLibraryHit;
 	BOOL showNormalizedSpectra;
+	BOOL showSelectedChromatogramsOnly;
 	int showPeaks;
     
 	// Printing
@@ -102,6 +103,7 @@ enum JKPeakSelection {
 - (IBAction)editLibrary:(id)sender;
 - (IBAction)fitChromatogramDataToView:(id)sender;
 - (IBAction)fitSpectrumDataToView:(id)sender;
+- (IBAction)showSelectedChromatogramsOnlyAction:(id)sender;
 
 #pragma mark NSTOOLBAR MANAGEMENT
 - (void)setupToolbar;
@@ -125,4 +127,6 @@ boolAccessor_h(showCombinedSpectrum, setShowCombinedSpectrum)
 boolAccessor_h(showLibraryHit, setShowLibraryHit)
 intAccessor_h(showPeaks, setShowPeaks)
 idAccessor_h(printAccessoryView, setPrintAccessoryView)
+boolAccessor_h(showSelectedChromatogramsOnly, setShowSelectedChromatogramsOnly)
+
 @end

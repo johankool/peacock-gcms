@@ -254,11 +254,13 @@
 	int i,j,k,count1,count2;
 	float score, score2, score3, maxIntensityLibraryEntry, maxIntensitySpectrum;
 	i=0; j=0; k=0; 
-	score = 0.0;
-	score2 = 0.0;
-	score3 = 0.0;
+	score = 0.0f;
+	score2 = 0.0f;
+	score3 = 0.0f;
 	maxIntensityLibraryEntry = jk_stats_float_max([libraryEntry intensities],numberOfPoints);
+    NSAssert(maxIntensityLibraryEntry > 0.0f, @"maxIntensityLibraryEntry is 0 or smaller");
 	maxIntensitySpectrum = jk_stats_float_max(intensities,numberOfPoints);;
+    NSAssert(maxIntensitySpectrum > 0.0f, @"maxIntensitySpectrum is 0 or smaller");
 	count1 = [self numberOfPoints];
 	count2 = [libraryEntry numberOfPoints];
 	float *peakMasses = [self masses];
@@ -269,58 +271,131 @@
 	float temp1, temp2;
 	BOOL peakMassesAtEnd = NO;
 	BOOL libraryEntryMassesAtEnd = NO;
-	
+    i = 0;
+    j = 0;
+    k = 0; 
+    BOOL iFinished = NO;
+    BOOL jFinished = NO;
+    BOOL useForScore = YES;
+    BOOL useScanRangeCheck = NO;
+    float minScannedMassRange = 0.0f;
+    float maxScannedMassRange = 1000000.0f;
+    if ([self document]) {
+        minScannedMassRange = [[[self document] minimumScannedMassRange] floatValue];
+        maxScannedMassRange = [[[self document] maximumScannedMassRange] floatValue];        
+        useScanRangeCheck = YES;
+    } 
+    
 	switch (scoreBasis) {
-		case 0: // Using formula 1 in Gan 2001
-			while ((i < count1) & (j < count2)) {
+        case JKAbundanceScoreBasis: // Using formula 1 in Gan 2001
+ 			while ((!iFinished) || (!jFinished)) {
 				// If we go beyond the bounds, we get unexpected results, so make sure we are within the bounds.
-				if (i >= count1) i = count1-1;
-				if (j >= count2) j = count2-1;
+				if ((i >= count1) && (j >= count2)) {
+                    iFinished = YES;
+                    jFinished = YES;
+                    break;
+                } else if (i >= count1) {
+                    iFinished = YES;
+                    massDifference = peakMasses[count1-1] - libraryEntryMasses[j];
+                    if ((libraryEntryMasses[j] < minScannedMassRange) || (libraryEntryMasses[j] >  maxScannedMassRange)) {
+                        // Do not use for scoring
+                        useForScore = NO;
+                    } else {
+                        useForScore = YES;
+                    }
+                } else if (j >= count2) {
+                    jFinished = YES;
+                    massDifference = peakMasses[i] - libraryEntryMasses[count2-1];
+                    if ((libraryEntryMasses[count2-1] < minScannedMassRange) || (libraryEntryMasses[count2-1] >  maxScannedMassRange)) {
+                        // Do not use for scoring
+                        useForScore = NO;
+                    } else {
+                        useForScore = YES;
+                    }
+                } else {
+                    massDifference = peakMasses[i] - libraryEntryMasses[j];
+                    if ((libraryEntryMasses[j] < minScannedMassRange) || (libraryEntryMasses[j] >  maxScannedMassRange)) {
+                        // Do not use for scoring
+                        useForScore = NO;
+                    } else {
+                        useForScore = YES;
+                    }
+                }
+                
 				// roundf is expensive
 				// massDifference = roundf(peakMasses[i]) - roundf(libraryEntryMasses[j]);
 				// therefor is an alternative routine
-				massDifference = peakMasses[i] - libraryEntryMasses[j];
-				if ( fabs(massDifference) < 0.5f) {
-					massDifference = 0.0f;
-				}
+//				massDifference = peakMasses[i] - libraryEntryMasses[j];
 				
-				if (massDifference == 0.0) {
-					temp1  = (peakIntensities[i]/maxIntensitySpectrum);
-					temp2  = (libraryEntryIntensities[j]/maxIntensityLibraryEntry);
-					score  = score  + fabsf(temp1 - temp2);
-					score2 = score2 + fabsf(temp1 + temp2);
+				if (fabsf(massDifference) < 0.5f) {
+                    if ((useForScore && useScanRangeCheck) || !useScanRangeCheck) {
+                        temp1  = (peakIntensities[i]/maxIntensitySpectrum);
+                        temp2  = (libraryEntryIntensities[j]/maxIntensityLibraryEntry);
+                        score  = score  + fabsf(temp1 - temp2);
+                        score2 = score2 + fabsf(temp1 + temp2);                        
+                    }
 					
-					k++; i++; j++;
-				} else if (massDifference < 0.0) {
-					temp1  = fabsf(peakIntensities[i]/maxIntensitySpectrum);
-					score  = score  + temp1;
-					score2 = score2 + temp1;
-					
-					k++; i++;
-				} else if (massDifference > 0.0) {
-					temp1  = fabsf(libraryEntryIntensities[j]/maxIntensityLibraryEntry);
-					score  = score  + temp1;
-					score2 = score2 + temp1;
-					
-					k++; j++;
-				} else {
+                    if (iFinished) {
+                        k++; j++;
+                    } else if (jFinished) {
+                        k++; i++;
+                    } else {                        
+                        k++; i++; j++;
+                    }
+				} else if ((massDifference < 0.0f) && !iFinished) { // mass1 is smaller than mass2 -> if possible increase mass1
+                    if ((useForScore && useScanRangeCheck) || !useScanRangeCheck) {
+                        temp1  = fabsf(peakIntensities[i]/maxIntensitySpectrum);
+                        score  = score  + temp1;
+                        score2 = score2 + temp1;
+                    }
+                    k++; i++;
+				} else if ((massDifference > 0.0f) && !jFinished) {
+                    if ((useForScore && useScanRangeCheck) || !useScanRangeCheck) {
+                        temp1  = fabsf(libraryEntryIntensities[j]/maxIntensityLibraryEntry);
+                        score  = score  + temp1;
+                        score2 = score2 + temp1;
+					}
+                    
+                    k++; j++;
+ 				} else if (iFinished) {
+                    if ((useForScore && useScanRangeCheck) || !useScanRangeCheck) {
+                        temp1  = fabsf(libraryEntryIntensities[j]/maxIntensityLibraryEntry);
+                        score  = score  + temp1;
+                        score2 = score2 + temp1;
+                    }
+                    
+                    k++; j++;
+                } else if (jFinished) {
+                    if ((useForScore && useScanRangeCheck) || !useScanRangeCheck) {
+                        temp1  = fabsf(peakIntensities[i]/maxIntensitySpectrum);
+                        score  = score  + temp1;
+                        score2 = score2 + temp1;
+                    }
+                    
+                    k++; i++;
+                } else {
 					// When out of range?!?
 					// Keep counting to get us out of it...
 					k++; i++; j++;
-					JKLogDebug(@"This should not happen ever!! i %d j %d k %d massdif %f mass %f masslib %f inten %f intenlib %f count1 %d count2 %d", i,j,k, massDifference, masses[i], libraryEntryMasses[j], intensities[i], libraryEntryIntensities[j], count1, count2);
+					NSLog(@"This should not happen ever!! i %d j %d k %d massdif %f mass %f masslib %f inten %f intenlib %f count1 %d count2 %d", i,j,k, massDifference, masses[i], libraryEntryMasses[j], intensities[i], libraryEntryIntensities[j], count1, count2);
 				}
-			} 
+                
+                if ((i >= count1) && (j >= count2)) {
+                    iFinished = YES;
+                    jFinished = YES;
+                }
+            } 
 			
 			break;
-		case 1: // Using formula 2 in Gan 2001
-			while ((i < count1) & (j < count2)) {
+		case JKMZValuesScoreBasis: // Using formula 2 in Gan 2001
+			while ((i < count1) || (j < count2)) {
 				// If we go beyond the bounds, we get unexpected results, so make sure we are within the bounds.
 				if (i >= count1) i = count1-1;
 				if (j >= count2) j = count2-1;
 				massDifference = roundf(peakMasses[i]) - roundf(libraryEntryMasses[j]);
 				
-				if (massDifference == 0.0) {
-					if ((peakIntensities[i]/maxIntensitySpectrum < 0.02) | (libraryEntryIntensities[j]/maxIntensityLibraryEntry < 0.02)) {
+				if (massDifference == 0.0f) {
+					if ((peakIntensities[i]/maxIntensitySpectrum < 0.02f) | (libraryEntryIntensities[j]/maxIntensityLibraryEntry < 0.02f)) {
 						score = score + (peakIntensities[i]/maxIntensitySpectrum)+(libraryEntryIntensities[j]/maxIntensityLibraryEntry);
 						score2 = score2 + (peakIntensities[i]/maxIntensitySpectrum)+(libraryEntryIntensities[j]/maxIntensityLibraryEntry);
 						
@@ -329,12 +404,12 @@
 					}				
 					
 					k++; i++; j++;
-				} else if (massDifference < 0.0) {
+				} else if (massDifference < 0.0f) {
 					score = score + (peakIntensities[i]/maxIntensitySpectrum);
 					score2 = score2 + (peakIntensities[i]/maxIntensitySpectrum);
 					
 					k++; i++;
-				} else if (massDifference > 0.0) {
+				} else if (massDifference > 0.0f) {
 					score = score + (libraryEntryIntensities[j]/maxIntensityLibraryEntry);
 					score2 = score2 + (libraryEntryIntensities[j]/maxIntensityLibraryEntry);
 					
@@ -348,8 +423,8 @@
 			} 
 			break;
 			
-		case 2: // Literature reference search i.e. all peaks in the libentry must be present and intensity is more important
-			while ((i < count1) & (j < count2)) {
+		case JKLiteratureReferenceScoreBasis: // Literature reference search i.e. all peaks in the libentry must be present and intensity is more important
+			while ((i < count1) || (j < count2)) {
 				// If we go beyond the bounds, we get unexpected results, so make sure we are within the bounds.
 				// If we go out of bounds, we are at the end of the range, which should be handled slightly different for some scores
 				if (i >= count1) {
@@ -363,15 +438,15 @@
 				// Calculate the difference. Lower than zero means the mass for the peak is "left" for the current library mass.
 				massDifference = peakMasses[i] - libraryEntryMasses[j];
 				
-				if (massDifference == 0.0) {
+				if (massDifference == 0.0f) {
 					score = score + fabsf(peakIntensities[i]/maxIntensitySpectrum - libraryEntryIntensities[j]/maxIntensityLibraryEntry);
 						
 					k++; i++; j++;
-				} else if (massDifference < 0.0) {
+				} else if (massDifference < 0.0f) {
 					score3 = score3 + peakIntensities[i]/maxIntensitySpectrum;
 					
 					i++;
-				} else if (massDifference > 0.0) {
+				} else if (massDifference > 0.0f) {
 					if (libraryEntryMassesAtEnd) score3 = score3 + peakIntensities[i]/maxIntensitySpectrum;
 					//score = score + fabsf(libraryEntryIntensities[j]/maxIntensityLibraryEntry);
 					j++;
@@ -398,16 +473,17 @@
 	if (penalizeForRetentionIndex) {
 		float retentionIndexDelta, retentionIndexPenalty;
 		float retentionIndexLibrary = [[libraryEntry retentionIndex] floatValue];
-		if (retentionIndexLibrary == 0.0 || [[self peak] retentionIndex] == nil) {
-			return (1.0-score/score2)*90.0;			//10% penalty!!
+		if (retentionIndexLibrary == 0.0f || [[self peak] retentionIndex] == nil) {
+			return (1.0f-score/score2)*90.0f;			//10% penalty!!
 		}
 					
 		retentionIndexDelta = retentionIndexLibrary - [[[self peak] retentionIndex] floatValue];
-		retentionIndexPenalty = pow(retentionIndexDelta,2) *  -0.000004 + 1;
+		retentionIndexPenalty = pow(retentionIndexDelta,2) *  -0.000004f + 1;
 		
-		return (1.0-score/score2) * retentionIndexPenalty * 100.0; 
+		return (1.0f-score/score2) * retentionIndexPenalty * 100.0f; 
 	} else {
-		return (1.0-score/score2)*100.0;			
+        //NSLog(@"score %g [%d] label %@ score1 %g score2 %g",(1.0f-score/score2)*100.0f, scoreBasis, [libraryEntry model], score, score2);
+		return (1.0f-score/score2)*100.0f;			
 	}
 }
 
