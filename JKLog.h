@@ -81,10 +81,11 @@ extern void JKSetVerbosityLevel(int level);
 #define JKLogError(format, ...)\
 if (JKGetVerbosityLevel() >= JK_VERBOSITY_ERROR)\
 {\
-	NSLog(@"[ERROR] %s", __PRETTY_FUNCTION__);\
+	do {\
 	NSLog(\
-		  [@"[ERROR] " stringByAppendingString:(format)],\
+		  [@"[ERROR] %s " stringByAppendingString:(format)], __PRETTY_FUNCTION__, \
 ## __VA_ARGS__);\
+	} while (0);\
 }
 
 /*!
@@ -96,9 +97,8 @@ if (JKGetVerbosityLevel() >= JK_VERBOSITY_ERROR)\
 if (JKGetVerbosityLevel() >= JK_VERBOSITY_WARNING)\
 {\
 	do {\
-	NSLog(@"[WARNING] %s", __PRETTY_FUNCTION__);\
-	NSLog(\
-		  [@"[WARNING] " stringByAppendingString:(format)],\
+        NSLog(\
+              [@"[WARNING] %s " stringByAppendingString:(format)], __PRETTY_FUNCTION__, \
 ## __VA_ARGS__);\
 	} while (0);\
 }
@@ -111,9 +111,8 @@ if (JKGetVerbosityLevel() >= JK_VERBOSITY_WARNING)\
 if (JKGetVerbosityLevel() >= JK_VERBOSITY_INFO)\
 {\
 	do {\
-	NSLog(@"[INFO] %s", __PRETTY_FUNCTION__);\
-	NSLog(\
-		  [@"[INFO] " stringByAppendingString:(format)],\
+        NSLog(\
+              [@"[INFO] %s " stringByAppendingString:(format)], __PRETTY_FUNCTION__, \
 ## __VA_ARGS__);\
 	} while (0);\
 }
@@ -126,11 +125,10 @@ if (JKGetVerbosityLevel() >= JK_VERBOSITY_INFO)\
 if (JKGetVerbosityLevel() >= JK_VERBOSITY_DEBUG)\
 {\
 	do {\
-	NSLog(@"[DEBUG] %s", __PRETTY_FUNCTION__);\
-	NSLog(\
-		  [@"[DEBUG] " stringByAppendingString:(format)],\
+        NSLog(\
+              [@"[DEBUG] %s " stringByAppendingString:(format)], __PRETTY_FUNCTION__, \
 ## __VA_ARGS__);\
-} while (0);\
+	} while (0);\
 }
 
 /*!

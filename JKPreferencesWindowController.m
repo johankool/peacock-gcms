@@ -118,7 +118,10 @@
 		[[self window] setContentView:displayPreferencesView];
 		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:YES];
 	}
-	
+    // prevent window from going off screen partially
+    if ([[self window] frame].origin.y < 0.0f) {
+        [[self window] center];
+    }    
 }
 
 

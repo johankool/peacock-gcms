@@ -293,7 +293,7 @@ static CFStringRef FSRefToPathCopy(const FSRef *inRef){
 
 - (void)encodeWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) { 
-//		NSLog(@"Encoding %@", [self fullPath]);
+//		JKLogDebug(@"Encoding %@", [self fullPath]);
 		NSData *data = [NSData dataWithBytes:*_alias
 									  length:GetHandleSize((Handle)_alias)];
 		[coder encodeObject:data forKey:@"aliasHandle"];
@@ -310,7 +310,7 @@ static CFStringRef FSRefToPathCopy(const FSRef *inRef){
 		NSData *data = [coder decodeObjectForKey:@"aliasHandle"];
 		_alias = (AliasHandle)NewHandle([data length]);
 		[data getBytes:*_alias];
-//		NSLog(@"Decoded %@", [self fullPath]);
+//		JKLogDebug(@"Decoded %@", [self fullPath]);
     } else {
 		NSData *data = [coder decodeObject];
 		_alias = (AliasHandle)NewHandle([data length]);

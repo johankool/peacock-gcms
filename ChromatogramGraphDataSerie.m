@@ -40,6 +40,25 @@ static void *PropertyObservationContext = (void *)1093;
 	}
     return self;
 }
+- (void)loadDataPoints:(int)npts withXValues:(float *)xpts andYValues:(float *)ypts {
+	int i;
+	NSMutableArray *mutArray = [[NSMutableArray alloc] init];
+    for(i=0;i<npts;i++){
+		NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:xpts[i]], keyForXValue,
+            [NSNumber numberWithFloat:ypts[i]], keyForYValue, [NSNumber numberWithInt:i], NSLocalizedString(@"Scan",@""), nil];
+		[mutArray addObject:dict];      
+		[dict release];
+        //		NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
+        //		[mutDict setValue:[NSNumber numberWithFloat:xpts[i]] forKey:[self keyForXValue]];
+        //		[mutDict setValue:[NSNumber numberWithFloat:ypts[i]] forKey:[self keyForYValue]];
+        //		[mutArray addObject:mutDict];      
+        //		[mutDict release];
+    }
+	[self setDataArray:mutArray];
+    
+    //?
+    [self constructPlotPath];
+}
 
 #pragma mark DRAWING ROUTINES
 - (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
@@ -88,18 +107,34 @@ static void *PropertyObservationContext = (void *)1093;
 		return;
 	}
 	
-	// Creeer het pad.
-	[bezierpath moveToPoint:NSMakePoint([[[[self dataArray] objectAtIndex:0] valueForKey:keyForXValue] floatValue],
-										[[[[self dataArray] objectAtIndex:0] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue])];
-	
-	// We zouden eigenlijk moet controleren of de x- en y-waarden beschikbaar zijn.
-	for (i=1; i<count; i++) {
-		pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue],
-								   [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
-		[bezierpath lineToPoint:pointInUnits];
-	}
+    NSString *keyToUseX;
+    NSString *keyToUseY;
+    float retentionSlope, retentionRemainder;
+    
+    if ([keyForXValue isEqualToString:NSLocalizedString(@"Retention Index", @"")]) {
+        keyToUseX = [NSString stringWithString:NSLocalizedString(@"Scan", @"")];
+        keyToUseY = [NSString stringWithString:NSLocalizedString(keyForYValue, @"")];
+        retentionSlope = [[[chromatogram document] retentionIndexSlope] floatValue];
+        retentionRemainder = [[[chromatogram document] retentionIndexRemainder] floatValue];
+    } else {
+        keyToUseX = [NSString stringWithString:NSLocalizedString(keyForXValue, @"")];
+        keyToUseY = [NSString stringWithString:NSLocalizedString(keyForYValue, @"")];
+        retentionSlope = 1.0f;
+        retentionRemainder = 0.0f;
+    }
+    
+    // Creeer het pad.
+    [bezierpath moveToPoint:NSMakePoint([[[[self dataArray] objectAtIndex:0] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
+                                        [[[[self dataArray] objectAtIndex:0] valueForKey:keyToUseY] floatValue]*[verticalScale floatValue])];
 
-	[self setPlotPath:bezierpath];
+    // We zouden eigenlijk moet controleren of de x- en y-waarden beschikbaar zijn.
+    for (i=1; i<count; i++) {
+        pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
+                                   [[[[self dataArray] objectAtIndex:i] valueForKey:keyToUseY] floatValue]*[verticalScale floatValue]);
+        [bezierpath lineToPoint:pointInUnits];
+    }
+
+    [self setPlotPath:bezierpath];
 	
 	[bezierpath release];
 }
@@ -109,22 +144,50 @@ static void *PropertyObservationContext = (void *)1093;
 	NSPoint pointInUnits;
 	NSBezierPath *bezierpath = [[[NSBezierPath alloc] init] autorelease];
 	
-	count = [[[self chromatogram] baselinePoints] count];
+	count = [[self chromatogram] baselinePointsCount];
 	if (count <= 0) {	
 		return bezierpath;
 	}
-	
+    NSString *keyToUseX;
+    NSString *keyToUseY;
+    float retentionSlope, retentionRemainder;
+
+    if ([keyForXValue isEqualToString:NSLocalizedString(@"Retention Index", @"")]) {
+        keyToUseX = [NSString stringWithString:NSLocalizedString(@"Scan", @"")];
+        keyToUseY = [NSString stringWithString:NSLocalizedString(keyForYValue, @"")];
+        retentionSlope = [[[chromatogram document] retentionIndexSlope] floatValue];
+        retentionRemainder = [[[chromatogram document] retentionIndexRemainder] floatValue];
+    } else {
+        keyToUseX = [NSString stringWithString:NSLocalizedString(keyForXValue, @"")];
+        keyToUseY = [NSString stringWithString:NSLocalizedString(keyForYValue, @"")];
+        retentionSlope = 1.0f;
+        retentionRemainder = 0.0f;
+    }
+    
 	// Creeer het pad.
-	[bezierpath moveToPoint:NSMakePoint([[[[[self chromatogram] baselinePoints] objectAtIndex:0] valueForKey:keyForXValue] floatValue],
-										[[[[[self chromatogram] baselinePoints] objectAtIndex:0] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue])];
-	
-	// We zouden eigenlijk moet controleren of de x- en y-waarden beschikbaar zijn.
-	for (i=1; i<count; i++) {
-		pointInUnits = NSMakePoint([[[[[self chromatogram] baselinePoints] objectAtIndex:i] valueForKey:keyForXValue] floatValue],
-								   [[[[[self chromatogram] baselinePoints] objectAtIndex:i] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
-		[bezierpath lineToPoint:pointInUnits];
-	}
- // 	NSLog([bezierpath description]);
+    int *baselineScans = [[self chromatogram] baselinePointsScans];
+    float *baselineIntensities = [[self chromatogram] baselinePointsIntensities];
+    if ([keyToUseX isEqualToString:@"Time"]) {
+        [bezierpath moveToPoint:NSMakePoint([chromatogram timeForScan:baselineScans[0]] * retentionSlope + retentionRemainder,
+                                            baselineIntensities[0] * [verticalScale floatValue])];
+        
+        for (i=1; i<count; i++) {
+            pointInUnits = NSMakePoint([chromatogram timeForScan:baselineScans[i]] * retentionSlope + retentionRemainder,
+                                       baselineIntensities[i] * [verticalScale floatValue]);
+            [bezierpath lineToPoint:pointInUnits];
+        }
+        
+    } else {
+        [bezierpath moveToPoint:NSMakePoint(baselineScans[0] * retentionSlope + retentionRemainder,
+                                            baselineIntensities[0] * [verticalScale floatValue])];
+        
+        for (i=1; i<count; i++) {
+            pointInUnits = NSMakePoint(baselineScans[i] * retentionSlope + retentionRemainder,
+                                       baselineIntensities[i] * [verticalScale floatValue]);
+            [bezierpath lineToPoint:pointInUnits];
+        }        
+    }
+
 	return bezierpath;
 }
 
@@ -151,7 +214,22 @@ static void *PropertyObservationContext = (void *)1093;
 	
 	// Reset tooltips
 	//[self removeAllToolTips];
-
+    NSString *keyToUseX;
+    NSString *keyToUseY;
+    float retentionSlope, retentionRemainder;
+    
+    if ([keyForXValue isEqualToString:NSLocalizedString(@"Retention Index", @"")]) {
+        keyToUseX = [NSString stringWithString:NSLocalizedString(@"Scan", @"")];
+        keyToUseY = [NSString stringWithString:NSLocalizedString(keyForYValue, @"")];
+        retentionSlope = [[[chromatogram document] retentionIndexSlope] floatValue];
+        retentionRemainder = [[[chromatogram document] retentionIndexRemainder] floatValue];
+    } else {
+        keyToUseX = [NSString stringWithString:NSLocalizedString(keyForXValue, @"")];
+        keyToUseY = [NSString stringWithString:NSLocalizedString(keyForYValue, @"")];
+        retentionSlope = 1.0f;
+        retentionRemainder = 0.0f;
+    }
+    
 	// Draw unselected peaks (all peaks actually)
 	NSBezierPath *peaksPath = [[NSBezierPath alloc] init];
 	NSPoint pointToDrawFirst, pointToDrawLast, pointInUnits;
@@ -160,7 +238,7 @@ static void *PropertyObservationContext = (void *)1093;
         for (i=0; i < count; i++) {
             [peaksPath removeAllPoints];
             
-            pointToDrawFirst = NSMakePoint([[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[[self peaks] objectAtIndex:i] start]] valueForKey:keyForXValue] floatValue],
+            pointToDrawFirst = NSMakePoint([[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[[self peaks] objectAtIndex:i] start]] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
                                                [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]*[verticalScale floatValue]); 
             pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
             
@@ -170,13 +248,13 @@ static void *PropertyObservationContext = (void *)1093;
             start = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] start];
             end   = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] end]+1;
             for (j=start; j < end; j++) {
-                pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:j] valueForKey:keyForXValue] floatValue],
-                                           [[[[self dataArray] objectAtIndex:j] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
+                pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:j] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
+                                           [[[[self dataArray] objectAtIndex:j] valueForKey:keyToUseY] floatValue]*[verticalScale floatValue]);
                 pointInUnits  = [trans transformPoint:pointInUnits];
                 [peaksPath lineToPoint:pointInUnits];
             }
             
-            pointToDrawLast  = NSMakePoint([[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[[self peaks] objectAtIndex:i] end]] valueForKey:keyForXValue] floatValue],
+            pointToDrawLast  = NSMakePoint([[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[[self peaks] objectAtIndex:i] end]] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
                                            [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]*[verticalScale floatValue]);
             pointToDrawLast  = [trans transformPoint:pointToDrawLast];
                 
@@ -210,7 +288,7 @@ static void *PropertyObservationContext = (void *)1093;
 	for (i=0; i < count; i++) {
 		[peaksPath removeAllPoints];
 		
-		pointToDrawFirst = NSMakePoint([[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[selectedPeaks objectAtIndex:i] start]] valueForKey:keyForXValue] floatValue],
+		pointToDrawFirst = NSMakePoint([[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[selectedPeaks objectAtIndex:i] start]] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
 									   [[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]*[verticalScale floatValue]);
 		pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
 		
@@ -220,13 +298,13 @@ static void *PropertyObservationContext = (void *)1093;
 		start = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] start];
 		end   = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] end]+1;
 		for (j=start; j < end; j++) {
-			pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:j] valueForKey:keyForXValue] floatValue],
-									   [[[[self dataArray] objectAtIndex:j] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
+			pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:j] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
+									   [[[[self dataArray] objectAtIndex:j] valueForKey:keyToUseY] floatValue]*[verticalScale floatValue]);
 			pointInUnits  = [trans transformPoint:pointInUnits];
 			[peaksPath lineToPoint:pointInUnits];
 		}
 		
-		pointToDrawLast  = NSMakePoint([[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[selectedPeaks objectAtIndex:i] end]] valueForKey:keyForXValue] floatValue],
+		pointToDrawLast  = NSMakePoint([[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[selectedPeaks objectAtIndex:i] end]] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
 									   [[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]*[verticalScale floatValue]);
         pointToDrawLast  = [trans transformPoint:pointToDrawLast];
 			
@@ -251,8 +329,8 @@ static void *PropertyObservationContext = (void *)1093;
             if ([[NSGraphicsContext currentContext] isDrawingToScreen]) {
                 [arrowPath removeAllPoints];
                 top = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] top];
-                pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:top] valueForKey:keyForXValue] floatValue],
-                                           [[[[self dataArray] objectAtIndex:top] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
+                pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:top] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
+                                           [[[[self dataArray] objectAtIndex:top] valueForKey:keyToUseY] floatValue]*[verticalScale floatValue]);
                 pointInUnits  = [trans transformPoint:pointInUnits];
                 
                 [arrowPath moveToPoint:pointInUnits];
@@ -282,7 +360,18 @@ static void *PropertyObservationContext = (void *)1093;
 
 - (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
     _graphView = view;
-	int count = [[self peaks] count];
+    NSArray *peaksToDraw = nil;
+    if ([[[self chromatogram] model] isEqualToString:@"TIC"]){
+        if ([self filterPredicate]) {
+            peaksToDraw = [[[[self chromatogram] document] peaks] filteredArrayUsingPredicate:[self filterPredicate]];;        
+        } else {
+            // if not predicate defined, we plot all peaks
+            peaksToDraw = [[[self chromatogram] document] peaks];
+        }
+    } else {
+        peaksToDraw = [self peaks];
+    }
+	int count = [peaksToDraw count];
 	if (count <= 0)		
 		return;
 	
@@ -293,9 +382,24 @@ static void *PropertyObservationContext = (void *)1093;
 	NSSize stringSize;
 	NSPoint pointToDraw;
 	NSRect labelRect;
-	
+    NSString *keyToUseX;
+    NSString *keyToUseY;
+    float retentionSlope, retentionRemainder;
+    
+    if ([keyForXValue isEqualToString:NSLocalizedString(@"Retention Index", @"")]) {
+        keyToUseX = [NSString stringWithString:NSLocalizedString(@"Scan", @"")];
+        keyToUseY = [NSString stringWithString:NSLocalizedString(keyForYValue, @"")];
+        retentionSlope = [[[chromatogram document] retentionIndexSlope] floatValue];
+        retentionRemainder = [[[chromatogram document] retentionIndexRemainder] floatValue];
+    } else {
+        keyToUseX = [NSString stringWithString:NSLocalizedString(keyForXValue, @"")];
+        keyToUseY = [NSString stringWithString:NSLocalizedString(keyForYValue, @"")];
+        retentionSlope = 1.0f;
+        retentionRemainder = 0.0f;
+    }
+    
 	// Array that holds all rects for the labels to check for overlaps
-	int rectCount = [[self peaks] count];
+	int rectCount = [peaksToDraw count];
 	NSRectArray rects;
 	rects = (NSRectArray) calloc(rectCount, sizeof(NSRect));
 	 
@@ -308,20 +412,20 @@ static void *PropertyObservationContext = (void *)1093;
     }
     
 	for (i=0; i<count; i++) {
-		if ([[[self peaks] objectAtIndex:i] valueForKeyPath:@"symbol"] && ![[[[self peaks] objectAtIndex:i] valueForKeyPath:@"symbol"] isEqualToString:@""] && [[[[self peaks] objectAtIndex:i] valueForKeyPath:@"identified"] boolValue]) {
-			string = [[NSMutableAttributedString alloc] initWithString:[[[self peaks] objectAtIndex:i] valueForKey:@"symbol"] attributes:attrs];
+		if ([[peaksToDraw objectAtIndex:i] valueForKeyPath:@"symbol"] && ![[[peaksToDraw objectAtIndex:i] valueForKeyPath:@"symbol"] isEqualToString:@""] && [[[peaksToDraw objectAtIndex:i] valueForKeyPath:@"identified"] boolValue]) {
+			string = [[NSMutableAttributedString alloc] initWithString:[[peaksToDraw objectAtIndex:i] valueForKey:@"symbol"] attributes:attrs];
 			drawVertical = NO; drawLabelAlways = YES;
-		} else if ([[[self peaks] objectAtIndex:i] valueForKeyPath:@"label"] && ![[[[self peaks] objectAtIndex:i] valueForKeyPath:@"label"] isEqualToString:@""]) {
-			string = [[NSMutableAttributedString alloc] initWithString:[[[self peaks] objectAtIndex:i] valueForKey:@"label"] attributes:attrs];
+		} else if ([[peaksToDraw objectAtIndex:i] valueForKeyPath:@"label"] && ![[[peaksToDraw objectAtIndex:i] valueForKeyPath:@"label"] isEqualToString:@""]) {
+			string = [[NSMutableAttributedString alloc] initWithString:[[peaksToDraw objectAtIndex:i] valueForKey:@"label"] attributes:attrs];
 			drawVertical = YES; drawLabelAlways = YES;
 		} else {
-			string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"#%d",[(JKPeakRecord *)[[self peaks] objectAtIndex:i] peakID]] attributes:attrs];
+			string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"#%d",[(JKPeakRecord *)[peaksToDraw objectAtIndex:i] peakID]] attributes:attrs];
 			drawVertical = YES; drawLabelAlways = NO;
 		}
 		
 		// Where will it be drawn?
-		pointToDraw = NSMakePoint([[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[[self peaks] objectAtIndex:i] top]] valueForKey:keyForXValue] floatValue], 
-								  [[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[[self peaks] objectAtIndex:i] top]] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
+		pointToDraw = NSMakePoint([[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[peaksToDraw objectAtIndex:i] top]] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder, 
+								  [[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[peaksToDraw objectAtIndex:i] top]] valueForKey:keyToUseY] floatValue]*[verticalScale floatValue]);
 		stringSize = [string size];
 		pointToDraw = [trans transformPoint:pointToDraw]; // Transfrom to screen coords
 		
@@ -496,6 +600,11 @@ static void *PropertyObservationContext = (void *)1093;
         // if not predicate defined, we plot all peaks
         return [[self chromatogram] peaks];;
     }
+}
+
+#pragma mark MISC
+- (NSArray *)dataArrayKeys {
+    return [[NSArray arrayWithObject:NSLocalizedString(@"Retention Index", @"")] arrayByAddingObjectsFromArray:[super dataArrayKeys]];
 }
 
 #pragma mark ACCESSORS

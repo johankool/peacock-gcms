@@ -33,6 +33,7 @@
         penalizeForRetentionIndex = YES;
         setPeakSymbolToNumber = YES;
         [self setMatchThreshold:[NSNumber numberWithFloat:75.0]];
+        [self setMaximumRetentionIndexDifference:[NSNumber numberWithFloat:200.0]];
         scoreBasis = 0;
         valueToUse = 0;
         closeDocuments = NO;
@@ -132,21 +133,6 @@
 	[fileProgressIndicator setIndeterminate:YES];
 	[fileProgressIndicator startAnimation:self];
 	
-	// Remove all but the first column from the tableview
-	int columnCount = [metadataTable numberOfColumns];
-	for (i = columnCount-1; i > 0; i--) {
-		[metadataTable removeTableColumn:[[metadataTable tableColumns] objectAtIndex:i]];
-	} 
-	columnCount = [resultsTable numberOfColumns];
-	for (i = columnCount-1; i > 0; i--) {
-		[resultsTable removeTableColumn:[[resultsTable tableColumns] objectAtIndex:i]];
-	} 
-	
-	columnCount = [ratiosTable numberOfColumns];
-	for (i = columnCount-1; i > 0; i--) {
-		[ratiosTable removeTableColumn:[[ratiosTable tableColumns] objectAtIndex:i]];
-	} 
-	
     // Reset things we'll be collecting
     [self willChangeValueForKey:@"metadata"];
 	[metadata removeAllObjects];
@@ -176,8 +162,6 @@
 	// Reset
 	unknownCount = 0;
 
-	NSAssert(peaksToUse > 0 && peaksToUse < 4, @"peaksToUse has invalid value");
-
 	[fileProgressIndicator setIndeterminate:NO];
 	[fileProgressIndicator setMaxValue:filesCount*5.0];
 	[fileProgressIndicator setDoubleValue:0.0];
@@ -186,7 +170,7 @@
 		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:!closeDocuments error:&error];
 		[[self window] makeKeyAndOrderFront:self];
 		if (document == nil) {
-			//JKLogError(@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]);
+			//  Error(@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]);
 			errorOccurred = YES;
             NSString *errorMsg = [NSString stringWithFormat:@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]];
             NSDictionary *warning = [NSDictionary dictionaryWithObjectsAndKeys:@"UNKNOWN", @"document", errorMsg, @"warning", nil];
@@ -376,20 +360,11 @@
 		isKnownCombinedPeak = NO;
 		isUnknownCompound = NO;
 		
+        // Reset symbol, we'll put in the new symbol later if needed
         if (setPeakSymbolToNumber) {
             [peak setSymbol:@""];
         }
-        
-//		// Determine wether or not the user wants to use this peak
-//		if (![peak confirmed] && peaksToUse >= 3) {
-//			continue;
-//		} else if (![peak identified] && peaksToUse >= 2) {
-//			continue;
-//		} 
-////        else if ([[peak normalizedSurface] floatValue] < 0.1 && ![peak confirmed]) { // filter small peaks, but not if it's a confirmed peak
-////			continue;
-////		}
-		
+        		
 		// Match with combined peaks
 		combinedPeaksCount = [combinedPeaks count];
 		maxScoreResult = 0.0;
@@ -398,10 +373,10 @@
 		if (index == 0) {
 			isKnownCombinedPeak = NO;
 			isUnknownCompound = YES;
-			if ([peak confirmed]) {
+			if ([peak confirmed] || [peak identified]) {
 				isUnknownCompound = NO;
 			}
-		}
+		} 
 		
 		spectrum = [[peak spectrum] normalizedSpectrum];
 		
@@ -409,7 +384,12 @@
 			combinedPeak = [combinedPeaks objectAtIndex:k];
 			combinedPeakName = [combinedPeak valueForKey:@"label"];
 			isKnownCombinedPeak = NO;
-			
+            
+            // Check if models match
+			if (![[peak model] isEqualToString:[combinedPeak valueForKey:@"model"]]) {
+                continue;
+            }
+            
 			// Match according to label for confirmed  peaks
 			if ([peak confirmed]) {
 				isUnknownCompound = NO;
@@ -419,11 +399,31 @@
 					knownCombinedPeakIndex = k;
 					maxScoreResult = 101.0; // confirmed peak!
 					break;
-				} 					
-			} else { // Or if it's an unidentified peak, match according to score
+                }
+               // Match according to score for identified peaks
+            } else if ([peak identified]) {
+                isUnknownCompound = NO;
+  				if ([peakName isEqualToString:combinedPeakName]) {
+					isKnownCombinedPeak = YES;
+					knownCombinedPeakIndex = k;
+					maxScoreResult = 101.0; // identified peak!
+					break;
+                }
+//                if (fabsf([[peak retentionIndex] floatValue] - [[combinedPeak valueForKey:@"retentionIndex"] floatValue]) <= [maximumRetentionIndexDifference floatValue]) {
+//					peaksCompared++;
+//					scoreResult  = [spectrum scoreComparedToSpectrum:[combinedPeak valueForKey:@"spectrum"] usingMethod:scoreBasis penalizingForRententionIndex:NO];
+//					if (scoreResult > matchTreshold) {
+//						if (scoreResult > maxScoreResult) {
+//                            maxScoreResult = scoreResult;
+//							isKnownCombinedPeak = YES;
+//							knownCombinedPeakIndex = k;						
+//						}
+//					}
+//				}
+                
+            } else { // Or if it's an unidentified peak, match according to score
 				isUnknownCompound = YES;
 				if (fabsf([[peak retentionIndex] floatValue] - [[combinedPeak valueForKey:@"retentionIndex"] floatValue]) <= [maximumRetentionIndexDifference floatValue]) {
-					//NSAssert([combinedPeak valueForKey:@"spectrum"], [combinedPeak description]);
 					peaksCompared++;
 					scoreResult  = [spectrum scoreComparedToSpectrum:[combinedPeak valueForKey:@"spectrum"] usingMethod:scoreBasis penalizingForRententionIndex:NO];
 					if (scoreResult > matchTreshold) {
@@ -442,22 +442,34 @@
 		}
 		if (!isKnownCombinedPeak) {
 			if (!isUnknownCompound) {
-				NSAssert([peak spectrum], [peak description]);
-				NSAssert([[peak spectrum] normalizedSpectrum], [peak description]);
-				combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:peakName, @"label", 
-                    peak, [NSString stringWithFormat:@"file_%d",index], 
-                    [peak retentionIndex], @"retentionIndex", 
-                    [[peak spectrum] normalizedSpectrum], @"spectrum", 
-                    [NSNumber numberWithInt:1], @"peakCount", 
-                    [NSNumber numberWithFloat:1.0], @"certainty", 
-                    nil];
+                if ([peak confirmed]) {
+                    combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[peak label], @"label", 
+                        peak, [NSString stringWithFormat:@"file_%d",index], 
+                        [peak retentionIndex], @"retentionIndex", 
+                        [peak model], @"model", 
+                        [[peak spectrum] normalizedSpectrum], @"spectrum", 
+                        [NSNumber numberWithInt:1], @"peakCount", 
+                        [NSNumber numberWithFloat:1.0], @"certainty", 
+                        nil];                    
+                } else if ([peak identified]) {
+                    combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[peak label], @"label", 
+                        peak, [NSString stringWithFormat:@"file_%d",index], 
+                        [peak retentionIndex], @"retentionIndex", 
+                        [peak model], @"model", 
+                        [[peak spectrum] normalizedSpectrum], @"spectrum", 
+                        [NSNumber numberWithInt:1], @"peakCount", 
+                        [NSNumber numberWithFloat:0.0], @"certainty", 
+                        nil];                    
+                } else {
+                    JKLogDebug(@"not unknown compound, yet neither confirmed nor identified");
+                }
                 [self insertObject:combinedPeak inCombinedPeaksAtIndex:[self countOfCombinedPeaks]];
 				[combinedPeak release];
 			} else {
-				NSAssert([peak spectrum], [peak description]);
 				combinedPeak = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:NSLocalizedString(@"Unknown compound %d ",@"Unknown compounds in stats summary."), unknownCount], @"label", 
                     peak, [NSString stringWithFormat:@"file_%d",index], 
                     [peak retentionIndex], @"retentionIndex",
+                    [peak model], @"model", 
                     [[peak spectrum] normalizedSpectrum], @"spectrum", 
                     [NSNumber numberWithInt:1], @"peakCount", 
                     [NSNumber numberWithFloat:0.0], @"certainty", 
@@ -482,16 +494,14 @@
             [combinedPeak setObject:[NSNumber numberWithFloat:maxScoreResult] forKey:[NSString stringWithFormat:@"maxScoreResult_%d",index]];	
             peakCount = [[combinedPeak valueForKey:@"peakCount"] intValue];
             certainty = [[combinedPeak valueForKey:@"certainty"] intValue];
-            if (isUnknownCompound) {
-                certainty = (certainty*peakCount)/(peakCount+1);               
+            if ([peak confirmed]) {
+                certainty = (certainty*peakCount + 1.0)/(peakCount+1);               
             } else {
-                certainty = (certainty*peakCount + 1.0)/(peakCount+1);
+                certainty = (certainty*peakCount)/(peakCount+1);
             }
             peakCount++;
             [combinedPeak setValue:[NSNumber numberWithInt:peakCount] forKey:@"peakCount"];
             [combinedPeak setValue:[NSNumber numberWithFloat:certainty] forKey:@"certainty"];
-            NSAssert(combinedPeak, [combinedPeak description]);
-            NSAssert([combinedPeak objectForKey:@"spectrum"] != nil, [combinedPeak description]);
             spectrum = [[combinedPeak objectForKey:@"spectrum"] spectrumByAveragingWithSpectrum:[peak spectrum] withWeight:1.0/peakCount];
             NSAssert(spectrum, @"no spectrum returned");
             [combinedPeak setObject:spectrum forKey:@"spectrum"];
@@ -525,7 +535,8 @@
                     // WARNING: An identified peak was matched to a hitherto unidentified compound. 
                     warningMsg = [NSString stringWithFormat:@"WARNING: The identified peak '%@' at index %d was matched to a hitherto unidentified compound. It was previously encountered", [peak label], [peak peakID]];
                     warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
-                    // Do not change combinedPeak label because not confirmed
+                    // Do not change combinedPeak label because not confirmed >> do, because we now have the certainty factor shown
+                    [combinedPeak setObject:[peak valueForKey:@"label"] forKey:@"label"];
                     // Should log the peaks that were unidentified
                     NSEnumerator *keyEnumerator = [[combinedPeak allKeys] objectEnumerator];
                     NSString *key;
@@ -564,53 +575,7 @@
     warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
     [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];
     
-    //	JKLogInfo(@"File %d: %@; time: %.2g s; peaks: %d; peaks comp.: %d; comb. peaks: %d; speed: %.f peaks/s",index, [document displayName], -[date timeIntervalSinceNow], peaksCount, peaksCompared, [combinedPeaks count], peaksCompared/-[date timeIntervalSinceNow]);
-	
-//	NSTableColumn *tableColumn = [[NSTableColumn alloc] init];
-//	[tableColumn setIdentifier:document];
-//	[[tableColumn headerCell] setStringValue:[document displayName]];
-//    NSString *keyPath;
-//    switch (valueToUse) {
-//    case 1:
-//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.normalizedHeight",[NSString stringWithFormat:@"file_%d",index]];
-//        break;
-//    case 2:
-//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.retentionIndex",[NSString stringWithFormat:@"file_%d",index]];
-//        break;
-//    case 3:
-//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.topTime",[NSString stringWithFormat:@"file_%d",index]];
-//        break;
-//    case 4:
-//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.top",[NSString stringWithFormat:@"file_%d",index]];
-//        break;
-//    case 5:
-//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.surface",[NSString stringWithFormat:@"file_%d",index]];
-//        break;
-//    case 6:
-//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.height",[NSString stringWithFormat:@"file_%d",index]];
-//        break;
-//    case 7:
-//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.width",[NSString stringWithFormat:@"file_%d",index]];
-//        break;
-//    case 8:
-//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.score",[NSString stringWithFormat:@"file_%d",index]];
-//        break;
-//    case 0:
-//    default:
-//        keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.normalizedSurface",[NSString stringWithFormat:@"file_%d",index]];
-//        break;
-//    }
-//	[tableColumn bind:@"value" toObject:combinedPeaksController withKeyPath:keyPath options:nil];
-//	[[tableColumn dataCell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
-//	NSNumberFormatter *formatter = [[[NSNumberFormatter alloc] init] autorelease];
-//	[formatter setFormatterBehavior:NSNumberFormatterDecimalStyle];
-//	[formatter setPositiveFormat:@"#0.0"];
-//	[formatter setLocalizesFormat:YES];
-//	[[tableColumn dataCell] setFormatter:formatter];
-//	[[tableColumn dataCell] setAlignment:NSRightTextAlignment];
-//	[tableColumn setEditable:NO];
-//	[resultsTable addTableColumn:tableColumn];
-//	[tableColumn release];
+    JKLogDebug(@"File %d: %@; time: %.2g s; peaks: %d; peaks comp.: %d; comb. peaks: %d; speed: %.f peaks/s",index, [document displayName], -[date timeIntervalSinceNow], peaksCount, peaksCompared, [combinedPeaks count], peaksCompared/-[date timeIntervalSinceNow]);
 	
 	[subPool release];
 }
@@ -817,18 +782,18 @@
 //	NSError *error = [[NSError alloc] init];
 	NSDocument *document;
 	
-	// Remove all but the first column from the tableview
+	// Remove all but the first four column from the tableview
 	int columnCount = [metadataTable numberOfColumns];
-	for (i = columnCount-1; i > 0; i--) {
+	for (i = columnCount-1; i > 3; i--) {
 		[metadataTable removeTableColumn:[[metadataTable tableColumns] objectAtIndex:i]];
 	} 
 	columnCount = [resultsTable numberOfColumns];
-	for (i = columnCount-1; i > 0; i--) {
+	for (i = columnCount-1; i > 3; i--) {
 		[resultsTable removeTableColumn:[[resultsTable tableColumns] objectAtIndex:i]];
 	} 
 	
 	columnCount = [ratiosTable numberOfColumns];
-	for (i = columnCount-1; i > 0; i--) {
+	for (i = columnCount-1; i > 3; i--) {
 		[ratiosTable removeTableColumn:[[ratiosTable tableColumns] objectAtIndex:i]];
 	} 
 	
@@ -855,7 +820,6 @@
 		tableColumn = [[NSTableColumn alloc] init];
 		[tableColumn setIdentifier:document];
 		[[tableColumn headerCell] setStringValue:[document displayName]];
-//		keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.normalizedSurface",[NSString stringWithFormat:@"file_%d",i]];
         NSString *keyPath;
         switch (valueToUse) {
             case 1:
@@ -881,6 +845,12 @@
                 break;
             case 8:
                 keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.score",[NSString stringWithFormat:@"file_%d",i]];
+                break;
+            case 9:
+                keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.identified",[NSString stringWithFormat:@"file_%d",i]];
+                break;
+            case 10:
+                keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.confirmed",[NSString stringWithFormat:@"file_%d",i]];
                 break;
             case 0:
             default:
@@ -925,16 +895,16 @@
 }
 
 - (void)setupComparisonWindowForDocument:(JKGCMSDocument *)document atIndex:(int)index{
-    NSEnumerator *chromatogramEnum = [[document chromatograms] objectEnumerator];
-    JKChromatogram *chromatogram;
+//    NSEnumerator *chromatogramEnum = [[[document chromatograms] objectEnumerator];
+    JKChromatogram *chromatogram = [[document chromatograms] objectAtIndex:0]; // TIC only!!
 
-    while ((chromatogram = [chromatogramEnum nextObject]) != nil) {
+//    while ((chromatogram = [chromatogramEnum nextObject]) != nil) {
         ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
         // sets title to "filename: code - description (model)"
-        [cgds setSeriesTitle:[NSString stringWithFormat:@"%@: %@ - %@ (%@)",[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",index]], [[metadata objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",index]],[[metadata objectAtIndex:1] valueForKey:[NSString stringWithFormat:@"file_%d",index]],[chromatogram model]]];
+        [cgds setSeriesTitle:[NSString stringWithFormat:@"%@: %@ - %@ (%@)", [document displayName], [[metadata objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",index]],[[metadata objectAtIndex:1] valueForKey:[NSString stringWithFormat:@"file_%d",index]],[chromatogram model]]];
         [cgds setFilterPredicate:[self filterPredicate]];
     	[chromatogramDataSeriesController addObject:cgds];
-    }
+//    }
     [peaksController addObjects:[document peaks]];
 }
 
@@ -953,8 +923,8 @@
 
 - (NSPredicate *)filterPredicate {
     switch (peaksToUse) {
-    case 0:
-        return nil;
+    case 0: // All peaks
+        return [NSPredicate predicateWithFormat:@"(identified == YES) OR (identified == NO)"];
         break;
     case 1: // JKIdenitifiedPeaks
         return [NSPredicate predicateWithFormat:@"identified == YES"];
@@ -994,18 +964,24 @@
 
 
 - (IBAction)doubleClickAction:(id)sender {
-	NSLog(@"row %d column %d",[sender clickedRow], [sender clickedColumn]);
+	JKLogDebug(@"row %d column %d",[sender clickedRow], [sender clickedColumn]);
 	NSError *error = [[[NSError alloc] init] autorelease];
 	if (([sender clickedRow] == -1) && ([sender clickedColumn] == -1)) {
 		return;
 	} else if ([sender clickedColumn] == 0) {
 		return;
+	} else if ([sender clickedColumn] == 1) {
+		return;
+	} else if ([sender clickedColumn] == 2) {
+		return;
+	} else if ([sender clickedColumn] == 3) {
+		return;
 	} else if ([sender clickedRow] == -1) {
 		// A column was double clicked
 		// Bring forward the associated file
 		//[[[[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] identifier] mainWindowController] window] makeKeyAndOrderFront:self];
-		//NSLog([[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-1]]);
-		[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-1]]] display:YES error:&error];
+		//JKLogDebug([[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-1]]);
+		[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-4]]] display:YES error:&error];
 	} else {
 		// A cell was double clicked
 		// Bring forwars associated file and
@@ -1013,7 +989,7 @@
 
 		JKGCMSDocument *document;
 	//	[[[[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] identifier] mainWindowController] window] makeKeyAndOrderFront:self];
-		NSURL *url = [NSURL fileURLWithPath:[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-1]]];
+		NSURL *url = [NSURL fileURLWithPath:[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-4]]];
 		document = [[NSDocumentController sharedDocumentController] documentForURL:url];
 		if (!document) {
 			document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:url display:YES error:&error];
@@ -1369,6 +1345,12 @@
 	[resultsTable moveColumn:[resultsTable columnWithIdentifier:@"firstColumn"] toColumn:0];
 	[ratiosTable moveColumn:[ratiosTable columnWithIdentifier:@"firstColumn"] toColumn:0];
 	[metadataTable moveColumn:[metadataTable columnWithIdentifier:@"firstColumn"] toColumn:0];
+	[resultsTable moveColumn:[resultsTable columnWithIdentifier:@"model"] toColumn:1];
+	[ratiosTable moveColumn:[ratiosTable columnWithIdentifier:@"model"] toColumn:1];
+	[metadataTable moveColumn:[metadataTable columnWithIdentifier:@"model"] toColumn:1];
+	[resultsTable moveColumn:[resultsTable columnWithIdentifier:@"certainty"] toColumn:2];
+	[ratiosTable moveColumn:[ratiosTable columnWithIdentifier:@"certainty"] toColumn:2];
+	[metadataTable moveColumn:[metadataTable columnWithIdentifier:@"certainty"] toColumn:2];
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
@@ -1446,6 +1428,23 @@
 
 - (void)windowDidEndSheet:(NSNotification *)notification {
 	return;
+}
+
+#pragma mark MENU VALIDATION
+
+- (BOOL)validateMenuItem:(NSMenuItem *)anItem {
+    if ([anItem action] == @selector(repopulateContextMenuAction:)) {
+		if ([anItem tag] == valueToUse) {
+			[anItem setState:NSOnState];
+		} else {
+			[anItem setState:NSOffState];
+		}
+		return YES;
+	} else if ([self respondsToSelector:[anItem action]]) {
+		return YES;
+	} else {
+		return NO;
+	}
 }
 
 #pragma mark ACCESSORS

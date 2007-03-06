@@ -97,9 +97,9 @@
 }
 
 - (IBAction)addCasNumber:(id)sender {
-    NSLog([casNumberField stringValue]);
+    JKLogDebug([casNumberField stringValue]);
     NSString *string = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",[casNumberField stringValue],[casNumberField stringValue]]]];
-    NSLog(string);
+    JKLogDebug(string);
     JKLibraryEntry *entry = [[JKLibraryEntry alloc] initWithJCAMPString:string];
     [entry setMolString:[NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[casNumberField stringValue],[casNumberField stringValue]]]]];
     [entry setDocument:[self document]];

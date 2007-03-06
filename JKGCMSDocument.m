@@ -63,8 +63,8 @@ static void *DocumentObservationContext = (void *)1100;
         peakIDCounter = 0;
         _documentProxy = [[NSDictionary alloc] initWithObjectsAndKeys:@"_documentProxy", @"_documentProxy",nil];
 //        [self setPrintInfo:[NSPrintInfo sharedPrintInfo]];
-//        NSLog(@"%d", [[NSPrintInfo sharedPrintInfo] orientation]);
-//        NSLog(@"%d", [[self printInfo] orientation]);
+//        JKLogDebug(@"%d", [[NSPrintInfo sharedPrintInfo] orientation]);
+//        JKLogDebug(@"%d", [[self printInfo] orientation]);
 	}
     return self;
 }
@@ -111,11 +111,11 @@ static void *DocumentObservationContext = (void *)1100;
 
 // Great debug snippet!
 //- (void)addObserver:(NSObject *)anObserver forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context {
-//    NSLog(@"addObserver:    %@ %@", anObserver, keyPath);
+//    JKLogDebug(@"addObserver:    %@ %@", anObserver, keyPath);
 //    [super addObserver:anObserver forKeyPath:keyPath options:options context:context];
 //}
 //- (void)removeObserver:(NSObject *)anObserver forKeyPath:(NSString *)keyPath {
-//    NSLog(@"removeObserver: %@ %@", anObserver, keyPath);
+//    JKLogDebug(@"removeObserver: %@ %@", anObserver, keyPath);
 //    [super removeObserver:anObserver forKeyPath:keyPath];
 //}
 
@@ -138,7 +138,7 @@ static void *DocumentObservationContext = (void *)1100;
         [archiver setDelegate:self];
 		[archiver encodeInt:JKGCMSDocument_Version forKey:@"version"];
  		[archiver encodeObject:[self chromatograms] forKey:@"chromatograms"];
-		[archiver encodeObject:[self peaks] forKey:@"peaks"];
+//		[archiver encodeObject:[self peaks] forKey:@"peaks"];
 		[archiver encodeObject:[self metadata] forKey:@"metadata"];		
 		[archiver encodeObject:baselineWindowWidth forKey:@"baselineWindowWidth"];
 		[archiver encodeObject:baselineDistanceThreshold forKey:@"baselineDistanceThreshold"];
@@ -151,6 +151,7 @@ static void *DocumentObservationContext = (void *)1100;
 		[archiver encodeInt:scoreBasis forKey:@"scoreBasis"];
 		[archiver encodeInt:searchDirection forKey:@"searchDirection"];
 		[archiver encodeInt:spectrumToUse forKey:@"spectrumToUse"];
+		[archiver encodeInt:peakIDCounter forKey:@"peakIDCounter"];
 		[archiver encodeBool:penalizeForRetentionIndex forKey:@"penalizeForRetentionIndex"];
 		[archiver encodeObject:[self markAsIdentifiedThreshold] forKey:@"markAsIdentifiedThreshold"];
 		[archiver encodeObject:[self minimumScoreSearchResults] forKey:@"minimumScoreSearchResults"];
@@ -179,14 +180,13 @@ static void *DocumentObservationContext = (void *)1100;
 			NSAssert(fileWrapperForData != nil, @"fileWrapperForData = nil!");
 			[fileWrapperForData setPreferredFilename:@"peacock-data"];
 			[fileWrappers setObject:fileWrapperForData forKey:@"peacock-data"];	
+
 			NSFileWrapper *fileWrapperForNetCDF = [[NSFileWrapper alloc] initWithPath:absolutePathToNetCDF];
-			NSAssert(fileWrapperForNetCDF != nil, @"fileWrapperForNetCDF = nil!");
-			
+            NSAssert(fileWrapperForNetCDF != nil, @"fileWrapperForNetCDF = nil!");
 			[fileWrapperForNetCDF setPreferredFilename:@"netcdf"];
 			[fileWrappers setObject:fileWrapperForNetCDF forKey:@"netcdf"];		
 			
-			peacockFileWrapper = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:fileWrappers];
-			
+			peacockFileWrapper = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:fileWrappers];			
 		}
 
 		return peacockFileWrapper;	
@@ -238,7 +238,7 @@ static void *DocumentObservationContext = (void *)1100;
         case 4:
             [chromatograms removeAllObjects];
             [chromatograms addObject:[self ticChromatogram]];
-            [[chromatograms objectAtIndex:0] setBaselinePoints:[[unarchiver decodeObjectForKey:@"baseline"] mutableCopy]];
+//            [[chromatograms objectAtIndex:0] setBaselinePoints:[[unarchiver decodeObjectForKey:@"baseline"] mutableCopy]];
             [[chromatograms objectAtIndex:0] setPeaks:[unarchiver decodeObjectForKey:@"peaks"]];
             break;
         case 5:
@@ -249,6 +249,7 @@ static void *DocumentObservationContext = (void *)1100;
             chromatograms = [[unarchiver decodeObjectForKey:@"chromatograms"] retain];
             minimumScannedMassRange = [[unarchiver decodeObjectForKey:@"minimumScannedMassRange"] retain];
             maximumScannedMassRange = [[unarchiver decodeObjectForKey:@"maximumScannedMassRange"] retain];
+            peakIDCounter = [unarchiver decodeIntForKey:@"peakIDCounter"];
             break;
         }
         metadata = [[unarchiver decodeObjectForKey:@"metadata"] retain];
@@ -560,7 +561,10 @@ static void *DocumentObservationContext = (void *)1100;
 	if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting totintens variables failed.\nNetCDF error: %d",@""), dummy];
 	
     JKChromatogram *chromatogram = [[JKChromatogram alloc] initWithDocument:self forModel:@"TIC"];
-    
+    int i;
+    for (i=0; i<numberOfPoints; i++) {
+        time[i] = time[i]/60.0f;
+    }
     [chromatogram setTime:time withCount:numberOfPoints];
     [chromatogram setTotalIntensity:totalIntensity withCount:numberOfPoints];
     
@@ -576,34 +580,74 @@ static void *DocumentObservationContext = (void *)1100;
 	unsigned int i,j,k, mzValuesCount;
 
     NSMutableArray *mzValues = [NSMutableArray array];
+    [model stringByTrimmingCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+"] invertedSet]];
+    if ([model isEqualToString:@""]) {
+        return nil;
+    }
 	NSArray *mzValuesPlus = [model componentsSeparatedByString:@"+"];
-	
+	NSArray *mzValuesMin = nil;
 	for (i = 0; i < [mzValuesPlus count]; i++) {
-		NSArray *mzValuesMin = [[mzValuesPlus objectAtIndex:i] componentsSeparatedByString:@"-"];
+		mzValuesMin = [[mzValuesPlus objectAtIndex:i] componentsSeparatedByString:@"-"];
 		if ([mzValuesMin count] > 1) {
 			if ([[mzValuesMin objectAtIndex:0] intValue] < [[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]) {
-				for (j = (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j < (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j++) {
-					[mzValues addObject:[NSNumber numberWithInt:j]];
+				for (j = (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j <= (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j++) {
+                    if ((j >= [minimumScannedMassRange intValue]) && (j <= [maximumScannedMassRange intValue])) {
+                        [mzValues addObject:[NSNumber numberWithInt:j]];                        
+                    }
 				}
 			} else {
-				for (j = (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j < (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j++) {
-					[mzValues addObject:[NSNumber numberWithInt:j]];
+				for (j = (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j <= (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j++) {
+                    if ((j >= [minimumScannedMassRange intValue]) && (j <= [maximumScannedMassRange intValue])) {
+                        [mzValues addObject:[NSNumber numberWithInt:j]];
+                    }
 				}
 			}
 		} else {
-			[mzValues addObject:[NSNumber numberWithInt:[[mzValuesMin objectAtIndex:0] intValue]]];
+            j = [[mzValuesMin objectAtIndex:0] intValue];
+            if ((j >= [minimumScannedMassRange intValue]) && (j <= [maximumScannedMassRange intValue])) {
+                [mzValues addObject:[NSNumber numberWithInt:j]];
+            }
 		}
 	}
-	
+    if ([mzValues count] < 1) {
+        return nil;
+    } 
+	// Short mzValues
+    mzValues = [mzValues sortedArrayUsingFunction:intSort context:NULL];
+    
 #warning [BUG] Constructed string expands "-"-series (from-to).
 	NSString *mzValuesString = [NSString stringWithFormat:@"%d",[[mzValues objectAtIndex:0] intValue]];
 	mzValuesCount = [mzValues count];
     float mzValuesF[mzValuesCount];
-	for (i = 1; i < mzValuesCount; i++) {
+	for (i = 0; i < mzValuesCount; i++) {
         mzValuesF[i] = [[mzValues objectAtIndex:i] floatValue];
-		mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d",[[mzValues objectAtIndex:i] intValue]];
-	}	
-	        
+    }
+    if (mzValuesCount > 1) {
+        for (i = 1; i < mzValuesCount-1; i++) {
+            if ((mzValuesF[i] == mzValuesF[i-1]+1.0f) && (mzValuesF[i+1] > mzValuesF[i]+1.0f)) {
+                mzValuesString = [mzValuesString stringByAppendingFormat:@"-%d",[[mzValues objectAtIndex:i] intValue]];            
+            } else if (mzValuesF[i] != mzValuesF[i-1]+1.0f) {
+                mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d",[[mzValues objectAtIndex:i] intValue]];            
+            }
+        }	
+        if ((mzValuesF[i] == mzValuesF[i-1] + 1.0f)) {
+            mzValuesString = [mzValuesString stringByAppendingFormat:@"-%d",[[mzValues objectAtIndex:i] intValue]];            
+        } else {
+            mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d",[[mzValues objectAtIndex:i] intValue]];            
+        }        
+    }
+    //JKLogDebug(@"%@ %@",mzValuesString,[mzValues description]);
+    // Check if such a chromatogram is already available
+    NSEnumerator *chromEnum = [[self chromatograms] objectEnumerator];
+    JKChromatogram *chromatogram = nil;
+
+    while ((chromatogram = [chromEnum nextObject]) != nil) {
+    	if ([[chromatogram model] isEqualToString:mzValuesString]) {
+            //JKLogDebug(@"found chrom for model %@",mzValuesString);
+            return chromatogram;
+        }
+    }
+    
     dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
     if(dummy != NC_NOERR) { JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return nil;}
     
@@ -671,21 +715,39 @@ static void *DocumentObservationContext = (void *)1100;
 		}
 	}
     
-	JKChromatogram *chromatogram = nil;
+	chromatogram = nil;
 	
     //create a chromatogram object
     chromatogram = [[JKChromatogram alloc] initWithDocument:self forModel:mzValuesString];
-    
+
     [chromatogram setTime:times withCount:num_scan];
     [chromatogram setTotalIntensity:intensities withCount:num_scan];
-
+    
+    free(massValues);
 	[chromatogram autorelease];	
 	return chromatogram;    
 }
 
+int intSort(id num1, id num2, void *context)
+{
+    int v1 = [num1 intValue];
+    int v2 = [num2 intValue];
+    if (v1 < v2)
+        return NSOrderedAscending;
+    else if (v1 > v2)
+        return NSOrderedDescending;
+    else
+        return NSOrderedSame;
+}
+
 - (void)addChromatogramForModel:(NSString *)modelString {
     JKChromatogram *chromatogram = [self chromatogramForModel:modelString];
-    [self insertObject:chromatogram inChromatogramsAtIndex:[[self chromatograms] count]];
+    if (!chromatogram) {
+        return;
+    }
+    if (![[self chromatograms] containsObject:chromatogram]) {
+        [self insertObject:chromatogram inChromatogramsAtIndex:[[self chromatograms] count]];        
+    }
 }
 
 - (JKSpectrum *)spectrumForScan:(int)scan {
@@ -752,6 +814,7 @@ static void *DocumentObservationContext = (void *)1100;
 }
 
 - (BOOL)performForwardSearchForChromatograms:(NSArray *)someChromatograms {
+    _isBusy = YES;
 	NSArray *libraryEntries = nil;
     JKLibraryEntry *libraryEntry = nil;
     JKPeakRecord *peak = nil;
@@ -828,7 +891,7 @@ static void *DocumentObservationContext = (void *)1100;
                 } else if (spectrumToUse == JKCombinedSpectrumSearchSpectrum) {
                     score = [[peak combinedSpectrum] scoreComparedToLibraryEntry:libraryEntry];
                 } else {
-                    NSLog(@"This should NOT happen!");
+                    JKLogError(@"spectrumToUse has unexpected value.");
                 }
                 if (score >= minimumScoreSearchResultsF) {
                     JKSearchResult *searchResult = [[JKSearchResult alloc] init];
@@ -854,10 +917,12 @@ static void *DocumentObservationContext = (void *)1100;
 	if (mainWindowController)
 		[[mainWindowController chromatogramView] setNeedsDisplay:YES];
 	
+    _isBusy = NO;
 	return YES;
 }
 
 - (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms {
+    _isBusy = YES;
 	NSArray *libraryEntries = nil;
     JKLibraryEntry *libraryEntry = nil;
     JKChromatogram *chromatogramToSearch = nil;
@@ -866,7 +931,6 @@ static void *DocumentObservationContext = (void *)1100;
 	int entriesCount, answer, chromatogramCount, peaksCount;
 	int maximumIndex;
 	float score, maximumScore;	
-    BOOL isNewChromatogram;
     NSString *libraryEntryModel = @"";
 
 	[self setAbortAction:NO];
@@ -917,14 +981,13 @@ static void *DocumentObservationContext = (void *)1100;
     [self willChangeValueForKey:@"peaks"];
 	
     for (j = 0; j < entriesCount; j++) {
-        isNewChromatogram = NO;
-		maximumScore = 0.0;
+		maximumScore = 0.0f;
 		maximumIndex = -1;
         libraryEntry = [libraryEntries objectAtIndex:j];
         [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Library Entry '%@'",@""),[libraryEntry name]] waitUntilDone:NO];
         // Search through TIC by default
         chromatogramToSearch = nil;
-        libraryEntryModel = [libraryEntry modelChr];
+        libraryEntryModel = [self cleanupModelString:[libraryEntry modelChr]];
         if (libraryEntryModel) {
             chromatogramCount = [searchChromatograms count];
             for (l = 0; l < chromatogramCount; l++) {
@@ -936,10 +999,17 @@ static void *DocumentObservationContext = (void *)1100;
                 // Add chromatogram
                 [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Fetching Chromatogram for Model '%@'",@""),libraryEntryModel] waitUntilDone:NO];
                 //JKLogWarning(@"Adding chromatogram for model '%@'.", libraryEntryModel); 
-                isNewChromatogram = YES;
                 chromatogramToSearch = [self chromatogramForModel:libraryEntryModel];
-                [searchChromatograms addObject:chromatogramToSearch];
-                [newChromatograms addObject:chromatogramToSearch];
+                if (!chromatogramToSearch) {
+                    JKLogWarning(@"Chromatogram with model '%@' could not be obtained.", libraryEntryModel); 
+                    continue;
+                }
+                if (![searchChromatograms containsObject:chromatogramToSearch]) {                    
+                    [searchChromatograms addObject:chromatogramToSearch];
+                }
+                if (![newChromatograms containsObject:chromatogramToSearch]) {                    
+                    [newChromatograms addObject:chromatogramToSearch];
+                }
              }
         } else {
             if ([searchChromatograms containsObject:[[self chromatograms] objectAtIndex:0]]) {
@@ -949,7 +1019,7 @@ static void *DocumentObservationContext = (void *)1100;
                 continue;
             }
         }
-        if ([[chromatogramToSearch baselinePoints] count] == 0) {              
+        if ([chromatogramToSearch baselinePointsCount] == 0) {              
             [newChromatograms addObject:chromatogramToSearch];
             [chromatogramToSearch obtainBaseline];                          
         }
@@ -994,25 +1064,26 @@ static void *DocumentObservationContext = (void *)1100;
 	while ((chrom = [newEnum nextObject]) != nil) {
 		NSEnumerator *peakEnum = [[chrom peaks] objectEnumerator];
 		JKPeakRecord *peak;
-//        [chrom willChangeValueForKey:@"peaks"];
 
 		while ((peak = [peakEnum nextObject]) != nil) {
 			if (([peak countOfSearchResults] == 0) && ([peak identified] == NO) && ([peak confirmed] == NO)) {
                 [[chrom peaks] removeObject:peak];
             }
 		}    
-//        [chrom didChangeValueForKey:@"peaks"];
+
         if ((![[self chromatograms] containsObject:chrom]) && ([[chrom peaks] count] > 0)){
             [self insertObject:chrom inChromatogramsAtIndex:[self countOfChromatograms]];
         }            
         
 	}
-    
+    [self renumberPeaks];
     [self didChangeValueForKey:@"peaks"];
-    
+    [[self undoManager] setActionName:NSLocalizedString(@"Perform Backward Library Search",@"")];
+
 	if (mainWindowController)
 		[[mainWindowController chromatogramView] setNeedsDisplay:YES];
-	
+
+    _isBusy = NO;
 	return YES;
 }
 
@@ -1037,6 +1108,88 @@ static void *DocumentObservationContext = (void *)1100;
 	[self setMaximumScannedMassRange:[defaultValues valueForKey:@"maximumScannedMassRange"]];
 	
 	[[self undoManager] setActionName:NSLocalizedString(@"Reset to Default Values",@"Reset to Default Values")];
+}
+
+- (void)renumberPeaks {
+    NSArray *renumberedPeaks = [self peaks];
+	int i;
+	int peakCount = [renumberedPeaks count];
+
+	for (i = 0; i < peakCount; i++) {	
+		id peak = [renumberedPeaks objectAtIndex:i];
+        // The real thing
+		[peak setValue:[NSNumber numberWithInt:i+1] forKey:@"peakID"];
+	}	
+
+    peakIDCounter = peakCount;
+	[[self undoManager] setActionName:NSLocalizedString(@"Renumber Peaks",@"")];
+}
+
+- (NSString *)cleanupModelString:(NSString *)model {
+    int i,j,mzValuesCount;
+    
+    NSMutableArray *mzValues = [NSMutableArray array];
+    [model stringByTrimmingCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+"] invertedSet]];
+    if ([model isEqualToString:@""]) {
+        return nil;
+    }
+	NSArray *mzValuesPlus = [model componentsSeparatedByString:@"+"];
+	NSArray *mzValuesMin = nil;
+	for (i = 0; i < [mzValuesPlus count]; i++) {
+		mzValuesMin = [[mzValuesPlus objectAtIndex:i] componentsSeparatedByString:@"-"];
+		if ([mzValuesMin count] > 1) {
+			if ([[mzValuesMin objectAtIndex:0] intValue] < [[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]) {
+				for (j = (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j <= (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j++) {
+                    if ((j >= [minimumScannedMassRange intValue]) && (j <= [maximumScannedMassRange intValue])) {
+                        [mzValues addObject:[NSNumber numberWithInt:j]];                        
+                    }
+				}
+			} else {
+				for (j = (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j <= (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j++) {
+                    if ((j >= [minimumScannedMassRange intValue]) && (j <= [maximumScannedMassRange intValue])) {
+                        [mzValues addObject:[NSNumber numberWithInt:j]];
+                    }
+				}
+			}
+		} else {
+            j = [[mzValuesMin objectAtIndex:0] intValue];
+            if ((j >= [minimumScannedMassRange intValue]) && (j <= [maximumScannedMassRange intValue])) {
+                [mzValues addObject:[NSNumber numberWithInt:j]];
+            }
+		}
+	}
+    if ([mzValues count] < 1) {
+        return nil;
+    } 
+	// Short mzValues
+    mzValues = [mzValues sortedArrayUsingFunction:intSort context:NULL];
+    
+	NSString *mzValuesString = [NSString stringWithFormat:@"%d",[[mzValues objectAtIndex:0] intValue]];
+	mzValuesCount = [mzValues count];
+    float mzValuesF[mzValuesCount];
+	for (i = 0; i < mzValuesCount; i++) {
+        mzValuesF[i] = [[mzValues objectAtIndex:i] floatValue];
+    }
+    if (mzValuesCount > 1) {
+        for (i = 1; i < mzValuesCount-1; i++) {
+            if ((mzValuesF[i] == mzValuesF[i-1]+1.0f) && (mzValuesF[i+1] > mzValuesF[i]+1.0f)) {
+                mzValuesString = [mzValuesString stringByAppendingFormat:@"-%d",[[mzValues objectAtIndex:i] intValue]];            
+            } else if (mzValuesF[i] != mzValuesF[i-1]+1.0f) {
+                mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d",[[mzValues objectAtIndex:i] intValue]];            
+            }
+        }	
+        if ((mzValuesF[i] == mzValuesF[i-1] + 1.0f)) {
+            mzValuesString = [mzValuesString stringByAppendingFormat:@"-%d",[[mzValues objectAtIndex:i] intValue]];            
+        } else {
+            mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d",[[mzValues objectAtIndex:i] intValue]];            
+        }        
+    }
+//    JKLogDebug(@"%@ %@",mzValuesString,[mzValues description]);
+    return mzValuesString;
+}
+
+- (BOOL)isBusy {
+    return _isBusy;
 }
 
 #pragma mark NOTIFICATIONS
@@ -1127,7 +1280,7 @@ static void *DocumentObservationContext = (void *)1100;
 //        // Calculate mean
 //        sum = 0.0;
 //        for (j = 0; j < windowWidth; j++) {
-//            NSLog(@"intensityValues[%d]: %f", j, intensityValues[j]);
+//            JKLogDebug(@"intensityValues[%d]: %f", j, intensityValues[j]);
 //            sum = sum + intensityValues[j];
 //        }
 //        mean = sum/windowWidth;
@@ -1149,9 +1302,9 @@ static void *DocumentObservationContext = (void *)1100;
 //        a = desiredSignificance;
 //        q = mean;
 //        d = variance;
-//        NSLog(@"windowWidth: %d | desiredSignificance: %g | mean: %g |d: %g", n,a,q,d);
+//        JKLogDebug(@"windowWidth: %d | desiredSignificance: %g | mean: %g |d: %g", n,a,q,d);
 //        t = (-5*pow(q,2)*pow(n,3)+5*pow(a,2)*pow(d,2)*pow(n,2)+5*pow(q,2)*n-5*pow(a,2)*pow(d,2)+2*sqrt(5) * sqrt(pow(a,2)*pow(d,2)*pow(q,2)*pow(n,5)-pow(a,4)*pow(d,4)*pow(n,4)-5*pow(a,2)*pow(d,2)*pow(q,2)*pow(n,3) + 5*pow(a,4)*pow(d,4)*pow(n,2)+4*pow(a,2)*pow(d,2)*pow(q,2)*n-4*pow(a,4)*pow(d,4))) / (5*(-pow(q,2)*pow(n,3)+pow(a,2)*pow(d,2)*pow(n,2)+pow(q,2)*n-pow(a,2)*pow(d,2)));
-//        NSLog(@"threshold: %g",t);
+//        JKLogDebug(@"threshold: %g",t);
 //        
 //        // Step through
 //        for (scan = 0; scan < numberOfPoints-1; scan = scan+stepSize) {
@@ -1170,7 +1323,7 @@ static void *DocumentObservationContext = (void *)1100;
 //                sumDenominator = sumDenominator + (intensityValues[j]*pow((massValues[j]-mean),2));
 //                sumDevisor = sumDevisor + intensityValues[j];
 //            }
-//            //NSLog(@"iwv[%d][%d]: %g",step, scan, (sumDenominator/sumDevisor));
+//            //JKLogDebug(@"iwv[%d][%d]: %g",step, scan, (sumDenominator/sumDevisor));
 //
 //            iwv[step][scan] = (sumDenominator/sumDevisor);
 //        }
@@ -1187,7 +1340,7 @@ static void *DocumentObservationContext = (void *)1100;
 //        }
 //        if (count >= 2) {
 //            // A peak has been detected at scan i
-//           // NSLog(@"peak at scan %d",i);
+//           // JKLogDebug(@"peak at scan %d",i);
 //        }
 //    }
 //    
@@ -1510,7 +1663,7 @@ static void *DocumentObservationContext = (void *)1100;
 //	[chromatogram setDataArray:mutArray];
 //	[mutArray release];
 //
-////	NSLog(@"max tot int: %f; max new int: %f", [self maximumTotalIntensity], jk_stats_float_max(intensities,num_scan));
+////	JKLogDebug(@"max tot int: %f; max new int: %f", [self maximumTotalIntensity], jk_stats_float_max(intensities,num_scan));
 ////	[chromatogram setVerticalScale:[NSNumber numberWithFloat:[self maximumTotalIntensity]/jk_stats_float_max(intensities,num_scan)]];
 //
 //	[chromatogram setVerticalScale:[NSNumber numberWithFloat:1.0]];
@@ -1918,65 +2071,87 @@ boolAccessor(abortAction, setAbortAction)
 	return array;
 }
 
-//- (void)setPeaks:(NSMutableArray *)array{
-//	if (array == peaks)
-//		return;
-//
-//	// Add the inverse action to the undo stack
-//	NSUndoManager *undo = [self undoManager];
-//	[[undo prepareWithInvocationTarget:self] setPeaks:peaks];
-//	
-//	if (![undo isUndoing]) {
-//		[undo setActionName:NSLocalizedString(@"Set Peaks",@"")];
-//	}
-//	
-//	NSEnumerator *e = [peaks objectEnumerator];
-//	JKPeakRecord *peak;
-////	while ((peak = [e nextObject])) {
-////		[self stopObservingPeak:peak];
-////	}
-//	
-//	[peaks release];
-//	[array retain];
-//	peaks = array;
-//
-//	e = [peaks objectEnumerator];
-//	while ((peak = [e nextObject])) {
-//   //     [peak setDocument:self];
-//	//	[self startObservingPeak:peak];
-//	}
-//}
-//
-//- (void)insertObject:(JKPeakRecord *)peak inPeaksAtIndex:(int)index{
-//	// Add the inverse action to the undo stack
-//	NSUndoManager *undo = [self undoManager];
-//	[[undo prepareWithInvocationTarget:self] removeObjectFromPeaksAtIndex:index];
-//	
-//	if (![undo isUndoing]) {
-//		[undo setActionName:NSLocalizedString(@"Insert Peak",@"")];
-//	}
-//	
-//	// Add the peak to the array
-////    [peak setDocument:self];
-////	[self startObservingPeak:peak];
-//	[peaks insertObject:peak atIndex:index];
-//}
-//
-//- (void)removeObjectFromPeaksAtIndex:(int)index{
-//	JKPeakRecord *peak = [peaks objectAtIndex:index];
-//	
-//	// Add the inverse action to the undo stack
-//	NSUndoManager *undo = [self undoManager];
-//	[[undo prepareWithInvocationTarget:self] insertObject:peak inPeaksAtIndex:index];
-//	
-//	if (![undo isUndoing]) {
-//		[undo setActionName:NSLocalizedString(@"Delete Peak",@"")];
-//	}
-//	
-//	// Remove the peak from the array
-////	[self stopObservingPeak:peak];
-//	[peaks removeObjectAtIndex:index];
-//}
+- (void)setPeaks:(NSMutableArray *)array{
+	if (array == [self peaks])
+		return;
+
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] setPeaks:[self peaks]];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Set Peaks",@"")];
+	}
+    NSEnumerator *chromEnum = [[self chromatograms] objectEnumerator];
+    JKChromatogram *chromatogram;
+    
+    while ((chromatogram = [chromEnum nextObject]) != nil) {
+        [chromatogram setPeaks:nil];
+    }
+    
+	NSEnumerator *e = [array objectEnumerator];
+	JKPeakRecord *peak;
+	while ((peak = [e nextObject])) {
+        // Add the peak to the array
+        chromEnum = [[self chromatograms] objectEnumerator];
+         
+        while ((chromatogram = [chromEnum nextObject]) != nil) {
+            if (chromatogram == [peak chromatogram]) {
+                if (![[chromatogram peaks] containsObject:peak]) {
+                    [chromatogram insertObject:peak inPeaksAtIndex:[[chromatogram peaks] count]];
+                }
+                break;
+            }
+        }
+	}
+
+}
+
+- (void)insertObject:(JKPeakRecord *)peak inPeaksAtIndex:(int)index{	
+	// Add the peak to the array
+    NSEnumerator *chromEnum = [[self chromatograms] objectEnumerator];
+    JKChromatogram *chromatogram;
+    
+    while ((chromatogram = [chromEnum nextObject]) != nil) {
+        if (chromatogram == [peak chromatogram]) {
+            // Add the inverse action to the undo stack
+            NSUndoManager *undo = [self undoManager];
+            [[undo prepareWithInvocationTarget:chromatogram] removeObjectFromPeaksAtIndex:[[chromatogram peaks] count]];
+          
+            if (![undo isUndoing]) {
+                [undo setActionName:NSLocalizedString(@"Insert Peak",@"")];
+            }
+            
+            if (![[chromatogram peaks] containsObject:peak]) {
+                [chromatogram insertObject:peak inPeaksAtIndex:[[chromatogram peaks] count]];
+            }
+            break;
+        }
+    }
+}
+
+- (void)removeObjectFromPeaksAtIndex:(int)index{
+	JKPeakRecord *peak = [[self peaks] objectAtIndex:index];
+	
+	// Remove the peak from the array
+    NSEnumerator *chromEnum = [[self chromatograms] objectEnumerator];
+    JKChromatogram *chromatogram;
+    
+    while ((chromatogram = [chromEnum nextObject]) != nil) {
+        if ([[chromatogram peaks] containsObject:peak]) {
+            // Add the inverse action to the undo stack
+            NSUndoManager *undo = [self undoManager];
+            [[undo prepareWithInvocationTarget:chromatogram] insertObject:peak inPeaksAtIndex:[[chromatogram peaks] indexOfObject:peak]];
+            
+            if (![undo isUndoing]) {
+                [undo setActionName:NSLocalizedString(@"Delete Peak",@"")];
+            }
+            
+            [chromatogram removeObjectFromPeaksAtIndex:[[chromatogram peaks] indexOfObject:peak]];
+            break;
+        }
+    }
+}
 
 @end
 

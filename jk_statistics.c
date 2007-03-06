@@ -16,9 +16,9 @@ void normalize(float *input, int count) {
     int i;
 	float maximum;
 	
-	maximum = fabs(input[0]);
+	maximum = fabsf(input[0]);
 	for (i = 1; i < count; i++) {
-		if (fabs(input[i]) > maximum) maximum = fabs(input[i]);
+		if (fabsf(input[i]) > maximum) maximum = fabsf(input[i]);
 	}
 	
 	for (i = 0; i < count; i++) {

@@ -211,7 +211,7 @@
 			
 			k++; j++;
 		} else {
-            NSLog(@"unexpected error in JKSpectrum spectrumByAveragingWithSpectrum");
+            JKLogDebug(@"unexpected error in JKSpectrum spectrumByAveragingWithSpectrum");
             i++; j++;
         };
 	} while (i < count1 && j < count2);
@@ -257,10 +257,11 @@
 	score = 0.0f;
 	score2 = 0.0f;
 	score3 = 0.0f;
-	maxIntensityLibraryEntry = jk_stats_float_max([libraryEntry intensities],numberOfPoints);
+	maxIntensityLibraryEntry = jk_stats_float_max([libraryEntry intensities],[libraryEntry numberOfPoints]); // use correct count!!!!! 
     NSAssert(maxIntensityLibraryEntry > 0.0f, @"maxIntensityLibraryEntry is 0 or smaller");
 	maxIntensitySpectrum = jk_stats_float_max(intensities,numberOfPoints);;
-    NSAssert(maxIntensitySpectrum > 0.0f, @"maxIntensitySpectrum is 0 or smaller");
+    NSAssert(maxIntensitySpectrum > 0.0f, @"maxIntensitySpectrum is 0 or smaller");    
+//    JKLogDebug(@"maxIntensitySpectrum %g; maxIntensityLibraryEntry %g", maxIntensitySpectrum, maxIntensityLibraryEntry);
 	count1 = [self numberOfPoints];
 	count2 = [libraryEntry numberOfPoints];
 	float *peakMasses = [self masses];
@@ -327,7 +328,7 @@
 				// therefor is an alternative routine
 //				massDifference = peakMasses[i] - libraryEntryMasses[j];
 				
-				if (fabsf(massDifference) < 0.5f) {
+				if (fabsf(massDifference) < 1.0f) {
                     if ((useForScore && useScanRangeCheck) || !useScanRangeCheck) {
                         temp1  = (peakIntensities[i]/maxIntensitySpectrum);
                         temp2  = (libraryEntryIntensities[j]/maxIntensityLibraryEntry);
@@ -377,7 +378,7 @@
 					// When out of range?!?
 					// Keep counting to get us out of it...
 					k++; i++; j++;
-					NSLog(@"This should not happen ever!! i %d j %d k %d massdif %f mass %f masslib %f inten %f intenlib %f count1 %d count2 %d", i,j,k, massDifference, masses[i], libraryEntryMasses[j], intensities[i], libraryEntryIntensities[j], count1, count2);
+					JKLogError(@"This should not happen ever!! i %d j %d k %d massdif %f mass %f masslib %f inten %f intenlib %f count1 %d count2 %d", i,j,k, massDifference, masses[i], libraryEntryMasses[j], intensities[i], libraryEntryIntensities[j], count1, count2);
 				}
                 
                 if ((i >= count1) && (j >= count2)) {
@@ -482,14 +483,14 @@
 		
 		return (1.0f-score/score2) * retentionIndexPenalty * 100.0f; 
 	} else {
-        //NSLog(@"score %g [%d] label %@ score1 %g score2 %g",(1.0f-score/score2)*100.0f, scoreBasis, [libraryEntry model], score, score2);
+//        JKLogDebug(@"score %g [%d] label %@ score1 %g score2 %g",(1.0f-score/score2)*100.0f, scoreBasis, [libraryEntry model], score, score2);
 		return (1.0f-score/score2)*100.0f;			
 	}
 }
 
 - (NSNumber *)retentionIndex {
     if (peak) {
-//        NSLog(@"retentionIndex spectrum '%@' = %g", [self model], [[peak retentionIndex] floatValue]);
+//        JKLogDebug(@"retentionIndex spectrum '%@' = %g", [self model], [[peak retentionIndex] floatValue]);
         return [peak retentionIndex];
     } else {
         if (document) {
@@ -498,7 +499,7 @@
             }
         }
     }
-    NSLog(@"retentionIndex requested for spectrum '%@' without peak, document or recognized model", [self model]);
+    JKLogError(@"retentionIndex requested for spectrum '%@' without peak, document or recognized model", [self model]);
     return nil;
 }
 

@@ -159,8 +159,8 @@
 		} else {
 			molString = @"";
 //			molString = [[NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]]] retain];
-//			NSLog([NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]);
-//			NSLog(molString);
+//			JKLogDebug([NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]);
+//			JKLogDebug(molString);
 		}
 		
 		// $EPA MASS SPEC NO
@@ -458,7 +458,7 @@
 }
 
 - (NSUndoManager *)undoManager {
-//    NSLog(@"undoManager %@ document %@", [[self document] undoManager], [self document]);
+//    JKLogDebug(@"undoManager %@ document %@", [[self document] undoManager], [self document]);
 	return [[self document] undoManager];
 }
 
@@ -602,11 +602,11 @@ idUndoAccessor(synonyms, setSynonyms, @"Change Synonyms")
 	for (j=0; j < numberOfPoints; j++){
 		if (![theScanner2 scanInt:&massInt]) JKLogError(@"Error during reading library (masses).");
 		//				NSAssert(massInt > 0, @"massInt");
-		masses[j] = massInt*1.0;
+		masses[j] = massInt*1.0f;
 		[theScanner2 scanUpToCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:NULL];
 		if (![theScanner2 scanInt:&intensityInt]) JKLogError(@"Error during reading library (intensities).");
 		//				NSAssert(intensityInt > 0, @"intensityInt");
-		intensities[j] = intensityInt*1.0;
+		intensities[j] = intensityInt*1.0f;
 	}
 
 	[theScanner2 release];	
@@ -694,7 +694,7 @@ idUndoAccessor(synonyms, setSynonyms, @"Change Synonyms")
 }
 
 - (id)valueForUndefinedKey:(NSString *)key {
-    NSLog(@"%@ %@",[self description], key);
+    JKLogDebug(@"%@ %@",[self description], key);
     return key;
 }
 @end

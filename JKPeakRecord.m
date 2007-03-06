@@ -254,6 +254,10 @@
 #pragma mark ACCESSORS
 
 - (void)setPeakID:(int)inValue {
+    [[[self undoManager] prepareWithInvocationTarget:self] setPeakID:peakID];
+	if (![[self undoManager] isUndoing]) {
+        [[self undoManager] setActionName:NSLocalizedString(@"Change Peak ID",@"Change Peak ID")];
+    }
 	peakID = inValue;
 }
 - (int)peakID {
@@ -281,8 +285,10 @@
     [[self undoManager] registerUndoWithTarget:self
                                       selector:@selector(setLabel:)
                                         object:label];
-    [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Label",@"Change Peak Label")];
-                                                
+    if (![[self undoManager] isUndoing]) {
+        [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Label",@"Change Peak Label")];
+    }
+    
 	[inValue retain];
 	[label autorelease];
 	label = inValue;
@@ -300,8 +306,9 @@
     [[self undoManager] registerUndoWithTarget:self
                                       selector:@selector(setSymbol:)
                                         object:symbol];
-    [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Symbol",@"Change Peak Symbol")];
-    
+    if (![[self undoManager] isUndoing]) {
+        [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Symbol",@"Change Peak Symbol")];
+    }
 	[inValue retain];
 	[symbol autorelease];
 	symbol = inValue;
@@ -607,7 +614,7 @@
 - (id)initWithCoder:(NSCoder *)coder{
     if ([coder allowsKeyedCoding]) {
 		int version = [coder decodeIntForKey:@"version"];
-//        NSLog(@"peak version %d", version);
+//        JKLogDebug(@"peak version %d", version);
         switch (version) {
             case 0:
             case 1:

@@ -89,7 +89,6 @@ enum JKPeakSelection {
 - (void)identifyCompounds;
 - (IBAction)cancel:(id)sender;
 - (IBAction)renumberPeaks:(id)sender;
-- (void)undoRenumberPeaks:(NSArray *)array;
 - (IBAction)showMassChromatogram:(id)sender;
 - (void)showChromatogramForModel:(NSString *)modelString;
 - (void)addMassChromatogram:(id)object;
@@ -113,6 +112,7 @@ enum JKPeakSelection {
 - (NSArrayController *)chromatogramDataSeriesController;
 - (NSTableView *)peaksTable;
 - (NSArrayController *)peakController;
+- (NSArrayController *)chromatogramsController;
 - (NSTableView *)resultsTable;
 - (NSArrayController *)searchResultsController;
 - (NSMutableArray *)hiddenColumnsPeaksTable;

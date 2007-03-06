@@ -124,9 +124,9 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {	
 	// Execute startup preferences
 //#warning Custom level debug verbosity set.
-//    JKSetVerbosityLevel([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue]);
-#warning High level debug verbosity set.
-	JKSetVerbosityLevel(JK_VERBOSITY_ALL);
+    JKSetVerbosityLevel([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue]);
+//#warning High level debug verbosity set.
+//	JKSetVerbosityLevel(JK_VERBOSITY_ALL);
     
     
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSave"] boolValue] == YES) {
@@ -229,7 +229,7 @@
     NSPageLayout *pl = [NSPageLayout pageLayout];
     NSPrintInfo *pi = [NSPrintInfo sharedPrintInfo];
     if ([pl runModalWithPrintInfo:pi] == NSOKButton) {
-        NSLog(@"%d", [pi orientation]);
+        JKLogDebug(@"%d", [pi orientation]);
         [NSPrintInfo setSharedPrintInfo:pi];
     }
 }
@@ -320,13 +320,13 @@
 #pragma mark PLUGINS
 
 //- (void)loadPlugins {
-//    NSLog(@"Loading plugins from %@",[[NSBundle mainBundle] builtInPlugInsPath]);
+//    JKLogDebug(@"Loading plugins from %@",[[NSBundle mainBundle] builtInPlugInsPath]);
 //    
 //    NSEnumerator *enumerator = [[NSBundle pathsForResourcesOfType:@"peacock-plugin" inDirectory:[[NSBundle mainBundle] builtInPlugInsPath]] objectEnumerator];
 //    NSString *path;
 //
 //    while ((path = [enumerator nextObject]) != nil) {
-//        NSLog(@"Loading bundle from %@",path);
+//        JKLogDebug(@"Loading bundle from %@",path);
 //    	[self loadBundle:path];
 //    }
 //    
@@ -336,12 +336,12 @@
 //    Class exampleClass;
 //    id newInstance;
 //    NSBundle *bundleToLoad = [NSBundle bundleWithPath:bundlePath];
-////NSLog(@"bundle %@",[bundleToLoad infoDictionary]);
+////JKLogDebug(@"bundle %@",[bundleToLoad infoDictionary]);
 //    if (exampleClass = [bundleToLoad principalClass]) {
 //        newInstance = [[exampleClass alloc] init];
 //        // [newInstance doSomething];
 //    } else {
-//        NSLog(@"No principalClass for bundle");
+//        JKLogDebug(@"No principalClass for bundle");
 //    }
 //}
 

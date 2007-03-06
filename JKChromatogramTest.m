@@ -78,9 +78,8 @@
 
 - (void)testCaseBaseline {
     [testChromatogram obtainBaseline];
-    STAssertNotNil([testChromatogram baselinePoints], @"Could not obtain baseline.");
-    unsigned int count= 2; // is expected value?
-    STAssertEquals([[testChromatogram baselinePoints] count], count, @"Number of baseline points");
+    int count= 2; // is expected value?
+    STAssertEquals([testChromatogram baselinePointsCount], count, @"Number of baseline points");
 }
 
 - (void)testCaseAddPeak {

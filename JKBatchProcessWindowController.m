@@ -115,7 +115,7 @@
 		}		
 		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchDeleteCurrentPeaksFirst"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Deleting Current Peaks",@"")];
-#warning Action not implemented
+            [document setPeaks:nil];
 			[fileProgressIndicator incrementBy:1.0];
 		}
 		if ([self abortAction]) {
@@ -131,7 +131,10 @@
 		}		
 		if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"batchIdentifyCompounds"] boolValue]) {
 			[detailStatusTextField setStringValue:NSLocalizedString(@"Identifying Compounds",@"")];
-			[document performLibrarySearchForChromatograms:[document chromatograms]];
+            [[[document mainWindowController] chromatogramsController] setSelectedObjects:[[[document mainWindowController] chromatogramsController] arrangedObjects]];
+            [[document mainWindowController] identifyCompounds];
+//            [[document mainWindowController] identifyCompoundsForSelectedChromatograms:self];
+//			[document performLibrarySearchForChromatograms:[document chromatograms]];
 			[fileProgressIndicator incrementBy:1.0];
 		}
 		if ([self abortAction]) {

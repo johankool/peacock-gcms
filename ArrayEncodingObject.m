@@ -30,7 +30,7 @@
 #pragma mark NSCoding methods
 
 - (id)initWithCoder:(NSCoder*) coder {
-//    NSLog(@"In %@ initWithCoder", self);
+//    JKLogDebug(@"In %@ initWithCoder", self);
     if ((self = [super init]))        //Parent class is NSObject; no need to call super initWithCoder
     {
         [coder decodeValueOfObjCType:@encode(unsigned int) at:&theElementSize];

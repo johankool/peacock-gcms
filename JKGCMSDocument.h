@@ -82,6 +82,7 @@ typedef enum {
 	@private
 	BOOL abortAction;
     BOOL hasSpectra;
+    BOOL _isBusy;
 	NSString *_remainingString;
     NSDictionary *_documentProxy;
     NSRect _originalFrame;
@@ -107,6 +108,7 @@ typedef enum {
     @discussion The variables used for the processing of the data can be reset to the defaults in Peacock's preferences using this method.
 */
 - (void)resetToDefaultValues;
+- (void)renumberPeaks;
 //- (BOOL)searchLibraryForAllPeaks;
 
 - (BOOL)performLibrarySearchForChromatograms:(NSArray *)someChromatograms;
@@ -118,6 +120,10 @@ typedef enum {
 - (void)redistributedSearchResults:(JKPeakRecord *)originatingPeak;
 - (float)retentionIndexForScan:(int)scan;
 - (NSComparisonResult)metadataCompare:(JKGCMSDocument *)otherDocument;
+
+- (BOOL)isBusy;
+
+int intSort(id num1, id num2, void *context);
 
 /*! 
     @functiongroup Model

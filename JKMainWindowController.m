@@ -46,7 +46,7 @@ static void *SpectrumObservationContext = (void *)1102;
 		showLibraryHit = YES;
 		showNormalizedSpectra = YES;
 		showPeaks = JKAllPeaks;
-        showSelectedChromatogramsOnly = NO;
+        showSelectedChromatogramsOnly = YES;
         chromatogramDataSeries = [[NSMutableArray alloc] init];
         hiddenColumnsPeaksTable = [[NSMutableArray alloc] init];
 	}
@@ -60,14 +60,16 @@ static void *SpectrumObservationContext = (void *)1102;
     [chromatogramView setDelegate:self];
     [spectrumView setDelegate:self];
     
-    NSEnumerator *chromatogramEnumerator = [[[self document] chromatograms] objectEnumerator];
-    JKChromatogram *chromatogram;
-
-    while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
-        ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
-        [chromatogramDataSeries addObject:cgds];
-    }
-    
+    // Get the initial drawings for chromatograms
+    [self observeValueForKeyPath:nil ofObject:nil change:nil context:ChromatogramObservationContext];
+//    NSEnumerator *chromatogramEnumerator = [[[self document] chromatograms] objectEnumerator];
+//    JKChromatogram *chromatogram;
+//
+//    while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
+//        ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+//        [chromatogramDataSeries addObject:cgds];
+//    }
+//    
 	// ChromatogramView bindings
 	[chromatogramView bind:@"dataSeries" toObject: chromatogramDataSeriesController
 			   withKeyPath:@"arrangedObjects" options:nil];
@@ -246,7 +248,7 @@ static void *SpectrumObservationContext = (void *)1102;
 }
 
 - (void)showChromatogramForModel:(NSString *)modelString {
-    NSLog(@"showChromatogramForModel %@",modelString);
+    JKLogDebug(@"showChromatogramForModel %@",modelString);
   	[[self document] addChromatogramForModel:modelString];  
 }
 
@@ -267,24 +269,11 @@ static void *SpectrumObservationContext = (void *)1102;
 }
 
 - (IBAction)renumberPeaks:(id)sender {
-	int i;
-	int peakCount = [[peakController arrangedObjects] count];
-	NSMutableArray *array = [NSMutableArray array];
-	for (i = 0; i < peakCount; i++) {	
-		id object = [[peakController arrangedObjects] objectAtIndex:i];
-		// Undo preparation
-		NSMutableDictionary *mutDict = [NSMutableDictionary dictionary];
-		[mutDict setObject:object forKey:@"peakrecord"];
-		[mutDict setValue:[NSNumber numberWithInt:[[object valueForKey:@"peakID"] intValue]] forKey:@"peakID"];
-		[array addObject:mutDict];
+	[[self document] renumberPeaks];
+}
 
-		// The real thing
-		[object setValue:[NSNumber numberWithInt:i+1] forKey:@"peakID"];
-	}	
-	[[[self document] undoManager] registerUndoWithTarget:self
-									  selector:@selector(undoRenumberPeaks:)
-										object:array];
-	[[[self document] undoManager] setActionName:NSLocalizedString(@"Renumber Peaks",@"")];
+- (IBAction)resetPeaks:(id)sender {
+	[[self document] setPeaks:nil];
 }
 
 - (IBAction)combinePeaksAction:(id)sender{
@@ -296,28 +285,6 @@ static void *SpectrumObservationContext = (void *)1102;
     }
 }
 
-- (void)undoRenumberPeaks:(NSArray *)array {
-	int i;
-	int peakCount = [array count];
-	NSMutableArray *arrayOut = [NSMutableArray array];
-	for (i = 0; i < peakCount; i++) {	
-		id object = [[array objectAtIndex:i] objectForKey:@"peakrecord"];
-		
-		// Redo preparation
-		NSMutableDictionary *mutDict = [NSMutableDictionary dictionary];
-		[mutDict setObject:object forKey:@"peakrecord"];
-		[mutDict setValue:[object valueForKey:@"peakID"] forKey:@"peakID"];
-		[arrayOut addObject:mutDict];
-		
-		// Reading back what was changed
-		[object setValue:[[array objectAtIndex:i] valueForKey:@"peakID"] forKey:@"peakID"];
-	}	
-	[[[self document] undoManager] registerUndoWithTarget:self
-									  selector:@selector(undoRenumberPeaks:)
-										object:arrayOut];
-	[[[self document] undoManager] setActionName:NSLocalizedString(@"Renumber Peaks",@"")];
-
-}
 
 //- (IBAction)resetPeaks:(id)sender  
 //{
@@ -647,6 +614,10 @@ static void *SpectrumObservationContext = (void *)1102;
 					  ofObject:(id)object
 						change:(NSDictionary *)change
 					   context:(void *)context {
+    // Disable updates
+    if ([[self document] isBusy]) {
+        return;
+    }
     if (([keyPath isEqualToString:@"chromatograms"]) || (context == ChromatogramObservationContext) || ((object == peakController) && showSelectedChromatogramsOnly)) {
         // Present graphdataseries in colors
         NSColorList *peakColors = [NSColorList colorListNamed:@"Peacock Series"];
@@ -713,11 +684,19 @@ static void *SpectrumObservationContext = (void *)1102;
             }
             
         }
-        
+        [chromatogramView showAll:self];
         [chromatogramView setNeedsDisplay:YES];
     }
 	if ((((object == peakController) | (object == searchResultsController)) && (([peakController selection] != NSNoSelectionMarker) && ([searchResultsController selection] != NSNoSelectionMarker))) || (context == SpectrumObservationContext)) {
         NSMutableArray *spectrumArray = [NSMutableArray array];
+     
+        // Present graphdataseries in colors
+        NSColorList *peakColors = [NSColorList colorListNamed:@"Peacock Series"];
+        if (peakColors == nil) {
+            peakColors = [NSColorList colorListNamed:@"Crayons"]; // Crayons should always be there, as it can't be removed through the GUI
+        }
+        NSArray *peakColorsArray = [peakColors allKeys];
+        int peakColorsArrayCount = [peakColorsArray count];
         
         NSEnumerator *peakEnumerator = [[peakController selectedObjects] objectEnumerator];
         JKPeakRecord *peak;
@@ -732,6 +711,7 @@ static void *SpectrumObservationContext = (void *)1102;
             if (showNormalizedSpectra) {
                 [sgds setNormalizeYData:YES];
             }
+            [sgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[spectrumArray count]%peakColorsArrayCount]]];
         	[spectrumArray addObject:sgds];
         }
         
@@ -745,6 +725,7 @@ static void *SpectrumObservationContext = (void *)1102;
                 if (showNormalizedSpectra) {
                     [sgds setNormalizeYData:YES];
                 }
+                [sgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[spectrumArray count]%peakColorsArrayCount]]];
                 [spectrumArray addObject:sgds];
             }            
         }
@@ -999,6 +980,10 @@ static void *SpectrumObservationContext = (void *)1102;
 
 - (NSArrayController *)peakController {
     return peakController;
+}
+
+- (NSArrayController *)chromatogramsController {
+    return chromatogramsController;
 }
 
 - (NSTableView *)resultsTable {

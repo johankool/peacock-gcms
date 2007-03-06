@@ -524,8 +524,12 @@ static int   kPaddingLabels             = 4;
 	if ([[self dataSeries] count] > 0) {
 		for (i=0;i<[[self dataSeries] count]; i++) {
             [line removeAllPoints];
-//            NSLog(@"legend seriesTitle: %@",[[[self dataSeries] objectAtIndex:i] valueForKey:@"seriesTitle"]);
-            seriesTitle = [[[self dataSeries] objectAtIndex:i] valueForKey:@"seriesTitle"];
+            JKLogDebug(@"legend seriesTitle: %@",[[[self dataSeries] objectAtIndex:i] valueForKey:@"seriesTitle"]);
+            if ([[[[self dataSeries] objectAtIndex:i] verticalScale] floatValue] != 1.0f) {
+                seriesTitle = [NSString stringWithFormat:@"%@ (%.1f%C)",[[[self dataSeries] objectAtIndex:i] valueForKey:@"seriesTitle"],[[[[self dataSeries] objectAtIndex:i] verticalScale] floatValue],0x00D7];                
+            } else {
+                seriesTitle = [[[self dataSeries] objectAtIndex:i] valueForKey:@"seriesTitle"];
+            }
             if (!seriesTitle) {
                 seriesTitle = @"Untitled Series";
             }
@@ -878,19 +882,48 @@ static int   kPaddingLabels             = 4;
 	
 	// Voor iedere dataserie wordt de grootte in grafiek-coordinaten opgevraagd en de totaal omvattende rect bepaald
 	count = [[self dataSeries] count];
+    float maxTotal = 0.0f;
 	for (i=0; i <  count; i++) {
 		mgds=[[self dataSeries] objectAtIndex:i];
-		newRect = [mgds boundingRect];
-        // A little exta room to make room for labels
         if ([mgds isKindOfClass:[ChromatogramGraphDataSerie class]]) {
-            newRect.size.height = newRect.size.height*1.4;
-        } else if ([mgds isKindOfClass:[SpectrumGraphDataSerie class]]) {
-            newRect.size.height = newRect.size.height*1.3;
-            if (newRect.origin.y < 0.0) {
-                newRect.origin.y = newRect.origin.y * 1.3;
+            if ([[mgds chromatogram] maxTotalIntensity] > maxTotal) {
+                maxTotal = [[mgds chromatogram] maxTotalIntensity];
             }
-            newRect.origin.x = newRect.origin.x - 2.0;
-            newRect.size.width = newRect.size.width + 4.0;
+        }
+    }
+    for (i=0; i <  count; i++) {
+		mgds=[[self dataSeries] objectAtIndex:i];
+		newRect = [mgds boundingRect];
+        switch (drawingMode) {
+        case JKStackedDrawingMode:
+            // A little exta room to make room for labels
+            if ([mgds isKindOfClass:[ChromatogramGraphDataSerie class]]) {
+                float thisTotal = [[mgds chromatogram] maxTotalIntensity];
+                [mgds setVerticalScale:[NSNumber numberWithFloat:maxTotal/thisTotal]];
+                newRect.size.height = newRect.size.height*1.4*count;
+            } else if ([mgds isKindOfClass:[SpectrumGraphDataSerie class]]) {
+                newRect.size.height = newRect.size.height*1.3*count;
+                if (newRect.origin.y < 0.0) {
+                    newRect.origin.y = newRect.origin.y * 1.3;
+                }
+                newRect.origin.x = newRect.origin.x - 2.0;
+                newRect.size.width = newRect.size.width + 4.0;
+            }
+            break;
+        case JKNormalDrawingMode:
+        default:
+            // A little exta room to make room for labels
+            if ([mgds isKindOfClass:[ChromatogramGraphDataSerie class]]) {
+                newRect.size.height = newRect.size.height*1.4;
+            } else if ([mgds isKindOfClass:[SpectrumGraphDataSerie class]]) {
+                newRect.size.height = newRect.size.height*1.3;
+                if (newRect.origin.y < 0.0) {
+                    newRect.origin.y = newRect.origin.y * 1.3;
+                }
+                newRect.origin.x = newRect.origin.x - 2.0;
+                newRect.size.width = newRect.size.width + 4.0;
+            }
+            break;
         }
 		totRect = NSUnionRect(totRect, newRect);
 	}
@@ -925,31 +958,38 @@ static int   kPaddingLabels             = 4;
 
 #pragma mark HELPER ROUTINES
 - (void)calculateCoordinateConversions {
-	NSAffineTransform *translationMatrix, *scalingMatrix, *transformationMatrix, *invertMatrix;
-	
-	// We rekenen eerst in twee aparte matrices uit hoe de verplaatsing en schaling gedaan moet worden.
-	
-	// Als de oorsprong elders ligt, moeten we daarvoor corrigeren.
-    translationMatrix = [NSAffineTransform transform];
-    [translationMatrix translateXBy:[self origin].x yBy:[self origin].y];
-	
-	// De waarden omrekeningen naar pixels op het scherm.
-     scalingMatrix = [NSAffineTransform transform];
-//	 NSAssert([[self pixelsPerXUnit] floatValue] > 0, @"pixelsPerXUnit = 0");
-//	 NSAssert([[self pixelsPerYUnit] floatValue] > 0, @"pixelsPerYUnit = 0");
-    [scalingMatrix scaleXBy:[[self pixelsPerXUnit] floatValue] yBy:[[self pixelsPerYUnit] floatValue]];
-	
-	// In transformationMatrix combineren we de matrices. Eerst de verplaatsing, dan schalen.
-    transformationMatrix = [NSAffineTransform transform];
-    [transformationMatrix appendTransform:scalingMatrix];
-    [transformationMatrix appendTransform:translationMatrix];
-    [self setTransformGraphToScreen:transformationMatrix];
-    
-	// We zullen ook terug van data serie coordinaten naar scherm-coordinaten willen rekenen. Het zou niet effectief zijn om dat iedere keer dat we dit nodig hebben de inverse matrix uit te rekenen. Daarom hier 1 keer en vervolgens bewaren.
-    invertMatrix = [[transformationMatrix copy] autorelease];
-    [invertMatrix invert];
-    [self setTransformScreenToGraph:invertMatrix];
-	
+    @try {
+        NSAffineTransform *translationMatrix, *scalingMatrix, *transformationMatrix, *invertMatrix;
+        
+        // We rekenen eerst in twee aparte matrices uit hoe de verplaatsing en schaling gedaan moet worden.
+        
+        // Als de oorsprong elders ligt, moeten we daarvoor corrigeren.
+        translationMatrix = [NSAffineTransform transform];
+        [translationMatrix translateXBy:[self origin].x yBy:[self origin].y];
+        
+        // De waarden omrekeningen naar pixels op het scherm.
+         scalingMatrix = [NSAffineTransform transform];
+    //	 NSAssert([[self pixelsPerXUnit] floatValue] > 0, @"pixelsPerXUnit = 0");
+    //	 NSAssert([[self pixelsPerYUnit] floatValue] > 0, @"pixelsPerYUnit = 0");
+        [scalingMatrix scaleXBy:[[self pixelsPerXUnit] floatValue] yBy:[[self pixelsPerYUnit] floatValue]];
+        
+        // In transformationMatrix combineren we de matrices. Eerst de verplaatsing, dan schalen.
+        transformationMatrix = [NSAffineTransform transform];
+        [transformationMatrix appendTransform:scalingMatrix];
+        [transformationMatrix appendTransform:translationMatrix];
+        [self setTransformGraphToScreen:transformationMatrix];
+        
+        // We zullen ook terug van data serie coordinaten naar scherm-coordinaten willen rekenen. Het zou niet effectief zijn om dat iedere keer dat we dit nodig hebben de inverse matrix uit te rekenen. Daarom hier 1 keer en vervolgens bewaren.
+        invertMatrix = [[transformationMatrix copy] autorelease];
+        [invertMatrix invert];
+        [self setTransformScreenToGraph:invertMatrix];
+    }
+    @catch ( NSException *e ) {
+        JKLogError([e description]);
+    }
+    @finally {
+        //
+    }
 }
 
 - (float)unitsPerMajorGridLine:(float)pixelsPerUnit {
@@ -1204,8 +1244,7 @@ static int   kPaddingLabels             = 4;
 //            //			[self setNeedsDisplay:YES];
 		} else if ([theEvent modifierFlags] & NSShiftKeyMask) {
 			//   move chromatogram
-//			JKLogDebug(@"move chromatogram");
-            
+			JKLogDebug(@"move chromatogram");
 		} else {
 			[[NSCursor closedHandCursor] set];
 		}		
@@ -1392,8 +1431,7 @@ static int   kPaddingLabels             = 4;
 	} else if (_didDrag) {
 		if (([theEvent modifierFlags] & NSCommandKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
 			//   combine spectrum
-			//JKLogDebug(@"combine spectrum");
-            NSLog(@"peak drag from scan %d to scan %d",[self scanAtPoint:_mouseDownAtPoint],[self scanAtPoint:mouseLocation]);
+            JKLogDebug(@"peak drag from scan %d to scan %d",[self scanAtPoint:_mouseDownAtPoint],[self scanAtPoint:mouseLocation]);
             JKChromatogram *theChromatogram = [self chromatogramAtPoint:_mouseDownAtPoint]; 
             JKPeakRecord *newPeak = [theChromatogram peakFromScan:[self scanAtPoint:_mouseDownAtPoint] toScan:[self scanAtPoint:mouseLocation]];
             [theChromatogram insertObject:newPeak inPeaksAtIndex:[theChromatogram countOfPeaks]];
@@ -1466,8 +1504,15 @@ static int   kPaddingLabels             = 4;
         if (chromatogram) {
             scan = [chromatogram scanForTime:graphLocation.x];            
         }
+    } else if ([keyForXValue isEqualToString:@"Retention Index"]) {
+        JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
+        if (chromatogram) {
+            float retentionSlope = [[[chromatogram document] retentionIndexSlope] floatValue];
+            float retentionRemainder = [[[chromatogram document] retentionIndexRemainder] floatValue];
+            scan = lroundf( (graphLocation.x - retentionRemainder)/retentionSlope );
+         }
     } else {
-        NSLog(@"scanAtPoint: - Unexpected keyForXValue '%@'", keyForXValue);
+        JKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
     }
     
     return scan;
@@ -1478,7 +1523,9 @@ static int   kPaddingLabels             = 4;
     JKPeakRecord *peak = nil;
     JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
     int i;
-    
+    float retentionSlope = [[[chromatogram document] retentionIndexSlope] floatValue];
+    float retentionRemainder = [[[chromatogram document] retentionIndexRemainder] floatValue];
+   
     if (chromatogram) {
         int peaksCount = [[chromatogram peaks] count];
         for (i=0; i < peaksCount; i++) {
@@ -1487,16 +1534,20 @@ static int   kPaddingLabels             = 4;
                 if (([peak start] < graphLocation.x) & ([peak end] > graphLocation.x)) {
                     return peak;
                 } 
+            } else if ([keyForXValue isEqualToString:@"Retention Index"]) {
+                if (([peak start] *retentionSlope +retentionRemainder < graphLocation.x) & ([peak end] *retentionSlope +retentionRemainder > graphLocation.x)) {
+                    return peak;
+                } 
             } else if ([keyForXValue isEqualToString:@"Time"]) {
                 if (([[peak valueForKey:@"startTime"] floatValue] < graphLocation.x) & ([[peak valueForKey:@"endTime"] floatValue] > graphLocation.x)) {
                     return peak;
                 }                         
             } else {
-                NSLog(@"peakAtPoint: - Unexpected keyForXValue '%@'", keyForXValue);
+                JKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
             }
         }
     } else {
-        NSLog(@"peakAtPoint: - No chromatogram available");
+        JKLogError(@"No chromatogram available");
     }
     return peak;
 }
@@ -1514,6 +1565,16 @@ static int   kPaddingLabels             = 4;
             [thePoint setValue:[NSNumber numberWithFloat:[[self chromatogramAtPoint:aPoint] timeForScan:scan]] forKey:@"Time"];
         }
         [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"Total Intensity"];
+    } else if ([keyForXValue isEqualToString:@"Retention Index"]) {
+        JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
+        if (chromatogram) {
+            float retentionSlope = [[[chromatogram document] retentionIndexSlope] floatValue];
+            float retentionRemainder = [[[chromatogram document] retentionIndexRemainder] floatValue];
+            scan = lroundf( (graphLocation.x - retentionRemainder)/retentionSlope );
+            [thePoint setValue:[NSNumber numberWithInt:scan] forKey:@"Scan"];
+            [thePoint setValue:[NSNumber numberWithFloat:[[self chromatogramAtPoint:aPoint] timeForScan:scan]] forKey:@"Time"];
+        }
+        [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"Total Intensity"];        
     } else if ([keyForXValue isEqualToString:@"Time"]) {
         JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
         if (chromatogram) {
@@ -1524,7 +1585,7 @@ static int   kPaddingLabels             = 4;
         [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"Total Intensity"];
         
     } else {
-        NSLog(@"pointAtPoint: - Unexpected keyForXValue '%@'", keyForXValue);
+        JKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
     }
     
     return thePoint;
@@ -1537,7 +1598,7 @@ static int   kPaddingLabels             = 4;
     if ([keyForXValue isEqualToString:@"Mass"]) {
         mass = lroundf(graphLocation.x);
     } else {
-        NSLog(@"massAtPoint: - Unexpected keyForXValue '%@'", keyForXValue);
+        JKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
     }
     
     return mass;
@@ -2434,6 +2495,8 @@ static int   kPaddingLabels             = 4;
             [self setXAxisLabelString:[[[NSMutableAttributedString alloc] initWithString:[NSString stringWithUTF8String:"Scan \u2192"]  attributes:[xAxisLabelString attributesAtIndex:0 effectiveRange:nil]] autorelease]];
         } else if ([keyForXValue isEqualToString:@"Mass"]) {
             [self setXAxisLabelString:[[[NSMutableAttributedString alloc] initWithString:[NSString stringWithUTF8String:"m/z Values \u2192"]  attributes:[xAxisLabelString attributesAtIndex:0 effectiveRange:nil]] autorelease]];
+        } else if ([keyForXValue isEqualToString:@"Retention Index"]) {
+            [self setXAxisLabelString:[[[NSMutableAttributedString alloc] initWithString:[NSString stringWithUTF8String:"Retention Index \u2192"]  attributes:[xAxisLabelString attributesAtIndex:0 effectiveRange:nil]] autorelease]];
         }
         
         int i, count;
