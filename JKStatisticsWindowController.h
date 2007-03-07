@@ -11,6 +11,7 @@
 @class JKGCMSDocument;
 @class MyGraphView;
 @class JKRatio;
+@class JKCombinedPeak;
 
 @interface JKStatisticsWindowController : NSWindowController {
     // Encoded
@@ -113,12 +114,12 @@
 - (NSMutableArray *)combinedPeaks;
 - (void)setCombinedPeaks:(NSMutableArray *)inValue;
 - (int)countOfCombinedPeaks;
-- (NSDictionary *)objectInCombinedPeaksAtIndex:(int)index;
-- (void)getCombinedPeak:(NSDictionary **)someCombinedPeaks range:(NSRange)inRange;
-- (void)insertObject:(NSDictionary *)aCombinedPeak inCombinedPeaksAtIndex:(int)index;
+- (JKCombinedPeak *)objectInCombinedPeaksAtIndex:(int)index;
+- (void)getCombinedPeak:(JKCombinedPeak **)someCombinedPeaks range:(NSRange)inRange;
+- (void)insertObject:(JKCombinedPeak *)aCombinedPeak inCombinedPeaksAtIndex:(int)index;
 - (void)removeObjectFromCombinedPeaksAtIndex:(int)index;
-- (void)replaceObjectInCombinedPeaksAtIndex:(int)index withObject:(NSDictionary *)aCombinedPeak;
-- (BOOL)validateCombinedPeak:(NSDictionary **)aCombinedPeak error:(NSError **)outError;
+- (void)replaceObjectInCombinedPeaksAtIndex:(int)index withObject:(JKCombinedPeak *)aCombinedPeak;
+- (BOOL)validateCombinedPeak:(JKCombinedPeak **)aCombinedPeak error:(NSError **)outError;
 
 
 // Mutable To-Many relationship ratioValue

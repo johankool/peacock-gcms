@@ -12,6 +12,7 @@
 
 @interface JKStatisticsDocument : NSDocument {
     JKStatisticsWindowController *statisticsWindowController;
+    NSDictionary *_documentProxy;
 }
 
 - (JKStatisticsWindowController *)statisticsWindowController;

@@ -23,6 +23,7 @@
                 resetPeaks = id; 
                 saveCloseAndOpenNext = id; 
                 search = id; 
+                searchMissingPeaks = id; 
                 searchOptions = id; 
                 showAll = id; 
                 showCombinedSpectrumAction = id; 

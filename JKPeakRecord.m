@@ -277,7 +277,13 @@
 }
 
 - (NSNumber *)score {
-	return [identifiedSearchResult score];
+    if (identifiedSearchResult) {
+        return [identifiedSearchResult score];
+    } else if ([searchResults count] > 0){
+        return [[searchResults objectAtIndex:0] score];
+    } else {
+        return nil;
+    }
 }
 
 

@@ -8,6 +8,7 @@
             SUPERCLASS = NSArrayController; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = JKCombinedPeak; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             ACTIONS = {
                 addButtonAction = id; 

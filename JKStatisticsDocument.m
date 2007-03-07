@@ -8,7 +8,7 @@
 
 #import "JKStatisticsDocument.h"
 #import "JKStatisticsWindowController.h"
-
+#import "BDAlias.h"
 
 @implementation JKStatisticsDocument
 
@@ -18,11 +18,13 @@
 	self = [super init];
     if (self != nil) {
         statisticsWindowController = [[JKStatisticsWindowController alloc] init];
+        _documentProxy = [[NSDictionary alloc] initWithObjectsAndKeys:@"_documentProxy", @"_documentProxy",nil];
     }
     return self;
 }
 
 - (void)dealloc {
+    [_documentProxy release];
     [super dealloc];
 }
 
@@ -42,7 +44,8 @@
 		NSKeyedArchiver *archiver;
 		data = [NSMutableData data];
 		archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-		[archiver encodeInt:1 forKey:@"version"];
+        [archiver setDelegate:self];
+		[archiver encodeInt:2 forKey:@"version"];
 		[archiver encodeObject:[statisticsWindowController combinedPeaks] forKey:@"combinedPeaks"];
 		[archiver encodeObject:[statisticsWindowController ratioValues] forKey:@"ratioValues"];
 		[archiver encodeObject:[statisticsWindowController metadata] forKey:@"metadata"];
@@ -76,8 +79,8 @@
 		NSKeyedUnarchiver *unarchiver;
 		data = [wrapper regularFileContents];
 		unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+        [unarchiver setDelegate:self];
         [statisticsWindowController willChangeValueForKey:@"combinedPeaks"];
-				
 		[statisticsWindowController setCombinedPeaks:[unarchiver decodeObjectForKey:@"combinedPeaks"]];
 		[statisticsWindowController setRatioValues:[unarchiver decodeObjectForKey:@"ratioValues"]];
 		[statisticsWindowController setMetadata:[unarchiver decodeObjectForKey:@"metadata"]];
@@ -102,6 +105,34 @@
 	}	
 }
 		
+- (id)archiver:(NSKeyedArchiver *)archiver willEncodeObject:(id)object {
+    if (object == self) {
+        return _documentProxy;
+    } else if ([object isKindOfClass:[JKGCMSDocument class]]) {
+        return [BDAlias aliasWithPath:[object fileName]];
+    }
+    return object;
+}
+
+- (id)unarchiver:(NSKeyedUnarchiver *)unarchiver didDecodeObject:(id)object {
+    if ([object isKindOfClass:[NSDictionary class]]) {
+        if ([[object valueForKey:@"_documentProxy"] isEqualToString:@"_documentProxy"]) {
+            return self;
+        }
+    } else if ([object isKindOfClass:[BDAlias class]]) {
+        id document;
+        NSError *error = [[NSError alloc] init];
+		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[object fullPath]] display:YES error:&error];
+        if (!document) {
+            // maybe try to determine cause of error and recover first
+            NSAlert *theAlert = [NSAlert alertWithError:error];
+            [theAlert runModal]; // ignore return value
+        }
+        return document;
+    }
+    return object;
+}
+
 #pragma mark PRINTING
 
 - (void)printShowingPrintPanel:(BOOL)showPanels {

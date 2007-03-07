@@ -69,7 +69,8 @@
             LANGUAGE = ObjC; 
             SUPERCLASS = NSView; 
         }, 
-        {CLASS = NSObject; LANGUAGE = ObjC; }
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {CLASS = OAGradientTableView; LANGUAGE = ObjC; SUPERCLASS = DeleteTableView; }
     ); 
     IBVersion = 1; 
 }
