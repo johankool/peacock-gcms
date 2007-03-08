@@ -798,7 +798,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {929, 3982}}";
 			sepNavSelRange = "{943, 0}";
-			sepNavVisRect = "{{0, 342}, {929, 416}}";
+			sepNavVisRect = "{{0, 0}, {929, 468}}";
 			sepNavWindowFrame = "{{15, 7}, {950, 820}}";
 		};
 	};
@@ -7853,10 +7853,15 @@
 		};
 	};
 	C7EB180E0898CFBD007FC2ED /* ReadMe.rtf */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.rtf;
+		name = ReadMe.rtf;
+		path = /Users/jkool/Developer/Peacock/Text/ReadMe.rtf;
+		sourceTree = "<absolute>";
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {908, 541}}";
+			sepNavIntBoundsRect = "{{0, 0}, {929, 468}}";
 			sepNavSelRange = "{499, 238}";
-			sepNavVisRect = "{{0, 0}, {908, 541}}";
+			sepNavVisRect = "{{0, 0}, {929, 468}}";
 			sepNavWindowFrame = "{{15, 7}, {950, 820}}";
 		};
 	};

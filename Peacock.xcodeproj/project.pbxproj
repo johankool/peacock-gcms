@@ -512,7 +512,6 @@
 		C7EB18060898CFBD007FC2ED /* Parseable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Parseable.h; sourceTree = "<group>"; };
 		C7EB180A0898CFBD007FC2ED /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
 		C7EB180D0898CFBD007FC2ED /* periodic.table */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = periodic.table; sourceTree = "<group>"; };
-		C7EB180E0898CFBD007FC2ED /* ReadMe.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ReadMe.rtf; sourceTree = "<group>"; };
 		C7F0D0550B11D9030046F994 /* MWController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWController.h; sourceTree = "<group>"; };
 		C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+Copying.h"; sourceTree = "<group>"; };
 		C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+Copying.m"; sourceTree = "<group>"; };
@@ -997,7 +996,6 @@
 			isa = PBXGroup;
 			children = (
 				C70DC019095B205500C2B386 /* Credits.rtf */,
-				C7EB180E0898CFBD007FC2ED /* ReadMe.rtf */,
 				C7EB180A0898CFBD007FC2ED /* License.rtf */,
 				C70DC016095B201200C2B386 /* Localizable.strings */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
