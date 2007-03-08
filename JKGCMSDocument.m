@@ -1401,7 +1401,7 @@ int intSort(id num1, id num2, void *context)
 		maximumIndex = -1;
 		for (k = 0; k < peaksCount; k++) {
 			if (([[self peaks] objectAtIndex:k] != originatingPeak) && (![[[self peaks] objectAtIndex:k] confirmed])) {
-				score = [[[[self peaks] objectAtIndex:k] spectrum] scoreComparedToLibraryEntry:[searchResult objectForKey:@"libraryHit"]];
+				score = [[[[self peaks] objectAtIndex:k] spectrum] scoreComparedToLibraryEntry:[searchResult libraryHit]];
 				if (score >= maximumScore) {
 					maximumScore = score;
 					maximumIndex = k;
@@ -1410,6 +1410,7 @@ int intSort(id num1, id num2, void *context)
 		}
 		// Add libentry as result to highest scoring peak if it is within range of acceptance
 		if ((maximumScore >= minimumScoreSearchResultsF) & (maximumIndex > -1)) {
+            [searchResult setScore:[NSNumber numberWithFloat:maximumScore]];
 			[[[self peaks] objectAtIndex:maximumIndex] addSearchResult:searchResult];
 		}
 		

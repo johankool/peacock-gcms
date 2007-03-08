@@ -54,20 +54,29 @@
 #pragma mark ACTIONS
 
 - (BOOL)confirm{
-	if ([self identified]) {
-//		// Register to undo stack
-//		NSUndoManager *undo = [[self document] undoManager];
-//		[[undo prepareWithInvocationTarget:self] undoConfirmWithDictionary:[self dictionaryWithValuesForKeys:[NSArray arrayWithObjects:@"confirmed",@"identifiedSearchResult", @"",nil]];
-		
+	if ([self identified]) {		
 		[self setConfirmed:YES];
+        
 		[searchResults removeObject:identifiedSearchResult];
 		[[self document] redistributedSearchResults:self];
 		[searchResults removeAllObjects];
 		[searchResults addObject:identifiedSearchResult];
 		return YES;		
-	} else {
+    } else if ([searchResults count] > 0) {
+        [self identifyAs:[searchResults objectAtIndex:0]];
         [self setIdentified:YES];
         [self setConfirmed:YES];
+        
+		[searchResults removeObject:identifiedSearchResult];
+		[[self document] redistributedSearchResults:self];
+		[searchResults removeAllObjects];
+		[searchResults addObject:identifiedSearchResult];
+        return YES;
+	} else {
+        // Allow this to mark a peak as confirmed with having the proper library entry
+        [self setIdentified:YES];
+        [self setConfirmed:YES];
+        JKLogWarning(@"Peak with label '%@' was confirmed without being identified first.", [self label]);
 		return NO;
 	}
 }

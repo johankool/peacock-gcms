@@ -10,6 +10,14 @@
 // Prefix header for all source files of the 'Peacock' target in the 'Peacock' project
 //
 
+//#if defined(__WIN32__)
+//#if defined(APPKIT_INSIDE_BUILD)
+//#define APPKIT_EXPORT __declspec(dllexport) extern
+//#else
+//#define APPKIT_EXPORT __declspec(dllimport) extern
+//#endif
+//#endif
+
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
 
@@ -17,3 +25,4 @@
 	#import "JKLog.h"
 
 #endif
+

@@ -215,15 +215,13 @@
 	<key>LSMinimumSystemVersion</key>
 	<string>10.4.6</string>
 	<key>NSAppleScriptEnabled</key>
-	<string>YES</string>
+	<string>NO</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2003-2007 Johan Kool ea</string>
 	<key>NSMainNibFile</key>
 	<string>JKMainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>JKAppDelegate</string>
-	<key>OSAScriptingDefinition</key>
-	<string>Peacock.sdef</string>
 	<key>SUAllowsAutomaticUpdates</key>
 	<true/>
 	<key>SUCheckAtStartup</key>

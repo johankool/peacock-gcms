@@ -6,6 +6,21 @@
 	objectVersion = 42;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		C7ADCB390BA0C1A6007D9134 /* Peacock-All */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = C7ADCB480BA0C259007D9134 /* Build configuration list for PBXAggregateTarget "Peacock-All" */;
+			buildPhases = (
+			);
+			dependencies = (
+				C7ADCB3B0BA0C1AE007D9134 /* PBXTargetDependency */,
+				C7ADCB3D0BA0C1B2007D9134 /* PBXTargetDependency */,
+			);
+			name = "Peacock-All";
+			productName = "Peacock-All";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -27,7 +42,6 @@
 		C715DEB40A136AD300348AB5 /* JKGCMSDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */; };
 		C715DECF0A136B2F00348AB5 /* JKGCMSDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */; };
 		C716B4BD0AD6AA8F00DA408E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C716B4AD0AD6AA8F00DA408E /* CoreData.framework */; };
-		C716B4DD0AD6ACA500DA408E /* JKGAMLDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = C716B4D70AD6ACA400DA408E /* JKGAMLDocument.nib */; };
 		C71D9FCC099CD19D007EB10D /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C71D9FCB099CD19D007EB10D /* Growl.framework */; };
 		C71D9FE9099CD291007EB10D /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C71D9FCB099CD19D007EB10D /* Growl.framework */; };
 		C720AB8809EA7B6C007EF860 /* jk_statistics.h in Headers */ = {isa = PBXBuildFile; fileRef = C720AB8609EA7B6C007EF860 /* jk_statistics.h */; };
@@ -95,12 +109,143 @@
 		C7A7BB610A9DE6E0005E3778 /* save_document.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB540A9DE6E0005E3778 /* save_document.tiff */; };
 		C7AD34C908AFA20800A0F4BE /* JKPeakRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */; };
 		C7AD38AD08B2A0D600A0F4BE /* FilteringDNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */; };
+		C7ADC88A0BA05609007D9134 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C70DC019095B205500C2B386 /* Credits.rtf */; };
+		C7ADC88B0BA05609007D9134 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
+		C7ADC88C0BA05609007D9134 /* JKLibrary.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7EB17FA0898CFBC007FC2ED /* JKLibrary.nib */; };
+		C7ADC88D0BA05609007D9134 /* JKGCMSDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7EB17FB0898CFBD007FC2ED /* JKGCMSDocument.nib */; };
+		C7ADC88E0BA05609007D9134 /* JKMainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7EB17FC0898CFBD007FC2ED /* JKMainMenu.nib */; };
+		C7ADC88F0BA05609007D9134 /* JKPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7EB17FE0898CFBD007FC2ED /* JKPanel.nib */; };
+		C7ADC8900BA05609007D9134 /* JKPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7EB18010898CFBD007FC2ED /* JKPreferences.nib */; };
+		C7ADC8910BA05609007D9134 /* periodic.table in Resources */ = {isa = PBXBuildFile; fileRef = C7EB180D0898CFBD007FC2ED /* periodic.table */; };
+		C7ADC8920BA05609007D9134 /* JKBatchProcess.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7713B35095029C200653D2A /* JKBatchProcess.nib */; };
+		C7ADC8930BA05609007D9134 /* JKStatisticalAnalysis.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7858FE90951E9990083EC22 /* JKStatisticalAnalysis.nib */; };
+		C7ADC8940BA05609007D9134 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C70DC016095B201200C2B386 /* Localizable.strings */; };
+		C7ADC8950BA05609007D9134 /* Peacock Help in Resources */ = {isa = PBXBuildFile; fileRef = C77C582F09800FAD002E7796 /* Peacock Help */; };
+		C7ADC8960BA05609007D9134 /* Peacock.sdef in Resources */ = {isa = PBXBuildFile; fileRef = C7C21FC50A5060E2006E82FD /* Peacock.sdef */; };
+		C7ADC8970BA05609007D9134 /* library_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB2D0A9DE5D3005E3778 /* library_document.icns */; };
+		C7ADC8980BA05609007D9134 /* atlas_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB2E0A9DE5D3005E3778 /* atlas_document.icns */; };
+		C7ADC8990BA05609007D9134 /* peacock_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB300A9DE5D3005E3778 /* peacock_document.icns */; };
+		C7ADC89A0BA05609007D9134 /* peacock_preferences.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB310A9DE5D3005E3778 /* peacock_preferences.icns */; };
+		C7ADC89B0BA05609007D9134 /* andi_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB320A9DE5D3005E3778 /* andi_document.icns */; };
+		C7ADC89C0BA05609007D9134 /* aia_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB330A9DE5D3005E3778 /* aia_document.icns */; };
+		C7ADC89D0BA05609007D9134 /* netcdf_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB340A9DE5D3005E3778 /* netcdf_document.icns */; };
+		C7ADC89E0BA05609007D9134 /* hpchem_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB350A9DE5D3005E3778 /* hpchem_document.icns */; };
+		C7ADC89F0BA05609007D9134 /* peacock_application.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB360A9DE5D3005E3778 /* peacock_application.icns */; };
+		C7ADC8A00BA05609007D9134 /* question_mark.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB480A9DE6E0005E3778 /* question_mark.tiff */; };
+		C7ADC8A10BA05609007D9134 /* zoom_out.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB490A9DE6E0005E3778 /* zoom_out.tiff */; };
+		C7ADC8A20BA05609007D9134 /* processing.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB4A0A9DE6E0005E3778 /* processing.tiff */; };
+		C7ADC8A30BA05609007D9134 /* info.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB4B0A9DE6E0005E3778 /* info.icns */; };
+		C7ADC8A40BA05609007D9134 /* general.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB4C0A9DE6E0005E3778 /* general.tiff */; };
+		C7ADC8A50BA05609007D9134 /* find.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB4D0A9DE6E0005E3778 /* find.icns */; };
+		C7ADC8A60BA05609007D9134 /* zoom_in.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB4E0A9DE6E0005E3778 /* zoom_in.tiff */; };
+		C7ADC8A70BA05609007D9134 /* text.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB4F0A9DE6E0005E3778 /* text.tiff */; };
+		C7ADC8A80BA05609007D9134 /* zoom.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB500A9DE6E0005E3778 /* zoom.tiff */; };
+		C7ADC8A90BA05609007D9134 /* display.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB510A9DE6E0005E3778 /* display.tiff */; };
+		C7ADC8AA0BA05609007D9134 /* warning.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB520A9DE6E0005E3778 /* warning.tiff */; };
+		C7ADC8AB0BA05609007D9134 /* layout.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB530A9DE6E0005E3778 /* layout.tiff */; };
+		C7ADC8AC0BA05609007D9134 /* save_document.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB540A9DE6E0005E3778 /* save_document.tiff */; };
+		C7ADC8AD0BA05609007D9134 /* view.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7B9BA2C0AA881AE00250EFE /* view.tiff */; };
+		C7ADC8AE0BA05609007D9134 /* presets.png in Resources */ = {isa = PBXBuildFile; fileRef = C7FBE1E30AB6F1A4000E7EF2 /* presets.png */; };
+		C7ADC8AF0BA05609007D9134 /* Peacock Test Files in Resources */ = {isa = PBXBuildFile; fileRef = C747ED320ABF43C6001F98AF /* Peacock Test Files */; };
+		C7ADC8B00BA05609007D9134 /* Identify Compounds.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A70ACAB30D00D4FCA4 /* Identify Compounds.tiff */; };
+		C7ADC8B10BA05609007D9134 /* Identify Peaks.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A80ACAB30D00D4FCA4 /* Identify Peaks.tiff */; };
+		C7ADC8B20BA05609007D9134 /* Identify Baseline.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A90ACAB30D00D4FCA4 /* Identify Baseline.tiff */; };
+		C7ADC8B50BA05609007D9134 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		C7ADC8B60BA05609007D9134 /* MolTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F00898CFBC007FC2ED /* MolTypes.c */; };
+		C7ADC8B70BA05609007D9134 /* MWController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F40898CFBC007FC2ED /* MWController.m */; };
+		C7ADC8B80BA05609007D9134 /* MyGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */; };
+		C7ADC8B90BA05609007D9134 /* MyGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */; };
+		C7ADC8BA0BA05609007D9134 /* CAtom.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17A80898CF2D007FC2ED /* CAtom.m */; };
+		C7ADC8BB0BA05609007D9134 /* CFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17AA0898CF2E007FC2ED /* CFragment.m */; };
+		C7ADC8BC0BA05609007D9134 /* CMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17AC0898CF2E007FC2ED /* CMutableArray.m */; };
+		C7ADC8BD0BA05609007D9134 /* JKAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17CF0898CF2E007FC2ED /* JKAppDelegate.m */; };
+		C7ADC8BE0BA05609007D9134 /* JKLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17D50898CF2E007FC2ED /* JKLibrary.m */; };
+		C7ADC8BF0BA05609007D9134 /* JKLibraryWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17D90898CF2E007FC2ED /* JKLibraryWindowController.m */; };
+		C7ADC8C00BA05609007D9134 /* JKMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */; };
+		C7ADC8C10BA05609007D9134 /* JKPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */; };
+		C7ADC8C20BA05609007D9134 /* JKPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17E90898CF2F007FC2ED /* JKPreferencesWindowController.m */; };
+		C7ADC8C30BA05609007D9134 /* JKSpectrum.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */; };
+		C7ADC8C40BA05609007D9134 /* JKPeakRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */; };
+		C7ADC8C50BA05609007D9134 /* FilteringDNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */; };
+		C7ADC8C60BA05609007D9134 /* ChromatogramGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */; };
+		C7ADC8C70BA05609007D9134 /* SpectrumGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */; };
+		C7ADC8C80BA05609007D9134 /* DeleteTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */; };
+		C7ADC8C90BA05609007D9134 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKLibraryEntry.m */; };
+		C7ADC8CA0BA05609007D9134 /* RBSplitSubview.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6150094DBE3A00C0887E /* RBSplitSubview.m */; };
+		C7ADC8CB0BA05609007D9134 /* RBSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6152094DBE3A00C0887E /* RBSplitView.m */; };
+		C7ADC8CC0BA05609007D9134 /* JKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */; };
+		C7ADC8CD0BA05609007D9134 /* JKRatio.m in Sources */ = {isa = PBXBuildFile; fileRef = C70DB8EC09573BEA00C2B386 /* JKRatio.m */; };
+		C7ADC8CE0BA05609007D9134 /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
+		C7ADC8CF0BA05609007D9134 /* jk_statistics.c in Sources */ = {isa = PBXBuildFile; fileRef = C720AB8709EA7B6C007EF860 /* jk_statistics.c */; };
+		C7ADC8D00BA05609007D9134 /* JKGCMSDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */; };
+		C7ADC8D10BA05609007D9134 /* BDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E5B1D30A14934200BB2291 /* BDAlias.m */; };
+		C7ADC8D20BA05609007D9134 /* JKPathPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8973F0A188B0D00A65A24 /* JKPathPopUpButton.m */; };
+		C7ADC8D30BA05609007D9134 /* JKMoleculeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C777A2C40A1DFEA800CF44D9 /* JKMoleculeView.m */; };
+		C7ADC8D40BA05609007D9134 /* JKAtom.m in Sources */ = {isa = PBXBuildFile; fileRef = C777A2CD0A1DFEE400CF44D9 /* JKAtom.m */; };
+		C7ADC8D50BA05609007D9134 /* JKBond.m in Sources */ = {isa = PBXBuildFile; fileRef = C777A2CF0A1DFEE400CF44D9 /* JKBond.m */; };
+		C7ADC8D60BA05609007D9134 /* JKMoleculeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C777A2D10A1DFEE400CF44D9 /* JKMoleculeModel.m */; };
+		C7ADC8D70BA05609007D9134 /* JKDataModelProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */; };
+		C7ADC8D80BA05609007D9134 /* JKSynchroScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C73290F40AD68F9800D95E36 /* JKSynchroScrollView.m */; };
+		C7ADC8D90BA05609007D9134 /* FontNameToDisplayNameTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */; };
+		C7ADC8DA0BA05609007D9134 /* NSTableView+Copying.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */; };
+		C7ADC8DB0BA05609007D9134 /* JKStatisticsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C785905509541F250083EC22 /* JKStatisticsWindowController.m */; };
+		C7ADC8DC0BA05609007D9134 /* JKStatisticsDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C78599A109CDBBAD00351C87 /* JKStatisticsDocument.m */; };
+		C7ADC8DD0BA05609007D9134 /* JKChromatogram.m in Sources */ = {isa = PBXBuildFile; fileRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */; };
+		C7ADC8DE0BA05609007D9134 /* JKSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = C7752C370B6778DA0010EE72 /* JKSearchResult.m */; };
+		C7ADC8DF0BA05609007D9134 /* NSBezierPath+RoundRect.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */; };
+		C7ADC8E00BA05609007D9134 /* ArrayEncodingObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C299890B8B48CC0017B2B2 /* ArrayEncodingObject.m */; };
+		C7ADC8E10BA05609007D9134 /* NSKeyedArchiver+CArrayEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C2998F0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.m */; };
+		C7ADC8E20BA05609007D9134 /* NSCoder+CArrayEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C29ABC0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m */; };
+		C7ADC8E30BA05609007D9134 /* JKCombinedPeak.m in Sources */ = {isa = PBXBuildFile; fileRef = C708E90B0B9D953A0085872E /* JKCombinedPeak.m */; };
+		C7ADC8E40BA05609007D9134 /* NSEvent+ModifierKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */; };
+		C7ADC8E60BA05609007D9134 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+		C7ADC8E70BA05609007D9134 /* libnetcdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7EB17AE0898CF2E007FC2ED /* libnetcdf.a */; };
+		C7ADC8E80BA05609007D9134 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D1A0941ED37005431CD /* Carbon.framework */; };
+		C7ADC8E90BA05609007D9134 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D3C0941ED5C005431CD /* CoreFoundation.framework */; };
+		C7ADC8EA0BA05609007D9134 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D430941ED7A005431CD /* Security.framework */; };
+		C7ADC8EB0BA05609007D9134 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D490941EDAF005431CD /* libz.dylib */; };
+		C7ADC8EC0BA05609007D9134 /* libnetcdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7EB17AE0898CF2E007FC2ED /* libnetcdf.a */; };
+		C7ADC8ED0BA05609007D9134 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+		C7ADC8EE0BA05609007D9134 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D490941EDAF005431CD /* libz.dylib */; };
+		C7ADC8EF0BA05609007D9134 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D430941ED7A005431CD /* Security.framework */; };
+		C7ADC8F00BA05609007D9134 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D3C0941ED5C005431CD /* CoreFoundation.framework */; };
+		C7ADC8F10BA05609007D9134 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D1A0941ED37005431CD /* Carbon.framework */; };
+		C7ADC8F20BA05609007D9134 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */; };
+		C7ADC8F30BA05609007D9134 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */; };
+		C7ADC8F40BA05609007D9134 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C71D9FCB099CD19D007EB10D /* Growl.framework */; };
+		C7ADC8F50BA05609007D9134 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
+		C7ADC8F60BA05609007D9134 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C716B4AD0AD6AA8F00DA408E /* CoreData.framework */; };
+		C7ADC8F80BA05609007D9134 /* netcdf.h in Headers */ = {isa = PBXBuildFile; fileRef = C7EB17AF0898CF2E007FC2ED /* netcdf.h */; };
+		C7ADC8F90BA05609007D9134 /* JKLog.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC505109A62C930093106E /* JKLog.h */; };
+		C7ADC8FA0BA05609007D9134 /* jk_statistics.h in Headers */ = {isa = PBXBuildFile; fileRef = C720AB8609EA7B6C007EF860 /* jk_statistics.h */; };
+		C7ADC8FB0BA05609007D9134 /* JKGCMSDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */; };
+		C7ADC8FC0BA05609007D9134 /* BDAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E5B1D20A14934200BB2291 /* BDAlias.h */; };
+		C7ADC8FD0BA05609007D9134 /* JKPathPopUpButton.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8973E0A188B0D00A65A24 /* JKPathPopUpButton.h */; };
+		C7ADC8FE0BA05609007D9134 /* JKMoleculeView.h in Headers */ = {isa = PBXBuildFile; fileRef = C777A2C30A1DFEA800CF44D9 /* JKMoleculeView.h */; };
+		C7ADC8FF0BA05609007D9134 /* JKAtom.h in Headers */ = {isa = PBXBuildFile; fileRef = C777A2CC0A1DFEE400CF44D9 /* JKAtom.h */; };
+		C7ADC9000BA05609007D9134 /* JKBond.h in Headers */ = {isa = PBXBuildFile; fileRef = C777A2CE0A1DFEE400CF44D9 /* JKBond.h */; };
+		C7ADC9010BA05609007D9134 /* JKMoleculeModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C777A2D00A1DFEE400CF44D9 /* JKMoleculeModel.h */; };
+		C7ADC9020BA05609007D9134 /* JKDataModelProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = C729CAA70A4B45CD00FAB04F /* JKDataModelProxy.h */; };
+		C7ADC9030BA05609007D9134 /* JKFileWell.h in Headers */ = {isa = PBXBuildFile; fileRef = C73290E80AD68F9800D95E36 /* JKFileWell.h */; };
+		C7ADC9040BA05609007D9134 /* JKSynchroScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = C73290F30AD68F9800D95E36 /* JKSynchroScrollView.h */; };
+		C7ADC9050BA05609007D9134 /* FontNameToDisplayNameTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */; };
+		C7ADC9060BA05609007D9134 /* MWController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D0550B11D9030046F994 /* MWController.h */; };
+		C7ADC9070BA05609007D9134 /* NSTableView+Copying.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */; };
+		C7ADC9080BA05609007D9134 /* JKChromatogram.h in Headers */ = {isa = PBXBuildFile; fileRef = C73290E00AD68F9800D95E36 /* JKChromatogram.h */; };
+		C7ADC9090BA05609007D9134 /* JKSearchResult.h in Headers */ = {isa = PBXBuildFile; fileRef = C7752C360B6778DA0010EE72 /* JKSearchResult.h */; };
+		C7ADC90A0BA05609007D9134 /* NSBezierPath+RoundRect.h in Headers */ = {isa = PBXBuildFile; fileRef = C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */; };
+		C7ADC90B0BA05609007D9134 /* ArrayEncodingObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C299880B8B48CC0017B2B2 /* ArrayEncodingObject.h */; };
+		C7ADC90C0BA05609007D9134 /* NSKeyedArchiver+CArrayEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C2998E0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.h */; };
+		C7ADC90D0BA05609007D9134 /* NSCoder+CArrayEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C29ABB0B8B67530017B2B2 /* NSCoder+CArrayEncoding.h */; };
+		C7ADC90E0BA05609007D9134 /* JKCombinedPeak.h in Headers */ = {isa = PBXBuildFile; fileRef = C708E90A0B9D953A0085872E /* JKCombinedPeak.h */; };
+		C7ADC90F0BA05609007D9134 /* NSEvent+ModifierKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */; };
+		C7ADC9110BA05609007D9134 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
+		C7ADC9120BA05609007D9134 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C71D9FCB099CD19D007EB10D /* Growl.framework */; };
 		C7B9BA2D0AA881AE00250EFE /* view.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7B9BA2C0AA881AE00250EFE /* view.tiff */; };
 		C7BC505309A62C930093106E /* JKLog.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC505109A62C930093106E /* JKLog.h */; };
 		C7BC505409A62C930093106E /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
 		C7BDA6C10AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */; };
 		C7BDA6C20AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */; };
-		C7C21FC60A5060E2006E82FD /* Peacock.sdef in Resources */ = {isa = PBXBuildFile; fileRef = C7C21FC50A5060E2006E82FD /* Peacock.sdef */; };
 		C7C2998A0B8B48CC0017B2B2 /* ArrayEncodingObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C299880B8B48CC0017B2B2 /* ArrayEncodingObject.h */; };
 		C7C2998B0B8B48CC0017B2B2 /* ArrayEncodingObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C299890B8B48CC0017B2B2 /* ArrayEncodingObject.m */; };
 		C7C299900B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C2998E0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.h */; };
@@ -145,6 +290,17 @@
 		C7FBE1E40AB6F1A4000E7EF2 /* presets.png in Resources */ = {isa = PBXBuildFile; fileRef = C7FBE1E30AB6F1A4000E7EF2 /* presets.png */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXBuildRule section */
+		C7ADCAE50BA0BC4D007D9134 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = org.cocotron.1.0.windows.i386.gcc.4_0_3;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			outputFiles = (
+			);
+		};
+/* End PBXBuildRule section */
+
 /* Begin PBXContainerItemProxy section */
 		C72C8532098BEAD500CEF565 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -152,6 +308,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = Peacock;
+		};
+		C7ADCB3A0BA0C1AE007D9134 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D15AC270486D014006FF6A4 /* Peacock-Mac */;
+			remoteInfo = "Peacock-Mac";
+		};
+		C7ADCB3C0BA0C1B2007D9134 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C7ADC8880BA05609007D9134 /* Peacock-Windows */;
+			remoteInfo = "Peacock-Windows";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -164,6 +334,17 @@
 			files = (
 				C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */,
 				C71D9FE9099CD291007EB10D /* Growl.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C7ADC9100BA05609007D9134 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C7ADC9110BA05609007D9134 /* Sparkle.framework in CopyFiles */,
+				C7ADC9120BA05609007D9134 /* Growl.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,6 +452,7 @@
 		C7A7BB540A9DE6E0005E3778 /* save_document.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = save_document.tiff; sourceTree = "<group>"; };
 		C7AD38AB08B2A0D600A0F4BE /* FilteringDNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FilteringDNDArrayController.h; sourceTree = "<group>"; };
 		C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FilteringDNDArrayController.m; sourceTree = "<group>"; };
+		C7ADC9190BA05609007D9134 /* Peacock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Peacock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7B9BA2C0AA881AE00250EFE /* view.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = view.tiff; sourceTree = "<group>"; };
 		C7BC505109A62C930093106E /* JKLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKLog.h; sourceTree = "<group>"; };
 		C7BC505209A62C930093106E /* JKLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLog.m; sourceTree = "<group>"; };
@@ -373,6 +555,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C7ADC8E50BA05609007D9134 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C7ADC8E60BA05609007D9134 /* Cocoa.framework in Frameworks */,
+				C7ADC8E70BA05609007D9134 /* libnetcdf.a in Frameworks */,
+				C7ADC8E80BA05609007D9134 /* Carbon.framework in Frameworks */,
+				C7ADC8E90BA05609007D9134 /* CoreFoundation.framework in Frameworks */,
+				C7ADC8EA0BA05609007D9134 /* Security.framework in Frameworks */,
+				C7ADC8EB0BA05609007D9134 /* libz.dylib in Frameworks */,
+				C7ADC8EC0BA05609007D9134 /* libnetcdf.a in Frameworks */,
+				C7ADC8ED0BA05609007D9134 /* Cocoa.framework in Frameworks */,
+				C7ADC8EE0BA05609007D9134 /* libz.dylib in Frameworks */,
+				C7ADC8EF0BA05609007D9134 /* Security.framework in Frameworks */,
+				C7ADC8F00BA05609007D9134 /* CoreFoundation.framework in Frameworks */,
+				C7ADC8F10BA05609007D9134 /* Carbon.framework in Frameworks */,
+				C7ADC8F20BA05609007D9134 /* AppKit.framework in Frameworks */,
+				C7ADC8F30BA05609007D9134 /* Foundation.framework in Frameworks */,
+				C7ADC8F40BA05609007D9134 /* Growl.framework in Frameworks */,
+				C7ADC8F50BA05609007D9134 /* Sparkle.framework in Frameworks */,
+				C7ADC8F60BA05609007D9134 /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -405,6 +611,7 @@
 			children = (
 				8D15AC370486D014006FF6A4 /* Peacock.app */,
 				C72C8500098BE74300CEF565 /* Unit Testing.octest */,
+				C7ADC9190BA05609007D9134 /* Peacock.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -803,6 +1010,37 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		C7ADC8F70BA05609007D9134 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C7ADC8F80BA05609007D9134 /* netcdf.h in Headers */,
+				C7ADC8F90BA05609007D9134 /* JKLog.h in Headers */,
+				C7ADC8FA0BA05609007D9134 /* jk_statistics.h in Headers */,
+				C7ADC8FB0BA05609007D9134 /* JKGCMSDocument.h in Headers */,
+				C7ADC8FC0BA05609007D9134 /* BDAlias.h in Headers */,
+				C7ADC8FD0BA05609007D9134 /* JKPathPopUpButton.h in Headers */,
+				C7ADC8FE0BA05609007D9134 /* JKMoleculeView.h in Headers */,
+				C7ADC8FF0BA05609007D9134 /* JKAtom.h in Headers */,
+				C7ADC9000BA05609007D9134 /* JKBond.h in Headers */,
+				C7ADC9010BA05609007D9134 /* JKMoleculeModel.h in Headers */,
+				C7ADC9020BA05609007D9134 /* JKDataModelProxy.h in Headers */,
+				C7ADC9030BA05609007D9134 /* JKFileWell.h in Headers */,
+				C7ADC9040BA05609007D9134 /* JKSynchroScrollView.h in Headers */,
+				C7ADC9050BA05609007D9134 /* FontNameToDisplayNameTransformer.h in Headers */,
+				C7ADC9060BA05609007D9134 /* MWController.h in Headers */,
+				C7ADC9070BA05609007D9134 /* NSTableView+Copying.h in Headers */,
+				C7ADC9080BA05609007D9134 /* JKChromatogram.h in Headers */,
+				C7ADC9090BA05609007D9134 /* JKSearchResult.h in Headers */,
+				C7ADC90A0BA05609007D9134 /* NSBezierPath+RoundRect.h in Headers */,
+				C7ADC90B0BA05609007D9134 /* ArrayEncodingObject.h in Headers */,
+				C7ADC90C0BA05609007D9134 /* NSKeyedArchiver+CArrayEncoding.h in Headers */,
+				C7ADC90D0BA05609007D9134 /* NSCoder+CArrayEncoding.h in Headers */,
+				C7ADC90E0BA05609007D9134 /* JKCombinedPeak.h in Headers */,
+				C7ADC90F0BA05609007D9134 /* NSEvent+ModifierKeys.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C7B3169A0957128D0017ADDC /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -837,9 +1075,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8D15AC270486D014006FF6A4 /* Peacock */ = {
+		8D15AC270486D014006FF6A4 /* Peacock-Mac */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C7EB179C0898CF22007FC2ED /* Build configuration list for PBXNativeTarget "Peacock" */;
+			buildConfigurationList = C7EB179C0898CF22007FC2ED /* Build configuration list for PBXNativeTarget "Peacock-Mac" */;
 			buildPhases = (
 				8D15AC2B0486D014006FF6A4 /* Resources */,
 				8D15AC300486D014006FF6A4 /* Sources */,
@@ -852,7 +1090,7 @@
 			);
 			dependencies = (
 			);
-			name = Peacock;
+			name = "Peacock-Mac";
 			productInstallPath = "$(HOME)/Applications";
 			productName = Peacock;
 			productReference = 8D15AC370486D014006FF6A4 /* Peacock.app */;
@@ -877,6 +1115,28 @@
 			productReference = C72C8500098BE74300CEF565 /* Unit Testing.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
+		C7ADC8880BA05609007D9134 /* Peacock-Windows */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C7ADC9140BA05609007D9134 /* Build configuration list for PBXNativeTarget "Peacock-Windows" */;
+			buildPhases = (
+				C7ADC8890BA05609007D9134 /* Resources */,
+				C7ADC8B40BA05609007D9134 /* Sources */,
+				C7ADC8E50BA05609007D9134 /* Frameworks */,
+				C7ADC8F70BA05609007D9134 /* Headers */,
+				C7ADC9100BA05609007D9134 /* CopyFiles */,
+				C7ADC9130BA05609007D9134 /* ShellScript */,
+			);
+			buildRules = (
+				C7ADCAE50BA0BC4D007D9134 /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = "Peacock-Windows";
+			productInstallPath = "$(HOME)/Applications";
+			productName = Peacock;
+			productReference = C7ADC9190BA05609007D9134 /* Peacock.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -887,8 +1147,10 @@
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* Peacock */;
 			projectDirPath = "";
 			targets = (
-				8D15AC270486D014006FF6A4 /* Peacock */,
+				8D15AC270486D014006FF6A4 /* Peacock-Mac */,
+				C7ADC8880BA05609007D9134 /* Peacock-Windows */,
 				C72C84FF098BE74300CEF565 /* Unit Testing */,
+				C7ADCB390BA0C1A6007D9134 /* Peacock-All */,
 			);
 		};
 /* End PBXProject section */
@@ -910,7 +1172,6 @@
 				C7858FEA0951E9990083EC22 /* JKStatisticalAnalysis.nib in Resources */,
 				C70DC017095B201200C2B386 /* Localizable.strings in Resources */,
 				C77C585A09801145002E7796 /* Peacock Help in Resources */,
-				C7C21FC60A5060E2006E82FD /* Peacock.sdef in Resources */,
 				C7A7BB370A9DE5D3005E3778 /* library_document.icns in Resources */,
 				C7A7BB380A9DE5D3005E3778 /* atlas_document.icns in Resources */,
 				C7A7BB3A0A9DE5D3005E3778 /* peacock_document.icns in Resources */,
@@ -939,7 +1200,6 @@
 				C799B0AA0ACAB30D00D4FCA4 /* Identify Compounds.tiff in Resources */,
 				C799B0AB0ACAB30D00D4FCA4 /* Identify Peaks.tiff in Resources */,
 				C799B0AC0ACAB30D00D4FCA4 /* Identify Baseline.tiff in Resources */,
-				C716B4DD0AD6ACA500DA408E /* JKGAMLDocument.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -947,6 +1207,54 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C7ADC8890BA05609007D9134 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C7ADC88A0BA05609007D9134 /* Credits.rtf in Resources */,
+				C7ADC88B0BA05609007D9134 /* InfoPlist.strings in Resources */,
+				C7ADC88C0BA05609007D9134 /* JKLibrary.nib in Resources */,
+				C7ADC88D0BA05609007D9134 /* JKGCMSDocument.nib in Resources */,
+				C7ADC88E0BA05609007D9134 /* JKMainMenu.nib in Resources */,
+				C7ADC88F0BA05609007D9134 /* JKPanel.nib in Resources */,
+				C7ADC8900BA05609007D9134 /* JKPreferences.nib in Resources */,
+				C7ADC8910BA05609007D9134 /* periodic.table in Resources */,
+				C7ADC8920BA05609007D9134 /* JKBatchProcess.nib in Resources */,
+				C7ADC8930BA05609007D9134 /* JKStatisticalAnalysis.nib in Resources */,
+				C7ADC8940BA05609007D9134 /* Localizable.strings in Resources */,
+				C7ADC8950BA05609007D9134 /* Peacock Help in Resources */,
+				C7ADC8960BA05609007D9134 /* Peacock.sdef in Resources */,
+				C7ADC8970BA05609007D9134 /* library_document.icns in Resources */,
+				C7ADC8980BA05609007D9134 /* atlas_document.icns in Resources */,
+				C7ADC8990BA05609007D9134 /* peacock_document.icns in Resources */,
+				C7ADC89A0BA05609007D9134 /* peacock_preferences.icns in Resources */,
+				C7ADC89B0BA05609007D9134 /* andi_document.icns in Resources */,
+				C7ADC89C0BA05609007D9134 /* aia_document.icns in Resources */,
+				C7ADC89D0BA05609007D9134 /* netcdf_document.icns in Resources */,
+				C7ADC89E0BA05609007D9134 /* hpchem_document.icns in Resources */,
+				C7ADC89F0BA05609007D9134 /* peacock_application.icns in Resources */,
+				C7ADC8A00BA05609007D9134 /* question_mark.tiff in Resources */,
+				C7ADC8A10BA05609007D9134 /* zoom_out.tiff in Resources */,
+				C7ADC8A20BA05609007D9134 /* processing.tiff in Resources */,
+				C7ADC8A30BA05609007D9134 /* info.icns in Resources */,
+				C7ADC8A40BA05609007D9134 /* general.tiff in Resources */,
+				C7ADC8A50BA05609007D9134 /* find.icns in Resources */,
+				C7ADC8A60BA05609007D9134 /* zoom_in.tiff in Resources */,
+				C7ADC8A70BA05609007D9134 /* text.tiff in Resources */,
+				C7ADC8A80BA05609007D9134 /* zoom.tiff in Resources */,
+				C7ADC8A90BA05609007D9134 /* display.tiff in Resources */,
+				C7ADC8AA0BA05609007D9134 /* warning.tiff in Resources */,
+				C7ADC8AB0BA05609007D9134 /* layout.tiff in Resources */,
+				C7ADC8AC0BA05609007D9134 /* save_document.tiff in Resources */,
+				C7ADC8AD0BA05609007D9134 /* view.tiff in Resources */,
+				C7ADC8AE0BA05609007D9134 /* presets.png in Resources */,
+				C7ADC8AF0BA05609007D9134 /* Peacock Test Files in Resources */,
+				C7ADC8B00BA05609007D9134 /* Identify Compounds.tiff in Resources */,
+				C7ADC8B10BA05609007D9134 /* Identify Peaks.tiff in Resources */,
+				C7ADC8B20BA05609007D9134 /* Identify Baseline.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -979,6 +1287,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		C7ADC9130BA05609007D9134 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			comments = "Script to put the svnversion in the about box.";
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = "/usr/bin/perl -w";
+			shellScript = "# Xcode auto-versioning script for Subversion\n# by Axel Andersson, modified by Daniel Jalkut to add\n# \"--revision HEAD\" to the svn info line, which allows\n# the latest revision to always be used.\n\nuse strict;\n\ndie \"$0: Must be run from Xcode\" unless $ENV{\"BUILT_PRODUCTS_DIR\"};\n\n# Get the current subversion revision number and use it to set the CFBundleVersion value\nmy $REV = `/usr/local/bin/svnversion -n ./`;\nmy $INFO = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{WRAPPER_NAME}/Contents/Info.plist\";\n\nmy $version = $REV;\n\n# (Match the last group of digits and optional letter M/S):\n\n# ugly yet functional (barely) regex by Daniel Jalkut:\n#$version =~ s/([\\d]*:)(\\d)+[M|S]*.*/$2/;\n\n# better yet still functional regex via Kevin \"Regex Nerd\" Ballard\n($version =~ m/\\d+[MS]*$/) && ($version = $&);\n\ndie \"$0: No Subversion revision found $version $REV\" unless $version;\n\nopen(FH, \"$INFO\") or die \"$0: $INFO: $!\";\nmy $info = join(\"\", <FH>);\nclose(FH);\n\n$info =~ s/([\\t ]+<key>CFBundleVersion<\\/key>\\n[\\t ]+<string>).*?(<\\/string>)/$1$version$2/;\n\nopen(FH, \">$INFO\") or die \"$0: $INFO: $!\";\nprint FH $info;\nclose(FH);";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1048,13 +1370,78 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C7ADC8B40BA05609007D9134 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C7ADC8B50BA05609007D9134 /* main.m in Sources */,
+				C7ADC8B60BA05609007D9134 /* MolTypes.c in Sources */,
+				C7ADC8B70BA05609007D9134 /* MWController.m in Sources */,
+				C7ADC8B80BA05609007D9134 /* MyGraphDataSerie.m in Sources */,
+				C7ADC8B90BA05609007D9134 /* MyGraphView.m in Sources */,
+				C7ADC8BA0BA05609007D9134 /* CAtom.m in Sources */,
+				C7ADC8BB0BA05609007D9134 /* CFragment.m in Sources */,
+				C7ADC8BC0BA05609007D9134 /* CMutableArray.m in Sources */,
+				C7ADC8BD0BA05609007D9134 /* JKAppDelegate.m in Sources */,
+				C7ADC8BE0BA05609007D9134 /* JKLibrary.m in Sources */,
+				C7ADC8BF0BA05609007D9134 /* JKLibraryWindowController.m in Sources */,
+				C7ADC8C00BA05609007D9134 /* JKMainWindowController.m in Sources */,
+				C7ADC8C10BA05609007D9134 /* JKPanelController.m in Sources */,
+				C7ADC8C20BA05609007D9134 /* JKPreferencesWindowController.m in Sources */,
+				C7ADC8C30BA05609007D9134 /* JKSpectrum.m in Sources */,
+				C7ADC8C40BA05609007D9134 /* JKPeakRecord.m in Sources */,
+				C7ADC8C50BA05609007D9134 /* FilteringDNDArrayController.m in Sources */,
+				C7ADC8C60BA05609007D9134 /* ChromatogramGraphDataSerie.m in Sources */,
+				C7ADC8C70BA05609007D9134 /* SpectrumGraphDataSerie.m in Sources */,
+				C7ADC8C80BA05609007D9134 /* DeleteTableView.m in Sources */,
+				C7ADC8C90BA05609007D9134 /* JKLibraryEntry.m in Sources */,
+				C7ADC8CA0BA05609007D9134 /* RBSplitSubview.m in Sources */,
+				C7ADC8CB0BA05609007D9134 /* RBSplitView.m in Sources */,
+				C7ADC8CC0BA05609007D9134 /* JKBatchProcessWindowController.m in Sources */,
+				C7ADC8CD0BA05609007D9134 /* JKRatio.m in Sources */,
+				C7ADC8CE0BA05609007D9134 /* JKLog.m in Sources */,
+				C7ADC8CF0BA05609007D9134 /* jk_statistics.c in Sources */,
+				C7ADC8D00BA05609007D9134 /* JKGCMSDocument.m in Sources */,
+				C7ADC8D10BA05609007D9134 /* BDAlias.m in Sources */,
+				C7ADC8D20BA05609007D9134 /* JKPathPopUpButton.m in Sources */,
+				C7ADC8D30BA05609007D9134 /* JKMoleculeView.m in Sources */,
+				C7ADC8D40BA05609007D9134 /* JKAtom.m in Sources */,
+				C7ADC8D50BA05609007D9134 /* JKBond.m in Sources */,
+				C7ADC8D60BA05609007D9134 /* JKMoleculeModel.m in Sources */,
+				C7ADC8D70BA05609007D9134 /* JKDataModelProxy.m in Sources */,
+				C7ADC8D80BA05609007D9134 /* JKSynchroScrollView.m in Sources */,
+				C7ADC8D90BA05609007D9134 /* FontNameToDisplayNameTransformer.m in Sources */,
+				C7ADC8DA0BA05609007D9134 /* NSTableView+Copying.m in Sources */,
+				C7ADC8DB0BA05609007D9134 /* JKStatisticsWindowController.m in Sources */,
+				C7ADC8DC0BA05609007D9134 /* JKStatisticsDocument.m in Sources */,
+				C7ADC8DD0BA05609007D9134 /* JKChromatogram.m in Sources */,
+				C7ADC8DE0BA05609007D9134 /* JKSearchResult.m in Sources */,
+				C7ADC8DF0BA05609007D9134 /* NSBezierPath+RoundRect.m in Sources */,
+				C7ADC8E00BA05609007D9134 /* ArrayEncodingObject.m in Sources */,
+				C7ADC8E10BA05609007D9134 /* NSKeyedArchiver+CArrayEncoding.m in Sources */,
+				C7ADC8E20BA05609007D9134 /* NSCoder+CArrayEncoding.m in Sources */,
+				C7ADC8E30BA05609007D9134 /* JKCombinedPeak.m in Sources */,
+				C7ADC8E40BA05609007D9134 /* NSEvent+ModifierKeys.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		C72C8533098BEAD500CEF565 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8D15AC270486D014006FF6A4 /* Peacock */;
+			target = 8D15AC270486D014006FF6A4 /* Peacock-Mac */;
 			targetProxy = C72C8532098BEAD500CEF565 /* PBXContainerItemProxy */;
+		};
+		C7ADCB3B0BA0C1AE007D9134 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D15AC270486D014006FF6A4 /* Peacock-Mac */;
+			targetProxy = C7ADCB3A0BA0C1AE007D9134 /* PBXContainerItemProxy */;
+		};
+		C7ADCB3D0BA0C1B2007D9134 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C7ADC8880BA05609007D9134 /* Peacock-Windows */;
+			targetProxy = C7ADCB3C0BA0C1B2007D9134 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1095,95 +1482,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		C716FFE909F64F8800E05AC4 /* Performance */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					"<Multiple",
-					"values>",
-					ppc,
-					i386,
-				);
-				DEAD_CODE_STRIPPING = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS)",
-					"$(SRCROOT)",
-				);
-				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
-				PRODUCT_NAME = Peacock;
-				WRAPPER_EXTENSION = app;
-			};
-			name = Performance;
-		};
-		C716FFEA09F64F8800E05AC4 /* Performance */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Peacock.app/Contents/MacOS/Peacock";
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
-				INFOPLIST_FILE = "Unit Testing-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Cocoa,
-					"-framework",
-					SenTestingKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = "Unit Testing";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
-				ZERO_LINK = NO;
-			};
-			name = Performance;
-		};
-		C716FFEB09F64F8800E05AC4 /* Performance */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				DEAD_CODE_STRIPPING = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS)",
-					"$(SRCROOT)",
-					"$(SRCROOT)/Frameworks",
-				);
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
-				GCC_WARN_SHADOW = NO;
-				GCC_WARN_SIGN_COMPARE = NO;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = NO;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/Frameworks",
-					"$(SRCROOT)",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				ZERO_LINK = NO;
-			};
-			name = Performance;
-		};
 		C72C8503098BE74500CEF565 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1240,117 +1538,104 @@
 			};
 			name = Release;
 		};
-		C787C16C0A6415C7008C9AF6 /* Debug + extra error checking */ = {
+		C7ADC9150BA05609007D9134 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					"<Multiple",
-					"values>",
-					ppc,
-				);
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS)",
-					"$(SRCROOT)",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				ARCHS = i386;
+				COPY_PHASE_STRIP = YES;
+				EXECUTABLE_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Windows";
+				EXECUTABLE_SUFFIX = .exe;
+				FRAMEWORK_SEARCH_PATHS = /Developer/Cocotron/1.0/Windows/i386/Frameworks;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
-				GCC_WARN_PEDANTIC = YES;
 				INFOPLIST_FILE = Info.plist;
-				PRODUCT_NAME = Peacock;
-				WARNING_CFLAGS = (
-					"-Wall",
-					"-Wextra",
-					"-Wfloat-equal",
-					"-Wunreachable-code",
+				OTHER_LDFLAGS = (
+					"-Wl,--enable-auto-import",
+					"-mwindows",
+					"-mconsole",
 				);
-				WRAPPER_EXTENSION = app;
+				PREBINDING = NO;
+				PRODUCT_NAME = Peacock;
+				SYMROOT = build/Windows;
 			};
-			name = "Debug + extra error checking";
+			name = Debug;
 		};
-		C787C16D0A6415C7008C9AF6 /* Debug + extra error checking */ = {
+		C7ADC9170BA05609007D9134 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Peacock.app/Contents/MacOS/Peacock";
+				ARCHS = i386;
+				COPY_PHASE_STRIP = YES;
+				EXECUTABLE_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Windows";
+				EXECUTABLE_SUFFIX = .exe;
+				FRAMEWORK_SEARCH_PATHS = /Developer/Cocotron/1.0/Windows/i386/Frameworks;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				OTHER_LDFLAGS = (
+					"-Wl,--enable-auto-import",
+					"-mwindows",
+					"-mconsole",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Peacock;
+				SYMROOT = build/Windows;
+			};
+			name = Release;
+		};
+		C7ADCB490BA0C259007D9134 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
-				INFOPLIST_FILE = "Unit Testing-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Cocoa,
-					"-framework",
-					SenTestingKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = "Unit Testing";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
-				ZERO_LINK = NO;
+				PRODUCT_NAME = "Peacock-All";
 			};
-			name = "Debug + extra error checking";
+			name = Debug;
 		};
-		C787C16E0A6415C7008C9AF6 /* Debug + extra error checking */ = {
+		C7ADCB4A0BA0C259007D9134 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS)",
-					"$(SRCROOT)",
-					"$(SRCROOT)/Frameworks",
-				);
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 2;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
-				GCC_WARN_SHADOW = NO;
-				GCC_WARN_SIGN_COMPARE = NO;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = NO;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/Frameworks",
-					"$(SRCROOT)",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = "Peacock-All";
 				ZERO_LINK = NO;
 			};
-			name = "Debug + extra error checking";
+			name = Release;
 		};
 		C7EB179D0898CF22007FC2ED /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					"<Multiple",
-					"values>",
-					ppc,
-				);
+				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
 					"$(SRCROOT)",
+					"$(SRCROOT)/Frameworks",
 				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G4;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Frameworks";
 				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/Frameworks",
+					"$(SRCROOT)",
+				);
+				PREBINDING = NO;
 				PRODUCT_NAME = Peacock;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SYMROOT = build/Mac;
 				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};
@@ -1358,19 +1643,26 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
-					"<Multiple",
-					"values>",
 					ppc,
 					i386,
 				);
-				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
 					"$(SRCROOT)",
+					"$(SRCROOT)/Frameworks",
 				);
-				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G4;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Frameworks";
 				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/Frameworks",
+					"$(SRCROOT)",
+				);
 				PRODUCT_NAME = Peacock;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SYMROOT = build/Mac;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1378,79 +1670,20 @@
 		C7EB17A10898CF22007FC2ED /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS)",
-					"$(SRCROOT)",
-					"$(SRCROOT)/Frameworks",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 2;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
-				GCC_WARN_SHADOW = NO;
-				GCC_WARN_SIGN_COMPARE = NO;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = NO;
-				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/Frameworks",
-					"$(SRCROOT)",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
 		C7EB17A20898CF22007FC2ED /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				DEAD_CODE_STRIPPING = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS)",
-					"$(SRCROOT)",
-					"$(SRCROOT)/Frameworks",
-				);
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
-				GCC_WARN_SHADOW = NO;
-				GCC_WARN_SIGN_COMPARE = NO;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = NO;
-				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/Frameworks",
-					"$(SRCROOT)",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -1461,20 +1694,34 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C72C8503098BE74500CEF565 /* Debug */,
-				C787C16D0A6415C7008C9AF6 /* Debug + extra error checking */,
 				C72C8504098BE74500CEF565 /* Release */,
-				C716FFEA09F64F8800E05AC4 /* Performance */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		C7EB179C0898CF22007FC2ED /* Build configuration list for PBXNativeTarget "Peacock" */ = {
+		C7ADC9140BA05609007D9134 /* Build configuration list for PBXNativeTarget "Peacock-Windows" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C7ADC9150BA05609007D9134 /* Debug */,
+				C7ADC9170BA05609007D9134 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C7ADCB480BA0C259007D9134 /* Build configuration list for PBXAggregateTarget "Peacock-All" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C7ADCB490BA0C259007D9134 /* Debug */,
+				C7ADCB4A0BA0C259007D9134 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C7EB179C0898CF22007FC2ED /* Build configuration list for PBXNativeTarget "Peacock-Mac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C7EB179D0898CF22007FC2ED /* Debug */,
-				C787C16C0A6415C7008C9AF6 /* Debug + extra error checking */,
 				C7EB179E0898CF22007FC2ED /* Release */,
-				C716FFE909F64F8800E05AC4 /* Performance */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -1483,9 +1730,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C7EB17A10898CF22007FC2ED /* Debug */,
-				C787C16E0A6415C7008C9AF6 /* Debug + extra error checking */,
 				C7EB17A20898CF22007FC2ED /* Release */,
-				C716FFEB09F64F8800E05AC4 /* Performance */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

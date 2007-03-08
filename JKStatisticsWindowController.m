@@ -1232,7 +1232,7 @@
     while ((combinedPeak = [combinedPeakEnumerator nextObject]) != nil) {
     	[self searchMissingPeaksInCombinedPeak:combinedPeak];
     }
-    
+    [[self window] orderFront:self];
 }
 
 - (IBAction)next:(id)sender {
@@ -1260,15 +1260,7 @@
 	id combinedPeak;
 	
 	while ((combinedPeak = [enumerator nextObject])) {
-        
-		if ([peak identified]) {
-			[peak confirm];
-		} else if ([[searchResultsController selectedObjects] count] == 1) {
-			[peak identifyAs:[[searchResultsController selectedObjects] objectAtIndex:0]];
-			[peak confirm];
-		} else {
-            [peak confirm];
-        }
+        [combinedPeak confirm];
 	}
 }
 
