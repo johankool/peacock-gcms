@@ -49,11 +49,11 @@
 }
 
 #pragma mark ACCESSORS
-- (void)setDocument:(JKGCMSDocument *)inValue {
+- (void)setDocument:(NSDocument *)inValue {
 	// Weak reference
 	document = inValue;
 }
-- (JKGCMSDocument *)document {
+- (NSDocument *)document {
     return document;
 }
 
@@ -246,7 +246,7 @@
 }
 
 - (float)scoreComparedToLibraryEntry:(JKSpectrum *)libraryEntry { 
-    return [self scoreComparedToSpectrum:libraryEntry usingMethod:[[self document] scoreBasis] penalizingForRententionIndex:[[self document] penalizeForRetentionIndex]];
+    return [self scoreComparedToSpectrum:libraryEntry usingMethod:[(JKGCMSDocument *)[self document] scoreBasis] penalizingForRententionIndex:[(JKGCMSDocument *)[self document] penalizeForRetentionIndex]];
 }
 //#pragma mark optimization_level 3
 
@@ -282,8 +282,8 @@
     float minScannedMassRange = 0.0f;
     float maxScannedMassRange = 1000000.0f;
     if ([self document]) {
-        minScannedMassRange = [[[self document] minimumScannedMassRange] floatValue];
-        maxScannedMassRange = [[[self document] maximumScannedMassRange] floatValue];        
+        minScannedMassRange = [[(JKGCMSDocument *)[self document] minimumScannedMassRange] floatValue];
+        maxScannedMassRange = [[(JKGCMSDocument *)[self document] maximumScannedMassRange] floatValue];        
         useScanRangeCheck = YES;
     } 
     
@@ -495,7 +495,7 @@
     } else {
         if (document) {
             if ([[self model] intValue] != 0) {
-                return [NSNumber numberWithFloat:[document retentionIndexForScan:[[self model] intValue]]];                
+                return [NSNumber numberWithFloat:[(JKGCMSDocument *)document retentionIndexForScan:[[self model] intValue]]];                
             }
         }
     }

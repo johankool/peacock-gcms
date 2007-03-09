@@ -8,10 +8,12 @@
 
 #import "JKLibraryEntry.h"
 
-#import "jk_statistics.h"
-#include "MolTypes.h"
-#include "CFragment.h"
+#import "JKLibrary.h"
 #import "SpectrumGraphDataSerie.h"
+#import "jk_statistics.h"
+#include "CFragment.h"
+#include "MolTypes.h"
+
 
 @implementation JKLibraryEntry
 
@@ -624,21 +626,6 @@ idUndoAccessor(synonyms, setSynonyms, @"Change Synonyms")
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",[self CASNumber],[self CASNumber]]]];
 }
 
-//- (int)numberOfPoints {
-//	return numberOfPoints;
-//}
-
-//- (id)valueForUndefinedKey:(NSString *)key{
-//	return key;
-//}
-//
-//- (void)setDocument:(NSDocument *)inValue {
-//	// Weak link
-//	document = inValue;
-//}
-//- (NSDocument *)document {
-//    return document;
-//}
 
 #pragma mark Encoding
 

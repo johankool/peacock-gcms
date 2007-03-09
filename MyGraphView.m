@@ -8,12 +8,13 @@
 
 
 #import "MyGraphView.h"
-#import "MyGraphDataSerie.h"
+
 #import "ChromatogramGraphDataSerie.h"
-#import "SpectrumGraphDataSerie.h"
+#import "JKChromatogram.h"
 #import "JKGCMSDocument.h"
 #import "JKPeakRecord.h"
-#import "JKChromatogram.h"
+#import "MyGraphDataSerie.h"
+#import "SpectrumGraphDataSerie.h"
 
 static void *DataSeriesObservationContext = (void *)1092;
 static void *PeaksObservationContext = (void *)1093;
@@ -886,8 +887,8 @@ static int   kPaddingLabels             = 4;
 	for (i=0; i <  count; i++) {
 		mgds=[[self dataSeries] objectAtIndex:i];
         if ([mgds isKindOfClass:[ChromatogramGraphDataSerie class]]) {
-            if ([[mgds chromatogram] maxTotalIntensity] > maxTotal) {
-                maxTotal = [[mgds chromatogram] maxTotalIntensity];
+            if ([[(ChromatogramGraphDataSerie *)mgds chromatogram] maxTotalIntensity] > maxTotal) {
+                maxTotal = [[(ChromatogramGraphDataSerie *)mgds chromatogram] maxTotalIntensity];
             }
         }
     }
@@ -898,7 +899,7 @@ static int   kPaddingLabels             = 4;
         case JKStackedDrawingMode:
             // A little exta room to make room for labels
             if ([mgds isKindOfClass:[ChromatogramGraphDataSerie class]]) {
-                float thisTotal = [[mgds chromatogram] maxTotalIntensity];
+                float thisTotal = [[(ChromatogramGraphDataSerie *)mgds chromatogram] maxTotalIntensity];
                 [mgds setVerticalScale:[NSNumber numberWithFloat:maxTotal/thisTotal]];
                 newRect.size.height = newRect.size.height*1.4*count;
             } else if ([mgds isKindOfClass:[SpectrumGraphDataSerie class]]) {

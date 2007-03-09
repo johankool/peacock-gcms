@@ -613,9 +613,8 @@ static void *DocumentObservationContext = (void *)1100;
         return nil;
     } 
 	// Short mzValues
-    mzValues = [mzValues sortedArrayUsingFunction:intSort context:NULL];
+    mzValues = [[mzValues sortedArrayUsingFunction:intSort context:NULL] mutableCopy];
     
-#warning [BUG] Constructed string expands "-"-series (from-to).
 	NSString *mzValuesString = [NSString stringWithFormat:@"%d",[[mzValues objectAtIndex:0] intValue]];
 	mzValuesCount = [mzValues count];
     float mzValuesF[mzValuesCount];
@@ -1162,7 +1161,7 @@ int intSort(id num1, id num2, void *context)
         return nil;
     } 
 	// Short mzValues
-    mzValues = [mzValues sortedArrayUsingFunction:intSort context:NULL];
+    mzValues = [[mzValues sortedArrayUsingFunction:intSort context:NULL] mutableCopy];
     
 	NSString *mzValuesString = [NSString stringWithFormat:@"%d",[[mzValues objectAtIndex:0] intValue]];
 	mzValuesCount = [mzValues count];
@@ -2072,7 +2071,7 @@ boolAccessor(abortAction, setAbortAction)
 	return array;
 }
 
-- (void)setPeaks:(NSMutableArray *)array{
+- (void)setPeaks:(NSMutableArray *)array {
 	if (array == [self peaks])
 		return;
 

@@ -7,9 +7,11 @@
 //
 
 #import "ChromatogramGraphDataSerie.h"
+
 #import "JKChromatogram.h"
-#import "MyGraphView.h"
+#import "JKGCMSDocument.h"
 #import "JKPeakRecord.h"
+#import "MyGraphView.h"
 
 static void *DictionaryObservationContext = (void *)1091;
 static void *ArrayObservationContext = (void *)1092;

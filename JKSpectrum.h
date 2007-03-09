@@ -12,7 +12,7 @@
 @class SpectrumGraphDataSerie;
 
 @interface JKSpectrum : NSObject <NSCoding> {
-	JKGCMSDocument *document;
+	NSDocument *document;
 	JKPeakRecord *peak;
 	NSString *model;
     	
@@ -37,8 +37,8 @@
 - (NSNumber *)retentionIndex;
 
 #pragma mark ACCESSORS
-- (void)setDocument:(JKGCMSDocument *)inValue;
-- (JKGCMSDocument *)document;
+- (void)setDocument:(NSDocument *)inValue;
+- (NSDocument *)document;
 - (void)setPeak:(JKPeakRecord *)inValue;
 - (JKPeakRecord *)peak;
 - (NSString *)model;

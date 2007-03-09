@@ -8,6 +8,7 @@
 
 #import "JKPeakRecord.h"
 
+#import "BDAlias.h"
 #import "JKChromatogram.h"
 #import "JKGCMSDocument.h"
 #import "JKLibraryEntry.h"
@@ -636,7 +637,7 @@
             case 2:
             case 3:
             case 4:
-                chromatogram = [[[[coder delegate] chromatograms] objectAtIndex:0] retain];
+                chromatogram = [[[[(NSKeyedArchiver *)coder delegate] chromatograms] objectAtIndex:0] retain];
                 NSAssert(chromatogram, @"peak should have chromatogram");
                 [chromatogram insertObject:self inPeaksAtIndex:[[chromatogram peaks] count]];
                 peakID = [[coder decodeObjectForKey:@"peakID"] intValue];

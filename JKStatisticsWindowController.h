@@ -109,6 +109,9 @@
 - (IBAction)stopButtonAction:(id)sender;
 - (IBAction)repopulate:(id)sender;
 
+#pragma mark CALCULATED ACCESSORS
+- (NSPredicate *)filterPredicate;
+
 #pragma mark ACCESSORS
 // Mutable To-Many relationship combinedPeak
 - (NSMutableArray *)combinedPeaks;
@@ -132,7 +135,6 @@
 - (void)removeObjectFromRatioValuesAtIndex:(int)index;
 - (void)replaceObjectInRatioValuesAtIndex:(int)index withObject:(NSDictionary *)aRatioValue;
 - (BOOL)validateRatioValue:(NSDictionary **)aRatioValue error:(NSError **)outError;
-
 
 // Mutable To-Many relationship ratio
 - (NSMutableArray *)ratios;
@@ -186,9 +188,6 @@
 
 - (NSString *)keyForValueInSummary;
 - (void)setKeyForValueInSummary:(NSString *)keyForValueInSummary;
-
-
-
 
 #pragma mark ACCESSORS (MACROSTYLE)
 

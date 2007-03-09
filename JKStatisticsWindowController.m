@@ -7,15 +7,18 @@
 //
 
 #import "JKStatisticsWindowController.h"
+
+#import "ChromatogramGraphDataSerie.h"
+#import "Growl/GrowlApplicationBridge.h"
+#import "JKChromatogram.h"
+#import "JKCombinedPeak.h"
 #import "JKGCMSDocument.h"
 #import "JKMainWindowController.h"
 #import "JKPeakRecord.h"
 #import "JKRatio.h"
+#import "JKSearchResult.h"
 #import "JKSpectrum.h"
-#import "Growl/GrowlApplicationBridge.h"
 #import "MyGraphView.h"
-#import "ChromatogramGraphDataSerie.h"
-#import "JKCombinedPeak.h"
 #import "NSEvent+ModifierKeys.h"
 
 @implementation JKStatisticsWindowController
@@ -360,7 +363,7 @@
 	
 	date = [NSDate date];
 	peaksCompared = 0;
-	peaksArray = [[document peaks] filteredArrayUsingPredicate:[self filterPredicate]];
+	peaksArray = [[[document peaks] filteredArrayUsingPredicate:[self filterPredicate]] mutableCopy];
 	peaksCount = [peaksArray count];
 	
 	// Go through the peaks
@@ -684,11 +687,11 @@
     int i,k;
     JKGCMSDocument *document = nil;
     NSError *error = [[NSError alloc] init];
-    int entriesCount, answer, chromatogramCount, peaksCount;
+    int peaksCount;
     int maximumIndex;
     float score, maximumScore;	
     
-    float minimumScoreSearchResultsF = [[document minimumScoreSearchResults] floatValue];
+//    float minimumScoreSearchResultsF = [[document minimumScoreSearchResults] floatValue];
     
     for (i = 0; i < filesCount; i++) {
         // do we have a peak for earch file?
@@ -1510,6 +1513,80 @@
 }
 
 #pragma mark ACCESSORS
+// Mutable To-Many relationship files
+- (NSMutableArray *)files {
+	return files;
+}
+
+- (void)setFiles:(NSMutableArray *)inValue {
+    [inValue retain];
+    [files release];
+    files = inValue;
+}
+
+- (int)countOfFiles {
+    return [[self files] count];
+}
+
+- (NSDictionary *)objectInFilesAtIndex:(int)index {
+    return [[self files] objectAtIndex:index];
+}
+
+- (void)getFile:(NSDictionary **)someFiles range:(NSRange)inRange {
+    // Return the objects in the specified range in the provided buffer.
+    [files getObjects:someFiles range:inRange];
+}
+
+- (void)insertObject:(NSDictionary *)aFile inFilesAtIndex:(int)index {
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] removeObjectFromFilesAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Insert File",@"")];
+	}
+	
+	// Add aFile to the array files
+	[files insertObject:aFile atIndex:index];
+}
+
+- (void)removeObjectFromFilesAtIndex:(int)index
+{
+	NSDictionary *aFile = [files objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] insertObject:aFile inFilesAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Delete File",@"")];
+	}
+	
+	// Remove the peak from the array
+	[files removeObjectAtIndex:index];
+}
+
+- (void)replaceObjectInFilesAtIndex:(int)index withObject:(NSDictionary *)aFile
+{
+	NSDictionary *replacedFile = [files objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] replaceObjectAtIndex:index withObject:replacedFile];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Replace File",@"")];
+	}
+	
+	// Replace the peak from the array
+	[files replaceObjectAtIndex:index withObject:aFile];
+}
+
+- (BOOL)validateFile:(NSDictionary **)aFile error:(NSError **)outError {
+    // Implement validation here...
+    return YES;
+} // end files
+
 
 // Mutable To-Many relationship combinedPeaks
 - (NSMutableArray *)combinedPeaks {
@@ -1779,6 +1856,80 @@
     return YES;
 } // end logMessages
 
+// Mutable To-Many relationship metadata
+- (NSMutableArray *)metadata {
+	return metadata;
+}
+
+- (void)setMetadata:(NSMutableArray *)inValue {
+    [inValue retain];
+    [metadata release];
+    metadata = inValue;
+}
+
+- (int)countOfMetadata {
+    return [[self metadata] count];
+}
+
+- (NSDictionary *)objectInMetadataAtIndex:(int)index {
+    return [[self metadata] objectAtIndex:index];
+}
+
+- (void)getMetadata:(NSDictionary **)someMetadata range:(NSRange)inRange {
+    // Return the objects in the specified range in the provided buffer.
+    [metadata getObjects:someMetadata range:inRange];
+}
+
+- (void)insertObject:(NSDictionary *)aMetadata inMetadataAtIndex:(int)index {
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] removeObjectFromMetadataAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Insert Metadata",@"")];
+	}
+	
+	// Add aMetadata to the array metadata
+	[metadata insertObject:aMetadata atIndex:index];
+}
+
+- (void)removeObjectFromMetadataAtIndex:(int)index
+{
+	NSDictionary *aMetadata = [metadata objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] insertObject:aMetadata inMetadataAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Delete Metadata",@"")];
+	}
+	
+	// Remove the peak from the array
+	[metadata removeObjectAtIndex:index];
+}
+
+- (void)replaceObjectInMetadataAtIndex:(int)index withObject:(NSDictionary *)aMetadata
+{
+	NSDictionary *replacedMetadata = [metadata objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] replaceObjectAtIndex:index withObject:replacedMetadata];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Replace Metadata",@"")];
+	}
+	
+	// Replace the peak from the array
+	[metadata replaceObjectAtIndex:index withObject:aMetadata];
+}
+
+- (BOOL)validateMetadata:(NSDictionary **)aMetadata error:(NSError **)outError {
+    // Implement validation here...
+    return YES;
+} // end metadata
+
 
 - (NSString *)keyForValueInSummary {
 	return keyForValueInSummary;
@@ -1795,8 +1946,8 @@
 //idAccessor(combinedPeaks, setCombinedPeaks)
 //idAccessor(ratioValues, setRatioValues)
 //idAccessor(ratios, setRatios)
-idAccessor(metadata, setMetadata)
-idAccessor(files, setFiles)
+//idAccessor(metadata, setMetadata)
+//idAccessor(files, setFiles)
 //idAccessor(logMessages, setLogMessages)
 boolAccessor(abortAction, setAbortAction)
 boolAccessor(setPeakSymbolToNumber, setSetPeakSymbolToNumber)

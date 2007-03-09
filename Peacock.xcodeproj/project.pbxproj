@@ -150,14 +150,8 @@
 		C7ADC8B00BA05609007D9134 /* Identify Compounds.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A70ACAB30D00D4FCA4 /* Identify Compounds.tiff */; };
 		C7ADC8B10BA05609007D9134 /* Identify Peaks.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A80ACAB30D00D4FCA4 /* Identify Peaks.tiff */; };
 		C7ADC8B20BA05609007D9134 /* Identify Baseline.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A90ACAB30D00D4FCA4 /* Identify Baseline.tiff */; };
-		C7ADC8B50BA05609007D9134 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
-		C7ADC8B60BA05609007D9134 /* MolTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F00898CFBC007FC2ED /* MolTypes.c */; };
-		C7ADC8B70BA05609007D9134 /* MWController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F40898CFBC007FC2ED /* MWController.m */; };
 		C7ADC8B80BA05609007D9134 /* MyGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */; };
 		C7ADC8B90BA05609007D9134 /* MyGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */; };
-		C7ADC8BA0BA05609007D9134 /* CAtom.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17A80898CF2D007FC2ED /* CAtom.m */; };
-		C7ADC8BB0BA05609007D9134 /* CFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17AA0898CF2E007FC2ED /* CFragment.m */; };
-		C7ADC8BC0BA05609007D9134 /* CMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17AC0898CF2E007FC2ED /* CMutableArray.m */; };
 		C7ADC8BD0BA05609007D9134 /* JKAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17CF0898CF2E007FC2ED /* JKAppDelegate.m */; };
 		C7ADC8BE0BA05609007D9134 /* JKLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17D50898CF2E007FC2ED /* JKLibrary.m */; };
 		C7ADC8BF0BA05609007D9134 /* JKLibraryWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17D90898CF2E007FC2ED /* JKLibraryWindowController.m */; };
@@ -584,13 +578,14 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C7859A9909CEBCE900351C87 /* Sparkle.framework */,
-				C71D9FCB099CD19D007EB10D /* Growl.framework */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
-				C7834D490941EDAF005431CD /* libz.dylib */,
-				C7834D430941ED7A005431CD /* Security.framework */,
+				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
+				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
+				C716B4AD0AD6AA8F00DA408E /* CoreData.framework */,
 				C7834D3C0941ED5C005431CD /* CoreFoundation.framework */,
 				C7834D1A0941ED37005431CD /* Carbon.framework */,
+				C7834D430941ED7A005431CD /* Security.framework */,
+				C7834D490941EDAF005431CD /* libz.dylib */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -598,9 +593,8 @@
 		1058C7A8FEA54F5311CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C716B4AD0AD6AA8F00DA408E /* CoreData.framework */,
-				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
-				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
+				C7859A9909CEBCE900351C87 /* Sparkle.framework */,
+				C71D9FCB099CD19D007EB10D /* Growl.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -1372,14 +1366,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7ADC8B50BA05609007D9134 /* main.m in Sources */,
-				C7ADC8B60BA05609007D9134 /* MolTypes.c in Sources */,
-				C7ADC8B70BA05609007D9134 /* MWController.m in Sources */,
 				C7ADC8B80BA05609007D9134 /* MyGraphDataSerie.m in Sources */,
 				C7ADC8B90BA05609007D9134 /* MyGraphView.m in Sources */,
-				C7ADC8BA0BA05609007D9134 /* CAtom.m in Sources */,
-				C7ADC8BB0BA05609007D9134 /* CFragment.m in Sources */,
-				C7ADC8BC0BA05609007D9134 /* CMutableArray.m in Sources */,
 				C7ADC8BD0BA05609007D9134 /* JKAppDelegate.m in Sources */,
 				C7ADC8BE0BA05609007D9134 /* JKLibrary.m in Sources */,
 				C7ADC8BF0BA05609007D9134 /* JKLibraryWindowController.m in Sources */,
@@ -1617,8 +1605,10 @@
 					"$(SRCROOT)",
 					"$(SRCROOT)/Frameworks",
 				);
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G4;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/Frameworks";
@@ -1649,6 +1639,9 @@
 					"$(SRCROOT)",
 					"$(SRCROOT)/Frameworks",
 				);
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/Frameworks";

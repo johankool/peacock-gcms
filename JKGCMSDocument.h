@@ -122,6 +122,7 @@ typedef enum {
 - (NSComparisonResult)metadataCompare:(JKGCMSDocument *)otherDocument;
 
 - (BOOL)isBusy;
+- (NSString *)cleanupModelString:(NSString *)model;
 
 int intSort(id num1, id num2, void *context);
 
@@ -188,7 +189,7 @@ int intSort(id num1, id num2, void *context);
 //- (void)stopObservingChromatogram:(JKChromatogram *)chromatogram;
 
 - (NSMutableArray *)peaks;
-//- (void)setPeaks:(NSMutableArray *)array;
+- (void)setPeaks:(NSMutableArray *)array;
 //- (void)insertObject:(JKPeakRecord *)peak inPeaksAtIndex:(int)index;
 //- (void)removeObjectFromPeaksAtIndex:(int)index;
 //- (void)startObservingPeak:(JKPeakRecord *)peak;
