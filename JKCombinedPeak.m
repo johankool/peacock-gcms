@@ -32,16 +32,16 @@
 
 - (id)initWithCoder:(NSCoder *)decoder {
 	[super init];
-
+    
+    document = [decoder decodeObjectForKey:@"document"];
     label= [[decoder decodeObjectForKey:@"label"] retain];
     symbol= [[decoder decodeObjectForKey:@"symbol"] retain];
     retentionIndex = [[decoder decodeObjectForKey:@"retentionIndex"] retain];
     model = [[decoder decodeObjectForKey:@"model"] retain];
     spectrum = [[decoder decodeObjectForKey:@"spectrum"] retain];
     libraryEntry = [[decoder decodeObjectForKey:@"libraryEntry"] retain];
-    peaks = [[decoder decodeObjectForKey:@"peaks"] retain];
     unknownCompound = [decoder decodeBoolForKey:@"unknownCompound"];
-    document = [[decoder decodeObjectForKey:@"document"] retain];
+    peaks = [[decoder decodeObjectForKey:@"peaks"] retain];
     
 	return self;
 }
@@ -181,6 +181,7 @@
 - (id)valueForUndefinedKey:(NSString *)key {
     // Peaks can be accessed using key in the format "file_nn"
     if ([key hasPrefix:@"file_"]) {
+//        if ([peaks objectForKey:key]
         return [peaks objectForKey:key];
     } else {
         return [super valueForUndefinedKey:key];

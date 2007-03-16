@@ -25,6 +25,7 @@
     int end;
     int peakID;
     int start;
+    NSString *uuid;
     
     // Support for reading in old file-format
     id _libraryHit;
@@ -62,7 +63,7 @@
 - (JKGCMSDocument *)document;
 
 #pragma mark ACCESSORS
-
+- (NSString *)uuid;
 - (void)setPeakID:(int)inValue;
 - (int)peakID;
 - (void)setChromatogram:(JKChromatogram *)inValue;

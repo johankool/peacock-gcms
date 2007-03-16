@@ -18,12 +18,14 @@
 - (id)initWithString:(NSString *)string { //Designated initializer
 	self = [super init];
 	if (self != nil) {
-		[self setFormula:string];
-		name = @"";
-			}
+        formula = [string retain];
+        name = [@"" retain];
+    }
 	return self;
 }
 - (void) dealloc {
+    [formula release];
+    [name release];
 	[super dealloc];
 }
 

@@ -390,8 +390,7 @@
 }
 
 - (void) dealloc {
-	free(masses);
-	free(intensities);
+#warning [LEAK] Everything that gets read and retained during init... should be released here!
 	[super dealloc];
 }
 

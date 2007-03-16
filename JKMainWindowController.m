@@ -53,6 +53,22 @@ static void *SpectrumObservationContext = (void *)1102;
     return self;
 }
 
+- (void)dealloc {
+//	[searchResultsController removeObserver:self forKeyPath:@"selection"];
+//	[peakController removeObserver:self forKeyPath:@"selection"];
+//	[[self document] removeObserver:self forKeyPath:@"chromatograms"];
+//	[self removeObserver:self forKeyPath:@"showNormalizedSpectra"];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    // hack preventing an animating splitview to get deallocated whilst animating
+    if ([RBSplitSubview animating]) {
+        sleep(1);
+    }
+    [chromatogramDataSeries release];
+    [hiddenColumnsPeaksTable release];
+    [super dealloc];
+}
+
 - (void)windowDidLoad {
 	// Setup the toolbar after the document nib has been loaded 
     [self setupToolbar];	
@@ -70,15 +86,20 @@ static void *SpectrumObservationContext = (void *)1102;
 //        [chromatogramDataSeries addObject:cgds];
 //    }
 //    
+
 	// ChromatogramView bindings
 	[chromatogramView bind:@"dataSeries" toObject: chromatogramDataSeriesController
 			   withKeyPath:@"arrangedObjects" options:nil];
 	[chromatogramView bind:@"peaks" toObject: peakController
 			   withKeyPath:@"arrangedObjects" options:nil];
-	
+
 	// SpectrumView bindings
 	[spectrumView bind:@"dataSeries" toObject: spectrumDataSeriesController
 		   withKeyPath:@"arrangedObjects" options:nil];
+
+	// moleculeView bindings
+//	[moleculeView bind:@"moleculeString" toObject: searchResultsController
+//		   withKeyPath:@"selection.libraryHit.molString" options:nil];
 	
 	// More setup
 	[chromatogramView setShouldDrawLegend:YES];
@@ -138,17 +159,9 @@ static void *SpectrumObservationContext = (void *)1102;
     [detailsTabView addTabViewItem:searchResultsTabViewItem];
     [moleculeSplitSubview setHidden:YES];
     [detailsSplitSubview setHidden:YES];
-}
-
-- (void)dealloc {
-	[searchResultsController removeObserver:self forKeyPath:@"selection"];
-	[peakController removeObserver:self forKeyPath:@"selection"];
-    // hack preventing an animating splitview to get deallocated whilst animating
-    if ([RBSplitSubview animating]) {
-        sleep(1);
-    }
-    [chromatogramDataSeries release];
-    [super dealloc];
+    
+    [chromatogramView showAll:self];
+    [spectrumView showAll:self];
 }
 
 #pragma mark IBACTIONS
@@ -757,7 +770,7 @@ static void *SpectrumObservationContext = (void *)1102;
             if ([[searchResultsController selectedObjects] count] == 1) {
                 NSString *molString = [[[[self searchResultsController] selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.molString"];
                 if ((molString) && (![molString isEqualToString:@""])) {
-                    [moleculeView setModel:[[[JKMoleculeModel alloc] initWithMoleculeString:molString] autorelease]];
+//                    [moleculeView setModel:[[[JKMoleculeModel alloc] initWithMoleculeString:molString] autorelease]];
                     [moleculeSplitSubview setNeedsDisplay:YES];
                     [moleculeSplitSubview setHidden:NO];
                     [moleculeSplitSubview expandWithAnimation:YES withResize:NO];                                
@@ -774,7 +787,7 @@ static void *SpectrumObservationContext = (void *)1102;
             if ([[searchResultsController selectedObjects] count] == 1) {
                 NSString *molString = [[[[self searchResultsController] selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.molString"];
                 if ((molString) && (![molString isEqualToString:@""])) {
-                    [moleculeView setModel:[[[JKMoleculeModel alloc] initWithMoleculeString:molString] autorelease]];
+//                    [moleculeView setModel:[[[JKMoleculeModel alloc] initWithMoleculeString:molString] autorelease]];
                     [moleculeSplitSubview setNeedsDisplay:YES];
                     [moleculeSplitSubview setHidden:NO];
                     [moleculeSplitSubview expandWithAnimation:YES withResize:NO];                                

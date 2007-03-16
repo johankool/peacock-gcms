@@ -35,9 +35,9 @@
 	if (self != nil) {
 		masses = (float *) malloc(1*sizeof(float));
 		intensities = (float *) malloc(1*sizeof(float));
-        [self setDocument:inDocument];
+        document = inDocument;
         NSAssert(modelString, @"modelString is nil");
-        [self setModel:modelString];
+        model = [modelString retain];
 	}
 	return self;
 }
@@ -45,7 +45,8 @@
 - (void)dealloc {
 	free(masses);
 	free(intensities);
-	[super dealloc];
+	[model release];
+    [super dealloc];
 }
 
 #pragma mark ACCESSORS
@@ -510,8 +511,8 @@
 - (void)encodeWithCoder:(NSCoder *)coder {
     if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
         [coder encodeInt:1 forKey:@"version"];
-		[coder encodeObject:document forKey:@"document"]; // weak reference
-		[coder encodeObject:peak forKey:@"peak"]; // weak reference
+		[coder encodeConditionalObject:document forKey:@"document"]; // weak reference
+		[coder encodeConditionalObject:peak forKey:@"peak"]; // weak reference
 //		[coder encodeFloat:retentionIndex forKey:@"retentionIndex"];
         [coder encodeInt:numberOfPoints forKey:@"numberOfPoints"];
 		[coder encodeBytes:(void *)masses length:numberOfPoints*sizeof(float) forKey:@"masses"];

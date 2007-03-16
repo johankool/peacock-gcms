@@ -7,8 +7,11 @@
 //
 
 #import "JKStatisticsDocument.h"
-#import "JKStatisticsWindowController.h"
+
 #import "BDAlias.h"
+#import "JKLibrary.h"
+#import "JKPeakRecord.h"
+#import "JKStatisticsWindowController.h"
 
 @implementation JKStatisticsDocument
 
@@ -17,7 +20,6 @@
 - (id)init {
 	self = [super init];
     if (self != nil) {
-        statisticsWindowController = [[JKStatisticsWindowController alloc] init];
         _documentProxy = [[NSDictionary alloc] initWithObjectsAndKeys:@"_documentProxy", @"_documentProxy",nil];
     }
     return self;
@@ -25,13 +27,18 @@
 
 - (void)dealloc {
     [_documentProxy release];
+    if (statisticsWindowController) {
+        [statisticsWindowController release];
+    }
     [super dealloc];
 }
 
 #pragma mark WINDOW MANAGEMENT
 
 - (void)makeWindowControllers {
-	NSAssert(statisticsWindowController != nil, @"statisticsWindowController is nil");
+    if (!statisticsWindowController) {
+        statisticsWindowController = [[JKStatisticsWindowController alloc] init];
+    }
 	[self addWindowController:statisticsWindowController];
 }
 
@@ -81,10 +88,11 @@
 		unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
         [unarchiver setDelegate:self];
         [statisticsWindowController willChangeValueForKey:@"combinedPeaks"];
-		[statisticsWindowController setCombinedPeaks:[unarchiver decodeObjectForKey:@"combinedPeaks"]];
+        // open files first so we are ready to find peaks contained in combinedpeaks
+		[statisticsWindowController setFiles:[unarchiver decodeObjectForKey:@"files"]];
+        
 		[statisticsWindowController setRatioValues:[unarchiver decodeObjectForKey:@"ratioValues"]];
 		[statisticsWindowController setMetadata:[unarchiver decodeObjectForKey:@"metadata"]];
-		[statisticsWindowController setFiles:[unarchiver decodeObjectForKey:@"files"]];
 		[statisticsWindowController setLogMessages:[unarchiver decodeObjectForKey:@"logMessages"]];
         [statisticsWindowController setPeaksToUse:[unarchiver decodeIntForKey:@"peaksToUse"]];
         [statisticsWindowController setColumnSorting:[unarchiver decodeIntForKey:@"columnSorting"]];
@@ -95,6 +103,7 @@
         [statisticsWindowController setValueToUse:[unarchiver decodeIntForKey:@"valueToUse"]];
         [statisticsWindowController setCloseDocuments:[unarchiver decodeBoolForKey:@"closeDocuments"]];
         [statisticsWindowController setCalculateRatios:[unarchiver decodeBoolForKey:@"calculateRatios"]];
+		[statisticsWindowController setCombinedPeaks:[unarchiver decodeObjectForKey:@"combinedPeaks"]];
         [statisticsWindowController didChangeValueForKey:@"combinedPeaks"];
 		[unarchiver finishDecoding];
 		[unarchiver release];
@@ -110,6 +119,10 @@
         return _documentProxy;
     } else if ([object isKindOfClass:[JKGCMSDocument class]]) {
         return [BDAlias aliasWithPath:[object fileName]];
+    } else if ([object isKindOfClass:[JKLibrary class]]) {
+        return [BDAlias aliasWithPath:[object fileName]];
+    } else if ([object isKindOfClass:[JKPeakRecord class]]) {
+        return [NSDictionary dictionaryWithObject:[object uuid] forKey:@"_peakUuid"];
     }
     return object;
 }
@@ -118,15 +131,43 @@
     if ([object isKindOfClass:[NSDictionary class]]) {
         if ([[object valueForKey:@"_documentProxy"] isEqualToString:@"_documentProxy"]) {
             return self;
+        } else if ([object valueForKey:@"_peakUuid"]) {
+            NSString *uuid = [object valueForKey:@"_peakUuid"];
+            NSEnumerator *docEnum = [[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
+            id document;
+
+            while ((document = [docEnum nextObject]) != nil) {
+                if ([document isKindOfClass:[JKGCMSDocument class]]) {
+                    NSEnumerator *peakEnum = [[document peaks] objectEnumerator];
+                    JKPeakRecord *peak;
+                    
+                    while ((peak = [peakEnum nextObject]) != nil) {
+                        if ([[peak uuid] isEqualToString:uuid]) {
+                            return peak;
+                        }
+                    }                    
+                }
+            }
+            JKLogError(@"Could not find peak with uuid %@", uuid);
+            return object;
         }
     } else if ([object isKindOfClass:[BDAlias class]]) {
         id document;
         NSError *error = [[NSError alloc] init];
-		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[object fullPath]] display:YES error:&error];
+        NSAssert(object, @"decoding nil BDAlias?!");
+        if (![object fullPath]) {
+            JKLogError(@"Could not resolve alias stored in document.");
+            return object;
+        }
+        JKLogDebug(@"BDAlias at path: %@",[object fullPath]);
+		document = [[NSDocumentController sharedDocumentController] documentForURL:[NSURL fileURLWithPath:[object fullPath]]];
         if (!document) {
-            // maybe try to determine cause of error and recover first
-            NSAlert *theAlert = [NSAlert alertWithError:error];
-            [theAlert runModal]; // ignore return value
+            document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[object fullPath]] display:YES error:&error];
+            if (!document) {
+                // maybe try to determine cause of error and recover first
+                NSAlert *theAlert = [NSAlert alertWithError:error];
+                [theAlert runModal]; // ignore return value                
+            }
         }
         return document;
     }

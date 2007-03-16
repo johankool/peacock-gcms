@@ -79,6 +79,8 @@
 		C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C79281D30B9F1CC100EDF996 /* NSEvent+ModifierKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */; };
 		C79281D40B9F1CC200EDF996 /* NSEvent+ModifierKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */; };
+		C798A2290BA82D1000B67DE9 /* JKMultiGCMSDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = C798A2270BA82D1000B67DE9 /* JKMultiGCMSDocument.h */; };
+		C798A22A0BA82D1000B67DE9 /* JKMultiGCMSDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C798A2280BA82D1000B67DE9 /* JKMultiGCMSDocument.m */; };
 		C798C9EA08E17B5400C6C7D1 /* DeleteTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */; };
 		C799B0AA0ACAB30D00D4FCA4 /* Identify Compounds.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A70ACAB30D00D4FCA4 /* Identify Compounds.tiff */; };
 		C799B0AB0ACAB30D00D4FCA4 /* Identify Peaks.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A80ACAB30D00D4FCA4 /* Identify Peaks.tiff */; };
@@ -307,14 +309,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D15AC270486D014006FF6A4 /* Peacock-Mac */;
+			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = "Peacock-Mac";
 		};
 		C7ADCB3C0BA0C1B2007D9134 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = C7ADC8880BA05609007D9134 /* Peacock-Windows */;
+			remoteGlobalIDString = C7ADC8880BA05609007D9134;
 			remoteInfo = "Peacock-Windows";
 		};
 /* End PBXContainerItemProxy section */
@@ -412,6 +414,8 @@
 		C7859A9909CEBCE900351C87 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSEvent+ModifierKeys.h"; sourceTree = "<group>"; };
 		C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSEvent+ModifierKeys.m"; sourceTree = "<group>"; };
+		C798A2270BA82D1000B67DE9 /* JKMultiGCMSDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKMultiGCMSDocument.h; sourceTree = "<group>"; };
+		C798A2280BA82D1000B67DE9 /* JKMultiGCMSDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKMultiGCMSDocument.m; sourceTree = "<group>"; };
 		C798C9E808E17B5400C6C7D1 /* DeleteTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteTableView.h; sourceTree = "<group>"; };
 		C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteTableView.m; sourceTree = "<group>"; };
 		C799B0A70ACAB30D00D4FCA4 /* Identify Compounds.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Identify Compounds.tiff"; sourceTree = "<group>"; };
@@ -863,6 +867,8 @@
 				C73290E80AD68F9800D95E36 /* JKFileWell.h */,
 				C73290F30AD68F9800D95E36 /* JKSynchroScrollView.h */,
 				C73290F40AD68F9800D95E36 /* JKSynchroScrollView.m */,
+				C798A2270BA82D1000B67DE9 /* JKMultiGCMSDocument.h */,
+				C798A2280BA82D1000B67DE9 /* JKMultiGCMSDocument.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1030,6 +1036,7 @@
 				C7ADC90D0BA05609007D9134 /* NSCoder+CArrayEncoding.h in Headers */,
 				C7ADC90E0BA05609007D9134 /* JKCombinedPeak.h in Headers */,
 				C7ADC90F0BA05609007D9134 /* NSEvent+ModifierKeys.h in Headers */,
+				C798A2290BA82D1000B67DE9 /* JKMultiGCMSDocument.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1408,6 +1415,7 @@
 				C7ADC8E20BA05609007D9134 /* NSCoder+CArrayEncoding.m in Sources */,
 				C7ADC8E30BA05609007D9134 /* JKCombinedPeak.m in Sources */,
 				C7ADC8E40BA05609007D9134 /* NSEvent+ModifierKeys.m in Sources */,
+				C798A22A0BA82D1000B67DE9 /* JKMultiGCMSDocument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

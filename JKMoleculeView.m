@@ -15,21 +15,47 @@
 
 @implementation JKMoleculeView
 
++ (void)initialize {
+	// Bindings support
+	[self exposeBinding:@"moleculeString"];
+}
+
+- (NSArray *)exposedBindings
+{
+	return [NSArray arrayWithObjects:@"moleculeString", nil];	
+}
+
+- (Class)valueClassForBinding:(NSString *)binding
+{
+	if ([binding isEqualToString:@"moleculeString"]) {
+		return [NSString class];
+	}
+	return nil;
+}
+
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
-        [self setBondColor:[NSColor blackColor]];
-        [self setBackgroundColor:[NSColor windowBackgroundColor]];
-        [self setTextColor:[NSColor blackColor]];
-		[self setMargin:10];
-		[self setFitToView:YES];
-        [self registerForDraggedTypes:[NSArray arrayWithObjects:NSStringPboardType, NSFilenamesPboardType, nil]];
+        bondColor = [[NSColor blackColor] retain];
+        backgroundColor = [[NSColor blackColor] retain];
+        textColor = [[NSColor blackColor] retain];
+        margin = 10;
+        fitToView = YES;
+//        [self registerForDraggedTypes:[NSArray arrayWithObjects:NSStringPboardType, NSFilenamesPboardType, nil]];
     }
     return self;
 }
 
 - (void) dealloc {
+    [self unbind:@"moleculeString"];
+    
+    [bondColor release];
+    [backgroundColor release];
+    [textColor release];
+ //   [moleculeStringContainer release];
+//    [moleculeStringKeyPath release];
+
     [super dealloc];
 }
 
@@ -38,12 +64,13 @@
 }
 
 - (void)drawRect:(NSRect)rect {
-	if (![self model] | ([[[self model] atoms] count] == 0)) {
+    JKMoleculeModel *model = [self model];
+	if (!model | ([[model atoms] count] == 0)) {
 		NSString *noModelString = @"Structure data not available\nDrag-'n-drop a mol-file here";
         NSSize noModelStringSize = [noModelString sizeWithAttributes:nil];
 		[noModelString drawAtPoint:NSMakePoint([self bounds].size.width/2-noModelStringSize.width/2,[self bounds].size.height/2-noModelStringSize.height/2) withAttributes:nil];
 	}
-    if ([[[self model] atoms] count] > 0) {
+    if ([[model atoms] count] > 0) {
 		NSRect rectForBounds = [model rectForBounds];
 		if (fitToView) {
 			//[self setFrameSize:[[self superview] frame].size];
@@ -67,11 +94,11 @@
 		[self setXOffSet:-rectForBounds.origin.x*[self xScaleFactor]+[self margin]];
 		[self setYOffSet:-rectForBounds.origin.y*[self yScaleFactor]+[self margin]];			
 
-		[self setBondDistance:[[self model] estimateLengthOfBonds]*0.7*[self yScaleFactor]/20];
-		[self setTextHeight:[[self model] estimateLengthOfBonds]*0.7*[self yScaleFactor]/2];
+		[self setBondDistance:[model estimateLengthOfBonds]*0.7*[self yScaleFactor]/20];
+		[self setTextHeight:[model estimateLengthOfBonds]*0.7*[self yScaleFactor]/2];
 		
         // Drawing code here.
-        [self drawMolecule];
+        [self drawMolecule:model];
     }    
     if (_isTargettedForDrop) {
         NSRect insetRect = NSInsetRect([self frame], 10.0f, 10.0f);
@@ -84,7 +111,7 @@
     
 }
 
-- (void)drawMolecule {
+- (void)drawMolecule:(JKMoleculeModel *)model {
     unsigned i;
     float alpha, beta, deltax, deltay, distance;
 
@@ -109,9 +136,9 @@
     [attrs setObject:[self textColor] forKey:NSForegroundColorAttributeName];
 
     // Draw bonds first
-    for (i=0; i<[[[self model] bonds] count]; i++) {
+    for (i=0; i<[[model bonds] count]; i++) {
         [bondsPath removeAllPoints];
-        fromPoint = NSMakePoint([[[[[self model] bonds] objectAtIndex:i] fromAtom] x]*[self xScaleFactor]+[self xOffSet], [[[[[self model] bonds] objectAtIndex:i] fromAtom] y]*[self yScaleFactor]+[self yOffSet]);
+        fromPoint = NSMakePoint([[[[model bonds] objectAtIndex:i] fromAtom] x]*[self xScaleFactor]+[self xOffSet], [[[[model bonds] objectAtIndex:i] fromAtom] y]*[self yScaleFactor]+[self yOffSet]);
          
         // Determine if this atom draws a label, switch to appropiate drawing type
         //
@@ -120,13 +147,13 @@
         // Count bonds and switch to case for it
         // Determine the start point(s) for this bond only!
         
-        toPoint = NSMakePoint([[[[[self model] bonds] objectAtIndex:i] toAtom] x]*[self xScaleFactor]+[self xOffSet], [[[[[self model] bonds] objectAtIndex:i] toAtom] y]*[self yScaleFactor]+[self yOffSet]); 
+        toPoint = NSMakePoint([[[[model bonds] objectAtIndex:i] toAtom] x]*[self xScaleFactor]+[self xOffSet], [[[[model bonds] objectAtIndex:i] toAtom] y]*[self yScaleFactor]+[self yOffSet]); 
         
-        switch ([[[[self model] bonds] objectAtIndex:i] bondKind]) {
+        switch ([[[model bonds] objectAtIndex:i] bondKind]) {
             case 1:
             default:
                 // Draw a single bond
-				 switch ([[[[self model] bonds] objectAtIndex:i] bondStereo]) {
+				 switch ([[[model bonds] objectAtIndex:i] bondStereo]) {
 					 case 0:
 					 case 4:
 					 default:	 
@@ -232,13 +259,13 @@
          }
     }
 	// Draw atoms now
-    for (i=0; i<[[[self model] atoms] count]; i++) {
-        name = [[[[self model] atoms] objectAtIndex:i] name];
+    for (i=0; i<[[model atoms] count]; i++) {
+        name = [[[model atoms] objectAtIndex:i] name];
         if (![name isEqualToString:@"C"]) {
             size = [name sizeWithAttributes:attrs];
 			
 			// Draw background
-            background.origin = NSMakePoint([[[[self model] atoms] objectAtIndex:i] x]*[self xScaleFactor]+[self xOffSet], [[[[self model] atoms] objectAtIndex:i] y]*[self yScaleFactor]+[self yOffSet]);
+            background.origin = NSMakePoint([[[model atoms] objectAtIndex:i] x]*[self xScaleFactor]+[self xOffSet], [[[model atoms] objectAtIndex:i] y]*[self yScaleFactor]+[self yOffSet]);
             background.origin.x = background.origin.x - size.width/2 ;
             background.origin.y = background.origin.y - size.height/2 ;
             background.size.width = size.width ;
@@ -248,7 +275,7 @@
 			NSRectFill(background);
 			
             // Center
-            drawPoint = NSMakePoint([[[[self model] atoms] objectAtIndex:i] x]*[self xScaleFactor]+[self xOffSet], [[[[self model]  atoms] objectAtIndex:i] y]*[self yScaleFactor]+[self yOffSet]);
+            drawPoint = NSMakePoint([[[model atoms] objectAtIndex:i] x]*[self xScaleFactor]+[self xOffSet], [[[model  atoms] objectAtIndex:i] y]*[self yScaleFactor]+[self yOffSet]);
             drawPoint.x = drawPoint.x - size.width/2;
             drawPoint.y = drawPoint.y - size.height/2;
             
@@ -332,7 +359,7 @@
 	[coder encodeInt:1 forKey:@"version"];
 	[coder encodeFloat:margin forKey:@"margin"];
 	[coder encodeFloat:scaleFactor forKey:@"scaleFactor"];
-	[coder encodeObject:model forKey:@"model"];
+//	[coder encodeObject:model forKey:@"model"];
 	[coder encodeObject:backgroundColor forKey:@"backgroundColor"];
 	[coder encodeObject:textColor forKey:@"textColor"];
 	[coder encodeObject:bondColor forKey:@"bondColor"];
@@ -344,9 +371,10 @@
 
 - (id)initWithCoder:(NSCoder *)coder{
 	self = [super initWithCoder:coder];
+    JKLogEnteringMethod();
 	margin = [coder decodeFloatForKey:@"margin"];
 	scaleFactor = [coder decodeFloatForKey:@"scaleFactor"];
-	model = [[coder decodeObjectForKey:@"model"] retain];
+//	model = [[coder decodeObjectForKey:@"model"] retain];
 	backgroundColor = [[coder decodeObjectForKey:@"backgroundColor"] retain];
 	textColor = [[coder decodeObjectForKey:@"textColor"] retain];
 	bondColor = [[coder decodeObjectForKey:@"bondColor"] retain];
@@ -357,40 +385,113 @@
 }
 
 
-- (void)startObserving {
-	// Register to observe each of the new datapoints, and each of their observable properties
-	NSEnumerator *dataEnumerator = [[[self model] atoms] objectEnumerator];
-	JKAtom *newDataPoint;
-	while ((newDataPoint = [dataEnumerator nextObject])) {		
-		[newDataPoint addObserver:self forKeyPath:@"x" options:nil context:nil];
-		[newDataPoint addObserver:self forKeyPath:@"y" options:nil context:nil];
-		[newDataPoint addObserver:self forKeyPath:@"name" options:nil context:nil];
-	}
-	NSEnumerator *dataEnumerator2 = [[[self model] bonds] objectEnumerator];
-	JKBond *newDataPoint2;
-	while ((newDataPoint2 = [dataEnumerator2 nextObject])) {		
-		[newDataPoint2 addObserver:self forKeyPath:@"fromAtom" options:nil context:nil];
-		[newDataPoint2 addObserver:self forKeyPath:@"toAtom" options:nil context:nil];
-		[newDataPoint2 addObserver:self forKeyPath:@"bondKind" options:nil context:nil];
-		[newDataPoint2 addObserver:self forKeyPath:@"bondStereo" options:nil context:nil];
-	}
-	
-}
+//- (void)startObserving {
+//	// Register to observe each of the new datapoints, and each of their observable properties
+//	NSEnumerator *dataEnumerator = [[[self model] atoms] objectEnumerator];
+//	JKAtom *newDataPoint;
+//	while ((newDataPoint = [dataEnumerator nextObject])) {		
+//		[newDataPoint addObserver:self forKeyPath:@"x" options:nil context:nil];
+//		[newDataPoint addObserver:self forKeyPath:@"y" options:nil context:nil];
+//		[newDataPoint addObserver:self forKeyPath:@"name" options:nil context:nil];
+//	}
+//	NSEnumerator *dataEnumerator2 = [[[self model] bonds] objectEnumerator];
+//	JKBond *newDataPoint2;
+//	while ((newDataPoint2 = [dataEnumerator2 nextObject])) {		
+//		[newDataPoint2 addObserver:self forKeyPath:@"fromAtom" options:nil context:nil];
+//		[newDataPoint2 addObserver:self forKeyPath:@"toAtom" options:nil context:nil];
+//		[newDataPoint2 addObserver:self forKeyPath:@"bondKind" options:nil context:nil];
+//		[newDataPoint2 addObserver:self forKeyPath:@"bondStereo" options:nil context:nil];
+//	}
+//	
+//}
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
 					  ofObject:(id)object
 						change:(NSDictionary *)change
 					   context:(void *)context {
 	if ([keyPath isEqualToString:@"model"] | [keyPath isEqualToString:@"model.atoms"] |[keyPath isEqualToString:@"model.bonds"]){
-		[self startObserving];
+//		[self startObserving];
 		[self setNeedsDisplay:YES];		
 	} else {
 		[self setNeedsDisplay:YES];		
 	}
 }
+
+#pragma mark BINDINGS
+
+- (void)bind:(NSString *)bindingName
+    toObject:(id)observableObject
+ withKeyPath:(NSString *)observableKeyPath
+     options:(NSDictionary *)options{
+	
+    if ([bindingName isEqualToString:@"moleculeString"]) {		
+		[self setMoleculeStringContainer:observableObject];
+		[self setMoleculeStringKeyPath:observableKeyPath];
+		[moleculeStringContainer addObserver:self
+							  forKeyPath:moleculeStringKeyPath
+								 options:(NSKeyValueObservingOptionNew |
+										  NSKeyValueObservingOptionOld)
+								 context:nil];		
+    }
+    
+	[super bind:bindingName
+	   toObject:observableObject
+	withKeyPath:observableKeyPath
+		options:options];
+    
+    [self setNeedsDisplay:YES];
+}
+
+
+- (void)unbind:(NSString *)bindingName {
+    if ([bindingName isEqualToString:@"moleculeString"])
+	{
+        [moleculeStringContainer removeObserver:self forKeyPath:moleculeStringKeyPath];            
+		[self setMoleculeStringContainer:nil];
+		[self setMoleculeStringKeyPath:nil];
+    }
+	
+	[super unbind:bindingName];
+	[self setNeedsDisplay:YES];
+}
+
+#pragma mark moleculeString bindings
+- (NSString *)moleculeString {	
+    return [moleculeStringContainer valueForKeyPath:moleculeStringKeyPath];	
+}
+
+- (NSObjectController *)moleculeStringContainer{
+    return moleculeStringContainer; 
+}
+- (void)setMoleculeStringContainer:(NSArrayController *)aMoleculeStringContainer{
+    if (moleculeStringContainer != aMoleculeStringContainer) {
+        [moleculeStringContainer release];
+        moleculeStringContainer = [aMoleculeStringContainer retain];
+    }
+}
+- (NSString *)moleculeStringKeyPath{
+    return moleculeStringKeyPath; 
+}
+- (void)setMoleculeStringKeyPath:(NSString *)aMoleculeStringKeyPath{
+    if (moleculeStringKeyPath != aMoleculeStringKeyPath) {
+        [moleculeStringKeyPath release];
+        moleculeStringKeyPath = [aMoleculeStringKeyPath copy];
+    }
+}
+
+- (JKMoleculeModel *)model {
+    if ([[self moleculeString] isKindOfClass:[NSString class]]) {
+        JKMoleculeModel *model = [[JKMoleculeModel alloc] initWithMoleculeString:[self moleculeString]];
+        if (model) {
+            return [model autorelease];
+        }
+    }
+    return nil;
+}
+
 floatAccessor(margin, setMargin)
 floatAccessor(scaleFactor, setScaleFactor)
-idAccessor(model, setModel)
+//idAccessor(model, setModel)
 idAccessor(backgroundColor, setBackgroundColor)
 idAccessor(textColor, setTextColor)
 idAccessor(bondColor, setBondColor)
@@ -457,7 +558,10 @@ floatAccessor(textHeight, setTextHeight)
                 _isTargettedForDrop = NO;
                 return NO;
             }
-            [self setModel:newModel];
+//            [self setModel:newModel];
+            if (moleculeStringContainer) {
+                [moleculeStringContainer setValue:molString forKeyPath:moleculeStringKeyPath];
+            }
         }
     } else if ([[pboard types] containsObject:NSStringPboardType] ) {
         NSString *molString = [pboard propertyListForType:NSStringPboardType];
@@ -466,7 +570,10 @@ floatAccessor(textHeight, setTextHeight)
             _isTargettedForDrop = NO;
             return NO;
         }
-        [self setModel:newModel];        
+//        [self setModel:newModel];        
+        if (moleculeStringContainer) {
+            [moleculeStringContainer setValue:molString forKeyPath:moleculeStringKeyPath];
+        }
     }
 
     _isTargettedForDrop = NO;

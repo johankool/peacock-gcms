@@ -10,25 +10,27 @@
 
 #import "JKLibraryEntry.h"
 #import "JKPeakRecord.h"
+#import "JKLibrary.h"
+#import "BDAlias.h"
 
 @implementation JKSearchResult
 
-//- (id)init {
-//    self = [super init];
-//    if (self != nil) {
-//        score = [[NSNumber alloc] init];
-//        libraryHit = [[JKLibraryEntry alloc] init];
+- (id)init {
+    self = [super init];
+    if (self != nil) {
+        score = [[NSNumber alloc] init];
+        libraryHit = [[JKLibraryEntry alloc] init];
 //        peak = [[JKPeakRecord alloc] init];
-//    }
-//    return self;
-//}
-//
-//- (void)dealloc {
-//    [score release];
-//    [libraryHit release];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [score release];
+    [libraryHit release];
 //    [peak release];
-//    [super dealloc];
-//}
+    [super dealloc];
+}
 
 
 - (NSNumber *)deltaRetentionIndex {
@@ -55,8 +57,8 @@
 	return peak;
 }
 - (void)setPeak:(JKPeakRecord *)aPeak {
-	[peak autorelease];
-	peak = [aPeak retain];
+//	[peak autorelease];
+	peak = aPeak;
 }
 
 - (BDAlias *)library {
@@ -74,7 +76,7 @@
         [coder encodeInt:1 forKey:@"version"];
 		[coder encodeObject:score forKey:@"score"]; 
 		[coder encodeObject:libraryHit forKey:@"libraryHit"]; 
-		[coder encodeObject:peak forKey:@"peak"];         
+		[coder encodeConditionalObject:peak forKey:@"peak"];         
 		[coder encodeObject:library forKey:@"library"];         
     } 
     return;
@@ -84,8 +86,26 @@
     if ([coder allowsKeyedCoding]) {
 		score = [[coder decodeObjectForKey:@"score"] retain]; 
 		libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain]; 
-		peak = [[coder decodeObjectForKey:@"peak"] retain]; 
-		library = [[coder decodeObjectForKey:@"library"] retain]; 
+		peak = [coder decodeObjectForKey:@"peak"]; 
+        
+//        library = [[coder decodeObjectForKey:@"library"] retain];             
+        // Sometimes BDAlias gets expanded so if we want to have the alias instead of the docuemnt we need to create it again
+        id temp = [coder decodeObjectForKey:@"library"];
+        if (temp) {
+//            JKLogDebug(@"%@",[temp description]);
+            if ([temp isKindOfClass:[BDAlias class]]) {
+                library = [[coder decodeObjectForKey:@"library"] retain];             
+            } else if ([temp isKindOfClass:[JKLibrary class]]) {
+                library = [[BDAlias aliasWithPath:[temp fileName]] retain];
+                if(!library) {
+                    JKLogDebug(@"unsuccessful in creating alias"); 
+                }
+            } else {
+                JKLogDebug(@"Something unexpected got returned");
+            }            
+        } else {
+            JKLogDebug(@"Nothing got returned for library?!");
+        }
     } 
     return self;
 }

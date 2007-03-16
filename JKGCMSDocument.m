@@ -35,14 +35,13 @@ static void *DocumentObservationContext = (void *)1100;
 - (id)init {
 	self = [super init];
     if (self != nil) {
-        mainWindowController = [[[JKMainWindowController alloc] init] autorelease];
 		metadata = [[NSMutableDictionary alloc] init];
 		chromatograms = [[NSMutableArray alloc] init];
 		
-		_remainingString = [NSString stringWithString:@""];
+		_remainingString = [@"" retain];
 		
 		id defaultValues = [[NSUserDefaultsController sharedUserDefaultsController] values];
-        absolutePathToNetCDF = @"";
+        absolutePathToNetCDF = [@"" retain];
 		baselineWindowWidth = [[defaultValues valueForKey:@"baselineWindowWidth"] retain];
 		baselineDistanceThreshold = [[defaultValues valueForKey:@"baselineDistanceThreshold"] retain];
 		baselineSlopeThreshold = [[defaultValues valueForKey:@"baselineSlopeThreshold"] retain];
@@ -69,26 +68,53 @@ static void *DocumentObservationContext = (void *)1100;
     return self;
 }
 
-- (void)addWindowController:(NSWindowController *)windowController {
-    if (windowController == mainWindowController) {
-        [self addObserver:mainWindowController forKeyPath:@"metadata.sampleCode" options:nil context:DocumentObservationContext];
-        [self addObserver:mainWindowController forKeyPath:@"metadata.sampleDescription" options:nil context:DocumentObservationContext];
-    }
-    
-    [super addWindowController:windowController];
+//- (void)addWindowController:(NSWindowController *)windowController {
+//    if (windowController == mainWindowController) {
+//        [self addObserver:mainWindowController forKeyPath:@"metadata.sampleCode" options:nil context:DocumentObservationContext];
+//        [self addObserver:mainWindowController forKeyPath:@"metadata.sampleDescription" options:nil context:DocumentObservationContext];
+//    }
+//    
+//    [super addWindowController:windowController];
+//}
+//
+//- (void)removeWindowController:(NSWindowController *)windowController {
+//    if (windowController == mainWindowController) {
+//        [self removeObserver:mainWindowController forKeyPath:@"metadata.sampleCode"];
+//        [self removeObserver:mainWindowController forKeyPath:@"metadata.sampleDescription"];        
+//    }
+//        
+//    [super removeWindowController:windowController];
+//}
+
+- (id)retain {
+    JKLogDebug(@"retaincount = %d",[self retainCount]);
+    return [super retain];
 }
 
-- (void)removeWindowController:(NSWindowController *)windowController {
-    if (windowController == mainWindowController) {
-        [self removeObserver:mainWindowController forKeyPath:@"metadata.sampleCode"];
-        [self removeObserver:mainWindowController forKeyPath:@"metadata.sampleDescription"];        
-    }
-        
-    [super removeWindowController:windowController];
+- (oneway void)release {
+    JKLogDebug(@"retaincount = %d",[self retainCount]);
+    return [super release];
+}
+
+- (void)close {
+    JKLogDebug(@"closing document");
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
+//    [[NSNotificationCenter defaultCenter] removeObserver:mainWindowController];
+    
+//    [self release];
+//#warning Forcing complete release to get memory free
+//    int i, count = [self retainCount];
+//    for (i=0; i < count; i++) {
+//        [self release];
+//    }
+    [super close];
 }
 
 - (void)dealloc {
+    JKLogEnteringMethod();
     [_documentProxy release];
+    [_remainingString release];
+    [absolutePathToNetCDF release];
 	[metadata release];
 	[chromatograms release];
 	[baselineWindowWidth release];
@@ -105,7 +131,9 @@ static void *DocumentObservationContext = (void *)1100;
 	int dummy;
 	dummy = nc_close(ncid);
 //	if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"File closing error",@"File closing error") format:NSLocalizedString(@"Closing NetCDF file caused problem.\nNetCDF error: %d",@""), dummy];
-//	[mainWindowController release];
+    if (mainWindowController) {
+        [mainWindowController release];
+    }
     [super dealloc];
 }
 
@@ -122,9 +150,13 @@ static void *DocumentObservationContext = (void *)1100;
 #pragma mark WINDOW MANAGEMENT
 
 - (void)makeWindowControllers {
-	[[NSNotificationCenter defaultCenter] postNotificationName:JKGCMSDocument_DocumentLoadedNotification object:self];
-	NSAssert(mainWindowController != nil, @"mainWindowController is nil");
+    JKLogEnteringMethod();
+    [self postNotification:JKGCMSDocument_DocumentLoadedNotification];
+    if (!mainWindowController) {
+        mainWindowController = [[JKMainWindowController alloc] init];
+    }
 	[self addWindowController:mainWindowController];
+    JKLogExitingMethod();
 }
 
 #pragma mark FILE ACCESS MANAGEMENT
@@ -203,7 +235,7 @@ static void *DocumentObservationContext = (void *)1100;
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
     BOOL result;
 	if ([typeName isEqualToString:@"NetCDF/ANDI File"]) {
-        absolutePathToNetCDF = [absoluteURL path];
+        [self setAbsolutePathToNetCDF:[absoluteURL path]];
         result = [self readNetCDFFile:[absoluteURL path] error:outError];
         [[self undoManager] disableUndoRegistration];
         [self insertObject:[self ticChromatogram] inChromatogramsAtIndex:0];
@@ -211,7 +243,8 @@ static void *DocumentObservationContext = (void *)1100;
         return result;
 	} else if ([typeName isEqualToString:@"Peacock File"]) {		
 		NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath:[absoluteURL path]];
-
+        [[self undoManager] disableUndoRegistration];
+        
         result = [self readNetCDFFile:[[absoluteURL path] stringByAppendingPathComponent:@"netcdf"] error:outError];
 		if (result) {
 			peacockFileWrapper = wrapper;
@@ -242,36 +275,41 @@ static void *DocumentObservationContext = (void *)1100;
             [[chromatograms objectAtIndex:0] setPeaks:[unarchiver decodeObjectForKey:@"peaks"]];
             break;
         case 5:
-            chromatograms = [[unarchiver decodeObjectForKey:@"chromatograms"] retain];
+            [self setChromatograms:[unarchiver decodeObjectForKey:@"chromatograms"]];
             break;
         case 6:
         default:
-            chromatograms = [[unarchiver decodeObjectForKey:@"chromatograms"] retain];
-            minimumScannedMassRange = [[unarchiver decodeObjectForKey:@"minimumScannedMassRange"] retain];
-            maximumScannedMassRange = [[unarchiver decodeObjectForKey:@"maximumScannedMassRange"] retain];
-            peakIDCounter = [unarchiver decodeIntForKey:@"peakIDCounter"];
+            [self setChromatograms:[unarchiver decodeObjectForKey:@"chromatograms"]];
+            [self setMinimumScannedMassRange:[unarchiver decodeObjectForKey:@"minimumScannedMassRange"]];
+            [self setMaximumScannedMassRange:[unarchiver decodeObjectForKey:@"maximumScannedMassRange"]];
+            [self setPeakIDCounter:[unarchiver decodeIntForKey:@"peakIDCounter"]];
             break;
         }
-        metadata = [[unarchiver decodeObjectForKey:@"metadata"] retain];
-        baselineWindowWidth = [[unarchiver decodeObjectForKey:@"baselineWindowWidth"] retain];
-        baselineDistanceThreshold = [[unarchiver decodeObjectForKey:@"baselineDistanceThreshold"] retain];
-        baselineSlopeThreshold = [[unarchiver decodeObjectForKey:@"baselineSlopeThreshold"] retain];
-        baselineDensityThreshold = [[unarchiver decodeObjectForKey:@"baselineDensityThreshold"] retain];
-        peakIdentificationThreshold = [[unarchiver decodeObjectForKey:@"peakIdentificationThreshold"] retain];
-        retentionIndexSlope = [[unarchiver decodeObjectForKey:@"retentionIndexSlope"] retain];
-        retentionIndexRemainder = [[unarchiver decodeObjectForKey:@"retentionIndexRemainder"] retain];		
-        libraryAlias = [[unarchiver decodeObjectForKey:@"libraryAlias"] retain];
-        scoreBasis = [unarchiver decodeIntForKey:@"scoreBasis"];
-        searchDirection = [unarchiver decodeIntForKey:@"searchDirection"];
-        spectrumToUse = [unarchiver decodeIntForKey:@"spectrumToUse"];
-        penalizeForRetentionIndex = [unarchiver decodeBoolForKey:@"penalizeForRetentionIndex"];
-        markAsIdentifiedThreshold = [[unarchiver decodeObjectForKey:@"markAsIdentifiedThreshold"] retain];		
-        minimumScoreSearchResults = [[unarchiver decodeObjectForKey:@"minimumScoreSearchResults"] retain];		            
+#warning [BUG] I am retaining to go by a bug, but this is not right!!
+        [self retain];
+        [self setMetadata:[unarchiver decodeObjectForKey:@"metadata"]];
+        [self setBaselineWindowWidth:[unarchiver decodeObjectForKey:@"baselineWindowWidth"]];
+        [self setBaselineDistanceThreshold:[unarchiver decodeObjectForKey:@"baselineDistanceThreshold"]];
+        [self setBaselineSlopeThreshold:[unarchiver decodeObjectForKey:@"baselineSlopeThreshold"]];
+        [self setBaselineDensityThreshold:[unarchiver decodeObjectForKey:@"baselineDensityThreshold"]];
+        [self setPeakIdentificationThreshold:[unarchiver decodeObjectForKey:@"peakIdentificationThreshold"]];
+        [self setRetentionIndexSlope:[unarchiver decodeObjectForKey:@"retentionIndexSlope"]];
+        [self setRetentionIndexRemainder:[unarchiver decodeObjectForKey:@"retentionIndexRemainder"]];	
+        // because we normally expand aliases and open them we need to wrap this back into a BDAlias
+        [self setLibraryAlias:[unarchiver decodeObjectForKey:@"libraryAlias"]];//[BDAlias aliasWithPath:[[unarchiver decodeObjectForKey:@"libraryAlias"] fileName]]];
+        [self setScoreBasis:[unarchiver decodeIntForKey:@"scoreBasis"]];
+        [self setSearchDirection:[unarchiver decodeIntForKey:@"searchDirection"]];
+        [self setSpectrumToUse:[unarchiver decodeIntForKey:@"spectrumToUse"]];
+        [self setPenalizeForRetentionIndex:[unarchiver decodeBoolForKey:@"penalizeForRetentionIndex"]];
+        [self setMarkAsIdentifiedThreshold:[unarchiver decodeObjectForKey:@"markAsIdentifiedThreshold"]];		
+        [self setMinimumScoreSearchResults:[unarchiver decodeObjectForKey:@"minimumScoreSearchResults"]];		            
         
 		[unarchiver finishDecoding];
 		[unarchiver release];
-		        
-		return result;	
+      
+        JKLogExitingMethod();
+        [[self undoManager] enableUndoRegistration];
+ 		return result;	
     } else {
         if (outError != NULL)
 			*outError = [[[NSError alloc] initWithDomain:NSCocoaErrorDomain
@@ -283,6 +321,8 @@ static void *DocumentObservationContext = (void *)1100;
 - (id)archiver:(NSKeyedArchiver *)archiver willEncodeObject:(id)object {
     if (object == self) {
         return _documentProxy;
+    } else if ([object isKindOfClass:[JKLibrary class]]) {
+        return [BDAlias aliasWithPath:[object fileName]];
     }
     return object;
 }
@@ -290,9 +330,24 @@ static void *DocumentObservationContext = (void *)1100;
 - (id)unarchiver:(NSKeyedUnarchiver *)unarchiver didDecodeObject:(id)object {
     if ([object isKindOfClass:[NSDictionary class]]) {
         if ([[object valueForKey:@"_documentProxy"] isEqualToString:@"_documentProxy"]) {
+            JKLogDebug(@"retaincount = %d",[self retainCount]);
             return self;
         }
+//    } else if ([object isKindOfClass:[BDAlias class]]) {
+//        id document;
+//        NSError *error = [[NSError alloc] init];
+//		document = [[NSDocumentController sharedDocumentController] documentForURL:[NSURL fileURLWithPath:[object fullPath]]];
+//        if (!document) {
+//            document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[object fullPath]] display:YES error:&error];
+//            if (!document) {
+//                // maybe try to determine cause of error and recover first
+//                NSAlert *theAlert = [NSAlert alertWithError:error];
+//                [theAlert runModal]; // ignore return value                
+//            }
+//         }
+//        return document;
     }
+   
     return object;
 }
 
@@ -336,9 +391,7 @@ static void *DocumentObservationContext = (void *)1100;
 	}
 	
 	[self setNcid:ncid];
-	
-	absolutePathToNetCDF = fileName;
-
+	[self setAbsolutePathToNetCDF:fileName];
 	
 	//    NS_DURING
 	
@@ -1888,6 +1941,12 @@ boolAccessor(abortAction, setAbortAction)
     return ncid;
 }
 
+- (int)peakIDCounter {
+	return peakIDCounter;
+}
+- (void)setPeakIDCounter:(int)aPeakIDCounter {
+	peakIDCounter = aPeakIDCounter;
+}
 
 - (void)setHasSpectra:(BOOL)inValue {
     hasSpectra = inValue;
@@ -1895,6 +1954,14 @@ boolAccessor(abortAction, setAbortAction)
 
 - (BOOL)hasSpectra {
     return hasSpectra;
+}
+
+- (NSString *)absolutePathToNetCDF {
+	return absolutePathToNetCDF;
+}
+- (void)setAbsolutePathToNetCDF:(NSString *)aAbsolutePathToNetCDF {
+	[absolutePathToNetCDF autorelease];
+	absolutePathToNetCDF = [aAbsolutePathToNetCDF retain];
 }
 
 //- (int)intensityCount  

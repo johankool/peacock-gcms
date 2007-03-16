@@ -29,19 +29,33 @@ static void *PropertyObservationContext = (void *)1093;
     self = [super init];
     if (self) {
         // Zet de standaardwaarden
+        // From superclass!!
 		[self setSeriesColor:[NSColor blueColor]];
 		[self setSeriesType:1];
 		[self setShouldDrawPeaks:YES];
 		[self setShouldDrawLabels:YES];
         [self setVerticalScale:[NSNumber numberWithFloat:1.0]];
-        [self setChromatogram:aChromatogram];
         [self setSeriesTitle:[aChromatogram model]];
+
+        chromatogram = [aChromatogram retain];
+        [self setKeyForXValue:NSLocalizedString(@"Time",@"")];
+        [self setKeyForYValue:NSLocalizedString(@"Total Intensity", @"")];
+        [self loadDataPoints:[chromatogram numberOfPoints] withXValues:[chromatogram time] andYValues:[chromatogram totalIntensity]];
+        
+//        filterPredicate = [[NSPredicate predicateWithValue:YES] retain];
+        
 		// Creeer de plot een eerste keer.
-		[self constructPlotPath];
-        [self setFilterPredicate:nil];
+	//	[self constructPlotPath];
 	}
     return self;
 }
+
+- (void)dealloc {
+    [chromatogram release];
+//    [filterPredicate release];
+    [super dealloc];
+}
+
 - (void)loadDataPoints:(int)npts withXValues:(float *)xpts andYValues:(float *)ypts {
 	int i;
 	NSMutableArray *mutArray = [[NSMutableArray alloc] init];
@@ -50,15 +64,10 @@ static void *PropertyObservationContext = (void *)1093;
             [NSNumber numberWithFloat:ypts[i]], keyForYValue, [NSNumber numberWithInt:i], NSLocalizedString(@"Scan",@""), nil];
 		[mutArray addObject:dict];      
 		[dict release];
-        //		NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
-        //		[mutDict setValue:[NSNumber numberWithFloat:xpts[i]] forKey:[self keyForXValue]];
-        //		[mutDict setValue:[NSNumber numberWithFloat:ypts[i]] forKey:[self keyForYValue]];
-        //		[mutArray addObject:mutDict];      
-        //		[mutDict release];
     }
 	[self setDataArray:mutArray];
-    
-    //?
+    [mutArray release];
+
     [self constructPlotPath];
 }
 

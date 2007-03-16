@@ -9,9 +9,10 @@
 
 
 @interface ArrayEncodingObject : NSObject <NSCoding> {
-    int* theIntArray;
-    float* theFloatArray;
-    double* theDoubleArray;
+//    int* theIntArray;
+//    float* theFloatArray;
+//    double* theDoubleArray;
+    id theArray;
     int theElementType;
     int theElementSize;
     unsigned long theCount;

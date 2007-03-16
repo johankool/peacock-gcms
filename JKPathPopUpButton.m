@@ -157,7 +157,21 @@
 	[fileAliasContainer setValue:inValue forKeyPath:fileAliasKeyPath];
 }
 
-idAccessor(fileAliasContainer, setFileAliasContainer)
-idAccessor(fileAliasKeyPath, setFileAliasKeyPath)
+- (id)fileAliasContainer {
+	return fileAliasContainer;
+}
+- (void)setFileAliasContainer:(id)aFileAliasContainer {
+	fileAliasContainer = aFileAliasContainer;
+}
+- (id)fileAliasKeyPath {
+	return fileAliasKeyPath;
+}
+- (void)setFileAliasKeyPath:(id)aFileAliasKeyPath {
+	fileAliasKeyPath = aFileAliasKeyPath;
+}
+//
+//
+//idAccessor(fileAliasContainer, setFileAliasContainer)
+//idAccessor(fileAliasKeyPath, setFileAliasKeyPath)
 
 @end

@@ -20,22 +20,30 @@ static void *ArrayObservationContext = (void *)1092;
     self = [super init];
     if (self) {
         // Zet de standaardwaarden
-		[self setSeriesTitle:NSLocalizedString(@"New Serie",@"New series title")];
-		[self setKeyForXValue:@"xValue"];
-		[self setKeyForYValue:@"yValue"];
-		[self setSeriesColor:[NSColor blueColor]];
-		[self setSeriesType:1];
-		[self setShouldDrawLabels:YES];
-		[self setVerticalScale:[NSNumber numberWithFloat:1.0]];		
-				
+        seriesTitle = [NSLocalizedString(@"New Serie",@"New series title") retain];
+        keyForXValue = [@"xValue" retain];
+        keyForYValue = [@"yValue" retain];
+        seriesColor = [[NSColor blueColor] retain];
+        seriesType = 1;
+        shouldDrawLabels = YES;
+        verticalScale = [[NSNumber alloc] initWithFloat:1.0f];
+        dataArray = [[NSMutableArray alloc] init];
+        plotPath = [[NSBezierPath alloc] init];
 		// Creeer de plot een eerste keer.
-		[self constructPlotPath];
+//		[self constructPlotPath];
 	}
     return self;
 }
 
-- (void) dealloc  
-{	
+- (void) dealloc {	
+    [seriesTitle release];
+    [keyForXValue release];
+    [keyForYValue release];
+    [seriesColor release];
+    [verticalScale release];
+    [dataArray release];
+    [plotPath release];
+    
 	[super dealloc];
 }
 
@@ -51,15 +59,10 @@ static void *ArrayObservationContext = (void *)1092;
 																		  [NSNumber numberWithFloat:ypts[i]], keyForYValue, nil];
 		[mutArray addObject:dict];      
 		[dict release];
-//		NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
-//		[mutDict setValue:[NSNumber numberWithFloat:xpts[i]] forKey:[self keyForXValue]];
-//		[mutDict setValue:[NSNumber numberWithFloat:ypts[i]] forKey:[self keyForYValue]];
-//		[mutArray addObject:mutDict];      
-//		[mutDict release];
     }
 	[self setDataArray:mutArray];
+    [mutArray release];
     
-    //?
     [self constructPlotPath];
 }
 

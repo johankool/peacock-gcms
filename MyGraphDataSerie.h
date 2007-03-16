@@ -40,7 +40,7 @@ typedef enum {
 	NSString *keyForYValue;
 	NSString *seriesTitle;
 
-	NSArray *_oldData;		
+//	NSArray *_oldData;		
     MyGraphView *_graphView;
 }
 

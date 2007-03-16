@@ -31,22 +31,28 @@
 - (id)initWithDocument:(JKGCMSDocument *)inDocument forModel:(NSString *)inModel {
     // designated initializer
     if ((self = [super init])) {
-        [self setDocument:inDocument];
-        [self setModel:inModel];
+        document = inDocument;  
+        model = [inModel retain];
+        time = (float *) malloc(1*sizeof(float));
+        totalIntensity = (float *) malloc(1*sizeof(float));
+
         peaks = [[NSMutableArray alloc] init];
        // baselinePoints = [[NSMutableArray alloc] init];
         baselinePointsCount = 0;
-        baselinePointsScans = (int *) malloc(baselinePointsCount*sizeof(int));
-        baselinePointsIntensities = (float *) malloc(baselinePointsCount*sizeof(float));
+        baselinePointsScans = (int *) malloc(sizeof(int));
+        baselinePointsIntensities = (float *) malloc(sizeof(float));
 
     }
     return self;
 }
 
 - (void)dealloc {
+    JKLogEnteringMethod();
+    free(time);
+    free(totalIntensity);
     free(baselinePointsScans);
     free(baselinePointsIntensities);
-
+    [model release];
     [peaks release];
 //    [baselinePoints release];
     [super dealloc];
@@ -480,11 +486,10 @@
 - (id)initWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) {
         int version = [coder decodeIntForKey:@"version"];
-        document = [[coder decodeObjectForKey:@"document"] retain];            
+        document = [coder decodeObjectForKey:@"document"];            
         model = [[coder decodeObjectForKey:@"model"] retain];
         peaks = [[coder decodeObjectForKey:@"peaks"] retain];
          
-        
         if (version == 1) {
             numberOfPoints = [coder decodeIntForKey:@"numberOfPoints"];
             
@@ -509,22 +514,21 @@
             totalIntensity = (float *) malloc(1*sizeof(float));
  
             float *temporaryFloatArray = [coder decodeFloatArrayForKey:@"time" returnedCount:&length];
-            [self setTime:(float *)temporaryFloatArray withCount:length];
+            numberOfPoints = length;
+            time = temporaryFloatArray;
+ 
             temporaryFloatArray = [coder decodeFloatArrayForKey:@"totalIntensity" returnedCount:&length];
-            [self setTotalIntensity:(float *)temporaryFloatArray withCount:length];
-            
+            totalIntensity = temporaryFloatArray;
+
             int *temporaryIntArray = [coder decodeIntArrayForKey:@"baselinePointsScans" returnedCount:&length];
             baselinePointsCount = length;
-            baselinePointsScans = (int *) malloc(length*sizeof(int));
+//            baselinePointsScans = (int *) malloc(length*sizeof(int));
             baselinePointsScans = temporaryIntArray;
             
             temporaryFloatArray = [coder decodeFloatArrayForKey:@"baselinePointsIntensities" returnedCount:&length];           
-            baselinePointsIntensities = (float *) malloc(length*sizeof(float));
+//            baselinePointsIntensities = (float *) malloc(length*sizeof(float));
             baselinePointsIntensities = temporaryFloatArray;
         }
-         
-
-         
  	} 
     return self;
 }
@@ -537,11 +541,12 @@
 }
 
 - (void)setDocument:(JKGCMSDocument *)inDocument {
-    if (inDocument != document) {
-        [inDocument retain];
-        [document autorelease];
-        document = inDocument;        
-    }
+    document = inDocument;        
+//    if (inDocument != document) {
+//        [inDocument retain];
+//        [document autorelease];
+//        document = inDocument;        
+//    }
 }
 
 - (NSString *)model {

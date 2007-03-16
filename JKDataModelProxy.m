@@ -20,6 +20,12 @@
     return self;
 }
 
+- (void)dealloc {
+    [peaks release];
+    [baseline release];
+    [metadata release];
+    [super dealloc];
+}
 idAccessor(peaks, setPeaks)
 idAccessor(baseline, setBaseline)
 idAccessor(metadata, setMetadata)

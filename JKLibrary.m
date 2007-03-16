@@ -17,15 +17,41 @@
 - (id)init {
 	self = [super init];
     if (self != nil) {
-        libraryWindowController = [[JKLibraryWindowController alloc] init];
 		libraryEntries = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
 - (void)makeWindowControllers {
+    if (!libraryWindowController) {
+        libraryWindowController = [[JKLibraryWindowController alloc] init];        
+    }
     [self addWindowController:libraryWindowController];
 }
+
+- (void)dealloc {
+    [libraryEntries release];
+    if (libraryWindowController) {
+        [libraryWindowController release];
+    }
+    
+    [super dealloc];
+}
+
+//- (id)retain {
+//    JKLogDebug(@"retaincount = %d",[self retainCount]);
+//    return [super retain];
+//}
+//
+//- (oneway void)release {
+//    JKLogDebug(@"retaincount = %d",[self retainCount]);
+//    return [super release];
+//}
+
+//- (void)close {
+//    JKLogDebug(@"closing document");
+//    [super close];
+//}
 
 #pragma mark OPEN/SAVE DOCUMENT
 
@@ -40,6 +66,7 @@
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError{
 	if ([typeName isEqualToString:@"JCAMP Library"]) {
+        [[self undoManager] disableUndoRegistration];
         unsigned int usedEncoding;
         NSString *inString = [NSString stringWithContentsOfURL:absoluteURL usedEncoding:&usedEncoding error:outError];
 		if (!inString) {
@@ -53,17 +80,20 @@
 		if (!inString) {
 			return NO;
 		}
-		libraryEntries = [[self readJCAMPString:inString] retain];
+		[self setLibraryEntries:[[self readJCAMPString:inString] mutableCopy]];
 
+        [[self undoManager] enableUndoRegistration];
 		return YES;
 	} else if ([typeName isEqualToString:@"Inchi File"]) {
+        [[self undoManager] disableUndoRegistration];
 		NSString *CASNumber = [[[absoluteURL path] lastPathComponent] stringByDeletingPathExtension];
 		NSString *jcampString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",CASNumber,CASNumber]]];
 		JKLibraryEntry *entry = [[JKLibraryEntry alloc] initWithJCAMPString:jcampString];
 		[entry setMolString:[NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",CASNumber,CASNumber]]]];
+        
+        [self setLibraryEntries:[NSMutableArray arrayWithObject:entry]];
 		
-		libraryEntries = [[NSMutableArray arrayWithObject:entry] retain];
-		
+        [[self undoManager] enableUndoRegistration];
 		return YES;
 	}
 //	else if ([docType isEqualToString:@"AMDIS Target Library"]) {

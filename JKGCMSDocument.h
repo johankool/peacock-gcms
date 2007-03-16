@@ -164,6 +164,8 @@ int intSort(id num1, id num2, void *context);
 
 #pragma mark ACCESSORS
 - (JKMainWindowController *)mainWindowController;
+- (int)peakIDCounter;
+- (void)setPeakIDCounter:(int)peakIDCounter;
 
 - (int)ncid;
 - (void)setNcid:(int)inValue;

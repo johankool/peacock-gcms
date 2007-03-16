@@ -11,15 +11,15 @@
 @implementation ArrayEncodingObject
 
 - (int *)getIntArray {
-    return (int *)theIntArray;
+    return (int *)theArray;
 }
 
 - (float *)getFloatArray {
-    return (float*)theFloatArray;
+    return (float*)theArray;
 }
 
 - (double *)getDoubleArray {
-    return (double*)theDoubleArray;
+    return (double*)theArray;
 }
 
 - (unsigned long)count {
@@ -37,23 +37,19 @@
         [coder decodeValueOfObjCType:@encode(unsigned int) at:&theElementType];
         [coder decodeValueOfObjCType:@encode(unsigned long) at:&theCount];
         
+        theArray = malloc((theCount) * theElementSize);
         switch (theElementType) {
         case 0:
-            theIntArray = malloc((theCount) * theElementSize);
-            [coder decodeArrayOfObjCType:@encode(int) count:theCount at:theIntArray];
+            [coder decodeArrayOfObjCType:@encode(int) count:theCount at:theArray];
             break;
         case 1:
-            theFloatArray = malloc((theCount) * theElementSize);
-            [coder decodeArrayOfObjCType:@encode(float) count:theCount at:theFloatArray];
+            [coder decodeArrayOfObjCType:@encode(float) count:theCount at:theArray];
             break;
         case 2:
-            theDoubleArray = malloc((theCount) * theElementSize);
-            [coder decodeArrayOfObjCType:@encode(double) count:theCount at:theDoubleArray];
+            [coder decodeArrayOfObjCType:@encode(double) count:theCount at:theArray];
             break;
         default:
-            theIntArray = nil; //Error!
-            theFloatArray = nil; //Error!
-            theDoubleArray = nil; //Error!
+            theArray = nil; //Error!
             break;
         }
     }
@@ -69,17 +65,17 @@
     case 0:
         [coder  encodeArrayOfObjCType:@encode(int)
                                 count:theCount
-                                   at:theIntArray];
+                                   at:theArray];
         break;
     case 1:
         [coder  encodeArrayOfObjCType:@encode(float)
                                 count:theCount
-                                   at:theFloatArray];
+                                   at:theArray];
         break;
     case 2:
         [coder  encodeArrayOfObjCType:@encode(double)
                                 count:theCount
-                                   at:theDoubleArray];
+                                   at:theArray];
         break;
     default:
         break;
@@ -92,7 +88,7 @@
 
 - (id)initWithIntArray:(int *)anArray elementSize:(int)theSize andCount:(unsigned long)aCount {
     self = [super init];
-    theIntArray = anArray;
+    theArray = anArray;
     theElementSize = theSize;
     theElementType = 0;
     theCount = aCount;
@@ -101,7 +97,7 @@
 
 - (id)initWithFloatArray:(float *)anArray elementSize:(int)theSize andCount:(unsigned long)aCount {
     self = [super init];
-    theFloatArray = anArray;
+    theArray = anArray;
     theElementSize = theSize;
     theElementType = 1;
     theCount = aCount;
@@ -110,7 +106,7 @@
 
 - (id)initWithDoubleArray:(double *)anArray elementSize:(int)theSize andCount:(unsigned long)aCount {
     self = [super init];
-    theDoubleArray = anArray;
+    theArray = anArray;
     theElementSize = theSize;
     theElementType = 2;
     theCount = aCount;

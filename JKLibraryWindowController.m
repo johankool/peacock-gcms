@@ -27,6 +27,7 @@
 }
 
 - (void)windowDidLoad {
+    [[self window] setDelegate:self];
 	[spectrumView setShouldDrawLegend:NO];
 	[spectrumView setShouldDrawFrame:YES];
 	[spectrumView setShouldDrawFrameBottom:NO];
@@ -56,7 +57,7 @@
 						change:(NSDictionary *)change
 					   context:(void *)context {
 	if ([[[self libraryController] selectedObjects] count] > 0) {
-		[moleculeView setModel:[[JKMoleculeModel alloc] initWithMoleculeString:[[[[self libraryController] selectedObjects] objectAtIndex:0] valueForKey:@"molString"]]];
+//		[moleculeView setModel:[[JKMoleculeModel alloc] initWithMoleculeString:[[[[self libraryController] selectedObjects] objectAtIndex:0] valueForKey:@"molString"]]];
         [moleculeView setNeedsDisplay:YES];
       
         [spectrumViewDataseriesController removeObjects:[spectrumViewDataseriesController arrangedObjects]];
@@ -82,9 +83,13 @@
  	} else if (object == moleculeView) {
       //  [[[[self libraryController] selectedObjects] objectAtIndex:0] setMolString:[[moleculeView model] molString]];
 	} else {
-		[moleculeView setModel:nil];
+//		[moleculeView setModel:nil];
         [moleculeView setNeedsDisplay:YES];
 	}
+}
+
+- (void)windowWillClose:(NSNotification *)aNotification {
+    [spectrumViewDataseriesController setContent:nil];
 }
 
 #pragma mark IBACTIONS

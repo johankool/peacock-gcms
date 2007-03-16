@@ -8,6 +8,7 @@
 
 #import "JKStatisticsWindowController.h"
 
+#import "BDAlias.h"
 #import "ChromatogramGraphDataSerie.h"
 #import "Growl/GrowlApplicationBridge.h"
 #import "JKChromatogram.h"
@@ -40,7 +41,7 @@
         [self setMatchThreshold:[NSNumber numberWithFloat:75.0]];
         [self setMaximumRetentionIndexDifference:[NSNumber numberWithFloat:200.0]];
         scoreBasis = 0;
-        valueToUse = 0;
+        valueToUse = 3;
         closeDocuments = NO;
         calculateRatios = NO;
         comparePeaks = YES;
@@ -256,7 +257,7 @@
    if (performSanityCheck) {
        [detailStatusTextField setStringValue:NSLocalizedString(@"Checking Sanity",@"")];
        for (i=0; i < filesCount; i++) {
-           NSLog(@"file %d of %d", i, filesCount);
+           //NSLog(@"file %d of %d", i, filesCount);
            document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:!closeDocuments error:&error];
            if (!document) {
                // maybe try to determine cause of error and recover first
@@ -344,7 +345,6 @@
 	BOOL isKnownCombinedPeak, isUnknownCompound;
 	float scoreResult, maxScoreResult, previousScoreResult;
 	NSDate *date = [NSDate date];
-	int peakCount;
     float matchTreshold = [[self matchThreshold] floatValue];
 
 	NSMutableArray *peaksArray = nil;
@@ -420,7 +420,7 @@
 					maxScoreResult = [spectrum scoreComparedToSpectrum:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
 					isKnownCombinedPeak = YES;
 					knownCombinedPeakIndex = k;
-                    NSLog(@"maxScoreResult %g",maxScoreResult);
+                    //NSLog(@"maxScoreResult %g",maxScoreResult);
                 }
                 
  //               if (fabsf([[peak retentionIndex] floatValue] - [[combinedPeak retentionIndex] floatValue]) <= [maximumRetentionIndexDifference floatValue]) {
@@ -458,12 +458,12 @@
             if (previousMatchedPeak) {
                 previousScoreResult = [[previousMatchedPeak spectrum] scoreComparedToSpectrum:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
             } 
-            JKLogDebug(@"previousScoreResult %g; maxScoreResult %g for peak %@ combinedPeak %@", previousScoreResult, maxScoreResult, [peak label], [combinedPeak label]);
+            //JKLogDebug(@"previousScoreResult %g; maxScoreResult %g for peak %@ combinedPeak %@", previousScoreResult, maxScoreResult, [peak label], [combinedPeak label]);
 
             if (previousScoreResult < maxScoreResult) {
                 [combinedPeak setValue:peak forKey:[NSString stringWithFormat:@"file_%d",index]];
-                peakCount++;
-                spectrum = [[combinedPeak spectrum] spectrumByAveragingWithSpectrum:[peak spectrum] withWeight:1.0/peakCount];
+                peaksCompared++;
+                spectrum = [[combinedPeak spectrum] spectrumByAveragingWithSpectrum:[peak spectrum] withWeight:1.0/peaksCount];
                 [combinedPeak setSpectrum:spectrum];                
             } else {
                 // The previous match was better
@@ -572,7 +572,7 @@
     warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
     [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];
     
-    JKLogDebug(@"File %d: %@; time: %.2g s; peaks: %d; peaks comp.: %d; comb. peaks: %d; speed: %.f peaks/s",index, [document displayName], -[date timeIntervalSinceNow], peaksCount, peaksCompared, [combinedPeaks count], peaksCompared/-[date timeIntervalSinceNow]);
+   // JKLogDebug(@"File %d: %@; time: %.2g s; peaks: %d; peaks comp.: %d; comb. peaks: %d; speed: %.f peaks/s",index, [document displayName], -[date timeIntervalSinceNow], peaksCount, peaksCompared, [combinedPeaks count], peaksCompared/-[date timeIntervalSinceNow]);
 	
 	[subPool release];
 }
@@ -1016,15 +1016,30 @@
         if ([NSEvent isOptionKeyDown]) {
             [[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] setValue:nil forKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-4]];
         } else {
+            // Which document?
             NSURL *url = [NSURL fileURLWithPath:[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-4]]];
             document = [[NSDocumentController sharedDocumentController] documentForURL:url];
+            // Open document if not yet open
             if (!document) {
                 document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:url display:YES error:&error];
             }
-            [[[document mainWindowController] window] makeKeyAndOrderFront:self];            
+            // Select peaks
+            int index, i, combinedPeaksCount = [[combinedPeaksController selectedObjects] count];
+            JKPeakRecord *peak = nil;
+            for (i = 0; i < combinedPeaksCount; i++) {
+                NSEnumerator *peaksEnumerator = [[[[combinedPeaksController selectedObjects] objectAtIndex:i] peaks] objectEnumerator];		
+                while ((peak = [peaksEnumerator nextObject])) {
+                    //if ([[peak label] isEqualToString:[peakInDocument label]]
+                    index = [[[[document mainWindowController] peakController] arrangedObjects] indexOfObjectIdenticalTo:peak];
+                    if (index != NSNotFound) {
+                        [[[document mainWindowController] peakController] setSelectionIndex:index];
+                    } 
+                }
+            }
+            // Bring document to front
+            [[[document mainWindowController] window] makeKeyAndOrderFront:self];  
         }
-	//	[[[[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] identifier] mainWindowController] window] makeKeyAndOrderFront:self];
-	}
+ 	}
 }
 
 - (IBAction)options:(id)sender {
@@ -1273,37 +1288,37 @@
 					  ofObject:(id)object
 						change:(NSDictionary *)change
 					   context:(void *)context {
-    int i,combinedPeaksCount;
-    id document;
-    NSEnumerator *enumerator = nil;
-    NSEnumerator *peaksEnumerator = nil;
-    JKPeakRecord *peak = nil;
-     
-	if ((object == combinedPeaksController) && ([combinedPeaksController selection] != NSNoSelectionMarker)) {
-        combinedPeaksCount = [[combinedPeaksController selectedObjects] count];;
-        for (i = 0; i < combinedPeaksCount; i++) {
-            peaksEnumerator = [[[[combinedPeaksController selectedObjects] objectAtIndex:i] peaks] objectEnumerator];		
-            while ((peak = [peaksEnumerator nextObject])) {
-                    enumerator = [[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
-                    
-                    while ((document = [enumerator nextObject]) != nil) {
-                    	if ([document isKindOfClass:[JKGCMSDocument class]]) {
-                            if ([[[[document mainWindowController] peakController] arrangedObjects] containsObject:peak]) {
-                                [[[document mainWindowController] peakController] setSelectedObjects:[NSArray arrayWithObject:peak]];
-                            } 
-                        }
-                    }
-                }
-            }	
-    } else if ((object == combinedPeaksController) && ([combinedPeaksController selection] == NSNoSelectionMarker)) {
-        enumerator = [[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
-        
-        while ((document = [enumerator nextObject]) != nil) {
-            if ([document isKindOfClass:[JKGCMSDocument class]]) {
-                [[[document mainWindowController] peakController] setSelectedObjects:nil];
-            }
-        }
-    }
+//    int i,combinedPeaksCount;
+//    id document;
+//    NSEnumerator *enumerator = nil;
+//    NSEnumerator *peaksEnumerator = nil;
+//    JKPeakRecord *peak = nil;
+//     
+//	if ((object == combinedPeaksController) && ([combinedPeaksController selection] != NSNoSelectionMarker)) {
+//        combinedPeaksCount = [[combinedPeaksController selectedObjects] count];;
+//        for (i = 0; i < combinedPeaksCount; i++) {
+//            peaksEnumerator = [[[[combinedPeaksController selectedObjects] objectAtIndex:i] peaks] objectEnumerator];		
+//            while ((peak = [peaksEnumerator nextObject])) {
+//                    enumerator = [[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
+//                    
+//                    while ((document = [enumerator nextObject]) != nil) {
+//                    	if ([document isKindOfClass:[JKGCMSDocument class]]) {
+//                            if ([[[[document mainWindowController] peakController] arrangedObjects] containsObject:peak]) {
+//                                [[[document mainWindowController] peakController] setSelectedObjects:[NSArray arrayWithObject:peak]];
+//                            } 
+//                        }
+//                    }
+//                }
+//            }	
+//    } else if ((object == combinedPeaksController) && ([combinedPeaksController selection] == NSNoSelectionMarker)) {
+//        enumerator = [[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
+//        
+//        while ((document = [enumerator nextObject]) != nil) {
+//            if ([document isKindOfClass:[JKGCMSDocument class]]) {
+//                [[[document mainWindowController] peakController] setSelectedObjects:nil];
+//            }
+//        }
+//    }
 }
 
 #pragma mark SYNCHRONIZED SCROLLING
@@ -1473,6 +1488,7 @@
 				NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
 				[mutDict setValue:[aFile lastPathComponent] forKey:@"filename"];
 				[mutDict setValue:aFile forKey:@"path"];
+                [mutDict setObject:[BDAlias aliasWithPath:aFile] forKey:@"alias"];
 				[mutDict setObject:[[NSWorkspace sharedWorkspace] iconForFile:aFile] forKey:@"icon"];
 				[self willChangeValueForKey:@"files"];
 				[files addObject:mutDict];

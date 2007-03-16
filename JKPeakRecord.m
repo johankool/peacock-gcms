@@ -17,6 +17,13 @@
 
 @implementation JKPeakRecord
 
+NSString *GetUUID(void) {
+    CFUUIDRef theUUID = CFUUIDCreate(NULL);
+    CFStringRef string = CFUUIDCreateString(NULL, theUUID);
+    CFRelease(theUUID);
+    return [(NSString *)string autorelease];
+}
+
 # pragma mark INITIALIZATION
 + (void)initialize{
 	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"library"];
@@ -37,19 +44,32 @@
 }
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"JKPeakRecord: %@ (top: %f)", [self label], [[self topTime] floatValue]];
+	return [NSString stringWithFormat:@"JKPeakRecord: %@ (top: %f)\nuuid: %@", [self label], [[self topTime] floatValue], [self uuid]];
 }
 
 - (id)init {
 	self = [super init];
 	if (self != nil) {
 		searchResults = [[NSMutableArray alloc] init];
-		label = @"";
-        symbol = @"";
+		label = [@"" retain];
+        symbol = [@"" retain];
         identified = NO;
         confirmed = NO;
+        uuid = GetUUID();
+        [uuid retain];
     }
     return self;	
+}
+
+- (void)dealloc {
+    JKLogEnteringMethod();
+    [label release];
+    [symbol release];
+    [searchResults release];
+//    [identifiedSearchResult release];
+    [uuid release];
+    
+    [super dealloc];
 }
 
 #pragma mark ACTIONS
@@ -262,7 +282,9 @@
 
 
 #pragma mark ACCESSORS
-
+- (NSString *)uuid {
+    return uuid;
+}
 - (void)setPeakID:(int)inValue {
     [[[self undoManager] prepareWithInvocationTarget:self] setPeakID:peakID];
 	if (![[self undoManager] isUndoing]) {
@@ -521,8 +543,8 @@
 }
 
 - (void)setIdentifiedSearchResult:(id)inValue{
-	[inValue retain];
-	[identifiedSearchResult autorelease];
+//	[inValue retain];
+//	[identifiedSearchResult autorelease];
 	identifiedSearchResult = inValue;
 	
 }
@@ -610,7 +632,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)coder{
     if ([coder allowsKeyedCoding]) {
-		[coder encodeInt:5 forKey:@"version"];
+		[coder encodeInt:6 forKey:@"version"];
 		[coder encodeObject:chromatogram forKey:@"chromatogram"];
 		[coder encodeInt:peakID forKey:@"peakID"];
 		[coder encodeInt:start forKey:@"start"];
@@ -621,8 +643,9 @@
         [coder encodeObject:symbol forKey:@"symbol"];
         [coder encodeBool:identified forKey:@"identified"];
 		[coder encodeBool:confirmed forKey:@"confirmed"];
-		[coder encodeObject:identifiedSearchResult forKey:@"identifiedSearchResult"];
+		[coder encodeConditionalObject:identifiedSearchResult forKey:@"identifiedSearchResult"];
 		[coder encodeObject:searchResults forKey:@"searchResults"];
+        [coder encodeObject:uuid forKey:@"uuid"];
     } 
     return;
 }
@@ -637,7 +660,7 @@
             case 2:
             case 3:
             case 4:
-                chromatogram = [[[[(NSKeyedArchiver *)coder delegate] chromatograms] objectAtIndex:0] retain];
+                chromatogram = [[[(NSKeyedArchiver *)coder delegate] chromatograms] objectAtIndex:0];
                 NSAssert(chromatogram, @"peak should have chromatogram");
                 [chromatogram insertObject:self inPeaksAtIndex:[[chromatogram peaks] count]];
                 peakID = [[coder decodeObjectForKey:@"peakID"] intValue];
@@ -662,12 +685,13 @@
 
                 break;
             case 5:
+            case 6:
             default:
-                chromatogram = [[coder decodeObjectForKey:@"chromatogram"] retain];            
+                chromatogram = [coder decodeObjectForKey:@"chromatogram"];            
                 peakID = [coder decodeIntForKey:@"peakID"];
                 start = [coder decodeIntForKey:@"start"];
                 end = [coder decodeIntForKey:@"end"];
-                identifiedSearchResult = [[coder decodeObjectForKey:@"identifiedSearchResult"] retain];
+                identifiedSearchResult = [coder decodeObjectForKey:@"identifiedSearchResult"];
                 searchResults = [[coder decodeObjectForKey:@"searchResults"] retain];
                 break;
         }
@@ -681,15 +705,32 @@
             case 3:
             case 4:
             case 5:
+            case 6:
             default:
                 baselineLeft = [[coder decodeObjectForKey:@"baselineLeft"] retain];
                 baselineRight = [[coder decodeObjectForKey:@"baselineRight"] retain];
                 break;
         }
+        switch (version) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                uuid = GetUUID();
+                [uuid retain];
+                break;
+            case 6:
+            default:
+                uuid = [[coder decodeObjectForKey:@"uuid"] retain];
+                break;
+        }
         label = [[coder decodeObjectForKey:@"label"] retain];
 		symbol = [[coder decodeObjectForKey:@"symbol"] retain];
         identified = [coder decodeBoolForKey:@"identified"];
-		confirmed = [coder decodeBoolForKey:@"confirmed"];        
+		confirmed = [coder decodeBoolForKey:@"confirmed"]; 
+//        JKLogDebug(@"Read peak with uuid %@",uuid);
 	} 
     return self;
 }

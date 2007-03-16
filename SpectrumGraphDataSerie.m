@@ -31,7 +31,7 @@ static void *PropertyObservationContext = (void *)1093;
 		_boundingRect = NSZeroRect;
 		
 		// Creeer de plot een eerste keer.
-		[self constructPlotPath];
+//		[self constructPlotPath];
 	}
     return self;
 }
@@ -40,21 +40,32 @@ static void *PropertyObservationContext = (void *)1093;
     self = [super init];
     if (self) {
         // Zet de standaardwaarden
+        // set in superclass
 		[self setSeriesTitle:[aSpectrum model]];
 		[self setKeyForXValue:@"Mass"];
 		[self setKeyForYValue:@"Intensity"];
 		[self setSeriesColor:[NSColor blueColor]];
 		[self setSeriesType:2];
 		[self setShouldDrawLabels:YES];
+        
 		drawUpsideDown = NO;
 		normalizeYData = NO;
 		_boundingRect = NSZeroRect;
 
-        [self setSpectrum:aSpectrum];
+        spectrum = [aSpectrum retain];
+        [self setKeyForXValue:NSLocalizedString(@"Mass",@"")];
+        [self setKeyForYValue:NSLocalizedString(@"Intensity",@"")];
+        [self loadDataPoints:[spectrum numberOfPoints] withXValues:[spectrum masses] andYValues:[spectrum intensities]];
+        
  		// Creeer de plot een eerste keer.
-		[self constructPlotPath];
+//		[self constructPlotPath];
 	}
     return self;
+}
+
+- (void)dealloc {
+    [spectrum release];
+    [super dealloc];
 }
 
 #pragma mark DRAWING ROUTINES

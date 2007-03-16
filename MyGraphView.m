@@ -66,54 +66,53 @@ static int   kPaddingLabels             = 4;
 		[NSColor setIgnoresAlpha:NO];
 
         // Defaults
-		[self setOrigin:NSMakePoint(50.5,50.5)];
-		[self setPixelsPerXUnit:[NSNumber numberWithFloat:20.0]];
-		[self setPixelsPerYUnit:[NSNumber numberWithFloat:10]];
-		[self setMinimumPixelsPerMajorGridLine:[NSNumber numberWithFloat:25]];
-		[self setPlottingArea:NSMakeRect(50.5,20.5,[self bounds].size.width-60.5,[self bounds].size.height-25.5)];
-		[self setLegendArea:NSMakeRect([self bounds].size.width-200-10-10,[self bounds].size.height-18-10-5,200,18)];
-		[self setSelectedRect:NSMakeRect(0,0,0,0)];
-        NSAttributedString *emptyLabel = [[[NSAttributedString alloc] initWithString:@""] autorelease];
-        [self setXAxisLabelString:emptyLabel];    
-        [self setYAxisLabelString:emptyLabel];    
+        origin = NSMakePoint(50.5,50.5);
+        pixelsPerXUnit = [[NSNumber alloc] initWithFloat:20.0f];
+		pixelsPerYUnit = [[NSNumber alloc] initWithFloat:10.0f];
+        minimumPixelsPerMajorGridLine = [[NSNumber alloc] initWithFloat:25.0f];
+        plottingArea = NSMakeRect(50.5,20.5,[self bounds].size.width-60.5,[self bounds].size.height-25.5);
+        legendArea =   NSMakeRect([self bounds].size.width-200-10-10,[self bounds].size.height-18-10-5,200,18);
+        selectedRect = NSMakeRect(0,0,0,0);
+        xAxisLabelString = [[NSAttributedString alloc] initWithString:@""];
+        yAxisLabelString = [[NSAttributedString alloc] initWithString:@""];
         
         NSDictionary *defaultValues = [[NSUserDefaultsController sharedUserDefaultsController] values];
-		[self setShouldDrawAxes:[[defaultValues valueForKey:@"shouldDrawAxes"] boolValue]];
-		[self setShouldDrawAxesHorizontal:[[defaultValues valueForKey:@"shouldDrawAxesHorizontal"] boolValue]];
-		[self setShouldDrawAxesVertical:[[defaultValues valueForKey:@"shouldDrawAxesVertical"] boolValue]];
-		[self setShouldDrawFrame:[[defaultValues valueForKey:@"shouldDrawFrame"] boolValue]];
-		[self setShouldDrawFrameLeft:[[defaultValues valueForKey:@"shouldDrawFrameLeft"] boolValue]];
-		[self setShouldDrawFrameBottom:[[defaultValues valueForKey:@"shouldDrawFrameBottom"] boolValue]];
-		[self setShouldDrawMajorTickMarks:[[defaultValues valueForKey:@"shouldDrawMajorTickMarks"] boolValue]];
-		[self setShouldDrawMajorTickMarksHorizontal:YES];
-		[self setShouldDrawMinorTickMarksVertical:YES];
-		[self setShouldDrawGrid:[[defaultValues valueForKey:@"shouldDrawGrid"] boolValue]];
-		[self setShouldDrawLabels:[[defaultValues valueForKey:@"shouldDrawLabels"] boolValue]];
-		[self setShouldDrawLegend:[[defaultValues valueForKey:@"shouldDrawLegend"] boolValue]];
-		[self setShouldDrawLabelsOnFrame:[[defaultValues valueForKey:@"shouldDrawLabelsOnFrame"] boolValue]];
-		[self setShouldDrawLabelsOnFrameLeft:YES];
-		[self setShouldDrawLabelsOnFrameBottom:YES];
-		[self setShouldDrawShadow:[[defaultValues valueForKey:@"shouldDrawShadow"] boolValue]];
+		shouldDrawAxes =            [[defaultValues valueForKey:@"shouldDrawAxes"] boolValue];
+		shouldDrawAxesHorizontal =  [[defaultValues valueForKey:@"shouldDrawAxesHorizontal"] boolValue];
+		shouldDrawAxesVertical =    [[defaultValues valueForKey:@"shouldDrawAxesVertical"] boolValue];
+		shouldDrawFrame =           [[defaultValues valueForKey:@"shouldDrawFrame"] boolValue];
+		shouldDrawFrameLeft =       [[defaultValues valueForKey:@"shouldDrawFrameLeft"] boolValue];
+		shouldDrawFrameBottom =     [[defaultValues valueForKey:@"shouldDrawFrameBottom"] boolValue];
+		shouldDrawMajorTickMarks =  [[defaultValues valueForKey:@"shouldDrawMajorTickMarks"] boolValue];
+		shouldDrawMajorTickMarksHorizontal = YES;
+		shouldDrawMinorTickMarksVertical =   YES;
+		shouldDrawGrid =            [[defaultValues valueForKey:@"shouldDrawGrid"] boolValue];
+		shouldDrawLabels =          [[defaultValues valueForKey:@"shouldDrawLabels"] boolValue];
+		shouldDrawLegend =          [[defaultValues valueForKey:@"shouldDrawLegend"] boolValue];
+		shouldDrawLabelsOnFrame =   [[defaultValues valueForKey:@"shouldDrawLabelsOnFrame"] boolValue];
+		shouldDrawLabelsOnFrameLeft =   YES;
+		shouldDrawLabelsOnFrameBottom = YES;
+		shouldDrawShadow =          [[defaultValues valueForKey:@"shouldDrawShadow"] boolValue];
 		
-		[self setBackColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"backColor"]]];
-		[self setPlottingAreaColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"plottingAreaColor"]]];
-		[self setAxesColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"axesColor"]]];
-		[self setFrameColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"frameColor"]]];
-		[self setGridColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"gridColor"]]];
-		[self setLabelsColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"labelsColor"]]];
-		[self setLabelsOnFrameColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"labelsOnFrameColor"]]];
-		[self setLegendAreaColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"legendAreaColor"]]];
-		[self setLegendFrameColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"legendFrameColor"]]];
-		[self setBaselineColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"baselineColor"]]];
+		backColor =         [(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"backColor"]] retain];
+		plottingAreaColor = [(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"plottingAreaColor"]] retain];
+		axesColor =         [(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"axesColor"]] retain];
+		frameColor =        [(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"frameColor"]] retain];
+		gridColor =         [(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"gridColor"]] retain];
+		labelsColor =       [(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"labelsColor"]] retain];
+		labelsOnFrameColor =[(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"labelsOnFrameColor"]] retain];
+		legendAreaColor =   [(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"legendAreaColor"]] retain];
+		legendFrameColor =  [(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"legendFrameColor"]] retain];
+		baselineColor =     [(NSColor *)[NSUnarchiver unarchiveObjectWithData:[defaultValues valueForKey:@"baselineColor"]] retain];
 				
-        [self setLabelFont:[NSFont systemFontOfSize:10]];
-        [self setLegendFont:[NSFont systemFontOfSize:10]];
-        [self setAxesLabelFont:[NSFont systemFontOfSize:10]];
+        labelFont = [[NSFont systemFontOfSize:10] retain];
+        legendFont = [[NSFont systemFontOfSize:10] retain];
+        axesLabelFont = [[NSFont systemFontOfSize:10] retain];
         
 		// Additions for Peacock
-		[self setShouldDrawBaseline:[[defaultValues valueForKey:@"shouldDrawBaseline"] boolValue]];
-		[self setShouldDrawPeaks:[[defaultValues valueForKey:@"shouldDrawPeaks"] boolValue]];
-        [self setSelectedScan:0];
+		shouldDrawBaseline = [[defaultValues valueForKey:@"shouldDrawBaseline"] boolValue];
+		shouldDrawPeaks = [[defaultValues valueForKey:@"shouldDrawPeaks"] boolValue];
+        selectedScan = 0;
         
         drawingMode = JKStackedDrawingMode;
     }
@@ -126,6 +125,33 @@ static int   kPaddingLabels             = 4;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
+    [pixelsPerXUnit release];
+    [pixelsPerYUnit release];
+    [minimumPixelsPerMajorGridLine release];
+    [xAxisLabelString release];
+    [yAxisLabelString release];
+    
+    [backColor release];
+    [plottingAreaColor release];
+    [axesColor release];
+    [frameColor release];
+    [gridColor release];
+    [labelsColor release];
+    [labelsOnFrameColor release];
+    [legendAreaColor release];
+    [legendFrameColor release];
+    [baselineColor release];
+
+    [labelFont release];
+    [legendFont release];
+    [axesLabelFont release];
+
+    
+    [dataSeriesContainer release];
+    [dataSeriesKeyPath release];
+    [peaksContainer release];
+    [peaksKeyPath release];
+    
 	[super dealloc];
 }
 
@@ -525,7 +551,7 @@ static int   kPaddingLabels             = 4;
 	if ([[self dataSeries] count] > 0) {
 		for (i=0;i<[[self dataSeries] count]; i++) {
             [line removeAllPoints];
-            JKLogDebug(@"legend seriesTitle: %@",[[[self dataSeries] objectAtIndex:i] valueForKey:@"seriesTitle"]);
+         //   JKLogDebug(@"legend seriesTitle: %@",[[[self dataSeries] objectAtIndex:i] valueForKey:@"seriesTitle"]);
             if ([[[[self dataSeries] objectAtIndex:i] verticalScale] floatValue] != 1.0f) {
                 seriesTitle = [NSString stringWithFormat:@"%@ (%.1f%C)",[[[self dataSeries] objectAtIndex:i] valueForKey:@"seriesTitle"],[[[[self dataSeries] objectAtIndex:i] verticalScale] floatValue],0x00D7];                
             } else {
@@ -929,7 +955,7 @@ static int   kPaddingLabels             = 4;
 		totRect = NSUnionRect(totRect, newRect);
 	}
     
-    
+//    JKLogDebug(@"zooming to new rect");
 	[self zoomToRect:totRect];
 }
 //- (void)showMagnifyingGlass:(NSEvent *)theEvent  
