@@ -1007,9 +1007,10 @@ static int   kPaddingLabels             = 4;
         [self setTransformGraphToScreen:transformationMatrix];
         
         // We zullen ook terug van data serie coordinaten naar scherm-coordinaten willen rekenen. Het zou niet effectief zijn om dat iedere keer dat we dit nodig hebben de inverse matrix uit te rekenen. Daarom hier 1 keer en vervolgens bewaren.
-        invertMatrix = [[transformationMatrix copy] autorelease];
+        invertMatrix = [transformationMatrix copy];
         [invertMatrix invert];
         [self setTransformScreenToGraph:invertMatrix];
+        [invertMatrix release];
     }
     @catch ( NSException *e ) {
         JKLogError([e description]);
@@ -1652,7 +1653,7 @@ static int   kPaddingLabels             = 4;
                 break;
             case JKNormalDrawingMode:
             default:
-                if ([[[self dataSeries] objectAtIndex:0] isMemberOfClass:[JKChromatogram class]]) {
+                if ([[[self dataSeries] objectAtIndex:0] isMemberOfClass:[ChromatogramGraphDataSerie class]]) {
                     chromatogram = [[[self dataSeries] objectAtIndex:0] chromatogram];                
                 }
                 

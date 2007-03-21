@@ -54,12 +54,17 @@ static void *SpectrumObservationContext = (void *)1102;
 }
 
 - (void)dealloc {
-//	[searchResultsController removeObserver:self forKeyPath:@"selection"];
-//	[peakController removeObserver:self forKeyPath:@"selection"];
-//	[[self document] removeObserver:self forKeyPath:@"chromatograms"];
-//	[self removeObserver:self forKeyPath:@"showNormalizedSpectra"];
-//    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
+    [searchResultsController removeObserver:self forKeyPath:@"selection"];
+    [peakController removeObserver:self forKeyPath:@"selection"];
+    [peakController removeObserver:self forKeyPath:@"selection.confirmed"];
+    [peakController removeObserver:self forKeyPath:@"selection.identified"];
+    [[self document] removeObserver:self forKeyPath:@"chromatograms"];
+    [self removeObserver:self forKeyPath:@"showNormalizedSpectra"];
+    [self removeObserver:self forKeyPath:@"showCombinedSpectrum"];
+    [self removeObserver:self forKeyPath:@"showLibraryHit"];
+    [self removeObserver:self forKeyPath:@"showTICTrace"];
+    [self removeObserver:self forKeyPath:@"showSelectedChromatogramsOnly"];        
+
     // hack preventing an animating splitview to get deallocated whilst animating
     if ([RBSplitSubview animating]) {
         sleep(1);
@@ -130,7 +135,7 @@ static void *SpectrumObservationContext = (void *)1102;
 	[peakController addObserver:self forKeyPath:@"selection" options:nil context:nil];
 	[peakController addObserver:self forKeyPath:@"selection.confirmed" options:nil context:nil];
 	[peakController addObserver:self forKeyPath:@"selection.identified" options:nil context:nil];
-	[[self document] addObserver:self forKeyPath:@"chromatograms" options:nil context:nil];
+//	[[self document] addObserver:self forKeyPath:@"chromatograms" options:nil context:nil];
 	[self addObserver:self forKeyPath:@"showNormalizedSpectra" options:nil context:SpectrumObservationContext];
 	[self addObserver:self forKeyPath:@"showCombinedSpectrum" options:nil context:SpectrumObservationContext];
     [self addObserver:self forKeyPath:@"showLibraryHit" options:nil context:SpectrumObservationContext];

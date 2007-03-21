@@ -636,8 +636,6 @@
 				C747B85309DD5782004837D0 /* TableView */,
 				C777A2C90A1DFEAD00CF44D9 /* JKMoleculeView */,
 				C777A2B70A1DFE7D00CF44D9 /* JKPathPopUpButton */,
-				C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */,
-				C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -822,6 +820,8 @@
 			children = (
 				C798C9E808E17B5400C6C7D1 /* DeleteTableView.h */,
 				C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */,
+				C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */,
+				C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */,
 			);
 			name = TableView;
 			sourceTree = "<group>";

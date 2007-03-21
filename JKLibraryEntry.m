@@ -159,7 +159,7 @@
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			molString = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
-			molString = @"";
+			molString = [[NSString alloc] init];
 //			molString = [[NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]]] retain];
 //			JKLogDebug([NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]);
 //			JKLogDebug(molString);
@@ -226,18 +226,10 @@
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			source = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
-			source = @"";
+			source = [[NSString alloc] init];
 		}
 		
-		// COMMENT
-		// Back to start of entry as order of entries is undefined
-		[theScanner setScanLocation:0];
-		[theScanner scanUpToString:@"##COMMENT=" intoString:NULL];
-		if ([theScanner scanString:@"##COMMENT=" intoString:NULL]) {
-            scannedString = @"";
-			[theScanner scanUpToString:@"##" intoString:&scannedString];
-			comment = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
-		} 
+		// COMMENT        
 		// Back to start of entry as order of entries is undefined
 		[theScanner setScanLocation:0];
 		[theScanner scanUpToString:@"##$COMMENT=" intoString:NULL];
@@ -245,7 +237,18 @@
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			comment = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
-		} 
+		} else {
+            // Back to start of entry as order of entries is undefined
+            [theScanner setScanLocation:0];
+            [theScanner scanUpToString:@"##COMMENT=" intoString:NULL];
+            if ([theScanner scanString:@"##COMMENT=" intoString:NULL]) {
+                scannedString = @"";
+                [theScanner scanUpToString:@"##" intoString:&scannedString];
+                comment = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
+            }  else {
+                comment = [[NSString alloc] init];
+            }
+        }
 
         // MODEL
         // Back to start of entry as order of entries is undefined
@@ -255,7 +258,9 @@
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			modelChr = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
-		} 
+		} else {
+            modelChr = [[NSString alloc] init];
+        }
         
         // GROUP
         // Back to start of entry as order of entries is undefined
@@ -265,7 +270,9 @@
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			group = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
-		} 
+		} else {
+            group = [[NSString alloc] init];
+        }
         
         // SYNONYMS
         // Back to start of entry as order of entries is undefined
@@ -275,7 +282,9 @@
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			synonyms = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
-		} 
+		} else {
+            synonyms = [[NSString alloc] init];
+        }
         
 		// XUNITS
 		// Back to start of entry as order of entries is undefined
@@ -285,7 +294,9 @@
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			xUnits = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
-		}
+		} else {
+            xUnits = [[NSString alloc] init];
+        }
 		
 		// YUNITS
 		// Back to start of entry as order of entries is undefined
@@ -295,7 +306,9 @@
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			yUnits = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
-		}
+		} else {
+            yUnits = [[NSString alloc] init];
+        }
 		
 		// XFACTOR
 		// Back to start of entry as order of entries is undefined
@@ -305,7 +318,9 @@
 			if ([theScanner scanFloat:&scannedFloat]) {
 				xFactor = [[NSNumber numberWithFloat:scannedFloat] retain];
 			}
-		}	
+		} else {
+            xFactor = [[NSNumber alloc] initWithFloat:1.0f];
+        }
 		
 		// YFACTOR
 		// Back to start of entry as order of entries is undefined
@@ -315,7 +330,9 @@
 			if ([theScanner scanFloat:&scannedFloat]) {
 				yFactor = [[NSNumber numberWithFloat:scannedFloat] retain];
 			}
-		}	
+		} else {
+            yFactor = [[NSNumber alloc] initWithFloat:1.0f];
+        }
 		
 //		// DATA-TYPE
 //		// Back to start of entry as order of entries is undefined
@@ -390,8 +407,28 @@
 }
 
 - (void) dealloc {
-#warning [LEAK] Everything that gets read and retained during init... should be released here!
-	[super dealloc];
+	[name release];	
+	[origin release];
+	[owner release];	
+	[CASNumber release];
+	[epaMassSpecNo release];
+    [formula release];
+    [massWeight release];        
+    [nistSource release];
+    [ionizationEnergy release];
+    [xUnits release];	
+    [yUnits release];
+    [xFactor release];	
+    [yFactor release];		
+    [retentionIndex release]; 
+    [source release];	        
+    [synonyms release];		
+    [comment release];		
+    [molString release];	
+    [symbol release];		
+    [modelChr release];		
+    [group release];     
+    [super dealloc];
 }
 
 - (NSString *)jcampString{

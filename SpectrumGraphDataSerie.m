@@ -220,6 +220,11 @@ static void *PropertyObservationContext = (void *)1093;
 	free(rects);
 }
 
+#pragma mark MISC
+- (NSArray *)dataArrayKeys {
+    return [NSArray arrayWithObjects:NSLocalizedString(@"Mass", @""), NSLocalizedString(@"Intensity", @""), nil];
+}
+
 #pragma mark HELPER ROUTINES
 - (void)transposeAxes {
 	// Deze routine wisselt de x-as met de y-as om
@@ -234,61 +239,6 @@ static void *PropertyObservationContext = (void *)1093;
 }
 
 #pragma mark KEY VALUE OBSERVING MANAGEMENT
-- (void)startObservingData:(NSArray *)data{
-	if ([data isEqual:[NSNull null]]) {
-		return;
-	}
-	
-	// Register to observe each of the new datapoints, and each of their observable properties
-	NSEnumerator *dataEnumerator = [data objectEnumerator];
-	
-	// Declare newDataPoint as NSObject * to get key value observing methods
-    NSMutableDictionary *newDataPoint;
-	// Register as observer
-    while ((newDataPoint = [dataEnumerator nextObject])) {		
-		//		NSArray *keys = [newDataPoint allKeys];
-		//		// The problem here is that we don't can register for keys that aren't yet defined in the dictionary
-		//		NSEnumerator *keyEnumerator = [keys objectEnumerator];
-		//		NSString *key;
-		//		while (key = [keyEnumerator nextObject]) {
-		//			[newDataPoint addObserver:self
-		//						 forKeyPath:key
-		//							options:nil
-		//							context:DictionaryObservationContext];
-		//		}
-		[newDataPoint addObserver:self
-					   forKeyPath:keyForXValue
-						  options:nil
-						  context:DictionaryObservationContext];
-		[newDataPoint addObserver:self
-					   forKeyPath:keyForYValue
-						  options:nil
-						  context:DictionaryObservationContext];
-		
-	}
-}
-
-- (void)stopObservingData:(NSArray *)data {
-	if ([data isEqual:[NSNull null]]) {
-		return;
-	}
-	
-	NSEnumerator *dataEnumerator = [data objectEnumerator];
-	
-    NSMutableDictionary *oldDataPoint;
-    while ((oldDataPoint = [dataEnumerator nextObject])) {
-		//		NSArray *keys = [oldDataPoint allKeys];
-		//		NSEnumerator *keyEnumerator = [keys objectEnumerator];
-		//		
-		//		NSString *key;
-		//		while (key = [keyEnumerator nextObject]) {
-		//			[oldDataPoint removeObserver:self forKeyPath:key];
-		//		}
-		[oldDataPoint removeObserver:self forKeyPath:keyForXValue];
-		[oldDataPoint removeObserver:self forKeyPath:keyForYValue];
-		
-	}
-}
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
 					  ofObject:(id)object

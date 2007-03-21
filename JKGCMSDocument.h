@@ -202,6 +202,8 @@ int intSort(id num1, id num2, void *context);
 - (float)timeForScan:(int)scan;
 - (int)scanForTime:(float)time;
 
+- (void)setAbsolutePathToNetCDF:(NSString *)aAbsolutePathToNetCDF;
+- (NSString *)absolutePathToNetCDF;
 
 #pragma mark ACCESSORS (MACROSTYLE)
 idAccessor_h(baselineWindowWidth, setBaselineWindowWidth)

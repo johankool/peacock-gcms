@@ -106,8 +106,12 @@
 	
 	if ([files count] > 0) {
         // Insert table columns (in case we're opening from a file)
-        [combinedPeaksController setContent:combinedPeaks];
+        if ([combinedPeaks count] > 0) {
+            // Insert table columns (in case we're opening from a file)
+            [combinedPeaksController setContent:combinedPeaks];
+        }
         [self insertTableColumns];
+        [self insertGraphDataSeries];
  	}
     
     [altGraphView bind:@"dataSeries" toObject:chromatogramDataSeriesController
@@ -918,6 +922,21 @@
 //	// Finishing
 //	[self sortColumns];
 }
+- (void)insertGraphDataSeries {
+	int i;
+	int filesCount = [files count];
+    
+    //	NSError *error = [[NSError alloc] init];
+	NSDocument *document;
+	
+	for (i=0; i < filesCount; i++) {
+		document = [[NSDocumentController sharedDocumentController] documentForURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]]];
+        // If document not open, ignore...
+        if (!document) continue;
+        
+        [self setupComparisonWindowForDocument:document atIndex:i];
+    }
+}
 
 - (void)setupComparisonWindowForDocument:(JKGCMSDocument *)document atIndex:(int)index{
 //    NSEnumerator *chromatogramEnum = [[[document chromatograms] objectEnumerator];
@@ -989,7 +1008,6 @@
 
 
 - (IBAction)doubleClickAction:(id)sender {
-	JKLogDebug(@"row %d column %d",[sender clickedRow], [sender clickedColumn]);
 	NSError *error = [[[NSError alloc] init] autorelease];
 	if (([sender clickedRow] == -1) && ([sender clickedColumn] == -1)) {
 		return;
@@ -1014,7 +1032,9 @@
 		JKGCMSDocument *document;
 
         if ([NSEvent isOptionKeyDown]) {
-            [[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] setValue:nil forKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-4]];
+            JKCombinedPeak *combiPeak = [[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]];
+            NSString *key = [NSString stringWithFormat:@"file_%d",[sender clickedColumn]-4];
+            [combiPeak setValue:nil forKey:key];
         } else {
             // Which document?
             NSURL *url = [NSURL fileURLWithPath:[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-4]]];
@@ -1529,6 +1549,10 @@
 }
 
 #pragma mark ACCESSORS
+- (NSUndoManager*)undoManager {
+    return [[self document] undoManager];
+}
+
 // Mutable To-Many relationship files
 - (NSMutableArray *)files {
 	return files;

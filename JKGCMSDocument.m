@@ -68,50 +68,7 @@ static void *DocumentObservationContext = (void *)1100;
     return self;
 }
 
-//- (void)addWindowController:(NSWindowController *)windowController {
-//    if (windowController == mainWindowController) {
-//        [self addObserver:mainWindowController forKeyPath:@"metadata.sampleCode" options:nil context:DocumentObservationContext];
-//        [self addObserver:mainWindowController forKeyPath:@"metadata.sampleDescription" options:nil context:DocumentObservationContext];
-//    }
-//    
-//    [super addWindowController:windowController];
-//}
-//
-//- (void)removeWindowController:(NSWindowController *)windowController {
-//    if (windowController == mainWindowController) {
-//        [self removeObserver:mainWindowController forKeyPath:@"metadata.sampleCode"];
-//        [self removeObserver:mainWindowController forKeyPath:@"metadata.sampleDescription"];        
-//    }
-//        
-//    [super removeWindowController:windowController];
-//}
-
-- (id)retain {
-    JKLogDebug(@"retaincount = %d",[self retainCount]);
-    return [super retain];
-}
-
-- (oneway void)release {
-    JKLogDebug(@"retaincount = %d",[self retainCount]);
-    return [super release];
-}
-
-- (void)close {
-    JKLogDebug(@"closing document");
-//    [[NSNotificationCenter defaultCenter] removeObserver:self];
-//    [[NSNotificationCenter defaultCenter] removeObserver:mainWindowController];
-    
-//    [self release];
-//#warning Forcing complete release to get memory free
-//    int i, count = [self retainCount];
-//    for (i=0; i < count; i++) {
-//        [self release];
-//    }
-    [super close];
-}
-
 - (void)dealloc {
-    JKLogEnteringMethod();
     [_documentProxy release];
     [_remainingString release];
     [absolutePathToNetCDF release];
@@ -151,7 +108,7 @@ static void *DocumentObservationContext = (void *)1100;
 
 - (void)makeWindowControllers {
     JKLogEnteringMethod();
-    [self postNotification:JKGCMSDocument_DocumentLoadedNotification];
+//    [self postNotification:JKGCMSDocument_DocumentLoadedNotification];
     if (!mainWindowController) {
         mainWindowController = [[JKMainWindowController alloc] init];
     }
@@ -1246,35 +1203,36 @@ int intSort(id num1, id num2, void *context)
 
 #pragma mark NOTIFICATIONS
 
-- (void) postNotification: (NSString *) notificationName{
-    NSNotificationCenter *center;
-    center = [NSNotificationCenter defaultCenter];
-    
-    [center postNotificationName: notificationName
-						  object: self];
-	
-}
-
-
-- (void) windowDidBecomeMain: (NSNotification *) notification{
-    [self postNotification: 
-		JKGCMSDocument_DocumentActivateNotification];
-	
-}
-
-
-- (void) windowDidResignMain: (NSNotification *) notification{
-    [self postNotification: 
-		JKGCMSDocument_DocumentDeactivateNotification];
-	
-}
-
-
-- (void) windowWillClose: (NSNotification *) notification{
-    [self postNotification: 
-		JKGCMSDocument_DocumentDeactivateNotification];
-}
-
+//- (void) postNotification: (NSString *) notificationName{
+//    NSNotificationCenter *center;
+//    center = [NSNotificationCenter defaultCenter];
+//    
+//    [center postNotificationName: notificationName
+//						  object: self];
+//	
+//}
+//
+//
+//- (void) windowDidBecomeMain: (NSNotification *) notification{
+////    [self postNotification: 
+////		JKGCMSDocument_DocumentActivateNotification];
+//	[[JKPanelController sharedController] setInspectedDocument:self];
+//}
+//
+//
+//- (void) windowDidResignMain: (NSNotification *) notification{
+////    [self postNotification: 
+////		JKGCMSDocument_DocumentDeactivateNotification];
+//	[[JKPanelController sharedController] setInspectedDocument:nil];	
+//}
+//
+//
+//- (void) windowWillClose: (NSNotification *) notification{
+////    [self postNotification: 
+////		JKGCMSDocument_DocumentDeactivateNotification];
+//    [[JKPanelController sharedController] setInspectedDocument:nil];
+//}
+//
 
 #pragma mark OBSOLETE -- OBSOLETE -- OBSOLETE
 #pragma mark ACTIONS

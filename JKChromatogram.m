@@ -47,7 +47,7 @@
 }
 
 - (void)dealloc {
-    JKLogEnteringMethod();
+//    JKLogEnteringMethod();
     free(time);
     free(totalIntensity);
     free(baselinePointsScans);

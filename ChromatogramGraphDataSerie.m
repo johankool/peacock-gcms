@@ -36,23 +36,23 @@ static void *PropertyObservationContext = (void *)1093;
 		[self setShouldDrawLabels:YES];
         [self setVerticalScale:[NSNumber numberWithFloat:1.0]];
         [self setSeriesTitle:[aChromatogram model]];
-
+        
         chromatogram = [aChromatogram retain];
         [self setKeyForXValue:NSLocalizedString(@"Time",@"")];
         [self setKeyForYValue:NSLocalizedString(@"Total Intensity", @"")];
-        [self loadDataPoints:[chromatogram numberOfPoints] withXValues:[chromatogram time] andYValues:[chromatogram totalIntensity]];
+        //        [self loadDataPoints:[chromatogram numberOfPoints] withXValues:[chromatogram time] andYValues:[chromatogram totalIntensity]];
         
-//        filterPredicate = [[NSPredicate predicateWithValue:YES] retain];
+        //        filterPredicate = [[NSPredicate predicateWithValue:YES] retain];
         
 		// Creeer de plot een eerste keer.
-	//	[self constructPlotPath];
+		[self constructPlotPath];
 	}
     return self;
 }
 
 - (void)dealloc {
     [chromatogram release];
-//    [filterPredicate release];
+    //    [filterPredicate release];
     [super dealloc];
 }
 
@@ -67,7 +67,7 @@ static void *PropertyObservationContext = (void *)1093;
     }
 	[self setDataArray:mutArray];
     [mutArray release];
-
+    
     [self constructPlotPath];
 }
 
@@ -111,6 +111,62 @@ static void *PropertyObservationContext = (void *)1093;
 - (void)constructPlotPath {
 	int i, count;
 	NSPoint pointInUnits;
+    
+	if (!chromatogram) {
+        [self setPlotPath:nil];
+        return;
+    }
+    
+    float *xValues = [chromatogram time];
+    float *yValues = [chromatogram totalIntensity];    
+	count = [chromatogram numberOfPoints];
+    
+	if (count <= 0) {	
+        [self setPlotPath:nil];
+		return;
+	}
+	
+    float retentionSlope, retentionRemainder;
+	NSBezierPath *bezierpath = [[NSBezierPath alloc] init];
+    
+    if ([keyForXValue isEqualToString:NSLocalizedString(@"Retention Index", @"")]) {
+        retentionSlope = [[[chromatogram document] retentionIndexSlope] floatValue];
+        retentionRemainder = [[[chromatogram document] retentionIndexRemainder] floatValue];
+    } else {
+        retentionSlope = 1.0f;
+        retentionRemainder = 0.0f;
+    }
+    
+    if ([keyForXValue isEqualToString:NSLocalizedString(@"Scan", @"")]) {
+        // Creeer het pad.
+        [bezierpath moveToPoint:NSMakePoint(0,
+                                            yValues[0]*[verticalScale floatValue])];
+        for (i=1; i<count; i++) {
+            pointInUnits = NSMakePoint(i,
+                                       yValues[i]*[verticalScale floatValue]);
+            [bezierpath lineToPoint:pointInUnits];
+        }        
+        
+    } else {
+        // Creeer het pad.
+        [bezierpath moveToPoint:NSMakePoint(xValues[0] * retentionSlope + retentionRemainder,
+                                            yValues[0]*[verticalScale floatValue])];
+        for (i=1; i<count; i++) {
+            pointInUnits = NSMakePoint(xValues[i] * retentionSlope + retentionRemainder,
+                                       yValues[i]*[verticalScale floatValue]);
+            [bezierpath lineToPoint:pointInUnits];
+        }        
+    }
+    
+    
+    [self setPlotPath:bezierpath];
+	
+	[bezierpath release];
+}
+
+- (void)constructPlotPathOld {
+	int i, count;
+	NSPoint pointInUnits;
 	NSBezierPath *bezierpath = [[NSBezierPath alloc] init];
 	
 	count = [[self dataArray] count];
@@ -137,14 +193,14 @@ static void *PropertyObservationContext = (void *)1093;
     // Creeer het pad.
     [bezierpath moveToPoint:NSMakePoint([[[[self dataArray] objectAtIndex:0] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
                                         [[[[self dataArray] objectAtIndex:0] valueForKey:keyToUseY] floatValue]*[verticalScale floatValue])];
-
+    
     // We zouden eigenlijk moet controleren of de x- en y-waarden beschikbaar zijn.
     for (i=1; i<count; i++) {
         pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
                                    [[[[self dataArray] objectAtIndex:i] valueForKey:keyToUseY] floatValue]*[verticalScale floatValue]);
         [bezierpath lineToPoint:pointInUnits];
     }
-
+    
     [self setPlotPath:bezierpath];
 	
 	[bezierpath release];
@@ -162,7 +218,7 @@ static void *PropertyObservationContext = (void *)1093;
     NSString *keyToUseX;
     NSString *keyToUseY;
     float retentionSlope, retentionRemainder;
-
+    
     if ([keyForXValue isEqualToString:NSLocalizedString(@"Retention Index", @"")]) {
         keyToUseX = [NSString stringWithString:NSLocalizedString(@"Scan", @"")];
         keyToUseY = [NSString stringWithString:NSLocalizedString(keyForYValue, @"")];
@@ -198,17 +254,19 @@ static void *PropertyObservationContext = (void *)1093;
             [bezierpath lineToPoint:pointInUnits];
         }        
     }
-
+    
 	return bezierpath;
 }
 
 - (void)drawPeaksWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
     _graphView = view;
 	int i, count;
-
+    
 	// Get peaks count
+    float *xValues = [chromatogram time];
+    float *yValues = [chromatogram totalIntensity];    
 	count = [[self peaks] count];
-
+    
 	if (count <= 0)
 		return;
 	
@@ -225,18 +283,12 @@ static void *PropertyObservationContext = (void *)1093;
 	
 	// Reset tooltips
 	//[self removeAllToolTips];
-    NSString *keyToUseX;
-    NSString *keyToUseY;
     float retentionSlope, retentionRemainder;
     
     if ([keyForXValue isEqualToString:NSLocalizedString(@"Retention Index", @"")]) {
-        keyToUseX = [NSString stringWithString:NSLocalizedString(@"Scan", @"")];
-        keyToUseY = [NSString stringWithString:NSLocalizedString(keyForYValue, @"")];
         retentionSlope = [[[chromatogram document] retentionIndexSlope] floatValue];
         retentionRemainder = [[[chromatogram document] retentionIndexRemainder] floatValue];
     } else {
-        keyToUseX = [NSString stringWithString:NSLocalizedString(keyForXValue, @"")];
-        keyToUseY = [NSString stringWithString:NSLocalizedString(keyForYValue, @"")];
         retentionSlope = 1.0f;
         retentionRemainder = 0.0f;
     }
@@ -244,30 +296,33 @@ static void *PropertyObservationContext = (void *)1093;
 	// Draw unselected peaks (all peaks actually)
 	NSBezierPath *peaksPath = [[NSBezierPath alloc] init];
 	NSPoint pointToDrawFirst, pointToDrawLast, pointInUnits;
-	int j, start, end, top;
+	int j, start, end, top, peakStart, peakEnd;
+    
     if(shouldDrawPeaks) {
-        for (i=0; i < count; i++) {
-            [peaksPath removeAllPoints];
+        if ([keyForXValue isEqualToString:NSLocalizedString(@"Scan", @"")]) {
             
-            pointToDrawFirst = NSMakePoint([[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[[self peaks] objectAtIndex:i] start]] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
+            for (i=0; i < count; i++) {
+                [peaksPath removeAllPoints];
+                peakStart = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] start];
+                pointToDrawFirst = NSMakePoint(peakStart * retentionSlope + retentionRemainder,
                                                [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]*[verticalScale floatValue]); 
-            pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
-            
-            [peaksPath moveToPoint:pointToDrawFirst];
-            
-            // fori over data points
-            start = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] start];
-            end   = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] end]+1;
-            for (j=start; j < end; j++) {
-                pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:j] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
-                                           [[[[self dataArray] objectAtIndex:j] valueForKey:keyToUseY] floatValue]*[verticalScale floatValue]);
-                pointInUnits  = [trans transformPoint:pointInUnits];
-                [peaksPath lineToPoint:pointInUnits];
-            }
-            
-            pointToDrawLast  = NSMakePoint([[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[[self peaks] objectAtIndex:i] end]] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
-                                           [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]*[verticalScale floatValue]);
-            pointToDrawLast  = [trans transformPoint:pointToDrawLast];
+                pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
+                
+                [peaksPath moveToPoint:pointToDrawFirst];
+                
+                // fori over data points
+                start = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] start];
+                end   = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] end]+1;
+                for (j=start; j < end; j++) {
+                    pointInUnits = NSMakePoint(j * retentionSlope + retentionRemainder,
+                                               yValues[j] * [verticalScale floatValue]);
+                    pointInUnits  = [trans transformPoint:pointInUnits];
+                    [peaksPath lineToPoint:pointInUnits];
+                }
+                peakEnd = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] end];
+                pointToDrawLast  = NSMakePoint(peakEnd * retentionSlope + retentionRemainder,
+                                               [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]*[verticalScale floatValue]);
+                pointToDrawLast  = [trans transformPoint:pointToDrawLast];
                 
                 [peaksPath lineToPoint:pointToDrawLast];
                 [peaksPath lineToPoint:pointToDrawFirst]; // Close area
@@ -280,14 +335,52 @@ static void *PropertyObservationContext = (void *)1093;
                 
                 // Draw
                 [peaksPath fill];
+            }
+        } else {
+            
+            for (i=0; i < count; i++) {
+                [peaksPath removeAllPoints];
+                peakStart = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] start];
+                pointToDrawFirst = NSMakePoint(xValues[peakStart] * retentionSlope + retentionRemainder,
+                                               [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]*[verticalScale floatValue]); 
+                pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
+                
+                [peaksPath moveToPoint:pointToDrawFirst];
+                
+                // fori over data points
+                start = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] start];
+                end   = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] end]+1;
+                for (j=start; j < end; j++) {
+                    pointInUnits = NSMakePoint(xValues[j] * retentionSlope + retentionRemainder,
+                                               yValues[j] * [verticalScale floatValue]);
+                    pointInUnits  = [trans transformPoint:pointInUnits];
+                    [peaksPath lineToPoint:pointInUnits];
+                }
+                peakEnd = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] end];
+                pointToDrawLast  = NSMakePoint(xValues[peakEnd] * retentionSlope + retentionRemainder,
+                                               [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]*[verticalScale floatValue]);
+                pointToDrawLast  = [trans transformPoint:pointToDrawLast];
+                
+                [peaksPath lineToPoint:pointToDrawLast];
+                [peaksPath lineToPoint:pointToDrawFirst]; // Close area
+                
+                // Add tooltip (plottingArea not available -> disabled for now)
+                //[self addToolTipRect:NSMakeRect(pointToDraw1.x,plottingArea.origin.y,pointToDraw2.x-pointToDraw1.x,plottingArea.size.height) owner:self userData:i];
+                
+                // Set color
+                [[peakColors colorWithKey:[peakColorsArray objectAtIndex:i%peakColorsArrayCount]] set];
+                
+                // Draw
+                [peaksPath fill];
+            }            
         }
     }
-
+    
 	// Draw seleced peak!
 	NSMutableArray *selectedPeaks = [NSMutableArray array];
     NSEnumerator *enumerator = [[self peaks] objectEnumerator];
     JKPeakRecord *aPeak;
-
+    
     while ((aPeak = [enumerator nextObject]) != nil) {
     	if ([[[view peaksContainer] selectedObjects] containsObject:aPeak]) {
             [selectedPeaks addObject:aPeak];
@@ -295,53 +388,54 @@ static void *PropertyObservationContext = (void *)1093;
     }
 	count = [selectedPeaks count];
 	NSBezierPath *arrowPath = [[NSBezierPath alloc] init];
-	
-	for (i=0; i < count; i++) {
-		[peaksPath removeAllPoints];
-		
-		pointToDrawFirst = NSMakePoint([[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[selectedPeaks objectAtIndex:i] start]] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
-									   [[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]*[verticalScale floatValue]);
-		pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
-		
-		[peaksPath moveToPoint:pointToDrawFirst];
-		
-		// fori over data points
-		start = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] start];
-		end   = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] end]+1;
-		for (j=start; j < end; j++) {
-			pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:j] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
-									   [[[[self dataArray] objectAtIndex:j] valueForKey:keyToUseY] floatValue]*[verticalScale floatValue]);
-			pointInUnits  = [trans transformPoint:pointInUnits];
-			[peaksPath lineToPoint:pointInUnits];
-		}
-		
-		pointToDrawLast  = NSMakePoint([[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[selectedPeaks objectAtIndex:i] end]] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
-									   [[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]*[verticalScale floatValue]);
-        pointToDrawLast  = [trans transformPoint:pointToDrawLast];
-			
-			[peaksPath lineToPoint:pointToDrawLast];
-			[peaksPath lineToPoint:pointToDrawFirst]; // Close area
-			
-			// Add tooltip (plottingArea not available -> disabled for now)
-			//[self addToolTipRect:NSMakeRect(pointToDraw1.x,plottingArea.origin.y,pointToDraw2.x-pointToDraw1.x,plottingArea.size.height) owner:self userData:i];
-			
-			// Set color
+    
+    if ([keyForXValue isEqualToString:NSLocalizedString(@"Scan", @"")]) {
+        for (i=0; i < count; i++) {
+            [peaksPath removeAllPoints];
+            peakStart = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] start];
+            pointToDrawFirst = NSMakePoint(peakStart * retentionSlope + retentionRemainder,
+                                           [[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]*[verticalScale floatValue]);
+            pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
+            
+            [peaksPath moveToPoint:pointToDrawFirst];
+            
+            // fori over data points
+            start = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] start];
+            end   = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] end]+1;
+            for (j=start; j < end; j++) {
+                pointInUnits = NSMakePoint(j * retentionSlope + retentionRemainder,
+                                           yValues[j]*[verticalScale floatValue]);
+                pointInUnits  = [trans transformPoint:pointInUnits];
+                [peaksPath lineToPoint:pointInUnits];
+            }
+            peakEnd = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] end];
+            pointToDrawLast  = NSMakePoint(peakEnd * retentionSlope + retentionRemainder,
+                                           [[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]*[verticalScale floatValue]);
+            pointToDrawLast  = [trans transformPoint:pointToDrawLast];
+            
+            [peaksPath lineToPoint:pointToDrawLast];
+            [peaksPath lineToPoint:pointToDrawFirst]; // Close area
+            
+            // Add tooltip (plottingArea not available -> disabled for now)
+            //[self addToolTipRect:NSMakeRect(pointToDraw1.x,plottingArea.origin.y,pointToDraw2.x-pointToDraw1.x,plottingArea.size.height) owner:self userData:i];
+            
+            // Set color
             if ([[view window] firstResponder] == view) {
                 [[NSColor selectedControlColor] set];
             } else {
                 [[NSColor secondarySelectedControlColor] set];
             }
-//			[[NSColor selectedControlColor] set];
-			
-			// Draw
-			[peaksPath fill];
-			
-			// Draw an arrow
+            //			[[NSColor selectedControlColor] set];
+            
+            // Draw
+            [peaksPath fill];
+            
+            // Draw an arrow
             if ([[NSGraphicsContext currentContext] isDrawingToScreen]) {
                 [arrowPath removeAllPoints];
                 top = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] top];
-                pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:top] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
-                                           [[[[self dataArray] objectAtIndex:top] valueForKey:keyToUseY] floatValue]*[verticalScale floatValue]);
+                pointInUnits = NSMakePoint(top * retentionSlope + retentionRemainder,
+                                           yValues[top]*[verticalScale floatValue]);
                 pointInUnits  = [trans transformPoint:pointInUnits];
                 
                 [arrowPath moveToPoint:pointInUnits];
@@ -363,7 +457,78 @@ static void *PropertyObservationContext = (void *)1093;
                 [arrowPath fill];
                 [arrowPath stroke];			                
             }
-	}
+        }
+    } else {
+    	for (i=0; i < count; i++) {
+            [peaksPath removeAllPoints];
+            peakStart = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] start];
+            pointToDrawFirst = NSMakePoint(xValues[peakStart] * retentionSlope + retentionRemainder,
+                                           [[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]*[verticalScale floatValue]);
+            pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
+            
+            [peaksPath moveToPoint:pointToDrawFirst];
+            
+            // fori over data points
+            start = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] start];
+            end   = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] end]+1;
+            for (j=start; j < end; j++) {
+                pointInUnits = NSMakePoint(xValues[j] * retentionSlope + retentionRemainder,
+                                           yValues[j]*[verticalScale floatValue]);
+                pointInUnits  = [trans transformPoint:pointInUnits];
+                [peaksPath lineToPoint:pointInUnits];
+            }
+            peakEnd = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] end];
+            pointToDrawLast  = NSMakePoint(xValues[peakEnd] * retentionSlope + retentionRemainder,
+                                           [[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]*[verticalScale floatValue]);
+            pointToDrawLast  = [trans transformPoint:pointToDrawLast];
+            
+            [peaksPath lineToPoint:pointToDrawLast];
+            [peaksPath lineToPoint:pointToDrawFirst]; // Close area
+            
+            // Add tooltip (plottingArea not available -> disabled for now)
+            //[self addToolTipRect:NSMakeRect(pointToDraw1.x,plottingArea.origin.y,pointToDraw2.x-pointToDraw1.x,plottingArea.size.height) owner:self userData:i];
+            
+            // Set color
+            if ([[view window] firstResponder] == view) {
+                [[NSColor selectedControlColor] set];
+            } else {
+                [[NSColor secondarySelectedControlColor] set];
+            }
+            //			[[NSColor selectedControlColor] set];
+            
+            // Draw
+            [peaksPath fill];
+            
+            // Draw an arrow
+            if ([[NSGraphicsContext currentContext] isDrawingToScreen]) {
+                [arrowPath removeAllPoints];
+                top = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] top];
+                pointInUnits = NSMakePoint(xValues[top] * retentionSlope + retentionRemainder,
+                                           yValues[top]*[verticalScale floatValue]);
+                pointInUnits  = [trans transformPoint:pointInUnits];
+                
+                [arrowPath moveToPoint:pointInUnits];
+                [arrowPath relativeMoveToPoint:NSMakePoint(0.0,18.0)];
+                [arrowPath relativeLineToPoint:NSMakePoint(-8.0,8.0)];
+                [arrowPath relativeLineToPoint:NSMakePoint(4.0,0.0)];
+                [arrowPath relativeLineToPoint:NSMakePoint(0.0,8.0)];
+                [arrowPath relativeLineToPoint:NSMakePoint(8.0,0.0)];
+                [arrowPath relativeLineToPoint:NSMakePoint(0.0,-8.0)];
+                [arrowPath relativeLineToPoint:NSMakePoint(4.0,0.0)];
+                [arrowPath relativeLineToPoint:NSMakePoint(-8.0,-8.0)];
+                if ([[view window] firstResponder] == view) {
+                    [[NSColor alternateSelectedControlColor] setStroke];
+                    [[[NSColor alternateSelectedControlColor] colorWithAlphaComponent:0.3] setFill];
+                } else {
+                    [[NSColor secondarySelectedControlColor] setStroke];
+                    [[[NSColor secondarySelectedControlColor] colorWithAlphaComponent:0.9] setFill];
+                }
+                [arrowPath fill];
+                [arrowPath stroke];			                
+            }
+        }    
+    }
+
 	
 	[arrowPath release];
 	[peaksPath release];
@@ -383,28 +548,26 @@ static void *PropertyObservationContext = (void *)1093;
         peaksToDraw = [self peaks];
     }
 	int count = [peaksToDraw count];
+    
 	if (count <= 0)		
 		return;
-	
+
+    float *xValues = [chromatogram time];
+    float *yValues = [chromatogram totalIntensity];    
+    
 	NSMutableAttributedString *string;
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
-	int i,j;
+	int i,j, top;
 	BOOL drawLabel, drawVertical, drawLabelAlways;
 	NSSize stringSize;
 	NSPoint pointToDraw;
 	NSRect labelRect;
-    NSString *keyToUseX;
-    NSString *keyToUseY;
     float retentionSlope, retentionRemainder;
     
     if ([keyForXValue isEqualToString:NSLocalizedString(@"Retention Index", @"")]) {
-        keyToUseX = [NSString stringWithString:NSLocalizedString(@"Scan", @"")];
-        keyToUseY = [NSString stringWithString:NSLocalizedString(keyForYValue, @"")];
         retentionSlope = [[[chromatogram document] retentionIndexSlope] floatValue];
         retentionRemainder = [[[chromatogram document] retentionIndexRemainder] floatValue];
     } else {
-        keyToUseX = [NSString stringWithString:NSLocalizedString(keyForXValue, @"")];
-        keyToUseY = [NSString stringWithString:NSLocalizedString(keyForYValue, @"")];
         retentionSlope = 1.0f;
         retentionRemainder = 0.0f;
     }
@@ -413,13 +576,13 @@ static void *PropertyObservationContext = (void *)1093;
 	int rectCount = [peaksToDraw count];
 	NSRectArray rects;
 	rects = (NSRectArray) calloc(rectCount, sizeof(NSRect));
-	 
+    
     if ([[NSGraphicsContext currentContext] isDrawingToScreen]) {
         [attrs setValue:[view labelFont] forKey:NSFontAttributeName];
-//        [attrs setValue:[NSFont systemFontOfSize:10] forKey:NSFontAttributeName];
+        //        [attrs setValue:[NSFont systemFontOfSize:10] forKey:NSFontAttributeName];
 	} else {
         [attrs setValue:[view labelFont] forKey:NSFontAttributeName];
-//        [attrs setValue:[NSFont systemFontOfSize:8] forKey:NSFontAttributeName];        
+        //        [attrs setValue:[NSFont systemFontOfSize:8] forKey:NSFontAttributeName];        
     }
     
 	for (i=0; i<count; i++) {
@@ -435,8 +598,14 @@ static void *PropertyObservationContext = (void *)1093;
 		}
 		
 		// Where will it be drawn?
-		pointToDraw = NSMakePoint([[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[peaksToDraw objectAtIndex:i] top]] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder, 
-								  [[[[self dataArray] objectAtIndex:[(JKPeakRecord *)[peaksToDraw objectAtIndex:i] top]] valueForKey:keyToUseY] floatValue]*[verticalScale floatValue]);
+        top = [(JKPeakRecord *)[peaksToDraw objectAtIndex:i] top];
+        if ([keyForXValue isEqualToString:NSLocalizedString(@"Scan", @"")]) {
+            pointToDraw = NSMakePoint(top * retentionSlope + retentionRemainder, 
+                                      yValues[top]*[verticalScale floatValue]);
+        } else {
+            pointToDraw = NSMakePoint(xValues[top] * retentionSlope + retentionRemainder, 
+                                      yValues[top]*[verticalScale floatValue]);            
+        }
 		stringSize = [string size];
 		pointToDraw = [trans transformPoint:pointToDraw]; // Transfrom to screen coords
 		
@@ -450,9 +619,9 @@ static void *PropertyObservationContext = (void *)1093;
 		}
 		
 		// Debug
-//		[[NSColor yellowColor] set];
-//		NSRectFill(labelRect);
-
+        //		[[NSColor yellowColor] set];
+        //		NSRectFill(labelRect);
+        
 		// Only draw label if it doesn't run over another one, symbols we always draw
 		drawLabel = YES;
 		if (!drawLabelAlways) {
@@ -481,7 +650,7 @@ static void *PropertyObservationContext = (void *)1093;
 			}
 			
 			rects[i] = labelRect;	
-
+            
 		} else {
 			// Try to see if we can draw the label if we move it to the left and up
 			
@@ -489,7 +658,7 @@ static void *PropertyObservationContext = (void *)1093;
 			
 		}
 		[string release];
-
+        
 	}
 	
 	free(rects);
@@ -615,7 +784,7 @@ static void *PropertyObservationContext = (void *)1093;
 
 #pragma mark MISC
 - (NSArray *)dataArrayKeys {
-    return [[NSArray arrayWithObject:NSLocalizedString(@"Retention Index", @"")] arrayByAddingObjectsFromArray:[super dataArrayKeys]];
+    return [NSArray arrayWithObjects:NSLocalizedString(@"Retention Index", @""), NSLocalizedString(@"Scan", @""), NSLocalizedString(@"Time", @""), NSLocalizedString(@"Total Intensity", @""), nil];
 }
 
 #pragma mark ACCESSORS

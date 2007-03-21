@@ -55,6 +55,9 @@ NSString *GetUUID(void) {
         symbol = [@"" retain];
         identified = NO;
         confirmed = NO;
+        baselineLeft = [[NSNumber alloc] init]; 
+        baselineRight = [[NSNumber alloc] init]; 
+
         uuid = GetUUID();
         [uuid retain];
     }
@@ -62,13 +65,14 @@ NSString *GetUUID(void) {
 }
 
 - (void)dealloc {
-    JKLogEnteringMethod();
+//    JKLogEnteringMethod();
     [label release];
     [symbol release];
     [searchResults release];
 //    [identifiedSearchResult release];
     [uuid release];
-    
+    [baselineLeft release];
+    [baselineRight release];
     [super dealloc];
 }
 
@@ -77,21 +81,21 @@ NSString *GetUUID(void) {
 - (BOOL)confirm{
 	if ([self identified]) {		
 		[self setConfirmed:YES];
-        
-		[searchResults removeObject:identifiedSearchResult];
-		[[self document] redistributedSearchResults:self];
-		[searchResults removeAllObjects];
-		[searchResults addObject:identifiedSearchResult];
+        [searchResults setArray:[NSArray arrayWithObject:identifiedSearchResult]];
+//		[searchResults removeObject:identifiedSearchResult];
+//		[[self document] redistributedSearchResults:self];
+//		[searchResults removeAllObjects];
+//		[searchResults addObject:identifiedSearchResult];
 		return YES;		
     } else if ([searchResults count] > 0) {
         [self identifyAs:[searchResults objectAtIndex:0]];
         [self setIdentified:YES];
         [self setConfirmed:YES];
-        
-		[searchResults removeObject:identifiedSearchResult];
-		[[self document] redistributedSearchResults:self];
-		[searchResults removeAllObjects];
-		[searchResults addObject:identifiedSearchResult];
+        [searchResults setArray:[NSArray arrayWithObject:identifiedSearchResult]];        
+//		[searchResults removeObject:identifiedSearchResult];
+//		[[self document] redistributedSearchResults:self];
+//		[searchResults removeAllObjects];
+//		[searchResults addObject:identifiedSearchResult];
         return YES;
 	} else {
         // Allow this to mark a peak as confirmed with having the proper library entry

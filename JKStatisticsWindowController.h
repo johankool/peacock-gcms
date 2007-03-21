@@ -95,6 +95,7 @@
 - (void)setupComparisonWindowForDocument:(JKGCMSDocument *)document atIndex:(int)index;
 - (void)sortCombinedPeaks;
 - (void)insertTableColumns;
+- (void)insertGraphDataSeries;
 
 #pragma mark IBACTIONS
 

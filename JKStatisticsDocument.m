@@ -87,11 +87,17 @@
 		data = [wrapper regularFileContents];
 		unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
         [unarchiver setDelegate:self];
+#warning [BUG] Early init of statisticsWindowController
+        // Bit of a hack, these values should after all reside in the document and not in the window controller
+        // but moving all the methods from the window controller is a lot of work and I don't have the time for that now.
+        if (!statisticsWindowController) {
+            statisticsWindowController = [[JKStatisticsWindowController alloc] init];
+        }        
+        
         [statisticsWindowController willChangeValueForKey:@"combinedPeaks"];
         // open files first so we are ready to find peaks contained in combinedpeaks
 		[statisticsWindowController setFiles:[unarchiver decodeObjectForKey:@"files"]];
-        
-		[statisticsWindowController setRatioValues:[unarchiver decodeObjectForKey:@"ratioValues"]];
+        [statisticsWindowController setRatioValues:[unarchiver decodeObjectForKey:@"ratioValues"]];
 		[statisticsWindowController setMetadata:[unarchiver decodeObjectForKey:@"metadata"]];
 		[statisticsWindowController setLogMessages:[unarchiver decodeObjectForKey:@"logMessages"]];
         [statisticsWindowController setPeaksToUse:[unarchiver decodeIntForKey:@"peaksToUse"]];
@@ -105,6 +111,8 @@
         [statisticsWindowController setCalculateRatios:[unarchiver decodeBoolForKey:@"calculateRatios"]];
 		[statisticsWindowController setCombinedPeaks:[unarchiver decodeObjectForKey:@"combinedPeaks"]];
         [statisticsWindowController didChangeValueForKey:@"combinedPeaks"];
+        JKLogDebug(@"retaincount = %d",[self retainCount]);
+        [self retain];
 		[unarchiver finishDecoding];
 		[unarchiver release];
 		[wrapper release];
@@ -169,6 +177,7 @@
                 [theAlert runModal]; // ignore return value                
             }
         }
+        [document retain];
         return document;
     }
     return object;

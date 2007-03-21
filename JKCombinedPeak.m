@@ -190,6 +190,13 @@
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {
     // Peaks can be set using key in the format "file_nn"
     if ([key hasPrefix:@"file_"]) {
+        NSUndoManager *undo = [self undoManager];
+        if ([peaks objectForKey:key]) {
+            [[undo prepareWithInvocationTarget:peaks] setObject:[peaks objectForKey:key] forKey:key];            
+        } else {
+            [[undo prepareWithInvocationTarget:peaks] removeObjectForKey:key];
+        }
+
         if (value) {
             [peaks setObject:value forKey:key];            
         } else {

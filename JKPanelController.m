@@ -349,7 +349,22 @@ static JKPanelController *theSharedController;
 }
 
 #pragma mark ACCESSORS (MACROSTYLE)
-idAccessor(inspectedDocument, setInspectedDocument)
-idAccessor(inspectedGraphView, setInspectedGraphView)
+
+- (id)inspectedDocument {
+	return inspectedDocument;
+}
+- (void)setInspectedDocument:(id)aInspectedDocument {
+	inspectedDocument = aInspectedDocument;
+}
+- (id)inspectedGraphView {
+	return inspectedGraphView;
+}
+- (void)setInspectedGraphView:(id)aInspectedGraphView {
+	inspectedGraphView = aInspectedGraphView;
+}
+
+
+//idAccessor(inspectedDocument, setInspectedDocument)
+//idAccessor(inspectedGraphView, setInspectedGraphView)
 
 @end

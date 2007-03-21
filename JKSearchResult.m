@@ -104,7 +104,7 @@
                 JKLogDebug(@"Something unexpected got returned");
             }            
         } else {
-            JKLogDebug(@"Nothing got returned for library?!");
+            //JKLogDebug(@"Nothing got returned for library?!");
         }
     } 
     return self;
