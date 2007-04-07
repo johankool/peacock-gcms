@@ -248,12 +248,20 @@
 		C7C299910B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C2998F0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.m */; };
 		C7C29ABD0B8B67540017B2B2 /* NSCoder+CArrayEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C29ABB0B8B67530017B2B2 /* NSCoder+CArrayEncoding.h */; };
 		C7C29ABE0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C29ABC0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m */; };
+		C7CFFC770BBC0C290060B0C7 /* JKGCMSPrintView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */; };
+		C7CFFC780BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */; };
+		C7CFFC790BBC0C290060B0C7 /* JKGCMSPrintView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */; };
+		C7CFFC7A0BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */; };
 		C7D7D66A0B7203B0004ABEB5 /* NSBezierPath+RoundRect.h in Headers */ = {isa = PBXBuildFile; fileRef = C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */; };
 		C7D7D66B0B7203B0004ABEB5 /* NSBezierPath+RoundRect.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */; };
 		C7E25C060B387C0F00CD8D39 /* JKChromatogram.h in Headers */ = {isa = PBXBuildFile; fileRef = C73290E00AD68F9800D95E36 /* JKChromatogram.h */; };
 		C7E25C070B387C0F00CD8D39 /* JKChromatogram.m in Sources */ = {isa = PBXBuildFile; fileRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */; };
 		C7E5B1D70A14934200BB2291 /* BDAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E5B1D20A14934200BB2291 /* BDAlias.h */; };
 		C7E5B1D80A14934200BB2291 /* BDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E5B1D30A14934200BB2291 /* BDAlias.m */; };
+		C7E61F1A0BB2BC4800D9A636 /* JKModelObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E61F180BB2BC4700D9A636 /* JKModelObject.h */; };
+		C7E61F1B0BB2BC4800D9A636 /* JKModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E61F190BB2BC4800D9A636 /* JKModelObject.m */; };
+		C7E61F1C0BB2BC4800D9A636 /* JKModelObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E61F180BB2BC4700D9A636 /* JKModelObject.h */; };
+		C7E61F1D0BB2BC4900D9A636 /* JKModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E61F190BB2BC4800D9A636 /* JKModelObject.m */; };
 		C7EB18160898CFBD007FC2ED /* MolTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F00898CFBC007FC2ED /* MolTypes.c */; };
 		C7EB18170898CFBD007FC2ED /* MWController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F40898CFBC007FC2ED /* MWController.m */; };
 		C7EB18180898CFBD007FC2ED /* MyGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */; };
@@ -463,10 +471,14 @@
 		C7C2998F0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSKeyedArchiver+CArrayEncoding.m"; sourceTree = "<group>"; };
 		C7C29ABB0B8B67530017B2B2 /* NSCoder+CArrayEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCoder+CArrayEncoding.h"; sourceTree = "<group>"; };
 		C7C29ABC0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCoder+CArrayEncoding.m"; sourceTree = "<group>"; };
+		C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKGCMSPrintView.h; sourceTree = "<group>"; };
+		C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKGCMSPrintView.m; sourceTree = "<group>"; };
 		C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+RoundRect.h"; sourceTree = "<group>"; };
 		C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+RoundRect.m"; sourceTree = "<group>"; };
 		C7E5B1D20A14934200BB2291 /* BDAlias.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BDAlias.h; sourceTree = "<group>"; };
 		C7E5B1D30A14934200BB2291 /* BDAlias.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BDAlias.m; sourceTree = "<group>"; };
+		C7E61F180BB2BC4700D9A636 /* JKModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKModelObject.h; sourceTree = "<group>"; };
+		C7E61F190BB2BC4800D9A636 /* JKModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKModelObject.m; sourceTree = "<group>"; };
 		C7EB17A60898CF2D007FC2ED /* AccessorMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccessorMacros.h; sourceTree = "<group>"; };
 		C7EB17A70898CF2D007FC2ED /* CAtom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAtom.h; sourceTree = "<group>"; };
 		C7EB17A80898CF2D007FC2ED /* CAtom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CAtom.m; sourceTree = "<group>"; };
@@ -636,6 +648,8 @@
 				C747B85309DD5782004837D0 /* TableView */,
 				C777A2C90A1DFEAD00CF44D9 /* JKMoleculeView */,
 				C777A2B70A1DFE7D00CF44D9 /* JKPathPopUpButton */,
+				C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */,
+				C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -736,6 +750,8 @@
 				C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */,
 				C7752C360B6778DA0010EE72 /* JKSearchResult.h */,
 				C7752C370B6778DA0010EE72 /* JKSearchResult.m */,
+				C7E61F180BB2BC4700D9A636 /* JKModelObject.h */,
+				C7E61F190BB2BC4800D9A636 /* JKModelObject.m */,
 			);
 			name = MainDocument;
 			sourceTree = "<group>";
@@ -1037,6 +1053,8 @@
 				C7ADC90E0BA05609007D9134 /* JKCombinedPeak.h in Headers */,
 				C7ADC90F0BA05609007D9134 /* NSEvent+ModifierKeys.h in Headers */,
 				C798A2290BA82D1000B67DE9 /* JKMultiGCMSDocument.h in Headers */,
+				C7E61F1A0BB2BC4800D9A636 /* JKModelObject.h in Headers */,
+				C7CFFC790BBC0C290060B0C7 /* JKGCMSPrintView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1068,6 +1086,8 @@
 				C7C29ABD0B8B67540017B2B2 /* NSCoder+CArrayEncoding.h in Headers */,
 				C708E90C0B9D953A0085872E /* JKCombinedPeak.h in Headers */,
 				C79281D30B9F1CC100EDF996 /* NSEvent+ModifierKeys.h in Headers */,
+				C7E61F1C0BB2BC4800D9A636 /* JKModelObject.h in Headers */,
+				C7CFFC770BBC0C290060B0C7 /* JKGCMSPrintView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1356,6 +1376,8 @@
 				C7C29ABE0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m in Sources */,
 				C708E90D0B9D953A0085872E /* JKCombinedPeak.m in Sources */,
 				C79281D40B9F1CC200EDF996 /* NSEvent+ModifierKeys.m in Sources */,
+				C7E61F1D0BB2BC4900D9A636 /* JKModelObject.m in Sources */,
+				C7CFFC780BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1416,6 +1438,8 @@
 				C7ADC8E30BA05609007D9134 /* JKCombinedPeak.m in Sources */,
 				C7ADC8E40BA05609007D9134 /* NSEvent+ModifierKeys.m in Sources */,
 				C798A22A0BA82D1000B67DE9 /* JKMultiGCMSDocument.m in Sources */,
+				C7E61F1B0BB2BC4800D9A636 /* JKModelObject.m in Sources */,
+				C7CFFC7A0BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1679,10 +1703,14 @@
 		C7EB17A20898CF22007FC2ED /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEAD_CODE_STRIPPING = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_DEBUGGING_SYMBOLS = default;
 				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
+				STRIP_STYLE = all;
 			};
 			name = Release;
 		};

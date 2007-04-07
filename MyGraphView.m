@@ -41,7 +41,7 @@ static float kMajorTickMarksLineWidth   = 0.5;
 static float kMinorTickMarksLineWidth   = 0.5;
 static int   kPaddingLabels             = 4;
 
-#pragma mark INITIALIZATION
+#pragma mark Initialization & deallocation
 + (void)initialize {
 	// Bindings support
 	[self exposeBinding:@"dataSeries"];
@@ -154,11 +154,24 @@ static int   kPaddingLabels             = 4;
     
 	[super dealloc];
 }
+#pragma mark -
 
+#pragma mark NSCopying
+- (id)copyWithZone:(NSZone *)zone
+{
+    MyGraphView *copy = [[[self class] allocWithZone:zone] initWithFrame:[self frame]];
+    
+    // Copy/point to parameters of self
+    [copy setOrigin:[self origin]];
+    //etc. etc.
+    
+    //[copy setDelegate:[self delegate]];
+    
+    return copy;
+}
+#pragma mark -
 
-
-#pragma mark DRAWING ROUTINES
-
+#pragma mark Drawing Routines
 - (void)drawRect:(NSRect)rect {
 	[self calculateCoordinateConversions];
         
@@ -788,7 +801,7 @@ static int   kPaddingLabels             = 4;
                 [label replaceOccurrencesOfString:@"e" withString:[NSString stringWithUTF8String:"\u22c510"] options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];                
                 [label replaceOccurrencesOfString:@"+" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [label length])];
                 NSAssert(label,@"label is nil");
-               string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs]; 
+                string = [[NSMutableAttributedString alloc] initWithString:label attributes:attrs]; 
                 NSRange tenRange = [label rangeOfString:[NSString stringWithUTF8String:"\u22c510"]];
                 NSRange superRange = NSMakeRange(tenRange.location+tenRange.length, [label length]-tenRange.location-tenRange.length);
                 [string setAttributes:attrs2 range:superRange];
@@ -879,8 +892,9 @@ static int   kPaddingLabels             = 4;
 	JKLogDebug(@"Refresh - %@",[self description]);
     [self setNeedsDisplay:YES];
 }
+#pragma mark -
 
-#pragma mark ACTION ROUTINES
+#pragma mark Action Routines
 - (void)centerOrigin:(id)sender {
 	NSPoint newOrigin;
 	NSRect theFrame;
@@ -982,8 +996,9 @@ static int   kPaddingLabels             = 4;
 //	[[self window] addChildWindow:magnifyingGlassWindow ordered:NSWindowAbove];
 //	[magnifyingGlassWindow orderFront:self];
 //}
+#pragma mark -
 
-#pragma mark HELPER ROUTINES
+#pragma mark Helper Routines
 - (void)calculateCoordinateConversions {
     @try {
         NSAffineTransform *translationMatrix, *scalingMatrix, *transformationMatrix, *invertMatrix;
@@ -1225,8 +1240,9 @@ static int   kPaddingLabels             = 4;
         NSBeep();
     }	
 }
+#pragma mark -
 
-#pragma mark MOUSE INTERACTION MANAGEMENT
+#pragma mark Mouse Interaction Management
 - (void)resetCursorRects {
 	[self addCursorRect:[self frame] cursor:[NSCursor arrowCursor]];
 	[self addCursorRect:[self plottingArea] cursor:[NSCursor crosshairCursor]];
@@ -1662,9 +1678,9 @@ static int   kPaddingLabels             = 4;
     }
     return chromatogram;
 }
+#pragma mark -
 
-
-#pragma mark KEYBOARD INTERACTION MANAGEMENT
+#pragma mark Keyboard Interaction Management
 - (void)flagsChanged:(NSEvent *)theEvent {
 	BOOL isInsidePlottingArea;
 	NSPoint mouseLocation = [self convertPoint: [[self window] mouseLocationOutsideOfEventStream] fromView:nil];
@@ -1812,10 +1828,9 @@ static int   kPaddingLabels             = 4;
     [peaksContainer removeObjects:[peaksContainer selectedObjects]];
 //    [dataSeriesContainer removeObjects:[dataSeriesContainer selectedObjects]];
 }
+#pragma mark -
 
-
-#pragma mark KEY VALUE OBSERVING MANAGEMENT
-
+#pragma mark Key Value Observing Management
 - (void)observeValueForKeyPath:(NSString *)keyPath
 					  ofObject:(id)object
 						change:(NSDictionary *)change
@@ -1851,9 +1866,9 @@ static int   kPaddingLabels             = 4;
     } 
 
 }
+#pragma mark -
 
-
-#pragma mark BINDINGS
+#pragma mark Bindings
 - (void)bind:(NSString *)bindingName
     toObject:(id)observableObject
  withKeyPath:(NSString *)observableKeyPath
@@ -1999,9 +2014,9 @@ static int   kPaddingLabels             = 4;
 //        baselineKeyPath = [aBaselineKeyPath copy];
 //    }
 //}
+#pragma mark -
 
-#pragma mark ACCESSORS
-
+#pragma mark Accessors
 - (id)delegate {
 	return delegate;
 }
@@ -2013,6 +2028,10 @@ static int   kPaddingLabels             = 4;
 
 - (void)setFrame:(NSRect)newFrect {
     NSRect oldFrect, pRect, lRect;
+    NSNumber *xMinimum = [self xMinimum];
+    NSNumber *xMaximum = [self xMaximum];
+    NSNumber *yMinimum = [self yMinimum];
+    NSNumber *yMaximum = [self yMaximum];
     oldFrect = [self frame];
     pRect = [self plottingArea];
     pRect.size.width = pRect.size.width + newFrect.size.width - oldFrect.size.width;
@@ -2021,10 +2040,14 @@ static int   kPaddingLabels             = 4;
     lRect.origin.x = lRect.origin.x + newFrect.size.width - oldFrect.size.width;
     lRect.origin.y = lRect.origin.y + newFrect.size.height - oldFrect.size.height;
     [self setLegendArea:lRect];
-    [[self window] invalidateCursorRectsForView:self];
     [super setFrame:newFrect];      
+    [[self window] invalidateCursorRectsForView:self];
     [self setPlottingArea:pRect];
-
+    [self setXMinimum:xMinimum];
+    [self setXMaximum:xMaximum];
+    [self setYMinimum:yMinimum];
+    [self setYMaximum:yMaximum];
+    
 }
 
 - (NSAffineTransform *)transformGraphToScreen {
@@ -2656,9 +2679,7 @@ static int   kPaddingLabels             = 4;
     }
 }
 
-
-#pragma mark CALCULATED ACCESSORS
-
+#pragma mark (calculated)
 - (BOOL)hasPeaks {
     if ([[self peaks] count] > 0) {
         return YES;

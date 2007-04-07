@@ -6,13 +6,14 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
+#import "JKModelObject.h"
+
 @class JKLibraryEntry;
 @class JKGCMSDocument;
 @class JKPeakRecord;
 @class SpectrumGraphDataSerie;
 
-@interface JKSpectrum : NSObject <NSCoding> {
-	NSDocument *document;
+@interface JKSpectrum : JKModelObject <NSCoding> {
 	JKPeakRecord *peak;
 	NSString *model;
     	
@@ -21,7 +22,7 @@
 	float *intensities;
 }
 
-- (id)initWithDocument:(JKGCMSDocument *)inDocument forModel:(NSString *)modelString;
+- (id)initWithModel:(NSString *)modelString;
 
 #pragma mark ACTIONS
 
@@ -37,8 +38,7 @@
 - (NSNumber *)retentionIndex;
 
 #pragma mark ACCESSORS
-- (void)setDocument:(NSDocument *)inValue;
-- (NSDocument *)document;
+- (JKGCMSDocument *)document;
 - (void)setPeak:(JKPeakRecord *)inValue;
 - (JKPeakRecord *)peak;
 - (NSString *)model;

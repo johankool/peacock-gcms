@@ -18,26 +18,22 @@
 
 @implementation JKChromatogram
 
-#pragma mark INITIALIZATION
+#pragma mark Initialization & deallocation
 
-- (id)init {
-    return [self initWithDocument:nil];
+- (id)init 
+{
+    return [self initWithModel:@"TIC"];
 }
 
-- (id)initWithDocument:(JKGCMSDocument *)inDocument {
-    return [self initWithDocument:inDocument forModel:@"TIC"];
-}
-
-- (id)initWithDocument:(JKGCMSDocument *)inDocument forModel:(NSString *)inModel {
+- (id)initWithModel:(NSString *)inModel 
+{
     // designated initializer
     if ((self = [super init])) {
-        document = inDocument;  
         model = [inModel retain];
         time = (float *) malloc(1*sizeof(float));
         totalIntensity = (float *) malloc(1*sizeof(float));
 
         peaks = [[NSMutableArray alloc] init];
-       // baselinePoints = [[NSMutableArray alloc] init];
         baselinePointsCount = 0;
         baselinePointsScans = (int *) malloc(sizeof(int));
         baselinePointsIntensities = (float *) malloc(sizeof(float));
@@ -47,19 +43,17 @@
 }
 
 - (void)dealloc {
-//    JKLogEnteringMethod();
     free(time);
     free(totalIntensity);
     free(baselinePointsScans);
     free(baselinePointsIntensities);
     [model release];
     [peaks release];
-//    [baselinePoints release];
     [super dealloc];
 }
+#pragma mark -
 
-#pragma mark ACTIONS
-
+#pragma mark Actions
 - (void)obtainBaseline {
 	// get tot intensities
 	// determing running minimum
@@ -295,7 +289,7 @@
         endScan = temp;
     }
     JKPeakRecord *newPeak = [[JKPeakRecord alloc] init];
-    [newPeak setPeakID:[document nextPeakID]];
+    [newPeak setPeakID:[[self document] nextPeakID]];
     [newPeak setStart:startScan];
     [newPeak setEnd:endScan];
     [newPeak setChromatogram:self];
@@ -425,10 +419,6 @@
     return numberOfPoints-1;
 }
 
-- (NSUndoManager *)undoManager {
-    return [[self document] undoManager];
-}
-
 - (float)highestPeakHeight {
     highestPeakHeight = 0.0f;
     
@@ -458,35 +448,34 @@
     
     return largestPeakSurface;
 }
+#pragma mark -
 
-
-
-#pragma mark NSCODING
-
+#pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)coder{
-    if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
+    if ([coder allowsKeyedCoding]) {
+        if ([super conformsToProtocol:@protocol(NSCoding)]) {
+            [super encodeWithCoder:coder];        
+        } 
+        
 		[coder encodeInt:2 forKey:@"version"];
-		[coder encodeObject:document forKey:@"document"];
 		[coder encodeObject:model forKey:@"model"];
         [coder encodeObject:peaks forKey:@"peaks"];
-//      [coder encodeInt:numberOfPoints forKey:@"numberOfPoints"];
-//		[coder encodeBytes:(void *)time length:numberOfPoints*sizeof(float) forKey:@"time"];
-//		[coder encodeBytes:(void *)totalIntensity length:numberOfPoints*sizeof(float) forKey:@"totalIntensity"];
         
         [coder encodeFloatArray:time withCount:numberOfPoints forKey:@"time"];
         [coder encodeFloatArray:totalIntensity withCount:numberOfPoints forKey:@"totalIntensity"];
         
-		//[coder encodeObject:baselinePoints forKey:@"baselinePoints"];
         [coder encodeIntArray:baselinePointsScans withCount:baselinePointsCount forKey:@"baselinePointsScans"];
         [coder encodeFloatArray:baselinePointsIntensities withCount:baselinePointsCount forKey:@"baselinePointsIntensities"];
-    } 
+    } else {
+        [NSException raise:NSInvalidArchiveOperationException
+                    format:@"Only supports NSKeyedArchiver coders"];
+    }
     return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) {
         int version = [coder decodeIntForKey:@"version"];
-        document = [coder decodeObjectForKey:@"document"];            
         model = [[coder decodeObjectForKey:@"model"] retain];
         peaks = [[coder decodeObjectForKey:@"peaks"] retain];
          
@@ -510,208 +499,111 @@
 
         } else {
             unsigned int length;
-            time = (float *) malloc(1*sizeof(float));
-            totalIntensity = (float *) malloc(1*sizeof(float));
- 
-            float *temporaryFloatArray = [coder decodeFloatArrayForKey:@"time" returnedCount:&length];
+  
+            time = [coder decodeFloatArrayForKey:@"time" returnedCount:&length];
             numberOfPoints = length;
-            time = temporaryFloatArray;
  
-            temporaryFloatArray = [coder decodeFloatArrayForKey:@"totalIntensity" returnedCount:&length];
-            totalIntensity = temporaryFloatArray;
+            totalIntensity = [coder decodeFloatArrayForKey:@"totalIntensity" returnedCount:&length];
 
-            int *temporaryIntArray = [coder decodeIntArrayForKey:@"baselinePointsScans" returnedCount:&length];
+            baselinePointsScans= [coder decodeIntArrayForKey:@"baselinePointsScans" returnedCount:&length];
             baselinePointsCount = length;
-//            baselinePointsScans = (int *) malloc(length*sizeof(int));
-            baselinePointsScans = temporaryIntArray;
             
-            temporaryFloatArray = [coder decodeFloatArrayForKey:@"baselinePointsIntensities" returnedCount:&length];           
-//            baselinePointsIntensities = (float *) malloc(length*sizeof(float));
-            baselinePointsIntensities = temporaryFloatArray;
+            baselinePointsIntensities = [coder decodeFloatArrayForKey:@"baselinePointsIntensities" returnedCount:&length];           
         }
  	} 
     return self;
 }
-
 #pragma mark -
-#pragma mark ACCESSORS
 
-- (JKGCMSDocument *)document {
-    return document;
+#pragma mark Document
+- (JKGCMSDocument *)document
+{
+    return (JKGCMSDocument *)[super document];
 }
+#pragma mark -
 
-- (void)setDocument:(JKGCMSDocument *)inDocument {
-    document = inDocument;        
-//    if (inDocument != document) {
-//        [inDocument retain];
-//        [document autorelease];
-//        document = inDocument;        
-//    }
-}
-
-- (NSString *)model {
+#pragma mark Accessors
+#pragma mark (parameters)
+- (NSString *)model
+{
     return model;
 }
 
-- (void)setModel:(NSString *)inString {
+- (void)setModel:(NSString *)inString
+{
     if (inString != model) {
-        [inString retain];
         [model autorelease];
-        model = inString;        
+        model = [inString copy];        
     }
 }
 
-- (int)numberOfPoints {
+// Chromatogram data
+- (int)numberOfPoints 
+{
     return numberOfPoints;
 }
 
-- (void)setTime:(float *)inArray withCount:(int)inValue {
+- (float *)time 
+{
+    return time;
+}
+- (void)setTime:(float *)inArray withCount:(int)inValue 
+{
     numberOfPoints = inValue;
     time = (float *) realloc(time, numberOfPoints*sizeof(float));
     memcpy(time, inArray, numberOfPoints*sizeof(float));
 }
 
-- (float *)time {
-    return time;
+- (float *)totalIntensity
+{
+    return totalIntensity;
 }
-
-- (void)setTotalIntensity:(float *)inArray withCount:(int)inValue {
+- (void)setTotalIntensity:(float *)inArray withCount:(int)inValue 
+{
     numberOfPoints = inValue;
     totalIntensity = (float *) realloc(totalIntensity, numberOfPoints*sizeof(float));
     memcpy(totalIntensity, inArray, numberOfPoints*sizeof(float));
 }
 
-- (float *)totalIntensity {
-    return totalIntensity;
-}
-
-- (int)baselinePointsCount {
+// Baseline points
+- (int)baselinePointsCount 
+{
     return baselinePointsCount;
 }
 
-- (void)setBaselinePointsScans:(int *)inArray withCount:(int)inValue {
+- (int *)baselinePointsScans
+{
+    return baselinePointsScans;
+}
+- (void)setBaselinePointsScans:(int *)inArray withCount:(int)inValue 
+{
     baselinePointsCount = inValue;
     baselinePointsScans = (int *) realloc(baselinePointsScans, baselinePointsCount*sizeof(int));
     memcpy(baselinePointsScans, inArray, baselinePointsCount*sizeof(int));
 }
 
-- (int *)baselinePointsScans {
-    return baselinePointsScans;
+- (float *)baselinePointsIntensities 
+{
+    return baselinePointsIntensities;
 }
-
 - (void)setBaselinePointsIntensities:(float *)inArray withCount:(int)inValue {
     baselinePointsCount = inValue;
     baselinePointsIntensities = (float *) realloc(baselinePointsIntensities, baselinePointsCount*sizeof(float));
     memcpy(baselinePointsIntensities, inArray, baselinePointsCount*sizeof(float));
 }
 
-- (float *)baselinePointsIntensities {
-    return baselinePointsIntensities;
-}
-
-
-
-//// Mutable To-Many relationship baselinePoints
-//- (NSMutableArray *)baselinePoints {
-//	return baselinePoints;
-//}
-//
-//- (void)setBaselinePoints:(NSMutableArray *)inValue {
-//    [inValue retain];
-//    [baselinePoints release];
-//    baselinePoints = inValue;
-//    [self cacheBaselinePoints];
-//}
-//
-//- (int)countOfBaselinePoints {
-//    return [[self baselinePoints] count];
-//}
-//
-//- (NSMutableDictionary *)objectInBaselinePointsAtIndex:(int)index {
-//    return [[self baselinePoints] objectAtIndex:index];
-//}
-//
-//- (void)getBaselinePoint:(NSMutableDictionary **)someBaselinePoints range:(NSRange)inRange {
-//    // Return the objects in the specified range in the provided buffer.
-//    [baselinePoints getObjects:someBaselinePoints range:inRange];
-//}
-//
-//- (void)insertObject:(NSMutableDictionary *)aBaselinePoint inBaselinePointsAtIndex:(int)index {
-//	// Add the inverse action to the undo stack
-//	NSUndoManager *undo = [self undoManager];
-//	[[undo prepareWithInvocationTarget:self] removeObjectFromBaselinePointsAtIndex:index];
-//	
-//	if (![undo isUndoing]) {
-//		[undo setActionName:NSLocalizedString(@"Insert BaselinePoint",@"")];
-//	}
-//	
-//	// Add aBaselinePoint to the array baselinePoints
-//	[baselinePoints insertObject:aBaselinePoint atIndex:index];
-//    [self cacheBaselinePoints];
-//}
-//
-//- (void)removeObjectFromBaselinePointsAtIndex:(int)index{
-//	NSMutableDictionary *aBaselinePoint = [baselinePoints objectAtIndex:index];
-//	
-//	// Add the inverse action to the undo stack
-//	NSUndoManager *undo = [self undoManager];
-//	[[undo prepareWithInvocationTarget:self] insertObject:aBaselinePoint inBaselinePointsAtIndex:index];
-//	
-//	if (![undo isUndoing]) {
-//		[undo setActionName:NSLocalizedString(@"Delete BaselinePoint",@"")];
-//	}
-//	
-//	// Remove the peak from the array
-//	[baselinePoints removeObjectAtIndex:index];
-//    [self cacheBaselinePoints];
-//}
-//
-//- (void)replaceObjectInBaselinePointsAtIndex:(int)index withObject:(NSMutableDictionary *)aBaselinePoint{
-//	NSMutableDictionary *replacedBaselinePoint = [baselinePoints objectAtIndex:index];
-//	
-//	// Add the inverse action to the undo stack
-//	NSUndoManager *undo = [self undoManager];
-//	[[undo prepareWithInvocationTarget:self] replaceObjectAtIndex:index withObject:replacedBaselinePoint];
-//	
-//	if (![undo isUndoing]) {
-//		[undo setActionName:NSLocalizedString(@"Replace BaselinePoint",@"")];
-//	}
-//	
-//	// Replace the peak from the array
-//	[baselinePoints replaceObjectAtIndex:index withObject:aBaselinePoint];
-//    [self cacheBaselinePoints];
-//}
-//
-//- (BOOL)validateBaselinePoint:(NSMutableDictionary **)aBaselinePoint error:(NSError **)outError {
-//    // Implement validation here...
-//    return YES;
-//} 
-//
-//- (void)cacheBaselinePoints {
-//    int i;
-//    baselinePointsCount = [self countOfBaselinePoints];
-//    baselinePointsScans = (int *) realloc(baselinePointsScans, baselinePointsCount*sizeof(int));
-//    baselinePointsIntensities = (float *) realloc(baselinePointsIntensities, baselinePointsCount*sizeof(float));
-//
-//    for (i = 0; i < baselinePointsCount; i++) {
-//        baselinePointsScans[i] = [[[[self baselinePoints] objectAtIndex:i] valueForKey:@"Scan"] intValue];
-//        baselinePointsIntensities[i] = [[[[self baselinePoints] objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue];
-//    }
-//}
-//
-//// end baselinePoints
-
+#pragma mark (to many relationships)
 // Mutable To-Many relationship peaks
 - (NSMutableArray *)peaks {
 	return peaks;
 }
 
 - (void)setPeaks:(NSMutableArray *)inValue {
-    [[self document] willChangeValueForKey:@"peaks"];
+    [[self container] willChangeValueForKey:@"peaks"];
     [inValue retain];
     [peaks release];
     peaks = inValue;
-    [[self document] didChangeValueForKey:@"peaks"];
+    [[self container] didChangeValueForKey:@"peaks"];
 }
 
 - (int)countOfPeaks {
@@ -737,9 +629,9 @@
 	}
 	
 	// Add aPeak to the array peaks
-    [[self document] willChangeValueForKey:@"peaks"];
+    [[self container] willChangeValueForKey:@"peaks"];
 	[peaks insertObject:aPeak atIndex:index];
-    [[self document] didChangeValueForKey:@"peaks"];
+    [[self container] didChangeValueForKey:@"peaks"];
 }
 
 - (void)removeObjectFromPeaksAtIndex:(int)index{
@@ -754,9 +646,9 @@
 	}
 	
 	// Remove the peak from the array
-    [[self document] willChangeValueForKey:@"peaks"];
+    [[self container] willChangeValueForKey:@"peaks"];
 	[peaks removeObjectAtIndex:index];
-    [[self document] didChangeValueForKey:@"peaks"];
+    [[self container] didChangeValueForKey:@"peaks"];
 }
 
 - (void)replaceObjectInPeaksAtIndex:(int)index withObject:(JKPeakRecord *)aPeak{
@@ -771,18 +663,18 @@
 	}
 	
 	// Replace the peak from the array
-    [[self document] willChangeValueForKey:@"peaks"];
+    [[self container] willChangeValueForKey:@"peaks"];
 	[peaks replaceObjectAtIndex:index withObject:aPeak];
-    [[self document] didChangeValueForKey:@"peaks"];
+    [[self container] didChangeValueForKey:@"peaks"];
 }
 
 - (BOOL)validatePeak:(JKPeakRecord **)aPeak error:(NSError **)outError {
     // Implement validation here...
     return YES;
 } // end peaks
+#pragma mark -
 
-
-#pragma mark OBSOLETE ?!
+#pragma mark Convenience methods
 
 -(float)maxTime {
     return jk_stats_float_max(time, numberOfPoints);

@@ -12,6 +12,7 @@
 @class JKLibrarySearch;
 @class JKMainWindowController;
 @class JKPeakRecord;
+@class JKGCMSPrintView;
 @class JKSpectrum;
 @class SpectrumGraphDataSerie;
 
@@ -79,6 +80,8 @@ typedef enum {
 
     int peakIDCounter;
 		
+    JKGCMSPrintView *printView;
+        
 	@private
 	BOOL abortAction;
     BOOL hasSpectra;
@@ -91,7 +94,7 @@ typedef enum {
 /*! 
     @functiongroup IMPORT/EXPORT ACTIONS
 */
-#pragma mark IMPORT/EXPORT ACTIONS
+#pragma mark Import/Export Actions
 
 - (NSString *)exportTabDelimitedText;
 - (BOOL)readNetCDFFile:(NSString *)fileName error:(NSError **)anError;
@@ -100,7 +103,7 @@ typedef enum {
 /*! 
     @functiongroup Actions
 */
-#pragma mark ACTIONS
+#pragma mark Actions
 
 /*!
     @method     
@@ -129,7 +132,7 @@ int intSort(id num1, id num2, void *context);
 /*! 
     @functiongroup Model
 */
-#pragma mark MODEL
+#pragma mark Model
 
 /*!
     @method     

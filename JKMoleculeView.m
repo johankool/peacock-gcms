@@ -15,6 +15,7 @@
 
 @implementation JKMoleculeView
 
+#pragma mark Initialization & deallocation
 + (void)initialize {
 	// Bindings support
 	[self exposeBinding:@"moleculeString"];
@@ -38,11 +39,19 @@
     if (self) {
         // Initialization code here.
         bondColor = [[NSColor blackColor] retain];
-        backgroundColor = [[NSColor blackColor] retain];
+        backgroundColor = [[NSColor windowBackgroundColor] retain];
         textColor = [[NSColor blackColor] retain];
         margin = 10;
         fitToView = YES;
-//        [self registerForDraggedTypes:[NSArray arrayWithObjects:NSStringPboardType, NSFilenamesPboardType, nil]];
+        xOffSet = 0.0f;
+        yOffSet = 0.0f;
+        scaleFactor = 1.0f;
+        xScaleFactor = 1.0f;
+        yScaleFactor = 1.0f;
+        bondDistance = 1.0f;
+        textHeight = 12.0f;;
+
+        [self registerForDraggedTypes:[NSArray arrayWithObjects:NSStringPboardType, NSFilenamesPboardType, nil]];
     }
     return self;
 }
@@ -53,18 +62,17 @@
     [bondColor release];
     [backgroundColor release];
     [textColor release];
- //   [moleculeStringContainer release];
-//    [moleculeStringKeyPath release];
-
+ 
     [super dealloc];
 }
 
 - (void)awakeFromNib {
     [self registerForDraggedTypes:[NSArray arrayWithObjects:NSStringPboardType, NSFilenamesPboardType, nil]]; 
 }
+#pragma mark -
 
+#pragma mark NSView drawing
 - (void)drawRect:(NSRect)rect {
-    JKMoleculeModel *model = [self model];
 	if (!model | ([[model atoms] count] == 0)) {
 		NSString *noModelString = @"Structure data not available\nDrag-'n-drop a mol-file here";
         NSSize noModelStringSize = [noModelString sizeWithAttributes:nil];
@@ -98,7 +106,7 @@
 		[self setTextHeight:[model estimateLengthOfBonds]*0.7*[self yScaleFactor]/2];
 		
         // Drawing code here.
-        [self drawMolecule:model];
+        [self drawMolecule];
     }    
     if (_isTargettedForDrop) {
         NSRect insetRect = NSInsetRect([self frame], 10.0f, 10.0f);
@@ -108,10 +116,19 @@
         [roundedRect setLineWidth:3.0];
         [roundedRect stroke];
     }
-    
+	if (([[self window] isKeyWindow]) && ([[self window] firstResponder] == self) && ([[NSGraphicsContext currentContext] isDrawingToScreen])) {
+        [[NSColor keyboardFocusIndicatorColor] set]; 	    
+        [NSGraphicsContext saveGraphicsState];
+        NSSetFocusRingStyle (NSFocusRingOnly);
+        
+        // You need to *fill* the path (see the docs for NSSetFocusRingStyle())
+        [[NSBezierPath bezierPathWithRect:NSInsetRect([self bounds],3.0f,3.0f)] fill];
+
+        [NSGraphicsContext restoreGraphicsState];
+    }    
 }
 
-- (void)drawMolecule:(JKMoleculeModel *)model {
+- (void)drawMolecule {
     unsigned i;
     float alpha, beta, deltax, deltay, distance;
 
@@ -129,7 +146,7 @@
     // Create font from name and size; initialize font panel
 	font = [NSFont fontWithName:[[self font] fontName] size:[self textHeight]];
     if (font == nil)
-   {
+    {
         font = [NSFont systemFontOfSize:[self textHeight]];
     }
 	[attrs setObject:font forKey:NSFontAttributeName];
@@ -283,27 +300,31 @@
             [name drawAtPoint:drawPoint withAttributes:attrs];
         }
     }
-	
-	
-    
 }
+
 - (BOOL)canBecomeKeyView {
 	return YES;
 }
-- (BOOL) acceptsFirstResponder{
+- (BOOL)acceptsFirstResponder{
     return YES;
 }
-- (BOOL) resignFirstResponder{
+- (BOOL)resignFirstResponder{
+    [self setNeedsDisplay:YES];
     return YES;
 }
-- (BOOL) becomeFirstResponder{
+- (BOOL)becomeFirstResponder{
+    [self setNeedsDisplay:YES];
     return YES;
 }
 
 - (BOOL)isFlipped {
     return YES;
 }
-- (void)changeFont:(id)sender{
+#pragma mark -
+
+#pragma mark IBActions
+- (void)changeFont:(id)sender
+{
     /*
      This is the message the font panel sends when a new font is selected
      */
@@ -311,24 +332,24 @@
     NSFont *newFont = [sender convertFont:oldFont]; 
 	[self setFont:newFont]; 
     
-    // Get and store details of selected font
-    // Note: use fontName, not displayName.  The font name identifies the font to
-    // the system, we use a value transformer to show the user the display name    
-//    [[NSUserDefaults standardUserDefaults] setValue:[newFont fontName] forKey:@"fontName"];
 	[self setNeedsDisplay:YES];
 }
 
-- (void)copy:(id)sender {
+- (void)copy:(id)sender 
+{
     NSData *data;
     NSArray *myPboardTypes;
     NSPasteboard *pb = [NSPasteboard generalPasteboard];
     //Declare types of data you'll be putting onto the pasteboard
-    myPboardTypes = [NSArray arrayWithObjects:NSPDFPboardType,nil];//LinkBackPboardType,nil];
+    myPboardTypes = [NSArray arrayWithObjects:NSPDFPboardType,NSStringPboardType,nil];//LinkBackPboardType,nil];
     [pb declareTypes:myPboardTypes owner:self];
     //Copy the data to the pastboard
     data = [self dataWithPDFInsideRect:[self bounds]];
     [pb setData:data forType:NSPDFPboardType];
+    if ([self moleculeString])
+        [pb setString:[self moleculeString] forType:NSStringPboardType];
 	
+
 	//------
 //	NSMutableData *appData = [[NSMutableData alloc] init];
 //	NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:appData]; 
@@ -345,21 +366,38 @@
 //	[archiver finishEncoding];
 //	[archiver release];
 //	[pb setPropertyList:[NSDictionary linkBackDataWithServerName:@"Mole" appData:appData] forType:LinkBackPboardType];
-
-	//------
-	
-//	NSData *linkbackData = [NSKeyedArchiver archivedDataWithRootObject:[[self window] document]];
-//	[pb setPropertyList:[NSDictionary linkBackDataWithServerName:@"Mole" appData:linkbackData] forType:LinkBackPboardType];
 	
 }
 
+- (void)delete:(id)sender 
+{
+    [moleculeStringContainer setValue:nil forKeyPath:moleculeStringKeyPath];
+}
 
+- (void)cut:(id)sender
+{
+    [self copy:self];
+    [self delete:self];
+}
+
+- (void)paste:(id)sender
+{
+    NSPasteboard *pb = [NSPasteboard generalPasteboard];
+    NSArray *pasteTypes = [NSArray arrayWithObjects:NSStringPboardType, nil];
+    NSString *bestType = [pb availableTypeFromArray:pasteTypes];
+    if (bestType != nil) {
+        // pasteboard has data we can deal with
+        [self setMoleculeString:[pb stringForType:NSStringPboardType]];
+    }
+}
+#pragma mark -
+
+#pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)coder{
 	[super encodeWithCoder:coder];
 	[coder encodeInt:1 forKey:@"version"];
 	[coder encodeFloat:margin forKey:@"margin"];
 	[coder encodeFloat:scaleFactor forKey:@"scaleFactor"];
-//	[coder encodeObject:model forKey:@"model"];
 	[coder encodeObject:backgroundColor forKey:@"backgroundColor"];
 	[coder encodeObject:textColor forKey:@"textColor"];
 	[coder encodeObject:bondColor forKey:@"bondColor"];
@@ -371,10 +409,8 @@
 
 - (id)initWithCoder:(NSCoder *)coder{
 	self = [super initWithCoder:coder];
-    JKLogEnteringMethod();
 	margin = [coder decodeFloatForKey:@"margin"];
 	scaleFactor = [coder decodeFloatForKey:@"scaleFactor"];
-//	model = [[coder decodeObjectForKey:@"model"] retain];
 	backgroundColor = [[coder decodeObjectForKey:@"backgroundColor"] retain];
 	textColor = [[coder decodeObjectForKey:@"textColor"] retain];
 	bondColor = [[coder decodeObjectForKey:@"bondColor"] retain];
@@ -383,42 +419,21 @@
 	
     return self;
 }
+#pragma mark -
 
-
-//- (void)startObserving {
-//	// Register to observe each of the new datapoints, and each of their observable properties
-//	NSEnumerator *dataEnumerator = [[[self model] atoms] objectEnumerator];
-//	JKAtom *newDataPoint;
-//	while ((newDataPoint = [dataEnumerator nextObject])) {		
-//		[newDataPoint addObserver:self forKeyPath:@"x" options:nil context:nil];
-//		[newDataPoint addObserver:self forKeyPath:@"y" options:nil context:nil];
-//		[newDataPoint addObserver:self forKeyPath:@"name" options:nil context:nil];
-//	}
-//	NSEnumerator *dataEnumerator2 = [[[self model] bonds] objectEnumerator];
-//	JKBond *newDataPoint2;
-//	while ((newDataPoint2 = [dataEnumerator2 nextObject])) {		
-//		[newDataPoint2 addObserver:self forKeyPath:@"fromAtom" options:nil context:nil];
-//		[newDataPoint2 addObserver:self forKeyPath:@"toAtom" options:nil context:nil];
-//		[newDataPoint2 addObserver:self forKeyPath:@"bondKind" options:nil context:nil];
-//		[newDataPoint2 addObserver:self forKeyPath:@"bondStereo" options:nil context:nil];
-//	}
-//	
-//}
-
+#pragma mark Key Value Observing
 - (void)observeValueForKeyPath:(NSString *)keyPath
 					  ofObject:(id)object
 						change:(NSDictionary *)change
 					   context:(void *)context {
-	if ([keyPath isEqualToString:@"model"] | [keyPath isEqualToString:@"model.atoms"] |[keyPath isEqualToString:@"model.bonds"]){
-//		[self startObserving];
-		[self setNeedsDisplay:YES];		
-	} else {
+	if ([keyPath isEqualToString:[self moleculeStringKeyPath]]){
+        [self updateModel];
 		[self setNeedsDisplay:YES];		
 	}
 }
+#pragma mark -
 
-#pragma mark BINDINGS
-
+#pragma mark Bindings
 - (void)bind:(NSString *)bindingName
     toObject:(id)observableObject
  withKeyPath:(NSString *)observableKeyPath
@@ -432,6 +447,7 @@
 								 options:(NSKeyValueObservingOptionNew |
 										  NSKeyValueObservingOptionOld)
 								 context:nil];		
+        [self updateModel];
     }
     
 	[super bind:bindingName
@@ -449,15 +465,38 @@
         [moleculeStringContainer removeObserver:self forKeyPath:moleculeStringKeyPath];            
 		[self setMoleculeStringContainer:nil];
 		[self setMoleculeStringKeyPath:nil];
+        [self setModel:nil];
     }
 	
 	[super unbind:bindingName];
-	[self setNeedsDisplay:YES];
 }
 
 #pragma mark moleculeString bindings
 - (NSString *)moleculeString {	
+    if (!moleculeStringContainer) {
+        return nil;
+    }
+    if (!moleculeStringKeyPath) {
+        return nil;
+    }
     return [moleculeStringContainer valueForKeyPath:moleculeStringKeyPath];	
+}
+
+- (void)setMoleculeString:(NSString *)aMoleculeString
+{
+    if (!aMoleculeString) {
+        return;
+    }
+    if (moleculeStringContainer == self) {
+        return;
+    }
+    if (moleculeStringContainer && moleculeStringKeyPath) {
+        [moleculeStringContainer setValue:aMoleculeString forKeyPath:moleculeStringKeyPath];
+    }
+}
+
+- (void)setValue:(id)value forUndefinedKey:(NSString *)key {
+    NSLog(@"%@: %@", key, value);
 }
 
 - (NSObjectController *)moleculeStringContainer{
@@ -479,19 +518,29 @@
     }
 }
 
-- (JKMoleculeModel *)model {
-    if ([[self moleculeString] isKindOfClass:[NSString class]]) {
-        JKMoleculeModel *model = [[JKMoleculeModel alloc] initWithMoleculeString:[self moleculeString]];
-        if (model) {
-            return [model autorelease];
-        }
+- (void)updateModel
+{
+    if ([self moleculeString] == NSNoSelectionMarker) {
+        
+    } else if ([self moleculeString] == NSMultipleValuesMarker) {
+        
     }
-    return nil;
+    if (![self moleculeString]) {
+        [self setModel:nil];
+        return;
+    }
+    if ([[self moleculeString] isKindOfClass:[NSString class]]) {
+        JKMoleculeModel *newModel = [[[JKMoleculeModel alloc] initWithMoleculeString:[self moleculeString]] autorelease];
+        [self setModel:newModel];
+    } 
 }
+#pragma mark -
 
+#pragma mark Accessors
+#pragma mark (macrostyle)
 floatAccessor(margin, setMargin)
 floatAccessor(scaleFactor, setScaleFactor)
-//idAccessor(model, setModel)
+idAccessor(model, setModel)
 idAccessor(backgroundColor, setBackgroundColor)
 idAccessor(textColor, setTextColor)
 idAccessor(bondColor, setBondColor)
@@ -505,10 +554,9 @@ floatAccessor(xScaleFactor, setXScaleFactor)
 floatAccessor(yScaleFactor, setYScaleFactor)
 floatAccessor(bondDistance, setBondDistance)
 floatAccessor(textHeight, setTextHeight)
+#pragma mark -
 
-
-#pragma mark DROP SUPPORT (NSDraggingDestination)
-
+#pragma mark Drop Support (NSDraggingDestination)
 // Before releasing image/mouse button
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
     _isTargettedForDrop = YES;
@@ -558,19 +606,17 @@ floatAccessor(textHeight, setTextHeight)
                 _isTargettedForDrop = NO;
                 return NO;
             }
-//            [self setModel:newModel];
             if (moleculeStringContainer) {
                 [moleculeStringContainer setValue:molString forKeyPath:moleculeStringKeyPath];
             }
         }
     } else if ([[pboard types] containsObject:NSStringPboardType] ) {
-        NSString *molString = [pboard propertyListForType:NSStringPboardType];
+        NSString *molString = [pboard stringForType:NSStringPboardType];
         JKMoleculeModel *newModel = [[JKMoleculeModel alloc] initWithMoleculeString:molString];
         if (!newModel) {
             _isTargettedForDrop = NO;
             return NO;
         }
-//        [self setModel:newModel];        
         if (moleculeStringContainer) {
             [moleculeStringContainer setValue:molString forKeyPath:moleculeStringKeyPath];
         }
@@ -585,4 +631,5 @@ floatAccessor(textHeight, setTextHeight)
     _isTargettedForDrop = NO;
     [self setNeedsDisplay:YES];    
 }
+
 @end

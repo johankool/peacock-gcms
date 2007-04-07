@@ -24,7 +24,9 @@
 
 @implementation JKStatisticsWindowController
 
-- (id) init {
+#pragma mark Initialization & deallocation
+- (id) init 
+{
 	self = [super initWithWindowNibName:@"JKStatisticalAnalysis"];
 	if (self != nil) {
 		combinedPeaks = [[NSMutableArray alloc] init];
@@ -49,7 +51,9 @@
 	}
 	return self;
 }
-- (void) dealloc {
+
+- (void) dealloc
+{
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[combinedPeaks release];
 	[ratioValues release];
@@ -59,9 +63,9 @@
     [logMessages release];
 	[super dealloc];
 }
+#pragma mark -
 
-#pragma mark WINDOW MANAGEMENT
-
+#pragma mark Window Management
 - (void)windowDidLoad {
 	// Load Ratios file from application support folder
 	NSArray *paths;
@@ -125,10 +129,11 @@
     // Register as observer
 	[combinedPeaksController addObserver:self forKeyPath:@"selection" options:nil context:nil];
 }
+#pragma mark -
 
-#pragma mark ACTIONS
-
-- (void)runStatisticalAnalysis{
+#pragma mark Actions
+// Move this method to JKStatisticsDocument
+- (void)runStatisticalAnalysis {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
 	BOOL errorOccurred = NO;	
@@ -313,6 +318,7 @@
 	[pool release];
 }
 
+// Move this method to JKStatisticsDocument
 - (void)collectMetadataForDocument:(JKGCMSDocument *)document atIndex:(int)index {
 	NSMutableDictionary *metadataDictSampleCode = [metadata objectAtIndex:0];
 	NSMutableDictionary *metadataDictDescription = [metadata objectAtIndex:1];
@@ -337,6 +343,7 @@
 	return;
 }
 
+// Move this method to JKStatisticsDocument
 - (void)collectCombinedPeaksForDocument:(JKGCMSDocument *)document atIndex:(int)index {
 	// This autoreleasepool allows to flush the memory after each file, to prevent using more than 2 GB during this loop!
 	NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
@@ -581,6 +588,7 @@
 	[subPool release];
 }
 
+// Move this method to JKStatisticsDocument
 - (void)doSanityCheckForDocument:(JKGCMSDocument *)document atIndex:(int)index  
 {	
 	unsigned int i,j;
@@ -632,6 +640,7 @@
 	
 }
 
+// Move this method to JKStatisticsDocument
 - (void)calculateRatiosForDocument:(JKGCMSDocument *)document atIndex:(int)index {
 	int j;
 	int ratiosCount;
@@ -965,6 +974,7 @@
 		}
 }
 
+// Move this method to JKStatisticsDocument
 - (NSPredicate *)filterPredicate {
     switch (peaksToUse) {
     case 0: // All peaks
@@ -996,9 +1006,9 @@
     valueToUse = [sender tag];
     [self insertTableColumns];
 }
+#pragma mark -
 
-#pragma mark IBACTIONS
-
+#pragma mark IBActions
 - (IBAction)addButtonAction:(id)sender {
 	NSArray *fileTypes = [NSArray arrayWithObjects:@"peacock",nil];
     NSOpenPanel *oPanel = [NSOpenPanel openPanel];
@@ -1301,9 +1311,9 @@
         [combinedPeak confirm];
 	}
 }
+#pragma mark -
 
-#pragma mark KEY VALUE OBSERVATION
-
+#pragma mark Key Value Observation
 - (void)observeValueForKeyPath:(NSString *)keyPath
 					  ofObject:(id)object
 						change:(NSDictionary *)change
@@ -1340,9 +1350,9 @@
 //        }
 //    }
 }
+#pragma mark -
 
-#pragma mark SYNCHRONIZED SCROLLING
-
+#pragma mark Synchronized Scrolling
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectTableColumn:(NSTableColumn *)aTableColumn {
 	if ([[aTableColumn identifier] isKindOfClass:[NSString class]]) {
 		return NO;
@@ -1486,9 +1496,9 @@
 		}
 	}
 }
+#pragma mark -
 
-#pragma mark SHEETS
-
+#pragma mark Sheets
 - (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
     if (returnCode == NSOKButton) {
 		BOOL alreadyInFiles;
@@ -1530,9 +1540,9 @@
 - (void)windowDidEndSheet:(NSNotification *)notification {
 	return;
 }
+#pragma mark -
 
-#pragma mark MENU VALIDATION
-
+#pragma mark Menu Validation
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
     if ([anItem action] == @selector(repopulateContextMenuAction:)) {
 		if ([anItem tag] == valueToUse) {
@@ -1547,12 +1557,17 @@
 		return NO;
 	}
 }
+#pragma mark -
 
-#pragma mark ACCESSORS
-- (NSUndoManager*)undoManager {
+#pragma mark Undo
+- (NSUndoManager*)undoManager
+{
     return [[self document] undoManager];
 }
+#pragma mark -
 
+#pragma mark Accessors
+#pragma mark (to many relationships)
 // Mutable To-Many relationship files
 - (NSMutableArray *)files {
 	return files;
@@ -1981,14 +1996,7 @@
 	keyForValueInSummary = [aKeyForValueInSummary retain];
 }
 
-#pragma mark ACCESSORS (MACROSTYLE)
-
-//idAccessor(combinedPeaks, setCombinedPeaks)
-//idAccessor(ratioValues, setRatioValues)
-//idAccessor(ratios, setRatios)
-//idAccessor(metadata, setMetadata)
-//idAccessor(files, setFiles)
-//idAccessor(logMessages, setLogMessages)
+#pragma mark (macrostyle)
 boolAccessor(abortAction, setAbortAction)
 boolAccessor(setPeakSymbolToNumber, setSetPeakSymbolToNumber)
 intAccessor(valueToUse, setValueToUse)

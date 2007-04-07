@@ -14,7 +14,7 @@
 
 @interface JKMoleculeView : NSView <NSCoding> {
     float margin, scaleFactor;
- //   JKMoleculeModel *model;
+    JKMoleculeModel *model;
     NSColor *backgroundColor, *textColor, *bondColor;
     BOOL fitToView;
 	NSFont *font;
@@ -29,10 +29,9 @@
     BOOL _isTargettedForDrop;
 }
 
-//- (void)initWithString:(NSString *)inString;
 
-- (void)drawMolecule:(JKMoleculeModel *)model;
-- (JKMoleculeModel *)model;
+- (void)drawMolecule;
+- (void)updateModel;
 
 #pragma mark BINDINGS
 - (NSString *)moleculeString;
@@ -49,7 +48,7 @@ floatAccessor_h(xScaleFactor, setXScaleFactor)
 floatAccessor_h(yScaleFactor, setYScaleFactor)
 floatAccessor_h(bondDistance, setBondDistance)
 floatAccessor_h(textHeight, setTextHeight)
-//idAccessor_h(model, setModel)
+idAccessor_h(model, setModel)
 idAccessor_h(backgroundColor, setBackgroundColor)
 idAccessor_h(textColor, setTextColor)
 idAccessor_h(bondColor, setBondColor)

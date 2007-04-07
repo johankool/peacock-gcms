@@ -636,8 +636,10 @@ NSString *GetUUID(void) {
 
 - (void)encodeWithCoder:(NSCoder *)coder{
     if ([coder allowsKeyedCoding]) {
+        if ([super conformsToProtocol:@protocol(NSCoding)]) {
+            [super encodeWithCoder:coder];        
+        } 
 		[coder encodeInt:6 forKey:@"version"];
-		[coder encodeObject:chromatogram forKey:@"chromatogram"];
 		[coder encodeInt:peakID forKey:@"peakID"];
 		[coder encodeInt:start forKey:@"start"];
         [coder encodeInt:end forKey:@"end"];
@@ -650,14 +652,16 @@ NSString *GetUUID(void) {
 		[coder encodeConditionalObject:identifiedSearchResult forKey:@"identifiedSearchResult"];
 		[coder encodeObject:searchResults forKey:@"searchResults"];
         [coder encodeObject:uuid forKey:@"uuid"];
-    } 
+    } else {
+        [NSException raise:NSInvalidArchiveOperationException
+                    format:@"Only supports NSKeyedArchiver coders"];
+    }
     return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder{
     if ([coder allowsKeyedCoding]) {
 		int version = [coder decodeIntForKey:@"version"];
-//        JKLogDebug(@"peak version %d", version);
         switch (version) {
             case 0:
             case 1:
@@ -734,7 +738,6 @@ NSString *GetUUID(void) {
 		symbol = [[coder decodeObjectForKey:@"symbol"] retain];
         identified = [coder decodeBoolForKey:@"identified"];
 		confirmed = [coder decodeBoolForKey:@"confirmed"]; 
-//        JKLogDebug(@"Read peak with uuid %@",uuid);
 	} 
     return self;
 }

@@ -14,7 +14,7 @@
 @class JKCombinedPeak;
 
 @interface JKStatisticsWindowController : NSWindowController {
-    // Encoded
+    // Encoded >>> move to JKStatisticsDocument!!
 	NSMutableArray *combinedPeaks;
 	NSMutableArray *ratioValues;
 	NSMutableArray *metadata;

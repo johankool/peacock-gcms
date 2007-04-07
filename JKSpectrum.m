@@ -26,16 +26,15 @@
 }
 
 - (id) init {
-	return [self initWithDocument:nil forModel:@""];
+	return [self initWithModel:@""];
 }
 
 
-- (id)initWithDocument:(JKGCMSDocument *)inDocument forModel:(NSString *)modelString {
+- (id)initWithModel:(NSString *)modelString {
     self = [super init];
 	if (self != nil) {
 		masses = (float *) malloc(1*sizeof(float));
 		intensities = (float *) malloc(1*sizeof(float));
-        document = inDocument;
         NSAssert(modelString, @"modelString is nil");
         model = [modelString retain];
 	}
@@ -50,12 +49,9 @@
 }
 
 #pragma mark ACCESSORS
-- (void)setDocument:(NSDocument *)inValue {
-	// Weak reference
-	document = inValue;
-}
-- (NSDocument *)document {
-    return document;
+
+- (JKGCMSDocument *)document {
+    return (JKGCMSDocument *)[super document];
 }
 
 - (NSString *)model {
@@ -235,7 +231,7 @@
 
     [outSpectrum setPeak:[self peak]];
     [outSpectrum setModel:[self model]];
-    [outSpectrum setDocument:[self document]];
+//    [outSpectrum setContainer?:[self document]];
 	[outSpectrum setMasses:masses withCount:numberOfPoints];
 	[outSpectrum setIntensities:intensitiesOut withCount:numberOfPoints];
 	[outSpectrum autorelease];
@@ -494,9 +490,9 @@
 //        JKLogDebug(@"retentionIndex spectrum '%@' = %g", [self model], [[peak retentionIndex] floatValue]);
         return [peak retentionIndex];
     } else {
-        if (document) {
+        if ([self document]) {
             if ([[self model] intValue] != 0) {
-                return [NSNumber numberWithFloat:[(JKGCMSDocument *)document retentionIndexForScan:[[self model] intValue]]];                
+                return [NSNumber numberWithFloat:[[self document] retentionIndexForScan:[[self model] intValue]]];                
             }
         }
     }
@@ -511,7 +507,7 @@
 - (void)encodeWithCoder:(NSCoder *)coder {
     if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
         [coder encodeInt:1 forKey:@"version"];
-		[coder encodeConditionalObject:document forKey:@"document"]; // weak reference
+//		[coder encodeConditionalObject:document forKey:@"document"]; // weak reference
 		[coder encodeConditionalObject:peak forKey:@"peak"]; // weak reference
 //		[coder encodeFloat:retentionIndex forKey:@"retentionIndex"];
         [coder encodeInt:numberOfPoints forKey:@"numberOfPoints"];
@@ -524,7 +520,7 @@
 - (id)initWithCoder:(NSCoder *)coder {
     if ( [coder allowsKeyedCoding] ) {
         // Can decode keys in any order
-		document = [coder decodeObjectForKey:@"document"]; // weak reference
+//		document = [coder decodeObjectForKey:@"document"]; // weak reference
 		peak = [coder decodeObjectForKey:@"peak"]; // weak reference
 		
 //		retentionIndex = [coder decodeFloatForKey:@"retentionIndex"];

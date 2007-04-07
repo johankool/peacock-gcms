@@ -147,7 +147,7 @@
             } else {
                 libEntry = [[JKLibraryEntry alloc] initWithJCAMPString:[array objectAtIndex:i]];                
             }
-            [libEntry setDocument:self];
+            [libEntry setContainer:self];
             [libraryEntriesInString addObject:libEntry];
             [libEntry release];
 		}
@@ -413,7 +413,7 @@
     
 	e = [libraryEntries objectEnumerator];
 	while ((libraryEntry = [e nextObject])) {
-        [libraryEntry setDocument:self];
+        [libraryEntry setContainer:self];
 	}
 }
 
@@ -427,7 +427,7 @@
 	}
 	
 	// Add the libraryEntry to the array
-    [libraryEntry setDocument:self];
+    [libraryEntry setContainer:self];
 	[libraryEntries insertObject:libraryEntry atIndex:index];
 }
 

@@ -43,8 +43,9 @@
 	[spectrumView bind:@"dataSeries" toObject:spectrumViewDataseriesController withKeyPath:@"arrangedObjects" options:nil];
 	
 	[libraryController addObserver:self forKeyPath:@"selection" options:nil context:nil];
-#warning [BUG] molecule not stored
-    //	[moleculeView addObserver:self forKeyPath:@"model" options:nil context:nil];
+
+    [moleculeView bind:@"moleculeString" toObject: libraryController
+		   withKeyPath:@"selection.molString" options:nil];
 }
 
 - (void) dealloc {
@@ -107,7 +108,7 @@
     JKLogDebug(string);
     JKLibraryEntry *entry = [[JKLibraryEntry alloc] initWithJCAMPString:string];
     [entry setMolString:[NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[casNumberField stringValue],[casNumberField stringValue]]]]];
-    [entry setDocument:[self document]];
+    [entry setContainer:[self document]];
     [libraryController addObject:entry];
     [moleculeView setNeedsDisplay:YES];
     [spectrumView setNeedsDisplay:YES];

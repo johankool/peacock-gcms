@@ -35,7 +35,7 @@ static void *SpectrumObservationContext = (void *)1102;
 
 @implementation JKMainWindowController
 
-#pragma mark INITIALIZATION
+#pragma mark Initialization & deallocation
 
 - (id)init {
 	self = [super initWithWindowNibName:@"JKGCMSDocument"];
@@ -103,8 +103,8 @@ static void *SpectrumObservationContext = (void *)1102;
 		   withKeyPath:@"arrangedObjects" options:nil];
 
 	// moleculeView bindings
-//	[moleculeView bind:@"moleculeString" toObject: searchResultsController
-//		   withKeyPath:@"selection.libraryHit.molString" options:nil];
+	[moleculeView bind:@"moleculeString" toObject: searchResultsController
+		   withKeyPath:@"selection.libraryHit.molString" options:nil];
 	
 	// More setup
 	[chromatogramView setShouldDrawLegend:YES];
@@ -168,8 +168,9 @@ static void *SpectrumObservationContext = (void *)1102;
     [chromatogramView showAll:self];
     [spectrumView showAll:self];
 }
+#pragma mark -
 
-#pragma mark IBACTIONS
+#pragma mark IBActions
 
 - (IBAction)obtainBaseline:(id)sender {
     if ([[[self document] chromatograms] count] > 1) {
@@ -625,9 +626,9 @@ static void *SpectrumObservationContext = (void *)1102;
     [hiddenColumnsPeaksTable addObject:[[peaksTable tableColumns] objectAtIndex:[sender tag]]];
     [peaksTable removeTableColumn:[[peaksTable tableColumns] objectAtIndex:[sender tag]]];
 }
+#pragma mark -
 
-#pragma mark KEY VALUE OBSERVATION
-
+#pragma mark Key Value Observation
 - (void)observeValueForKeyPath:(NSString *)keyPath
 					  ofObject:(id)object
 						change:(NSDictionary *)change
@@ -809,8 +810,9 @@ static void *SpectrumObservationContext = (void *)1102;
             [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
     }
 }
+#pragma mark -
 
-#pragma mark SPLITVIEW DELEGATE METHODS
+#pragma mark Splitview Delegate Methods
 - (void)splitView:(RBSplitView*)sender didCollapse:(RBSplitSubview*)subview {
     if ((subview == detailsSplitSubview) || (subview == moleculeSplitSubview)) {
         [self performSelector:@selector(hideSubView:) withObject:subview afterDelay:0.0];
@@ -821,8 +823,9 @@ static void *SpectrumObservationContext = (void *)1102;
     if (subview)
         [subview setHidden:YES];
 }
+#pragma mark -
 
-#pragma mark NSTOOLBAR MANAGEMENT
+#pragma mark NSToolbar Management
 
 - (void)setupToolbar {
     // Create a new toolbar instance, and attach it to our document window 
@@ -974,18 +977,21 @@ static void *SpectrumObservationContext = (void *)1102;
     }
     return enable;
 }
+#pragma mark -
 
-
-#pragma mark UNDO MANAGEMENT
-
+#pragma mark Undo Management
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window { 
     return [[self document] undoManager];
 }
+#pragma mark -
 
-#pragma mark ACCESSORS
-
+#pragma mark Accessors
 - (MyGraphView *)chromatogramView {
     return chromatogramView;
+}
+
+- (MyGraphView *)spectrumView {
+    return spectrumView;
 }
 
 - (NSArrayController *)chromatogramDataSeriesController {
@@ -1024,8 +1030,9 @@ static void *SpectrumObservationContext = (void *)1102;
 - (NSMutableArray *)hiddenColumnsPeaksTable {
     return hiddenColumnsPeaksTable;
 }
+#pragma mark -
 
-#pragma mark SHEETS
+#pragma mark Sheets
 - (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     [sheet orderOut:self];
 }
@@ -1037,9 +1044,9 @@ static void *SpectrumObservationContext = (void *)1102;
 - (void)windowDidEndSheet:(NSNotification *)notification {
 	return;
 }
+#pragma mark -
 
-#pragma mark MENU/WINDOW HANDLING
-
+#pragma mark Menu/Window Handling
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
 	if ([anItem action] == @selector(showTICTraceAction:)) {
 		if (showTICTrace) {
@@ -1206,7 +1213,8 @@ static void *SpectrumObservationContext = (void *)1102;
 //    return NSDragOperationNone;    
 //}
 
-#pragma mark ACCESSORS (MACROSTYLE)
+#pragma mark Accessors 
+#pragma mark (macrostyle)
 boolAccessor(abortAction, setAbortAction)
 boolAccessor(showTICTrace, setShowTICTrace)
 boolAccessor(showNormalizedSpectra, setShowNormalizedSpectra)

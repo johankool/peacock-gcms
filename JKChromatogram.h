@@ -6,15 +6,15 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
+#import "JKModelObject.h"
+
 @class JKSpectrum;
 @class JKGCMSDocument;
 @class ChromatogramGraphDataSerie;
 @class JKPeakRecord;
 
-@interface JKChromatogram : NSObject <NSCoding> {
-    JKGCMSDocument *document;
+@interface JKChromatogram : JKModelObject <NSCoding> {
     NSString *model;
-//    NSMutableArray *baselinePoints;
     NSMutableArray *peaks;
     
     int numberOfPoints;
@@ -34,9 +34,8 @@
 /*! @functiongroup Initialization */
 #pragma mark INITIALIZATION
 
-- (id)initWithDocument:(JKGCMSDocument *)inDocument;
     /*! Designated initializer. */
-- (id)initWithDocument:(JKGCMSDocument *)inDocument forModel:(NSString *)model;
+- (id)initWithModel:(NSString *)model;
 
     /*! @functiongroup Actions */
 #pragma mark ACTIONS
@@ -53,12 +52,13 @@
 - (float)highestPeakHeight;
 - (float)largestPeakSurface;
 
+#pragma mark Document
+- (JKGCMSDocument *)document;
+#pragma mark -
+
 #pragma mark ACCESSORS
 /*! @functiongroup Accessors */
 
-/*! The document containing our chromatogram. */
-- (JKGCMSDocument *)document;
-- (void)setDocument:(JKGCMSDocument *)inDocument;
 - (NSString *)model;
 - (void)setModel:(NSString *)inString;
 

@@ -6,13 +6,15 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
+#import "JKModelObject.h"
+
 @class JKChromatogram;
 @class JKGCMSDocument;
 @class JKLibraryEntry;
 @class JKSearchResult;
 @class JKSpectrum;
 
-@interface JKPeakRecord : NSObject <NSCoding> {
+@interface JKPeakRecord : JKModelObject <NSCoding> {
     BOOL confirmed;
     BOOL identified;
     JKChromatogram *chromatogram;
