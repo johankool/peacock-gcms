@@ -21,7 +21,9 @@
 	IBOutlet MWController *mwWindowController;
     IBOutlet NSWindow *welcomeWindow;
     IBOutlet NSMenu *viewColumnsMenu;
-    
+    IBOutlet NSTableView *documentListTableView;
+    IBOutlet NSPanel *documentListPanel;
+        
     NSWindowController *preferencesWindowController;
 	JKBatchProcessWindowController *batchProcessWindowController;
 
@@ -35,6 +37,7 @@
 - (IBAction)showBatchProcessAction:(id)sender;
 - (IBAction)showStatisticsAction:(id)sender;
 - (IBAction)openTestFile:(id)sender;
+- (IBAction)showDocumentList:(id)sender;
 
 #pragma mark GROWL SUPPORT
 - (NSDictionary *)registrationDictionaryForGrowl;

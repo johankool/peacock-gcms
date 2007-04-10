@@ -44,6 +44,7 @@
                 openPreferencesWindowAction = id; 
                 openTestFile = id; 
                 showBatchProcessAction = id; 
+                showDocumentList = id; 
                 showLicense = id; 
                 showReadMe = id; 
                 showStatisticsAction = id; 
@@ -51,6 +52,8 @@
             CLASS = JKAppDelegate; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                documentListPanel = NSPanel; 
+                documentListTableView = NSTableView; 
                 mwWindowController = MWController; 
                 removeChromatogramMenu = NSMenu; 
                 showPresetMenu = NSMenu; 

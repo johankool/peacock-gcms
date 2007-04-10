@@ -25,6 +25,7 @@
 	[defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"SUCheckAtStartup"];
 	[defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"showInspectorOnLaunch"];
 	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"showMassCalculatorOnLaunch"];
+	[defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"showDocumentListOnLaunch"];
 	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"autoSave"];
 	[defaultValues setValue:[NSNumber numberWithInt:10] forKey:@"autoSaveDelay"]; 
 	
@@ -110,8 +111,29 @@
 	self = [super init];
 	if (self != nil) {
 		[self setDelegate:self];		
+        
+        NSNotificationCenter *center;
+		center = [NSNotificationCenter defaultCenter];
+        
+        [center addObserver: self
+				   selector: @selector(documentActivateNotification:)
+					   name: NSWindowDidBecomeMainNotification
+					 object: nil];
+        [center addObserver: self
+				   selector: @selector(documentDeactivateNotification:)
+					   name: NSWindowDidResignMainNotification
+					 object: nil];
 	}
 	return self;
+}
+
+- (void)dealloc
+{
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center removeObserver: self
+					  name: nil
+					object: nil];
+    [super dealloc];
 }
 
 #pragma mark DELEGATE METHODS
@@ -145,6 +167,10 @@
         [mwWindowController showWindow:self];
     } 
     
+    if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"showDocumentListOnLaunch"] boolValue] == YES) {
+        [documentListPanel orderFront:self];
+    } 
+    
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"skipWelcomeDialog"] boolValue] == NO) {
         [welcomeWindow center];
         [welcomeWindow makeKeyAndOrderFront:self];
@@ -154,6 +180,9 @@
 	[GrowlApplicationBridge setGrowlDelegate:self];
     
 //    [self loadPlugins];
+    
+    [documentListTableView setDoubleAction:@selector(doubleClickAction:)];
+
 }
 
 
@@ -250,6 +279,13 @@
 			[anItem setTitle:NSLocalizedString(@"Show Inspector",@"Menutitle when inspector is not visible")];
 		}			
 		return YES;
+    } else if ([anItem action] == @selector(showDocumentList:)) {
+		if ([documentListPanel isVisible] == YES) {
+			[anItem setTitle:NSLocalizedString(@"Hide Document List",@"Menutitle when Document List is visible")];
+		} else {
+			[anItem setTitle:NSLocalizedString(@"Show Document List",@"Menutitle when Document List is not visible")];
+		}			
+		return YES;
 	} else if ([self respondsToSelector:[anItem action]]) {
 		return YES;
 	} else {
@@ -344,5 +380,68 @@
 //        JKLogDebug(@"No principalClass for bundle");
 //    }
 //}
+
+- (NSArray *)documents {
+    return [[NSDocumentController sharedDocumentController] documents];
+}
+
+#pragma mark NSTableView Datasource
+
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView {
+    return [[self documents] count];
+}
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+    NSDocument *doc = [[self documents] objectAtIndex:rowIndex];
+    if ([[doc windowForSheet] windowController]) {
+        return [[[doc windowForSheet] windowController] windowTitleForDocumentDisplayName:[doc displayName]];
+    } else {
+        return [doc displayName];        
+    }
+}
+#pragma mark -
+
+#pragma mark NSTableView Delegate
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+{
+    if ([[aNotification object] selectedRow] != -1) {
+        [[[self documents] objectAtIndex:[[aNotification object] selectedRow]] showWindows];        
+    }
+}
+
+- (void)documentActivateNotification:(NSNotification *)aNotification
+{
+    [documentListTableView reloadData];
+    int row = [[self documents] indexOfObject:[[aNotification object] document]];
+    [documentListTableView selectRow:row byExtendingSelection:NO];
+}
+
+- (void)documentDeactivateNotification:(NSNotification *)aNotification
+{
+    [documentListTableView reloadData];
+}
+
+- (void)doubleClickAction:(id)sender
+{
+    int i, count = [[self documents] count];
+    for (i=0; i < count; i++) {
+        if (i != [documentListTableView selectedRow]) {
+            id doc = [[self documents] objectAtIndex:i];
+            [[doc windowForSheet] orderOut:nil];            
+        }
+    }
+    if ([documentListTableView selectedRow] != -1) {
+        [[[self documents] objectAtIndex:[documentListTableView selectedRow]] showWindows];
+    }
+}
+
+- (IBAction)showDocumentList:(id)sender
+{
+    if ([documentListPanel isVisible]) {
+        [documentListPanel orderOut:nil];
+    } else {
+        [documentListPanel orderFront:nil];        
+    }
+}
 
 @end
