@@ -61,10 +61,13 @@ static void *DocumentObservationContext = (void *)1100;
 		maximumScannedMassRange = [[defaultValues valueForKey:@"maximumScannedMassRange"] retain];
         
         peakIDCounter = 0;
+        [[self undoManager] disableUndoRegistration];
         _documentProxy = [[NSDictionary alloc] initWithObjectsAndKeys:@"_documentProxy", @"_documentProxy",nil];
         [self setPrintInfo:[NSPrintInfo sharedPrintInfo]];
         [[self printInfo] setOrientation:NSLandscapeOrientation];
         printView = [[JKGCMSPrintView alloc] initWithDocument:self];
+        [[self undoManager] enableUndoRegistration];
+        
 	}
     return self;
 }
@@ -1102,7 +1105,8 @@ int intSort(id num1, id num2, void *context)
 	[[self undoManager] setActionName:NSLocalizedString(@"Reset to Default Values",@"Reset to Default Values")];
 }
 
-- (void)renumberPeaks {
+- (void)renumberPeaks 
+{
     NSArray *renumberedPeaks = [self peaks];
 	int i;
 	int peakCount = [renumberedPeaks count];
@@ -1115,6 +1119,16 @@ int intSort(id num1, id num2, void *context)
 
     peakIDCounter = peakCount;
 	[[self undoManager] setActionName:NSLocalizedString(@"Renumber Peaks",@"")];
+}
+
+- (void)removeUnidentifiedPeaks {
+    NSEnumerator *chromEnum = [[self chromatograms] objectEnumerator];
+    JKChromatogram *chrom;
+
+    while ((chrom = [chromEnum nextObject]) != nil) {
+    	[chrom removeUnidentifiedPeaks];
+    }
+    [[self undoManager] setActionName:NSLocalizedString(@"Remove Unidentified Peaks",@"")];
 }
 
 - (NSString *)cleanupModelString:(NSString *)model {

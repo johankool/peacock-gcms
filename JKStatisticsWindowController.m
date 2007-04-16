@@ -704,7 +704,7 @@
     int maximumIndex;
     float score, maximumScore;	
     
-//    float minimumScoreSearchResultsF = [[document minimumScoreSearchResults] floatValue];
+    //    float minimumScoreSearchResultsF = [[document minimumScoreSearchResults] floatValue];
     
     for (i = 0; i < filesCount; i++) {
         // do we have a peak for earch file?
@@ -719,21 +719,19 @@
             
             // obtain the chromatogram we need
             chromatogramToSearch = [document chromatogramForModel:[combinedPeak model]];
-                        
-             
-        
+                    
             maximumScore = 0.0f;
             maximumIndex = -1;
-
+            
             // get baseline if needed
             if ([chromatogramToSearch baselinePointsCount] == 0) {              
                 [chromatogramToSearch obtainBaseline];                          
             }
             // get peaks if needed
             if ([[chromatogramToSearch peaks] count] == 0) {
-                 [chromatogramToSearch identifyPeaks];                          
+                [chromatogramToSearch identifyPeaks];                          
             }
-
+            
             peaksCount = [[chromatogramToSearch peaks] count];
             for (k = 0; k < peaksCount; k++) {
                 score = [[[[chromatogramToSearch peaks] objectAtIndex:k] spectrum] scoreComparedToSpectrum:[combinedPeak spectrum]];
@@ -744,21 +742,22 @@
             }
             
             // Add libentry as result to highest scoring peak if it is within range of acceptance
-           // if (maximumScore >= minimumScoreSearchResultsF) {
+            // if (maximumScore >= minimumScoreSearchResultsF) {
+            if (maximumIndex >= 0) {
+                
                 [combinedPeak setValue:[[chromatogramToSearch peaks] objectAtIndex:maximumIndex] forKey:[NSString stringWithFormat:@"file_%d",i]];
-            JKSearchResult *searchResult = [[JKSearchResult alloc] init];
-            [searchResult setScore:[NSNumber numberWithFloat:maximumScore]];
-            [searchResult setLibraryHit:[combinedPeak libraryEntry]];
-            [searchResult setPeak:[[chromatogramToSearch peaks] objectAtIndex:maximumIndex]];
-            [[[chromatogramToSearch peaks] objectAtIndex:maximumIndex] addSearchResult:searchResult];
-            [searchResult release];                    
-            if (![[document chromatograms] containsObject:chromatogramToSearch]) {
+                JKSearchResult *searchResult = [[JKSearchResult alloc] init];
+                [searchResult setScore:[NSNumber numberWithFloat:maximumScore]];
+                [searchResult setLibraryHit:[combinedPeak libraryEntry]];
+                [searchResult setPeak:[[chromatogramToSearch peaks] objectAtIndex:maximumIndex]];
+                [[[chromatogramToSearch peaks] objectAtIndex:maximumIndex] addSearchResult:searchResult];
+                [searchResult release];                    
+                if (![[document chromatograms] containsObject:chromatogramToSearch]) {
                     [document willChangeValueForKey:@"peaks"];
                     [document insertObject:chromatogramToSearch inChromatogramsAtIndex:[document countOfChromatograms]];
                     [document didChangeValueForKey:@"peaks"];
                 }
-           // } 
-            
+            }             
         }
     }
     [error release];

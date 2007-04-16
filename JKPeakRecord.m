@@ -57,7 +57,10 @@ NSString *GetUUID(void) {
         confirmed = NO;
         baselineLeft = [[NSNumber alloc] init]; 
         baselineRight = [[NSNumber alloc] init]; 
-
+        end = 0;
+        peakID = 0;
+        start = 0;
+        
         uuid = GetUUID();
         [uuid retain];
     }
@@ -162,8 +165,14 @@ NSString *GetUUID(void) {
 - (int)top {
     int top;
     int j;
+    if (![self chromatogram]) {
+        return 0;
+    }
     float *totalIntensity = [[self chromatogram] totalIntensity];
     top = start;
+    if (top > [[self chromatogram] numberOfPoints]) {
+        [NSException raise:@"Out of bounds exception" format:@"The top for peak record '%@' is outside the range of values for chromatogram '%@'.", [self label], [[self chromatogram] model]];
+    }
     for (j=start; j <= end; j++) {
         if (totalIntensity[j] > totalIntensity[top]) {
             top = j;
@@ -173,6 +182,10 @@ NSString *GetUUID(void) {
 }
 
 - (NSNumber *)topTime {
+    if (![self chromatogram]) {
+        return [NSNumber numberWithFloat:0.0f];
+    }
+    
     float *time = [[self chromatogram] time];
     float topTime;
     int top;
@@ -300,12 +313,12 @@ NSString *GetUUID(void) {
     return peakID;
 }
 
-- (void)setChromatogram:(JKChromatogram *)inValue {
-	// Weak link
-	chromatogram = inValue;
-}
 - (JKChromatogram *)chromatogram {
-    return chromatogram;
+    return (JKChromatogram *)[self container];
+}
+
+- (void)setChromatogram:(JKChromatogram *)inValue {
+    return [self setContainer:inValue];
 }
 
 - (JKGCMSDocument *)document {
@@ -668,9 +681,9 @@ NSString *GetUUID(void) {
             case 2:
             case 3:
             case 4:
-                chromatogram = [[[(NSKeyedArchiver *)coder delegate] chromatograms] objectAtIndex:0];
-                NSAssert(chromatogram, @"peak should have chromatogram");
-                [chromatogram insertObject:self inPeaksAtIndex:[[chromatogram peaks] count]];
+//                [self setContai = [[[(NSKeyedArchiver *)coder delegate] chromatograms] objectAtIndex:0];
+//                NSAssert(chromatogram, @"peak should have chromatogram");
+                [[self container] insertObject:self inPeaksAtIndex:[[[self container] peaks] count]];
                 peakID = [[coder decodeObjectForKey:@"peakID"] intValue];
                 start = [[coder decodeObjectForKey:@"start"] intValue];
                 end = [[coder decodeObjectForKey:@"end"] intValue];
@@ -695,7 +708,7 @@ NSString *GetUUID(void) {
             case 5:
             case 6:
             default:
-                chromatogram = [coder decodeObjectForKey:@"chromatogram"];            
+  //              chromatogram = [coder decodeObjectForKey:@"chromatogram"];            
                 peakID = [coder decodeIntForKey:@"peakID"];
                 start = [coder decodeIntForKey:@"start"];
                 end = [coder decodeIntForKey:@"end"];

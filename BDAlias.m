@@ -265,6 +265,12 @@ static CFStringRef FSRefToPathCopy(const FSRef *inRef){
     return [result autorelease];
 }
 
+- (NSString *)originalPath {
+    CFStringRef theFullPath = nil;
+    FSCopyAliasInfo(_alias, NULL, NULL, &theFullPath, NULL, NULL);
+    return [(NSString *)theFullPath autorelease];
+}
+
 + (BDAlias *)aliasWithAliasHandle:(AliasHandle)alias{
     return [[[BDAlias alloc] initWithAliasHandle:alias] autorelease];
 }
@@ -290,7 +296,7 @@ static CFStringRef FSRefToPathCopy(const FSRef *inRef){
 }
 
 #pragma mark NSCODING
-
+// Johan Kool
 - (void)encodeWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) { 
 //		JKLogDebug(@"Encoding %@", [self fullPath]);

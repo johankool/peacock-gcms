@@ -626,6 +626,11 @@ static void *SpectrumObservationContext = (void *)1102;
     [hiddenColumnsPeaksTable addObject:[[peaksTable tableColumns] objectAtIndex:[sender tag]]];
     [peaksTable removeTableColumn:[[peaksTable tableColumns] objectAtIndex:[sender tag]]];
 }
+
+- (IBAction)removeUnidentifiedPeaksAction:(id)sender
+{
+    [[self document] removeUnidentifiedPeaks];
+}
 #pragma mark -
 
 #pragma mark Key Value Observation

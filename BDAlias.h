@@ -60,6 +60,8 @@
 - (NSString *)fullPath;
 - (NSString *)fullPathRelativeToPath:(NSString *)relPath;
 
+- (NSString *)originalPath; // Johan Kool
+
 + (BDAlias *)aliasWithAliasHandle:(AliasHandle)alias;
 + (BDAlias *)aliasWithData:(NSData *)data;
 + (BDAlias *)aliasWithPath:(NSString *)fullPath;

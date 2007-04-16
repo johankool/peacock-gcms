@@ -17,7 +17,7 @@
 @interface JKPeakRecord : JKModelObject <NSCoding> {
     BOOL confirmed;
     BOOL identified;
-    JKChromatogram *chromatogram;
+//    JKChromatogram *chromatogram;
     NSMutableArray *searchResults;
     NSNumber *baselineLeft;
     NSNumber *baselineRight;

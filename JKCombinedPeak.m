@@ -43,6 +43,22 @@
     unknownCompound = [decoder decodeBoolForKey:@"unknownCompound"];
     peaks = [[decoder decodeObjectForKey:@"peaks"] retain];
     
+    // If a peak is not found, we'll sadly need to remove it...
+    NSMutableArray *keysToDeleteArray = [NSMutableArray arrayWithCapacity:[peaks count]];
+    NSString *aKey;
+    id peak;
+    NSEnumerator *keyEnumerator = [peaks keyEnumerator];
+    while (aKey = [keyEnumerator nextObject]) {
+        peak = [peaks objectForKey:aKey];
+        if(![peak isKindOfClass:[JKPeakRecord class]]) {
+            [keysToDeleteArray addObject:aKey];
+        }
+    }
+    if ([keysToDeleteArray count] > 0) {
+        JKLogDebug(@"Removing peaks for %@",keysToDeleteArray);
+        [peaks removeObjectsForKeys:keysToDeleteArray];
+    }
+        
 	return self;
 }
 
@@ -199,6 +215,11 @@
 
         if (value) {
             [peaks setObject:value forKey:key];            
+            if ([value confirmed]) {
+                [self setLibraryEntry:[value libraryHit]];
+                [self setSpectrum:[value libraryHit]];
+                [self setLabel:[[value libraryHit] name]];
+            }
         } else {
             [peaks removeObjectForKey:key];
         }
@@ -219,8 +240,21 @@
 	return label;
 }
 - (void)setLabel:(NSString *)aLabel {
-	[label autorelease];
-	label = [aLabel retain];
+    if (aLabel != label) {
+        [[self undoManager] registerUndoWithTarget:self
+                                          selector:@selector(setLabel:)
+                                            object:label];
+        
+        [label autorelease];
+        label = [aLabel retain];
+        
+        // Set label also for all peaks
+        NSEnumerator *peakEnum = [peaks objectEnumerator];
+        JKPeakRecord *peak;
+        while (peak = [peakEnum nextObject]) {
+            [peak setLabel:label];
+        }
+    }
 }
 - (NSNumber *)symbol {
 	return symbol;

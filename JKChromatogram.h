@@ -32,13 +32,14 @@
 }
 
 /*! @functiongroup Initialization */
-#pragma mark INITIALIZATION
+#pragma mark Initialization
 
     /*! Designated initializer. */
 - (id)initWithModel:(NSString *)model;
+#pragma mark -
 
     /*! @functiongroup Actions */
-#pragma mark ACTIONS
+#pragma mark Actions
 
 - (void)obtainBaseline;
 - (void)identifyPeaks;
@@ -51,12 +52,14 @@
 
 - (float)highestPeakHeight;
 - (float)largestPeakSurface;
+- (void)removeUnidentifiedPeaks;
+#pragma mark -
 
 #pragma mark Document
 - (JKGCMSDocument *)document;
 #pragma mark -
 
-#pragma mark ACCESSORS
+#pragma mark Accessors
 /*! @functiongroup Accessors */
 
 - (NSString *)model;

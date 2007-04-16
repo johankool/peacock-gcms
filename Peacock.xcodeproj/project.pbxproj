@@ -79,8 +79,6 @@
 		C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C79281D30B9F1CC100EDF996 /* NSEvent+ModifierKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */; };
 		C79281D40B9F1CC200EDF996 /* NSEvent+ModifierKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */; };
-		C798A2290BA82D1000B67DE9 /* JKMultiGCMSDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = C798A2270BA82D1000B67DE9 /* JKMultiGCMSDocument.h */; };
-		C798A22A0BA82D1000B67DE9 /* JKMultiGCMSDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C798A2280BA82D1000B67DE9 /* JKMultiGCMSDocument.m */; };
 		C798C9EA08E17B5400C6C7D1 /* DeleteTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */; };
 		C799B0AA0ACAB30D00D4FCA4 /* Identify Compounds.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A70ACAB30D00D4FCA4 /* Identify Compounds.tiff */; };
 		C799B0AB0ACAB30D00D4FCA4 /* Identify Peaks.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A80ACAB30D00D4FCA4 /* Identify Peaks.tiff */; };
@@ -372,7 +370,6 @@
 		C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKGCMSDocument.h; sourceTree = "<group>"; };
 		C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKGCMSDocument.m; sourceTree = "<group>"; };
 		C716B4AD0AD6AA8F00DA408E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		C716B4D70AD6ACA400DA408E /* JKGAMLDocument.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = JKGAMLDocument.nib; sourceTree = "<group>"; };
 		C71D9FCB099CD19D007EB10D /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		C720AB8609EA7B6C007EF860 /* jk_statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jk_statistics.h; sourceTree = "<group>"; };
 		C720AB8709EA7B6C007EF860 /* jk_statistics.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jk_statistics.c; sourceTree = "<group>"; };
@@ -422,8 +419,6 @@
 		C7859A9909CEBCE900351C87 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSEvent+ModifierKeys.h"; sourceTree = "<group>"; };
 		C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSEvent+ModifierKeys.m"; sourceTree = "<group>"; };
-		C798A2270BA82D1000B67DE9 /* JKMultiGCMSDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKMultiGCMSDocument.h; sourceTree = "<group>"; };
-		C798A2280BA82D1000B67DE9 /* JKMultiGCMSDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKMultiGCMSDocument.m; sourceTree = "<group>"; };
 		C798C9E808E17B5400C6C7D1 /* DeleteTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteTableView.h; sourceTree = "<group>"; };
 		C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteTableView.m; sourceTree = "<group>"; };
 		C799B0A70ACAB30D00D4FCA4 /* Identify Compounds.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Identify Compounds.tiff"; sourceTree = "<group>"; };
@@ -883,8 +878,6 @@
 				C73290E80AD68F9800D95E36 /* JKFileWell.h */,
 				C73290F30AD68F9800D95E36 /* JKSynchroScrollView.h */,
 				C73290F40AD68F9800D95E36 /* JKSynchroScrollView.m */,
-				C798A2270BA82D1000B67DE9 /* JKMultiGCMSDocument.h */,
-				C798A2280BA82D1000B67DE9 /* JKMultiGCMSDocument.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -994,7 +987,6 @@
 		C7EB17F90898CFBC007FC2ED /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
-				C716B4D70AD6ACA400DA408E /* JKGAMLDocument.nib */,
 				C7713B35095029C200653D2A /* JKBatchProcess.nib */,
 				C7EB17FA0898CFBC007FC2ED /* JKLibrary.nib */,
 				C7EB17FB0898CFBD007FC2ED /* JKGCMSDocument.nib */,
@@ -1052,7 +1044,6 @@
 				C7ADC90D0BA05609007D9134 /* NSCoder+CArrayEncoding.h in Headers */,
 				C7ADC90E0BA05609007D9134 /* JKCombinedPeak.h in Headers */,
 				C7ADC90F0BA05609007D9134 /* NSEvent+ModifierKeys.h in Headers */,
-				C798A2290BA82D1000B67DE9 /* JKMultiGCMSDocument.h in Headers */,
 				C7E61F1A0BB2BC4800D9A636 /* JKModelObject.h in Headers */,
 				C7CFFC790BBC0C290060B0C7 /* JKGCMSPrintView.h in Headers */,
 			);
@@ -1437,7 +1428,6 @@
 				C7ADC8E20BA05609007D9134 /* NSCoder+CArrayEncoding.m in Sources */,
 				C7ADC8E30BA05609007D9134 /* JKCombinedPeak.m in Sources */,
 				C7ADC8E40BA05609007D9134 /* NSEvent+ModifierKeys.m in Sources */,
-				C798A22A0BA82D1000B67DE9 /* JKMultiGCMSDocument.m in Sources */,
 				C7E61F1B0BB2BC4800D9A636 /* JKModelObject.m in Sources */,
 				C7CFFC7A0BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */,
 			);
@@ -1634,22 +1624,26 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
-					"$(SRCROOT)",
-					"$(SRCROOT)/Frameworks",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
 				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks\"";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G4;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Frameworks";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks\"";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/Frameworks",
-					"$(SRCROOT)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
 				);
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
 				PREBINDING = NO;
 				PRODUCT_NAME = Peacock;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
@@ -1668,21 +1662,25 @@
 				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
-					"$(SRCROOT)",
-					"$(SRCROOT)/Frameworks",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
 				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks\"";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/Frameworks";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks\"";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/Frameworks",
-					"$(SRCROOT)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
 				);
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
 				PRODUCT_NAME = Peacock;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SYMROOT = build/Mac;
@@ -1693,6 +1691,7 @@
 		C7EB17A10898CF22007FC2ED /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = Frameworks;
 				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1705,6 +1704,7 @@
 			buildSettings = {
 				DEAD_CODE_STRIPPING = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
+				FRAMEWORK_SEARCH_PATHS = Frameworks;
 				GCC_DEBUGGING_SYMBOLS = default;
 				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;

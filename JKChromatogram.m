@@ -207,9 +207,8 @@
 	return i; 
 }
 
- 
-
-- (void)identifyPeaks{
+- (void)identifyPeaks
+{
 	int i, j, answer;
 	int start, end, top;
     float maximumIntensity;
@@ -448,15 +447,30 @@
     
     return largestPeakSurface;
 }
+
+- (void)removeUnidentifiedPeaks
+{    
+    NSEnumerator *peakEnum = [[self peaks] objectEnumerator];
+    JKPeakRecord *peak;
+    NSMutableArray *peaksToSave = [NSMutableArray array];
+    while ((peak = [peakEnum nextObject]) != nil) {
+    	if ([peak identified] | [[peak searchResults] count] > 0) {
+            [peaksToSave addObject:peak];
+        }
+    }
+    [self setPeaks:peaksToSave];
+}
+
 #pragma mark -
 
 #pragma mark NSCoding
-- (void)encodeWithCoder:(NSCoder *)coder{
+
+- (void)encodeWithCoder:(NSCoder *)coder {
     if ([coder allowsKeyedCoding]) {
         if ([super conformsToProtocol:@protocol(NSCoding)]) {
             [super encodeWithCoder:coder];        
         } 
-        
+
 		[coder encodeInt:2 forKey:@"version"];
 		[coder encodeObject:model forKey:@"model"];
         [coder encodeObject:peaks forKey:@"peaks"];
@@ -478,7 +492,13 @@
         int version = [coder decodeIntForKey:@"version"];
         model = [[coder decodeObjectForKey:@"model"] retain];
         peaks = [[coder decodeObjectForKey:@"peaks"] retain];
-         
+        NSEnumerator *peakEnum = [peaks objectEnumerator];
+        JKPeakRecord *peak;
+        
+        while ((peak = [peakEnum nextObject]) != nil) {
+            [peak setContainer:self];
+        }
+        
         if (version == 1) {
             numberOfPoints = [coder decodeIntForKey:@"numberOfPoints"];
             
@@ -502,7 +522,7 @@
   
             time = [coder decodeFloatArrayForKey:@"time" returnedCount:&length];
             numberOfPoints = length;
- 
+
             totalIntensity = [coder decodeFloatArrayForKey:@"totalIntensity" returnedCount:&length];
 
             baselinePointsScans= [coder decodeIntArrayForKey:@"baselinePointsScans" returnedCount:&length];
@@ -518,7 +538,7 @@
 #pragma mark Document
 - (JKGCMSDocument *)document
 {
-    return (JKGCMSDocument *)[super document];
+    return (JKGCMSDocument *)[self container];
 }
 #pragma mark -
 
@@ -602,7 +622,19 @@
     [[self container] willChangeValueForKey:@"peaks"];
     [inValue retain];
     [peaks release];
+    NSEnumerator *peakEnum = [peaks objectEnumerator];
+    JKPeakRecord *peak;
+    
+    while ((peak = [peakEnum nextObject]) != nil) {
+    	[peak setContainer:nil];
+    }
+    
     peaks = inValue;
+    peakEnum = [peaks objectEnumerator];
+
+    while ((peak = [peakEnum nextObject]) != nil) {
+    	[peak setContainer:self];
+    }
     [[self container] didChangeValueForKey:@"peaks"];
 }
 
@@ -631,6 +663,7 @@
 	// Add aPeak to the array peaks
     [[self container] willChangeValueForKey:@"peaks"];
 	[peaks insertObject:aPeak atIndex:index];
+    [aPeak setContainer:self];
     [[self container] didChangeValueForKey:@"peaks"];
 }
 
@@ -648,6 +681,7 @@
 	// Remove the peak from the array
     [[self container] willChangeValueForKey:@"peaks"];
 	[peaks removeObjectAtIndex:index];
+    [aPeak setContainer:nil];
     [[self container] didChangeValueForKey:@"peaks"];
 }
 
@@ -665,6 +699,8 @@
 	// Replace the peak from the array
     [[self container] willChangeValueForKey:@"peaks"];
 	[peaks replaceObjectAtIndex:index withObject:aPeak];
+    [aPeak setContainer:self];
+    [replacedPeak setContainer:nil];
     [[self container] didChangeValueForKey:@"peaks"];
 }
 

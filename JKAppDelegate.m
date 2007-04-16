@@ -424,14 +424,17 @@
 - (void)doubleClickAction:(id)sender
 {
     int i, count = [[self documents] count];
+    id doc;
     for (i=0; i < count; i++) {
         if (i != [documentListTableView selectedRow]) {
-            id doc = [[self documents] objectAtIndex:i];
+            doc = [[self documents] objectAtIndex:i];
             [[doc windowForSheet] orderOut:nil];            
         }
     }
     if ([documentListTableView selectedRow] != -1) {
-        [[[self documents] objectAtIndex:[documentListTableView selectedRow]] showWindows];
+        doc = [[self documents] objectAtIndex:[documentListTableView selectedRow]];
+        [doc showWindows];
+        [[doc windowForSheet] setFrameTopLeftPoint:NSMakePoint([documentListPanel frame].origin.x+[documentListPanel frame].size.width,[documentListPanel frame].origin.y+[documentListPanel frame].size.height)];
     }
 }
 

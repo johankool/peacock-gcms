@@ -157,15 +157,31 @@
                 }
             }
             JKLogError(@"Could not find peak with uuid %@", uuid);
-            return object;
+            return [[NSObject alloc] init]; // no autorelease?
         }
     } else if ([object isKindOfClass:[BDAlias class]]) {
         id document;
         NSError *error = [[NSError alloc] init];
         NSAssert(object, @"decoding nil BDAlias?!");
         if (![object fullPath]) {
-            JKLogError(@"Could not resolve alias stored in document.");
-            return object;
+            JKLogDebug(@"Could not resolve alias stored in document.");
+            int result;
+            NSArray *fileTypes = [NSArray arrayWithObject:@"peacock"];
+            NSOpenPanel *oPanel = [NSOpenPanel openPanel];
+            [oPanel setMessage:[NSString stringWithFormat:@"Select missing file '%@'",[object originalPath]]];
+            [oPanel setPrompt:NSLocalizedString(@"Select",@"Resolving missing alias prompt")];
+            [oPanel setTitle:NSLocalizedString(@"Resolve Missing File",@"Resolving missing alias title")];
+            [oPanel setAllowsMultipleSelection:NO];
+            result = [oPanel runModalForDirectory:nil
+                                             file:nil types:fileTypes];
+            if (result == NSOKButton) {
+                NSArray *filesToOpen = [oPanel filenames];
+                object = [BDAlias aliasWithPath:[filesToOpen objectAtIndex:0]];
+            } else {
+                JKLogError(@"Could not resolve alias stored in document!!! This is a big problem!");
+                
+                return object;                
+            }
         }
         JKLogDebug(@"BDAlias at path: %@",[object fullPath]);
 		document = [[NSDocumentController sharedDocumentController] documentForURL:[NSURL fileURLWithPath:[object fullPath]]];
