@@ -102,13 +102,13 @@ static void *DocumentObservationContext = (void *)1100;
 #pragma mark Window Management
 
 - (void)makeWindowControllers {
-    JKLogEnteringMethod();
+//    JKLogEnteringMethod();
 //    [self postNotification:JKGCMSDocument_DocumentLoadedNotification];
     if (!mainWindowController) {
         mainWindowController = [[JKMainWindowController alloc] init];
     }
 	[self addWindowController:mainWindowController];
-    JKLogExitingMethod();
+//    JKLogExitingMethod();
 }
 #pragma mark -
 
@@ -260,7 +260,7 @@ static void *DocumentObservationContext = (void *)1100;
 		[unarchiver finishDecoding];
 		[unarchiver release];
       
-        JKLogExitingMethod();
+//        JKLogExitingMethod();
         [[self undoManager] enableUndoRegistration];
  		return result;	
     } else {
@@ -915,10 +915,41 @@ int intSort(id num1, id num2, void *context)
     _isBusy = NO;
 	return YES;
 }
-
 - (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms {
+ 	int answer;
+    
+    NSProgressIndicator *progressIndicator = nil;
+    NSTextField *progressText = nil;
+    
+	if (mainWindowController) {
+        progressIndicator = [mainWindowController progressIndicator];
+        progressText = [mainWindowController progressText];
+    }
+    
+	[progressIndicator setDoubleValue:0.0];
+	[progressIndicator setIndeterminate:YES];
+	[progressIndicator startAnimation:self];
+    	
+	// Read library
+    [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:NSLocalizedString(@"Reading Library",@"") waitUntilDone:NO];
+    
+    NSError *error = [[NSError alloc] init];
+	if (![self libraryAlias]) {
+		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Library Selected",@""),NSLocalizedString(@"Select a Library to use for the identification of the peaks.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+		return NO;
+	}
+	JKLibrary *aLibrary = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[self libraryAlias] fullPath]] display:NO error:&error];
+	if (!aLibrary) {
+		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Library Selected",@""),NSLocalizedString(@"Select a Library to use for the identification of the peaks.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+		return NO;
+	}
+	[error release];
+        
+    return [self performBackwardSearchForChromatograms:someChromatograms withLibraryEntries:[aLibrary libraryEntries]];
+    
+}
+- (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms withLibraryEntries:(NSArray *)libraryEntries {
     _isBusy = YES;
-	NSArray *libraryEntries = nil;
     JKLibraryEntry *libraryEntry = nil;
     JKChromatogram *chromatogramToSearch = nil;
     
@@ -948,22 +979,6 @@ int intSort(id num1, id num2, void *context)
 //		return NO;
 //	}
 	
-	// Read library
-    [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:NSLocalizedString(@"Reading Library",@"") waitUntilDone:NO];
-
-    NSError *error = [[NSError alloc] init];
-	if (![self libraryAlias]) {
-		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Library Selected",@""),NSLocalizedString(@"Select a Library to use for the identification of the peaks.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
-		return NO;
-	}
-	JKLibrary *aLibrary = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[self libraryAlias] fullPath]] display:NO error:&error];
-	if (!aLibrary) {
-		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Library Selected",@""),NSLocalizedString(@"Select a Library to use for the identification of the peaks.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
-		return NO;
-	}
-	[error release];
-    
-	libraryEntries = [aLibrary libraryEntries];
     NSMutableArray *searchChromatograms = [someChromatograms mutableCopy];
     NSMutableArray *newChromatograms = [NSMutableArray array];
 	float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];

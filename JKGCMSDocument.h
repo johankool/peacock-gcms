@@ -116,6 +116,7 @@ typedef enum {
 
 - (BOOL)performLibrarySearchForChromatograms:(NSArray *)someChromatograms;
 - (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms;
+- (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms withLibraryEntries:(NSArray *)libraryEntries;
 - (BOOL)performForwardSearchForChromatograms:(NSArray *)someChromatograms;
 
 //- (BOOL)searchLibraryForAllPeaks:(id)sender;

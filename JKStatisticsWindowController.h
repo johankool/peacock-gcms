@@ -109,6 +109,7 @@
 - (IBAction)runStatisticalAnalysisButtonAction:(id)sender;
 - (IBAction)stopButtonAction:(id)sender;
 - (IBAction)repopulate:(id)sender;
+- (IBAction)combinePeaksAction:(id)sender;
 
 #pragma mark CALCULATED ACCESSORS
 - (NSPredicate *)filterPredicate;

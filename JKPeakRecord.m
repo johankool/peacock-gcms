@@ -137,6 +137,15 @@ NSString *GetUUID(void) {
 
 - (void)addSearchResult:(id)searchResult{
 	if (![searchResults containsObject:searchResult]) {
+        // Loop through searchResults and make sure we not already have a searhc result like this one
+        NSEnumerator *searchResultsEnum = [searchResults objectEnumerator];
+        JKSearchResult *aSearchResult;
+
+        while ((aSearchResult = [searchResultsEnum nextObject]) != nil) {
+        	if ([[[aSearchResult libraryHit] name] isEqualToString:[[searchResult libraryHit] name]]) {
+                return;
+            }
+        }
 		[searchResults insertObject:searchResult atIndex:[searchResults count]];
 		NSSortDescriptor *sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"score" ascending:NO] autorelease];
 		[searchResults sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];

@@ -353,7 +353,7 @@
 	int j,k;
 	int peaksCount, combinedPeaksCount;
 	int knownCombinedPeakIndex, peaksCompared;
-	BOOL isKnownCombinedPeak, isUnknownCompound;
+	BOOL isKnownCombinedPeak, isKnownCompound;
 	float scoreResult, maxScoreResult, previousScoreResult;
 	NSDate *date = [NSDate date];
     float matchTreshold = [[self matchThreshold] floatValue];
@@ -381,7 +381,7 @@
 	for (j=0; j < peaksCount; j++) {
 		peak = [peaksArray objectAtIndex:j];
 		isKnownCombinedPeak = NO;
-		isUnknownCompound = YES;
+		isKnownCompound = NO;
 		
         // Reset symbol, we'll put in the new symbol later if needed
         if (setPeakSymbolToNumber) {
@@ -392,19 +392,19 @@
 		combinedPeaksCount = [combinedPeaks count];
 		maxScoreResult = 0.0f;
 		previousScoreResult = 0.0f; 
+        knownCombinedPeakIndex = 0;
         
 		// Because the combinedPeaks array is empty, we add all peaks for the first one.
 		if (index == 0) {
 			isKnownCombinedPeak = NO;
-			isUnknownCompound = YES;
+			isKnownCompound = NO;
 			if ([peak confirmed] || [peak identified]) {
-				isUnknownCompound = NO;
+				isKnownCompound = YES;
 			}
 		} 
 		
 		spectrum = [[peak spectrum] normalizedSpectrum];
-        isKnownCombinedPeak = NO;
-
+  
 		for (k=0; k < combinedPeaksCount; k++) {
 			combinedPeak = [combinedPeaks objectAtIndex:k];
             
@@ -413,9 +413,14 @@
                 continue;
             }
             
+            // Check if within maximumRetentionIndexDifference range
+            if (fabsf([[peak retentionIndex] floatValue] - [[combinedPeak retentionIndex] floatValue]) > [maximumRetentionIndexDifference floatValue]) {
+                continue;
+            }
+            
 			// Match according to label for confirmed  peaks
 			if ([peak confirmed]) {
-				isUnknownCompound = NO;
+				isKnownCompound = YES;
 				
 				if ([[peak label] isEqualToString:[combinedPeak label]]) {
 					maxScoreResult = 101.0; // confirmed peak!
@@ -423,44 +428,33 @@
 					knownCombinedPeakIndex = k;
 					break;
                 }
-               // Match according to score for identified peaks
+                // Match according to score for identified peaks
             } else if ([peak identified]) {
-                isUnknownCompound = NO;
+                isKnownCompound = YES;
                 
 				if ([[peak label] isEqualToString:[combinedPeak label]]) {
-					maxScoreResult = [spectrum scoreComparedToSpectrum:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
-					isKnownCombinedPeak = YES;
-					knownCombinedPeakIndex = k;
-                    //NSLog(@"maxScoreResult %g",maxScoreResult);
+                    scoreResult = [spectrum scoreComparedToSpectrum:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
+                    peaksCompared++;
+                    if (scoreResult > maxScoreResult) {
+                        maxScoreResult = scoreResult; 
+                        isKnownCombinedPeak = YES;                        
+                        knownCombinedPeakIndex = k;
+                    }
                 }
-                
- //               if (fabsf([[peak retentionIndex] floatValue] - [[combinedPeak retentionIndex] floatValue]) <= [maximumRetentionIndexDifference floatValue]) {
-//					peaksCompared++;
-//					scoreResult  = [spectrum scoreComparedToSpectrum:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
-//					if (scoreResult > matchTreshold) {
-//						if (scoreResult > maxScoreResult) {
-//                            maxScoreResult = scoreResult;
-//							isKnownCombinedPeak = YES;
-//							knownCombinedPeakIndex = k;						
-//						}
-//					}
-//				}
-                
-            } else { // Or if it's an unidentified peak, match according to score
-				isUnknownCompound = YES;
-				if (fabsf([[peak retentionIndex] floatValue] - [[combinedPeak retentionIndex] floatValue]) <= [maximumRetentionIndexDifference floatValue]) {
-					peaksCompared++;
-					scoreResult  = [spectrum scoreComparedToSpectrum:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
-					if (scoreResult > matchTreshold) {
-						if (scoreResult > maxScoreResult) {
-							maxScoreResult = scoreResult;
-							isKnownCombinedPeak = YES;
-							knownCombinedPeakIndex = k;						
-						}
-					}
-				}
-			}
-			
+                // Or if it's an unidentified peak, match according to score    
+            } else {
+				isKnownCompound = NO;
+
+                scoreResult  = [spectrum scoreComparedToSpectrum:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
+                peaksCompared++;
+                if (scoreResult > matchTreshold) {
+                    if (scoreResult > maxScoreResult) {
+                        maxScoreResult = scoreResult;
+                        isKnownCombinedPeak = YES;
+                        knownCombinedPeakIndex = k;						
+                    }
+                }
+            }			
 		}
 
 		if (isKnownCombinedPeak) {
@@ -468,23 +462,22 @@
             previousMatchedPeak = [combinedPeak valueForKey:[NSString stringWithFormat:@"file_%d",index]];
             if (previousMatchedPeak) {
                 previousScoreResult = [[previousMatchedPeak spectrum] scoreComparedToSpectrum:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
-            } 
-            //JKLogDebug(@"previousScoreResult %g; maxScoreResult %g for peak %@ combinedPeak %@", previousScoreResult, maxScoreResult, [peak label], [combinedPeak label]);
-
+                
+                //JKLogDebug(@"previousScoreResult %g; maxScoreResult %g for peak %@ combinedPeak %@", previousScoreResult, maxScoreResult, [peak label], [combinedPeak label]);
+            } else {
+                previousScoreResult = 0.0f;
+            }
             if (previousScoreResult < maxScoreResult) {
                 [combinedPeak setValue:peak forKey:[NSString stringWithFormat:@"file_%d",index]];
-                peaksCompared++;
                 spectrum = [[combinedPeak spectrum] spectrumByAveragingWithSpectrum:[peak spectrum] withWeight:1.0/peaksCount];
                 [combinedPeak setSpectrum:spectrum];                
             } else {
                 // The previous match was better
-                JKLogDebug(@"The previous match (%g) was better than the current (%g) for peak %@", previousScoreResult, maxScoreResult, [peak label]);
                 isKnownCombinedPeak = NO;
-                if ([peak confirmed] || [peak identified]) {
-                    isUnknownCompound = NO;
-                } else {
-                    isUnknownCompound = YES;
-                }
+                // WARNING: A previous peak was matched with a higher score than the current 
+                warningMsg = [NSString stringWithFormat:@"WARNING: The previous match (%g) scored better than the current (%g) for peak %@. This can cause doublures of combined peaks with for the same compound.", previousScoreResult, maxScoreResult, [peak label]];
+                warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
+                [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];
                 
             }            
             
@@ -558,7 +551,7 @@
         
         if (!isKnownCombinedPeak) {            
             combinedPeak = [[JKCombinedPeak alloc] init];
-			if (isUnknownCompound) {
+			if (!isKnownCompound) {
                 [combinedPeak setLabel:[NSString stringWithFormat:NSLocalizedString(@"Unknown compound %d ",@"Unknown compounds in stats summary."), unknownCount]];
 				unknownCount++;
    			} else {
@@ -568,7 +561,7 @@
                 [combinedPeak setLabel:[peak label]];
                 [combinedPeak setLibraryEntry:[peak libraryHit]];
 			}            
-            [combinedPeak setUnknownCompound:isUnknownCompound];
+            [combinedPeak setUnknownCompound:!isKnownCompound];
             [combinedPeak setRetentionIndex:[peak retentionIndex]];
             [combinedPeak setModel:[[peak chromatogram] model]];
             [combinedPeak setSpectrum:[[peak spectrum] normalizedSpectrum]];
@@ -593,8 +586,8 @@
 {	
 	unsigned int i,j;
 	unsigned int peaksCount;
-    int foundIndex;
-    
+    int foundIndex = 0;
+     
 	NSMutableArray *peaksArray;
 	JKPeakRecord *peak;
     NSDictionary *warning;
@@ -716,48 +709,52 @@
                 NSAlert *theAlert = [NSAlert alertWithError:error];
                 [theAlert runModal]; // ignore return value
             }
-            
+
+            NSNumber *orignalMinimumScoreSearchResults = [document minimumScoreSearchResults];
+            NSNumber *orignalMarkAsIdentifiedThreshold = [document markAsIdentifiedThreshold];
+            [document setMinimumScoreSearchResults:[NSNumber numberWithFloat:0.0f]];
+            [document setMarkAsIdentifiedThreshold:[NSNumber numberWithFloat:0.0f]];
             // obtain the chromatogram we need
             chromatogramToSearch = [document chromatogramForModel:[combinedPeak model]];
-                    
-            maximumScore = 0.0f;
-            maximumIndex = -1;
-            
-            // get baseline if needed
-            if ([chromatogramToSearch baselinePointsCount] == 0) {              
-                [chromatogramToSearch obtainBaseline];                          
-            }
-            // get peaks if needed
-            if ([[chromatogramToSearch peaks] count] == 0) {
-                [chromatogramToSearch identifyPeaks];                          
-            }
-            
-            peaksCount = [[chromatogramToSearch peaks] count];
-            for (k = 0; k < peaksCount; k++) {
-                score = [[[[chromatogramToSearch peaks] objectAtIndex:k] spectrum] scoreComparedToSpectrum:[combinedPeak spectrum]];
-                if (score >= maximumScore) {
-                    maximumScore = score;
-                    maximumIndex = k;
+
+            [document performBackwardSearchForChromatograms:[NSArray arrayWithObject:chromatogramToSearch] withLibraryEntries:[NSArray arrayWithObject:[combinedPeak libraryEntry]]];
+        
+//            maximumScore = 0.0f;
+//            maximumIndex = -1;
+//            
+//            // get baseline if needed
+//            if ([chromatogramToSearch baselinePointsCount] == 0) {              
+//                [chromatogramToSearch obtainBaseline];                          
+//            }
+//            // get peaks if needed
+//            if ([[chromatogramToSearch peaks] count] == 0) {
+//                [chromatogramToSearch identifyPeaks];                          
+//            }
+//            
+//            peaksCount = [[chromatogramToSearch peaks] count];
+//            for (k = 0; k < peaksCount; k++) {
+//                score = [[[[chromatogramToSearch peaks] objectAtIndex:k] spectrum] scoreComparedToSpectrum:[combinedPeak spectrum]];
+//                if (score >= maximumScore) {
+//                    maximumScore = score;
+//                    maximumIndex = k;
+//                }
+//            }
+//            
+            // Add result to combinedPEak
+            NSEnumerator *peakEnum = [[chromatogramToSearch peaks] objectEnumerator];
+            JKPeakRecord *peak;
+
+            while ((peak = [peakEnum nextObject]) != nil) {
+            	if ([[peak libraryHit] isEqualTo:[combinedPeak libraryEntry]]) {
+                    break;
                 }
             }
-            
-            // Add libentry as result to highest scoring peak if it is within range of acceptance
-            // if (maximumScore >= minimumScoreSearchResultsF) {
-            if (maximumIndex >= 0) {
-                
-                [combinedPeak setValue:[[chromatogramToSearch peaks] objectAtIndex:maximumIndex] forKey:[NSString stringWithFormat:@"file_%d",i]];
-                JKSearchResult *searchResult = [[JKSearchResult alloc] init];
-                [searchResult setScore:[NSNumber numberWithFloat:maximumScore]];
-                [searchResult setLibraryHit:[combinedPeak libraryEntry]];
-                [searchResult setPeak:[[chromatogramToSearch peaks] objectAtIndex:maximumIndex]];
-                [[[chromatogramToSearch peaks] objectAtIndex:maximumIndex] addSearchResult:searchResult];
-                [searchResult release];                    
-                if (![[document chromatograms] containsObject:chromatogramToSearch]) {
-                    [document willChangeValueForKey:@"peaks"];
-                    [document insertObject:chromatogramToSearch inChromatogramsAtIndex:[document countOfChromatograms]];
-                    [document didChangeValueForKey:@"peaks"];
-                }
-            }             
+            if (peak) {
+                [combinedPeak setValue:peak forKey:[NSString stringWithFormat:@"file_%d",i]];
+            }     
+#warning should I do this??
+            [document setMinimumScoreSearchResults:orignalMinimumScoreSearchResults];
+            [document setMarkAsIdentifiedThreshold:orignalMarkAsIdentifiedThreshold];
         }
     }
     [error release];
@@ -1309,6 +1306,28 @@
 	while ((combinedPeak = [enumerator nextObject])) {
         [combinedPeak confirm];
 	}
+}
+
+- (IBAction)combinePeaksAction:(id)sender {
+    int count = [[combinedPeaksController selectedObjects] count];
+    if (count == 2) {
+        JKCombinedPeak *firstPeak = [[combinedPeaksController selectedObjects] objectAtIndex:0];
+        JKCombinedPeak *secondPeak = [[combinedPeaksController selectedObjects] objectAtIndex:1];
+        if ([[firstPeak model] isEqualToString:[secondPeak model]]) {
+            [[[self document] undoManager] setActionName:NSLocalizedString(@"Combine Peaks",@"")];
+            if ([firstPeak unknownCompound]) {
+                [[secondPeak peaks] addEntriesFromDictionary:[firstPeak peaks]];
+                [self removeObjectFromCombinedPeaksAtIndex:[combinedPeaks indexOfObject:firstPeak]];
+            } else{
+                [[firstPeak peaks] addEntriesFromDictionary:[secondPeak peaks]];
+                [self removeObjectFromCombinedPeaksAtIndex:[combinedPeaks indexOfObject:secondPeak]];
+            }
+        } else {
+            NSBeep();
+        }
+    } else {
+        NSBeep();
+    }
 }
 #pragma mark -
 
