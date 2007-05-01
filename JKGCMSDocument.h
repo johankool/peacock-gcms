@@ -77,7 +77,9 @@ typedef enum {
 	NSNumber *minimumScoreSearchResults;
 	NSNumber *minimumScannedMassRange;
 	NSNumber *maximumScannedMassRange;
-
+    NSNumber *maximumRetentionIndexDifference;
+    
+    
     int peakIDCounter;
 		
     JKGCMSPrintView *printView;
@@ -116,7 +118,7 @@ typedef enum {
 
 - (BOOL)performLibrarySearchForChromatograms:(NSArray *)someChromatograms;
 - (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms;
-- (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms withLibraryEntries:(NSArray *)libraryEntries;
+- (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms withLibraryEntries:(NSArray *)libraryEntries maximumRetentionIndexDifference:(float)aMaximumRetentionIndexDifference;
 - (BOOL)performForwardSearchForChromatograms:(NSArray *)someChromatograms;
 
 //- (BOOL)searchLibraryForAllPeaks:(id)sender;
@@ -228,5 +230,6 @@ idAccessor_h(minimumScoreSearchResults, setMinimumScoreSearchResults)
 boolAccessor_h(abortAction, setAbortAction)
 idAccessor_h(minimumScannedMassRange, setMinimumScannedMassRange)
 idAccessor_h(maximumScannedMassRange, setMaximumScannedMassRange)
+idAccessor_h(maximumRetentionIndexDifference, setMaximumRetentionIndexDifference)
 
 @end

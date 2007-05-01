@@ -59,6 +59,7 @@ static void *DocumentObservationContext = (void *)1100;
 		minimumScoreSearchResults = [[defaultValues valueForKey:@"minimumScoreSearchResults"] retain];
 		minimumScannedMassRange = [[defaultValues valueForKey:@"minimumScannedMassRange"] retain];
 		maximumScannedMassRange = [[defaultValues valueForKey:@"maximumScannedMassRange"] retain];
+        maximumRetentionIndexDifference = [[defaultValues valueForKey:@"maximumRetentionIndexDifference"] retain];
         
         peakIDCounter = 0;
         [[self undoManager] disableUndoRegistration];
@@ -88,6 +89,7 @@ static void *DocumentObservationContext = (void *)1100;
 	[libraryAlias release];
 	[markAsIdentifiedThreshold release];
 	[minimumScoreSearchResults release];
+    [maximumRetentionIndexDifference release];
 	[printView release];
 	int dummy;
 	dummy = nc_close(ncid);
@@ -714,7 +716,7 @@ static void *DocumentObservationContext = (void *)1100;
 	
     //create a chromatogram object
     chromatogram = [[JKChromatogram alloc] initWithModel:mzValuesString];
-
+    [chromatogram setContainer:self];
     [chromatogram setTime:times withCount:num_scan];
     [chromatogram setTotalIntensity:intensities withCount:num_scan];
     
@@ -837,6 +839,7 @@ int intSort(id num1, id num2, void *context)
 	int peaksCount = [[self peaks] count];
 	if (peaksCount == 0) {
 		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Peaks Identified",@""),NSLocalizedString(@"No peaks have yet been identified in the chromatogram. Use the 'Identify Peaks' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+        _isBusy = NO;
 		return NO;
 	}
 	
@@ -845,11 +848,13 @@ int intSort(id num1, id num2, void *context)
 	NSError *error = [[NSError alloc] init];
 	if (![self libraryAlias]) {
 		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Library Selected",@""),NSLocalizedString(@"Select a Library to use for the identification of the peaks.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+        _isBusy = NO;
 		return NO;
 	}
 	JKLibrary *aLibrary = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[self libraryAlias] fullPath]] display:NO error:&error];
 	if (!aLibrary) {
 		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Library Selected",@""),NSLocalizedString(@"Select a Library to use for the identification of the peaks.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+        _isBusy = NO;
 		return NO;
 	}
 	[error release];
@@ -903,6 +908,7 @@ int intSort(id num1, id num2, void *context)
         }
         if(abortAction){
 			JKLogInfo(@"Identifying Compounds Search Aborted by User at entry %d/%d peak %d/%d.",j,entriesCount, k, peaksCount);
+            _isBusy = NO;
 			break;
 		}       
         [progressIndicator incrementBy:chromatogramCount];
@@ -945,10 +951,10 @@ int intSort(id num1, id num2, void *context)
 	}
 	[error release];
         
-    return [self performBackwardSearchForChromatograms:someChromatograms withLibraryEntries:[aLibrary libraryEntries]];
+    return [self performBackwardSearchForChromatograms:someChromatograms withLibraryEntries:[aLibrary libraryEntries] maximumRetentionIndexDifference:[[self maximumRetentionIndexDifference] floatValue]];
     
 }
-- (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms withLibraryEntries:(NSArray *)libraryEntries {
+- (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms withLibraryEntries:(NSArray *)libraryEntries maximumRetentionIndexDifference:(float)aMaximumRetentionIndexDifference {
     _isBusy = YES;
     JKLibraryEntry *libraryEntry = nil;
     JKChromatogram *chromatogramToSearch = nil;
@@ -993,11 +999,16 @@ int intSort(id num1, id num2, void *context)
     for (j = 0; j < entriesCount; j++) {
 		maximumScore = 0.0f;
 		maximumIndex = -1;
-        libraryEntry = [libraryEntries objectAtIndex:j];
-        [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Library Entry '%@'",@""),[libraryEntry name]] waitUntilDone:NO];
+        libraryEntry = [libraryEntries objectAtIndex:j]; // can also be a spectrum!!
+        if ([libraryEntry isKindOfClass:[JKLibraryEntry class]]) {
+            [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Library Entry '%@'",@""),[libraryEntry name]] waitUntilDone:NO];            
+            libraryEntryModel = [self cleanupModelString:[libraryEntry modelChr]];
+        } else {
+            [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Spectrum  '%@'",@""),[libraryEntry model]] waitUntilDone:NO];                        
+            libraryEntryModel = [libraryEntry model];
+        }
         // Search through TIC by default
         chromatogramToSearch = nil;
-        libraryEntryModel = [self cleanupModelString:[libraryEntry modelChr]];
         if (libraryEntryModel) {
             chromatogramCount = [searchChromatograms count];
             for (l = 0; l < chromatogramCount; l++) {
@@ -1023,7 +1034,9 @@ int intSort(id num1, id num2, void *context)
              }
         } else {
             if ([searchChromatograms containsObject:[[self chromatograms] objectAtIndex:0]]) {
-                JKLogWarning(@"Using TIC chromatogram for library entry '%@'.", [libraryEntry name]); 
+                if ([libraryEntry isKindOfClass:[JKLibraryEntry class]]) {
+                    JKLogWarning(@"Using TIC chromatogram for library entry '%@'.", [libraryEntry name]); 
+                }
                 chromatogramToSearch = [[self chromatograms] objectAtIndex:0];
             } else {
                 continue;
@@ -1034,24 +1047,30 @@ int intSort(id num1, id num2, void *context)
             [chromatogramToSearch obtainBaseline];                          
         }
         if ([[chromatogramToSearch peaks] count] == 0) {
-            [newChromatograms addObject:chromatogramToSearch];
             [chromatogramToSearch identifyPeaks];                          
         }
-        [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Library Entry '%@'",@""),[libraryEntry name]] waitUntilDone:NO];
+        if ([[chromatogramToSearch peaks] count] == 0) {
+            JKLogError(@"No peaks found for chromatogram with model '%@'. bls: %d", [chromatogramToSearch model],[chromatogramToSearch baselinePointsCount]);                        
+        }
+        if ([libraryEntry isKindOfClass:[JKLibraryEntry class]]) {
+            [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Library Entry '%@'",@""),[libraryEntry name]] waitUntilDone:NO];
+        }
         peaksCount = [[chromatogramToSearch peaks] count];
 		for (k = 0; k < peaksCount; k++) {
-			score = [[[[chromatogramToSearch peaks] objectAtIndex:k] spectrum] scoreComparedToLibraryEntry:libraryEntry];
-			if (score >= maximumScore) {
-				maximumScore = score;
-				maximumIndex = k;
-			}
+            if (fabsf([[[[chromatogramToSearch peaks] objectAtIndex:k] retentionIndex] floatValue] - [[libraryEntry retentionIndex] floatValue]) < aMaximumRetentionIndexDifference) {
+                score = [[[[chromatogramToSearch peaks] objectAtIndex:k] spectrum] scoreComparedToLibraryEntry:libraryEntry];
+                if (score >= maximumScore) {
+                    maximumScore = score;
+                    maximumIndex = k;
+                }                
+            }
 		}
         
 		// Add libentry as result to highest scoring peak if it is within range of acceptance
-		if (maximumScore >= minimumScoreSearchResultsF) {
+		if ((maximumScore >= minimumScoreSearchResultsF) && (maximumIndex > -1)) {
 			JKSearchResult *searchResult = [[JKSearchResult alloc] init];
 			[searchResult setScore:[NSNumber numberWithFloat:maximumScore]];
-			[searchResult setLibraryHit:[libraryEntries objectAtIndex:j]];
+            [searchResult setLibraryHit:libraryEntry];
             [searchResult setLibrary:[self libraryAlias]];
             [searchResult setPeak:[[chromatogramToSearch peaks] objectAtIndex:maximumIndex]];
 			[[[chromatogramToSearch peaks] objectAtIndex:maximumIndex] addSearchResult:searchResult];
@@ -1060,6 +1079,7 @@ int intSort(id num1, id num2, void *context)
         
 		if(abortAction){
 			JKLogInfo(@"Identifying Compounds Search Aborted by User at entry %d/%d peak %d/%d.",j,entriesCount, k, peaksCount);
+            _isBusy = NO;
 			return NO;
 		}
         [progressIndicator incrementBy:1.0];
@@ -1343,6 +1363,8 @@ idUndoAccessor(markAsIdentifiedThreshold, setMarkAsIdentifiedThreshold, @"Change
 idUndoAccessor(minimumScoreSearchResults, setMinimumScoreSearchResults, @"Change Minimum Score")
 idUndoAccessor(minimumScannedMassRange, setMinimumScannedMassRange, @"Change Minimum Scanned Mass Range")
 idUndoAccessor(maximumScannedMassRange, setMaximumScannedMassRange, @"Change Maximum Scanned Mass Range")
+idUndoAccessor(maximumRetentionIndexDifference, setMaximumRetentionIndexDifference, @"Change Maximum Retention Index Difference")
+
 boolAccessor(abortAction, setAbortAction)
 
 #pragma mark (weakly referenced)

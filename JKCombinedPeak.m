@@ -260,8 +260,21 @@
 	return symbol;
 }
 - (void)setSymbol:(NSNumber *)aSymbol {
-	[symbol autorelease];
-	symbol = [aSymbol retain];
+    if (aSymbol != symbol) {
+        [[self undoManager] registerUndoWithTarget:self
+                                          selector:@selector(setSymbol:)
+                                            object:symbol];
+        
+        [symbol autorelease];
+        symbol = [aSymbol retain];
+        
+        // Set symbol also for all peaks
+        NSEnumerator *peakEnum = [peaks objectEnumerator];
+        JKPeakRecord *peak;
+        while (peak = [peakEnum nextObject]) {
+            [peak setSymbol:[symbol stringValue]];
+        }
+    }
 }
 - (NSNumber *)retentionIndex {
 	return retentionIndex;

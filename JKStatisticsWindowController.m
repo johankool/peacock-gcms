@@ -255,7 +255,7 @@
         [detailStatusTextField setStringValue:NSLocalizedString(@"Assigning Symbols",@"")];
         // Number in order of occurence
         for (i = 0; i < combinedPeaksCount; i++) {
-            [[combinedPeaks objectAtIndex:i] setSymbol:[NSString stringWithFormat:@"%d", i+1]];
+            [[combinedPeaks objectAtIndex:i] setSymbol:[NSNumber numberWithInt:i+1]];
             peaksEnumerator = [[[combinedPeaks objectAtIndex:i] peaks] objectEnumerator];		
             while ((peak = [peaksEnumerator nextObject])) {
                 [peak setSymbol:[NSString stringWithFormat:@"%d", i+1]];
@@ -690,14 +690,32 @@
 - (void)searchMissingPeaksInCombinedPeak:(JKCombinedPeak *)combinedPeak {
     JKChromatogram *chromatogramToSearch = nil;
     int filesCount = [[self files] count];
-    int i,k;
+    int i;
     JKGCMSDocument *document = nil;
     NSError *error = [[NSError alloc] init];
-    int peaksCount;
-    int maximumIndex;
-    float score, maximumScore;	
-    
+
     //    float minimumScoreSearchResultsF = [[document minimumScoreSearchResults] floatValue];
+    
+    if ([combinedPeak unknownCompound]) {
+        // Add result to combinedPEak
+        NSEnumerator *peakEnum = [[combinedPeak peaks] objectEnumerator];
+        JKPeakRecord *peak;
+        
+        while ((peak = [peakEnum nextObject]) != nil) {
+            if ([peak confirmed]) {
+                break;
+            }
+        }
+        if (peak) {
+            [combinedPeak setLibraryEntry:[peak libraryHit]];
+            [combinedPeak setLabel:[[peak libraryHit] name]];
+            [combinedPeak setUnknownCompound:NO];
+        } else {
+            NSRunInformationalAlertPanel(@"Finding missing peaks not possible",@"To find missing peaks identify and confirm at least one peak in the selected combined peak.",@"OK",nil,nil);
+            return;
+        }  
+        
+    }
     
     for (i = 0; i < filesCount; i++) {
         // do we have a peak for earch file?
@@ -710,36 +728,18 @@
                 [theAlert runModal]; // ignore return value
             }
 
+            [[document undoManager] disableUndoRegistration];
             NSNumber *orignalMinimumScoreSearchResults = [document minimumScoreSearchResults];
             NSNumber *orignalMarkAsIdentifiedThreshold = [document markAsIdentifiedThreshold];
             [document setMinimumScoreSearchResults:[NSNumber numberWithFloat:0.0f]];
             [document setMarkAsIdentifiedThreshold:[NSNumber numberWithFloat:0.0f]];
+            [[document undoManager] enableUndoRegistration];
+
             // obtain the chromatogram we need
             chromatogramToSearch = [document chromatogramForModel:[combinedPeak model]];
 
-            [document performBackwardSearchForChromatograms:[NSArray arrayWithObject:chromatogramToSearch] withLibraryEntries:[NSArray arrayWithObject:[combinedPeak libraryEntry]]];
-        
-//            maximumScore = 0.0f;
-//            maximumIndex = -1;
-//            
-//            // get baseline if needed
-//            if ([chromatogramToSearch baselinePointsCount] == 0) {              
-//                [chromatogramToSearch obtainBaseline];                          
-//            }
-//            // get peaks if needed
-//            if ([[chromatogramToSearch peaks] count] == 0) {
-//                [chromatogramToSearch identifyPeaks];                          
-//            }
-//            
-//            peaksCount = [[chromatogramToSearch peaks] count];
-//            for (k = 0; k < peaksCount; k++) {
-//                score = [[[[chromatogramToSearch peaks] objectAtIndex:k] spectrum] scoreComparedToSpectrum:[combinedPeak spectrum]];
-//                if (score >= maximumScore) {
-//                    maximumScore = score;
-//                    maximumIndex = k;
-//                }
-//            }
-//            
+            [document performBackwardSearchForChromatograms:[NSArray arrayWithObject:chromatogramToSearch] withLibraryEntries:[NSArray arrayWithObject:[combinedPeak libraryEntry]] maximumRetentionIndexDifference:[maximumRetentionIndexDifference floatValue]];
+            
             // Add result to combinedPEak
             NSEnumerator *peakEnum = [[chromatogramToSearch peaks] objectEnumerator];
             JKPeakRecord *peak;
@@ -752,9 +752,10 @@
             if (peak) {
                 [combinedPeak setValue:peak forKey:[NSString stringWithFormat:@"file_%d",i]];
             }     
-#warning should I do this??
+            [[document undoManager] disableUndoRegistration];
             [document setMinimumScoreSearchResults:orignalMinimumScoreSearchResults];
             [document setMarkAsIdentifiedThreshold:orignalMarkAsIdentifiedThreshold];
+            [[document undoManager] enableUndoRegistration];
         }
     }
     [error release];
@@ -1317,10 +1318,12 @@
             [[[self document] undoManager] setActionName:NSLocalizedString(@"Combine Peaks",@"")];
             if ([firstPeak unknownCompound]) {
                 [[secondPeak peaks] addEntriesFromDictionary:[firstPeak peaks]];
-                [self removeObjectFromCombinedPeaksAtIndex:[combinedPeaks indexOfObject:firstPeak]];
+                [combinedPeaks removeObject:firstPeak];
+               // [self removeObjectFromCombinedPeaksAtIndex:[combinedPeaks indexOfObject:firstPeak]];
             } else{
                 [[firstPeak peaks] addEntriesFromDictionary:[secondPeak peaks]];
-                [self removeObjectFromCombinedPeaksAtIndex:[combinedPeaks indexOfObject:secondPeak]];
+                [combinedPeaks removeObject:secondPeak];
+                // [self removeObjectFromCombinedPeaksAtIndex:[combinedPeaks indexOfObject:secondPeak]];
             }
         } else {
             NSBeep();

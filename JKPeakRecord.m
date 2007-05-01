@@ -143,7 +143,9 @@ NSString *GetUUID(void) {
 
         while ((aSearchResult = [searchResultsEnum nextObject]) != nil) {
         	if ([[[aSearchResult libraryHit] name] isEqualToString:[[searchResult libraryHit] name]]) {
-                return;
+                if (aSearchResult != identifiedSearchResult) {
+                    [searchResults removeObject:aSearchResult];
+                }
             }
         }
 		[searchResults insertObject:searchResult atIndex:[searchResults count]];

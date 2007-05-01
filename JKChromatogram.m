@@ -168,6 +168,8 @@
         baselinePointsScans[i] = newBaselinePointsScans[i];
         baselinePointsIntensities[i] = newBaselinePointsIntensities[i];
  	}
+    [self didChangeValueForKey:@"baseline"];
+
 }	
 
 - (float)baselineValueAtScan:(int)inValue {
