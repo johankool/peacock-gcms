@@ -15,8 +15,14 @@
     NSImage* chromImage;
     NSImage* spectrumImage;
     NSAttributedString *peakTable;
-
 }
+
+#pragma mark Initialization & deallocation
+- (id)initWithDocument:(JKGCMSDocument *)aDocument;
+#pragma mark -
+
+#pragma mark Printing
+- (void)preparePDFRepresentations;
 - (NSRect)rectForChromatogram;
 - (NSRect)rectForSpectrum;
 - (NSRect)rectForPeakTable:(int)page;

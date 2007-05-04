@@ -9,7 +9,7 @@
 #import "MyGraphDataSerie.h"
 #import "MyGraphView.h"
 
-static void *DictionaryObservationContext = (void *)1091;
+//static void *DictionaryObservationContext = (void *)1091;
 static void *ArrayObservationContext = (void *)1092;
 //static void *PropertyObservationContext = (void *)1093;
 

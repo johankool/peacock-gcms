@@ -10,6 +10,7 @@
 
 #import "JKGCMSDocument.h"
 #import "JKPeakRecord.h"
+#import "JKMainWindowController.h"
 
 @implementation JKGCMSPrintView
 
@@ -22,7 +23,8 @@
     return self;
 }
 
-- (id)initWithDocument:(JKGCMSDocument *)aDocument {
+- (id)initWithDocument:(JKGCMSDocument *)aDocument 
+{
     self = [self initWithFrame:NSMakeRect(0.0f,0.0f,1000000.0f,1000000.0f)];  
     if (self) {
         document = aDocument;

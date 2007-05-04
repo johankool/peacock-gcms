@@ -614,6 +614,11 @@
     memcpy(baselinePointsIntensities, inArray, baselinePointsCount*sizeof(float));
 }
 
+- (void)insertObject:(NSMutableDictionary *)aBaselinePoint inBaselinePointsAtIndex:(int)index
+{
+#warning Implementation missing
+}
+
 #pragma mark (to many relationships)
 // Mutable To-Many relationship peaks
 - (NSMutableArray *)peaks {
@@ -681,10 +686,10 @@
 	}
 	
 	// Remove the peak from the array
-    [[self container] willChangeValueForKey:@"peaks"];
+//    [[self container] willChangeValueForKey:@"peaks"];
 	[peaks removeObjectAtIndex:index];
     [aPeak setContainer:nil];
-    [[self container] didChangeValueForKey:@"peaks"];
+//    [[self container] didChangeValueForKey:@"peaks"];
 }
 
 - (void)replaceObjectInPeaksAtIndex:(int)index withObject:(JKPeakRecord *)aPeak{

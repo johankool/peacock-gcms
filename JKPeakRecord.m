@@ -82,6 +82,32 @@ NSString *GetUUID(void) {
 #pragma mark ACTIONS
 
 - (BOOL)confirm{
+    int answer;
+    // check if there is already a peak with the same label
+    if ([[[self chromatogram] document] hasPeakConfirmedAs:[identifiedSearchResult libraryHit] notBeing:self]) {
+        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Library hit already assigned",@""),NSLocalizedString(@"There is already a confirmed peak with the same library hit. Usually only one peak should be assigned to a library entry. What action do you want to take?",@""), NSLocalizedString(@"Assign to This Peak Only",@""), NSLocalizedString(@"Cancel",@""), NSLocalizedString(@"Assign to Both Peaks",@""));
+        if (answer == NSOKButton) {
+            // Assign to This Peak Only
+            [[[self chromatogram] document] unconfirmPeaksConfirmedAs:[identifiedSearchResult libraryHit] notBeing:self];
+        } else if (answer == NSCancelButton) {
+            // Cancel
+            return NO;
+        } else {      
+            // Assign to Both Peaks
+        }        
+    }
+    
+    // check if other peak with same top scan and offer to delete those
+    if ([[[self chromatogram] document] hasPeakAtTopScan:[self top] notBeing:self]) {
+        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Remove peaks in other models?",@""), NSLocalizedString(@"One or more peaks with the same top scan were found in other models. Most likely you want to identify and confirm a peak in one model only. Do you want to remove the peaks in the other models?",@""), NSLocalizedString(@"Delete",@""), NSLocalizedString(@"Keep",@""),nil);
+        if (answer == NSOKButton) {
+            // Delete
+            [[[self chromatogram] document] removePeaksAtTopScan:[self top] notBeing:self];
+        } else if (answer == NSCancelButton) {
+            // Keep
+        }     
+    }
+    
 	if ([self identified]) {		
 		[self setConfirmed:YES];
         [searchResults setArray:[NSArray arrayWithObject:identifiedSearchResult]];
@@ -117,25 +143,60 @@ NSString *GetUUID(void) {
 	[self setIdentifiedSearchResult:nil];
 }
 
-- (BOOL)identifyAs:(id)searchResult{
-	[self willChangeValueForKey:@"libraryHit"];
-	[self setIdentifiedSearchResult:searchResult];
-	// Initial default settings after identification, but can be customized by user later on
-	[self setLabel:[searchResult valueForKeyPath:@"libraryHit.name"]];
-	[self setSymbol:[searchResult valueForKeyPath:@"libraryHit.symbol"]];
-	[self setIdentified:YES];
-	[self setConfirmed:NO];
-	
-	if (![searchResults containsObject:searchResult]) {
-		[self willChangeValueForKey:@"searchResultCount"];
-		[searchResults insertObject:searchResult atIndex:[searchResults count]];
-		[self didChangeValueForKey:@"searchResultCount"];
-	}
-	[self didChangeValueForKey:@"libraryHit"];
-	return YES;
+- (BOOL)identifyAsLibraryEntry:(JKLibraryEntry *)aLibraryEntry
+{
+    if ([[[self chromatogram] model] isEqualToString:[aLibraryEntry modelChr]]) {
+        JKSearchResult *searchResult = [[JKSearchResult alloc] init];
+        [searchResult setPeak:self];
+        [searchResult setLibraryHit:aLibraryEntry];
+        [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedToLibraryEntry:aLibraryEntry]]];
+        [self addSearchResult:searchResult];
+        [self setIdentifiedSearchResult:searchResult];
+        [searchResult release];
+        
+        if ([self confirm]) {
+            // Initial default settings after identification, but can be customized by user later on
+            [self setLabel:[aLibraryEntry name]];
+            [self setSymbol:[aLibraryEntry symbol]];
+            [self setIdentified:YES];            
+        } else {
+            // NOT completely right, if identified before, now not anymore... 
+            [self removeObjectFromSearchResultsAtIndex:[[self searchResults] indexOfObject:searchResults]];
+            [self discard];
+            return NO;
+        }
+        
+        [self didChangeValueForKey:@"libraryHit"];
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
-- (void)addSearchResult:(id)searchResult{
+
+- (BOOL)identifyAs:(JKSearchResult *)searchResult{
+    if ([[[self chromatogram] model] isEqualToString:[[searchResult libraryHit] modelChr]]) {
+        [self willChangeValueForKey:@"libraryHit"];
+        [self setIdentifiedSearchResult:searchResult];
+        // Initial default settings after identification, but can be customized by user later on
+        [self setLabel:[searchResult valueForKeyPath:@"libraryHit.name"]];
+        [self setSymbol:[searchResult valueForKeyPath:@"libraryHit.symbol"]];
+        [self setIdentified:YES];
+        [self setConfirmed:NO];
+        
+        if (![searchResults containsObject:searchResult]) {
+            [self willChangeValueForKey:@"searchResultCount"];
+            [searchResults insertObject:searchResult atIndex:[searchResults count]];
+            [self didChangeValueForKey:@"searchResultCount"];
+        }
+        [self didChangeValueForKey:@"libraryHit"];
+	return YES;
+    } else {
+        return NO;
+    }    
+}
+
+- (void)addSearchResult:(JKSearchResult *)searchResult{
 	if (![searchResults containsObject:searchResult]) {
         // Loop through searchResults and make sure we not already have a searhc result like this one
         NSEnumerator *searchResultsEnum = [searchResults objectEnumerator];

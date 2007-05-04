@@ -468,21 +468,21 @@
 	}
 	
 //	JKLogDebug(@"returned score %f score = %f score2 = %f", (1.0-score/score2)*100.0, score, score2);
-	if (penalizeForRetentionIndex) {
-		float retentionIndexDelta, retentionIndexPenalty;
-		float retentionIndexLibrary = [[libraryEntry retentionIndex] floatValue];
-		if (retentionIndexLibrary == 0.0f || [[self peak] retentionIndex] == nil) {
-			return (1.0f-score/score2)*90.0f;			//10% penalty!!
-		}
-					
-		retentionIndexDelta = retentionIndexLibrary - [[[self peak] retentionIndex] floatValue];
-		retentionIndexPenalty = pow(retentionIndexDelta,2) *  -0.000004f + 1;
-		
-		return (1.0f-score/score2) * retentionIndexPenalty * 100.0f; 
-	} else {
+//	if (penalizeForRetentionIndex) {
+//		float retentionIndexDelta, retentionIndexPenalty;
+//		float retentionIndexLibrary = [[libraryEntry retentionIndex] floatValue];
+//		if (retentionIndexLibrary == 0.0f || [[self peak] retentionIndex] == nil) {
+//			return (1.0f-score/score2)*90.0f;			//10% penalty!!
+//		}
+//					
+//		retentionIndexDelta = retentionIndexLibrary - [[[self peak] retentionIndex] floatValue];
+//		retentionIndexPenalty = pow(retentionIndexDelta,2) *  -0.000004f + 1;
+//		
+//		return (1.0f-score/score2) * retentionIndexPenalty * 100.0f; 
+//	} else {
 //        JKLogDebug(@"score %g [%d] label %@ score1 %g score2 %g",(1.0f-score/score2)*100.0f, scoreBasis, [libraryEntry model], score, score2);
 		return (1.0f-score/score2)*100.0f;			
-	}
+//	}
 }
 
 - (NSNumber *)retentionIndex {

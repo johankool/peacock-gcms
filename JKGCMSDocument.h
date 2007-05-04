@@ -15,6 +15,7 @@
 @class JKGCMSPrintView;
 @class JKSpectrum;
 @class SpectrumGraphDataSerie;
+@class JKLibraryEntry;
 
 extern NSString *const JKGCMSDocument_DocumentDeactivateNotification;
 extern NSString *const JKGCMSDocument_DocumentActivateNotification;
@@ -167,6 +168,14 @@ int intSort(id num1, id num2, void *context);
 - (void)addChromatogramForModel:(NSString *)modelString;
 
 - (int)nextPeakID;
+
+#pragma mark Doublures management
+- (BOOL)hasPeakConfirmedAs:(JKLibraryEntry *)libraryHit notBeing:(JKPeakRecord *)originatingPeak;
+- (BOOL)hasPeakAtTopScan:(int)topScan notBeing:(JKPeakRecord *)originatingPeak;
+- (void)unconfirmPeaksConfirmedAs:(JKLibraryEntry *)libraryHit notBeing:(JKPeakRecord *)originatingPeak;
+- (void)removePeaksAtTopScan:(int)topScan notBeing:(JKPeakRecord *)originatingPeak;
+#pragma mark -
+
 
 #pragma mark ACCESSORS
 - (JKMainWindowController *)mainWindowController;

@@ -12,6 +12,7 @@
 @class JKGCMSDocument;
 @class ChromatogramGraphDataSerie;
 @class JKPeakRecord;
+@class JKLibraryEntry;
 
 @interface JKChromatogram : JKModelObject <NSCoding> {
     NSString *model;
@@ -90,6 +91,7 @@
 //- (void)replaceObjectInBaselinePointsAtIndex:(int)index withObject:(NSMutableDictionary *)aBaselinePoint;
 //- (BOOL)validateBaselinePoint:(NSMutableDictionary **)aBaselinePoint error:(NSError **)outError;
 //- (void)cacheBaselinePoints;
+- (void)insertObject:(NSMutableDictionary *)aBaselinePoint inBaselinePointsAtIndex:(int)index;
 
 // Mutable To-Many relationship peak
 - (NSMutableArray *)peaks;

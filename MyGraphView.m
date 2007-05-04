@@ -1448,6 +1448,7 @@ static int   kPaddingLabels             = 4;
 				//  add peak
 				JKLogDebug(@"add peak");
 			} else if ([theEvent modifierFlags] & NSCommandKeyMask) {
+#warning [BUG] can't manually add baseline point
                 // add baseline point
                 JKChromatogram *chromatogram = [self chromatogramAtPoint:mouseLocation];
                 [chromatogram insertObject:[self pointAtPoint:mouseLocation] inBaselinePointsAtIndex:[chromatogram baselinePointsIndexAtScan:[self scanAtPoint:mouseLocation]]];

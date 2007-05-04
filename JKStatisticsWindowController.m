@@ -318,6 +318,121 @@
 	[pool release];
 }
 
+- (void)updateCombinedPeaks {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+	BOOL errorOccurred = NO;	
+	[self setAbortAction:NO];
+    int i;
+    int filesCount = [files count];
+	NSError *error = [[NSError alloc] init];
+	JKGCMSDocument *document = nil;
+    
+	// Prepations before starting processing files
+	[detailStatusTextField setStringValue:NSLocalizedString(@"Preparing processing",@"")];
+	
+    [fileProgressIndicator setIndeterminate:NO];
+	[fileProgressIndicator setMaxValue:filesCount*5.0];
+	[fileProgressIndicator setDoubleValue:0.0];
+	for (i=0; i < filesCount; i++) {
+		[detailStatusTextField setStringValue:@"Opening Document"];
+		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:!closeDocuments error:&error];
+        if (!document) {
+            // maybe try to determine cause of error and recover first
+            NSAlert *theAlert = [NSAlert alertWithError:error];
+            [theAlert runModal]; // ignore return value
+        }
+		[[self window] makeKeyAndOrderFront:self];
+		if (document == nil) {
+			//  Error(@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]);
+			errorOccurred = YES;
+            NSString *errorMsg = [NSString stringWithFormat:@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]];
+            NSDictionary *warning = [NSDictionary dictionaryWithObjectsAndKeys:@"UNKNOWN", @"document", errorMsg, @"warning", nil];
+            [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];
+			[fileProgressIndicator setDoubleValue:(i+1)*5.0];
+			continue;	
+		}
+		[fileStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Processing file '%@' (%d of %d)",@"Batch process status text"),[[files objectAtIndex:i] valueForKey:@"filename"],i+1,filesCount]];
+		if (abortAction) {
+			break;
+		}		
+		if (comparePeaks) {
+            [detailStatusTextField setStringValue:NSLocalizedString(@"Comparing Peaks",@"")];
+            [self updateCombinedPeaksForDocument:document atIndex:i];  
+        }
+        [fileProgressIndicator incrementBy:1.0];
+		if (abortAction) {
+			break;
+		}		
+		if (closeDocuments) {
+			[detailStatusTextField setStringValue:NSLocalizedString(@"Closing Document",@"")];
+			[document close];
+		}
+        [fileProgressIndicator incrementBy:1.0];
+		if (abortAction) {
+			break;
+		}
+		[fileProgressIndicator setDoubleValue:(i+1)*5.0];
+	}
+	// Out of scope for files
+	
+	
+	// Sorting results
+    [detailStatusTextField setStringValue:NSLocalizedString(@"Sorting Results",@"")];
+	[fileProgressIndicator setIndeterminate:YES];
+    [self sortCombinedPeaks];
+    
+    if (setPeakSymbolToNumber) {        
+        NSEnumerator *peaksEnumerator = nil;
+        JKPeakRecord *peak = nil;
+        int combinedPeaksCount = [[self combinedPeaks] count];
+        [detailStatusTextField setStringValue:NSLocalizedString(@"Assigning Symbols",@"")];
+        // Number in order of occurence
+        for (i = 0; i < combinedPeaksCount; i++) {
+            [[combinedPeaks objectAtIndex:i] setSymbol:[NSNumber numberWithInt:i+1]];
+            peaksEnumerator = [[[combinedPeaks objectAtIndex:i] peaks] objectEnumerator];		
+            while ((peak = [peaksEnumerator nextObject])) {
+                [peak setSymbol:[NSString stringWithFormat:@"%d", i+1]];
+            }		
+        }
+    }
+    
+    if (performSanityCheck) {
+        [detailStatusTextField setStringValue:NSLocalizedString(@"Checking Sanity",@"")];
+        for (i=0; i < filesCount; i++) {
+            //NSLog(@"file %d of %d", i, filesCount);
+            document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:!closeDocuments error:&error];
+            if (!document) {
+                // maybe try to determine cause of error and recover first
+                NSAlert *theAlert = [NSAlert alertWithError:error];
+                [theAlert runModal]; // ignore return value
+            }           
+            [self doSanityCheckForDocument:document atIndex:i];
+            if (abortAction) {
+                break;
+            }        
+        }       
+    }
+    
+	[error release];
+	[[self window] makeKeyAndOrderFront:self];
+	    
+	// This way we don't get bolded text!
+    [NSApp endSheet:progressSheet];
+	//[NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];
+    
+	if (errorOccurred) {
+		NSRunCriticalAlertPanel(NSLocalizedString(@"Error(s) during processing",@""),NSLocalizedString(@"One or more errors occurred during processing your files. The log contains more details about the error. Common errors include files moved after being added to the list and full disks.",@""),NSLocalizedString(@"OK",@""),nil,nil);
+	} else if (abortAction) {
+		NSRunInformationalAlertPanel(NSLocalizedString(@"Statistical Analysis aborted",@""),NSLocalizedString(@"The execution of the statistical analysis was aborted by the user. Be advised to check the current state of the files that were being processed.",@""),NSLocalizedString(@"OK",@""),nil,nil);
+	} else {
+        [GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Statistical Analysis Updated",@"") description:NSLocalizedString(@"Peacock finished processing your data.",@"") notificationName:@"Statistical Analysis Updated" iconData:nil priority:0 isSticky:NO clickContext:nil];
+        [tabView performSelectorOnMainThread:@selector(selectTabViewItemWithIdentifier:) withObject:@"tabular" waitUntilDone:NO];
+    }
+    
+    [pool release];
+}
+
 // Move this method to JKStatisticsDocument
 - (void)collectMetadataForDocument:(JKGCMSDocument *)document atIndex:(int)index {
 	NSMutableDictionary *metadataDictSampleCode = [metadata objectAtIndex:0];
@@ -582,6 +697,248 @@
 }
 
 // Move this method to JKStatisticsDocument
+- (void)updateCombinedPeaksForDocument:(JKGCMSDocument *)document atIndex:(int)index 
+{
+	// This autoreleasepool allows to flush the memory after each file, to prevent using more than 2 GB during this loop!
+	NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
+    NSString *warningMsg;
+    NSDictionary *warning;
+    
+	int j,k;
+	int peaksCount, combinedPeaksCount;
+	int knownCombinedPeakIndex, peaksCompared;
+	BOOL isKnownCombinedPeak, isKnownCompound;
+    BOOL needsUpdating;
+	float scoreResult, maxScoreResult, previousScoreResult;
+	NSDate *date = [NSDate date];
+    float matchTreshold = [[self matchThreshold] floatValue];
+    
+	NSMutableArray *peaksArray = nil;
+	JKPeakRecord *peak = nil;
+	JKCombinedPeak *combinedPeak = nil;
+	JKSpectrum *spectrum = nil;
+	JKPeakRecord *previousMatchedPeak = nil;
+    
+	// Problems!
+	//  - should use retention index instead of retention time
+	// ?- measurement conditions should be similar e.g. same temp. program
+	// \u201a\340\366- comparison to peaks within same chromatogram may occur when peaks within window were added
+	// ?- unconfirmed peaks encountered before corresponding confirmed peak won't match
+	// ?- no check to see if combined peak already had a match from the same file (highest score should win?)
+	// \u201a\340\366- memory usage from opening files is problematic: open/close files on demand?
+	
+	date = [NSDate date];
+	peaksCompared = 0;
+	peaksArray = [[[document peaks] filteredArrayUsingPredicate:[self filterPredicate]] mutableCopy];
+	peaksCount = [peaksArray count];
+            
+	// Go through the peaks
+	for (j=0; j < peaksCount; j++) {
+		peak = [peaksArray objectAtIndex:j];
+		isKnownCombinedPeak = NO;
+		isKnownCompound = NO;
+        
+		// Match with combined peaks
+		combinedPeaksCount = [combinedPeaks count];
+
+        needsUpdating = YES;
+        for (k=0; k < combinedPeaksCount; k++) {
+            combinedPeak = [combinedPeaks objectAtIndex:k];
+            if ([[[combinedPeak peaks] allValues] containsObject:peak]) {
+                needsUpdating = NO;
+            }              
+        }
+        if (!needsUpdating) {
+            continue;
+        } else {
+            JKLogDebug(@"Updating for peak %@", peak);
+        }
+        
+		maxScoreResult = 0.0f;
+		previousScoreResult = 0.0f; 
+        knownCombinedPeakIndex = 0;
+        		
+		spectrum = [[peak spectrum] normalizedSpectrum];
+        
+		for (k=0; k < combinedPeaksCount; k++) {
+			combinedPeak = [combinedPeaks objectAtIndex:k];
+            
+            // Check if models match
+			if (![[[peak chromatogram] model] isEqualToString:[combinedPeak model]]) {
+                continue;
+            }
+            
+            // Check if within maximumRetentionIndexDifference range
+            if (fabsf([[peak retentionIndex] floatValue] - [[combinedPeak retentionIndex] floatValue]) > [maximumRetentionIndexDifference floatValue]) {
+                continue;
+            }
+            
+			// Match according to label for confirmed  peaks
+			if ([peak confirmed]) {
+				isKnownCompound = YES;
+				
+				if ([[peak label] isEqualToString:[combinedPeak label]]) {
+                    needsUpdating = NO;
+					maxScoreResult = 101.0; // confirmed peak!
+					isKnownCombinedPeak = YES;
+					knownCombinedPeakIndex = k;
+					break;
+                }
+                // Match according to score for identified peaks
+            } else if ([peak identified]) {
+                isKnownCompound = YES;
+                
+				if ([[peak label] isEqualToString:[combinedPeak label]]) {
+                    scoreResult = [spectrum scoreComparedToSpectrum:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
+                    peaksCompared++;
+                    if (scoreResult > maxScoreResult) {
+                        needsUpdating = NO;
+                        maxScoreResult = scoreResult; 
+                        isKnownCombinedPeak = YES;                        
+                        knownCombinedPeakIndex = k;
+                    }
+                }
+                // Or if it's an unidentified peak, match according to score    
+            } else {
+				isKnownCompound = NO;
+                
+                scoreResult  = [spectrum scoreComparedToSpectrum:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
+                peaksCompared++;
+                if (scoreResult > matchTreshold) {
+                    if (scoreResult > maxScoreResult) {
+                        maxScoreResult = scoreResult;
+                        isKnownCombinedPeak = YES;
+                        knownCombinedPeakIndex = k;						
+                    }
+                }
+            }			
+		}
+        
+		if (isKnownCombinedPeak) {
+ 			combinedPeak = [combinedPeaks objectAtIndex:knownCombinedPeakIndex];
+            previousMatchedPeak = [combinedPeak valueForKey:[NSString stringWithFormat:@"file_%d",index]];
+            if (previousMatchedPeak) {
+                previousScoreResult = [[previousMatchedPeak spectrum] scoreComparedToSpectrum:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
+                
+                //JKLogDebug(@"previousScoreResult %g; maxScoreResult %g for peak %@ combinedPeak %@", previousScoreResult, maxScoreResult, [peak label], [combinedPeak label]);
+            } else {
+                previousScoreResult = 0.0f;
+            }
+            if (previousScoreResult < maxScoreResult) {
+                [combinedPeak setValue:peak forKey:[NSString stringWithFormat:@"file_%d",index]];
+                spectrum = [[combinedPeak spectrum] spectrumByAveragingWithSpectrum:[peak spectrum] withWeight:1.0/peaksCount];
+                [combinedPeak setSpectrum:spectrum];                
+            } else {
+                // The previous match was better
+                isKnownCombinedPeak = NO;
+                // WARNING: A previous peak was matched with a higher score than the current 
+                warningMsg = [NSString stringWithFormat:@"WARNING: The previous match (%g) scored better than the current (%g) for peak %@. This can cause doublures of combined peaks with for the same compound.", previousScoreResult, maxScoreResult, [peak label]];
+                warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
+                [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];
+                
+            }            
+            
+            // If the combined peak has a meaningless label, but the new has, replace
+            if ([combinedPeak unknownCompound]) {
+                if ([peak confirmed]) {
+                    // WARNING: A confirmed peak was matched to a hitherto unidentified compound. 
+                    warningMsg = [NSString stringWithFormat:@"WARNING: The confirmed peak '%@' at index %d was matched to a hitherto unidentified compound. It was previously encountered", [peak label], [peak peakID]];
+                    warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
+                    if ([[peak label] isEqualToString:@""]) {
+                        NSLog(@"ARGH!!1 %@ - %@",[document displayName], [peak description]);
+                    }
+                    [combinedPeak setLabel:[peak label]];
+                    [combinedPeak setLibraryEntry:[peak libraryHit]];
+                    [combinedPeak setUnknownCompound:NO];
+                    // Should log the peaks that were unidentified
+                    NSEnumerator *peakEnumerator = [[combinedPeak peaks] objectEnumerator];
+                    JKPeakRecord *oldPeak;
+                    
+                    while ((oldPeak = [peakEnumerator nextObject]) != nil) {
+                        if ([oldPeak document] != document)
+                            warningMsg = [warningMsg stringByAppendingFormat:@" in document '%@' as peak %d;", [[oldPeak document] displayName], [oldPeak peakID]];
+                    }            
+                    warningMsg = [warningMsg substringToIndex:[warningMsg length]-2];
+                    warningMsg = [warningMsg stringByAppendingString:@"."];
+                    warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
+                    [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];
+                    
+                } else if ([peak identified]) {
+                    // WARNING: An identified peak was matched to a hitherto unidentified compound. 
+                    warningMsg = [NSString stringWithFormat:@"WARNING: The identified peak '%@' at index %d was matched to a hitherto unidentified compound. It was previously encountered", [peak label], [peak peakID]];
+                    warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
+                    // Do not change combinedPeak label because not confirmed >> do, because we now have the certainty factor shown
+                    if ([[peak label] isEqualToString:@""]) {
+                        NSLog(@"ARGH!!2 %@ - %@",[document displayName], [peak description]);
+                    }
+                    [combinedPeak setLabel:[peak label]];
+                    [combinedPeak setLibraryEntry:[peak libraryHit]];
+                    [combinedPeak setUnknownCompound:NO];
+                    
+                    // Should log the peaks that were unidentified
+                    NSEnumerator *peakEnumerator = [[combinedPeak peaks] objectEnumerator];
+                    JKPeakRecord *oldPeak;
+                    
+                    while ((oldPeak = [peakEnumerator nextObject]) != nil) {
+                        if ([oldPeak document] != document)
+                            warningMsg = [warningMsg stringByAppendingFormat:@" in document '%@' as peak %d;", [[oldPeak document] displayName], [oldPeak peakID]];
+                    }            
+                    warningMsg = [warningMsg substringToIndex:[warningMsg length]-2];
+                    warningMsg = [warningMsg stringByAppendingString:@"."];
+                    warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
+                    [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];
+                } 
+                // Nothing to do when matching unknown peak to unknown compound
+            } else if (![combinedPeak unknownCompound]) {
+                if ((![peak confirmed]) && (![peak identified])) {
+                    // WARNING: An unidentified peak was matched to a known compound. 
+                    warningMsg = [NSString stringWithFormat:@"WARNING: The unidentified peak %d was matched to the known compound '%@'.", [peak peakID], [combinedPeak valueForKey:@"label"]];
+                    warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
+                    [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];                   
+                } else if ((![peak confirmed]) && ([peak identified])) {
+                    // WARNING: An unconfirmed peak was matched to a known compound. 
+                    warningMsg = [NSString stringWithFormat:@"WARNING: The unconfirmed peak %d was matched to the known compound '%@'.", [peak peakID], [combinedPeak valueForKey:@"label"]];
+                    warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
+                    [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];                   
+                }    
+                // Nothing to do when matching confirmed peak to known compound
+            }
+            
+		}
+        
+        if (!isKnownCombinedPeak) {            
+            combinedPeak = [[JKCombinedPeak alloc] init];
+			if (!isKnownCompound) {
+                [combinedPeak setLabel:[NSString stringWithFormat:NSLocalizedString(@"Unknown compound %d ",@"Unknown compounds in stats summary."), unknownCount]];
+				unknownCount++;
+   			} else {
+                if ([[peak label] isEqualToString:@""]) {
+                    NSLog(@"ARGH!!3 %@ - %@",[document displayName], [peak description]);
+                }
+                [combinedPeak setLabel:[peak label]];
+                [combinedPeak setLibraryEntry:[peak libraryHit]];
+			}            
+            [combinedPeak setUnknownCompound:!isKnownCompound];
+            [combinedPeak setRetentionIndex:[peak retentionIndex]];
+            [combinedPeak setModel:[[peak chromatogram] model]];
+            [combinedPeak setSpectrum:[[peak spectrum] normalizedSpectrum]];
+            [combinedPeak setValue:peak forKey:[NSString stringWithFormat:@"file_%d",index]];
+            [combinedPeak setDocument:[self document]];
+            [self insertObject:combinedPeak inCombinedPeaksAtIndex:[self countOfCombinedPeaks]];
+            [combinedPeak release];
+        }
+	} 	
+    
+    warningMsg = [NSString stringWithFormat:@"INFO: processing time: %.2g s; peaks: %d; peaks compared: %d; combined peaks: %d; speed: %.f peaks/s", -[date timeIntervalSinceNow], peaksCount, peaksCompared, [combinedPeaks count], peaksCompared/-[date timeIntervalSinceNow]];
+    warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
+    [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];
+    
+    // JKLogDebug(@"File %d: %@; time: %.2g s; peaks: %d; peaks comp.: %d; comb. peaks: %d; speed: %.f peaks/s",index, [document displayName], -[date timeIntervalSinceNow], peaksCount, peaksCompared, [combinedPeaks count], peaksCompared/-[date timeIntervalSinceNow]);
+	
+	[subPool release];
+}
+
+// Move this method to JKStatisticsDocument
 - (void)doSanityCheckForDocument:(JKGCMSDocument *)document atIndex:(int)index  
 {	
 	unsigned int i,j;
@@ -737,7 +1094,8 @@
 
             // obtain the chromatogram we need
             chromatogramToSearch = [document chromatogramForModel:[combinedPeak model]];
-
+#warning [?] Is the right behavior?
+            [[combinedPeak libraryEntry] setRetentionIndex:[combinedPeak retentionIndex]];
             [document performBackwardSearchForChromatograms:[NSArray arrayWithObject:chromatogramToSearch] withLibraryEntries:[NSArray arrayWithObject:[combinedPeak libraryEntry]] maximumRetentionIndexDifference:[maximumRetentionIndexDifference floatValue]];
             
             // Add result to combinedPEak
@@ -940,7 +1298,7 @@
         // If document not open, ignore...
         if (!document) continue;
         
-        [self setupComparisonWindowForDocument:document atIndex:i];
+        [self setupComparisonWindowForDocument:(JKGCMSDocument *)document atIndex:i];
     }
 }
 
@@ -1093,6 +1451,19 @@
     // Return processing to the event loop
 	//[self runStatisticalAnalysis];
 	[NSThread detachNewThreadSelector:@selector(runStatisticalAnalysis) toTarget:self withObject:nil];
+	
+}
+
+- (IBAction)updateStatisticalAnalysisButtonAction:(id)sender {
+	[NSApp beginSheet: progressSheet
+	   modalForWindow: [self window]
+		modalDelegate: self
+	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
+		  contextInfo: nil];
+    // Sheet is up here.
+    // Return processing to the event loop
+	//[self runStatisticalAnalysis];
+	[NSThread detachNewThreadSelector:@selector(updateCombinedPeaks) toTarget:self withObject:nil];
 	
 }
 

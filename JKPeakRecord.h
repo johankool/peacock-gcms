@@ -39,8 +39,9 @@
 
 - (BOOL)confirm;
 - (void)discard;
-- (BOOL)identifyAs:(id)searchResult;
-- (void)addSearchResult:(id)searchResult;
+- (BOOL)identifyAs:(JKSearchResult *)searchResult;
+- (BOOL)identifyAsLibraryEntry:(JKLibraryEntry *)aLibraryEntry;
+- (void)addSearchResult:(JKSearchResult *)searchResult;
 
 #pragma mark CALCULATED ACCESSORS
 
@@ -63,6 +64,7 @@
 - (NSString *)library;
 - (JKLibraryEntry *)libraryHit;
 - (JKGCMSDocument *)document;
+- (NSString *)model;
 
 #pragma mark ACCESSORS
 - (NSString *)uuid;

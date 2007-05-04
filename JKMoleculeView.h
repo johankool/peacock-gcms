@@ -35,6 +35,7 @@
 
 #pragma mark BINDINGS
 - (NSString *)moleculeString;
+- (void)setMoleculeString:(NSString *)aMoleculeString;
 - (NSObjectController *)moleculeStringContainer;
 - (void)setMoleculeStringContainer:(NSArrayController *)aMoleculeStringContainer;
 - (NSString *)moleculeStringKeyPath;

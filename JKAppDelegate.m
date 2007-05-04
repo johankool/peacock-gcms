@@ -13,6 +13,7 @@
 #import "JKPanelController.h"
 #import "JKStatisticsDocument.h"
 #import "JKMainWindowController.h"
+#import "BooleanToStringTransformer.h"
 
 @implementation JKAppDelegate
 
@@ -124,6 +125,11 @@
 				   selector: @selector(documentDeactivateNotification:)
 					   name: NSWindowDidResignMainNotification
 					 object: nil];
+        
+        // Create and register font name value transformer
+        NSValueTransformer *transformer = [[BooleanToStringTransformer alloc] init];
+        [NSValueTransformer setValueTransformer:transformer forName:@"BooleanToStringTransformer"];
+                
 	}
 	return self;
 }

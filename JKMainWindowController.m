@@ -145,16 +145,10 @@ static void *SpectrumObservationContext = (void *)1102;
 	// Double click action
 	[resultsTable setDoubleAction:@selector(resultDoubleClicked:)];
 	
-//	// Drag and drop
-//	[peaksTable registerForDraggedTypes:[NSArray arrayWithObjects:JKSearchResultTableViewDataType, nil]];
-//	[peaksTable setDataSource:self];
-//	[peaksTable setDraggingSourceOperationMask:NSDragOperationDelete forLocal:YES];
-//	[peaksTable setDraggingSourceOperationMask:NSDragOperationDelete forLocal:NO];
-//    
-////	[resultsTable registerForDraggedTypes:[NSArray arrayWithObject:JKSearchResultTableViewDataType]];
-//	[resultsTable setDataSource:self];
-//	[resultsTable setDraggingSourceOperationMask:NSDragOperationMove|NSDragOperationDelete forLocal:YES];
-//	[resultsTable setDraggingSourceOperationMask:NSDragOperationDelete forLocal:NO];
+	// Drag and drop
+	[peaksTable registerForDraggedTypes:[NSArray arrayWithObjects:JKLibraryEntryTableViewDataType, nil]];
+	[peaksTable setDataSource:self];
+	[resultsTable setDataSource:self];
     
     NSTabViewItem *detailsTabViewItem = [[NSTabViewItem alloc] initWithIdentifier:@"details"];
     [detailsTabViewItem setView:detailsTabViewItemView];
@@ -942,7 +936,7 @@ static void *SpectrumObservationContext = (void *)1102;
 - (void) toolbarWillAddItem: (NSNotification *) notif {
     // Optional delegate method:  Before an new item is added to the toolbar, this notification is posted.
     // This is the best place to notice a new item is going into the toolbar.  For instance, if you need to 
-    // cache a reference to the toolbar item or need to set up some initial state, this is the best place 
+    // cache a reference to the toolbar item or need to set up some initial state, this is the best place 
     // to do it.  The notification object is the toolbar to which the item is being added.  The item being 
     // added is found by referencing the @"item" key in the userInfo 
     NSToolbarItem *addedItem = [[notif userInfo] objectForKey: @"item"];
@@ -1134,31 +1128,36 @@ static void *SpectrumObservationContext = (void *)1102;
 		return displayName;
 	}
 }
+#pragma mark -
 
-//#pragma mark DRAG N DROP
-//
-//- (BOOL)tableView:(NSTableView *)tv writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard {
-//	JKLogEnteringMethod();
-//    // Copy the row numbers to the pasteboard.
-//	if (tv == peaksTable) {
-//		NSData *data = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
-//		[pboard declareTypes:[NSArray arrayWithObject:JKPeakRecordTableViewDataType] owner:self];
-//		[pboard setData:data forType:JKPeakRecordTableViewDataType];
-//		return YES;		
-//	} else if (tv == resultsTable) {
-//		NSData *data = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
-//		[pboard declareTypes:[NSArray arrayWithObject:JKSearchResultTableViewDataType] owner:self];
-//		[pboard setData:data forType:JKSearchResultTableViewDataType];
-//		return YES;		
-//	}
-//	return NO;
-//}
-//
-//- (BOOL)tableView:(NSTableView *)tv acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation{
-//	NSArray *supportedTypes = [NSArray arrayWithObjects:JKSearchResultTableViewDataType, JKLibraryEntryTableViewDataType, nil];
-//	NSString *availableType = [[info draggingPasteboard] availableTypeFromArray:supportedTypes];
-//	
-//	if (tv == peaksTable) {
+#pragma mark Drag 'n Drop
+- (BOOL)tableView:(NSTableView *)tv writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard {
+    if (tv == resultsTable) {
+        // declare our own pasteboard types
+        NSArray *typesArray = [NSArray arrayWithObjects:@"JKLibraryEntryTableViewDataType", nil];
+        [pboard declareTypes:typesArray owner:self];
+
+        if ([rowIndexes count] != 1) {
+            return NO;
+        }
+        NSMutableData *data = [NSMutableData data];
+        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+        [archiver encodeObject:[[[searchResultsController arrangedObjects] objectAtIndex:[rowIndexes firstIndex]] libraryHit] forKey:@"JKLibraryEntryTableViewDataType"];
+        [archiver finishEncoding];
+        [archiver release];
+
+        [pboard setData:data forType:@"JKLibraryEntryTableViewDataType"];
+
+        return YES;
+	}
+	return NO;
+}
+
+- (BOOL)tableView:(NSTableView *)tv acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation{
+	NSArray *supportedTypes = [NSArray arrayWithObjects: JKLibraryEntryTableViewDataType, nil]; //JKSearchResultTableViewDataType,
+	NSString *availableType = [[info draggingPasteboard] availableTypeFromArray:supportedTypes];
+	
+	if (tv == peaksTable) {
 //		if (([availableType isEqualToString:JKPeakRecordTableViewDataType]) && ([info draggingSource] == tv)) {
 //			// Move the peaks to the appropriate place in the array
 //			//[info draggingSource] 
@@ -1169,13 +1168,20 @@ static void *SpectrumObservationContext = (void *)1102;
 //			[[peakController arrangedObjects] objectAtIndex:row];
 //        //    [[info draggingPasteboard] 
 //			return YES;
-//		} else if ([availableType isEqualToString:JKLibraryEntryTableViewDataType]) {
-//			// Add the library entry to the peak
-//			// Calculate score
-//			
-//			return YES;
-//		}	
-//	} else if (tv == resultsTable) {
+//		} else
+        if ([availableType isEqualToString:JKLibraryEntryTableViewDataType]) {
+            // Add the library entry to the peak
+            JKPeakRecord *peak = [[peakController arrangedObjects] objectAtIndex:row];
+            
+            NSData *data = [[info draggingPasteboard] dataForType:@"JKLibraryEntryTableViewDataType"];
+            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+            JKLibraryEntry *libEntry = [unarchiver decodeObjectForKey:@"JKLibraryEntryTableViewDataType"];
+            [unarchiver finishDecoding];
+            [unarchiver release];
+            return [peak identifyAsLibraryEntry:libEntry];
+		}	
+	} 
+ //   else if (tv == resultsTable) {
 //		if ([availableType isEqualToString:JKSearchResultTableViewDataType]) {
 //			// Insert the search result
 //			// Recalculate score (to be sure)
@@ -1188,35 +1194,28 @@ static void *SpectrumObservationContext = (void *)1102;
 //			return YES;
 //		}
 //	}
-//    return NO;    
-//}
-//
-//- (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op {
-//	NSArray *supportedTypes = [NSArray arrayWithObjects: JKPeakRecordTableViewDataType, JKSearchResultTableViewDataType, JKLibraryEntryTableViewDataType, nil];
-//	NSString *availableType = [[info draggingPasteboard] availableTypeFromArray:supportedTypes];
-//	
-//	if (tv == peaksTable) {
+    return NO;    
+}
+
+- (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op {
+	NSArray *supportedTypes = [NSArray arrayWithObjects:  JKLibraryEntryTableViewDataType, nil]; //JKPeakRecordTableViewDataType, JKSearchResultTableViewDataType,
+	NSString *availableType = [[info draggingPasteboard] availableTypeFromArray:supportedTypes];
+	
+	if (tv == peaksTable) {
 //		if (([availableType isEqualToString:JKPeakRecordTableViewDataType]) && ([info draggingSource] == tv)) {
 //			[tv setDropRow:row dropOperation:NSTableViewDropAbove];
 //			return NSDragOperationMove;
 //		} else if ([availableType isEqualToString:JKSearchResultTableViewDataType]) {
 //			[tv setDropRow:row dropOperation:NSTableViewDropOn];
 //			return NSDragOperationMove;
-//		} else if ([availableType isEqualToString:JKLibraryEntryTableViewDataType]) {
-//			[tv setDropRow:row dropOperation:NSTableViewDropOn];
-//			return NSDragOperationMove;
-//		}	
-//	} else if (tv == resultsTable) {
-//		if ([availableType isEqualToString:JKSearchResultTableViewDataType]) {
-//			[tv setDropRow:row dropOperation:NSTableViewDropAbove];
-//			return NSDragOperationMove;
-//		} else if ([availableType isEqualToString:JKLibraryEntryTableViewDataType]) {
-//			[tv setDropRow:row dropOperation:NSTableViewDropAbove];
-//			return NSDragOperationCopy;
-//		}
-//	}
-//    return NSDragOperationNone;    
-//}
+//		} else 
+        if ([availableType isEqualToString:JKLibraryEntryTableViewDataType]) {
+			[tv setDropRow:row dropOperation:NSTableViewDropOn];
+			return NSDragOperationMove;
+		}	
+	}
+    return NSDragOperationNone;    
+}
 
 #pragma mark Accessors 
 #pragma mark (macrostyle)

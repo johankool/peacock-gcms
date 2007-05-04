@@ -27,7 +27,7 @@ NSString *const JKGCMSDocument_DocumentDeactivateNotification = @"JKGCMSDocument
 NSString *const JKGCMSDocument_DocumentActivateNotification   = @"JKGCMSDocument_DocumentActivateNotification";
 NSString *const JKGCMSDocument_DocumentLoadedNotification     = @"JKGCMSDocument_DocumentLoadedNotification";
 int const JKGCMSDocument_Version = 6;
-static void *DocumentObservationContext = (void *)1100;
+//static void *DocumentObservationContext = (void *)1100;
 
 @implementation JKGCMSDocument
 
@@ -960,7 +960,7 @@ int intSort(id num1, id num2, void *context)
     JKChromatogram *chromatogramToSearch = nil;
     
 	int j,k,l;
-	int entriesCount, answer, chromatogramCount, peaksCount;
+	int entriesCount, chromatogramCount, peaksCount;
 	int maximumIndex;
 	float score, maximumScore;	
     NSString *libraryEntryModel = @"";
@@ -977,14 +977,7 @@ int intSort(id num1, id num2, void *context)
 	[progressIndicator setDoubleValue:0.0];
 	[progressIndicator setIndeterminate:YES];
 	[progressIndicator startAnimation:self];
-    
-//	// Determine spectra for peaks
-//	int peaksCount = [[self peaks] count];
-//	if (peaksCount == 0) {
-//		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Peaks Identified",@""),NSLocalizedString(@"No peaks have yet been identified in the chromatogram. Use the 'Identify Peaks' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
-//		return NO;
-//	}
-	
+    	
     NSMutableArray *searchChromatograms = [someChromatograms mutableCopy];
     NSMutableArray *newChromatograms = [NSMutableArray array];
 	float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];
@@ -1231,6 +1224,78 @@ int intSort(id num1, id num2, void *context)
 
 - (BOOL)isBusy {
     return _isBusy;
+}
+#pragma mark -
+#pragma mark Doublures management
+- (BOOL)hasPeakConfirmedAs:(JKLibraryEntry *)libraryHit notBeing:(JKPeakRecord *)originatingPeak 
+{
+    NSEnumerator *peakEnum = [[self peaks] objectEnumerator];
+    JKPeakRecord *peak;
+    
+    while ((peak = [peakEnum nextObject]) != nil) {
+        if ([peak confirmed]) {
+            if (peak != originatingPeak) {
+                if ([peak libraryHit]) {
+                    if ([[[peak libraryHit] jcampString] isEqualToString:[libraryHit jcampString]]) {
+                        return YES;
+                    }
+                }                
+            }
+        }
+    }
+    return NO;
+}
+- (BOOL)hasPeakAtTopScan:(int)topScan notBeing:(JKPeakRecord *)originatingPeak
+{
+    NSEnumerator *peakEnum = [[self peaks] objectEnumerator];
+    JKPeakRecord *peak;
+    
+    while ((peak = [peakEnum nextObject]) != nil) {
+        if (peak != originatingPeak) {
+            if ([peak top] == topScan) {
+                return YES;
+            }                
+        }
+    }
+    return NO;
+}
+- (void)unconfirmPeaksConfirmedAs:(JKLibraryEntry *)libraryHit notBeing:(JKPeakRecord *)originatingPeak
+{
+    NSEnumerator *peakEnum = [[self peaks] objectEnumerator];
+    JKPeakRecord *peak;
+    
+    while ((peak = [peakEnum nextObject]) != nil) {
+        if ([peak confirmed]|[peak identified]) {
+            if (peak != originatingPeak) {
+                if ([peak libraryHit]) {
+                    if ([[[peak libraryHit] jcampString] isEqualToString:[libraryHit jcampString]]) {
+                        [peak discard];
+                        //[[peak chromatogram] removeObjectFromPeaksAtIndex:[[[peak chromatogram] peaks] indexOfObject:peak]];
+                   }
+                }                
+            }
+        }
+    }    
+}
+- (void)removePeaksAtTopScan:(int)topScan notBeing:(JKPeakRecord *)originatingPeak
+{
+    NSEnumerator *chromEnum = [[self chromatograms] objectEnumerator];
+    JKChromatogram *chromatogram;
+
+    while ((chromatogram = [chromEnum nextObject]) != nil) {
+        NSEnumerator *peakEnum = [[chromatogram peaks] objectEnumerator];
+        JKPeakRecord *peak;
+        int index;
+        
+        while ((peak = [peakEnum nextObject]) != nil) {
+            if (peak != originatingPeak) {
+                if ([peak top] == topScan) {
+                    index = [[chromatogram peaks] indexOfObject:peak];
+                    [chromatogram removeObjectFromPeaksAtIndex:index];
+                }                
+            }
+        }    
+    }
 }
 #pragma mark -
 
@@ -1613,11 +1678,13 @@ boolAccessor(abortAction, setAbortAction)
                 [undo setActionName:NSLocalizedString(@"Delete Peak",@"")];
             }
             
+//            [[chromatogram peaks] removeObject:peak];
             [chromatogram removeObjectFromPeaksAtIndex:[[chromatogram peaks] indexOfObject:peak]];
             break;
         }
     }
 }
+
 #pragma mark -
 
 #pragma mark Debug

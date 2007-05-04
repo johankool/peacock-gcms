@@ -146,7 +146,7 @@
 
             while ((document = [docEnum nextObject]) != nil) {
                 if ([document isKindOfClass:[JKGCMSDocument class]]) {
-                    NSEnumerator *peakEnum = [[document peaks] objectEnumerator];
+                    NSEnumerator *peakEnum = [[(JKGCMSDocument *)document peaks] objectEnumerator];
                     JKPeakRecord *peak;
                     
                     while ((peak = [peakEnum nextObject]) != nil) {

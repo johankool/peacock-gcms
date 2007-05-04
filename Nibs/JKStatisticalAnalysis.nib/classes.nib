@@ -22,6 +22,7 @@
                 saveEditRatios = id; 
                 stopButtonAction = id; 
                 summarizeOptionsDoneAction = id; 
+                updateStatisticalAnalysisButtonAction = id; 
             }; 
             CLASS = JKStatisticsWindowController; 
             LANGUAGE = ObjC; 

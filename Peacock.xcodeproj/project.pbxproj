@@ -240,6 +240,10 @@
 		C7BC505409A62C930093106E /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
 		C7BDA6C10AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */; };
 		C7BDA6C20AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */; };
+		C7C220630BEB831000510B5B /* BooleanToStringTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C220610BEB831000510B5B /* BooleanToStringTransformer.h */; };
+		C7C220640BEB831000510B5B /* BooleanToStringTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C220620BEB831000510B5B /* BooleanToStringTransformer.m */; };
+		C7C220650BEB831000510B5B /* BooleanToStringTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C220610BEB831000510B5B /* BooleanToStringTransformer.h */; };
+		C7C220660BEB831000510B5B /* BooleanToStringTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C220620BEB831000510B5B /* BooleanToStringTransformer.m */; };
 		C7C2998A0B8B48CC0017B2B2 /* ArrayEncodingObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C299880B8B48CC0017B2B2 /* ArrayEncodingObject.h */; };
 		C7C2998B0B8B48CC0017B2B2 /* ArrayEncodingObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C299890B8B48CC0017B2B2 /* ArrayEncodingObject.m */; };
 		C7C299900B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C2998E0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.h */; };
@@ -460,6 +464,8 @@
 		C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FontNameToDisplayNameTransformer.m; sourceTree = "<group>"; };
 		C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FontNameToDisplayNameTransformer.h; sourceTree = "<group>"; };
 		C7C21FC50A5060E2006E82FD /* Peacock.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = Peacock.sdef; sourceTree = "<group>"; };
+		C7C220610BEB831000510B5B /* BooleanToStringTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooleanToStringTransformer.h; sourceTree = "<group>"; };
+		C7C220620BEB831000510B5B /* BooleanToStringTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooleanToStringTransformer.m; sourceTree = "<group>"; };
 		C7C299880B8B48CC0017B2B2 /* ArrayEncodingObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrayEncodingObject.h; sourceTree = "<group>"; };
 		C7C299890B8B48CC0017B2B2 /* ArrayEncodingObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayEncodingObject.m; sourceTree = "<group>"; };
 		C7C2998E0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSKeyedArchiver+CArrayEncoding.h"; sourceTree = "<group>"; };
@@ -652,6 +658,8 @@
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				C7C220610BEB831000510B5B /* BooleanToStringTransformer.h */,
+				C7C220620BEB831000510B5B /* BooleanToStringTransformer.m */,
 				C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */,
 				C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */,
 				C7E5B1C50A14930600BB2291 /* BDAlias */,
@@ -1046,6 +1054,7 @@
 				C7ADC90F0BA05609007D9134 /* NSEvent+ModifierKeys.h in Headers */,
 				C7E61F1A0BB2BC4800D9A636 /* JKModelObject.h in Headers */,
 				C7CFFC790BBC0C290060B0C7 /* JKGCMSPrintView.h in Headers */,
+				C7C220630BEB831000510B5B /* BooleanToStringTransformer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1079,6 +1088,7 @@
 				C79281D30B9F1CC100EDF996 /* NSEvent+ModifierKeys.h in Headers */,
 				C7E61F1C0BB2BC4800D9A636 /* JKModelObject.h in Headers */,
 				C7CFFC770BBC0C290060B0C7 /* JKGCMSPrintView.h in Headers */,
+				C7C220650BEB831000510B5B /* BooleanToStringTransformer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1369,6 +1379,7 @@
 				C79281D40B9F1CC200EDF996 /* NSEvent+ModifierKeys.m in Sources */,
 				C7E61F1D0BB2BC4900D9A636 /* JKModelObject.m in Sources */,
 				C7CFFC780BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */,
+				C7C220660BEB831000510B5B /* BooleanToStringTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1430,6 +1441,7 @@
 				C7ADC8E40BA05609007D9134 /* NSEvent+ModifierKeys.m in Sources */,
 				C7E61F1B0BB2BC4800D9A636 /* JKModelObject.m in Sources */,
 				C7CFFC7A0BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */,
+				C7C220640BEB831000510B5B /* BooleanToStringTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

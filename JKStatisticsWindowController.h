@@ -90,6 +90,7 @@
 - (void)runStatisticalAnalysis;
 - (void)collectMetadataForDocument:(JKGCMSDocument *)document atIndex:(int)index;
 - (void)collectCombinedPeaksForDocument:(JKGCMSDocument *)document atIndex:(int)index;
+- (void)updateCombinedPeaksForDocument:(JKGCMSDocument *)document atIndex:(int)index;
 - (void)doSanityCheckForDocument:(JKGCMSDocument *)document atIndex:(int)index;
 - (void)calculateRatiosForDocument:(JKGCMSDocument *)document atIndex:(int)index;
 - (void)setupComparisonWindowForDocument:(JKGCMSDocument *)document atIndex:(int)index;
