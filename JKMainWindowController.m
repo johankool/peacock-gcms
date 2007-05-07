@@ -370,21 +370,46 @@ static void *SpectrumObservationContext = (void *)1102;
 - (IBAction)showPeaksAction:(id)sender {
 	if ([sender tag] == 1) {
 		[self setShowPeaks:JKIdenitifiedPeaks];
-		[peakController setFilterPredicate:[NSPredicate predicateWithFormat:@"identified == YES"]];
-#warning Should set predicate for chromatrogram data series as well
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"identified == YES"];
+		[peakController setFilterPredicate:predicate];
+        [chromatogramDataSeries makeObjectsPerformSelector:@selector(setFilterPredicate:) withObject:predicate];
 	} else if ([sender tag] == 2) {
 		[self setShowPeaks:JKUnidentifiedPeaks];
-		[peakController setFilterPredicate:[NSPredicate predicateWithFormat:@"identified == NO"]];		
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"identified == NO"];
+		[peakController setFilterPredicate:predicate];
+        [chromatogramDataSeries makeObjectsPerformSelector:@selector(setFilterPredicate:) withObject:predicate];
 	} else if ([sender tag] == 3) {
 		[self setShowPeaks:JKConfirmedPeaks];
-		[peakController setFilterPredicate:[NSPredicate predicateWithFormat:@"confirmed == YES"]];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"confirmed == YES"];
+		[peakController setFilterPredicate:predicate];
+        [chromatogramDataSeries makeObjectsPerformSelector:@selector(setFilterPredicate:) withObject:predicate];
 	} else if ([sender tag] == 4) {
 		[self setShowPeaks:JKUnconfirmedPeaks];
-		[peakController setFilterPredicate:[NSPredicate predicateWithFormat:@"(identified == YES) AND (confirmed == NO)"]];		
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(identified == YES) AND (confirmed == NO)"];
+		[peakController setFilterPredicate:predicate];
+        [chromatogramDataSeries makeObjectsPerformSelector:@selector(setFilterPredicate:) withObject:predicate];
 	} else {
 		[self setShowPeaks:JKAllPeaks];
 		[peakController setFilterPredicate:nil]; 
+        [chromatogramDataSeries makeObjectsPerformSelector:@selector(setFilterPredicate:) withObject:nil];
 	}
+}
+
+-(NSString *)peakTypeShown
+{
+    // Value used in information field about peaks
+    if ([self showPeaks] == JKAllPeaks) {
+        return NSLocalizedString(@"", @"Value used in information field about peaks.");
+    } else if ([self showPeaks] == JKIdenitifiedPeaks) {
+        return NSLocalizedString(@"identified ", @"Value used in information field about peaks, requires trailing space.");
+    } else if ([self showPeaks] == JKUnidentifiedPeaks) {
+        return NSLocalizedString(@"unidentified ", @"Value used in information field about peaks, requires trailing space.");
+    } else if ([self showPeaks] == JKConfirmedPeaks) {
+        return NSLocalizedString(@"confirmed ", @"Value used in information field about peaks, requires trailing space.");
+    } else if ([self showPeaks] == JKUnconfirmedPeaks) {
+        return NSLocalizedString(@"unconfirmed ", @"Value used in information field about peaks, requires trailing space.");
+    }
+    return NSLocalizedString(@"",@"Value used in information field about peaks.");
 }
 
 - (IBAction)confirm:(id)sender {

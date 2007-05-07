@@ -1398,7 +1398,10 @@ static int   kPaddingLabels             = 4;
     //	BOOL foundPeakToSelect = NO;
 	if (!_didDrag) {
 		if ([theEvent clickCount] == 1) { // Single click
-            if (([theEvent modifierFlags] & NSAlternateKeyMask) && ([theEvent modifierFlags] & NSShiftKeyMask)) {
+            if (([theEvent modifierFlags] & NSControlKeyMask) && ([theEvent modifierFlags] & NSCommandKeyMask)) {
+				// reserved for adding baseline points
+                // do nothing here...
+			} else if (([theEvent modifierFlags] & NSAlternateKeyMask) && ([theEvent modifierFlags] & NSShiftKeyMask)) {
 				[self zoomOut];
 			} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
 				[self zoomIn];
@@ -1442,17 +1445,23 @@ static int   kPaddingLabels             = 4;
                 [self setNeedsDisplayInRect:[self plottingArea]];
 			}
 		} else if ([theEvent clickCount] == 2) { // Double click
-            if (([theEvent modifierFlags] & NSShiftKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
+            if (([theEvent modifierFlags] & NSControlKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
+                // add baseline point
+                JKChromatogram *chromatogram = [self chromatogramAtPoint:mouseLocation];
+                [chromatogram insertObject:[self pointAtPoint:mouseLocation] inBaselinePointsAtIndex:[chromatogram baselinePointsIndexAtScan:[self scanAtPoint:mouseLocation]]];
+                
+                NSEnumerator *dataSeriesEnum = [[self dataSeries] objectEnumerator];
+                id object;
+                while ((object = [dataSeriesEnum nextObject]) != nil) {
+                	[object setShouldDrawBaseline:YES];
+                }
+                [self setNeedsDisplayInRect:[self plottingArea]];
+			} else if (([theEvent modifierFlags] & NSShiftKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
 				[self showAll:self];
 			} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
 				//  add peak
 				JKLogDebug(@"add peak");
 			} else if ([theEvent modifierFlags] & NSCommandKeyMask) {
-#warning [BUG] can't manually add baseline point
-                // add baseline point
-                JKChromatogram *chromatogram = [self chromatogramAtPoint:mouseLocation];
-                [chromatogram insertObject:[self pointAtPoint:mouseLocation] inBaselinePointsAtIndex:[chromatogram baselinePointsIndexAtScan:[self scanAtPoint:mouseLocation]]];
-                [self setNeedsDisplayInRect:[self plottingArea]];
 			} else {
 				//  select scan and show spectrum 
 				JKLogDebug(@" select scan and show spectrum");

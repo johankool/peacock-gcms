@@ -289,6 +289,9 @@
         startScan = endScan;
         endScan = temp;
     }
+    if (startScan == endScan) {
+        endScan++;
+    }
     JKPeakRecord *newPeak = [[JKPeakRecord alloc] init];
     [newPeak setPeakID:[[self document] nextPeakID]];
     [newPeak setStart:startScan];
@@ -616,7 +619,24 @@
 
 - (void)insertObject:(NSMutableDictionary *)aBaselinePoint inBaselinePointsAtIndex:(int)index
 {
-#warning Implementation missing
+    int i, newCount = baselinePointsCount+1;
+    int newScans[newCount];
+    float newIntensities[newCount];
+    
+    for (i=0; i<index; i++) {
+        newScans[i] = baselinePointsScans[i];
+        newIntensities[i] = baselinePointsIntensities[i];
+    }
+    newScans[index] = [[aBaselinePoint valueForKey:@"Scan"] intValue];
+    newIntensities[index] = [[aBaselinePoint valueForKey:@"Total Intensity"] floatValue];
+    if (newCount > index) {
+        for (i= index+1; i<newCount; i++) {
+            newScans[i] = baselinePointsScans[i-1];
+            newIntensities[i] = baselinePointsIntensities[i-1];
+        }
+    }
+    [self setBaselinePointsScans:newScans withCount:newCount];
+    [self setBaselinePointsIntensities:newIntensities withCount:newCount];
 }
 
 #pragma mark (to many relationships)

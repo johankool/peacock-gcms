@@ -12,7 +12,8 @@
 @interface JKRatio : NSObject <NSCoding> {
 	NSString *name;
 	NSString *formula;
-
+    NSString *valueType;
+    
 	NSArray *nominatorArray;
 	NSArray *denominatorArray;
 }

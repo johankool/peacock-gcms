@@ -61,7 +61,6 @@ int const JKGCMSDocument_Version = 6;
 		maximumScannedMassRange = [[defaultValues valueForKey:@"maximumScannedMassRange"] retain];
         maximumRetentionIndexDifference = [[defaultValues valueForKey:@"maximumRetentionIndexDifference"] retain];
         
-        peakIDCounter = 0;
         [[self undoManager] disableUndoRegistration];
         _documentProxy = [[NSDictionary alloc] initWithObjectsAndKeys:@"_documentProxy", @"_documentProxy",nil];
         [self setPrintInfo:[NSPrintInfo sharedPrintInfo]];
@@ -138,7 +137,6 @@ int const JKGCMSDocument_Version = 6;
 		[archiver encodeInt:scoreBasis forKey:@"scoreBasis"];
 		[archiver encodeInt:searchDirection forKey:@"searchDirection"];
 		[archiver encodeInt:spectrumToUse forKey:@"spectrumToUse"];
-		[archiver encodeInt:peakIDCounter forKey:@"peakIDCounter"];
 		[archiver encodeBool:penalizeForRetentionIndex forKey:@"penalizeForRetentionIndex"];
 		[archiver encodeObject:[self markAsIdentifiedThreshold] forKey:@"markAsIdentifiedThreshold"];
 		[archiver encodeObject:[self minimumScoreSearchResults] forKey:@"minimumScoreSearchResults"];
@@ -237,7 +235,6 @@ int const JKGCMSDocument_Version = 6;
             [self setChromatograms:[unarchiver decodeObjectForKey:@"chromatograms"]];
             [self setMinimumScannedMassRange:[unarchiver decodeObjectForKey:@"minimumScannedMassRange"]];
             [self setMaximumScannedMassRange:[unarchiver decodeObjectForKey:@"maximumScannedMassRange"]];
-            [self setPeakIDCounter:[unarchiver decodeIntForKey:@"peakIDCounter"]];
             break;
         }
 #warning [BUG] I am retaining to go by a bug, but this is not right!!
@@ -1145,7 +1142,6 @@ int intSort(id num1, id num2, void *context)
 		[peak setValue:[NSNumber numberWithInt:i+1] forKey:@"peakID"];
 	}	
 
-    peakIDCounter = peakCount;
 	[[self undoManager] setActionName:NSLocalizedString(@"Renumber Peaks",@"")];
 }
 
@@ -1384,8 +1380,22 @@ int intSort(id num1, id num2, void *context)
 
 - (int)nextPeakID 
 {
-    peakIDCounter++;    
-    return peakIDCounter;
+    NSArray *peaks = [self peaks];
+    int i, j, count = [peaks count];
+    BOOL found;
+    
+    for (j=1; j < count+1; j++) {
+        found = NO;
+        for (i=0; i<count; i++) {
+            if ([[peaks objectAtIndex:i] peakID] == j) {
+                found = YES;
+            }
+        }
+        if (!found) {
+            return j;
+        }
+    }
+    return count+1;
 }
 #pragma mark -
 
@@ -1450,15 +1460,6 @@ boolAccessor(abortAction, setAbortAction)
 - (void)setNcid:(int)inValue
 {
     ncid = inValue;
-}
-
-- (int)peakIDCounter 
-{
-	return peakIDCounter;
-}
-- (void)setPeakIDCounter:(int)aPeakIDCounter 
-{
-	peakIDCounter = aPeakIDCounter;
 }
 
 - (BOOL)hasSpectra 

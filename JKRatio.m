@@ -20,12 +20,14 @@
 	if (self != nil) {
         formula = [string retain];
         name = [@"" retain];
+        valueType = [@"surface" retain];
     }
 	return self;
 }
 - (void) dealloc {
     [formula release];
     [name release];
+    [valueType release];
 	[super dealloc];
 }
 
@@ -59,7 +61,7 @@
 			} 
 		}
 		if (knownCombinedPeak) {
-			keyPath =[NSString stringWithFormat:@"%@.normalizedSurface", key];
+			keyPath =[NSString stringWithFormat:@"%@.%@", key, valueType];
 			if ([[combinedPeaks objectAtIndex:knownCombinedPeakIndex] valueForKeyPath:key] != nil) {
 				concentration = [[[combinedPeaks objectAtIndex:knownCombinedPeakIndex] valueForKeyPath:keyPath] floatValue];
 				nominator = nominator + (multiplier * concentration);
@@ -83,7 +85,7 @@
 			} 
 		}
 		if (knownCombinedPeak) {
-			keyPath =[NSString stringWithFormat:@"%@.normalizedSurface", key];
+			keyPath =[NSString stringWithFormat:@"%@.%@", key, valueType];
 			if ([[combinedPeaks objectAtIndex:knownCombinedPeakIndex] valueForKeyPath:key] != nil) {
 				concentration = [[[combinedPeaks objectAtIndex:knownCombinedPeakIndex] valueForKeyPath:keyPath] floatValue];
 				denominator = denominator + (multiplier * concentration);
@@ -215,9 +217,10 @@
 
 - (void)encodeWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
-        [coder encodeInt:1 forKey:@"version"];
+        [coder encodeInt:2 forKey:@"version"];
 		[coder encodeObject:name forKey:@"name"];
 		[coder encodeObject:formula forKey:@"formula"];
+        [coder encodeObject:valueType forKey:@"valueType"];
     } 
     return;
 }
@@ -225,8 +228,14 @@
 - (id)initWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) {
         // Can decode keys in any order
+        int version = [coder decodeIntForKey:@"version"];
 		name = [[coder decodeObjectForKey:@"name"] retain];
 		formula = [[coder decodeObjectForKey:@"formula"] retain];
+        if (version > 1) {
+            valueType = [[coder decodeObjectForKey:@"valueType"] retain];
+        } else {
+            valueType = [@"surface" retain];
+        }
     } 
     return self;
 }
@@ -239,6 +248,16 @@
 	[inValue retain];
 	[name release];
 	name = inValue;
+}
+
+- (NSString *)valueType {
+	return valueType;
+}
+
+- (void)setValueType:(NSString *)inValue {
+	[inValue retain];
+	[valueType release];
+	valueType = inValue;
 }
 
 @end
