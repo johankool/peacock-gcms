@@ -165,7 +165,6 @@ static void *SpectrumObservationContext = (void *)1102;
     [[[peaksTable tableColumnWithIdentifier:@"id"] headerCell] setImage:[NSImage imageNamed:@"flagged_header"]];
     // 	[tableView setObligatoryTableColumns:[NSSet setWithObject:[tableView tableColumnWithIdentifier:@"name"]]];
 }
-}
 #pragma mark -
 
 #pragma mark IBActions

@@ -867,8 +867,8 @@
 		C747B85309DD5782004837D0 /* TableView */ = {
 			isa = PBXGroup;
 			children = (
-				C7F8DF020BF0D40F00A34F5D /* DisplayOptionsWindowController.m */,
 				C7F8DF030BF0D40F00A34F5D /* DisplayOptionsWindowController.h */,
+				C7F8DF020BF0D40F00A34F5D /* DisplayOptionsWindowController.m */,
 				C7F8DE8E0BF0CDED00A34F5D /* AMRemovableColumnsTableView.h */,
 				C7F8DE8C0BF0CDED00A34F5D /* AMRemovableColumnsTableView.m */,
 				C7F8DE8B0BF0CDED00A34F5D /* AMRemovableTableColumn.h */,

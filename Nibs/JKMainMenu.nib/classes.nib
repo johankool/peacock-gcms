@@ -36,6 +36,7 @@
                 showSelectedChromatogramsOnlyAction = id; 
                 showSpectrumAction = id; 
                 showTICTraceAction = id; 
+                viewOptions = id; 
             }; 
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 

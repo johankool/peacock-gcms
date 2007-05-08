@@ -8,8 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "DeleteTableView.h"
 
-@interface AMRemovableColumnsTableView : NSTableView {
+@interface AMRemovableColumnsTableView : DeleteTableView {
 	IBOutlet id obligatoryColumnIdentifiers; // NSArray
 	NSSet *allTableColumns;
 	NSSet *obligatoryTableColumns;
