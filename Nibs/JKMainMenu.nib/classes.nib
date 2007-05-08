@@ -19,6 +19,7 @@
                 openNext = id; 
                 previous = id; 
                 refetch = id; 
+                removeChromatograms = id; 
                 removeUnidentifiedPeaksAction = id; 
                 renumberPeaks = id; 
                 resetPeaks = id; 

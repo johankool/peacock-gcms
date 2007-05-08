@@ -22,7 +22,8 @@ enum JKPeakSelection {
 	JKIdenitifiedPeaks,
 	JKUnidentifiedPeaks,
 	JKConfirmedPeaks,
-	JKUnconfirmedPeaks
+	JKUnconfirmedPeaks,
+    JKFlaggedPeaks
 };
 
 @interface JKMainWindowController : NSWindowController <MyGraphViewDelegateProtocol> {

@@ -28,6 +28,7 @@
     int peakID;
     int start;
     NSString *uuid;
+    BOOL flagged;
     
     // Support for reading in old file-format
     id _libraryHit;
@@ -108,6 +109,8 @@
 - (BOOL)identified;
 - (void)setConfirmed:(BOOL)inValue;
 - (BOOL)confirmed;
+- (void)setFlagged:(BOOL)inValue;
+- (BOOL)flagged;
 
 - (void)setIdentifiedSearchResult:(id)inValue;
 - (id)identifiedSearchResult;

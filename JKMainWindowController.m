@@ -161,6 +161,8 @@ static void *SpectrumObservationContext = (void *)1102;
     
     [chromatogramView showAll:self];
     [spectrumView showAll:self];
+    
+    [[[peaksTable tableColumnWithIdentifier:@"id"] headerCell] setImage:[NSImage imageNamed:@"flagged_header"]];
 }
 #pragma mark -
 
@@ -252,6 +254,26 @@ static void *SpectrumObservationContext = (void *)1102;
 	[NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];
 	
 	[pool release]; 
+}
+
+- (IBAction)removeChromatograms:(id)sender {
+    // Run sheet to get selection
+    [chromatogramSelectionSheetButton setTitle:NSLocalizedString(@"Remove",@"")];
+    [chromatogramSelectionSheetButton setAction:@selector(removeSelectedChromatograms:)];
+    [chromatogramSelectionSheetButton setTarget:self];
+    [NSApp beginSheet: chromatogramSelectionSheet
+       modalForWindow: [self window]
+        modalDelegate: self
+       didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
+          contextInfo: nil];
+}
+
+- (void)removeSelectedChromatograms:(id)sender {
+    // Make sure we don't delete TIC
+    NSMutableIndexSet *indexes = [[chromatogramsController selectionIndexes] mutableCopy];
+    [indexes removeIndex:0];
+    [chromatogramsController removeObjectsAtArrangedObjectIndexes:indexes];
+    [NSApp endSheet:chromatogramSelectionSheet];
 }
 
 - (IBAction)showMassChromatogram:(id)sender {	
@@ -388,6 +410,11 @@ static void *SpectrumObservationContext = (void *)1102;
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(identified == YES) AND (confirmed == NO)"];
 		[peakController setFilterPredicate:predicate];
         [chromatogramDataSeries makeObjectsPerformSelector:@selector(setFilterPredicate:) withObject:predicate];
+	} else if ([sender tag] == 5) {
+		[self setShowPeaks:JKFlaggedPeaks];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"flagged == YES"];
+		[peakController setFilterPredicate:predicate];
+        [chromatogramDataSeries makeObjectsPerformSelector:@selector(setFilterPredicate:) withObject:predicate];
 	} else {
 		[self setShowPeaks:JKAllPeaks];
 		[peakController setFilterPredicate:nil]; 
@@ -408,6 +435,8 @@ static void *SpectrumObservationContext = (void *)1102;
         return NSLocalizedString(@"confirmed ", @"Value used in information field about peaks, requires trailing space.");
     } else if ([self showPeaks] == JKUnconfirmedPeaks) {
         return NSLocalizedString(@"unconfirmed ", @"Value used in information field about peaks, requires trailing space.");
+    } else if ([self showPeaks] == JKFlaggedPeaks) {
+        return NSLocalizedString(@"flagged ", @"Value used in information field about peaks, requires trailing space.");
     }
     return NSLocalizedString(@"",@"Value used in information field about peaks.");
 }

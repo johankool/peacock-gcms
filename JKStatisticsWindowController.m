@@ -48,6 +48,7 @@
         calculateRatios = NO;
         comparePeaks = YES;
         performSanityCheck = YES;
+        rerunNeeded = NO;
 	}
 	return self;
 }
@@ -313,7 +314,8 @@
         [GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Statistical Analysis Finished",@"") description:NSLocalizedString(@"Peacock finished processing your data.",@"") notificationName:@"Statistical Analysis Finished" iconData:nil priority:0 isSticky:NO clickContext:nil];
         [tabView performSelectorOnMainThread:@selector(selectTabViewItemWithIdentifier:) withObject:@"tabular" waitUntilDone:NO];
     }
-		
+    
+    rerunNeeded = NO;
     [self didChangeValueForKey:@"metadata"];
 	[pool release];
 }
@@ -1352,15 +1354,6 @@
     }
     return nil;
 }
-
-- (IBAction)repopulate:(id)sender {
-    [self insertTableColumns];
-}
-
-- (IBAction)repopulateContextMenuAction:(id)sender {
-    valueToUse = [sender tag];
-    [self insertTableColumns];
-}
 #pragma mark -
 
 #pragma mark IBActions
@@ -1371,6 +1364,14 @@
 	[oPanel beginSheetForDirectory:nil file:nil types:fileTypes modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
+- (IBAction)repopulate:(id)sender {
+    [self insertTableColumns];
+}
+
+- (IBAction)repopulateContextMenuAction:(id)sender {
+    valueToUse = [sender tag];
+    [self insertTableColumns];
+}
 
 - (IBAction)doubleClickAction:(id)sender {
 	NSError *error = [[[NSError alloc] init] autorelease];
@@ -1495,6 +1496,17 @@
 
 
 - (IBAction)exportSummary:(id)sender {
+    if (rerunNeeded) {
+        int answer = NSRunInformationalAlertPanel(NSLocalizedString(@"Rerun needed",@""),NSLocalizedString(@"You need to rerun the statistical analysis before exporting, because files were added after the last run.",@""),NSLocalizedString(@"Rerun Now",@""),NSLocalizedString(@"Cancel",@""),NSLocalizedString(@"Ignore",@""));
+        if (answer == NSOKButton) {
+            [self runStatisticalAnalysisButtonAction:self];
+            return;
+        } else if (answer == NSCancelButton) {
+            return;
+        } else {
+            // Ignore...
+        }
+    }
 	NSSavePanel *sp;
 	int runResult;
 	
@@ -1513,7 +1525,6 @@
 //		NSMutableString *outStr = [NSMutableString stringWithCString:"\t"];
 		int i,j;
 //		int fileCount = [[[self metadata] objectAtIndex:0] count]-1; incorrect because metadata can be empty
-#warning Incorrect file count if user adds a file and hasn't yet rerun the calculations 
         int fileCount = [[self files] count];
 		int compoundCount = [combinedPeaks count];
 		NSString *normalizedSurface;
@@ -1893,6 +1904,10 @@
 #pragma mark Sheets
 - (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
     if (returnCode == NSOKButton) {
+        BOOL hadFilesAlready = NO;
+        if ([files count] > 0) {
+            hadFilesAlready = YES;
+        }
 		BOOL alreadyInFiles;
         NSArray *filesToOpen = [sheet filenames];
         int i, count = [filesToOpen count];
@@ -1915,9 +1930,22 @@
 				[self willChangeValueForKey:@"files"];
 				[files addObject:mutDict];
 				[self didChangeValueForKey:@"files"];
-				[mutDict release];				
+				[mutDict release];			
+                rerunNeeded = YES;
 			}
 		}
+        if (rerunNeeded && hadFilesAlready) {
+            int answer = NSRunInformationalAlertPanel(NSLocalizedString(@"Rerun needed",@""),NSLocalizedString(@"You need to rerun the statistical analysis to reflect the newly added files.",@""),NSLocalizedString(@"Rerun Now",@""),NSLocalizedString(@"Ignore",@""),nil);
+            if (answer == NSOKButton) {
+                [self runStatisticalAnalysisButtonAction:self];
+                return;
+            } else if (answer == NSCancelButton) {
+                return;
+            } else {
+                // Ignore...
+            }
+        }
+        
 	}	
 }
 

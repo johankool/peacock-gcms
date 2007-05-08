@@ -60,7 +60,7 @@ NSString *GetUUID(void) {
         end = 0;
         peakID = 0;
         start = 0;
-        
+        flagged = NO;
         uuid = GetUUID();
         [uuid retain];
     }
@@ -217,6 +217,12 @@ NSString *GetUUID(void) {
 			[self identifyAs:[searchResults objectAtIndex:0]];
 		}
 	}	
+}
+
+- (void)selfDeconstruct
+{
+    int index = [[[self chromatogram] peaks] indexOfObject:self];
+    [[self chromatogram] removeObjectFromPeaksAtIndex:index];
 }
 
 - (NSUndoManager *)undoManager {
@@ -623,6 +629,14 @@ NSString *GetUUID(void) {
     return confirmed;
 }
 
+- (void)setFlagged:(BOOL)inValue {
+	flagged = inValue;
+}
+
+- (BOOL)flagged {
+    return flagged;
+}
+
 - (NSString *)library {
 	return [[NSFileManager defaultManager] displayNameAtPath:[[identifiedSearchResult library] fullPath]];
 }
@@ -734,6 +748,7 @@ NSString *GetUUID(void) {
         [coder encodeObject:symbol forKey:@"symbol"];
         [coder encodeBool:identified forKey:@"identified"];
 		[coder encodeBool:confirmed forKey:@"confirmed"];
+		[coder encodeBool:flagged forKey:@"flagged"];
 		[coder encodeConditionalObject:identifiedSearchResult forKey:@"identifiedSearchResult"];
 		[coder encodeObject:searchResults forKey:@"searchResults"];
         [coder encodeObject:uuid forKey:@"uuid"];
@@ -823,6 +838,7 @@ NSString *GetUUID(void) {
 		symbol = [[coder decodeObjectForKey:@"symbol"] retain];
         identified = [coder decodeBoolForKey:@"identified"];
 		confirmed = [coder decodeBoolForKey:@"confirmed"]; 
+        flagged = [coder decodeBoolForKey:@"flagged"]; 
 	} 
     return self;
 }

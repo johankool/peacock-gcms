@@ -35,6 +35,7 @@
     NSString *keyForValueInSummary;
     BOOL comparePeaks;
     BOOL performSanityCheck;
+    BOOL rerunNeeded;
     // end Encoded
     
     NSMutableArray *ratios;
