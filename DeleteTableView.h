@@ -6,8 +6,10 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
+#import "AMRemovableColumnsTableView.h"
 
-@interface DeleteTableView : NSTableView {
+
+@interface DeleteTableView : AMRemovableColumnsTableView {
 	NSArrayController	*tableContentController;
 	NSString * tableContentKey;
     BOOL allowsRowDeletion;

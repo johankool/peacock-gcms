@@ -163,6 +163,8 @@ static void *SpectrumObservationContext = (void *)1102;
     [spectrumView showAll:self];
     
     [[[peaksTable tableColumnWithIdentifier:@"id"] headerCell] setImage:[NSImage imageNamed:@"flagged_header"]];
+    // 	[tableView setObligatoryTableColumns:[NSSet setWithObject:[tableView tableColumnWithIdentifier:@"name"]]];
+}
 }
 #pragma mark -
 

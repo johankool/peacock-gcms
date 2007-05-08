@@ -1,5 +1,17 @@
 {
     IBClasses = (
+        {
+            CLASS = AMRemovableColumnsTableView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {obligatoryColumnIdentifiers = id; }; 
+            SUPERCLASS = NSTableView; 
+        }, 
+        {
+            CLASS = AMRemovableTableColumn; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {mainTableView = AMRemovableColumnsTableView; }; 
+            SUPERCLASS = NSTableColumn; 
+        }, 
         {CLASS = DeleteTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
         {
             CLASS = FilteringDNDArrayController; 
@@ -8,7 +20,7 @@
             SUPERCLASS = NSArrayController; 
         }, 
         {
-            ACTIONS = {removeSpectrum = id; }; 
+            ACTIONS = {removeSpectrum = id; viewOptions = id; }; 
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 

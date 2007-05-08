@@ -297,6 +297,22 @@
 		C7F8DE160BF0A4B500A34F5D /* flagged.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DE140BF0A4B500A34F5D /* flagged.tiff */; };
 		C7F8DE170BF0A4B500A34F5D /* flagged_header.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DE130BF0A4B500A34F5D /* flagged_header.tiff */; };
 		C7F8DE180BF0A4B500A34F5D /* flagged.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DE140BF0A4B500A34F5D /* flagged.tiff */; };
+		C7F8DE8F0BF0CDEE00A34F5D /* AMRemovableTableColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DE8B0BF0CDED00A34F5D /* AMRemovableTableColumn.h */; };
+		C7F8DE900BF0CDEE00A34F5D /* AMRemovableColumnsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8DE8C0BF0CDED00A34F5D /* AMRemovableColumnsTableView.m */; };
+		C7F8DE910BF0CDEE00A34F5D /* AMRemovableTableColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8DE8D0BF0CDED00A34F5D /* AMRemovableTableColumn.m */; };
+		C7F8DE920BF0CDEE00A34F5D /* AMRemovableColumnsTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DE8E0BF0CDED00A34F5D /* AMRemovableColumnsTableView.h */; };
+		C7F8DE930BF0CDEE00A34F5D /* AMRemovableTableColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DE8B0BF0CDED00A34F5D /* AMRemovableTableColumn.h */; };
+		C7F8DE940BF0CDEE00A34F5D /* AMRemovableColumnsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8DE8C0BF0CDED00A34F5D /* AMRemovableColumnsTableView.m */; };
+		C7F8DE950BF0CDEE00A34F5D /* AMRemovableTableColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8DE8D0BF0CDED00A34F5D /* AMRemovableTableColumn.m */; };
+		C7F8DE960BF0CDEE00A34F5D /* AMRemovableColumnsTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DE8E0BF0CDED00A34F5D /* AMRemovableColumnsTableView.h */; };
+		C7F8DEA40BF0CE1A00A34F5D /* table.png in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DEA30BF0CE1A00A34F5D /* table.png */; };
+		C7F8DEA50BF0CE1A00A34F5D /* table.png in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DEA30BF0CE1A00A34F5D /* table.png */; };
+		C7F8DEAC0BF0D00700A34F5D /* DisplayOptions.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DEA60BF0D00600A34F5D /* DisplayOptions.nib */; };
+		C7F8DEAD0BF0D00700A34F5D /* DisplayOptions.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DEA60BF0D00600A34F5D /* DisplayOptions.nib */; };
+		C7F8DF040BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8DF020BF0D40F00A34F5D /* DisplayOptionsWindowController.m */; };
+		C7F8DF050BF0D41000A34F5D /* DisplayOptionsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DF030BF0D40F00A34F5D /* DisplayOptionsWindowController.h */; };
+		C7F8DF060BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8DF020BF0D40F00A34F5D /* DisplayOptionsWindowController.m */; };
+		C7F8DF070BF0D41000A34F5D /* DisplayOptionsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DF030BF0D40F00A34F5D /* DisplayOptionsWindowController.h */; };
 		C7FBE1E40AB6F1A4000E7EF2 /* presets.png in Resources */ = {isa = PBXBuildFile; fileRef = C7FBE1E30AB6F1A4000E7EF2 /* presets.png */; };
 /* End PBXBuildFile section */
 
@@ -536,6 +552,14 @@
 		C7F8973F0A188B0D00A65A24 /* JKPathPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKPathPopUpButton.m; sourceTree = "<group>"; };
 		C7F8DE130BF0A4B500A34F5D /* flagged_header.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = flagged_header.tiff; sourceTree = "<group>"; };
 		C7F8DE140BF0A4B500A34F5D /* flagged.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = flagged.tiff; sourceTree = "<group>"; };
+		C7F8DE8B0BF0CDED00A34F5D /* AMRemovableTableColumn.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AMRemovableTableColumn.h; sourceTree = "<group>"; };
+		C7F8DE8C0BF0CDED00A34F5D /* AMRemovableColumnsTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AMRemovableColumnsTableView.m; sourceTree = "<group>"; };
+		C7F8DE8D0BF0CDED00A34F5D /* AMRemovableTableColumn.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AMRemovableTableColumn.m; sourceTree = "<group>"; };
+		C7F8DE8E0BF0CDED00A34F5D /* AMRemovableColumnsTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AMRemovableColumnsTableView.h; sourceTree = "<group>"; };
+		C7F8DEA30BF0CE1A00A34F5D /* table.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = table.png; sourceTree = "<group>"; };
+		C7F8DEA70BF0D00700A34F5D /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/DisplayOptions.nib; sourceTree = "<group>"; };
+		C7F8DF020BF0D40F00A34F5D /* DisplayOptionsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DisplayOptionsWindowController.m; sourceTree = "<group>"; };
+		C7F8DF030BF0D40F00A34F5D /* DisplayOptionsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DisplayOptionsWindowController.h; sourceTree = "<group>"; };
 		C7FBE1E30AB6F1A4000E7EF2 /* presets.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = presets.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -843,6 +867,12 @@
 		C747B85309DD5782004837D0 /* TableView */ = {
 			isa = PBXGroup;
 			children = (
+				C7F8DF020BF0D40F00A34F5D /* DisplayOptionsWindowController.m */,
+				C7F8DF030BF0D40F00A34F5D /* DisplayOptionsWindowController.h */,
+				C7F8DE8E0BF0CDED00A34F5D /* AMRemovableColumnsTableView.h */,
+				C7F8DE8C0BF0CDED00A34F5D /* AMRemovableColumnsTableView.m */,
+				C7F8DE8B0BF0CDED00A34F5D /* AMRemovableTableColumn.h */,
+				C7F8DE8D0BF0CDED00A34F5D /* AMRemovableTableColumn.m */,
 				C798C9E808E17B5400C6C7D1 /* DeleteTableView.h */,
 				C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */,
 				C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */,
@@ -976,6 +1006,7 @@
 		C7EB17C00898CF2E007FC2ED /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C7F8DEA30BF0CE1A00A34F5D /* table.png */,
 				C7F8DE130BF0A4B500A34F5D /* flagged_header.tiff */,
 				C7F8DE140BF0A4B500A34F5D /* flagged.tiff */,
 				C799B0A70ACAB30D00D4FCA4 /* Identify Compounds.tiff */,
@@ -1003,6 +1034,7 @@
 		C7EB17F90898CFBC007FC2ED /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
+				C7F8DEA60BF0D00600A34F5D /* DisplayOptions.nib */,
 				C7713B35095029C200653D2A /* JKBatchProcess.nib */,
 				C7EB17FA0898CFBC007FC2ED /* JKLibrary.nib */,
 				C7EB17FB0898CFBD007FC2ED /* JKGCMSDocument.nib */,
@@ -1063,6 +1095,9 @@
 				C7E61F1A0BB2BC4800D9A636 /* JKModelObject.h in Headers */,
 				C7CFFC790BBC0C290060B0C7 /* JKGCMSPrintView.h in Headers */,
 				C7C220630BEB831000510B5B /* BooleanToStringTransformer.h in Headers */,
+				C7F8DE8F0BF0CDEE00A34F5D /* AMRemovableTableColumn.h in Headers */,
+				C7F8DE920BF0CDEE00A34F5D /* AMRemovableColumnsTableView.h in Headers */,
+				C7F8DF050BF0D41000A34F5D /* DisplayOptionsWindowController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1097,6 +1132,9 @@
 				C7E61F1C0BB2BC4800D9A636 /* JKModelObject.h in Headers */,
 				C7CFFC770BBC0C290060B0C7 /* JKGCMSPrintView.h in Headers */,
 				C7C220650BEB831000510B5B /* BooleanToStringTransformer.h in Headers */,
+				C7F8DE930BF0CDEE00A34F5D /* AMRemovableTableColumn.h in Headers */,
+				C7F8DE960BF0CDEE00A34F5D /* AMRemovableColumnsTableView.h in Headers */,
+				C7F8DF070BF0D41000A34F5D /* DisplayOptionsWindowController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1230,6 +1268,8 @@
 				C799B0AC0ACAB30D00D4FCA4 /* Identify Baseline.tiff in Resources */,
 				C7F8DE170BF0A4B500A34F5D /* flagged_header.tiff in Resources */,
 				C7F8DE180BF0A4B500A34F5D /* flagged.tiff in Resources */,
+				C7F8DEA50BF0CE1A00A34F5D /* table.png in Resources */,
+				C7F8DEAD0BF0D00700A34F5D /* DisplayOptions.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1287,6 +1327,8 @@
 				C7ADC8B20BA05609007D9134 /* Identify Baseline.tiff in Resources */,
 				C7F8DE150BF0A4B500A34F5D /* flagged_header.tiff in Resources */,
 				C7F8DE160BF0A4B500A34F5D /* flagged.tiff in Resources */,
+				C7F8DEA40BF0CE1A00A34F5D /* table.png in Resources */,
+				C7F8DEAC0BF0D00700A34F5D /* DisplayOptions.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1392,6 +1434,9 @@
 				C7E61F1D0BB2BC4900D9A636 /* JKModelObject.m in Sources */,
 				C7CFFC780BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */,
 				C7C220660BEB831000510B5B /* BooleanToStringTransformer.m in Sources */,
+				C7F8DE940BF0CDEE00A34F5D /* AMRemovableColumnsTableView.m in Sources */,
+				C7F8DE950BF0CDEE00A34F5D /* AMRemovableTableColumn.m in Sources */,
+				C7F8DF060BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1454,6 +1499,9 @@
 				C7E61F1B0BB2BC4800D9A636 /* JKModelObject.m in Sources */,
 				C7CFFC7A0BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */,
 				C7C220640BEB831000510B5B /* BooleanToStringTransformer.m in Sources */,
+				C7F8DE900BF0CDEE00A34F5D /* AMRemovableColumnsTableView.m in Sources */,
+				C7F8DE910BF0CDEE00A34F5D /* AMRemovableTableColumn.m in Sources */,
+				C7F8DF040BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1509,6 +1557,14 @@
 				C77C583009800FAD002E7796 /* English */,
 			);
 			name = "Peacock Help";
+			sourceTree = "<group>";
+		};
+		C7F8DEA60BF0D00600A34F5D /* DisplayOptions.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C7F8DEA70BF0D00700A34F5D /* English */,
+			);
+			name = DisplayOptions.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
