@@ -67,7 +67,7 @@ int const JKGCMSDocument_Version = 6;
         [[self printInfo] setOrientation:NSLandscapeOrientation];
         printView = [[JKGCMSPrintView alloc] initWithDocument:self];
         [[self undoManager] enableUndoRegistration];
-        
+        _lastReturnedIndex = -1;
 	}
     return self;
 }
@@ -1218,6 +1218,13 @@ int intSort(id num1, id num2, void *context)
     return mzValuesString;
 }
 
+- (BOOL)modelString:(NSString *)stringA isEqualToString:(NSString *)stringB
+{
+    NSString *stringACleaned = [self cleanupModelString:stringA];
+    NSString *stringBCleaned = [self cleanupModelString:stringB];
+    return [stringACleaned isEqualToString:stringBCleaned];
+}
+
 - (BOOL)isBusy {
     return _isBusy;
 }
@@ -1392,10 +1399,19 @@ int intSort(id num1, id num2, void *context)
             }
         }
         if (!found) {
-            return j;
+            if (_lastReturnedIndex != j) {
+                _lastReturnedIndex = j;
+               return j; 
+            }
+
         }
     }
-    return count+1;
+    j = count+1;
+    if (_lastReturnedIndex == j) {
+        j = _lastReturnedIndex+1;
+    }
+    _lastReturnedIndex = j;
+    return j;
 }
 #pragma mark -
 

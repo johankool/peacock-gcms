@@ -145,13 +145,16 @@ NSString *GetUUID(void) {
 
 - (BOOL)identifyAsLibraryEntry:(JKLibraryEntry *)aLibraryEntry
 {
-    if ([[[self chromatogram] model] isEqualToString:[aLibraryEntry modelChr]]) {
+    if ([[self document] modelString:[[self chromatogram] model] isEqualToString:[aLibraryEntry modelChr]]) {        
+//    if ([[[self chromatogram] model] isEqualToString:[aLibraryEntry modelChr]]) {
+        [self willChangeValueForKey:@"libraryHit"];
         JKSearchResult *searchResult = [[JKSearchResult alloc] init];
         [searchResult setPeak:self];
         [searchResult setLibraryHit:aLibraryEntry];
         [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedToLibraryEntry:aLibraryEntry]]];
         [self addSearchResult:searchResult];
         [self setIdentifiedSearchResult:searchResult];
+        [self setIdentified:YES];
         [searchResult release];
         
         if ([self confirm]) {
@@ -163,6 +166,7 @@ NSString *GetUUID(void) {
             // NOT completely right, if identified before, now not anymore... 
             [self removeObjectFromSearchResultsAtIndex:[[self searchResults] indexOfObject:searchResults]];
             [self discard];
+            [self didChangeValueForKey:@"libraryHit"];
             return NO;
         }
         
@@ -173,9 +177,25 @@ NSString *GetUUID(void) {
     }
 }
 
+- (BOOL)addSearchResultForLibraryEntry:(JKLibraryEntry *)aLibraryEntry
+{
+    if ([[self document] modelString:[[self chromatogram] model] isEqualToString:[aLibraryEntry modelChr]]) {        
+        [self willChangeValueForKey:@"searchResults"];
+        JKSearchResult *searchResult = [[JKSearchResult alloc] init];
+        [searchResult setPeak:self];
+        [searchResult setLibraryHit:aLibraryEntry];
+        [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedToLibraryEntry:aLibraryEntry]]];
+        [self addSearchResult:searchResult];
+        [searchResult release];
+        [self didChangeValueForKey:@"searchResults"];
+        return YES;
+    }   
+    return NO;
+}
 
 - (BOOL)identifyAs:(JKSearchResult *)searchResult{
-    if ([[[self chromatogram] model] isEqualToString:[[searchResult libraryHit] modelChr]]) {
+    if ([[self document] modelString:[[self chromatogram] model] isEqualToString:[[searchResult libraryHit] modelChr]]) {        
+//    if ([[[self chromatogram] model] isEqualToString:[[searchResult libraryHit] modelChr]]) {
         [self willChangeValueForKey:@"libraryHit"];
         [self setIdentifiedSearchResult:searchResult];
         // Initial default settings after identification, but can be customized by user later on

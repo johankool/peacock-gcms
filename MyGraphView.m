@@ -1168,78 +1168,6 @@ static int   kPaddingLabels             = 4;
         [delegate showSpectrumForScan:[self selectedScan]];
     }     
 }
-
-- (void)moveUpwardsInComparisonView{
-	NSArray *subviews = [[self superview] subviews];
-	if ([subviews count] == 1) {
-		return;
-	}	
-	
-	NSRect oldFrame = [self frame];
-	NSRect newFrame = [self frame];
-	newFrame.origin.y = newFrame.origin.y + 200;
-	
-	if (newFrame.origin.y >= [[self superview] frame].size.height) {
-		NSBeep();
-		return;
-	}
-	
-	NSEnumerator *enumerator = [subviews objectEnumerator];
-	NSView *object;
-	NSView *subview;
-	
-	while ((object = [enumerator nextObject])) {
-		if ([object frame].origin.y == newFrame.origin.y) {
-			subview = object;
-		}
-	}
-
-    if ((subview) && ([subview isKindOfClass:[self class]])) {
-        NSDictionary *animationForOtherView = [NSDictionary dictionaryWithObjectsAndKeys:subview, NSViewAnimationTargetKey, [NSValue valueWithRect:newFrame], NSViewAnimationStartFrameKey, [NSValue valueWithRect:oldFrame], NSViewAnimationEndFrameKey, nil];
-        NSDictionary *animationForThisView = [NSDictionary dictionaryWithObjectsAndKeys:self, NSViewAnimationTargetKey, [NSValue valueWithRect:oldFrame], NSViewAnimationStartFrameKey, [NSValue valueWithRect:newFrame], NSViewAnimationEndFrameKey, nil];
-        NSViewAnimation *animation = [[[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObjects:animationForOtherView, animationForThisView, nil]] autorelease];
-        [animation startAnimation];
-        [self scrollRectToVisible:newFrame];
-    } else {
-        NSBeep();
-    }	
-}
-
-- (void)moveDownwardsInComparisonView { //WithAnimation
-	NSArray *subviews = [[self superview] subviews];
-	if ([subviews count] == 1) {
-		return;
-	}	
-	
-	NSRect oldFrame = [self frame];
-	NSRect newFrame = [self frame];
-	newFrame.origin.y = newFrame.origin.y - 200;
-	
-	if (newFrame.origin.y < 0.0) {
-		NSBeep();
-		return;
-	}
-		
-	NSEnumerator *enumerator = [subviews objectEnumerator];
-	NSView *object;
-	NSView *subview;
-	
-	while ((object = [enumerator nextObject])) {
-		if ([object frame].origin.y == newFrame.origin.y) {
-			subview = object;
-		}
-	}
-	
-    if ((subview) && ([subview isKindOfClass:[self class]])) {
-        NSDictionary *animationForOtherView = [NSDictionary dictionaryWithObjectsAndKeys:subview, NSViewAnimationTargetKey, [NSValue valueWithRect:newFrame], NSViewAnimationStartFrameKey, [NSValue valueWithRect:oldFrame], NSViewAnimationEndFrameKey, nil];
-        NSDictionary *animationForThisView = [NSDictionary dictionaryWithObjectsAndKeys:self, NSViewAnimationTargetKey, [NSValue valueWithRect:oldFrame], NSViewAnimationStartFrameKey, [NSValue valueWithRect:newFrame], NSViewAnimationEndFrameKey, nil];
-        NSViewAnimation *animation = [[[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObjects:animationForOtherView, animationForThisView, nil]] autorelease];
-        [animation startAnimation];
-        [self scrollRectToVisible:newFrame];
-    } else {
-        NSBeep();
-    }	
-}
 #pragma mark -
 
 #pragma mark Mouse Interaction Management
@@ -1489,6 +1417,15 @@ static int   kPaddingLabels             = 4;
             JKChromatogram *theChromatogram = [self chromatogramAtPoint:_mouseDownAtPoint]; 
             JKPeakRecord *newPeak = [theChromatogram peakFromScan:[self scanAtPoint:_mouseDownAtPoint] toScan:[self scanAtPoint:mouseLocation]];
             [theChromatogram insertObject:newPeak inPeaksAtIndex:[theChromatogram countOfPeaks]];
+            selectedPeak = newPeak;
+            if (selectedPeak) {
+                _lastSelectedPeakIndex = [[self peaks] indexOfObject:selectedPeak];
+                [peaksContainer setSelectedObjects:[NSArray arrayWithObject:selectedPeak]];
+            } else {
+                _lastSelectedPeakIndex = NSNotFound;
+            }
+            [self setNeedsDisplayInRect:[self plottingArea]];
+            
 		} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
 			//   zoom in/move baseline point
 			[self zoomToRectInView:[self selectedRect]];
@@ -1774,8 +1711,6 @@ static int   kPaddingLabels             = 4;
 			case NSUpArrowFunctionKey:
 				if ([theEvent modifierFlags] & NSAlternateKeyMask) {
 					[self moveUp];
-				} else if ([theEvent modifierFlags] & NSControlKeyMask) {
-					[self moveUpwardsInComparisonView];
 				} else {
 					[self selectPreviousPeak];
 				}
@@ -1783,8 +1718,6 @@ static int   kPaddingLabels             = 4;
 			case NSDownArrowFunctionKey:
 				if ([theEvent modifierFlags] & NSAlternateKeyMask) {
 					[self moveDown];
-				} else if ([theEvent modifierFlags] & NSControlKeyMask) {
-					[self moveDownwardsInComparisonView];
 				} else {
 					[self selectNextPeak];
 				}
@@ -2648,6 +2581,12 @@ static int   kPaddingLabels             = 4;
 - (void)setShouldDrawBaseline:(BOOL)inValue {
     if (shouldDrawBaseline != inValue) {
         shouldDrawBaseline = inValue;
+
+        int i,count = [[self dataSeries] count];
+        for (i=0; i <  count; i++) {
+            [[[self dataSeries] objectAtIndex:i] setShouldDrawBaseline:inValue];
+        }
+        [self setNeedsDisplayInRect:[self plottingArea]];        
         [self setNeedsDisplayInRect:[self plottingArea]];        
     }
 }

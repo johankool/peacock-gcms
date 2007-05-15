@@ -89,6 +89,7 @@ typedef enum {
 	NSString *_remainingString;
     NSDictionary *_documentProxy;
     NSRect _originalFrame;
+    int _lastReturnedIndex;
 }
 
 /*! 
@@ -127,7 +128,7 @@ typedef enum {
 
 - (BOOL)isBusy;
 - (NSString *)cleanupModelString:(NSString *)model;
-
+- (BOOL)modelString:(NSString *)stringA isEqualToString:(NSString *)stringB;
 int intSort(id num1, id num2, void *context);
 
 /*! 

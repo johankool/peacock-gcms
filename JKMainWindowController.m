@@ -147,6 +147,7 @@ static void *SpectrumObservationContext = (void *)1102;
 	
 	// Drag and drop
 	[peaksTable registerForDraggedTypes:[NSArray arrayWithObjects:JKLibraryEntryTableViewDataType, nil]];
+	[resultsTable registerForDraggedTypes:[NSArray arrayWithObjects:JKLibraryEntryTableViewDataType, nil]];
 	[peaksTable setDataSource:self];
 	[resultsTable setDataSource:self];
     
@@ -1235,7 +1236,22 @@ static void *SpectrumObservationContext = (void *)1102;
             [unarchiver release];
             return [peak identifyAsLibraryEntry:libEntry];
 		}	
-	} 
+	} else if (tv == resultsTable) {
+        if ([availableType isEqualToString:JKLibraryEntryTableViewDataType]) {
+            // Add the library entry to the peak
+            if ([[peakController selectedObjects] count] != 1) {
+                return NO;
+            }
+            JKPeakRecord *peak = [[peakController selectedObjects] objectAtIndex:0];
+            
+            NSData *data = [[info draggingPasteboard] dataForType:@"JKLibraryEntryTableViewDataType"];
+            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+            JKLibraryEntry *libEntry = [unarchiver decodeObjectForKey:@"JKLibraryEntryTableViewDataType"];
+            [unarchiver finishDecoding];
+            [unarchiver release];
+            return [peak addSearchResultForLibraryEntry:libEntry];
+		}	
+    }
  //   else if (tv == resultsTable) {
 //		if ([availableType isEqualToString:JKSearchResultTableViewDataType]) {
 //			// Insert the search result
@@ -1268,7 +1284,13 @@ static void *SpectrumObservationContext = (void *)1102;
 			[tv setDropRow:row dropOperation:NSTableViewDropOn];
 			return NSDragOperationMove;
 		}	
-	}
+	} else 	if (tv == resultsTable) {
+        if ([availableType isEqualToString:JKLibraryEntryTableViewDataType]) {
+			[tv setDropRow:row dropOperation:NSTableViewDropAbove];
+			return NSDragOperationMove;
+		}	
+        
+    }
     return NSDragOperationNone;    
 }
 

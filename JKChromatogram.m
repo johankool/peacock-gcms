@@ -214,13 +214,17 @@
 	int i, j, answer;
 	int start, end, top;
     float maximumIntensity;
+    NSMutableArray *newPeaks;
     
     if ([[self peaks] count] > 0) {
-        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete current peaks?",@""),NSLocalizedString(@"Peaks that are already identified could cause doublures. It's recommended to delete the current peaks.",@""),NSLocalizedString(@"Delete",@""),NSLocalizedString(@"Cancel",@""),nil);
+        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete current peaks?",@""),NSLocalizedString(@"Peaks that are already identified could cause doublures. It's recommended to delete the current peaks.",@""),NSLocalizedString(@"Delete",@""),NSLocalizedString(@"Cancel",@""),NSLocalizedString(@"Keep",@""));
         if (answer == NSOKButton) {
             // Delete contents!
+            newPeaks = [NSMutableArray array];
         } else if (answer == NSCancelButton) {
             return;
+        } else {
+            newPeaks = [self peaks];
         }
     }
     
@@ -231,7 +235,6 @@
     }
     
     // Some initial settings
-    NSMutableArray *newPeaks = [NSMutableArray array];
     maximumIntensity = [self maxTotalIntensity];
     float peakIdentificationThresholdF = [[[self document] peakIdentificationThreshold] floatValue];
     
@@ -459,7 +462,7 @@
     JKPeakRecord *peak;
     NSMutableArray *peaksToSave = [NSMutableArray array];
     while ((peak = [peakEnum nextObject]) != nil) {
-    	if ([peak identified] | [[peak searchResults] count] > 0) {
+    	if (([peak identified] | [[peak searchResults] count] > 0) | (![[peak label] isEqualToString:@""])) {
             [peaksToSave addObject:peak];
         }
     }
@@ -696,7 +699,17 @@
 
 - (void)removeObjectFromPeaksAtIndex:(int)index{
 	JKPeakRecord *aPeak = [peaks objectAtIndex:index];
-	
+	if ([aPeak confirmed]) {
+        int  answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete Confirmed Peak",@""),NSLocalizedString(@"The peak you are about to remove was previously confirmed. Are you sure you want to delete this peak?",@""), NSLocalizedString(@"Delete",@""), NSLocalizedString(@"Cancel",@""), nil);
+        if (answer == NSOKButton) {
+            // Continue
+        } else if (answer == NSCancelButton) {
+            // Cancel
+            return;
+        } else {
+            return;
+        }
+    }
 	// Add the inverse action to the undo stack
 	NSUndoManager *undo = [self undoManager];
 	[[undo prepareWithInvocationTarget:self] insertObject:aPeak inPeaksAtIndex:index];

@@ -42,6 +42,7 @@
 - (void)discard;
 - (BOOL)identifyAs:(JKSearchResult *)searchResult;
 - (BOOL)identifyAsLibraryEntry:(JKLibraryEntry *)aLibraryEntry;
+- (BOOL)addSearchResultForLibraryEntry:(JKLibraryEntry *)aLibraryEntry;
 - (void)addSearchResult:(JKSearchResult *)searchResult;
 
 #pragma mark CALCULATED ACCESSORS

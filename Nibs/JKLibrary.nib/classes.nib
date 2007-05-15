@@ -1,6 +1,19 @@
 {
     IBClasses = (
         {
+            CLASS = AMRemovableColumnsTableView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {obligatoryColumnIdentifiers = id; }; 
+            SUPERCLASS = DeleteTableView; 
+        }, 
+        {
+            CLASS = AMRemovableTableColumn; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {mainTableView = AMRemovableColumnsTableView; }; 
+            SUPERCLASS = NSTableColumn; 
+        }, 
+        {CLASS = DeleteTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {
             ACTIONS = {tableViewSelectionDidChangeAction = id; }; 
             CLASS = FilteringDNDArrayController; 
             LANGUAGE = ObjC; 
