@@ -506,36 +506,55 @@
 
 - (void)encodeWithCoder:(NSCoder *)coder {
     if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
-        [coder encodeInt:1 forKey:@"version"];
-//		[coder encodeConditionalObject:document forKey:@"document"]; // weak reference
-		[coder encodeConditionalObject:peak forKey:@"peak"]; // weak reference
-//		[coder encodeFloat:retentionIndex forKey:@"retentionIndex"];
-        [coder encodeInt:numberOfPoints forKey:@"numberOfPoints"];
-		[coder encodeBytes:(void *)masses length:numberOfPoints*sizeof(float) forKey:@"masses"];
-		[coder encodeBytes:(void *)intensities length:numberOfPoints*sizeof(float) forKey:@"intensities"];
+//        [coder encodeInt:1 forKey:@"version"];
+//		[coder encodeConditionalObject:peak forKey:@"peak"]; // weak reference
+//        [coder encodeInt:numberOfPoints forKey:@"numberOfPoints"];
+//		[coder encodeBytes:(void *)masses length:numberOfPoints*sizeof(float) forKey:@"masses"];
+//		[coder encodeBytes:(void *)intensities length:numberOfPoints*sizeof(float) forKey:@"intensities"];
+        
+        if ([super conformsToProtocol:@protocol(NSCoding)]) {
+            [super encodeWithCoder:coder];        
+        }         
+        [coder encodeInt:3 forKey:@"version"];
+        
+        [coder encodeFloatArray:masses withCount:numberOfPoints forKey:@"masses"];
+        [coder encodeFloatArray:intensities withCount:numberOfPoints forKey:@"intensities"];
+                
     } 
     return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
     if ( [coder allowsKeyedCoding] ) {
-        // Can decode keys in any order
-//		document = [coder decodeObjectForKey:@"document"]; // weak reference
-		peak = [coder decodeObjectForKey:@"peak"]; // weak reference
+		int version;
 		
-//		retentionIndex = [coder decodeFloatForKey:@"retentionIndex"];
-        numberOfPoints = [coder decodeIntForKey:@"numberOfPoints"];
-		
-		const uint8_t *temporary = NULL; //pointer to a temporary buffer returned by the decoder.
-		unsigned int length;
-		masses = (float *) malloc(1*sizeof(float));
-		intensities = (float *) malloc(1*sizeof(float));
-		
-		temporary	= [coder decodeBytesForKey:@"masses" returnedLength:&length];
-		[self setMasses:(float *)temporary withCount:numberOfPoints];
-		
-		temporary	= [coder decodeBytesForKey:@"intensities" returnedLength:&length];
-		[self setIntensities:(float *)temporary withCount:numberOfPoints];
+		version = [coder decodeIntForKey:@"version"];
+        if (version >= 3) {
+            self = [super initWithCoder:coder];
+            if (self != nil) {
+                unsigned int length;
+                masses = [coder decodeFloatArrayForKey:@"masses" returnedCount:&length];
+                numberOfPoints = length;
+                intensities = [coder decodeFloatArrayForKey:@"intensities" returnedCount:&length];
+            }
+        } else {
+            //		document = [coder decodeObjectForKey:@"document"]; // weak reference
+            peak = [coder decodeObjectForKey:@"peak"]; // weak reference
+            
+            //		retentionIndex = [coder decodeFloatForKey:@"retentionIndex"];
+            numberOfPoints = [coder decodeIntForKey:@"numberOfPoints"];
+            
+            const uint8_t *temporary = NULL; //pointer to a temporary buffer returned by the decoder.
+            unsigned int length;
+            masses = (float *) malloc(1*sizeof(float));
+            intensities = (float *) malloc(1*sizeof(float));
+            
+            temporary	= [coder decodeBytesForKey:@"masses" returnedLength:&length];
+            [self setMasses:(float *)temporary withCount:numberOfPoints];
+            
+            temporary	= [coder decodeBytesForKey:@"intensities" returnedLength:&length];
+            [self setIntensities:(float *)temporary withCount:numberOfPoints];            
+        }
     } 
     return self;
 }

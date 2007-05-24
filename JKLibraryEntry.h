@@ -8,70 +8,105 @@
 
 #import "JKSpectrum.h"
 
-@interface JKLibraryEntry : JKSpectrum <NSCoding> {	
-	// Required in JCAMP-DX
-	NSString *name;			// ##TITLE=
-							// ##JCAMP-DX= (string) 5.00 $$ (Name and version number of the JCAMP-DX program) 
-							// ##DATA TYPE= (string) e.g., MASS SPECTRUM 
-							// ##DATA CLASS= (string) e.g., PEAK TABLE 
-	NSString *origin;		// ##ORIGIN=
-	NSString *owner;		// ##OWNER=
-	
-	// Optional in JCAMP-DX
-	NSString *CASNumber;	// ##CAS REGISTRY NO=
-	NSString *epaMassSpecNo;// ##$EPA MASS SPEC NO=
-	NSString *formula;		// ##MOLFORM=
-	NSNumber *massWeight;	// ##MW=
-	NSString *nistSource;	// ##$NIST SOURCE=
-	NSString *ionizationEnergy; // ##.IONIZATION ENERGY=
-	NSString *xUnits;		// ##XUNITS=
-	NSString *yUnits;		// ##YUNITS=
-	NSNumber *xFactor;		// ##XFACTOR=
-	NSNumber *yFactor;		// ##YFACTOR=
-	NSNumber *retentionIndex; // ##RI=
-	NSString *source;		// ##SOURCE=
-	
-	// Peacock additions
-	NSString *synonyms;		// ##$SYNONYMS=
-	NSString *comment;		// ##$COMMENT=
-	NSString *molString;	// ##$MOLSTRING=
-	NSString *symbol;		// ##$SYMBOL=
-	NSString *modelChr;		// ##$MODEL=
-	NSString *group;        // ##$GROUP=
-	//int numberOfPoints;		// ##NPOINTS=
+@interface JKLibraryEntry : NSManagedObject {	
+//	// Required in JCAMP-DX
+//	NSString *name;			// ##TITLE=
+//							// ##JCAMP-DX= (string) 5.00 $$ (Name and version number of the JCAMP-DX program) 
+//							// ##DATA TYPE= (string) e.g., MASS SPECTRUM 
+//							// ##DATA CLASS= (string) e.g., PEAK TABLE 
+//	NSString *origin;		// ##ORIGIN=
+//	NSString *owner;		// ##OWNER=
+//	
+//	// Optional in JCAMP-DX
+//	NSString *CASNumber;	// ##CAS REGISTRY NO=
+//	NSString *epaMassSpecNo;// ##$EPA MASS SPEC NO=
+//	NSString *formula;		// ##MOLFORM=
+//	NSNumber *massWeight;	// ##MW=
+//	NSString *nistSource;	// ##$NIST SOURCE=
+//	NSString *ionizationEnergy; // ##.IONIZATION ENERGY=
+//	NSString *xUnits;		// ##XUNITS=
+//	NSString *yUnits;		// ##YUNITS=
+//	NSNumber *xFactor;		// ##XFACTOR=
+//	NSNumber *yFactor;		// ##YFACTOR=
+//	NSNumber *retentionIndex; // ##RI=
+//	NSString *source;		// ##SOURCE=
+//	
+//	// Peacock additions
+//	NSString *synonyms;		// ##$SYNONYMS=
+//	NSString *comment;		// ##$COMMENT=
+//	NSString *molString;	// ##$MOLSTRING=
+//	NSString *symbol;		// ##$SYMBOL=
+//	NSString *modelChr;		// ##$MODEL=
+//	NSString *group;        // ##$GROUP=
+//	//int numberOfPoints;		// ##NPOINTS=
+//    
+//    NSString *model;
+    
+	int numberOfPoints;
+    BOOL peakTableRead;
+	float *masses;
+	float *intensities;  
 }
 
-- (id)initWithJCAMPString:(NSString *)inString;
+#pragma mark Importing data
 - (NSString *)jcampString;
-- (NSNumber *)calculateMassWeight:(NSString *)inString;
-
-- (NSUndoManager *)undoManager;
-
-idAccessor_h(name, setName)
-idAccessor_h(origin, setOrigin)
-idAccessor_h(owner, setOwner)
-
-idAccessor_h(CASNumber, setCASNumber)
-idAccessor_h(epaMassSpecNo, setEpaMassSpecNo)
-idAccessor_h(formula, setFormula)
-idAccessor_h(massWeight, setMassWeight)
-idAccessor_h(nistSource, setNISTSource)
-idAccessor_h(ionizationEnergy, setIonizationEnergy)
-idAccessor_h(xUnits, setXUnits)
-idAccessor_h(yUnits, setYUnits)
-idAccessor_h(xFactor, setXFactor)
-idAccessor_h(yFactor, setYFactor)
-idAccessor_h(retentionIndex, setRetentionIndex)
-idAccessor_h(source, setSource)
-
-idAccessor_h(comment, setComment)
-idAccessor_h(molString, setMolString)
-idAccessor_h(symbol, setSymbol)
-idAccessor_h(modelChr, setModelChr)
-idAccessor_h(group, setGroup)
-idAccessor_h(synonyms, setSynonyms)
+- (void)setJCAMPString:(NSString *)inString;
 
 - (NSString *)peakTable;
 - (void)setPeakTable:(NSString *)inString;
+- (void)readPeakTable;
+
+- (NSNumber *)calculateMassWeight:(NSString *)inString;
+#pragma mark -
+
+#pragma mark Undo
+- (NSUndoManager *)undoManager;
+#pragma mark -
+
+#pragma mark Accessors (NSManagedObject style)
+- (NSString *)name;
+- (void)setName:(NSString *)newName;
+- (NSString *)origin;
+- (void)setOrigin:(NSString *)neworigin;
+- (NSString *)owner;
+- (void)setOwner:(NSString *)newowner;
+- (NSString *)CASNumber;
+- (void)setCASNumber:(NSString *)newCASNumber;
+- (NSString *)epaMassSpecNo;
+- (void)setEpaMassSpecNo:(NSString *)newepaMassSpecNo;
+- (NSString *)formula;
+- (void)setFormula:(NSString *)newformula;
+- (NSNumber *)massWeight;
+- (void)setMassWeight:(NSNumber *)newmassWeight;
+- (NSString *)nistSource;
+- (void)setNistSource:(NSString *)newnistSource;
+- (NSString *)ionizationEnergy;
+- (void)setIonizationEnergy:(NSString *)newionizationEnergy;
+- (NSString *)xUnits;
+- (void)setXUnits:(NSString *)newxUnits;
+- (NSString *)yUnits;
+- (void)setYUnits:(NSString *)newyUnits;
+- (NSNumber *)xFactor;
+- (void)setXFactor:(NSNumber *)newxFactor;
+- (NSNumber *)yFactor;
+- (void)setYFactor:(NSNumber *)newyFactor;
+- (NSNumber *)retentionIndex;
+- (void)setRetentionIndex:(NSNumber *)newretentionIndex;
+- (NSString *)source;
+- (void)setSource:(NSString *)newsource;
+- (NSString *)comment;
+- (void)setComment:(NSString *)newcomment;
+- (NSString *)molString;
+- (void)setMolString:(NSString *)newmolString;
+- (NSString *)symbol;
+- (void)setSymbol:(NSString *)newsymbol;
+- (NSString *)modelChr;
+- (void)setModelChr:(NSString *)newmodelChr;
+- (NSString *)group;
+- (void)setGroup:(NSString *)newgroup;
+- (NSString *)synonyms;
+- (void)setSynonyms:(NSString *)newsynonyms;
+- (int)numberOfPoints;
+- (void)setNumberOfPoints:(int)newnumberOfPoints;
 
 @end

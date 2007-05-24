@@ -605,11 +605,15 @@
                     warningMsg = [NSString stringWithFormat:@"WARNING: The confirmed peak '%@' at index %d was matched to a hitherto unidentified compound. It was previously encountered", [peak label], [peak peakID]];
                     warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
                     if ([[peak label] isEqualToString:@""]) {
-                        NSLog(@"ARGH!!1 %@ - %@",[document displayName], [peak description]);
+                        JKLogDebug(@"ARGH!!1 %@ - %@",[document displayName], [peak description]);
                     }
-                    [combinedPeak setLabel:[peak label]];
-                    [combinedPeak setLibraryEntry:[peak libraryHit]];
-                    [combinedPeak setUnknownCompound:NO];
+                    if ([[peak label] isEqualToString:@""] || ![peak label]) {
+                        [combinedPeak setLabel:[peak label]];
+                    }
+                    if ([peak libraryHit]) {
+                        [combinedPeak setLibraryEntry:[peak libraryHit]];
+                        [combinedPeak setUnknownCompound:NO];
+                    }
                     // Should log the peaks that were unidentified
                     NSEnumerator *peakEnumerator = [[combinedPeak peaks] objectEnumerator];
                     JKPeakRecord *oldPeak;
@@ -629,11 +633,16 @@
                     warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
                     // Do not change combinedPeak label because not confirmed >> do, because we now have the certainty factor shown
                     if ([[peak label] isEqualToString:@""]) {
-                        NSLog(@"ARGH!!2 %@ - %@",[document displayName], [peak description]);
+                        JKLogDebug(@"ARGH!!2 %@ - %@",[document displayName], [peak description]);
                     }
-                    [combinedPeak setLabel:[peak label]];
-                    [combinedPeak setLibraryEntry:[peak libraryHit]];
-                    [combinedPeak setUnknownCompound:NO];
+                    
+                    if ([[peak label] isEqualToString:@""] || ![peak label]) {
+                        [combinedPeak setLabel:[peak label]];
+                    }
+                    if ([peak libraryHit]) {
+                        [combinedPeak setLibraryEntry:[peak libraryHit]];
+                        [combinedPeak setUnknownCompound:NO];
+                    }
                     
                     // Should log the peaks that were unidentified
                     NSEnumerator *peakEnumerator = [[combinedPeak peaks] objectEnumerator];
@@ -669,11 +678,15 @@
         if (!isKnownCombinedPeak) {            
             combinedPeak = [[JKCombinedPeak alloc] init];
 			if (!isKnownCompound) {
-                [combinedPeak setLabel:[NSString stringWithFormat:NSLocalizedString(@"Unknown compound %d ",@"Unknown compounds in stats summary."), unknownCount]];
-				unknownCount++;
+                if ([[peak label] isEqualToString:@""] || ![peak label]) {
+                    [combinedPeak setLabel:[NSString stringWithFormat:NSLocalizedString(@"Unknown compound %d ",@"Unknown compounds in stats summary."), unknownCount]];
+                    unknownCount++;
+                } else {
+                    [combinedPeak setLabel:[peak label]];
+                }
    			} else {
                 if ([[peak label] isEqualToString:@""]) {
-                    NSLog(@"ARGH!!3 %@ - %@",[document displayName], [peak description]);
+                    JKLogDebug(@"ARGH!!3 %@ - %@",[document displayName], [peak description]);
                 }
                 [combinedPeak setLabel:[peak label]];
                 [combinedPeak setLibraryEntry:[peak libraryHit]];
@@ -911,8 +924,12 @@
         if (!isKnownCombinedPeak) {            
             combinedPeak = [[JKCombinedPeak alloc] init];
 			if (!isKnownCompound) {
-                [combinedPeak setLabel:[NSString stringWithFormat:NSLocalizedString(@"Unknown compound %d ",@"Unknown compounds in stats summary."), unknownCount]];
-				unknownCount++;
+                if ([[peak label] isEqualToString:@""] || ![peak label]) {
+                    [combinedPeak setLabel:[NSString stringWithFormat:NSLocalizedString(@"Unknown compound %d ",@"Unknown compounds in stats summary."), unknownCount]];
+                    unknownCount++;
+                } else {
+                    [combinedPeak setLabel:[peak label]];
+                }
    			} else {
                 if ([[peak label] isEqualToString:@""]) {
                     NSLog(@"ARGH!!3 %@ - %@",[document displayName], [peak description]);
@@ -1556,32 +1573,32 @@
 		}
 		[outStr appendString:@"\n"];
 		
-		[outStr appendString:@"\nNormalized height\n#\tCompound\tCertainty\tCount\tAverage retention index\tStandard deviation retention index\tAverage height\tStandard deviation height"];
-		for (i=0; i < fileCount; i++) { // Sample code
-			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
-		}
-		[outStr appendString:@"\n"];
-		for (j=0; j < compoundCount; j++) {
-			[outStr appendFormat:@"%d\t", j+1];
-			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"label"]];
-			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"certainty"]];
-			[outStr appendFormat:@"%d\t", [[[[self combinedPeaks] objectAtIndex:j] valueForKey:@"compoundCount"] intValue]];
-			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageRetentionIndex"]];
-			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationRetentionIndex"]];
-			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageHeight"]];
-			[outStr appendFormat:@"%@",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationHeight"]];
-			for (i=0; i < fileCount; i++) {
-				normalizedHeight = [[[[[self combinedPeaks] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"normalizedHeight"] stringValue];
-				if (normalizedHeight != nil) {
-					[outStr appendFormat:@"\t%@", normalizedHeight];					
-				} else {
-					[outStr appendString:@"\t-"];										
-				}
-			}
-			[outStr appendString:@"\n"];
-		}
+//		[outStr appendString:@"\nNormalized height\n#\tCompound\tCertainty\tCount\tAverage retention index\tStandard deviation retention index\tAverage height\tStandard deviation height"];
+//		for (i=0; i < fileCount; i++) { // Sample code
+//			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
+//		}
+//		[outStr appendString:@"\n"];
+//		for (j=0; j < compoundCount; j++) {
+//			[outStr appendFormat:@"%d\t", j+1];
+//			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"label"]];
+//			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"certainty"]];
+//			[outStr appendFormat:@"%d\t", [[[[self combinedPeaks] objectAtIndex:j] valueForKey:@"countOfPeaks"] intValue]];
+//			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageRetentionIndex"]];
+//			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationRetentionIndex"]];
+//			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageHeight"]];
+//			[outStr appendFormat:@"%@",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationHeight"]];
+//			for (i=0; i < fileCount; i++) {
+//				normalizedHeight = [[[[[self combinedPeaks] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"normalizedHeight"] stringValue];
+//				if (normalizedHeight != nil) {
+//					[outStr appendFormat:@"\t%@", normalizedHeight];					
+//				} else {
+//					[outStr appendString:@"\t-"];										
+//				}
+//			}
+//			[outStr appendString:@"\n"];
+//		}
 		
-		[outStr appendString:@"\nNormalized surface\n#\tCompound\tCertainty\tCount\tAverage retention index\tStandard deviation retention index\tAverage surface\tStandard deviation surface"];
+		[outStr appendString:@"\nSurface\n#\tCompound\tCertainty\tCount\tAverage retention index\tStandard deviation retention index\tAverage surface\tStandard deviation surface"];
 		for (i=0; i < fileCount; i++) { // Sample code
 			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
 		}
@@ -1590,13 +1607,13 @@
 			[outStr appendFormat:@"%d\t", j+1];
 			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"label"]];
 			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"certainty"]];
-			[outStr appendFormat:@"%d\t", [[[[self combinedPeaks] objectAtIndex:j] valueForKey:@"compoundCount"] intValue]];
+			[outStr appendFormat:@"%d\t", [[[[self combinedPeaks] objectAtIndex:j] valueForKey:@"countOfPeaks"] intValue]];
 			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageRetentionIndex"]];
 			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationRetentionIndex"]];
 			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageSurface"]];
 			[outStr appendFormat:@"%@",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationSurface"]];
 			for (i=0; i < fileCount; i++) {
-				normalizedSurface = [[[[[self combinedPeaks] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"normalizedSurface"] stringValue];
+				normalizedSurface = [[[[[self combinedPeaks] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"surface"] stringValue];
 				if (normalizedSurface != nil) {
 					[outStr appendFormat:@"\t%@", normalizedSurface];					
 				} else {
@@ -1606,7 +1623,7 @@
 			[outStr appendString:@"\n"];
 		}
 		
-		[outStr appendString:@"\nRetention time\n#\t\tCertainty\tCount\tAverage retention index\tStandard deviation retention index\t\t"];
+		[outStr appendString:@"\nRetention index\n#\t\tCertainty\tCount\tAverage retention index\tStandard deviation retention index\t\t"];
 		for (i=0; i < fileCount; i++) { // Sample code
 			[outStr appendFormat:@"\t%@", [[[self metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]]];
 		}
@@ -1615,13 +1632,13 @@
 			[outStr appendFormat:@"%d\t", j+1];
 			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"label"]];
 			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"certainty"]];
-			[outStr appendFormat:@"%d\t", [[[[self combinedPeaks] objectAtIndex:j] valueForKey:@"compoundCount"] intValue]];
+			[outStr appendFormat:@"%d\t", [[[[self combinedPeaks] objectAtIndex:j] valueForKey:@"countOfPeaks"] intValue]];
 			[outStr appendFormat:@"%@\t", [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageRetentionIndex"]];
 			[outStr appendFormat:@"%@\t\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationRetentionIndex"]];
 //			[outStr appendFormat:@"%@\t",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"averageSurface"]];
 //			[outStr appendFormat:@"%@",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationSurface"]];
 			for (i=0; i < fileCount; i++) {
-				retentionTime = [[[[[self combinedPeaks] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"topTime"] stringValue];
+				retentionTime = [[[[[self combinedPeaks] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"retentionIndex"] stringValue];
 				if (normalizedSurface != nil) {
 					[outStr appendFormat:@"\t%@", retentionTime];					
 				} else {

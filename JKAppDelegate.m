@@ -420,7 +420,16 @@
     if ([documentListTableView selectedRow] != -1) {
         doc = [[self documents] objectAtIndex:[documentListTableView selectedRow]];
         [doc showWindows];
-        [[doc windowForSheet] setFrameTopLeftPoint:NSMakePoint([documentListPanel frame].origin.x+[documentListPanel frame].size.width,[documentListPanel frame].origin.y+[documentListPanel frame].size.height)];
+//        [[doc windowForSheet] setFrameTopLeftPoint:NSMakePoint([documentListPanel frame].origin.x+[documentListPanel frame].size.width,[documentListPanel frame].origin.y+[documentListPanel frame].size.height)];
+//        NSIntersectionRect(<#NSRect rect0#>,<#NSRect rect1#>)
+        NSRect visibleFrame = [[[doc windowForSheet] screen] visibleFrame];
+        NSRect panelFrame = [documentListPanel frame];
+        NSRect newRect;
+        newRect.origin.x = panelFrame.origin.x + panelFrame.size.width;
+        newRect.origin.y = visibleFrame.origin.y;
+        newRect.size.height = visibleFrame.size.height;
+        newRect.size.width = visibleFrame.size.width - (panelFrame.origin.x + panelFrame.size.width);
+        [[doc windowForSheet] setFrame:newRect display:YES animate:YES];
     }
 }
 

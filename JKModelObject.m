@@ -34,7 +34,8 @@
 }
 - (void)encodeWithCoder:(NSCoder *)encoder 
 {
-	[encoder encodeObject:container forKey:@"container"];
+    if ([container respondsToSelector:@selector(encodeWithCoder:)])
+        [encoder encodeObject:container forKey:@"container"];
 }
 #pragma mark -
 

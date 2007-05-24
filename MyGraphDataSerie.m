@@ -52,6 +52,9 @@ static void *ArrayObservationContext = (void *)1092;
 }
 
 - (void)loadDataPoints:(int)npts withXValues:(float *)xpts andYValues:(float *)ypts {
+    if (npts < 1) {
+        return;
+    }
 	int i;
 	NSMutableArray *mutArray = [[NSMutableArray alloc] init];
     for(i=0;i<npts;i++){

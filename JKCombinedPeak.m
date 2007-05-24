@@ -216,9 +216,13 @@
         if (value) {
             [peaks setObject:value forKey:key];            
             if ([value confirmed]) {
-                [self setLibraryEntry:[value libraryHit]];
-                [self setSpectrum:[value libraryHit]];
-                [self setLabel:[[value libraryHit] name]];
+                if ([value label] && ![[value label] isEqualToString:@""]) {
+                    [self setLabel:[value label]];
+                }
+                if ([value libraryHit]) {
+                    [self setLibraryEntry:[value libraryHit]];
+                    [self setSpectrum:[value libraryHit]];                    
+                }
             }
         } else {
             [peaks removeObjectForKey:key];
@@ -249,12 +253,16 @@
         label = [aLabel retain];
         
         // Set label also for all peaks
-        NSEnumerator *peakEnum = [peaks objectEnumerator];
-        JKPeakRecord *peak;
-        while (peak = [peakEnum nextObject]) {
-            [peak setLabel:label];
+        if (aLabel) {
+            if (!([aLabel isEqualToString:@""] || [aLabel hasPrefix:NSLocalizedString(@"Unknown compound",@"")])) {
+                NSEnumerator *peakEnum = [peaks objectEnumerator];
+                JKPeakRecord *peak;
+                while (peak = [peakEnum nextObject]) {
+                    [peak setLabel:label];
+                }            
+            }            
         }
-    }
+     }
 }
 - (NSNumber *)symbol {
 	return symbol;

@@ -49,6 +49,7 @@ static void *SpectrumObservationContext = (void *)1102;
         showSelectedChromatogramsOnly = YES;
         chromatogramDataSeries = [[NSMutableArray alloc] init];
         hiddenColumnsPeaksTable = [[NSMutableArray alloc] init];
+       // [self setShouldCascadeWindows:NO];
 	}
     return self;
 }
@@ -165,6 +166,11 @@ static void *SpectrumObservationContext = (void *)1102;
     
     [[[peaksTable tableColumnWithIdentifier:@"id"] headerCell] setImage:[NSImage imageNamed:@"flagged_header"]];
     // 	[tableView setObligatoryTableColumns:[NSSet setWithObject:[tableView tableColumnWithIdentifier:@"name"]]];
+    [[self window] setFrameFromString:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"mainWindowFrame"]];
+}
+- (void)windowWillClose:(NSNotification *)aNotification
+{
+    [[[NSUserDefaultsController sharedUserDefaultsController] values] setValue:[[self window] stringWithSavedFrame] forKey:@"mainWindowFrame"];
 }
 #pragma mark -
 

@@ -46,6 +46,8 @@
 
     [moleculeView bind:@"moleculeString" toObject: libraryController
 		   withKeyPath:@"selection.molString" options:nil];
+    
+    [tableView registerForDraggedTypes:[NSArray arrayWithObjects:@"JKLibraryEntryTableViewDataType", nil]]; 
 }
 
 - (void) dealloc {
@@ -106,13 +108,13 @@
     JKLogDebug([casNumberField stringValue]);
     NSString *string = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",[casNumberField stringValue],[casNumberField stringValue]]]];
     JKLogDebug(string);
-    JKLibraryEntry *entry = [[JKLibraryEntry alloc] initWithJCAMPString:string];
-    [entry setMolString:[NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[casNumberField stringValue],[casNumberField stringValue]]]]];
-    [entry setContainer:[self document]];
-    [libraryController addObject:entry];
-    [moleculeView setNeedsDisplay:YES];
-    [spectrumView setNeedsDisplay:YES];
-    [spectrumView showAll:self];
+    if (string) {
+        JKLibraryEntry *libEntry = [NSEntityDescription insertNewObjectForEntityForName:@"JKLibraryEntry" inManagedObjectContext:[[self document] managedObjectContext]];
+        [libEntry setJCAMPString:string];
+        [libEntry setMolString:[NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[casNumberField stringValue],[casNumberField stringValue]]]]];        
+    } else {
+        NSBeep();
+    }
     [NSApp endSheet:addCasNumberSheet];
 }
 
@@ -125,6 +127,34 @@
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window { 
     return [[self document] undoManager];
 }
+#pragma mark -
+
+#pragma mark Drag-'n-drop
+- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard
+{
+    if ([rowIndexes count] != 1) {
+        return NO;
+    }
+    if (aTableView != tableView) {
+        return NO;
+    }
+    
+	// declare our own pasteboard types
+    NSArray *typesArray = [NSArray arrayWithObjects:@"JKLibraryEntryTableViewDataType", nil];
+    [pboard declareTypes:typesArray owner:self];
+    	
+    NSMutableData *data;
+    NSKeyedArchiver *archiver;    
+    data = [NSMutableData data];
+    archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:[[libraryController arrangedObjects] objectAtIndex:[rowIndexes firstIndex]] forKey:@"JKLibraryEntryTableViewDataType"];
+    [archiver finishEncoding];
+    [pboard setData:data forType:@"JKLibraryEntryTableViewDataType"];
+    [archiver release];
+	
+    return YES;
+}
+#pragma mark -
 
 #pragma mark SHEETS
 - (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {

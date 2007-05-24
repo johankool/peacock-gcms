@@ -9,27 +9,21 @@
 @class JKLibraryWindowController;
 @class JKLibraryEntry;
 
-@interface JKLibrary : NSDocument {
+@interface JKLibrary : NSPersistentDocument {
     JKLibraryWindowController *libraryWindowController;
-	NSMutableArray *libraryEntries;
 }
 
 #pragma mark IMPORT/EXPORT ACTIONS
-- (NSArray *)readJCAMPString:(NSString *)inString;
+- (void)readJCAMPString:(NSString *)inString;
 
 - (BOOL)importJCAMPFromFile:(NSString *)fileName;
 - (BOOL)exportJCAMPToFile:(NSString *)fileName;
 
-- (BOOL)importAMDISFromFile:(NSString *)fileName;
-- (BOOL)exportAMDISToFile:(NSString *)fileName;
+//- (BOOL)importAMDISFromFile:(NSString *)fileName;
+//- (BOOL)exportAMDISToFile:(NSString *)fileName;
 
 #pragma mark ACCESSORS
-
+- (NSArray *)libraryEntries;
 - (JKLibraryWindowController *)libraryWindowController;
-
-- (NSMutableArray *)libraryEntries;
-- (void)setLibraryEntries:(NSMutableArray *)array;
-- (void)insertObject:(JKLibraryEntry *)libraryEntry inLibraryEntriesAtIndex:(int)index;
-- (void)removeObjectFromLibraryEntriesAtIndex:(int)index;
 
 @end
