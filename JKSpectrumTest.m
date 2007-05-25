@@ -220,43 +220,43 @@
 
 
 - (void)testCaseScoringSpectrum {
-	float score = [testSpectrum1 scoreComparedToSpectrum:testSpectrum1 usingMethod:JKAbundanceScoreBasis penalizingForRententionIndex:NO];
+	float score = [testSpectrum1 scoreComparedTo:testSpectrum1 usingMethod:JKAbundanceScoreBasis penalizingForRententionIndex:NO];
     STAssertEquals(score, 100.0f, @"Error JKAbundanceScoreBasis spectrum1");
-	score = [testSpectrum1 scoreComparedToSpectrum:testSpectrum1 usingMethod:JKMZValuesScoreBasis penalizingForRententionIndex:NO];
+	score = [testSpectrum1 scoreComparedTo:testSpectrum1 usingMethod:JKMZValuesScoreBasis penalizingForRententionIndex:NO];
     STAssertEquals(score, 100.0f, @"Error JKMZValuesScoreBasis spectrum1");
-	score = [testSpectrum1 scoreComparedToSpectrum:testSpectrum1 usingMethod:JKLiteratureReferenceScoreBasis penalizingForRententionIndex:NO];
+	score = [testSpectrum1 scoreComparedTo:testSpectrum1 usingMethod:JKLiteratureReferenceScoreBasis penalizingForRententionIndex:NO];
     STAssertEquals(score, 100.0f, @"Error JKLiteratureReferenceScoreBasis spectrum1");
-    score = [testSpectrum1 scoreComparedToSpectrum:testSpectrum4 usingMethod:JKAbundanceScoreBasis penalizingForRententionIndex:NO];
+    score = [testSpectrum1 scoreComparedTo:testSpectrum4 usingMethod:JKAbundanceScoreBasis penalizingForRententionIndex:NO];
     STAssertEquals(score, 0.0f, @"Error JKAbundanceScoreBasis spectrum1-4");
-    score = [testSpectrum1 scoreComparedToSpectrum:testSpectrum5 usingMethod:JKAbundanceScoreBasis penalizingForRententionIndex:NO];
+    score = [testSpectrum1 scoreComparedTo:testSpectrum5 usingMethod:JKAbundanceScoreBasis penalizingForRententionIndex:NO];
 //    STAssertEquals(score, 50.0f, @"Error JKAbundanceScoreBasis spectrum1-5");
     
-	score = [testSpectrum2 scoreComparedToSpectrum:testSpectrum2 usingMethod:JKAbundanceScoreBasis penalizingForRententionIndex:NO];
+	score = [testSpectrum2 scoreComparedTo:testSpectrum2 usingMethod:JKAbundanceScoreBasis penalizingForRententionIndex:NO];
     STAssertEquals(score, 100.0f, @"Error JKAbundanceScoreBasis spectrum2");
-	score = [testSpectrum2 scoreComparedToSpectrum:testSpectrum2 usingMethod:JKMZValuesScoreBasis penalizingForRententionIndex:NO];
+	score = [testSpectrum2 scoreComparedTo:testSpectrum2 usingMethod:JKMZValuesScoreBasis penalizingForRententionIndex:NO];
     STAssertEquals(score, 100.0f, @"Error JKMZValuesScoreBasis spectrum2");
-	score = [testSpectrum2 scoreComparedToSpectrum:testSpectrum2 usingMethod:JKLiteratureReferenceScoreBasis penalizingForRententionIndex:NO];
+	score = [testSpectrum2 scoreComparedTo:testSpectrum2 usingMethod:JKLiteratureReferenceScoreBasis penalizingForRententionIndex:NO];
     STAssertEquals(score, 100.0f, @"Error JKLiteratureReferenceScoreBasis spectrum2");
     
-	score = [testSpectrum3 scoreComparedToSpectrum:testSpectrum3 usingMethod:JKAbundanceScoreBasis penalizingForRententionIndex:NO];
+	score = [testSpectrum3 scoreComparedTo:testSpectrum3 usingMethod:JKAbundanceScoreBasis penalizingForRententionIndex:NO];
     STAssertEquals(score, 100.0f, @"Error JKAbundanceScoreBasis spectrum3");
-	score = [testSpectrum3 scoreComparedToSpectrum:testSpectrum3 usingMethod:JKMZValuesScoreBasis penalizingForRententionIndex:NO];
+	score = [testSpectrum3 scoreComparedTo:testSpectrum3 usingMethod:JKMZValuesScoreBasis penalizingForRententionIndex:NO];
     STAssertEquals(score, 100.0f, @"Error JKMZValuesScoreBasis spectrum3");
-	score = [testSpectrum3 scoreComparedToSpectrum:testSpectrum3 usingMethod:JKLiteratureReferenceScoreBasis penalizingForRententionIndex:NO];
+	score = [testSpectrum3 scoreComparedTo:testSpectrum3 usingMethod:JKLiteratureReferenceScoreBasis penalizingForRententionIndex:NO];
     STAssertEquals(score, 100.0f, @"Error JKLiteratureReferenceScoreBasis spectrum3");
     
-//    score = [testSpectrum1 scoreComparedToSpectrum:testSpectrum2 usingMethod:JKAbundanceScoreBasis penalizingForRententionIndex:NO];
+//    score = [testSpectrum1 scoreComparedTo:testSpectrum2 usingMethod:JKAbundanceScoreBasis penalizingForRententionIndex:NO];
 //    STAssertEquals(score, 100.0f, @"Error JKAbundanceScoreBasis spectrum1-2");
-//	score = [testSpectrum1 scoreComparedToSpectrum:testSpectrum2 usingMethod:JKMZValuesScoreBasis penalizingForRententionIndex:NO];
+//	score = [testSpectrum1 scoreComparedTo:testSpectrum2 usingMethod:JKMZValuesScoreBasis penalizingForRententionIndex:NO];
 //    STAssertEquals(score, 100.0f, @"Error JKMZValuesScoreBasis spectrum1-2");
-//	score = [testSpectrum1 scoreComparedToSpectrum:testSpectrum2 usingMethod:JKLiteratureReferenceScoreBasis penalizingForRententionIndex:NO];
+//	score = [testSpectrum1 scoreComparedTo:testSpectrum2 usingMethod:JKLiteratureReferenceScoreBasis penalizingForRententionIndex:NO];
 //    STAssertEquals(score, 100.0f, @"Error JKLiteratureReferenceScoreBasis spectrum1-2");
 //    
-//    score = [testSpectrum1 scoreComparedToSpectrum:testSpectrum3 usingMethod:JKAbundanceScoreBasis penalizingForRententionIndex:NO];
+//    score = [testSpectrum1 scoreComparedTo:testSpectrum3 usingMethod:JKAbundanceScoreBasis penalizingForRententionIndex:NO];
 //    STAssertEquals(score, 100.0f, @"Error JKAbundanceScoreBasis spectrum1-3");
-//	score = [testSpectrum1 scoreComparedToSpectrum:testSpectrum3 usingMethod:JKMZValuesScoreBasis penalizingForRententionIndex:NO];
+//	score = [testSpectrum1 scoreComparedTo:testSpectrum3 usingMethod:JKMZValuesScoreBasis penalizingForRententionIndex:NO];
 //    STAssertEquals(score, 100.0f, @"Error JKMZValuesScoreBasis spectrum1-3");
-//	score = [testSpectrum1 scoreComparedToSpectrum:testSpectrum3 usingMethod:JKLiteratureReferenceScoreBasis penalizingForRententionIndex:NO];
+//	score = [testSpectrum1 scoreComparedTo:testSpectrum3 usingMethod:JKLiteratureReferenceScoreBasis penalizingForRententionIndex:NO];
 //    STAssertEquals(score, 100.0f, @"Error JKLiteratureReferenceScoreBasis spectrum1-3");
     
 }

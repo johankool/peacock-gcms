@@ -884,9 +884,9 @@ int intSort(id num1, id num2, void *context)
 //                    continue;
 //                }
                 if (spectrumToUse == JKSpectrumSearchSpectrum) {
-                    score = [[peak spectrum] scoreComparedToLibraryEntry:libraryEntry];                    
+                    score = [[peak spectrum] scoreComparedTo:libraryEntry];                    
                 } else if (spectrumToUse == JKCombinedSpectrumSearchSpectrum) {
-                    score = [[peak combinedSpectrum] scoreComparedToLibraryEntry:libraryEntry];
+                    score = [[peak combinedSpectrum] scoreComparedTo:libraryEntry];
                 } else {
                     JKLogError(@"spectrumToUse has unexpected value.");
                 }
@@ -1048,7 +1048,7 @@ int intSort(id num1, id num2, void *context)
         peaksCount = [[chromatogramToSearch peaks] count];
 		for (k = 0; k < peaksCount; k++) {
             if (fabsf([[[[chromatogramToSearch peaks] objectAtIndex:k] retentionIndex] floatValue] - [[libraryEntry retentionIndex] floatValue]) < aMaximumRetentionIndexDifference) {
-                score = [[[[chromatogramToSearch peaks] objectAtIndex:k] spectrum] scoreComparedToLibraryEntry:libraryEntry];
+                score = [[[[chromatogramToSearch peaks] objectAtIndex:k] spectrum] scoreComparedTo:libraryEntry];
                 if (score >= maximumScore) {
                     maximumScore = score;
                     maximumIndex = k;
@@ -1343,7 +1343,7 @@ int intSort(id num1, id num2, void *context)
 		maximumIndex = -1;
 		for (k = 0; k < peaksCount; k++) {
 			if (([[self peaks] objectAtIndex:k] != originatingPeak) && (![[[self peaks] objectAtIndex:k] confirmed])) {
-				score = [[[[self peaks] objectAtIndex:k] spectrum] scoreComparedToLibraryEntry:[searchResult libraryHit]];
+				score = [[[[self peaks] objectAtIndex:k] spectrum] scoreComparedTo:[searchResult libraryHit]];
 				if (score >= maximumScore) {
 					maximumScore = score;
 					maximumIndex = k;

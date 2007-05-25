@@ -7,13 +7,14 @@
 //
 
 #import "JKModelObject.h"
+#import "JKComparableProtocol.h"
 
 @class JKLibraryEntry;
 @class JKGCMSDocument;
 @class JKPeakRecord;
 @class SpectrumGraphDataSerie;
 
-@interface JKSpectrum : JKModelObject <NSCoding> {
+@interface JKSpectrum : JKModelObject <NSCoding, JKComparableProtocol> {
 	JKPeakRecord *peak;
 	NSString *model;
     	
@@ -31,9 +32,8 @@
 - (JKSpectrum *)spectrumByAveragingWithSpectrum:(JKSpectrum *)inSpectrum  withWeight:(float)weight;
 - (JKSpectrum *)normalizedSpectrum;
 
-- (float)scoreComparedToSpectrum:(JKSpectrum *)inSpectrum;
-- (float)scoreComparedToLibraryEntry:(JKSpectrum *)libraryEntry;
-- (float)scoreComparedToSpectrum:(JKSpectrum *)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex;
+- (float)scoreComparedTo:(id <JKComparableProtocol>)inSpectrum;
+- (float)scoreComparedTo:(id <JKComparableProtocol>)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex;
 
 - (NSNumber *)retentionIndex;
 

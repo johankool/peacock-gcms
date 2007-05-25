@@ -550,7 +550,7 @@
                 isKnownCompound = YES;
                 
 				if ([[peak label] isEqualToString:[combinedPeak label]]) {
-                    scoreResult = [spectrum scoreComparedToSpectrum:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
+                    scoreResult = [spectrum scoreComparedTo:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
                     peaksCompared++;
                     if (scoreResult > maxScoreResult) {
                         maxScoreResult = scoreResult; 
@@ -562,7 +562,7 @@
             } else {
 				isKnownCompound = NO;
 
-                scoreResult  = [spectrum scoreComparedToSpectrum:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
+                scoreResult  = [spectrum scoreComparedTo:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
                 peaksCompared++;
                 if (scoreResult > matchTreshold) {
                     if (scoreResult > maxScoreResult) {
@@ -578,7 +578,7 @@
  			combinedPeak = [combinedPeaks objectAtIndex:knownCombinedPeakIndex];
             previousMatchedPeak = [combinedPeak valueForKey:[NSString stringWithFormat:@"file_%d",index]];
             if (previousMatchedPeak) {
-                previousScoreResult = [[previousMatchedPeak spectrum] scoreComparedToSpectrum:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
+                previousScoreResult = [[previousMatchedPeak spectrum] scoreComparedTo:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
                 
                 //JKLogDebug(@"previousScoreResult %g; maxScoreResult %g for peak %@ combinedPeak %@", previousScoreResult, maxScoreResult, [peak label], [combinedPeak label]);
             } else {
@@ -804,7 +804,7 @@
                 isKnownCompound = YES;
                 
 				if ([[peak label] isEqualToString:[combinedPeak label]]) {
-                    scoreResult = [spectrum scoreComparedToSpectrum:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
+                    scoreResult = [spectrum scoreComparedTo:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
                     peaksCompared++;
                     if (scoreResult > maxScoreResult) {
                         needsUpdating = NO;
@@ -817,7 +817,7 @@
             } else {
 				isKnownCompound = NO;
                 
-                scoreResult  = [spectrum scoreComparedToSpectrum:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
+                scoreResult  = [spectrum scoreComparedTo:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
                 peaksCompared++;
                 if (scoreResult > matchTreshold) {
                     if (scoreResult > maxScoreResult) {
@@ -833,7 +833,7 @@
  			combinedPeak = [combinedPeaks objectAtIndex:knownCombinedPeakIndex];
             previousMatchedPeak = [combinedPeak valueForKey:[NSString stringWithFormat:@"file_%d",index]];
             if (previousMatchedPeak) {
-                previousScoreResult = [[previousMatchedPeak spectrum] scoreComparedToSpectrum:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
+                previousScoreResult = [[previousMatchedPeak spectrum] scoreComparedTo:[combinedPeak spectrum] usingMethod:scoreBasis penalizingForRententionIndex:NO];
                 
                 //JKLogDebug(@"previousScoreResult %g; maxScoreResult %g for peak %@ combinedPeak %@", previousScoreResult, maxScoreResult, [peak label], [combinedPeak label]);
             } else {

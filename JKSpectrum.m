@@ -13,6 +13,7 @@
 #import "JKGCMSDocument.h"
 #import "JKPeakRecord.h"
 #import "SpectrumGraphDataSerie.h"
+#import "NSCoder+CArrayEncoding.h"
 
 @implementation JKSpectrum
 
@@ -238,16 +239,12 @@
 	return outSpectrum;
 }
 
-- (float)scoreComparedToSpectrum:(JKSpectrum *)inSpectrum {
-	return [self scoreComparedToLibraryEntry:(JKLibraryEntry *)inSpectrum];
-}
-
-- (float)scoreComparedToLibraryEntry:(JKSpectrum *)libraryEntry { 
-    return [self scoreComparedToSpectrum:libraryEntry usingMethod:[(JKGCMSDocument *)[self document] scoreBasis] penalizingForRententionIndex:[(JKGCMSDocument *)[self document] penalizeForRetentionIndex]];
+- (float)scoreComparedTo:(id <JKComparableProtocol>)comparableObject { 
+    return [self scoreComparedTo:comparableObject usingMethod:[(JKGCMSDocument *)[self document] scoreBasis] penalizingForRententionIndex:[(JKGCMSDocument *)[self document] penalizeForRetentionIndex]];
 }
 //#pragma mark optimization_level 3
 
-- (float)scoreComparedToSpectrum:(JKSpectrum *)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex { // Could be changed to id <protocol> to resolve warning	
+- (float)scoreComparedTo:(id <JKComparableProtocol>)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex { // Could be changed to id <protocol> to resolve warning	
 	int i,j,k,count1,count2;
 	float score, score2, score3, maxIntensityLibraryEntry, maxIntensitySpectrum;
 	i=0; j=0; k=0; 

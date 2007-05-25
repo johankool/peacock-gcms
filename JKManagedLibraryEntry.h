@@ -7,8 +7,9 @@
 //
 
 #import "JKSpectrum.h"
+#import "JKComparableProtocol.h"
 
-@interface JKLibraryEntry : NSManagedObject {	
+@interface JKLibraryEntry : NSManagedObject <JKComparableProtocol> {	
 //	// Required in JCAMP-DX
 //	NSString *name;			// ##TITLE=
 //							// ##JCAMP-DX= (string) 5.00 $$ (Name and version number of the JCAMP-DX program) 

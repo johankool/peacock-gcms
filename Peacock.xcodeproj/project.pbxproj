@@ -55,9 +55,10 @@
 		C73291130AD68F9800D95E36 /* JKSynchroScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C73290F40AD68F9800D95E36 /* JKSynchroScrollView.m */; };
 		C73533D20B7A703C00F7634B /* JKChromatogramTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C73533D10B7A703C00F7634B /* JKChromatogramTest.m */; };
 		C747ED350ABF43C6001F98AF /* Peacock Test Files in Resources */ = {isa = PBXBuildFile; fileRef = C747ED320ABF43C6001F98AF /* Peacock Test Files */; };
+		C75846140C071ACC00756ED8 /* JKComparableProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846130C071ACC00756ED8 /* JKComparableProtocol.h */; };
 		C7680FBF0C035C4800973566 /* JKLibrary.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */; };
 		C7680FC00C035C4800973566 /* JKLibrary.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */; };
-		C76814070C05E66C00973566 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKLibraryEntry.m */; };
+		C76814070C05E66C00973566 /* JKManagedLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */; };
 		C76814240C05E6F200973566 /* FilteringDNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */; };
 		C7713B36095029C200653D2A /* JKBatchProcess.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7713B35095029C200653D2A /* JKBatchProcess.nib */; };
 		C7713B430950368F00653D2A /* JKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */; };
@@ -167,7 +168,7 @@
 		C7ADC8C60BA05609007D9134 /* ChromatogramGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */; };
 		C7ADC8C70BA05609007D9134 /* SpectrumGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */; };
 		C7ADC8C80BA05609007D9134 /* DeleteTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */; };
-		C7ADC8C90BA05609007D9134 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKLibraryEntry.m */; };
+		C7ADC8C90BA05609007D9134 /* JKManagedLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */; };
 		C7ADC8CA0BA05609007D9134 /* RBSplitSubview.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6150094DBE3A00C0887E /* RBSplitSubview.m */; };
 		C7ADC8CB0BA05609007D9134 /* RBSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6152094DBE3A00C0887E /* RBSplitView.m */; };
 		C7ADC8CC0BA05609007D9134 /* JKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */; };
@@ -415,6 +416,9 @@
 		C73533D00B7A703C00F7634B /* JKChromatogramTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKChromatogramTest.h; sourceTree = "<group>"; };
 		C73533D10B7A703C00F7634B /* JKChromatogramTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKChromatogramTest.m; sourceTree = "<group>"; };
 		C747ED320ABF43C6001F98AF /* Peacock Test Files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Peacock Test Files"; sourceTree = "<group>"; };
+		C75846130C071ACC00756ED8 /* JKComparableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKComparableProtocol.h; sourceTree = "<group>"; };
+		C758465B0C07247600756ED8 /* JKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKLibraryEntry.h; sourceTree = "<group>"; };
+		C758465C0C07249300756ED8 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = "<group>"; };
 		C7680E390C03426900973566 /* MAKeyedArchiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAKeyedArchiver.h; sourceTree = "<group>"; };
 		C7680E3A0C03426A00973566 /* MAKeyedArchiver.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MAKeyedArchiver.m; sourceTree = "<group>"; };
 		C7680E3B0C03426A00973566 /* MAKeyedUnarchiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAKeyedUnarchiver.h; sourceTree = "<group>"; };
@@ -566,8 +570,8 @@
 		C7F0D0550B11D9030046F994 /* MWController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWController.h; sourceTree = "<group>"; };
 		C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+Copying.h"; sourceTree = "<group>"; };
 		C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+Copying.m"; sourceTree = "<group>"; };
-		C7F5E8F308EAA98600AC1068 /* JKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKLibraryEntry.h; sourceTree = "<group>"; };
-		C7F5E8F408EAA98600AC1068 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = "<group>"; };
+		C7F5E8F308EAA98600AC1068 /* JKManagedLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKManagedLibraryEntry.h; sourceTree = "<group>"; };
+		C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKManagedLibraryEntry.m; sourceTree = "<group>"; };
 		C7F8973E0A188B0D00A65A24 /* JKPathPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKPathPopUpButton.h; sourceTree = "<group>"; };
 		C7F8973F0A188B0D00A65A24 /* JKPathPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKPathPopUpButton.m; sourceTree = "<group>"; };
 		C7F8DE130BF0A4B500A34F5D /* flagged_header.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = flagged_header.tiff; sourceTree = "<group>"; };
@@ -800,6 +804,7 @@
 				C73290E10AD68F9800D95E36 /* JKChromatogram.m */,
 				C7EB17E40898CF2F007FC2ED /* JKPeakRecord.h */,
 				C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */,
+				C75846130C071ACC00756ED8 /* JKComparableProtocol.h */,
 				C7EB17EA0898CF2F007FC2ED /* JKSpectrum.h */,
 				C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */,
 				C7752C360B6778DA0010EE72 /* JKSearchResult.h */,
@@ -815,8 +820,10 @@
 			children = (
 				C7EB17D40898CF2E007FC2ED /* JKLibrary.h */,
 				C7EB17D50898CF2E007FC2ED /* JKLibrary.m */,
-				C7F5E8F308EAA98600AC1068 /* JKLibraryEntry.h */,
-				C7F5E8F408EAA98600AC1068 /* JKLibraryEntry.m */,
+				C758465B0C07247600756ED8 /* JKLibraryEntry.h */,
+				C7F5E8F308EAA98600AC1068 /* JKManagedLibraryEntry.h */,
+				C758465C0C07249300756ED8 /* JKLibraryEntry.m */,
+				C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */,
 				C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */,
 			);
 			name = LibraryDocument;
@@ -1144,6 +1151,7 @@
 				C7F8DE8F0BF0CDEE00A34F5D /* AMRemovableTableColumn.h in Headers */,
 				C7F8DE920BF0CDEE00A34F5D /* AMRemovableColumnsTableView.h in Headers */,
 				C7F8DF050BF0D41000A34F5D /* DisplayOptionsWindowController.h in Headers */,
+				C75846140C071ACC00756ED8 /* JKComparableProtocol.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1482,7 +1490,7 @@
 				C7F8DE950BF0CDEE00A34F5D /* AMRemovableTableColumn.m in Sources */,
 				C7F8DF060BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */,
 				C7680FC00C035C4800973566 /* JKLibrary.xcdatamodel in Sources */,
-				C76814070C05E66C00973566 /* JKLibraryEntry.m in Sources */,
+				C76814070C05E66C00973566 /* JKManagedLibraryEntry.m in Sources */,
 				C76814240C05E6F200973566 /* FilteringDNDArrayController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1515,7 +1523,7 @@
 				C7ADC8C60BA05609007D9134 /* ChromatogramGraphDataSerie.m in Sources */,
 				C7ADC8C70BA05609007D9134 /* SpectrumGraphDataSerie.m in Sources */,
 				C7ADC8C80BA05609007D9134 /* DeleteTableView.m in Sources */,
-				C7ADC8C90BA05609007D9134 /* JKLibraryEntry.m in Sources */,
+				C7ADC8C90BA05609007D9134 /* JKManagedLibraryEntry.m in Sources */,
 				C7ADC8CA0BA05609007D9134 /* RBSplitSubview.m in Sources */,
 				C7ADC8CB0BA05609007D9134 /* RBSplitView.m in Sources */,
 				C7ADC8CC0BA05609007D9134 /* JKBatchProcessWindowController.m in Sources */,

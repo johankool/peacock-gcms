@@ -151,7 +151,7 @@ NSString *GetUUID(void) {
         JKSearchResult *searchResult = [[JKSearchResult alloc] init];
         [searchResult setPeak:self];
         [searchResult setLibraryHit:aLibraryEntry];
-        [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedToLibraryEntry:aLibraryEntry]]];
+        [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedTo:aLibraryEntry]]];
         [self addSearchResult:searchResult];
         [self setIdentifiedSearchResult:searchResult];
         [self setIdentified:YES];
@@ -184,7 +184,7 @@ NSString *GetUUID(void) {
         JKSearchResult *searchResult = [[JKSearchResult alloc] init];
         [searchResult setPeak:self];
         [searchResult setLibraryHit:aLibraryEntry];
-        [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedToLibraryEntry:aLibraryEntry]]];
+        [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedTo:aLibraryEntry]]];
         [self addSearchResult:searchResult];
         [searchResult release];
         [self didChangeValueForKey:@"searchResults"];
