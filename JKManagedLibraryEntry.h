@@ -6,58 +6,21 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
-#import "JKSpectrum.h"
 #import "JKComparableProtocol.h"
 
-@interface JKLibraryEntry : NSManagedObject <JKComparableProtocol> {	
-//	// Required in JCAMP-DX
-//	NSString *name;			// ##TITLE=
-//							// ##JCAMP-DX= (string) 5.00 $$ (Name and version number of the JCAMP-DX program) 
-//							// ##DATA TYPE= (string) e.g., MASS SPECTRUM 
-//							// ##DATA CLASS= (string) e.g., PEAK TABLE 
-//	NSString *origin;		// ##ORIGIN=
-//	NSString *owner;		// ##OWNER=
-//	
-//	// Optional in JCAMP-DX
-//	NSString *CASNumber;	// ##CAS REGISTRY NO=
-//	NSString *epaMassSpecNo;// ##$EPA MASS SPEC NO=
-//	NSString *formula;		// ##MOLFORM=
-//	NSNumber *massWeight;	// ##MW=
-//	NSString *nistSource;	// ##$NIST SOURCE=
-//	NSString *ionizationEnergy; // ##.IONIZATION ENERGY=
-//	NSString *xUnits;		// ##XUNITS=
-//	NSString *yUnits;		// ##YUNITS=
-//	NSNumber *xFactor;		// ##XFACTOR=
-//	NSNumber *yFactor;		// ##YFACTOR=
-//	NSNumber *retentionIndex; // ##RI=
-//	NSString *source;		// ##SOURCE=
-//	
-//	// Peacock additions
-//	NSString *synonyms;		// ##$SYNONYMS=
-//	NSString *comment;		// ##$COMMENT=
-//	NSString *molString;	// ##$MOLSTRING=
-//	NSString *symbol;		// ##$SYMBOL=
-//	NSString *modelChr;		// ##$MODEL=
-//	NSString *group;        // ##$GROUP=
-//	//int numberOfPoints;		// ##NPOINTS=
-//    
-//    NSString *model;
-    
+@interface JKManagedLibraryEntry : NSManagedObject <JKComparableProtocol> {	
 	int numberOfPoints;
     BOOL peakTableRead;
 	float *masses;
-	float *intensities;  
+	float *intensities;
 }
 
 #pragma mark Importing data
 - (NSString *)jcampString;
 - (void)setJCAMPString:(NSString *)inString;
-
-- (NSString *)peakTable;
-- (void)setPeakTable:(NSString *)inString;
 - (void)readPeakTable;
-
 - (NSNumber *)calculateMassWeight:(NSString *)inString;
+- (NSString *)library;
 #pragma mark -
 
 #pragma mark Undo
@@ -65,6 +28,8 @@
 #pragma mark -
 
 #pragma mark Accessors (NSManagedObject style)
+- (NSString *)peakTable;
+- (void)setPeakTable:(NSString *)inString;
 - (NSString *)name;
 - (void)setName:(NSString *)newName;
 - (NSString *)origin;

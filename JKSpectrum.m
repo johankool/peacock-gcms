@@ -48,6 +48,32 @@
 	[model release];
     [super dealloc];
 }
+#pragma mark -
+
+#pragma mark JKTargetObjectProtocol
+- (NSDictionary *)substitutionVariables
+{
+    float maximumMass = jk_stats_float_max([self masses],[self numberOfPoints]);
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+        [self model], @"model",
+        [self retentionIndex], @"retentionIndex",
+        [[self peak] label], @"label",
+        [NSNumber numberWithFloat:maximumMass], @"maximumMass",
+        [NSNumber numberWithFloat:maximumMass+50.0], @"maximumMassPlus50",
+        [NSNumber numberWithFloat:maximumMass-50.0], @"maximumMassMinus50",
+        [[self peak] top], @"scan",
+        [[self peak] topTime], @"time",
+        nil];
+    //@"model",
+    //@"retentionIndex",
+    //@"label",
+    //@"maximumMass"
+    //@"maximumMassPlus50"
+    //@"maximumMassMinus50"
+    //@"scan"
+    //@"time"
+}
+#pragma mark -
 
 #pragma mark ACCESSORS
 

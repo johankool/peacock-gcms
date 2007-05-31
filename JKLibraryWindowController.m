@@ -9,7 +9,7 @@
 #import "JKLibraryWindowController.h"
 
 #import "JKLibrary.h"
-#import "JKLibraryEntry.h"
+#import "JKManagedLibraryEntry.h"
 #import "JKMoleculeModel.h"
 #import "JKMoleculeView.h"
 #import "MyGraphView.h"
@@ -67,7 +67,7 @@
         NSMutableArray *spectrumArray = [NSMutableArray array];
         
         NSEnumerator *libraryEntryEnumerator = [[libraryController selectedObjects] objectEnumerator];
-        JKLibraryEntry *libraryEntry;
+        JKManagedLibraryEntry *libraryEntry;
         SpectrumGraphDataSerie *sgds;
         
         while ((libraryEntry = [libraryEntryEnumerator nextObject]) != nil) {
@@ -109,7 +109,7 @@
     NSString *string = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",[casNumberField stringValue],[casNumberField stringValue]]]];
     JKLogDebug(string);
     if (string) {
-        JKLibraryEntry *libEntry = [NSEntityDescription insertNewObjectForEntityForName:@"JKLibraryEntry" inManagedObjectContext:[[self document] managedObjectContext]];
+        JKManagedLibraryEntry *libEntry = [NSEntityDescription insertNewObjectForEntityForName:@"JKManagedLibraryEntry" inManagedObjectContext:[[self document] managedObjectContext]];
         [libEntry setJCAMPString:string];
         [libEntry setMolString:[NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[casNumberField stringValue],[casNumberField stringValue]]]]];        
     } else {

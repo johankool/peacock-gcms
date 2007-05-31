@@ -7,10 +7,10 @@
 //
 
 #import "JKLibrary.h"
+
 #import "JKLibraryWindowController.h"
-#import "JKLibraryEntry.h"
-#import "MAKeyedArchiver.h"
-#import "MAKeyedUnarchiver.h"
+#import "JKManagedLibraryEntry.h"
+#import "JKTargetObjectProtocol.h"
 
 @implementation JKLibrary
 
@@ -95,7 +95,7 @@
 //        [[[self managedObjectContext] undoManager] disableUndoRegistration];
 //		NSString *CASNumber = [[[absoluteURL path] lastPathComponent] stringByDeletingPathExtension];
 //		NSString *jcampString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",CASNumber,CASNumber]]];
-//		JKLibraryEntry *entry = [[JKLibraryEntry alloc] initWithJCAMPString:jcampString];
+//		JKManagedLibraryEntry *entry = [[JKManagedLibraryEntry alloc] initWithJCAMPString:jcampString];
 //		[entry setMolString:[NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",CASNumber,CASNumber]]]];
 //        
 //        [self setLibraryEntries:[NSMutableArray arrayWithObject:entry]];
@@ -140,7 +140,7 @@
         sillyHPJCAMP = NO;
     }
     
-	JKLibraryEntry *libEntry;
+	JKManagedLibraryEntry *libEntry;
 	
 	count = [array count];
 	
@@ -149,10 +149,10 @@
 	for (i=0; i < count; i++) {
 		// If we are dealing with an empty string, bail out
 		if ((![[[array objectAtIndex:i] stringByTrimmingCharactersInSet:whiteCharacters] isEqualToString:@""]) && (![[array objectAtIndex:i] isEqualToString:@""])) {
-            libEntry = [NSEntityDescription insertNewObjectForEntityForName:@"JKLibraryEntry" inManagedObjectContext:[self managedObjectContext]];
+            libEntry = [NSEntityDescription insertNewObjectForEntityForName:@"JKManagedLibraryEntry" inManagedObjectContext:[self managedObjectContext]];
             if (sillyHPJCAMP) {
                 [libEntry setJCAMPString:[[NSString stringWithString:@"##TITLE="] stringByAppendingString:[array objectAtIndex:i]]];
-                //libEntry = [[JKLibraryEntry alloc] initWithJCAMPString:[[NSString stringWithString:@"##TITLE="] stringByAppendingString:[array objectAtIndex:i]]];
+                //libEntry = [[JKManagedLibraryEntry alloc] initWithJCAMPString:[[NSString stringWithString:@"##TITLE="] stringByAppendingString:[array objectAtIndex:i]]];
             } else {
                 [libEntry setJCAMPString:[array objectAtIndex:i]];
             }
@@ -384,33 +384,68 @@
 //}
 
 //#pragma mark ACCESSORS
+- (NSPredicate *)predicateForSearchTemplate:(NSString *)searchTemplateName andObject:(id <JKTargetObjectProtocol>)targetObject
+{
+    NSAssert(targetObject, @"targetObject can't be nil");
+    
+    // Get search template
+    NSArray *searchTemplates = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"searchTemplates"];
+    NSEnumerator *enumerator = [searchTemplates objectEnumerator];
+    NSDictionary *searchTemplate;
 
-- (NSArray *)libraryEntries {
+    while ((searchTemplate = [enumerator nextObject]) != nil) {
+    	if ([[searchTemplate valueForKey:@"name"] isEqualToString:searchTemplateName]) {
+            break;
+        }
+    }
+    if (!searchTemplate)
+        return nil;
+    
+    NSString *searchTemplateString = [searchTemplate valueForKey:@"searchTemplate"];
+    NSLog(@"%@: %@",searchTemplateName, searchTemplateString);
+    
+    // Substitute values for targetSpectrum
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:searchTemplateString];
+    return [predicate predicateWithSubstitutionVariables:[targetObject substitutionVariables]];
+}
+
+- (NSArray *)libraryEntriesWithPredicate:(NSPredicate *)predicate
+{
 	NSManagedObjectContext *moc = [self managedObjectContext];
-    NSEntityDescription *entityDescription = [NSEntityDescription
-    entityForName:@"JKLibraryEntry" inManagedObjectContext:moc];
+//    NSAssert([[moc registeredObjects] count] > 0, @"No registeredObjects in managedObjectContext?!");
+    NSLog(@"%d registeredObjects in managedObjectContext?!",[[moc registeredObjects] count]);
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"JKManagedLibraryEntry" inManagedObjectContext:moc];
     NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
     [request setEntity:entityDescription];
     
-//    // Set example predicate and sort orderings...
-//    NSNumber *minimumSalary = ...;
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-//        @"(lastName LIKE[c] 'Worsley') AND (salary > %@)", minimumSalary];
-//    [request setPredicate:predicate];
+    //    // Set example predicate and sort orderings...
+    //    NSNumber *minimumSalary = ...;
+    //    NSPredicate *predicate = [NSPredicate predicateWithFormat:
+    //        @"(lastName LIKE[c] 'Worsley') AND (salary > %@)", minimumSalary];
+    if (predicate)
+        [request setPredicate:predicate];
     
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"massWeight" ascending:YES];
-    [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-    [sortDescriptor release];
+//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"massWeight" ascending:YES];
+//    [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+//    [sortDescriptor release];
     
-    NSError *error = nil;
+    NSError *error = [[NSError alloc] init];
     NSArray *array = [moc executeFetchRequest:request error:&error];
     if (array == nil)
     {
         // Deal with error...
         NSLog(@"nolibraryEntries");
+        [self willPresentError:error];
     }
+    [error release];
     return array;
+    
 }
+
+- (NSArray *)libraryEntries {
+    return [self libraryEntriesWithPredicate:nil];
+}
+
 - (JKLibraryWindowController *)libraryWindowController {
 	return libraryWindowController;
 }

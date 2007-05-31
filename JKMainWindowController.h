@@ -31,6 +31,7 @@ enum JKPeakSelection {
 	
 	// Chromatogram
     IBOutlet MyGraphView *chromatogramView;
+    IBOutlet NSTableView *chromatogramsTable;
     IBOutlet NSArrayController *chromatogramDataSeriesController;
 
 	// Spectrum
@@ -46,6 +47,11 @@ enum JKPeakSelection {
     IBOutlet NSTabView *detailsTabView;
     IBOutlet NSView *searchResultsTabViewItemView;
     IBOutlet NSView *detailsTabViewItemView;
+    IBOutlet NSScrollView *detailsTabViewItemScrollView;
+    IBOutlet NSBox *identifyCompoundBox;
+    IBOutlet NSScrollView *resultsTableScrollView;
+    IBOutlet NSButton *confirmLibraryHitButton;
+    IBOutlet NSButton *discardLibraryHitButton;
     
 	// MoleculeView
     IBOutlet JKMoleculeView *moleculeView;
@@ -80,6 +86,8 @@ enum JKPeakSelection {
     
     NSMutableArray *chromatogramDataSeries;
     NSMutableArray *hiddenColumnsPeaksTable;
+    
+    float _lastDetailsSplitSubviewDimension;
 }
 
 #pragma mark IBACTIONS
@@ -104,12 +112,13 @@ enum JKPeakSelection {
 - (IBAction)fitChromatogramDataToView:(id)sender;
 - (IBAction)fitSpectrumDataToView:(id)sender;
 - (IBAction)showSelectedChromatogramsOnlyAction:(id)sender;
-
+- (IBAction)identifyCompound:(id)sender;
 #pragma mark NSTOOLBAR MANAGEMENT
 - (void)setupToolbar;
 
 #pragma mark ACCESSORS
 - (MyGraphView *)chromatogramView;
+- (MyGraphView *)spectrumView;
 - (NSArrayController *)chromatogramDataSeriesController;
 - (NSTableView *)peaksTable;
 - (NSArrayController *)peakController;

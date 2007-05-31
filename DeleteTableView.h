@@ -12,6 +12,9 @@
     BOOL allowsRowDeletion;
     BOOL allowsColumnHiding;
     NSMutableDictionary *columnVisibility;
+    
+    IBOutlet NSTableView *leftSideTableView;
+    IBOutlet NSTableView *rightSideTableView;
 }
 /*
 #pragma mark Row deletion

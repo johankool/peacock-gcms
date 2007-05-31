@@ -21,10 +21,14 @@
 }
 
 - (void)windowDidLoad{
+    [[self window] setShowsResizeIndicator:NO];
+    [[self window] setDelegate:self];
+    
 	preferencesList = [[NSMutableDictionary alloc] init];
 	[preferencesList setValue:@"General" forKey:@"general"];
 	[preferencesList setValue:@"Processing" forKey:@"processing"];
 	[preferencesList setValue:@"Presets" forKey:@"presets"];
+	[preferencesList setValue:@"Libraries" forKey:@"libraries"];
 //	[preferencesList setValue:@"Display" forKey:@"display"];
 
 	// Create a new toolbar instance, and attach it to our document window 
@@ -63,6 +67,16 @@
 
 - (IBAction)changeLogLevelAction:(id)sender {
     JKSetVerbosityLevel([sender selectedTag]);
+}
+
+- (IBAction)showInFinder:(id)sender
+{
+    [[NSApp delegate] showInFinder];
+}
+
+- (IBAction)reloadLibrary:(id)sender
+{
+    [[NSApp delegate] loadLibrary];
 }
 
 #pragma mark TOOLBAR
@@ -107,22 +121,34 @@
 		deltaWidth = [generalPreferencesView frame].size.width - [[[self window] contentView] frame].size.width;
 		[[self window] setContentView:generalPreferencesView];
 		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:YES];
+        [[self window] setShowsResizeIndicator:NO];
 	} else if ([[sender itemIdentifier] isEqualToString:@"processing"]) {
 		deltaHeight = [processingPreferencesView frame].size.height - [[[self window] contentView] frame].size.height;
 		deltaWidth = [processingPreferencesView frame].size.width - [[[self window] contentView] frame].size.width;
 		[[self window] setContentView:processingPreferencesView];
 		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:YES];
+        [[self window] setShowsResizeIndicator:NO];
 	} else if ([[sender itemIdentifier] isEqualToString:@"presets"]) {
 		deltaHeight = [presetsPreferencesView frame].size.height - [[[self window] contentView] frame].size.height;
 		deltaWidth = [presetsPreferencesView frame].size.width - [[[self window] contentView] frame].size.width;
 		[[self window] setContentView:presetsPreferencesView];
 		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:YES];
+        [[self window] setShowsResizeIndicator:YES];
+        [[self window] setMinSize:NSMakeSize(445.0f,250.0f)];
 	} else if ([[sender itemIdentifier] isEqualToString:@"display"]) {
 		deltaHeight = [displayPreferencesView frame].size.height - [[[self window] contentView] frame].size.height;
 		deltaWidth = [displayPreferencesView frame].size.width - [[[self window] contentView] frame].size.width;
 		[[self window] setContentView:displayPreferencesView];
 		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:YES];
+	} else if ([[sender itemIdentifier] isEqualToString:@"libraries"]) {
+		deltaHeight = [searchTemplatesPreferencesView frame].size.height - [[[self window] contentView] frame].size.height;
+		deltaWidth = [searchTemplatesPreferencesView frame].size.width - [[[self window] contentView] frame].size.width;
+		[[self window] setContentView:searchTemplatesPreferencesView];
+		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:YES];
+        [[self window] setShowsResizeIndicator:YES];
+        [[self window] setMinSize:NSMakeSize(445.0f,400.0f)];
 	}
+    
     // prevent window from going off screen partially
     if ([[self window] frame].origin.y < 0.0f) {
         [[self window] center];
@@ -131,7 +157,7 @@
 
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
-	return [NSArray arrayWithObjects:@"general", @"processing", @"presets", nil];
+	return [NSArray arrayWithObjects:@"general", @"processing", @"presets", @"libraries", nil];
 }
 
 - (NSArray*) toolbarSelectableItemIdentifiers: (NSToolbar *) toolbar {
@@ -144,7 +170,10 @@
 
 
 # pragma mark WINDOW MANAGEMENT
-
+- (BOOL)windowShouldZoom:(NSWindow *)sender toFrame:(NSRect)newFrame
+{
+    return NO;
+}
 - (void)awakeFromNib {
     [[self window] center];
 }

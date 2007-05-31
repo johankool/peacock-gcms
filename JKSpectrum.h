@@ -8,13 +8,14 @@
 
 #import "JKModelObject.h"
 #import "JKComparableProtocol.h"
+#import "JKTargetObjectProtocol.h"
 
 @class JKLibraryEntry;
 @class JKGCMSDocument;
 @class JKPeakRecord;
 @class SpectrumGraphDataSerie;
 
-@interface JKSpectrum : JKModelObject <NSCoding, JKComparableProtocol> {
+@interface JKSpectrum : JKModelObject <NSCoding, JKComparableProtocol, JKTargetObjectProtocol> {
 	JKPeakRecord *peak;
 	NSString *model;
     	

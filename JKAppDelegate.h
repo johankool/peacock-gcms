@@ -11,7 +11,7 @@
 @class JKPanelController;
 @class MWController;
 @class JKBatchProcessWindowController;
-//@class JKStatisticsWindowController;
+@class JKLibrary;
 
 #import <Growl/GrowlApplicationBridge.h>
 
@@ -26,7 +26,8 @@
         
     NSWindowController *preferencesWindowController;
 	JKBatchProcessWindowController *batchProcessWindowController;
-
+    JKLibrary *library;
+    NSMutableArray *availableDictionaries;
 }
 
 
@@ -38,6 +39,9 @@
 - (IBAction)showStatisticsAction:(id)sender;
 - (IBAction)openTestFile:(id)sender;
 - (IBAction)showDocumentList:(id)sender;
+
+- (JKLibrary *)library;
+- (void)loadLibrary;
 
 #pragma mark GROWL SUPPORT
 - (NSDictionary *)registrationDictionaryForGrowl;

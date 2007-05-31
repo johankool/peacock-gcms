@@ -49,6 +49,42 @@
 				[self selectedRowIndexes]];
 		}
 	}
+	else if ((key == NSLeftArrowFunctionKey) && (flags == 0))
+	{ 
+		if (leftSideTableView)
+		{
+            if ([leftSideTableView isHiddenOrHasHiddenAncestor]) {
+                [super keyDown:event];
+                return;
+            }
+            [[leftSideTableView window] makeFirstResponder:leftSideTableView];
+            if (([leftSideTableView selectedRow] == -1) && ([leftSideTableView numberOfRows] > 0)) {
+                [leftSideTableView selectRow:0 byExtendingSelection:NO];
+            }
+		}
+		else
+		{
+            [super keyDown:event];
+		}
+	}
+	else if ((key == NSRightArrowFunctionKey) && (flags == 0))
+	{ 
+		if (rightSideTableView)
+		{
+            if ([rightSideTableView isHiddenOrHasHiddenAncestor]) {
+                [super keyDown:event];
+                return;
+            }
+            [[rightSideTableView window] makeFirstResponder:rightSideTableView];
+            if (([rightSideTableView selectedRow] == -1) && ([rightSideTableView numberOfRows] > 0)) {
+                [rightSideTableView selectRow:0 byExtendingSelection:NO];
+            }
+		}
+		else
+		{
+            [super keyDown:event];
+		}
+	}
 	else
 	{
 		[super keyDown:event]; // let somebody else handle the event 

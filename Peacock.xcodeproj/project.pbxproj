@@ -56,6 +56,10 @@
 		C73533D20B7A703C00F7634B /* JKChromatogramTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C73533D10B7A703C00F7634B /* JKChromatogramTest.m */; };
 		C747ED350ABF43C6001F98AF /* Peacock Test Files in Resources */ = {isa = PBXBuildFile; fileRef = C747ED320ABF43C6001F98AF /* Peacock Test Files */; };
 		C75846140C071ACC00756ED8 /* JKComparableProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846130C071ACC00756ED8 /* JKComparableProtocol.h */; };
+		C75846630C07268D00756ED8 /* JKLibraryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846610C07268D00756ED8 /* JKLibraryEntry.h */; };
+		C75846640C07268D00756ED8 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C75846620C07268D00756ED8 /* JKLibraryEntry.m */; };
+		C75846650C07268D00756ED8 /* JKLibraryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846610C07268D00756ED8 /* JKLibraryEntry.h */; };
+		C75846660C07268D00756ED8 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C75846620C07268D00756ED8 /* JKLibraryEntry.m */; };
 		C7680FBF0C035C4800973566 /* JKLibrary.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */; };
 		C7680FC00C035C4800973566 /* JKLibrary.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */; };
 		C76814070C05E66C00973566 /* JKManagedLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */; };
@@ -75,6 +79,12 @@
 		C777A2D60A1DFEE400CF44D9 /* JKMoleculeModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C777A2D00A1DFEE400CF44D9 /* JKMoleculeModel.h */; };
 		C777A2D70A1DFEE400CF44D9 /* JKMoleculeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C777A2D10A1DFEE400CF44D9 /* JKMoleculeModel.m */; };
 		C77C585A09801145002E7796 /* Peacock Help in Resources */ = {isa = PBXBuildFile; fileRef = C77C582F09800FAD002E7796 /* Peacock Help */; };
+		C77E2FBE0C0EF20C00B8A64A /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E2FBD0C0EF20C00B8A64A /* plus.png */; };
+		C77E2FBF0C0EF20C00B8A64A /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E2FBD0C0EF20C00B8A64A /* plus.png */; };
+		C77E2FC10C0EF21700B8A64A /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E2FC00C0EF21700B8A64A /* minus.png */; };
+		C77E2FC20C0EF21700B8A64A /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E2FC00C0EF21700B8A64A /* minus.png */; };
+		C77E306E0C0F169200B8A64A /* libraries.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E306D0C0F169200B8A64A /* libraries.png */; };
+		C77E306F0C0F169200B8A64A /* libraries.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E306D0C0F169200B8A64A /* libraries.png */; };
 		C7834D1B0941ED37005431CD /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D1A0941ED37005431CD /* Carbon.framework */; };
 		C7834D3D0941ED5C005431CD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D3C0941ED5C005431CD /* CoreFoundation.framework */; };
 		C7834D440941ED7A005431CD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D430941ED7A005431CD /* Security.framework */; };
@@ -417,8 +427,8 @@
 		C73533D10B7A703C00F7634B /* JKChromatogramTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKChromatogramTest.m; sourceTree = "<group>"; };
 		C747ED320ABF43C6001F98AF /* Peacock Test Files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Peacock Test Files"; sourceTree = "<group>"; };
 		C75846130C071ACC00756ED8 /* JKComparableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKComparableProtocol.h; sourceTree = "<group>"; };
-		C758465B0C07247600756ED8 /* JKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKLibraryEntry.h; sourceTree = "<group>"; };
-		C758465C0C07249300756ED8 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = "<group>"; };
+		C75846610C07268D00756ED8 /* JKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKLibraryEntry.h; sourceTree = "<group>"; };
+		C75846620C07268D00756ED8 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = "<group>"; };
 		C7680E390C03426900973566 /* MAKeyedArchiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAKeyedArchiver.h; sourceTree = "<group>"; };
 		C7680E3A0C03426A00973566 /* MAKeyedArchiver.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MAKeyedArchiver.m; sourceTree = "<group>"; };
 		C7680E3B0C03426A00973566 /* MAKeyedUnarchiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAKeyedUnarchiver.h; sourceTree = "<group>"; };
@@ -455,6 +465,9 @@
 		C777A2D00A1DFEE400CF44D9 /* JKMoleculeModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKMoleculeModel.h; sourceTree = "<group>"; };
 		C777A2D10A1DFEE400CF44D9 /* JKMoleculeModel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKMoleculeModel.m; sourceTree = "<group>"; };
 		C77C583009800FAD002E7796 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = "English.lproj/Peacock Help"; sourceTree = "<group>"; };
+		C77E2FBD0C0EF20C00B8A64A /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
+		C77E2FC00C0EF21700B8A64A /* minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minus.png; sourceTree = "<group>"; };
+		C77E306D0C0F169200B8A64A /* libraries.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = libraries.png; path = ../../Desktop/libraries.png; sourceTree = SOURCE_ROOT; };
 		C7834D1A0941ED37005431CD /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		C7834D3C0941ED5C005431CD /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		C7834D430941ED7A005431CD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
@@ -467,6 +480,7 @@
 		C7859A9909CEBCE900351C87 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSEvent+ModifierKeys.h"; sourceTree = "<group>"; };
 		C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSEvent+ModifierKeys.m"; sourceTree = "<group>"; };
+		C79618900C0C75BC00D79FAC /* JKTargetObjectProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKTargetObjectProtocol.h; sourceTree = "<group>"; };
 		C798C9E808E17B5400C6C7D1 /* DeleteTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteTableView.h; sourceTree = "<group>"; };
 		C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteTableView.m; sourceTree = "<group>"; };
 		C799B0A70ACAB30D00D4FCA4 /* Identify Compounds.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Identify Compounds.tiff"; sourceTree = "<group>"; };
@@ -805,12 +819,15 @@
 				C7EB17E40898CF2F007FC2ED /* JKPeakRecord.h */,
 				C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */,
 				C75846130C071ACC00756ED8 /* JKComparableProtocol.h */,
+				C79618900C0C75BC00D79FAC /* JKTargetObjectProtocol.h */,
 				C7EB17EA0898CF2F007FC2ED /* JKSpectrum.h */,
 				C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */,
 				C7752C360B6778DA0010EE72 /* JKSearchResult.h */,
 				C7752C370B6778DA0010EE72 /* JKSearchResult.m */,
 				C7E61F180BB2BC4700D9A636 /* JKModelObject.h */,
 				C7E61F190BB2BC4800D9A636 /* JKModelObject.m */,
+				C75846610C07268D00756ED8 /* JKLibraryEntry.h */,
+				C75846620C07268D00756ED8 /* JKLibraryEntry.m */,
 			);
 			name = MainDocument;
 			sourceTree = "<group>";
@@ -820,9 +837,7 @@
 			children = (
 				C7EB17D40898CF2E007FC2ED /* JKLibrary.h */,
 				C7EB17D50898CF2E007FC2ED /* JKLibrary.m */,
-				C758465B0C07247600756ED8 /* JKLibraryEntry.h */,
 				C7F5E8F308EAA98600AC1068 /* JKManagedLibraryEntry.h */,
-				C758465C0C07249300756ED8 /* JKLibraryEntry.m */,
 				C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */,
 				C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */,
 			);
@@ -849,6 +864,8 @@
 				C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */,
 				C7EB17DE0898CF2E007FC2ED /* JKPanelController.h */,
 				C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */,
+				C7AD38AB08B2A0D600A0F4BE /* FilteringDNDArrayController.h */,
+				C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */,
 			);
 			name = MainWindow;
 			sourceTree = "<group>";
@@ -869,8 +886,6 @@
 			children = (
 				C7EB17D80898CF2E007FC2ED /* JKLibraryWindowController.h */,
 				C7EB17D90898CF2E007FC2ED /* JKLibraryWindowController.m */,
-				C7AD38AB08B2A0D600A0F4BE /* FilteringDNDArrayController.h */,
-				C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */,
 			);
 			name = LibraryWindow;
 			sourceTree = "<group>";
@@ -1067,6 +1082,8 @@
 				C799B0A90ACAB30D00D4FCA4 /* Identify Baseline.tiff */,
 				C7A7BB510A9DE6E0005E3778 /* display.tiff */,
 				C7A7BB4D0A9DE6E0005E3778 /* find.icns */,
+				C77E2FBD0C0EF20C00B8A64A /* plus.png */,
+				C77E2FC00C0EF21700B8A64A /* minus.png */,
 				C7A7BB4C0A9DE6E0005E3778 /* general.tiff */,
 				C7A7BB4B0A9DE6E0005E3778 /* info.icns */,
 				C7A7BB530A9DE6E0005E3778 /* layout.tiff */,
@@ -1074,6 +1091,7 @@
 				C7A7BB480A9DE6E0005E3778 /* question_mark.tiff */,
 				C7A7BB540A9DE6E0005E3778 /* save_document.tiff */,
 				C7A7BB4F0A9DE6E0005E3778 /* text.tiff */,
+				C77E306D0C0F169200B8A64A /* libraries.png */,
 				C7B9BA2C0AA881AE00250EFE /* view.tiff */,
 				C7A7BB520A9DE6E0005E3778 /* warning.tiff */,
 				C7A7BB500A9DE6E0005E3778 /* zoom.tiff */,
@@ -1152,6 +1170,7 @@
 				C7F8DE920BF0CDEE00A34F5D /* AMRemovableColumnsTableView.h in Headers */,
 				C7F8DF050BF0D41000A34F5D /* DisplayOptionsWindowController.h in Headers */,
 				C75846140C071ACC00756ED8 /* JKComparableProtocol.h in Headers */,
+				C75846630C07268D00756ED8 /* JKLibraryEntry.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1189,6 +1208,7 @@
 				C7F8DE930BF0CDEE00A34F5D /* AMRemovableTableColumn.h in Headers */,
 				C7F8DE960BF0CDEE00A34F5D /* AMRemovableColumnsTableView.h in Headers */,
 				C7F8DF070BF0D41000A34F5D /* DisplayOptionsWindowController.h in Headers */,
+				C75846650C07268D00756ED8 /* JKLibraryEntry.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1324,6 +1344,9 @@
 				C7F8DE180BF0A4B500A34F5D /* flagged.tiff in Resources */,
 				C7F8DEA50BF0CE1A00A34F5D /* table.png in Resources */,
 				C7F8DEAD0BF0D00700A34F5D /* DisplayOptions.nib in Resources */,
+				C77E2FBE0C0EF20C00B8A64A /* plus.png in Resources */,
+				C77E2FC10C0EF21700B8A64A /* minus.png in Resources */,
+				C77E306E0C0F169200B8A64A /* libraries.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1383,6 +1406,9 @@
 				C7F8DE160BF0A4B500A34F5D /* flagged.tiff in Resources */,
 				C7F8DEA40BF0CE1A00A34F5D /* table.png in Resources */,
 				C7F8DEAC0BF0D00700A34F5D /* DisplayOptions.nib in Resources */,
+				C77E2FBF0C0EF20C00B8A64A /* plus.png in Resources */,
+				C77E2FC20C0EF21700B8A64A /* minus.png in Resources */,
+				C77E306F0C0F169200B8A64A /* libraries.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1492,6 +1518,7 @@
 				C7680FC00C035C4800973566 /* JKLibrary.xcdatamodel in Sources */,
 				C76814070C05E66C00973566 /* JKManagedLibraryEntry.m in Sources */,
 				C76814240C05E6F200973566 /* FilteringDNDArrayController.m in Sources */,
+				C75846660C07268D00756ED8 /* JKLibraryEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1558,6 +1585,7 @@
 				C7F8DE910BF0CDEE00A34F5D /* AMRemovableTableColumn.m in Sources */,
 				C7F8DF040BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */,
 				C7680FBF0C035C4800973566 /* JKLibrary.xcdatamodel in Sources */,
+				C75846640C07268D00756ED8 /* JKLibraryEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

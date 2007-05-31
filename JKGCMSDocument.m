@@ -111,6 +111,14 @@ int const JKGCMSDocument_Version = 6;
 	[self addWindowController:mainWindowController];
 //    JKLogExitingMethod();
 }
+//- (void)showWindows
+//{
+//    if (!mainWindowController) {
+//        mainWindowController = [[JKMainWindowController alloc] init];
+//        [self addWindowController:mainWindowController];
+//    }
+//    [super showWindows];
+//}
 #pragma mark -
 
 #pragma mark File Access Management
@@ -631,13 +639,13 @@ int const JKGCMSDocument_Version = 6;
         }        
     }
     //JKLogDebug(@"%@ %@",mzValuesString,[mzValues description]);
+    
     // Check if such a chromatogram is already available
     NSEnumerator *chromEnum = [[self chromatograms] objectEnumerator];
     JKChromatogram *chromatogram = nil;
 
     while ((chromatogram = [chromEnum nextObject]) != nil) {
-    	if ([[chromatogram model] isEqualToString:mzValuesString]) {
-            //JKLogDebug(@"found chrom for model %@",mzValuesString);
+        if ([self modelString:[chromatogram model] isEqualToString:mzValuesString]) {
             return chromatogram;
         }
     }
@@ -856,7 +864,8 @@ int intSort(id num1, id num2, void *context)
 	}
 	[error release];
     
-	libraryEntries = [aLibrary libraryEntries];
+	//libraryEntries = [aLibrary libraryEntries];
+    
 	float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];
 	// Loop through inPeaks(=combined spectra) and determine score
     chromatogramCount = [someChromatograms count];
@@ -872,8 +881,11 @@ int intSort(id num1, id num2, void *context)
         peaksCount = [[chromatogramToSearch peaks] count];
         for (k = 0; k < peaksCount; k++) {
             peak = [[chromatogramToSearch peaks] objectAtIndex:k];
+            libraryEntries = [aLibrary libraryEntriesWithPredicate:[aLibrary predicateForSearchTemplate:@"Mass Weight aii" andObject:peak]];
+            entriesCount = [libraryEntries count];
             for (j = 0; j < entriesCount; j++) {
                 libraryEntry = [libraryEntries objectAtIndex:j];
+                NSLog([libraryEntry name]);
 //                libraryEntryModel = [libraryEntry modelChr];
 //                if ([libraryEntryModel isEqualToString:[chromatogramToSearch model]]) {
 //                    chromatogramToSearch = [someChromatograms objectAtIndex:l];
@@ -893,8 +905,8 @@ int intSort(id num1, id num2, void *context)
                 if (score >= minimumScoreSearchResultsF) {
                     JKSearchResult *searchResult = [[JKSearchResult alloc] init];
                     [searchResult setScore:[NSNumber numberWithFloat:score]];
-                    [searchResult setLibraryHit:[libraryEntries objectAtIndex:j]];
-                    [searchResult setLibrary:[self libraryAlias]];
+                    [searchResult setLibraryHit:[JKLibraryEntry libraryEntryWithJCAMPString:[[libraryEntries objectAtIndex:j] jcampString]]];
+//                    [searchResult setLibrary:[self libraryAlias]];
                     [searchResult setPeak:peak];
                     [peak addSearchResult:searchResult];
                     [searchResult release];
@@ -918,6 +930,85 @@ int intSort(id num1, id num2, void *context)
     _isBusy = NO;
 	return YES;
 }
+
+- (BOOL)performForwardSearchLibraryForPeak:(JKPeakRecord *)aPeak
+{
+    _isBusy = YES;
+	NSArray *libraryEntries = nil;
+    JKLibraryEntry *libraryEntry = nil;
+	int j;
+	int entriesCount;
+	float score;	
+     
+	[self setAbortAction:NO];
+    NSProgressIndicator *progressIndicator = nil;
+    NSTextField *progressText = nil;
+    
+	if (mainWindowController) {
+        progressIndicator = [mainWindowController progressIndicator];
+        progressText = [mainWindowController progressText];
+    }
+    
+	[progressIndicator setDoubleValue:0.0];
+	[progressIndicator setIndeterminate:YES];
+	[progressIndicator startAnimation:self];
+ //   [progressText setStringValue:NSLocalizedString(@"Opening Library",@"")];
+    	
+	// Read library 
+    [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:NSLocalizedString(@"Fetching Library Entries",@"") waitUntilDone:NO];
+//	NSError *error = [[NSError alloc] init];
+//	if (![self libraryAlias]) {
+//		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Library Selected",@""),NSLocalizedString(@"Select a Library to use for the identification of the peaks.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+//        _isBusy = NO;
+//		return NO;
+//	}
+//	JKLibrary *aLibrary = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[self libraryAlias] fullPath]] display:NO error:&error];
+//	if (!aLibrary) {
+//		answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Library Selected",@""),NSLocalizedString(@"Select a Library to use for the identification of the peaks.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+//        _isBusy = NO;
+//		return NO;
+//	}
+//	[error release];
+    JKLibrary *aLibrary = [[NSApp delegate] library];
+	//libraryEntries = [aLibrary libraryEntries];
+    
+	float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];
+
+
+    NSString *selectedSearchTemplate = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"selectedSearchTemplate"];
+        
+    libraryEntries = [aLibrary libraryEntriesWithPredicate:[aLibrary predicateForSearchTemplate:selectedSearchTemplate andObject:aPeak]];
+    entriesCount = [libraryEntries count];
+	
+    [progressIndicator setIndeterminate:NO];
+	[progressIndicator setMaxValue:entriesCount*1.0];
+    NSLog(@"entriesCount = %d",entriesCount);
+    for (j = 0; j < entriesCount; j++) {
+        libraryEntry = [libraryEntries objectAtIndex:j];
+        if (spectrumToUse == JKSpectrumSearchSpectrum) {
+            score = [[aPeak spectrum] scoreComparedTo:libraryEntry];                    
+        } else if (spectrumToUse == JKCombinedSpectrumSearchSpectrum) {
+            score = [[aPeak combinedSpectrum] scoreComparedTo:libraryEntry];
+        } else {
+            JKLogError(@"spectrumToUse has unexpected value.");
+        }
+        if (score >= minimumScoreSearchResultsF) {
+            JKSearchResult *searchResult = [[JKSearchResult alloc] init];
+            [searchResult setScore:[NSNumber numberWithFloat:score]];
+            [searchResult setLibraryHit:[JKLibraryEntry libraryEntryWithJCAMPString:[[libraryEntries objectAtIndex:j] jcampString]]];
+//            [searchResult setLibrary:[self libraryAlias]];
+            [searchResult setPeak:aPeak];
+            [aPeak addSearchResult:searchResult];
+            [searchResult release];
+        }
+        [progressIndicator incrementBy:1.0];
+    }
+
+    _isBusy = NO;
+	return YES;
+    
+}
+
 - (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms {
  	int answer;
     
@@ -1060,8 +1151,8 @@ int intSort(id num1, id num2, void *context)
 		if ((maximumScore >= minimumScoreSearchResultsF) && (maximumIndex > -1)) {
 			JKSearchResult *searchResult = [[JKSearchResult alloc] init];
 			[searchResult setScore:[NSNumber numberWithFloat:maximumScore]];
-            [searchResult setLibraryHit:libraryEntry];
-            [searchResult setLibrary:[self libraryAlias]];
+            [searchResult setLibraryHit:[JKLibraryEntry libraryEntryWithJCAMPString:[libraryEntry jcampString]]];
+//            [searchResult setLibrary:[self libraryAlias]];
             [searchResult setPeak:[[chromatogramToSearch peaks] objectAtIndex:maximumIndex]];
 			[[[chromatogramToSearch peaks] objectAtIndex:maximumIndex] addSearchResult:searchResult];
 			[searchResult release];

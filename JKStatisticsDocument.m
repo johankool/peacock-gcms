@@ -12,6 +12,7 @@
 #import "JKLibrary.h"
 #import "JKPeakRecord.h"
 #import "JKStatisticsWindowController.h"
+#import "JKGCMSDocument.h"
 
 @implementation JKStatisticsDocument
 

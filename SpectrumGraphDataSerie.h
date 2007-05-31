@@ -8,6 +8,8 @@
 
 #import "MyGraphDataSerie.h"
 
+#import "JKComparableProtocol.h"
+
 @class JKSpectrum;
 
 @interface SpectrumGraphDataSerie : MyGraphDataSerie {
@@ -19,7 +21,7 @@
 	NSRect _boundingRect;
 }
 
-- (id)initWithSpectrum:(JKSpectrum *)spectrum;
+- (id)initWithSpectrum:(NSObject <JKComparableProtocol>*)aSpectrum;
 
 #pragma mark ACCESSORS
 - (JKSpectrum *)spectrum;

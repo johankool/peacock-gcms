@@ -4,7 +4,7 @@
             CLASS = AMRemovableColumnsTableView; 
             LANGUAGE = ObjC; 
             OUTLETS = {obligatoryColumnIdentifiers = id; }; 
-            SUPERCLASS = NSTableView; 
+            SUPERCLASS = DeleteTableView; 
         }, 
         {
             CLASS = AMRemovableTableColumn; 
@@ -12,7 +12,12 @@
             OUTLETS = {mainTableView = AMRemovableColumnsTableView; }; 
             SUPERCLASS = NSTableColumn; 
         }, 
-        {CLASS = DeleteTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {
+            CLASS = DeleteTableView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {leftSideTableView = NSTableView; rightSideTableView = NSTableView; }; 
+            SUPERCLASS = NSTableView; 
+        }, 
         {
             CLASS = FilteringDNDArrayController; 
             LANGUAGE = ObjC; 
@@ -35,6 +40,7 @@
                 editLibrary = id; 
                 fitChromatogramDataToView = id; 
                 fitSpectrumDataToView = id; 
+                identifyCompound = id; 
                 identifyPeaks = id; 
                 identifyPeaksForSelectedChromatograms = id; 
                 next = id; 
@@ -44,6 +50,7 @@
                 previous = id; 
                 renumberPeaks = id; 
                 showMassChromatogram = id; 
+                showSelectedChromatogramsOnlyAction = id; 
             }; 
             CLASS = JKMainWindowController; 
             LANGUAGE = ObjC; 
@@ -53,9 +60,14 @@
                 chromatogramSelectionSheetButton = NSButton; 
                 chromatogramView = MyGraphView; 
                 chromatogramsController = NSArrayController; 
+                chromatogramsTable = NSTableView; 
+                confirmLibraryHitButton = NSButton; 
                 detailsSplitSubview = RBSplitSubview; 
                 detailsTabView = NSTabView; 
+                detailsTabViewItemScrollView = NSScrollView; 
                 detailsTabViewItemView = NSView; 
+                discardLibraryHitButton = NSButton; 
+                identifyCompoundBox = NSBox; 
                 mainWindowSplitView = NSView; 
                 moleculeSplitSubview = RBSplitSubview; 
                 moleculeView = JKMoleculeView; 
@@ -66,6 +78,7 @@
                 progressSheet = NSWindow; 
                 progressText = NSTextField; 
                 resultsTable = NSTableView; 
+                resultsTableScrollView = NSScrollView; 
                 searchResultsController = NSArrayController; 
                 searchResultsTabViewItemView = NSView; 
                 spectrumDataSeriesController = NSArrayController; 

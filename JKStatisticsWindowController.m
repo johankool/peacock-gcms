@@ -1545,7 +1545,7 @@
         int fileCount = [[self files] count];
 		int compoundCount = [combinedPeaks count];
 		NSString *normalizedSurface;
-		NSString *normalizedHeight;
+//		NSString *normalizedHeight;
         NSString *retentionTime;
         
 		// Sort array

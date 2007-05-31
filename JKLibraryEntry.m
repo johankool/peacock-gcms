@@ -6,87 +6,52 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
-#import "JKManagedLibraryEntry.h"
+#import "JKLibraryEntry.h"
 
-#import "MolTypes.h"
-#import "CFragment.h"
+#import "JKLibrary.h"
+#import "SpectrumGraphDataSerie.h"
+#import "jk_statistics.h"
+#include "CFragment.h"
+#include "MolTypes.h"
 
-@implementation JKManagedLibraryEntry
 
-#pragma mark Initialization & deallocation
-- (id)init {
+@implementation JKLibraryEntry
+
++ (id)libraryEntryWithJCAMPString:(NSString *)inString 
+{
+    return [[[[self class] alloc] initWithJCAMPString:inString] autorelease];
+}
+
+- (id)initWithJCAMPString:(NSString *)inString{
 	self = [super init];
     if (self != nil) {
-        numberOfPoints = 0;
-        masses = (float *) malloc(numberOfPoints*sizeof(float));
-        intensities = (float *) malloc(numberOfPoints*sizeof(float));
-        peakTableRead = NO;
-    }
-    return self;
-}
-
-- (void) dealloc {     
-    [super dealloc];
-}
-#pragma mark -
-
-#pragma mark Importing data
-- (void)readPeakTable 
-{
-    NSString *currentPeakTable = [self primitiveValueForKey:@"peakTable"];
-    if ((currentPeakTable == nil) || (![currentPeakTable isKindOfClass:[NSString class]])) {
-        return;
-    }
-    
-	NSScanner *theScanner = [[NSScanner alloc] initWithString:currentPeakTable];
-	int j, massInt, intensityInt;
-    
-    // Check for silly HP JCAMP file
-    if ([currentPeakTable rangeOfString:@","].location == NSNotFound) {
-        numberOfPoints = [[currentPeakTable componentsSeparatedByString:@"\n"] count]-1;
-    } else {
-        numberOfPoints = [[currentPeakTable componentsSeparatedByString:@","] count]-1;
-    }
-    
-    masses = (float *) realloc(masses, numberOfPoints*sizeof(float));
-    intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
-	
-	for (j=0; j < numberOfPoints; j++){
-		if (![theScanner scanInt:&massInt]) JKLogError(@"Error during reading library (masses).");
-		masses[j] = massInt*1.0f;
-		[theScanner scanUpToCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:NULL];
-		if (![theScanner scanInt:&intensityInt]) JKLogError(@"Error during reading library (intensities).");
-		intensities[j] = intensityInt*1.0f;
-	}
-    
-	[theScanner release];	
-    
-	NSMutableString *newPeakTable = [[[NSMutableString alloc] init] autorelease];
-	for (j=0; j < numberOfPoints; j++) {
-		[newPeakTable appendFormat:@"%.0f, %.0f ", masses[j], intensities[j]];
-		if (fmod(j,8) == 7 && j != numberOfPoints-1){
-			[newPeakTable appendString:@"\r\n"];
-		}
-	}
-    
-    if (peakTableRead) {
-        NSAssert([currentPeakTable isEqualToString:newPeakTable], @"peakTable not stable");
-    } else if (![currentPeakTable isEqualToString:newPeakTable]) {
-        [self setPrimitiveValue:newPeakTable forKey:@"peakTable"];
-    }
-    
-    peakTableRead = YES;
-}
-
-
-- (void)setJCAMPString:(NSString *)inString {
-    if (!inString || [inString isEqualToString:@""]) {
-        JKLogWarning(@"Empty JCAMPString encountered.");
-        return;
-    }
+        NSAssert(inString != nil, @"JKLibraryEntry inited with nil inString");
+        if ([inString isEqualToString:@""]) {
+            return nil;
+        }
+        
+        NSAssert1(![inString isEqualToString:@""], @"JKLibraryEntry inited with empty inString %@", inString);
 		
         NSCharacterSet *whiteCharacters = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 		NSScanner *theScanner = [[NSScanner alloc] initWithString:inString];
+//		name = @"";			// ##TITLE=
+//		origin = @"";		// ##ORIGIN=
+//		owner = @"";		// ##OWNER=
+//		CASNumber = @"";	// ##CAS REGISTRY NO=
+//		epaMassSpecNo = @"";// ##$EPA MASS SPEC NO=
+//		formula = @"";		// ##MOLFORM=
+//		massWeight = [[NSNumber alloc] initWithFloat:0.0f];	// ##MW=
+//		nistSource = @"";	// ##$NIST SOURCE=
+//		ionizationEnergy = @""; // ##.IONIZATION ENERGY=
+//		xUnits = @"";		// ##XUNITS=
+//		yUnits = @"";		// ##YUNITS=
+//		xFactor = [[NSNumber alloc] initWithFloat:0.0f];		// ##XFACTOR=
+//		yFactor = [[NSNumber alloc] initWithFloat:0.0f];		// ##YFACTOR=
+//		retentionIndex = [[NSNumber alloc] initWithFloat:0.0f]; // ##RI=
+//		source = @"";		// ##SOURCE=
+//		comment = @"";		// ##$COMMENT=
+//		molString = @"";	// ##$MOLSTRING=
+//		symbol = @"";		// ##$SYMBOL=
 		
 		NSString *xyData = @""; 
 		NSString *scannedString = @"";
@@ -101,8 +66,10 @@
 		if ([theScanner scanString:@"##TITLE=" intoString:NULL]) {
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
-            [self setName:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+//			name = [[self fixString:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]] retain];
+			name = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
+			name = [[NSString alloc] init];
 			JKLogError(@"ERROR: Required ##TITLE entry not found.");
 		}
 		
@@ -125,10 +92,12 @@
 		if ([theScanner scanString:@"##ORIGIN=" intoString:NULL]) {
             scannedString = @"";
 			if ([theScanner scanUpToString:@"##" intoString:&scannedString]) {
-                [self setOrigin:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]]; 
+				origin = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];				
 			} else {
+				origin = [[NSString alloc] initWithString:@""];
 			}
 		} else {
+			origin = [[NSString alloc] initWithString:@""];
 			//JKLogWarning(@"WARNING: Required ##ORIGIN entry not found.");
 		}
 	
@@ -139,10 +108,12 @@
 		if ([theScanner scanString:@"##OWNER=" intoString:NULL]) {
             scannedString = @"";
 			if ([theScanner scanUpToString:@"##" intoString:&scannedString]) {
-				[self setOwner:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+				owner = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 			} else {
+				owner = [[NSString alloc] initWithString:@""];
 			}
 		} else {
+			owner = [[NSString alloc] initWithString:@""];
 			//JKLogWarning(@"WARNING: Required ##OWNER entry not found.");
 		}
 		
@@ -154,8 +125,9 @@
 		if ([theScanner scanString:@"##MOLFORM=" intoString:NULL]) {
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
-			[self setFormula:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+			formula = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
+			formula = [[NSString alloc] init];
 		}
 		
 		
@@ -167,7 +139,8 @@
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
 			// CAS NAME overwrites title, but is often more useful anyway.
-			[self setName:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+			[name release];
+			name = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		}		
 		
 		// CAS REGISTRY NO
@@ -177,8 +150,9 @@
 		if ([theScanner scanString:@"##CAS REGISTRY NO=" intoString:NULL]) {
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
-			[self setCASNumber:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+			CASNumber = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
+			CASNumber = [[NSString alloc] init];
 		}
 
 		// MOLSTRING
@@ -188,8 +162,9 @@
 		if ([theScanner scanString:@"##$MOLSTRING=" intoString:NULL]) {
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
-			[self setMolString:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+			molString = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
+			molString = [[NSString alloc] init];
 //			molString = [[NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]]] retain];
 //			JKLogDebug([NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]);
 //			JKLogDebug(molString);
@@ -202,8 +177,9 @@
 		if ([theScanner scanString:@"##$EPA MASS SPEC NO=" intoString:NULL]) {
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
-			[self setEpaMassSpecNo:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+			epaMassSpecNo = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
+			epaMassSpecNo = [[NSString alloc] init];
 		}
 		
 		// $NIST SOURCE
@@ -213,8 +189,9 @@
 		if ([theScanner scanString:@"##$NIST SOURCE=" intoString:NULL]) {
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
-			[self setNistSource:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+			nistSource = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
+			nistSource = [[NSString alloc] init];
 		}
 
 		// MW
@@ -223,12 +200,12 @@
 		[theScanner scanUpToString:@"##MW=" intoString:NULL];
 		if ([theScanner scanString:@"##MW=" intoString:NULL]) {
 			if ([theScanner scanFloat:&scannedFloat]) {
-				[self setMassWeight:[NSNumber numberWithFloat:scannedFloat]];
+				massWeight = [[NSNumber numberWithFloat:scannedFloat] retain];
 			} else {
-				[self setMassWeight:[self calculateMassWeight:[self formula]]];
+				massWeight = [[self calculateMassWeight:formula] retain];
 			}
 		} else {
-			[self setMassWeight:[self calculateMassWeight:[self formula]]];
+			massWeight = [[self calculateMassWeight:formula] retain];
 		}	
 
 		// RI
@@ -237,12 +214,12 @@
 		[theScanner scanUpToString:@"##RI=" intoString:NULL];
 		if ([theScanner scanString:@"##RI=" intoString:NULL]) {
 			if ([theScanner scanFloat:&scannedFloat]) {
-				[self setRetentionIndex:[NSNumber numberWithFloat:scannedFloat]];
+				retentionIndex = [[NSNumber numberWithFloat:scannedFloat] retain];
 			} else {
 				JKLogWarning(@"WARNING: Retention index could not be read.");
 			}
 		} else {
-			[self setRetentionIndex:[NSNumber numberWithFloat:0.0f]];
+			retentionIndex = [[NSNumber numberWithFloat:0.0f] retain];
 		}
 		
 		// SOURCE
@@ -252,8 +229,9 @@
 		if ([theScanner scanString:@"##SOURCE=" intoString:NULL]) {
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
-			[self setSource:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+			source = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
+			source = [[NSString alloc] init];
 		}
 		
 		// COMMENT        
@@ -263,7 +241,7 @@
 		if ([theScanner scanString:@"##$COMMENT=" intoString:NULL]) {
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
-			[self setComment:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+			comment = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
             // Back to start of entry as order of entries is undefined
             [theScanner setScanLocation:0];
@@ -271,8 +249,9 @@
             if ([theScanner scanString:@"##COMMENT=" intoString:NULL]) {
                 scannedString = @"";
                 [theScanner scanUpToString:@"##" intoString:&scannedString];
-                [self setComment:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+                comment = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
             }  else {
+                comment = [[NSString alloc] init];
             }
         }
 
@@ -283,8 +262,9 @@
 		if ([theScanner scanString:@"##$MODEL=" intoString:NULL]) {
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
-			[self setModelChr:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+			modelChr = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
+            modelChr = [[NSString alloc] init];
         }
         
         // GROUP
@@ -294,8 +274,9 @@
 		if ([theScanner scanString:@"##$GROUP=" intoString:NULL]) {
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
-			[self setGroup:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+			group = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
+            group = [[NSString alloc] init];
         }
         
         // SYNONYMS
@@ -305,8 +286,21 @@
 		if ([theScanner scanString:@"##$SYNONYMS=" intoString:NULL]) {
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
-			[self setSynonyms:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+			synonyms = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
+            synonyms = [[NSString alloc] init];
+        }
+        
+        // LIBRARY
+        // Back to start of entry as order of entries is undefined
+		[theScanner setScanLocation:0];
+		[theScanner scanUpToString:@"##$LIBRARY=" intoString:NULL];
+		if ([theScanner scanString:@"##$LIBRARY=" intoString:NULL]) {
+            scannedString = @"";
+			[theScanner scanUpToString:@"##" intoString:&scannedString];
+			library = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
+		} else {
+            library = [[NSString alloc] init];
         }
         
 		// XUNITS
@@ -316,8 +310,9 @@
 		if ([theScanner scanString:@"##XUNITS=" intoString:NULL]) {
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
-			[self setXUnits:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+			xUnits = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
+            xUnits = [[NSString alloc] init];
         }
 		
 		// YUNITS
@@ -327,8 +322,9 @@
 		if ([theScanner scanString:@"##YUNITS=" intoString:NULL]) {
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
-			[self setYUnits:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+			yUnits = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
+            yUnits = [[NSString alloc] init];
         }
 		
 		// XFACTOR
@@ -337,10 +333,10 @@
 		[theScanner scanUpToString:@"##XFACTOR=" intoString:NULL];
 		if ([theScanner scanString:@"##XFACTOR=" intoString:NULL]) {
 			if ([theScanner scanFloat:&scannedFloat]) {
-				[self setXFactor:[NSNumber numberWithFloat:scannedFloat]];
+				xFactor = [[NSNumber numberWithFloat:scannedFloat] retain];
 			}
 		} else {
-            [self setXFactor:[NSNumber numberWithFloat:1.0f]];
+            xFactor = [[NSNumber alloc] initWithFloat:1.0f];
         }
 		
 		// YFACTOR
@@ -349,10 +345,10 @@
 		[theScanner scanUpToString:@"##YFACTOR=" intoString:NULL];
 		if ([theScanner scanString:@"##YFACTOR=" intoString:NULL]) {
 			if ([theScanner scanFloat:&scannedFloat]) {
-				[self setYFactor:[NSNumber numberWithFloat:scannedFloat]];
+				yFactor = [[NSNumber numberWithFloat:scannedFloat] retain];
 			}
 		} else {
-            [self setYFactor:[NSNumber numberWithFloat:1.0f]];
+            yFactor = [[NSNumber alloc] initWithFloat:1.0f];
         }
 		
 //		// DATA-TYPE
@@ -385,7 +381,7 @@
 		[theScanner scanUpToString:@"##NPOINTS=" intoString:NULL];
 		if ([theScanner scanString:@"##NPOINTS=" intoString:NULL]) {
 			if (![theScanner scanInt:&numberOfPoints]) {
-				[self setNumberOfPoints:0];
+				numberOfPoints = 0;
 			}
 		} else {
 			JKLogError(@"Couldn't find number of points.");
@@ -419,10 +415,37 @@
 		
 		[theScanner scanUpToCharactersFromSet:[NSCharacterSet letterCharacterSet] intoString:&xyData];
         if ([xyData length] > 0) {
-            [self setPeakTable:[xyData stringByTrimmingCharactersInSet:whiteCharacters]];            
+            [self setPeakTable:xyData];            
         }
 		
 		[theScanner release];
+    }
+    return self;
+}
+
+- (void) dealloc {
+	[name release];	
+	[origin release];
+	[owner release];	
+	[CASNumber release];
+	[epaMassSpecNo release];
+    [formula release];
+    [massWeight release];        
+    [nistSource release];
+    [ionizationEnergy release];
+    [xUnits release];	
+    [yUnits release];
+    [xFactor release];	
+    [yFactor release];		
+    [retentionIndex release]; 
+    [source release];	        
+    [synonyms release];		
+    [comment release];		
+    [molString release];	
+    [symbol release];		
+    [modelChr release];		
+    [group release];     
+    [super dealloc];
 }
 
 - (NSString *)jcampString{
@@ -436,12 +459,12 @@
 	[outStr appendString:@"##JCAMP-DX= 4.24 $$ Peacock 0.23\r\n"];	
 	[outStr appendString:@"##DATA TYPE= MASS SPECTRUM\r\n"];	
 	[outStr appendString:@"##DATA CLASS= PEAK TABLE\r\n"];	
-	if ([[self origin] isNotEqualTo:@""]) {
+	if ([[self CASNumber] isNotEqualTo:@""]) {
 		[outStr appendFormat:@"##ORIGIN= %@\r\n", [self origin]];	
 	} else {
 		[outStr appendString:@"##ORIGIN=\r\n"];		
 	}
-	if ([[self owner] isNotEqualTo:@""]) {
+	if ([[self CASNumber] isNotEqualTo:@""]) {
 		[outStr appendFormat:@"##OWNER= %@\r\n", [self owner]];	
 	} else {
 		[outStr appendString:@"##OWNER=\r\n"];		
@@ -483,21 +506,19 @@
 		[outStr appendFormat:@"##$GROUP= %@\r\n", [self group]];
 	if ([[self synonyms] isNotEqualTo:@""])
 		[outStr appendFormat:@"##$SYNONYMS= %@\r\n", [self synonyms]];
-	[outStr appendFormat:@"##$LIBRARY= %@\r\n", [self library]];
-	
+	if ([[self library] isNotEqualTo:@""])
+		[outStr appendFormat:@"##$LIBRARY= %@\r\n", [self library]];
+
 	[outStr appendFormat:@"##NPOINTS= %i\r\n##XYDATA= (XY..XY)\r\n%@\r\n", [self numberOfPoints], [self peakTable]];
 	[outStr appendString:@"##END= \r\n"];
 	return outStr;
 }
-#pragma mark -
 
-#pragma mark Undo
 - (NSUndoManager *)undoManager {
-	return [[self managedObjectContext] undoManager];
+//    JKLogDebug(@"undoManager %@ document %@", [[self document] undoManager], [self document]);
+	return [[self document] undoManager];
 }
-#pragma mark -
 
-#pragma mark Helper functions
 - (NSString *)fixString:(NSString *)inString{
 	NSString *fixedString = [inString lowercaseString];
 	if ([fixedString length] > 1) {
@@ -547,383 +568,121 @@
     return [NSString stringWithFormat:NSLocalizedString(@"Library Entry '%@'",@""),[self name]];
 }
 
-//- (IBAction)viewOnline{
-//	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi?ID=%@&Units=SI",[self CASNumber]]]];
-//}
-//
-//- (IBAction)downloadMolFile{
-//	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]]];
-//}
-//
-//- (IBAction)downloadMassSpectrum{
-//	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",[self CASNumber],[self CASNumber]]]];
-//}
-- (NSString *)library
-{
-    id persistentStore = [[self objectID] persistentStore]; 
-    if (persistentStore) {
-        NSURL *url = [[[self managedObjectContext] persistentStoreCoordinator] URLForPersistentStore:persistentStore];
-        return [[[url path] lastPathComponent] stringByDeletingPathExtension]; 
-    }
-    return @"";
-}
+#pragma mark Accessors
+#pragma mark (macrostyle)
+idUndoAccessor(name, setName, @"Change Name")
+idUndoAccessor(origin, setOrigin, @"Change Origin")
+idUndoAccessor(owner, setOwner, @"Change Owner")
+
+idUndoAccessor(CASNumber, setCASNumber, @"Change CAS Number")
+idUndoAccessor(epaMassSpecNo, setEpaMassSpecNo, @"Change EPA Mass Spec No")
+idUndoAccessor(formula, setFormula, @"Change Molecule Formula")
+idUndoAccessor(massWeight, setMassWeight, @"Change Mass Weight")
+idUndoAccessor(nistSource, setNISTSource, @"Change NIST Source")
+idUndoAccessor(ionizationEnergy, setIonizationEnergy, @"Change Ionization Energy")
+idUndoAccessor(xUnits, setXUnits, @"Change Mass Units")
+idUndoAccessor(yUnits, setYUnits, @"Change Intensity Units")
+idAccessor(xFactor, setXFactor)
+idAccessor(yFactor, setYFactor)
+idUndoAccessor(retentionIndex, setRetentionIndex, @"Change Retention Index")
+idUndoAccessor(source, setSource, @"Change Source")
+
+idUndoAccessor(comment, setComment, @"Change Comment")
+idUndoAccessor(molString, setMolString, @"Change Mol String")
+idUndoAccessor(symbol, setSymbol, @"Change Symbol")
+idUndoAccessor(modelChr, setModelChr, @"Change Model")
+idUndoAccessor(group, setGroup, @"Change Group")
+idUndoAccessor(synonyms, setSynonyms, @"Change Synonyms")
+idAccessor(library, setLibrary)
+
 #pragma mark -
 
-#pragma mark Accessors (NSManagedObject style)
-- (NSString *)name
-{
-    [self willAccessValueForKey:@"name"];
-    NSString *n = [self primitiveValueForKey:@"name"];
-    [self didAccessValueForKey:@"name"];
-    return n;
-}
-
-- (void)setName:(NSString *)newName
-{
-    [self willChangeValueForKey:@"name"];
-    [self setPrimitiveValue:newName forKey:@"name"];
-    [self didChangeValueForKey:@"name"];
-}
-
-- (NSString *)origin
-{
-    [self willAccessValueForKey:@"origin"];
-    NSString *n = [self primitiveValueForKey:@"origin"];
-    [self didAccessValueForKey:@"origin"];
-    return n;
-}
-
-- (void)setOrigin:(NSString *)neworigin
-{
-    [self willChangeValueForKey:@"origin"];
-    [self setPrimitiveValue:neworigin forKey:@"origin"];
-    [self didChangeValueForKey:@"origin"];
-}
-
-- (NSString *)owner
-{
-    [self willAccessValueForKey:@"owner"];
-    NSString *n = [self primitiveValueForKey:@"owner"];
-    [self didAccessValueForKey:@"owner"];
-    return n;
-}
-
-- (void)setOwner:(NSString *)newowner
-{
-    [self willChangeValueForKey:@"owner"];
-    [self setPrimitiveValue:newowner forKey:@"owner"];
-    [self didChangeValueForKey:@"owner"];
-}
-
-- (NSString *)CASNumber
-{
-    [self willAccessValueForKey:@"CASNumber"];
-    NSString *n = [self primitiveValueForKey:@"CASNumber"];
-    [self didAccessValueForKey:@"CASNumber"];
-    return n;
-}
-
-- (void)setCASNumber:(NSString *)newCASNumber
-{
-    [self willChangeValueForKey:@"CASNumber"];
-    [self setPrimitiveValue:newCASNumber forKey:@"CASNumber"];
-    [self didChangeValueForKey:@"CASNumber"];
-}
-
-- (NSString *)epaMassSpecNo
-{
-    [self willAccessValueForKey:@"epaMassSpecNo"];
-    NSString *n = [self primitiveValueForKey:@"epaMassSpecNo"];
-    [self didAccessValueForKey:@"epaMassSpecNo"];
-    return n;
-}
-
-- (void)setEpaMassSpecNo:(NSString *)newepaMassSpecNo
-{
-    [self willChangeValueForKey:@"epaMassSpecNo"];
-    [self setPrimitiveValue:newepaMassSpecNo forKey:@"epaMassSpecNo"];
-    [self didChangeValueForKey:@"epaMassSpecNoepaMassSpecNo"];
-}
-
-- (NSString *)formula
-{
-    [self willAccessValueForKey:@"formula"];
-    NSString *n = [self primitiveValueForKey:@"formula"];
-    [self didAccessValueForKey:@"formula"];
-    return n;
-}
-
-- (void)setFormula:(NSString *)newformula
-{
-    [self willChangeValueForKey:@"formula"];
-    [self setPrimitiveValue:newformula forKey:@"formula"];
-    [self didChangeValueForKey:@"formula"];
-}
-
-- (NSNumber *)massWeight
-{
-    [self willAccessValueForKey:@"massWeight"];
-    NSNumber *n = [self primitiveValueForKey:@"massWeight"];
-    [self didAccessValueForKey:@"massWeight"];
-    return n;
-}
-
-- (void)setMassWeight:(NSNumber *)newmassWeight
-{
-    [self willChangeValueForKey:@"massWeight"];
-    [self setPrimitiveValue:newmassWeight forKey:@"massWeight"];
-    [self didChangeValueForKey:@"massWeight"];
-}
-
-- (NSString *)nistSource
-{
-    [self willAccessValueForKey:@"nistSource"];
-    NSString *n = [self primitiveValueForKey:@"nistSource"];
-    [self didAccessValueForKey:@"nistSource"];
-    return n;
-}
-
-- (void)setNistSource:(NSString *)newnistSource
-{
-    [self willChangeValueForKey:@"nistSource"];
-    [self setPrimitiveValue:newnistSource forKey:@"nistSource"];
-    [self didChangeValueForKey:@"nistSource"];
-}
-
-- (NSString *)ionizationEnergy
-{
-    [self willAccessValueForKey:@"ionizationEnergy"];
-    NSString *n = [self primitiveValueForKey:@"ionizationEnergy"];
-    [self didAccessValueForKey:@"ionizationEnergy"];
-    return n;
-}
-
-- (void)setIonizationEnergy:(NSString *)newionizationEnergy
-{
-    [self willChangeValueForKey:@"ionizationEnergy"];
-    [self setPrimitiveValue:newionizationEnergy forKey:@"ionizationEnergy"];
-    [self didChangeValueForKey:@"ionizationEnergy"];
-}
-
-- (NSString *)xUnits
-{
-    [self willAccessValueForKey:@"xUnits"];
-    NSString *n = [self primitiveValueForKey:@"xUnits"];
-    [self didAccessValueForKey:@"xUnits"];
-    return n;
-}
-
-- (void)setXUnits:(NSString *)newxUnits
-{
-    [self willChangeValueForKey:@"xUnits"];
-    [self setPrimitiveValue:newxUnits forKey:@"xUnits"];
-    [self didChangeValueForKey:@"xUnits"];
-}
-
-- (NSString *)yUnits
-{
-    [self willAccessValueForKey:@"yUnits"];
-    NSString *n = [self primitiveValueForKey:@"yUnits"];
-    [self didAccessValueForKey:@"yUnits"];
-    return n;
-}
-
-- (void)setYUnits:(NSString *)newyUnits
-{
-    [self willChangeValueForKey:@"yUnits"];
-    [self setPrimitiveValue:newyUnits forKey:@"yUnits"];
-    [self didChangeValueForKey:@"yUnits"];
-}
-
-- (NSNumber *)xFactor
-{
-    [self willAccessValueForKey:@"xFactor"];
-    NSNumber *n = [self primitiveValueForKey:@"xFactor"];
-    [self didAccessValueForKey:@"xFactor"];
-    return n;
-}
-
-- (void)setXFactor:(NSNumber *)newxFactor
-{
-    [self willChangeValueForKey:@"xFactor"];
-    [self setPrimitiveValue:newxFactor forKey:@"xFactor"];
-    [self didChangeValueForKey:@"xFactor"];
-}
-
-- (NSNumber *)yFactor
-{
-    [self willAccessValueForKey:@"yFactor"];
-    NSNumber *n = [self primitiveValueForKey:@"yFactor"];
-    [self didAccessValueForKey:@"yFactor"];
-    return n;
-}
-
-- (void)setYFactor:(NSNumber *)newyFactor
-{
-    [self willChangeValueForKey:@"yFactor"];
-    [self setPrimitiveValue:newyFactor forKey:@"yFactor"];
-    [self didChangeValueForKey:@"yFactor"];
-}
-
-- (NSNumber *)retentionIndex
-{
-    [self willAccessValueForKey:@"retentionIndex"];
-    NSNumber *n = [self primitiveValueForKey:@"retentionIndex"];
-    [self didAccessValueForKey:@"retentionIndex"];
-    return n;
-}
-
-- (void)setRetentionIndex:(NSNumber *)newretentionIndex
-{
-    [self willChangeValueForKey:@"retentionIndex"];
-    [self setPrimitiveValue:newretentionIndex forKey:@"retentionIndex"];
-    [self didChangeValueForKey:@"retentionIndex"];
-}
-
-- (NSString *)source
-{
-    [self willAccessValueForKey:@"source"];
-    NSString *n = [self primitiveValueForKey:@"source"];
-    [self didAccessValueForKey:@"source"];
-    return n;
-}
-
-- (void)setSource:(NSString *)newsource
-{
-    [self willChangeValueForKey:@"source"];
-    [self setPrimitiveValue:newsource forKey:@"source"];
-    [self didChangeValueForKey:@"source"];
-}
-
-- (NSString *)comment
-{
-    [self willAccessValueForKey:@"comment"];
-    NSString *n = [self primitiveValueForKey:@"comment"];
-    [self didAccessValueForKey:@"comment"];
-    return n;
-}
-
-- (void)setComment:(NSString *)newcomment
-{
-    [self willChangeValueForKey:@"comment"];
-    [self setPrimitiveValue:newcomment forKey:@"comment"];
-    [self didChangeValueForKey:@"comment"];
-}
-
-- (NSString *)molString
-{
-    [self willAccessValueForKey:@"molString"];
-    NSString *n = [self primitiveValueForKey:@"molString"];
-    [self didAccessValueForKey:@"molString"];
-    return n;
-}
-
-- (void)setMolString:(NSString *)newmolString
-{
-    [self willChangeValueForKey:@"molString"];
-    [self setPrimitiveValue:newmolString forKey:@"molString"];
-    [self didChangeValueForKey:@"molString"];
-}
-
-- (NSString *)symbol
-{
-    [self willAccessValueForKey:@"symbol"];
-    NSString *n = [self primitiveValueForKey:@"symbol"];
-    [self didAccessValueForKey:@"symbol"];
-    return n;
-}
-
-- (void)setSymbol:(NSString *)newsymbol
-{
-    [self willChangeValueForKey:@"symbol"];
-    [self setPrimitiveValue:newsymbol forKey:@"symbol"];
-    [self didChangeValueForKey:@"symbol"];
-}
-
-- (NSString *)modelChr
-{
-    [self willAccessValueForKey:@"modelChr"];
-    NSString *n = [self primitiveValueForKey:@"modelChr"];
-    [self didAccessValueForKey:@"modelChr"];
-    return n;
-}
-
-- (void)setModelChr:(NSString *)newmodelChr
-{
-    [self willChangeValueForKey:@"modelChr"];
-    [self setPrimitiveValue:newmodelChr forKey:@"modelChr"];
-    [self didChangeValueForKey:@"modelChr"];
-}
-
-- (NSString *)group
-{
-    [self willAccessValueForKey:@"group"];
-    NSString *n = [self primitiveValueForKey:@"group"];
-    [self didAccessValueForKey:@"group"];
-    return n;
-}
-
-- (void)setGroup:(NSString *)newgroup
-{
-    [self willChangeValueForKey:@"group"];
-    [self setPrimitiveValue:newgroup forKey:@"group"];
-    [self didChangeValueForKey:@"group"];
-}
-
-- (NSString *)synonyms
-{
-    [self willAccessValueForKey:@"synonyms"];
-    NSString *n = [self primitiveValueForKey:@"synonyms"];
-    [self didAccessValueForKey:@"synonyms"];
-    return n;
-}
-
-- (void)setSynonyms:(NSString *)newsynonyms
-{
-    [self willChangeValueForKey:@"synonyms"];
-    [self setPrimitiveValue:newsynonyms forKey:@"synonyms"];
-    [self didChangeValueForKey:@"synonyms"];
-}
-
-- (int)numberOfPoints
-{
-    [self willAccessValueForKey:@"numberOfPoints"];
-    int f = numberOfPoints;
-    [self didAccessValueForKey:@"numberOfPoints"];
-    return f;
-}
-
-- (void)setNumberOfPoints:(int)newnumberOfPoints
-{
-    [self willChangeValueForKey:@"numberOfPoints"];
-    numberOfPoints = newnumberOfPoints;
-    [self didChangeValueForKey:@"numberOfPoints"];
-}
-
-- (float *)masses {
-    if (!peakTableRead)
-        [self readPeakTable];
-    return masses;
-}
-
-- (float *)intensities {
-    if (!peakTableRead)
-        [self readPeakTable];
-    return intensities;
-}
+//intAccessor(numberOfPoints, setNumberOfPoints);
+//- (void)setMasses:(float *)inArray withCount:(int)inValue {
+//    numberOfPoints = inValue;
+//    masses = (float *) realloc(masses, numberOfPoints*sizeof(float));
+//    memcpy(masses, inArray, numberOfPoints*sizeof(float));
+//}
+//
+//- (float *)masses {
+//    return masses;
+//}
+//
+//- (void)setIntensities:(float *)inArray withCount:(int)inValue {
+//    numberOfPoints = inValue;
+//    intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
+//    memcpy(intensities, inArray, numberOfPoints*sizeof(float));
+//	maximumIntensity = jk_stats_float_max(intensities, numberOfPoints);
+//}
+//
+//- (float)maximumIntensity {
+//    return maximumIntensity;
+//}
+//- (float *)intensities {
+//    return intensities;
+//}
 
 - (NSString *)peakTable{
-    [self willAccessValueForKey:@"peakTable"];
-    NSString *n = [self primitiveValueForKey:@"peakTable"];
-    [self didAccessValueForKey:@"peakTable"];
-    return n;
+	NSMutableString *outStr = [[[NSMutableString alloc] init] autorelease];
+	int j;
+	for (j=0; j < numberOfPoints; j++) {
+		[outStr appendFormat:@"%.0f, %.0f ", masses[j], intensities[j]];
+		if (fmod(j,8) == 7 && j != numberOfPoints-1){
+			[outStr appendString:@"\r\n"];
+		}
+	}
+	return outStr;
 }
 
-- (void)setPeakTable:(NSString *)newPeakTable {
-    [self willChangeValueForKey:@"peakTable"];
-    [self setPrimitiveValue:newPeakTable forKey:@"peakTable"];
-    peakTableRead = NO;
-    [self didChangeValueForKey:@"peakTable"];
+- (void)setPeakTable:(NSString *)inString {
+    if ((inString == nil) || (![inString isKindOfClass:[NSString class]])) {
+        return;
+    }
+
+ 	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] setPeakTable:[self peakTable]];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Change Peak Table",@"")];
+	}
+    
+	NSScanner *theScanner2 = [[NSScanner alloc] initWithString:inString];
+	int j, massInt, intensityInt;
+
+    // Check for silly HP JCAMP file
+    if ([inString rangeOfString:@","].location == NSNotFound) {
+        numberOfPoints = [[inString componentsSeparatedByString:@"\n"] count]-1;
+    } else {
+        numberOfPoints = [[inString componentsSeparatedByString:@","] count]-1;
+    }
+
+    masses = (float *) realloc(masses, numberOfPoints*sizeof(float));
+	intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
+	
+	for (j=0; j < numberOfPoints; j++){
+		if (![theScanner2 scanInt:&massInt]) JKLogError(@"Error during reading library (masses).");
+		//				NSAssert(massInt > 0, @"massInt");
+		masses[j] = massInt*1.0f;
+		[theScanner2 scanUpToCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:NULL];
+		if (![theScanner2 scanInt:&intensityInt]) JKLogError(@"Error during reading library (intensities).");
+		//				NSAssert(intensityInt > 0, @"intensityInt");
+		intensities[j] = intensityInt*1.0f;
+	}
+
+	[theScanner2 release];	
+}
+
+- (IBAction)viewOnline{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi?ID=%@&Units=SI",[self CASNumber]]]];
+}
+
+- (IBAction)downloadMolFile{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]]];
+}
+
+- (IBAction)downloadMassSpectrum{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",[self CASNumber],[self CASNumber]]]];
 }
 #pragma mark -
 
@@ -938,26 +697,49 @@
 
 - (id)initWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) {
-		int version = [coder decodeIntForKey:@"version"];
+		int version;
 		
-		if (version >= 2) {
-            [self setJCAMPString:[coder decodeObjectForKey:@"jcampString"]];
-			return self;
-		} else  {
-            return nil;
+		version = [coder decodeIntForKey:@"version"];
+		
+		if (version > 1) {
+			return [self initWithJCAMPString:[coder decodeObjectForKey:@"jcampString"]];
+		} else {
+			// Can decode keys in any order
+			name = [[coder decodeObjectForKey:@"name"] retain];
+			formula = [[coder decodeObjectForKey:@"formula"] retain];
+			CASNumber = [[coder decodeObjectForKey:@"CASNumber"] retain];
+			source = [[coder decodeObjectForKey:@"source"] retain];
+			comment = [[coder decodeObjectForKey:@"comment"] retain];
+			molString = [[coder decodeObjectForKey:@"molString"] retain];
+			symbol = [[coder decodeObjectForKey:@"symbol"] retain];
+			massWeight = [[coder decodeObjectForKey:@"massWeight"] retain];
+            if (![massWeight isKindOfClass:[NSNumber class]]) {
+                massWeight = [[NSNumber numberWithFloat:[massWeight floatValue]] retain];
+            }
+            // these values weren't stored in version 1
+            xFactor = [[NSNumber numberWithFloat:0.0] retain];
+            yFactor = [[NSNumber numberWithFloat:0.0] retain];
+            retentionIndex = [[NSNumber numberWithFloat:0.0] retain];
+
+			numberOfPoints = [coder decodeIntForKey:@"numberOfPoints"];
+			
+			const uint8_t *temporary = NULL; //pointer to a temporary buffer returned by the decoder.
+			unsigned int length;
+			masses = (float *) malloc(1*sizeof(float));
+			intensities = (float *) malloc(1*sizeof(float));
+			
+			temporary	= [coder decodeBytesForKey:@"masses" returnedLength:&length];
+			[self setMasses:(float *)temporary withCount:numberOfPoints];
+			
+			temporary	= [coder decodeBytesForKey:@"intensities" returnedLength:&length];
+			[self setIntensities:(float *)temporary withCount:numberOfPoints];			
 		}
      } 
     return self;
 }
-#pragma mark -
 
-//#pragma mark Debugging
 //- (id)valueForUndefinedKey:(NSString *)key {
 //    JKLogDebug(@"%@ %@",[self description], key);
 //    return key;
 //}
-//- (void)setValue:(id)value forUndefinedKey:(NSString *)key {
-//    JKLogDebug(@"%@ %@ %@",[self description], key, value);
-//}
-
 @end

@@ -6,8 +6,10 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
+#import "JKTargetObjectProtocol.h"
+
 @class JKLibraryWindowController;
-@class JKLibraryEntry;
+@class JKManagedLibraryEntry;
 
 @interface JKLibrary : NSPersistentDocument {
     JKLibraryWindowController *libraryWindowController;
@@ -21,6 +23,8 @@
 
 //- (BOOL)importAMDISFromFile:(NSString *)fileName;
 //- (BOOL)exportAMDISToFile:(NSString *)fileName;
+- (NSPredicate *)predicateForSearchTemplate:(NSString *)searchTemplateName andObject:(id <JKTargetObjectProtocol>)targetObject;
+- (NSArray *)libraryEntriesWithPredicate:(NSPredicate *)predicate;
 
 #pragma mark ACCESSORS
 - (NSArray *)libraryEntries;

@@ -14,6 +14,12 @@
 #import "JKStatisticsDocument.h"
 #import "JKMainWindowController.h"
 #import "BooleanToStringTransformer.h"
+#import "JKLibrary.h"
+
+
+// Name of the application support folder
+static NSString * SUPPORT_FOLDER_NAME = @"Peacock";
+static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 
 @implementation JKAppDelegate
 
@@ -130,6 +136,7 @@
         NSValueTransformer *transformer = [[BooleanToStringTransformer alloc] init];
         [NSValueTransformer setValueTransformer:transformer forName:@"BooleanToStringTransformer"];
                 
+        availableDictionaries = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
@@ -140,6 +147,7 @@
     [center removeObserver: self
 					  name: nil
 					object: nil];
+    [availableDictionaries release];
     [super dealloc];
 }
 
@@ -189,9 +197,14 @@
 //    [self loadPlugins];
     
     [documentListTableView setDoubleAction:@selector(doubleClickAction:)];
-
+    [self loadLibrary];
 }
 
+- (void)applicationWillTerminate:(NSNotification *)aNotification
+{
+    if (library)
+        [[library managedObjectContext] save:NULL];
+}
 
 #pragma mark ACTIONS
 
@@ -337,6 +350,127 @@
 		}
 	} 
 	return NO;
+}
+- (void)showInFinder
+{
+    // open up the default store
+    NSArray *searchpaths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    if ([searchpaths count] > 0) {
+        
+        // look for the Peacock support folder (and create if not there)
+        NSString *path = [[searchpaths objectAtIndex:0] stringByAppendingPathComponent: SUPPORT_FOLDER_NAME];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        if (![fileManager fileExistsAtPath:path]) {
+            [fileManager createDirectoryAtPath:path attributes:nil];
+        }
+        
+        // look for the library folder (and create if not there)
+        path = [path stringByAppendingPathComponent: LIBRARY_FOLDER_NAME];
+        if (![fileManager fileExistsAtPath:path]) {
+            [fileManager createDirectoryAtPath:path attributes:nil];
+        }
+        [[NSWorkspace sharedWorkspace] selectFile:path inFileViewerRootedAtPath:path];
+    } else {
+        NSBeep();
+    }        
+}
+- (void)loadLibrary
+{
+    [self willChangeValueForKey:@"library"];
+    [self willChangeValueForKey:@"availableDictionaries"];
+    [self willChangeValueForKey:@"availableConfigurations"];
+    
+    if (!library) {
+        library = [[JKLibrary alloc] init];
+    } else {
+        [library release];
+        library = [[JKLibrary alloc] init];
+        [availableDictionaries removeAllObjects];
+    }
+    
+    // open up the default store
+    NSArray *searchpaths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    if ([searchpaths count] > 0) {
+        
+        // look for the Peacock support folder (and create if not there)
+        NSString *path = [[searchpaths objectAtIndex:0] stringByAppendingPathComponent: SUPPORT_FOLDER_NAME];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        if (![fileManager fileExistsAtPath:path]) {
+            [fileManager createDirectoryAtPath:path attributes:nil];
+        }
+        
+        // look for the library folder (and create if not there)
+        path = [path stringByAppendingPathComponent: LIBRARY_FOLDER_NAME];
+        if (![fileManager fileExistsAtPath:path]) {
+            [fileManager createDirectoryAtPath:path attributes:nil];
+        }
+        
+        NSString *file;
+        NSDirectoryEnumerator *dirEnum = [fileManager enumeratorAtPath:path];
+        int count = 0;
+        int loadedCount = 0;
+        while (file = [dirEnum nextObject]) {
+            if ([[file pathExtension] isEqualToString: @"peacock-library"]) {// || [[file pathExtension] isEqualToString: @"jdx"] ||[[file pathExtension] isEqualToString: @"hpj"]
+                count++;
+                if ([self shouldLoadLibrary:[file stringByDeletingPathExtension]]) {
+                    if (![[[library managedObjectContext] persistentStoreCoordinator] addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:file]] options:nil error:nil]) {
+                        JKLogError(@"Can't add '%@' to library persistent store coordinator.", file);
+                    } else {
+                        loadedCount++;
+                        JKLogInfo(@"Loaded Library %@",[file stringByDeletingPathExtension]);
+                    }
+                }
+                [availableDictionaries addObject:[NSDictionary dictionaryWithObjectsAndKeys:[path stringByAppendingPathComponent:file], @"path", [file stringByDeletingPathExtension], @"name", nil]];
+            }
+            if ([[file pathExtension] isEqualToString: @"jdx"] ||[[file pathExtension] isEqualToString: @"hpj"]) {
+                NSRunAlertPanel(NSLocalizedString(@"Library not in Peacock-Library format",@""),NSLocalizedString(@"Libraries should be stored in the Peacock-Library format in order for Peacock to be able to use it for identifying compounds. You can open the JCAMP-file in Peacock and save the file as a Peacock Library.",@""),@"OK",nil,nil);
+            }
+        }
+        
+        // set up the path for the "CoreRecipes.crx" file
+        if (count == 0) {            
+            JKLogWarning(@"No libraries found.");
+            NSPersistentStoreCoordinator *psc = [[library managedObjectContext] persistentStoreCoordinator];
+            if (![psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:@"Default.peacock-library"]] options:nil error:nil]) {
+                JKLogError(@"Default Library could not be created.");
+            } else {
+                [availableDictionaries addObject:[NSDictionary dictionaryWithObjectsAndKeys:[path stringByAppendingPathComponent:@"Default.peacock-library"], @"path", @"Default", @"name", nil]];
+                JKLogInfo(@"Loaded Library Default");
+                loadedCount++;
+            }
+        }
+        if (loadedCount == 0) { 
+            NSRunAlertPanel(NSLocalizedString(@"No Libraries could be opened or created",@""),NSLocalizedString(@"This is not good. Identifying compounds isn't going to work.",@""),@"OK, I guess...",nil,nil);
+        }        
+     }
+    [self didChangeValueForKey:@"library"];
+    [self didChangeValueForKey:@"availableDictionaries"];
+    [self didChangeValueForKey:@"availableConfigurations"];
+}
+
+- (JKLibrary *)library
+{
+    return library;
+}
+
+- (BOOL)shouldLoadLibrary:(NSString *)fileName
+{
+    NSString *configuration = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"];
+    if ([configuration isEqualToString:NSLocalizedString(@"All",@"")]) {
+        return YES;
+    } else if ([configuration isEqualToString:fileName]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+- (NSArray *)availableDictionaries
+{
+    return availableDictionaries;
+}
+- (NSArray *)availableConfigurations
+{
+    return [[NSArray arrayWithObject:NSLocalizedString(@"All",@"")] arrayByAddingObjectsFromArray:[availableDictionaries valueForKey:@"name"]];
 }
 
 #pragma mark PLUGINS

@@ -149,8 +149,10 @@ static void *SpectrumObservationContext = (void *)1102;
 	// Drag and drop
 	[peaksTable registerForDraggedTypes:[NSArray arrayWithObjects:JKLibraryEntryTableViewDataType, nil]];
 	[resultsTable registerForDraggedTypes:[NSArray arrayWithObjects:JKLibraryEntryTableViewDataType, nil]];
+	[chromatogramsTable registerForDraggedTypes:[NSArray arrayWithObjects:JKPeakRecordTableViewDataType, nil]];
 	[peaksTable setDataSource:self];
 	[resultsTable setDataSource:self];
+	[chromatogramsTable setDataSource:self];
     
     NSTabViewItem *detailsTabViewItem = [[NSTabViewItem alloc] initWithIdentifier:@"details"];
     [detailsTabViewItem setView:detailsTabViewItemView];
@@ -160,7 +162,9 @@ static void *SpectrumObservationContext = (void *)1102;
     [detailsTabView addTabViewItem:searchResultsTabViewItem];
     [moleculeSplitSubview setHidden:YES];
     [detailsSplitSubview setHidden:YES];
-    
+    [[detailsTabViewItemScrollView contentView] scrollToPoint:NSMakePoint(0.0f,1000.0f)];
+    _lastDetailsSplitSubviewDimension = [detailsSplitSubview dimension];
+
     [chromatogramView showAll:self];
     [spectrumView showAll:self];
     
@@ -687,6 +691,24 @@ static void *SpectrumObservationContext = (void *)1102;
 {
     [[self document] removeUnidentifiedPeaks];
 }
+- (IBAction)identifyCompound:(id)sender
+{
+    [NSApp beginSheet: progressSheet
+       modalForWindow: [self window]
+        modalDelegate: self
+       didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
+          contextInfo: nil];
+    
+    
+    JKPeakRecord *peak;
+    peak = [[peakController selectedObjects] objectAtIndex:0];
+    if (![[self document] performForwardSearchLibraryForPeak:peak]) {
+        NSBeep();
+    }	
+    
+	[NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];
+    
+}
 #pragma mark -
 
 #pragma mark Key Value Observation
@@ -832,6 +854,8 @@ static void *SpectrumObservationContext = (void *)1102;
     if ([[peakController selectedObjects] count] == 1) {
         if ([[[self peakController] valueForKeyPath:@"selection.identified"] boolValue]) {
             [detailsTabView selectTabViewItemWithIdentifier:@"details"];
+            [detailsSplitSubview setMinDimension:250.0f andMaxDimension:400.0f];
+            [detailsSplitSubview setDimension:_lastDetailsSplitSubviewDimension];
             [detailsSplitSubview setHidden:NO];
             [detailsSplitSubview expandWithAnimation:YES withResize:NO];
             if ([[searchResultsController selectedObjects] count] == 1) {
@@ -847,20 +871,37 @@ static void *SpectrumObservationContext = (void *)1102;
             } else {
                 [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
             } 
-        } else if ([[peakController valueForKeyPath:@"selection.searchResults.@count"] intValue] >= 1) {
+        } else if ([[peakController valueForKeyPath:@"selection.searchResults.@count"] intValue] >= 0) {
             [detailsTabView selectTabViewItemWithIdentifier:@"searchResults"];
             [detailsSplitSubview setHidden:NO];
             [detailsSplitSubview expandWithAnimation:YES withResize:NO];
-            if ([[searchResultsController selectedObjects] count] == 1) {
-                NSString *molString = [[[[self searchResultsController] selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.molString"];
-                if ((molString) && (![molString isEqualToString:@""])) {
-//                    [moleculeView setModel:[[[JKMoleculeModel alloc] initWithMoleculeString:molString] autorelease]];
-                    [moleculeSplitSubview setNeedsDisplay:YES];
-                    [moleculeSplitSubview setHidden:NO];
-                    [moleculeSplitSubview expandWithAnimation:YES withResize:NO];                                
-                } else {
-                    [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
-                }  
+            if ([[peakController valueForKeyPath:@"selection.searchResults.@count"] intValue] == 0) {
+                // Show IdentifyCompoundBox
+                _lastDetailsSplitSubviewDimension = [detailsSplitSubview dimension];
+                [detailsSplitSubview setMinDimension:280.0f andMaxDimension:280.0f];
+                [confirmLibraryHitButton setHidden:YES];
+                [discardLibraryHitButton setHidden:YES];
+                [resultsTableScrollView setHidden:YES];
+                [identifyCompoundBox setHidden:NO];
+                [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
+            } else {
+                [detailsSplitSubview setMinDimension:250.0f andMaxDimension:400.0f];
+                [detailsSplitSubview setDimension:_lastDetailsSplitSubviewDimension];
+                [identifyCompoundBox setHidden:YES];               
+                [resultsTableScrollView setHidden:NO];
+                [confirmLibraryHitButton setHidden:NO];
+                [discardLibraryHitButton setHidden:NO];
+          
+                if ([[searchResultsController selectedObjects] count] == 1) {
+                    NSString *molString = [[[[self searchResultsController] selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.molString"];
+                    if ((molString) && (![molString isEqualToString:@""])) {
+                        [moleculeSplitSubview setNeedsDisplay:YES];
+                        [moleculeSplitSubview setHidden:NO];
+                        [moleculeSplitSubview expandWithAnimation:YES withResize:NO];                                
+                    } else {
+                        [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
+                    }  
+                }
             }
         } else {
             [detailsSplitSubview collapseWithAnimation:YES withResize:NO];
@@ -1194,21 +1235,39 @@ static void *SpectrumObservationContext = (void *)1102;
 
 #pragma mark Drag 'n Drop
 - (BOOL)tableView:(NSTableView *)tv writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard {
-    if (tv == resultsTable) {
+    if (tv == peaksTable) {
+        if ([rowIndexes count] < 1) {
+            return NO;
+        }
+        
         // declare our own pasteboard types
-        NSArray *typesArray = [NSArray arrayWithObjects:@"JKLibraryEntryTableViewDataType", nil];
-        [pboard declareTypes:typesArray owner:self];
-
+        [pboard declareTypes:[NSArray arrayWithObject:JKPeakRecordTableViewDataType] owner:self];
+  
+        NSMutableData *data = [NSMutableData data];
+        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+        [archiver encodeObject:[[peakController arrangedObjects] objectsAtIndexes:rowIndexes] forKey:JKPeakRecordTableViewDataType];
+        [archiver finishEncoding];
+        [archiver release];
+        
+        [pboard setData:data forType:JKPeakRecordTableViewDataType];
+        
+        return YES;
+    } else if (tv == resultsTable) {
         if ([rowIndexes count] != 1) {
             return NO;
         }
+
+        // declare our own pasteboard types
+        NSArray *typesArray = [NSArray arrayWithObjects:JKLibraryEntryTableViewDataType, nil];
+        [pboard declareTypes:typesArray owner:self];
+
         NSMutableData *data = [NSMutableData data];
         NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-        [archiver encodeObject:[[[searchResultsController arrangedObjects] objectAtIndex:[rowIndexes firstIndex]] libraryHit] forKey:@"JKLibraryEntryTableViewDataType"];
+        [archiver encodeObject:[[[searchResultsController arrangedObjects] objectAtIndex:[rowIndexes firstIndex]] libraryHit] forKey:JKLibraryEntryTableViewDataType];
         [archiver finishEncoding];
         [archiver release];
 
-        [pboard setData:data forType:@"JKLibraryEntryTableViewDataType"];
+        [pboard setData:data forType:JKLibraryEntryTableViewDataType];
 
         return YES;
 	}
@@ -1216,86 +1275,76 @@ static void *SpectrumObservationContext = (void *)1102;
 }
 
 - (BOOL)tableView:(NSTableView *)tv acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation{
-	NSArray *supportedTypes = [NSArray arrayWithObjects: JKLibraryEntryTableViewDataType, nil]; //JKSearchResultTableViewDataType,
-	NSString *availableType = [[info draggingPasteboard] availableTypeFromArray:supportedTypes];
 	
-	if (tv == peaksTable) {
-//		if (([availableType isEqualToString:JKPeakRecordTableViewDataType]) && ([info draggingSource] == tv)) {
-//			// Move the peaks to the appropriate place in the array
-//			//[info draggingSource] 
-//			return YES;
-//		} else if ([availableType isEqualToString:JKSearchResultTableViewDataType]) {
-//			// Add the search result to the peak
-//			// Recalculate score
-//			[[peakController arrangedObjects] objectAtIndex:row];
-//        //    [[info draggingPasteboard] 
-//			return YES;
-//		} else
-        if ([availableType isEqualToString:JKLibraryEntryTableViewDataType]) {
+	if (tv == chromatogramsTable) {
+        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKPeakRecordTableViewDataType]]){
+            // Add peaks to target chromatogram
+            JKChromatogram *chrom = [[chromatogramsController arrangedObjects] objectAtIndex:row];
+            
+            NSData *data = [[info draggingPasteboard] dataForType:JKPeakRecordTableViewDataType];
+            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+            NSArray *peaks = [unarchiver decodeObjectForKey:JKPeakRecordTableViewDataType];
+            [unarchiver finishDecoding];
+            [unarchiver release];
+
+            NSEnumerator *enumerator = [peaks objectEnumerator];
+            JKPeakRecord *peak = nil;
+            JKPeakRecord *newPeak = nil;
+            while ((peak = [enumerator nextObject]) != nil) {
+                [[peak chromatogram] removeObjectFromPeaksAtIndex:[[[peak chromatogram] peaks] indexOfObject:peak]];
+                [chrom insertObject:peak inPeaksAtIndex:[chrom countOfPeaks]];
+            }
+            return YES;
+        }
+    } else if (tv == peaksTable) {
+        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKLibraryEntryTableViewDataType]]) {
             // Add the library entry to the peak
             JKPeakRecord *peak = [[peakController arrangedObjects] objectAtIndex:row];
             
-            NSData *data = [[info draggingPasteboard] dataForType:@"JKLibraryEntryTableViewDataType"];
+            NSData *data = [[info draggingPasteboard] dataForType:JKLibraryEntryTableViewDataType];
             NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-            JKLibraryEntry *libEntry = [unarchiver decodeObjectForKey:@"JKLibraryEntryTableViewDataType"];
+            [unarchiver setClass:[JKLibraryEntry class] forClassName:@"JKManagedLibraryEntry"];
+            JKLibraryEntry *libEntry = [unarchiver decodeObjectForKey:JKLibraryEntryTableViewDataType];
             [unarchiver finishDecoding];
             [unarchiver release];
             return [peak identifyAsLibraryEntry:libEntry];
 		}	
 	} else if (tv == resultsTable) {
-        if ([availableType isEqualToString:JKLibraryEntryTableViewDataType]) {
+        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKLibraryEntryTableViewDataType]]) {
             // Add the library entry to the peak
             if ([[peakController selectedObjects] count] != 1) {
                 return NO;
             }
             JKPeakRecord *peak = [[peakController selectedObjects] objectAtIndex:0];
             
-            NSData *data = [[info draggingPasteboard] dataForType:@"JKLibraryEntryTableViewDataType"];
+            NSData *data = [[info draggingPasteboard] dataForType:JKLibraryEntryTableViewDataType];
             NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-            JKLibraryEntry *libEntry = [unarchiver decodeObjectForKey:@"JKLibraryEntryTableViewDataType"];
+            [unarchiver setClass:[JKLibraryEntry class] forClassName:@"JKManagedLibraryEntry"];
+            JKLibraryEntry *libEntry = [unarchiver decodeObjectForKey:JKLibraryEntryTableViewDataType];
             [unarchiver finishDecoding];
             [unarchiver release];
             return [peak addSearchResultForLibraryEntry:libEntry];
 		}	
     }
- //   else if (tv == resultsTable) {
-//		if ([availableType isEqualToString:JKSearchResultTableViewDataType]) {
-//			// Insert the search result
-//			// Recalculate score (to be sure)
-//			
-//			return YES;
-//		} else if ([availableType isEqualToString:JKLibraryEntryTableViewDataType]) {
-//			// Insert the library entry
-//			// Calculate score
-//
-//			return YES;
-//		}
-//	}
     return NO;    
 }
 
 - (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op {
-	NSArray *supportedTypes = [NSArray arrayWithObjects:  JKLibraryEntryTableViewDataType, nil]; //JKPeakRecordTableViewDataType, JKSearchResultTableViewDataType,
-	NSString *availableType = [[info draggingPasteboard] availableTypeFromArray:supportedTypes];
-	
-	if (tv == peaksTable) {
-//		if (([availableType isEqualToString:JKPeakRecordTableViewDataType]) && ([info draggingSource] == tv)) {
-//			[tv setDropRow:row dropOperation:NSTableViewDropAbove];
-//			return NSDragOperationMove;
-//		} else if ([availableType isEqualToString:JKSearchResultTableViewDataType]) {
-//			[tv setDropRow:row dropOperation:NSTableViewDropOn];
-//			return NSDragOperationMove;
-//		} else 
-        if ([availableType isEqualToString:JKLibraryEntryTableViewDataType]) {
+	if (tv == chromatogramsTable) {
+        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKPeakRecordTableViewDataType]]){
+            [tv setDropRow:row dropOperation:NSTableViewDropOn];
+			return NSDragOperationMove;
+        }
+    } else if (tv == peaksTable) {
+        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKLibraryEntryTableViewDataType]]) {
 			[tv setDropRow:row dropOperation:NSTableViewDropOn];
 			return NSDragOperationMove;
 		}	
 	} else 	if (tv == resultsTable) {
-        if ([availableType isEqualToString:JKLibraryEntryTableViewDataType]) {
+        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKLibraryEntryTableViewDataType]]) {
 			[tv setDropRow:row dropOperation:NSTableViewDropAbove];
 			return NSDragOperationMove;
-		}	
-        
+		}
     }
     return NSDragOperationNone;    
 }

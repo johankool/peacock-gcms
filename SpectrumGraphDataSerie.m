@@ -7,7 +7,10 @@
 //
 
 #import "SpectrumGraphDataSerie.h"
+
 #import "JKSpectrum.h"
+#import "JKComparableProtocol.h"
+
 
 static void *DictionaryObservationContext = (void *)1091;
 static void *ArrayObservationContext = (void *)1092;
@@ -36,7 +39,7 @@ static void *PropertyObservationContext = (void *)1093;
     return self;
 }
 
-- (id)initWithSpectrum:(JKSpectrum *)aSpectrum {
+- (id)initWithSpectrum:(NSObject <JKComparableProtocol>*)aSpectrum {
     self = [super init];
     if (self) {
         // Zet de standaardwaarden

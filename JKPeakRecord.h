@@ -7,6 +7,7 @@
 //
 
 #import "JKModelObject.h"
+#import "JKTargetObjectProtocol.h"
 
 @class JKChromatogram;
 @class JKGCMSDocument;
@@ -14,7 +15,7 @@
 @class JKSearchResult;
 @class JKSpectrum;
 
-@interface JKPeakRecord : JKModelObject <NSCoding> {
+@interface JKPeakRecord : JKModelObject <NSCoding, JKTargetObjectProtocol> {
     BOOL confirmed;
     BOOL identified;
 //    JKChromatogram *chromatogram;

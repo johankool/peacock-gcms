@@ -113,7 +113,7 @@
 }
 
 - (IBAction)chooseExistingPath:(id)sender {
-	fileTypes = [NSArray arrayWithObjects:@"jdx",@"dx",@"hpj",nil];
+	fileTypes = [NSArray arrayWithObjects:@"jdx",@"dx",@"hpj",@"peacock-library",nil];
 
 	int result;
     NSOpenPanel *oPanel = [NSOpenPanel openPanel];

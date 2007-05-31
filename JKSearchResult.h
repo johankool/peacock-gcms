@@ -16,7 +16,6 @@
     NSNumber *score;
     JKLibraryEntry *libraryHit;
     JKPeakRecord *peak;
-    BDAlias *library;
 }
 
 - (NSNumber *)deltaRetentionIndex;
@@ -29,8 +28,5 @@
 
 - (JKPeakRecord *)peak;
 - (void)setPeak:(JKPeakRecord *)aPeak;
-
-- (BDAlias *)library;
-- (void)setLibrary:(BDAlias *)aLibrary;
 
 @end

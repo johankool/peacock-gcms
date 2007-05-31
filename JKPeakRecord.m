@@ -14,6 +14,7 @@
 #import "JKLibraryEntry.h"
 #import "JKSearchResult.h"
 #import "JKSpectrum.h"
+#import "jk_statistics.h"
 
 @implementation JKPeakRecord
 
@@ -150,7 +151,7 @@ NSString *GetUUID(void) {
         [self willChangeValueForKey:@"libraryHit"];
         JKSearchResult *searchResult = [[JKSearchResult alloc] init];
         [searchResult setPeak:self];
-        [searchResult setLibraryHit:aLibraryEntry];
+        [searchResult setLibraryHit:[JKLibraryEntry libraryEntryWithJCAMPString:[aLibraryEntry jcampString]]];
         [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedTo:aLibraryEntry]]];
         [self addSearchResult:searchResult];
         [self setIdentifiedSearchResult:searchResult];
@@ -183,7 +184,7 @@ NSString *GetUUID(void) {
         [self willChangeValueForKey:@"searchResults"];
         JKSearchResult *searchResult = [[JKSearchResult alloc] init];
         [searchResult setPeak:self];
-        [searchResult setLibraryHit:aLibraryEntry];
+        [searchResult setLibraryHit:[JKLibraryEntry libraryEntryWithJCAMPString:[aLibraryEntry jcampString]]];
         [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedTo:aLibraryEntry]]];
         [self addSearchResult:searchResult];
         [searchResult release];
@@ -248,6 +249,32 @@ NSString *GetUUID(void) {
 - (NSUndoManager *)undoManager {
     return [[self document] undoManager];
 }
+#pragma mark -
+
+#pragma mark JKTargetObjectProtocol
+- (NSDictionary *)substitutionVariables
+{
+    float maximumMass = jk_stats_float_max([[self spectrum] masses],[[self spectrum] numberOfPoints]);
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+        [self model], @"model",
+        [self retentionIndex], @"retentionIndex",
+        [self label], @"label",
+        [NSNumber numberWithFloat:maximumMass], @"maximumMass",
+        [NSNumber numberWithFloat:maximumMass+50.0], @"maximumMassPlus50",
+        [NSNumber numberWithFloat:maximumMass-50.0], @"maximumMassMinus50",
+        [NSNumber numberWithInt:[self top]], @"scan",
+        [self topTime], @"time",
+        nil];
+    //@"model",
+    //@"retentionIndex",
+    //@"label",
+    //@"maximumMass"
+    //@"maximumMassPlus50"
+    //@"maximumMassMinus50"
+    //@"scan"
+    //@"time"
+}
+#pragma mark -
 
 #pragma mark CALCULATED ACCESSORS
 
@@ -424,10 +451,8 @@ NSString *GetUUID(void) {
 }
 
 - (NSNumber *)score {
-    if (identifiedSearchResult) {
+    if ([self identified]) {
         return [identifiedSearchResult score];
-    } else if ([searchResults count] > 0){
-        return [[searchResults objectAtIndex:0] score];
     } else {
         return nil;
     }
@@ -658,7 +683,12 @@ NSString *GetUUID(void) {
 }
 
 - (NSString *)library {
-	return [[NSFileManager defaultManager] displayNameAtPath:[[identifiedSearchResult library] fullPath]];
+    if ([self identified]) {
+        return [[identifiedSearchResult libraryHit] library];
+    } else {
+        return nil;
+    }
+//	return [[NSFileManager defaultManager] displayNameAtPath:[[identifiedSearchResult library] fullPath]];
 }
 
 - (JKLibraryEntry *)libraryHit {
@@ -804,8 +834,8 @@ NSString *GetUUID(void) {
                 	JKSearchResult *newResult = [[JKSearchResult alloc] init];
                     [newResult setPeak:self];
                     [newResult setScore:[result valueForKey:@"score"]];
-                    [newResult setLibraryHit:[result valueForKey:@"libraryHit"]];
-                    [newResult setLibrary:nil];
+                    [newResult setLibraryHit:[JKLibraryEntry libraryEntryWithJCAMPString:[[result valueForKey:@"libraryHit"] jcampString]]];
+//                    [newResult setLibrary:nil];
                     [searchResults addObject:newResult];
                 }
                 if (([searchResults count] > 0) && ([coder decodeBoolForKey:@"identified"]))
