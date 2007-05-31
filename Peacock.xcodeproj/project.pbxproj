@@ -83,8 +83,8 @@
 		C77E2FBF0C0EF20C00B8A64A /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E2FBD0C0EF20C00B8A64A /* plus.png */; };
 		C77E2FC10C0EF21700B8A64A /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E2FC00C0EF21700B8A64A /* minus.png */; };
 		C77E2FC20C0EF21700B8A64A /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E2FC00C0EF21700B8A64A /* minus.png */; };
-		C77E306E0C0F169200B8A64A /* libraries.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E306D0C0F169200B8A64A /* libraries.png */; };
-		C77E306F0C0F169200B8A64A /* libraries.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E306D0C0F169200B8A64A /* libraries.png */; };
+		C77E32B90C0F2CBB00B8A64A /* libraries.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E32B80C0F2CBB00B8A64A /* libraries.png */; };
+		C77E32BA0C0F2CBB00B8A64A /* libraries.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E32B80C0F2CBB00B8A64A /* libraries.png */; };
 		C7834D1B0941ED37005431CD /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D1A0941ED37005431CD /* Carbon.framework */; };
 		C7834D3D0941ED5C005431CD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D3C0941ED5C005431CD /* CoreFoundation.framework */; };
 		C7834D440941ED7A005431CD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D430941ED7A005431CD /* Security.framework */; };
@@ -467,7 +467,7 @@
 		C77C583009800FAD002E7796 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = "English.lproj/Peacock Help"; sourceTree = "<group>"; };
 		C77E2FBD0C0EF20C00B8A64A /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
 		C77E2FC00C0EF21700B8A64A /* minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minus.png; sourceTree = "<group>"; };
-		C77E306D0C0F169200B8A64A /* libraries.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = libraries.png; path = ../../Desktop/libraries.png; sourceTree = SOURCE_ROOT; };
+		C77E32B80C0F2CBB00B8A64A /* libraries.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = libraries.png; sourceTree = "<group>"; };
 		C7834D1A0941ED37005431CD /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		C7834D3C0941ED5C005431CD /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		C7834D430941ED7A005431CD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
@@ -1088,10 +1088,10 @@
 				C7A7BB4B0A9DE6E0005E3778 /* info.icns */,
 				C7A7BB530A9DE6E0005E3778 /* layout.tiff */,
 				C7A7BB4A0A9DE6E0005E3778 /* processing.tiff */,
+				C77E32B80C0F2CBB00B8A64A /* libraries.png */,
 				C7A7BB480A9DE6E0005E3778 /* question_mark.tiff */,
 				C7A7BB540A9DE6E0005E3778 /* save_document.tiff */,
 				C7A7BB4F0A9DE6E0005E3778 /* text.tiff */,
-				C77E306D0C0F169200B8A64A /* libraries.png */,
 				C7B9BA2C0AA881AE00250EFE /* view.tiff */,
 				C7A7BB520A9DE6E0005E3778 /* warning.tiff */,
 				C7A7BB500A9DE6E0005E3778 /* zoom.tiff */,
@@ -1346,7 +1346,7 @@
 				C7F8DEAD0BF0D00700A34F5D /* DisplayOptions.nib in Resources */,
 				C77E2FBE0C0EF20C00B8A64A /* plus.png in Resources */,
 				C77E2FC10C0EF21700B8A64A /* minus.png in Resources */,
-				C77E306E0C0F169200B8A64A /* libraries.png in Resources */,
+				C77E32B90C0F2CBB00B8A64A /* libraries.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1408,7 +1408,7 @@
 				C7F8DEAC0BF0D00700A34F5D /* DisplayOptions.nib in Resources */,
 				C77E2FBF0C0EF20C00B8A64A /* plus.png in Resources */,
 				C77E2FC20C0EF21700B8A64A /* minus.png in Resources */,
-				C77E306F0C0F169200B8A64A /* libraries.png in Resources */,
+				C77E32BA0C0F2CBB00B8A64A /* libraries.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
