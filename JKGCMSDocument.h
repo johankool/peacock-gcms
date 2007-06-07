@@ -70,6 +70,8 @@ typedef enum {
 	NSNumber *retentionIndexRemainder;
 	// Search options
 	BDAlias *libraryAlias;
+    NSString *libraryConfiguration;
+    NSString *searchTemplate;
 	int scoreBasis;
     JKSearchDirections searchDirection;
     JKSearchSpectra spectrumToUse;
@@ -225,6 +227,9 @@ idAccessor_h(peakIdentificationThreshold, setPeakIdentificationThreshold)
 idAccessor_h(retentionIndexSlope, setRetentionIndexSlope)
 idAccessor_h(retentionIndexRemainder, setRetentionIndexRemainder)
 idAccessor_h(libraryAlias, setLibraryAlias)
+idAccessor_h(libraryConfiguration, setLibraryConfiguration)
+idAccessor_h(searchTemplate, setSearchTemplate)
+
 intAccessor_h(scoreBasis, setScoreBasis)
 intAccessor_h(searchDirection, setSearchDirection)
 intAccessor_h(spectrumToUse, setSpectrumToUse)

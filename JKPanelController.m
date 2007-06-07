@@ -92,8 +92,8 @@ static JKPanelController *theSharedController;
     [[self window] setToolbar: toolbar];
 	
    
-	// Bind libraryPopUpButton manually
-	[libraryPopUpButton bind:@"fileAlias" toObject:inspectedDocumentController withKeyPath:@"selection.libraryAlias" options:nil];
+//	// Bind libraryPopUpButton manually
+//	[libraryPopUpButton bind:@"fileAlias" toObject:inspectedDocumentController withKeyPath:@"selection.libraryAlias" options:nil];
 
 	// Set an initial state
 	[toolbar setSelectedItemIdentifier:@"info"];

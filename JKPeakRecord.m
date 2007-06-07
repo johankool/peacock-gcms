@@ -83,6 +83,7 @@ NSString *GetUUID(void) {
 #pragma mark ACTIONS
 
 - (BOOL)confirm{
+    BOOL result;
     int answer;
     // check if there is already a peak with the same label
     if ([[[self chromatogram] document] hasPeakConfirmedAs:[identifiedSearchResult libraryHit] notBeing:self]) {
@@ -118,10 +119,13 @@ NSString *GetUUID(void) {
 //		[searchResults addObject:identifiedSearchResult];
 		return YES;		
     } else if ([searchResults count] > 0) {
-        [self identifyAs:[searchResults objectAtIndex:0]];
-        [self setIdentified:YES];
-        [self setConfirmed:YES];
-        [searchResults setArray:[NSArray arrayWithObject:identifiedSearchResult]];        
+        result = [self identifyAs:[searchResults objectAtIndex:0]];
+        if (result) {
+            [self setIdentified:YES];
+            [self setConfirmed:YES];
+            [searchResults setArray:[NSArray arrayWithObject:identifiedSearchResult]];                    
+        }
+        return result;
 //		[searchResults removeObject:identifiedSearchResult];
 //		[[self document] redistributedSearchResults:self];
 //		[searchResults removeAllObjects];
@@ -129,10 +133,14 @@ NSString *GetUUID(void) {
         return YES;
 	} else {
         // Allow this to mark a peak as confirmed with having the proper library entry
-        [self setIdentified:YES];
-        [self setConfirmed:YES];
-        JKLogWarning(@"Peak with label '%@' was confirmed without being identified first.", [self label]);
-		return NO;
+        result = [[NSApp delegate] addLibraryEntryBasedOnPeak:self];
+        if (result) {
+            [self setIdentified:YES];
+            [self setConfirmed:YES]; 
+        }
+        return result;
+//        JKLogWarning(@"Peak with label '%@' was confirmed without being identified first.", [self label]);
+//		return NO;
 	}
 }
 
@@ -146,36 +154,42 @@ NSString *GetUUID(void) {
 
 - (BOOL)identifyAsLibraryEntry:(JKLibraryEntry *)aLibraryEntry
 {
-    if ([[self document] modelString:[[self chromatogram] model] isEqualToString:[aLibraryEntry modelChr]]) {        
-//    if ([[[self chromatogram] model] isEqualToString:[aLibraryEntry modelChr]]) {
-        [self willChangeValueForKey:@"libraryHit"];
-        JKSearchResult *searchResult = [[JKSearchResult alloc] init];
-        [searchResult setPeak:self];
-        [searchResult setLibraryHit:[JKLibraryEntry libraryEntryWithJCAMPString:[aLibraryEntry jcampString]]];
-        [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedTo:aLibraryEntry]]];
-        [self addSearchResult:searchResult];
-        [self setIdentifiedSearchResult:searchResult];
-        [self setIdentified:YES];
-        [searchResult release];
-        
-        if ([self confirm]) {
-            // Initial default settings after identification, but can be customized by user later on
-            [self setLabel:[aLibraryEntry name]];
-            [self setSymbol:[aLibraryEntry symbol]];
-            [self setIdentified:YES];            
-        } else {
-            // NOT completely right, if identified before, now not anymore... 
-            [self removeObjectFromSearchResultsAtIndex:[[self searchResults] indexOfObject:searchResults]];
-            [self discard];
-            [self didChangeValueForKey:@"libraryHit"];
+    int answer;
+    if (![[self document] modelString:[[self chromatogram] model] isEqualToString:[aLibraryEntry modelChr]] && ![[aLibraryEntry modelChr] isEqualToString:@""]) {   
+        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Model mismatch occurred",@""), NSLocalizedString(@"The model of the peak is different from the library entry that you are assigning to it. Are you sure you want to identify this peak using this library entr?",@""), NSLocalizedString(@"Continue",@""), NSLocalizedString(@"Cancel",@""),nil);
+        if (answer == NSOKButton) {
+            // Continue
+        } else if (answer == NSCancelButton) {
+            // Cancel
             return NO;
-        }
+        }     
         
-        [self didChangeValueForKey:@"libraryHit"];
-        return YES;
+    }
+    [self willChangeValueForKey:@"libraryHit"];
+    JKSearchResult *searchResult = [[JKSearchResult alloc] init];
+    [searchResult setPeak:self];
+    [searchResult setLibraryHit:[JKLibraryEntry libraryEntryWithJCAMPString:[aLibraryEntry jcampString]]];
+    [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedTo:aLibraryEntry]]];
+    [self addSearchResult:searchResult];
+    [self setIdentifiedSearchResult:searchResult];
+    [self setIdentified:YES];
+    [searchResult release];
+    
+    if ([self confirm]) {
+        // Initial default settings after identification, but can be customized by user later on
+        [self setLabel:[aLibraryEntry name]];
+        [self setSymbol:[aLibraryEntry symbol]];
+        [self setIdentified:YES];            
     } else {
+        // NOT completely right, if identified before, now not anymore... 
+        [self removeObjectFromSearchResultsAtIndex:[[self searchResults] indexOfObject:searchResults]];
+        [self discard];
+        [self didChangeValueForKey:@"libraryHit"];
         return NO;
     }
+    
+    [self didChangeValueForKey:@"libraryHit"];
+    return YES;
 }
 
 - (BOOL)addSearchResultForLibraryEntry:(JKLibraryEntry *)aLibraryEntry
@@ -195,26 +209,32 @@ NSString *GetUUID(void) {
 }
 
 - (BOOL)identifyAs:(JKSearchResult *)searchResult{
-    if ([[self document] modelString:[[self chromatogram] model] isEqualToString:[[searchResult libraryHit] modelChr]]) {        
-//    if ([[[self chromatogram] model] isEqualToString:[[searchResult libraryHit] modelChr]]) {
-        [self willChangeValueForKey:@"libraryHit"];
-        [self setIdentifiedSearchResult:searchResult];
-        // Initial default settings after identification, but can be customized by user later on
-        [self setLabel:[searchResult valueForKeyPath:@"libraryHit.name"]];
-        [self setSymbol:[searchResult valueForKeyPath:@"libraryHit.symbol"]];
-        [self setIdentified:YES];
-        [self setConfirmed:NO];
+    int answer;
+    if (![[self document] modelString:[[self chromatogram] model] isEqualToString:[[searchResult libraryHit] modelChr]] && ![[[searchResult libraryHit] modelChr] isEqualToString:@""]) {   
+        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Model mismatch occurred",@""), NSLocalizedString(@"The model of the peak is different from the library entry that you are assigning to it. Are you sure you want to identify this peak using this library entr?",@""), NSLocalizedString(@"Continue",@""), NSLocalizedString(@"Cancel",@""),nil);
+        if (answer == NSOKButton) {
+            // Continue
+        } else if (answer == NSCancelButton) {
+            // Cancel
+            return NO;
+        }     
         
-        if (![searchResults containsObject:searchResult]) {
-            [self willChangeValueForKey:@"searchResultCount"];
-            [searchResults insertObject:searchResult atIndex:[searchResults count]];
-            [self didChangeValueForKey:@"searchResultCount"];
-        }
-        [self didChangeValueForKey:@"libraryHit"];
+    }
+    [self willChangeValueForKey:@"libraryHit"];
+    [self setIdentifiedSearchResult:searchResult];
+    // Initial default settings after identification, but can be customized by user later on
+    [self setLabel:[searchResult valueForKeyPath:@"libraryHit.name"]];
+    [self setSymbol:[searchResult valueForKeyPath:@"libraryHit.symbol"]];
+    [self setIdentified:YES];
+    [self setConfirmed:NO];
+    
+    if (![searchResults containsObject:searchResult]) {
+        [self willChangeValueForKey:@"searchResultCount"];
+        [searchResults insertObject:searchResult atIndex:[searchResults count]];
+        [self didChangeValueForKey:@"searchResultCount"];
+    }
+    [self didChangeValueForKey:@"libraryHit"];
 	return YES;
-    } else {
-        return NO;
-    }    
 }
 
 - (void)addSearchResult:(JKSearchResult *)searchResult{
@@ -254,16 +274,14 @@ NSString *GetUUID(void) {
 #pragma mark JKTargetObjectProtocol
 - (NSDictionary *)substitutionVariables
 {
-    float maximumMass = jk_stats_float_max([[self spectrum] masses],[[self spectrum] numberOfPoints]);
+    int maximumMass = lroundf(jk_stats_float_max([[self spectrum] masses],[[self spectrum] numberOfPoints]));
     return [NSDictionary dictionaryWithObjectsAndKeys:
         [self model], @"model",
-        [self retentionIndex], @"retentionIndex",
+        [NSNumber numberWithInt:[[self retentionIndex] intValue]], @"retentionIndex",
         [self label], @"label",
-        [NSNumber numberWithFloat:maximumMass], @"maximumMass",
-        [NSNumber numberWithFloat:maximumMass+50.0], @"maximumMassPlus50",
-        [NSNumber numberWithFloat:maximumMass-50.0], @"maximumMassMinus50",
+        [NSNumber numberWithInt:maximumMass], @"maximumMass",
         [NSNumber numberWithInt:[self top]], @"scan",
-        [self topTime], @"time",
+        [NSNumber numberWithInt:[[self topTime] intValue]], @"time",
         nil];
     //@"model",
     //@"retentionIndex",
@@ -280,8 +298,9 @@ NSString *GetUUID(void) {
 
 - (NSNumber *)deltaRetentionIndex {
 	float value = 0.0;
-	if (([[self libraryHit] retentionIndex] == nil) | ([[[self libraryHit] retentionIndex] floatValue] == 0.0)) {
-		return [NSNumber numberWithFloat:0.0];
+	if (([[self libraryHit] retentionIndex] == nil) || ([[[self libraryHit] retentionIndex] floatValue] == 0.0)) {
+		//return [NSNumber numberWithFloat:0.0];
+        return [NSDecimalNumber notANumber];
 	}
 	value = [[[self libraryHit] retentionIndex] floatValue] - [[self retentionIndex] floatValue];
     return [NSNumber numberWithFloat:value];
@@ -739,7 +758,9 @@ NSString *GetUUID(void) {
 	}
 	
 	// Add aSearchResult to the array searchResults
+    [self willChangeValueForKey:@"searchResults"];
 	[searchResults insertObject:aSearchResult atIndex:index];
+    [self didChangeValueForKey:@"searchResults"];
 }
 
 - (void)removeObjectFromSearchResultsAtIndex:(int)index
@@ -755,7 +776,9 @@ NSString *GetUUID(void) {
 	}
 	
 	// Remove the peak from the array
+    [self willChangeValueForKey:@"searchResults"];
 	[searchResults removeObjectAtIndex:index];
+    [self didChangeValueForKey:@"searchResults"];
 }
 
 - (void)replaceObjectInSearchResultsAtIndex:(int)index withObject:(NSDictionary *)aSearchResult
@@ -771,7 +794,9 @@ NSString *GetUUID(void) {
 	}
 	
 	// Replace the peak from the array
+    [self willChangeValueForKey:@"searchResults"];
 	[searchResults replaceObjectAtIndex:index withObject:aSearchResult];
+    [self didChangeValueForKey:@"searchResults"];
 }
 
 - (BOOL)validateSearchResult:(NSDictionary **)aSearchResult error:(NSError **)outError {

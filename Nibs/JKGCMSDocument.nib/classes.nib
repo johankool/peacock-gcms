@@ -61,6 +61,7 @@
                 chromatogramView = MyGraphView; 
                 chromatogramsController = NSArrayController; 
                 chromatogramsTable = NSTableView; 
+                chromatogramsTableSplitView = RBSplitSubview; 
                 confirmLibraryHitButton = NSButton; 
                 detailsSplitSubview = RBSplitSubview; 
                 detailsTabView = NSTabView; 

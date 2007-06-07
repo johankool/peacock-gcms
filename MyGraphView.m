@@ -70,7 +70,7 @@ static int   kPaddingLabels             = 4;
         pixelsPerXUnit = [[NSNumber alloc] initWithFloat:20.0f];
 		pixelsPerYUnit = [[NSNumber alloc] initWithFloat:10.0f];
         minimumPixelsPerMajorGridLine = [[NSNumber alloc] initWithFloat:25.0f];
-        plottingArea = NSMakeRect(50.5,20.5,[self bounds].size.width-60.5,[self bounds].size.height-25.5);
+        plottingArea = NSMakeRect(80.5,35.5,[self bounds].size.width-90.5,[self bounds].size.height-40.5);
         legendArea =   NSMakeRect([self bounds].size.width-200-10-10,[self bounds].size.height-18-10-5,200,18);
         selectedRect = NSMakeRect(0,0,0,0);
         xAxisLabelString = [[NSAttributedString alloc] initWithString:@""];
@@ -209,6 +209,9 @@ static int   kPaddingLabels             = 4;
 	if (NSIntersectsRect([self plottingArea],rect))
 		[[NSBezierPath bezierPathWithRect:[self plottingArea]] stroke];
 
+    if ([[self dataSeries] count] == 0) {
+        return;
+    }
     // Draw plotting inside the plotting area
     if (NSIntersectsRect([self plottingArea],rect)) {
         [NSGraphicsContext saveGraphicsState];	
@@ -973,6 +976,40 @@ static int   kPaddingLabels             = 4;
     
 //    JKLogDebug(@"zooming to new rect");
 	[self zoomToRect:totRect];
+}
+
+- (void)scaleVertically 
+{
+   	int i, count;
+	MyGraphDataSerie *mgds;
+	
+	// Voor iedere dataserie wordt de grootte in grafiek-coordinaten opgevraagd en de totaal omvattende rect bepaald
+	count = [[self dataSeries] count];
+    float maxTotal = 0.0f;
+	for (i=0; i <  count; i++) {
+		mgds=[[self dataSeries] objectAtIndex:i];
+        if ([mgds isKindOfClass:[ChromatogramGraphDataSerie class]]) {
+            if ([[(ChromatogramGraphDataSerie *)mgds chromatogram] maxTotalIntensity] > maxTotal) {
+                maxTotal = [[(ChromatogramGraphDataSerie *)mgds chromatogram] maxTotalIntensity];
+            }
+        }
+    }
+    for (i=0; i <  count; i++) {
+		mgds=[[self dataSeries] objectAtIndex:i];
+        switch (drawingMode) {
+            case JKStackedDrawingMode:
+                // A little exta room to make room for labels
+                if ([mgds isKindOfClass:[ChromatogramGraphDataSerie class]]) {
+                    float thisTotal = [[(ChromatogramGraphDataSerie *)mgds chromatogram] maxTotalIntensity];
+                    [mgds setVerticalScale:[NSNumber numberWithFloat:maxTotal/thisTotal]];
+                } 
+                break;
+            case JKNormalDrawingMode:
+            default:
+                 break;
+        }
+	}
+     
 }
 //- (void)showMagnifyingGlass:(NSEvent *)theEvent  
 //{

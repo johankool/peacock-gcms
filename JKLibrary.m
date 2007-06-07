@@ -384,10 +384,30 @@
 //}
 
 //#pragma mark ACCESSORS
-- (NSPredicate *)predicateForSearchTemplate:(NSString *)searchTemplateName andObject:(id <JKTargetObjectProtocol>)targetObject
+- (BOOL)requiresObjectForPredicateForSearchTemplate:(NSString *)searchTemplateName
 {
-    NSAssert(targetObject, @"targetObject can't be nil");
+    // Get search template
+    NSArray *searchTemplates = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"searchTemplates"];
+    NSEnumerator *enumerator = [searchTemplates objectEnumerator];
+    NSDictionary *searchTemplateDict;
     
+    while ((searchTemplateDict = [enumerator nextObject]) != nil) {
+    	if ([[searchTemplateDict valueForKey:@"name"] isEqualToString:searchTemplateName]) {
+            break;
+        }
+    }
+    
+    NSString *searchTemplateString = [searchTemplateDict valueForKey:@"searchTemplate"];
+    
+    if ([searchTemplateString rangeOfString:@"$"].location == NSNotFound) {
+        return NO;
+    } else {
+        return YES;
+    }
+    
+}
+- (NSPredicate *)predicateForSearchTemplate:(NSString *)searchTemplateName andObject:(id <JKTargetObjectProtocol>)targetObject
+{    
     // Get search template
     NSArray *searchTemplates = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"searchTemplates"];
     NSEnumerator *enumerator = [searchTemplates objectEnumerator];
@@ -406,7 +426,13 @@
     
     // Substitute values for targetSpectrum
     NSPredicate *predicate = [NSPredicate predicateWithFormat:searchTemplateString];
-    return [predicate predicateWithSubstitutionVariables:[targetObject substitutionVariables]];
+    NSDictionary *substitutionDictionary = nil;
+    if (!targetObject) {
+        substitutionDictionary = [NSDictionary dictionary];
+    } else {
+        substitutionDictionary = [targetObject substitutionVariables];
+    }
+    return [predicate predicateWithSubstitutionVariables:substitutionDictionary];
 }
 
 - (NSArray *)libraryEntriesWithPredicate:(NSPredicate *)predicate

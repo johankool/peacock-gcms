@@ -67,8 +67,9 @@ enum JKPeakSelection {
     IBOutlet NSTextField *progressText;
 	IBOutlet NSWindow *chromatogramSelectionSheet;
 	IBOutlet NSButton *chromatogramSelectionSheetButton;
-    IBOutlet NSArrayController *chromatogramsController;    
-
+    IBOutlet NSArrayController *chromatogramsController; 
+    
+    IBOutlet RBSplitSubview *chromatogramsTableSplitView;
     
 	// Misc
 	BOOL abortAction;	

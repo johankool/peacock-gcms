@@ -53,16 +53,14 @@
 #pragma mark JKTargetObjectProtocol
 - (NSDictionary *)substitutionVariables
 {
-    float maximumMass = jk_stats_float_max([self masses],[self numberOfPoints]);
+    int maximumMass = lroundf(jk_stats_float_max([self masses],[self numberOfPoints]));
     return [NSDictionary dictionaryWithObjectsAndKeys:
         [self model], @"model",
-        [self retentionIndex], @"retentionIndex",
+        [NSNumber numberWithInt:[[self retentionIndex] intValue]], @"retentionIndex",
         [[self peak] label], @"label",
-        [NSNumber numberWithFloat:maximumMass], @"maximumMass",
-        [NSNumber numberWithFloat:maximumMass+50.0], @"maximumMassPlus50",
-        [NSNumber numberWithFloat:maximumMass-50.0], @"maximumMassMinus50",
+        [NSNumber numberWithInt:maximumMass], @"maximumMass",
         [[self peak] top], @"scan",
-        [[self peak] topTime], @"time",
+        [NSNumber numberWithInt:[[[self peak] topTime] intValue]], @"time",
         nil];
     //@"model",
     //@"retentionIndex",

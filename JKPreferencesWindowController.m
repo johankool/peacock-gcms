@@ -52,8 +52,8 @@
 	[[self window] setShowsToolbarButton:NO];
     [toolbar setVisible:YES];
     
-	// Bind libraryPopUpButton manually
-	[libraryPopUpButton bind:@"fileAlias" toObject:self withKeyPath:@"libraryAlias" options:nil];
+//	// Bind libraryPopUpButton manually
+//	[libraryPopUpButton bind:@"fileAlias" toObject:self withKeyPath:@"libraryAlias" options:nil];
 
 }
 

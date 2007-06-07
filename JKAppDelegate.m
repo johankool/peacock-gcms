@@ -44,6 +44,8 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 	[defaultValues setValue:[NSNumber numberWithFloat:0.1f] forKey:@"peakIdentificationThreshold"];
 	[defaultValues setValue:[NSNumber numberWithFloat:1.0f] forKey:@"retentionIndexSlope"];
 	[defaultValues setValue:[NSNumber numberWithFloat:0.0f] forKey:@"retentionIndexRemainder"];
+	[defaultValues setValue:NSLocalizedString(@"All",@"") forKey:@"libraryConfiguration"];
+	[defaultValues setValue:NSLocalizedString(@"All",@"") forKey:@"searchTemplate"];
 	[defaultValues setValue:[[NSString stringWithString:@"~/Desktop/Test Library.jdx"] stringByExpandingTildeInPath] forKey:@"libraryAlias"];
 	[defaultValues setValue:[NSNumber numberWithInt:JKAbundanceScoreBasis] forKey:@"scoreBasis"]; // Using formula 1 in Gan 2001
 	[defaultValues setValue:[NSNumber numberWithInt:JKForwardSearchDirection] forKey:@"searchDirection"];
@@ -56,9 +58,12 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 	[defaultValues setValue:[NSNumber numberWithFloat:200.0f] forKey:@"maximumRetentionIndexDifference"];
 
 	// Default presets
-	[defaultValues setObject:[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"Alkanes",@"name",@"55+57",@"massValue",nil],
-        [NSDictionary dictionaryWithObjectsAndKeys:@"Alkenes",@"name",@"56+58",@"massValue",nil]
-        ,nil] forKey:@"presets"];
+	[defaultValues setObject:[NSArray arrayWithObjects:
+        [NSDictionary dictionaryWithObjectsAndKeys:@"Alkanes",@"name",@"55+57",@"massValue",nil],
+        [NSDictionary dictionaryWithObjectsAndKeys:@"Alkenes",@"name",@"55+69",@"massValue",nil],
+        [NSDictionary dictionaryWithObjectsAndKeys:@"Fatty acids",@"name",@"129+185",@"massValue",nil],
+        [NSDictionary dictionaryWithObjectsAndKeys:@"Methylketones",@"name",@"58+59",@"massValue",nil],
+        nil] forKey:@"presets"];
 	
 	// Default summary settings
     // Default statistics analysis
@@ -351,6 +356,9 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 	} 
 	return NO;
 }
+#pragma mark -
+
+#pragma mark Library Management
 - (void)showInFinder
 {
     // open up the default store
@@ -472,7 +480,17 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 {
     return [[NSArray arrayWithObject:NSLocalizedString(@"All",@"")] arrayByAddingObjectsFromArray:[availableDictionaries valueForKey:@"name"]];
 }
+- (BOOL)addLibraryEntryBasedOnPeak:(JKPeakRecord *)aPeak
+{
+#warning To be implemented
+    int answer = NSRunAlertPanel(NSLocalizedString(@"Peak without library hit being confirmed",@""),NSLocalizedString(@"You are confirming a peak for which you do not have a library hit. Peacock should now ask you if you want to store your identifaction as a library entry so it can be used for future compound identifications. But unfortunately this feature isn't yet implemented... Sorry...",@""),@"Confirm Peak Anyway",@"Cancel",nil);
+    if (answer == NSOKButton) {
+        return YES; 
+    } else {
+        return NO;
+    }
 
+}
 #pragma mark PLUGINS
 
 //- (void)loadPlugins {

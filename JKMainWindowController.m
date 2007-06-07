@@ -24,10 +24,11 @@
 #include <unistd.h>
 
 
-//static void *DocumentObservationContext = (void *)1100;
+static void *DocumentObservationContext = (void *)1100;
 static void *ChromatogramObservationContext = (void *)1101;
 static void *SpectrumObservationContext = (void *)1102;
-//static void *PeaksObservationContext = (void *)1103;
+static void *PeaksObservationContext = (void *)1103;
+static void *MetadataObservationContext = (void *)1104;
 
 #define JKPeakRecordTableViewDataType @"JKPeakRecordTableViewDataType"
 #define JKSearchResultTableViewDataType @"JKSearchResultTableViewDataType"
@@ -84,14 +85,6 @@ static void *SpectrumObservationContext = (void *)1102;
     
     // Get the initial drawings for chromatograms
     [self observeValueForKeyPath:nil ofObject:nil change:nil context:ChromatogramObservationContext];
-//    NSEnumerator *chromatogramEnumerator = [[[self document] chromatograms] objectEnumerator];
-//    JKChromatogram *chromatogram;
-//
-//    while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
-//        ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
-//        [chromatogramDataSeries addObject:cgds];
-//    }
-//    
 
 	// ChromatogramView bindings
 	[chromatogramView bind:@"dataSeries" toObject: chromatogramDataSeriesController
@@ -132,16 +125,18 @@ static void *SpectrumObservationContext = (void *)1102;
     [spectrumView setDrawingMode:JKNormalDrawingMode];
 
 	// Register as observer
-	[searchResultsController addObserver:self forKeyPath:@"selection" options:nil context:nil];
-	[peakController addObserver:self forKeyPath:@"selection" options:nil context:nil];
-	[peakController addObserver:self forKeyPath:@"selection.confirmed" options:nil context:nil];
-	[peakController addObserver:self forKeyPath:@"selection.identified" options:nil context:nil];
-//	[[self document] addObserver:self forKeyPath:@"chromatograms" options:nil context:nil];
 	[self addObserver:self forKeyPath:@"showNormalizedSpectra" options:nil context:SpectrumObservationContext];
 	[self addObserver:self forKeyPath:@"showCombinedSpectrum" options:nil context:SpectrumObservationContext];
     [self addObserver:self forKeyPath:@"showLibraryHit" options:nil context:SpectrumObservationContext];
 	[self addObserver:self forKeyPath:@"showTICTrace" options:nil context:ChromatogramObservationContext];
 	[self addObserver:self forKeyPath:@"showSelectedChromatogramsOnly" options:nil context:ChromatogramObservationContext];
+
+    [chromatogramsController addObserver:self forKeyPath:@"selection" options:nil context:ChromatogramObservationContext];
+	[peakController addObserver:self forKeyPath:@"selection" options:nil context:PeaksObservationContext];
+	[peakController addObserver:self forKeyPath:@"selection.countOfSearchResults" options:nil context:PeaksObservationContext];
+	[peakController addObserver:self forKeyPath:@"selection.confirmed" options:nil context:PeaksObservationContext];
+	[peakController addObserver:self forKeyPath:@"selection.identified" options:nil context:PeaksObservationContext];
+	[searchResultsController addObserver:self forKeyPath:@"selection" options:nil context:SpectrumObservationContext];
 
 	// Double click action
 	[resultsTable setDoubleAction:@selector(resultDoubleClicked:)];
@@ -172,6 +167,7 @@ static void *SpectrumObservationContext = (void *)1102;
     // 	[tableView setObligatoryTableColumns:[NSSet setWithObject:[tableView tableColumnWithIdentifier:@"name"]]];
     [[self window] setFrameFromString:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"mainWindowFrame"]];
 }
+
 - (void)windowWillClose:(NSNotification *)aNotification
 {
     [[[NSUserDefaultsController sharedUserDefaultsController] values] setValue:[[self window] stringWithSavedFrame] forKey:@"mainWindowFrame"];
@@ -290,13 +286,23 @@ static void *SpectrumObservationContext = (void *)1102;
 
 - (IBAction)showMassChromatogram:(id)sender {	
 	[[self document] addChromatogramForModel:[sender stringValue]];
-
-	[sender setStringValue:@""];
+    JKChromatogram *chrom = [[self document] chromatogramForModel:[sender stringValue]];
+    if (chrom) {
+        [chromatogramsController addSelectedObjects:[NSArray arrayWithObject:chrom]];
+        [sender setStringValue:@""];
+    } else {
+        NSBeep();
+    }
 }
 
 - (void)showChromatogramForModel:(NSString *)modelString {
-    JKLogDebug(@"showChromatogramForModel %@",modelString);
-  	[[self document] addChromatogramForModel:modelString];  
+  	[[self document] addChromatogramForModel:modelString]; 
+    JKChromatogram *chrom = [[self document] chromatogramForModel:modelString];
+    if (chrom) {
+        [chromatogramsController addSelectedObjects:[NSArray arrayWithObject:chrom]];
+    } else {
+        NSBeep();
+    }
 }
 
 - (void)addMassChromatogram:(id)object {
@@ -602,6 +608,15 @@ static void *SpectrumObservationContext = (void *)1102;
 	}
 }
 
+- (IBAction)showChromatogramsTableAction:(id)sender {
+    if ([chromatogramsTableSplitView isCollapsed] || [chromatogramsTableSplitView isHidden]) {
+        [chromatogramsTableSplitView setHidden:NO];
+        [chromatogramsTableSplitView expandWithAnimation];
+    } else {
+        [chromatogramsTableSplitView collapseWithAnimation];
+    }
+}
+
 - (IBAction)showCombinedSpectrumAction:(id)sender {
 	if (showCombinedSpectrum) {
 		[self setShowCombinedSpectrum:NO];
@@ -657,6 +672,14 @@ static void *SpectrumObservationContext = (void *)1102;
 	id preset = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"presets"] objectAtIndex:[sender tag]];
 	if ([preset valueForKey:@"massValue"]) {
 		[[self document] addChromatogramForModel:[preset valueForKey:@"massValue"]];
+        JKChromatogram *chrom = [[self document] chromatogramForModel:[preset valueForKey:@"massValue"]];
+        if (chrom) {
+            [chromatogramsController addSelectedObjects:[NSArray arrayWithObject:chrom]];
+            
+        } else {
+            NSBeep();
+        }
+        
 	} 
 }
 
@@ -705,10 +728,12 @@ static void *SpectrumObservationContext = (void *)1102;
     if (![[self document] performForwardSearchLibraryForPeak:peak]) {
         NSBeep();
     }	
-    
+    [self observeValueForKeyPath:@"selection.searchResults" ofObject:peakController change:nil context:PeaksObservationContext];
+//    [resultsTable reloadData];
 	[NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];
     
 }
+
 #pragma mark -
 
 #pragma mark Key Value Observation
@@ -728,70 +753,51 @@ static void *SpectrumObservationContext = (void *)1102;
         }
         NSArray *peakColorsArray = [peakColors allKeys];
         int peakColorsArrayCount = [peakColorsArray count];
-                
-        if ([[change valueForKey:NSKeyValueChangeKindKey] intValue] == NSKeyValueChangeInsertion) {
-            NSEnumerator *chromatogramEnumerator = [[[[self document] chromatograms] objectsAtIndexes:[change valueForKey:NSKeyValueChangeIndexesKey]] objectEnumerator];
-            JKChromatogram *chromatogram;
-            
-            while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
-                if ((!showTICTrace && !showSelectedChromatogramsOnly && ![[chromatogram model] isEqualToString:@"TIC"]) || 
-                    (!showTICTrace && showSelectedChromatogramsOnly && ([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound)) ||
-                    (showTICTrace && !showSelectedChromatogramsOnly) ||
-                    (showTICTrace && showSelectedChromatogramsOnly && (([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound) || [[chromatogram model] isEqualToString:@"TIC"]))) {
-                        ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
-                    [cgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatogramDataSeries count]%peakColorsArrayCount]]];
-                    [chromatogramDataSeries addObject:cgds];                    
-                }
-            }
-            
-        } else if ([[change valueForKey:NSKeyValueChangeKindKey] intValue] == NSKeyValueChangeRemoval) {
-            NSEnumerator *chromatogramEnumerator = [[[[self document] chromatograms] objectsAtIndexes:[change valueForKey:NSKeyValueChangeIndexesKey]] objectEnumerator];
-            JKChromatogram *chromatogram;
-            
-            while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
-                ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
-                [chromatogramDataSeries removeObject:cgds];
-            }
-                
-        }  else if ([[change valueForKey:NSKeyValueChangeKindKey] intValue] == NSKeyValueChangeReplacement) {
-            [chromatogramDataSeries removeAllObjects];
-            NSEnumerator *chromatogramEnumerator = [[[[self document] chromatograms] objectsAtIndexes:[change valueForKey:NSKeyValueChangeIndexesKey]] objectEnumerator];
-            JKChromatogram *chromatogram;
-            
-            while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
-                if ((!showTICTrace && !showSelectedChromatogramsOnly && ![[chromatogram model] isEqualToString:@"TIC"]) || 
-                    (!showTICTrace && showSelectedChromatogramsOnly && ([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound)) ||
-                    (showTICTrace && !showSelectedChromatogramsOnly) ||
-                    (showTICTrace && showSelectedChromatogramsOnly && (([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound) || [[chromatogram model] isEqualToString:@"TIC"]))) {
+        
+        [chromatogramDataSeries removeAllObjects];
+        NSEnumerator *chromatogramEnumerator = [[[self document] chromatograms] objectEnumerator];
+        JKChromatogram *chromatogram;
+        
+        while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
+            if ([chromatogramsTableSplitView isCollapsed]) {
+                if ( (!showTICTrace && !showSelectedChromatogramsOnly && ![[chromatogram model] isEqualToString:@"TIC"]) || 
+                     (!showTICTrace && showSelectedChromatogramsOnly && ([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound)) ||
+                     (showTICTrace && !showSelectedChromatogramsOnly) ||
+                     (showTICTrace && showSelectedChromatogramsOnly && (([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound) || [[chromatogram model] isEqualToString:@"TIC"])) ) {
+                    
                     ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
                     [cgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatogramDataSeries count]%peakColorsArrayCount]]];
                     [chromatogramDataSeries addObject:cgds];                    
-                }
-            }
-            
-        } else {
-            [chromatogramDataSeries removeAllObjects];
-            NSEnumerator *chromatogramEnumerator = [[[self document] chromatograms] objectEnumerator];
-            JKChromatogram *chromatogram;
-            
-            while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
-                if ((!showTICTrace && !showSelectedChromatogramsOnly && ![[chromatogram model] isEqualToString:@"TIC"]) || 
-                    (!showTICTrace && showSelectedChromatogramsOnly && ([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound)) ||
-                    (showTICTrace && !showSelectedChromatogramsOnly) ||
-                    (showTICTrace && showSelectedChromatogramsOnly && (([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound) || [[chromatogram model] isEqualToString:@"TIC"]))) {
-                        ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+                }                    
+            } else {
+                if ( (!showTICTrace && !showSelectedChromatogramsOnly && ![[chromatogram model] isEqualToString:@"TIC"]) || 
+                     (!showTICTrace && showSelectedChromatogramsOnly && ([[[chromatogramsController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound)) ||
+                     (showTICTrace && !showSelectedChromatogramsOnly) ||
+                     (showTICTrace && showSelectedChromatogramsOnly && (([[[chromatogramsController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound) || [[chromatogram model] isEqualToString:@"TIC"])) ) {
+                    
+                    ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
                     [cgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatogramDataSeries count]%peakColorsArrayCount]]];
                     [chromatogramDataSeries addObject:cgds];                    
-                }
+                }                                        
             }
             
+            //               if ((!showTICTrace && !showSelectedChromatogramsOnly && ![[chromatogram model] isEqualToString:@"TIC"]) || 
+            //                    (!showTICTrace && showSelectedChromatogramsOnly && ([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound)) ||
+            //                    (showTICTrace && !showSelectedChromatogramsOnly) ||
+            //                    (showTICTrace && showSelectedChromatogramsOnly && (([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound) || [[chromatogram model] isEqualToString:@"TIC"]))) {
+            //                    ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+            //                    [cgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatogramDataSeries count]%peakColorsArrayCount]]];
+            //                    [chromatogramDataSeries addObject:cgds];                    
+            //                }
         }
-        [chromatogramView showAll:self];
+        
+        [chromatogramView scaleVertically];
+//        [chromatogramView showAll:self];
         [chromatogramView setNeedsDisplay:YES];
     }
 	if ((((object == peakController) | (object == searchResultsController)) && (([peakController selection] != NSNoSelectionMarker) && ([searchResultsController selection] != NSNoSelectionMarker))) || (context == SpectrumObservationContext)) {
         NSMutableArray *spectrumArray = [NSMutableArray array];
-     
+        
         // Present graphdataseries in colors
         NSColorList *peakColors = [NSColorList colorListNamed:@"Peacock Series"];
         if (peakColors == nil) {
@@ -833,7 +839,7 @@ static void *SpectrumObservationContext = (void *)1102;
         }
         
 		[spectrumDataSeriesController setContent:spectrumArray];
-
+        
         // chromatogramView needs updating to reflect peak selection
 		[chromatogramView setNeedsDisplay:YES];
         
@@ -850,7 +856,7 @@ static void *SpectrumObservationContext = (void *)1102;
 	if ([keyPath hasPrefix:@"metadata"]) {
 		[self synchronizeWindowTitleWithDocumentName];
 	}
-
+    
     if ([[peakController selectedObjects] count] == 1) {
         if ([[[self peakController] valueForKeyPath:@"selection.identified"] boolValue]) {
             [detailsTabView selectTabViewItemWithIdentifier:@"details"];
@@ -861,7 +867,7 @@ static void *SpectrumObservationContext = (void *)1102;
             if ([[searchResultsController selectedObjects] count] == 1) {
                 NSString *molString = [[[[self searchResultsController] selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.molString"];
                 if ((molString) && (![molString isEqualToString:@""])) {
-//                    [moleculeView setModel:[[[JKMoleculeModel alloc] initWithMoleculeString:molString] autorelease]];
+                    //                    [moleculeView setModel:[[[JKMoleculeModel alloc] initWithMoleculeString:molString] autorelease]];
                     [moleculeSplitSubview setNeedsDisplay:YES];
                     [moleculeSplitSubview setHidden:NO];
                     [moleculeSplitSubview expandWithAnimation:YES withResize:NO];                                
@@ -891,7 +897,7 @@ static void *SpectrumObservationContext = (void *)1102;
                 [resultsTableScrollView setHidden:NO];
                 [confirmLibraryHitButton setHidden:NO];
                 [discardLibraryHitButton setHidden:NO];
-          
+                
                 if ([[searchResultsController selectedObjects] count] == 1) {
                     NSString *molString = [[[[self searchResultsController] selectedObjects] objectAtIndex:0] valueForKeyPath:@"libraryHit.molString"];
                     if ((molString) && (![molString isEqualToString:@""])) {
@@ -908,8 +914,8 @@ static void *SpectrumObservationContext = (void *)1102;
             [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
         }
     } else {
-            [detailsSplitSubview collapseWithAnimation:YES withResize:NO];
-            [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
+        [detailsSplitSubview collapseWithAnimation:YES withResize:NO];
+        [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
     }
 }
 #pragma mark -
@@ -918,6 +924,26 @@ static void *SpectrumObservationContext = (void *)1102;
 - (void)splitView:(RBSplitView*)sender didCollapse:(RBSplitSubview*)subview {
     if ((subview == detailsSplitSubview) || (subview == moleculeSplitSubview)) {
         [self performSelector:@selector(hideSubView:) withObject:subview afterDelay:0.0];
+    } 
+    if (subview == chromatogramsTableSplitView) {
+        [self performSelector:@selector(hideSubView:) withObject:subview afterDelay:0.0];
+        [chromatogramsController setSelectedObjects:[chromatogramsController arrangedObjects]];
+    }
+}
+- (void)splitView:(RBSplitView*)sender didExpand:(RBSplitSubview*)subview {
+    if (subview == chromatogramsTableSplitView) {
+        if ([[peakController selectedObjects] count] > 0) {
+            NSMutableArray *chromsToSelect = [NSMutableArray array];
+            NSEnumerator *peakEnum = [[peakController selectedObjects] objectEnumerator];
+            JKPeakRecord *peak;
+            while ((peak = [peakEnum nextObject]) != nil) {
+                [chromsToSelect addObject:[[self document] chromatogramForModel:[peak model]]];
+            }
+            [chromatogramsController setSelectedObjects:chromsToSelect];            
+        } else {
+            [chromatogramsController setSelectedObjects:[NSArray arrayWithObject:[[self document] ticChromatogram]]];
+        }
+        
     }
 }
 
@@ -1194,6 +1220,13 @@ static void *SpectrumObservationContext = (void *)1102;
 		return YES;
 	} else if ([anItem action] == @selector(showSelectedChromatogramsOnlyAction:)) {
 		if (showSelectedChromatogramsOnly) {
+			[anItem setState:NSOnState];
+		} else {
+			[anItem setState:NSOffState];
+		}
+		return YES;
+	} else if ([anItem action] == @selector(showChromatogramsTableAction:)) {
+		if (![chromatogramsTableSplitView isCollapsed]) {
 			[anItem setState:NSOnState];
 		} else {
 			[anItem setState:NSOffState];

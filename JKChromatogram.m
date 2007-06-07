@@ -214,7 +214,7 @@
 	int i, j, answer;
 	int start, end, top;
     float maximumIntensity;
-    NSMutableArray *newPeaks;
+    NSMutableArray *newPeaks = [self peaks];
     
     if ([[self peaks] count] > 0) {
         answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete current peaks?",@""),NSLocalizedString(@"Peaks that are already identified could cause doublures. It's recommended to delete the current peaks.",@""),NSLocalizedString(@"Delete",@""),NSLocalizedString(@"Cancel",@""),NSLocalizedString(@"Keep",@""));
@@ -237,10 +237,8 @@
     // Some initial settings
     maximumIntensity = [self maxTotalIntensity];
     float peakIdentificationThresholdF = [[[self document] peakIdentificationThreshold] floatValue];
-    
     for (i = 1; i < numberOfPoints; i++) {
         if (totalIntensity[i]/[self baselineValueAtScan:i] > (1.0 + peakIdentificationThresholdF)){
-            
             // determine: high, start, end
             // start
             for (j=i; totalIntensity[j] > totalIntensity[j-1]; j--) {
@@ -270,14 +268,14 @@
             if (end >= numberOfPoints-1) end = numberOfPoints-1; // Don't go outside bounds!
             
             if ((top != start && top != end) && ((totalIntensity[top] - [self baselineValueAtScan:top])/maximumIntensity > peakIdentificationThresholdF)) { // Sanity check
-                [newPeaks addObject:[self peakFromScan:start toScan:end]];
+                JKPeakRecord *newPeak = [self peakFromScan:start toScan:end];
+                [newPeaks addObject:newPeak];
             }
             
             // Continue looking for peaks from end of this peak
             i = end;			
         }
     }
-    
     [self setPeaks:newPeaks];
 }
 
@@ -468,7 +466,86 @@
     }
     [self setPeaks:peaksToSave];
 }
+#pragma mark -
 
+#pragma mark Sorting
+- (NSArray *)mzValues {
+    int i,j,mzValuesCount;
+    
+    if (![self model] || [[self model] isEqualToString:@""]) {
+        return nil;
+    }
+
+    NSMutableArray *mzValues = [NSMutableArray array];
+    NSString *theModel = [[self model] stringByTrimmingCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+"] invertedSet]];
+	NSArray *mzValuesPlus = [theModel componentsSeparatedByString:@"+"];
+	NSArray *mzValuesMin = nil;
+    NSNumber *minimumScannedMassRange = [[self document] minimumScannedMassRange];
+    NSNumber *maximumScannedMassRange = [[self document] maximumScannedMassRange];
+	for (i = 0; i < [mzValuesPlus count]; i++) {
+		mzValuesMin = [[mzValuesPlus objectAtIndex:i] componentsSeparatedByString:@"-"];
+		if ([mzValuesMin count] > 1) {
+			if ([[mzValuesMin objectAtIndex:0] intValue] < [[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]) {
+				for (j = (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j <= (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j++) {
+                    if ((j >= [minimumScannedMassRange intValue]) && (j <= [maximumScannedMassRange intValue])) {
+                        [mzValues addObject:[NSNumber numberWithInt:j]];                        
+                    }
+				}
+			} else {
+				for (j = (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j <= (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j++) {
+                    if ((j >= [minimumScannedMassRange intValue]) && (j <= [maximumScannedMassRange intValue])) {
+                        [mzValues addObject:[NSNumber numberWithInt:j]];
+                    }
+				}
+			}
+		} else {
+            j = [[mzValuesMin objectAtIndex:0] intValue];
+            if ((j >= [minimumScannedMassRange intValue]) && (j <= [maximumScannedMassRange intValue])) {
+                [mzValues addObject:[NSNumber numberWithInt:j]];
+            }
+		}
+	}
+    if ([mzValues count] < 1) {
+        return nil;
+    } 
+	// Short mzValues
+    mzValues = [[mzValues sortedArrayUsingFunction:intSort context:NULL] mutableCopy];
+    return [mzValues autorelease];
+}
+
+- (NSComparisonResult)sortOrderComparedTo:(JKChromatogram *)otherChromatogram
+{
+    if ([[self document] modelString:[self model] isEqualToString:[otherChromatogram model]]) {
+        return NSOrderedSame;
+    }
+    if ([[self model] isEqualToString:@""]) {
+        return NSOrderedDescending;
+    }
+    if ([[otherChromatogram model] isEqualToString:@""]) {
+        return NSOrderedAscending;
+    }
+    
+    NSArray *mzValuesSelf = [self mzValues];
+    NSArray *mzValuesOther = [otherChromatogram mzValues];
+    int i, count = [mzValuesSelf count];
+    if ([mzValuesOther count] < count) {
+        count = [mzValuesOther count];
+    }
+	for (i = 0; i < count; i++) {
+        if ([[mzValuesSelf objectAtIndex:i] intValue] > [[mzValuesOther objectAtIndex:i] intValue]) {
+            return NSOrderedDescending;
+        } else if ([[mzValuesSelf objectAtIndex:i] intValue] < [[mzValuesOther objectAtIndex:i] intValue]) {
+            return NSOrderedAscending;
+        }
+    }
+    if ([mzValuesSelf count] < [mzValuesOther count]) {
+        return NSOrderedAscending;
+    } else if ([mzValuesSelf count] > [mzValuesOther count]) {
+        return NSOrderedDescending;
+    } else {
+        return NSOrderedSame;
+    }
+}
 #pragma mark -
 
 #pragma mark NSCoding
@@ -650,18 +727,21 @@
 
 - (void)setPeaks:(NSMutableArray *)inValue {
     [[self container] willChangeValueForKey:@"peaks"];
-    [inValue retain];
-    [peaks release];
-    NSEnumerator *peakEnum = [peaks objectEnumerator];
+    NSEnumerator *peakEnum;
     JKPeakRecord *peak;
-    
-    while ((peak = [peakEnum nextObject]) != nil) {
-    	[peak setContainer:nil];
+    if (inValue != peaks) {
+        [inValue retain];
+        [peaks release];
+   
+        peakEnum = [peaks objectEnumerator];
+        while ((peak = [peakEnum nextObject]) != nil) {
+            [peak setContainer:nil];
+        }
+        
+        peaks = inValue;
     }
     
-    peaks = inValue;
-    peakEnum = [peaks objectEnumerator];
-
+    peakEnum = [peaks objectEnumerator];        
     while ((peak = [peakEnum nextObject]) != nil) {
     	[peak setContainer:self];
     }

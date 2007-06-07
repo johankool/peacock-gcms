@@ -28,6 +28,7 @@
                 searchMissingPeaks = id; 
                 searchOptions = id; 
                 showAll = id; 
+                showChromatogramsTableAction = id; 
                 showCombinedSpectrumAction = id; 
                 showInspector = id; 
                 showLibraryHitAction = id; 
