@@ -36,7 +36,7 @@
 	NSString *comment;		// ##$COMMENT=
 	NSString *molString;	// ##$MOLSTRING=
 	NSString *symbol;		// ##$SYMBOL=
-	NSString *modelChr;		// ##$MODEL=
+//	NSString *model;		// ##$MODEL=
 	NSString *group;        // ##$GROUP=
     NSString *library;       // ##$LIBRARY=
 	//int numberOfPoints;		// ##NPOINTS=
@@ -69,7 +69,7 @@ idAccessor_h(source, setSource)
 idAccessor_h(comment, setComment)
 idAccessor_h(molString, setMolString)
 idAccessor_h(symbol, setSymbol)
-idAccessor_h(modelChr, setModelChr)
+idAccessor_h(model, setModel)
 idAccessor_h(group, setGroup)
 idAccessor_h(synonyms, setSynonyms)
 idAccessor_h(library, setLibrary)

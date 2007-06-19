@@ -262,9 +262,9 @@
 		if ([theScanner scanString:@"##$MODEL=" intoString:NULL]) {
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
-			modelChr = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
+			model = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
-            modelChr = [[NSString alloc] init];
+            model = [[NSString alloc] init];
         }
         
         // GROUP
@@ -443,7 +443,6 @@
     [comment release];		
     [molString release];	
     [symbol release];		
-    [modelChr release];		
     [group release];     
     [super dealloc];
 }
@@ -500,8 +499,8 @@
 		[outStr appendFormat:@"##$MOLSTRING= %@\r\n", [self molString]];
 	if ([[self symbol] isNotEqualTo:@""])
 		[outStr appendFormat:@"##$SYMBOL= %@\r\n", [self symbol]];
-	if ([[self modelChr] isNotEqualTo:@""])
-		[outStr appendFormat:@"##$MODEL= %@\r\n", [self modelChr]];
+	if ([[self model] isNotEqualTo:@""])
+		[outStr appendFormat:@"##$MODEL= %@\r\n", [self model]];
 	if ([[self group] isNotEqualTo:@""])
 		[outStr appendFormat:@"##$GROUP= %@\r\n", [self group]];
 	if ([[self synonyms] isNotEqualTo:@""])
@@ -564,7 +563,7 @@
 	return [NSNumber numberWithFloat:[atom calculateWeight]];
 }
 
-- (NSString *)model {
+- (NSString *)legendEntry {
     return [NSString stringWithFormat:NSLocalizedString(@"Library Entry '%@'",@""),[self name]];
 }
 
@@ -590,7 +589,7 @@ idUndoAccessor(source, setSource, @"Change Source")
 idUndoAccessor(comment, setComment, @"Change Comment")
 idUndoAccessor(molString, setMolString, @"Change Mol String")
 idUndoAccessor(symbol, setSymbol, @"Change Symbol")
-idUndoAccessor(modelChr, setModelChr, @"Change Model")
+idUndoAccessor(model, setModel, @"Change Model")
 idUndoAccessor(group, setGroup, @"Change Group")
 idUndoAccessor(synonyms, setSynonyms, @"Change Synonyms")
 idAccessor(library, setLibrary)

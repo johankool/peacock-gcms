@@ -228,7 +228,8 @@
 				[self setMassWeight:[self calculateMassWeight:[self formula]]];
 			}
 		} else {
-			[self setMassWeight:[self calculateMassWeight:[self formula]]];
+            if ([self formula])
+                [self setMassWeight:[self calculateMassWeight:[self formula]]];
 		}	
 
 		// RI
@@ -283,7 +284,7 @@
 		if ([theScanner scanString:@"##$MODEL=" intoString:NULL]) {
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
-			[self setModelChr:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+			[self setModel:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
 		} else {
         }
         
@@ -477,8 +478,8 @@
 		[outStr appendFormat:@"##$MOLSTRING= %@\r\n", [self molString]];
 	if ([[self symbol] isNotEqualTo:@""])
 		[outStr appendFormat:@"##$SYMBOL= %@\r\n", [self symbol]];
-	if ([[self modelChr] isNotEqualTo:@""])
-		[outStr appendFormat:@"##$MODEL= %@\r\n", [self modelChr]];
+	if ([[self model] isNotEqualTo:@""])
+		[outStr appendFormat:@"##$MODEL= %@\r\n", [self model]];
 	if ([[self group] isNotEqualTo:@""])
 		[outStr appendFormat:@"##$GROUP= %@\r\n", [self group]];
 	if ([[self synonyms] isNotEqualTo:@""])
@@ -543,7 +544,7 @@
 	return [NSNumber numberWithFloat:[atom calculateWeight]];
 }
 
-- (NSString *)model {
+- (NSString *)legendEntry {
     return [NSString stringWithFormat:NSLocalizedString(@"Library Entry '%@'",@""),[self name]];
 }
 
@@ -840,19 +841,19 @@
     [self didChangeValueForKey:@"symbol"];
 }
 
-- (NSString *)modelChr
+- (NSString *)model
 {
-    [self willAccessValueForKey:@"modelChr"];
-    NSString *n = [self primitiveValueForKey:@"modelChr"];
-    [self didAccessValueForKey:@"modelChr"];
+    [self willAccessValueForKey:@"model"];
+    NSString *n = [self primitiveValueForKey:@"model"];
+    [self didAccessValueForKey:@"model"];
     return n;
 }
 
-- (void)setModelChr:(NSString *)newmodelChr
+- (void)setModel:(NSString *)newmodel
 {
-    [self willChangeValueForKey:@"modelChr"];
-    [self setPrimitiveValue:newmodelChr forKey:@"modelChr"];
-    [self didChangeValueForKey:@"modelChr"];
+    [self willChangeValueForKey:@"model"];
+    [self setPrimitiveValue:newmodel forKey:@"model"];
+    [self didChangeValueForKey:@"model"];
 }
 
 - (NSString *)group

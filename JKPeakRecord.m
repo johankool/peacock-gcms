@@ -12,9 +12,11 @@
 #import "JKChromatogram.h"
 #import "JKGCMSDocument.h"
 #import "JKLibraryEntry.h"
+#import "JKManagedLibraryEntry.h"
 #import "JKSearchResult.h"
 #import "JKSpectrum.h"
 #import "jk_statistics.h"
+
 
 @implementation JKPeakRecord
 
@@ -80,11 +82,34 @@ NSString *GetUUID(void) {
     [super dealloc];
 }
 
+-(JKLibraryEntry *)libraryEntryRepresentation
+{
+    JKLibraryEntry *libEntry = [[JKLibraryEntry alloc] init];
+    [libEntry setName:[self label]];
+    [libEntry setModel:[self model]];
+    [libEntry setPeakTable:[[self spectrum] peakTable]];
+    [libEntry setOwner:[NSString stringWithFormat:@"%@",NSFullUserName()]];
+    [libEntry setSource:[[self document] displayName]];
+    [libEntry setRetentionIndex:[self retentionIndex]];
+    JKLogDebug([libEntry jcampString]);
+    return [libEntry autorelease];
+}
+
 #pragma mark ACTIONS
 
 - (BOOL)confirm{
     BOOL result;
     int answer;
+    if (![[self document] modelString:[[self chromatogram] model] isEqualToString:[[identifiedSearchResult libraryHit] model]] && ![[[identifiedSearchResult libraryHit] model] isEqualToString:@""] && identifiedSearchResult) {   
+        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Model mismatch occurred",@""), NSLocalizedString(@"The model of the peak is different from the library entry. Are you sure you want to assign this library entry to this peak?",@""), NSLocalizedString(@"Assign",@""), NSLocalizedString(@"Cancel",@""),nil);
+        if (answer == NSOKButton) {
+            // Continue
+        } else if (answer == NSCancelButton) {
+            // Cancel
+            return NO;
+        }     
+    }
+    
     // check if there is already a peak with the same label
     if ([[[self chromatogram] document] hasPeakConfirmedAs:[identifiedSearchResult libraryHit] notBeing:self]) {
         answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Library hit already assigned",@""),NSLocalizedString(@"There is already a confirmed peak with the same library hit. Usually only one peak should be assigned to a library entry. What action do you want to take?",@""), NSLocalizedString(@"Assign to This Peak Only",@""), NSLocalizedString(@"Cancel",@""), NSLocalizedString(@"Assign to Both Peaks",@""));
@@ -98,7 +123,7 @@ NSString *GetUUID(void) {
             // Assign to Both Peaks
         }        
     }
-    
+        
     // check if other peak with same top scan and offer to delete those
     if ([[[self chromatogram] document] hasPeakAtTopScan:[self top] notBeing:self]) {
         answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Remove peaks in other models?",@""), NSLocalizedString(@"One or more peaks with the same top scan were found in other models. Most likely you want to identify and confirm a peak in one model only. Do you want to remove the peaks in the other models?",@""), NSLocalizedString(@"Delete",@""), NSLocalizedString(@"Keep",@""),nil);
@@ -133,10 +158,16 @@ NSString *GetUUID(void) {
         return YES;
 	} else {
         // Allow this to mark a peak as confirmed with having the proper library entry
-        result = [[NSApp delegate] addLibraryEntryBasedOnPeak:self];
-        if (result) {
-            [self setIdentified:YES];
-            [self setConfirmed:YES]; 
+        JKManagedLibraryEntry *managedLibEntry = [[NSApp delegate] addLibraryEntryBasedOnPeak:self];
+        if (managedLibEntry) {
+            result = [self identifyAsLibraryEntry:[JKLibraryEntry libraryEntryWithJCAMPString:[managedLibEntry jcampString]]];
+            if (result) {
+                [self setIdentified:YES];
+                [self setConfirmed:YES]; 
+                [searchResults setArray:[NSArray arrayWithObject:identifiedSearchResult]];                    
+            }
+        } else {
+            return NO;
         }
         return result;
 //        JKLogWarning(@"Peak with label '%@' was confirmed without being identified first.", [self label]);
@@ -154,17 +185,6 @@ NSString *GetUUID(void) {
 
 - (BOOL)identifyAsLibraryEntry:(JKLibraryEntry *)aLibraryEntry
 {
-    int answer;
-    if (![[self document] modelString:[[self chromatogram] model] isEqualToString:[aLibraryEntry modelChr]] && ![[aLibraryEntry modelChr] isEqualToString:@""]) {   
-        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Model mismatch occurred",@""), NSLocalizedString(@"The model of the peak is different from the library entry that you are assigning to it. Are you sure you want to identify this peak using this library entr?",@""), NSLocalizedString(@"Continue",@""), NSLocalizedString(@"Cancel",@""),nil);
-        if (answer == NSOKButton) {
-            // Continue
-        } else if (answer == NSCancelButton) {
-            // Cancel
-            return NO;
-        }     
-        
-    }
     [self willChangeValueForKey:@"libraryHit"];
     JKSearchResult *searchResult = [[JKSearchResult alloc] init];
     [searchResult setPeak:self];
@@ -194,7 +214,7 @@ NSString *GetUUID(void) {
 
 - (BOOL)addSearchResultForLibraryEntry:(JKLibraryEntry *)aLibraryEntry
 {
-    if ([[self document] modelString:[[self chromatogram] model] isEqualToString:[aLibraryEntry modelChr]]) {        
+    if ([[self document] modelString:[[self chromatogram] model] isEqualToString:[aLibraryEntry model]]) {        
         [self willChangeValueForKey:@"searchResults"];
         JKSearchResult *searchResult = [[JKSearchResult alloc] init];
         [searchResult setPeak:self];
@@ -209,17 +229,6 @@ NSString *GetUUID(void) {
 }
 
 - (BOOL)identifyAs:(JKSearchResult *)searchResult{
-    int answer;
-    if (![[self document] modelString:[[self chromatogram] model] isEqualToString:[[searchResult libraryHit] modelChr]] && ![[[searchResult libraryHit] modelChr] isEqualToString:@""]) {   
-        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Model mismatch occurred",@""), NSLocalizedString(@"The model of the peak is different from the library entry that you are assigning to it. Are you sure you want to identify this peak using this library entr?",@""), NSLocalizedString(@"Continue",@""), NSLocalizedString(@"Cancel",@""),nil);
-        if (answer == NSOKButton) {
-            // Continue
-        } else if (answer == NSCancelButton) {
-            // Cancel
-            return NO;
-        }     
-        
-    }
     [self willChangeValueForKey:@"libraryHit"];
     [self setIdentifiedSearchResult:searchResult];
     // Initial default settings after identification, but can be customized by user later on

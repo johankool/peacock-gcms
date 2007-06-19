@@ -495,9 +495,9 @@
     }
 }
 
-- (void)setValue:(id)value forUndefinedKey:(NSString *)key {
-    NSLog(@"%@: %@", key, value);
-}
+//- (void)setValue:(id)value forUndefinedKey:(NSString *)key {
+//    NSLog(@"%@: %@", key, value);
+//}
 
 - (NSObjectController *)moleculeStringContainer{
     return moleculeStringContainer; 

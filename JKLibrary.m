@@ -398,7 +398,9 @@
     }
     
     NSString *searchTemplateString = [searchTemplateDict valueForKey:@"searchTemplate"];
-    
+    if (!searchTemplateString) {
+        return NO;
+    }
     if ([searchTemplateString rangeOfString:@"$"].location == NSNotFound) {
         return NO;
     } else {
@@ -422,7 +424,7 @@
         return nil;
     
     NSString *searchTemplateString = [searchTemplate valueForKey:@"searchTemplate"];
-    NSLog(@"%@: %@",searchTemplateName, searchTemplateString);
+    JKLogDebug(@"%@: %@",searchTemplateName, searchTemplateString);
     
     // Substitute values for targetSpectrum
     NSPredicate *predicate = [NSPredicate predicateWithFormat:searchTemplateString];
@@ -439,7 +441,7 @@
 {
 	NSManagedObjectContext *moc = [self managedObjectContext];
 //    NSAssert([[moc registeredObjects] count] > 0, @"No registeredObjects in managedObjectContext?!");
-    NSLog(@"%d registeredObjects in managedObjectContext?!",[[moc registeredObjects] count]);
+//    NSLog(@"%d registeredObjects in managedObjectContext?!",[[moc registeredObjects] count]);
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"JKManagedLibraryEntry" inManagedObjectContext:moc];
     NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
     [request setEntity:entityDescription];
@@ -460,7 +462,7 @@
     if (array == nil)
     {
         // Deal with error...
-        NSLog(@"nolibraryEntries");
+        JKLogError(@"No library entries were found.");
         [self willPresentError:error];
     }
     [error release];

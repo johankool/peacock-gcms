@@ -10,6 +10,7 @@
 
 #import "BDAlias.h"
 #import "ChromatogramGraphDataSerie.h"
+#import "JKAppDelegate.h"
 #import "JKChromatogram.h"
 #import "JKDataModelProxy.h"
 #import "JKLibrary.h"
@@ -130,13 +131,16 @@ int const JKGCMSDocument_Version = 7;
 
 - (NSFileWrapper *)fileWrapperRepresentationOfType:(NSString *)aType {
 	if ([aType isEqualToString:@"Peacock File"]) {
+        NSDate *date = [NSDate date];
 		NSMutableData *data;
 		NSKeyedArchiver *archiver;
 		data = [NSMutableData data];
 		archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
         [archiver setDelegate:self];
+//        JKLogDebug(@"Saving time 1: %g", [date timeIntervalSinceNow]);
 		[archiver encodeInt:JKGCMSDocument_Version forKey:@"version"];
  		[archiver encodeObject:[self chromatograms] forKey:@"chromatograms"];
+//        JKLogDebug(@"Saving time 2: %g", [date timeIntervalSinceNow]);
 //		[archiver encodeObject:[self peaks] forKey:@"peaks"];
 		[archiver encodeObject:[self metadata] forKey:@"metadata"];		
 		[archiver encodeObject:baselineWindowWidth forKey:@"baselineWindowWidth"];
@@ -157,22 +161,28 @@ int const JKGCMSDocument_Version = 7;
 		[archiver encodeObject:[self minimumScoreSearchResults] forKey:@"minimumScoreSearchResults"];
 		[archiver encodeObject:[self minimumScannedMassRange] forKey:@"minimumScannedMassRange"];
 		[archiver encodeObject:[self maximumScannedMassRange] forKey:@"maximumScannedMassRange"];
-		
+//        JKLogDebug(@"Saving time 3: %g", [date timeIntervalSinceNow]);
+
 		[archiver finishEncoding];
+//        JKLogDebug(@"Saving time 4: %g", [date timeIntervalSinceNow]);
 		[archiver release];
 		
 		if (peacockFileWrapper) {
 			// This is when we save back to a peacock file
+//            JKLogDebug(@"Saving time 5b: %g", [date timeIntervalSinceNow]);
 
 			[peacockFileWrapper removeFileWrapper:[[peacockFileWrapper fileWrappers] valueForKey:@"peacock-data"]];
 			NSFileWrapper *fileWrapperForData = [[NSFileWrapper alloc] initRegularFileWithContents:data];
 			[fileWrapperForData setPreferredFilename:@"peacock-data"];
 			[peacockFileWrapper addFileWrapper:fileWrapperForData];
+//            JKLogDebug(@"Saving time 6b: %g", [date timeIntervalSinceNow]);
 
 			// NetCDF file should not have changed!
 			
 		} else {
 			// First time save to a peacock file
+//            JKLogDebug(@"Saving time 5a: %g", [date timeIntervalSinceNow]);
+
 			NSMutableDictionary *fileWrappers = [[NSMutableDictionary alloc] init];
 				
 			NSFileWrapper *fileWrapperForData = [[NSFileWrapper alloc] initRegularFileWithContents:data];
@@ -180,14 +190,17 @@ int const JKGCMSDocument_Version = 7;
 			NSAssert(fileWrapperForData != nil, @"fileWrapperForData = nil!");
 			[fileWrapperForData setPreferredFilename:@"peacock-data"];
 			[fileWrappers setObject:fileWrapperForData forKey:@"peacock-data"];	
+//            JKLogDebug(@"Saving time 6a: %g", [date timeIntervalSinceNow]);
 
 			NSFileWrapper *fileWrapperForNetCDF = [[NSFileWrapper alloc] initWithPath:absolutePathToNetCDF];
             NSAssert(fileWrapperForNetCDF != nil, @"fileWrapperForNetCDF = nil!");
 			[fileWrapperForNetCDF setPreferredFilename:@"netcdf"];
 			[fileWrappers setObject:fileWrapperForNetCDF forKey:@"netcdf"];		
-			
+ //           JKLogDebug(@"Saving time 7a: %g", [date timeIntervalSinceNow]);
+
 			peacockFileWrapper = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:fileWrappers];			
 		}
+//        JKLogDebug(@"Saving time 8: %g", [date timeIntervalSinceNow]);
 
 		return peacockFileWrapper;	
 		
@@ -869,11 +882,13 @@ int intSort(id num1, id num2, void *context)
     // Get library entries
     [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:NSLocalizedString(@"Fetching Library Entries",@"") waitUntilDone:NO];
     
-    JKLibrary *aLibrary = [[NSApp delegate] library];
+    JKLibrary *aLibrary = [[NSApp delegate] libraryForConfiguration:[self libraryConfiguration]];
     refetchNeeded = [aLibrary requiresObjectForPredicateForSearchTemplate:[self searchTemplate]];
     if (!refetchNeeded) {
-        NSString *selectedSearchTemplate = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"selectedSearchTemplate"];
-        libraryEntries = [aLibrary libraryEntriesWithPredicate:[aLibrary predicateForSearchTemplate:[self searchTemplate] andObject:nil]];        
+        libraryEntries = [aLibrary libraryEntriesWithPredicate:[aLibrary predicateForSearchTemplate:[self searchTemplate] andObject:nil]];  
+        if (!libraryEntries) {
+            return NO;
+        }
         entriesCount = [libraryEntries count];
     }    
 
@@ -891,11 +906,14 @@ int intSort(id num1, id num2, void *context)
             peak = [[chromatogramToSearch peaks] objectAtIndex:k];
             if (refetchNeeded) {
                 libraryEntries = [aLibrary libraryEntriesWithPredicate:[aLibrary predicateForSearchTemplate:[self searchTemplate] andObject:peak]];
+                if (!libraryEntries) {
+                    continue;
+                }                
                 entriesCount = [libraryEntries count];                
             }
             for (j = 0; j < entriesCount; j++) {
                 libraryEntry = [libraryEntries objectAtIndex:j];
-//                libraryEntryModel = [libraryEntry modelChr];
+//                libraryEntryModel = [libraryEntry model];
 //                if ([libraryEntryModel isEqualToString:[chromatogramToSearch model]]) {
 //                    chromatogramToSearch = [someChromatograms objectAtIndex:l];
 //                } else if ([libraryEntryModel isEqualToString:@""] && [[chromatogramToSearch model] isEqualToString:@"TIC"]) {
@@ -964,7 +982,7 @@ int intSort(id num1, id num2, void *context)
 	// Get library entries
     [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:NSLocalizedString(@"Fetching Library Entries",@"") waitUntilDone:NO];
 
-    JKLibrary *aLibrary = [[NSApp delegate] library];
+    JKLibrary *aLibrary = [[NSApp delegate] libraryForConfiguration:[self libraryConfiguration]];
     libraryEntries = [aLibrary libraryEntriesWithPredicate:[aLibrary predicateForSearchTemplate:[self searchTemplate] andObject:aPeak]];
 
     if (!libraryEntries) {
@@ -1001,8 +1019,6 @@ int intSort(id num1, id num2, void *context)
 }
 
 - (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms {
- 	int answer;
-    
     NSProgressIndicator *progressIndicator = nil;
     NSTextField *progressText = nil;
     
@@ -1015,7 +1031,7 @@ int intSort(id num1, id num2, void *context)
 	[progressIndicator setIndeterminate:YES];
 	[progressIndicator startAnimation:self];
     	
-    JKLibrary *aLibrary = [[NSApp delegate] library];
+    JKLibrary *aLibrary = [[NSApp delegate] libraryForConfiguration:[self libraryConfiguration]];
     BOOL requiresObject = [aLibrary requiresObjectForPredicateForSearchTemplate:[self searchTemplate]];
     if (requiresObject) {
         JKLogWarning(@"Backward search is not possible with search template depending on peak.");
@@ -1023,6 +1039,10 @@ int intSort(id num1, id num2, void *context)
     }
     
     NSArray *libraryEntries = [aLibrary libraryEntriesWithPredicate:[aLibrary predicateForSearchTemplate:[self searchTemplate] andObject:nil]];
+    if (!libraryEntries) {
+        return NO;
+    }
+    
     return [self performBackwardSearchForChromatograms:someChromatograms withLibraryEntries:libraryEntries maximumRetentionIndexDifference:[[self maximumRetentionIndexDifference] floatValue]];
     
 }
@@ -1067,7 +1087,7 @@ int intSort(id num1, id num2, void *context)
         libraryEntry = [libraryEntries objectAtIndex:j]; // can also be a spectrum!!
         if ([libraryEntry isKindOfClass:[JKLibraryEntry class]]) {
             [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Library Entry '%@'",@""),[libraryEntry name]] waitUntilDone:NO];            
-            libraryEntryModel = [self cleanupModelString:[libraryEntry modelChr]];
+            libraryEntryModel = [self cleanupModelString:[libraryEntry model]];
         } else {
             [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Spectrum  '%@'",@""),[libraryEntry model]] waitUntilDone:NO];                        
             libraryEntryModel = [libraryEntry model];
@@ -1109,11 +1129,16 @@ int intSort(id num1, id num2, void *context)
         }
         if ([chromatogramToSearch baselinePointsCount] == 0) {              
             [newChromatograms addObject:chromatogramToSearch];
-            [chromatogramToSearch obtainBaseline];                          
         }
-        if ([[chromatogramToSearch peaks] count] == 0) {
-            [chromatogramToSearch identifyPeaks];                          
-        }
+#warning MESSED WITH THIS PART!!!
+        [self setBaselineDistanceThreshold:[NSNumber numberWithFloat:0.01f]];
+        [self setBaselineSlopeThreshold:[NSNumber numberWithFloat:0.01f]];
+        [self setPeakIdentificationThreshold:[NSNumber numberWithFloat:0.03f]];
+        [chromatogramToSearch obtainBaseline];                          
+//        if ([[chromatogramToSearch peaks] count] == 0) {
+//            [chromatogramToSearch identifyPeaks];                          
+//        }
+        [chromatogramToSearch identifyPeaksWithForce:YES];                          
         if ([[chromatogramToSearch peaks] count] == 0) {
             JKLogError(@"No peaks found for chromatogram with model '%@'. bls: %d", [chromatogramToSearch model],[chromatogramToSearch baselinePointsCount]);                        
         }
@@ -1468,31 +1493,33 @@ int intSort(id num1, id num2, void *context)
 
 - (int)nextPeakID 
 {
-    NSArray *peaks = [self peaks];
-    int i, j, count = [peaks count];
-    BOOL found;
-    
-    for (j=1; j < count+1; j++) {
-        found = NO;
-        for (i=0; i<count; i++) {
-            if ([[peaks objectAtIndex:i] peakID] == j) {
-                found = YES;
-            }
-        }
-        if (!found) {
-            if (_lastReturnedIndex != j) {
-                _lastReturnedIndex = j;
-               return j; 
-            }
-
-        }
-    }
-    j = count+1;
-    if (_lastReturnedIndex == j) {
-        j = _lastReturnedIndex+1;
-    }
-    _lastReturnedIndex = j;
-    return j;
+//    NSArray *peaks = [self peaks];
+//    int i, j, count = [peaks count];
+//    BOOL found;
+//    
+//    for (j=1; j < count+1; j++) {
+//        found = NO;
+//        for (i=0; i<count; i++) {
+//            if ([[peaks objectAtIndex:i] peakID] == j) {
+//                found = YES;
+//            }
+//        }
+//        if (!found) {
+//            if (_lastReturnedIndex != j) {
+//                _lastReturnedIndex = j;
+//               return j; 
+//            }
+//
+//        }
+//    }
+//    j = count+1;
+//    if (_lastReturnedIndex == j) {
+//        j = _lastReturnedIndex+1;
+//    }
+//    _lastReturnedIndex = j;
+//    return j;
+    _lastReturnedIndex++;
+    return _lastReturnedIndex;
 }
 #pragma mark -
 
@@ -1514,6 +1541,72 @@ int intSort(id num1, id num2, void *context)
 	[[undo prepareWithInvocationTarget:self] changeKeyPath:keyPath ofObject:object toValue:oldValue];
 	
 	[undo setActionName:@"Edit"];
+}
+#pragma mark -
+
+#pragma mark InfoTable Datasource Protocol
+- (int)numberOfRowsInTableView:(NSTableView *)tableView {
+    int dummy, count;
+    dummy =  nc_inq_natts([self ncid], &count);
+    if (dummy == NC_NOERR) return count + [[self metadata] count];
+    return [[self metadata] count];			
+}
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
+    int dummy;
+    NSMutableString *nameString, *keyString;
+    
+    if (row < [[self metadata] count]) {
+        nameString = [[[[self metadata] allKeys] objectAtIndex:row] mutableCopy];
+        keyString = [[[self metadata] valueForKey:nameString] mutableCopy];
+
+    } else {
+        row = row - [[self metadata] count];
+
+        char name[256];
+        char value[256];
+        
+        dummy =  nc_inq_attname ([self ncid],NC_GLOBAL, row, (void *) &name);
+        dummy =  nc_get_att_text([self ncid],NC_GLOBAL, name, (void *) &value);
+        
+        nameString = [NSMutableString stringWithCString:name];
+        keyString = [NSMutableString stringWithCString:value];
+    }
+    
+    if ([[tableColumn identifier] isEqualToString:@"name"]) {
+        // We need to replace "_" with " "
+        dummy = [nameString replaceOccurrencesOfString:@"_" withString:@" " options:NSLiteralSearch range:NSMakeRange(0, [nameString length])];
+        
+        return [nameString capitalizedString];
+    } else if ([[tableColumn identifier] isEqualToString:@"value"]) {
+        /*
+         NSCalendarDate *date;
+         if ([nameString rangeOfString:@"time_stamp"].location > 0) {
+             JKLogDebug(@"date");
+             date = [NSCalendarDate dateWithString:keyString calendarFormat:@"%Y%m%d%H%M%S%z"];
+             keyString = "2323";
+             return keyString;
+         }
+         */
+        return keyString;
+    } else {
+        [NSException raise:NSInvalidArgumentException format:@"Exception raised in JKPanelController -tableView:objectValueForTableColumn:row: - tableColumn identifier not known"];
+        return nil;
+    }        
+}
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+{
+    if ([[aTableColumn identifier] isEqualToString:@"name"]) {
+        return;
+    } else if ([[aTableColumn identifier] isEqualToString:@"value"]) {
+        if (rowIndex < [[self metadata] count]) {
+            NSString *nameString = [[[self metadata] allKeys] objectAtIndex:rowIndex];
+            [[self metadata] setValue:anObject forKey:nameString];
+        }
+        return;
+    } else {
+        [NSException raise:NSInvalidArgumentException format:@"Exception raised in JKPanelController -tableView:setObjectValue:forTableColumn:row: - tableColumn identifier not known"];
+        return;
+    }
 }
 #pragma mark -
 
@@ -1620,7 +1713,7 @@ boolAccessor(abortAction, setAbortAction)
     while ((chromatogram = [chromEnumerator nextObject]) != nil) {
     	[chromatogram setContainer:self];
     }
-}
+ }
 
 - (int)countOfChromatograms {
     return [[self chromatograms] count];
@@ -1699,6 +1792,7 @@ boolAccessor(abortAction, setAbortAction)
     while ((chromatogram = [chromEnum nextObject]) != nil) {
     	[array addObjectsFromArray:[chromatogram peaks]];
     }
+    _lastReturnedIndex = [array count];
 	return array;
 }
 

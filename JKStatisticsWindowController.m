@@ -19,8 +19,10 @@
 #import "JKRatio.h"
 #import "JKSearchResult.h"
 #import "JKSpectrum.h"
+#import "JKStatisticsDocument.h"
 #import "MyGraphView.h"
 #import "NSEvent+ModifierKeys.h"
+#import "JKPanelController.h"
 
 @implementation JKStatisticsWindowController
 
@@ -126,6 +128,9 @@
     
     [altGraphView setKeyForXValue:@"Time"];
     [altGraphView setKeyForYValue:@"Total Intensity"];
+
+    [loadingsGraphView bind:@"dataSeries" toObject:loadingsDataSeriesController
+           withKeyPath:@"arrangedObjects" options:nil];
     
     // Register as observer
 	[combinedPeaksController addObserver:self forKeyPath:@"selection" options:nil context:nil];
@@ -183,13 +188,12 @@
 	[fileProgressIndicator setDoubleValue:0.0];
 	for (i=0; i < filesCount; i++) {
 		[detailStatusTextField setStringValue:@"Opening Document"];
-		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:!closeDocuments error:&error];
+		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:NO error:&error];
         if (!document) {
             // maybe try to determine cause of error and recover first
             NSAlert *theAlert = [NSAlert alertWithError:error];
             [theAlert runModal]; // ignore return value
         }
-		[[self window] makeKeyAndOrderFront:self];
 		if (document == nil) {
 			//  Error(@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]);
 			errorOccurred = YES;
@@ -268,7 +272,7 @@
        [detailStatusTextField setStringValue:NSLocalizedString(@"Checking Sanity",@"")];
        for (i=0; i < filesCount; i++) {
            //NSLog(@"file %d of %d", i, filesCount);
-           document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:!closeDocuments error:&error];
+           document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:NO error:&error];
            if (!document) {
                // maybe try to determine cause of error and recover first
                NSAlert *theAlert = [NSAlert alertWithError:error];
@@ -282,7 +286,6 @@
    }
      
 	[error release];
-	[[self window] makeKeyAndOrderFront:self];
 	
     [detailStatusTextField setStringValue:NSLocalizedString(@"Preparing Table",@"")];
     [self insertTableColumns];
@@ -338,13 +341,12 @@
 	[fileProgressIndicator setDoubleValue:0.0];
 	for (i=0; i < filesCount; i++) {
 		[detailStatusTextField setStringValue:@"Opening Document"];
-		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:!closeDocuments error:&error];
+		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:NO error:&error];
         if (!document) {
             // maybe try to determine cause of error and recover first
             NSAlert *theAlert = [NSAlert alertWithError:error];
             [theAlert runModal]; // ignore return value
         }
-		[[self window] makeKeyAndOrderFront:self];
 		if (document == nil) {
 			//  Error(@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]);
 			errorOccurred = YES;
@@ -403,7 +405,7 @@
         [detailStatusTextField setStringValue:NSLocalizedString(@"Checking Sanity",@"")];
         for (i=0; i < filesCount; i++) {
             //NSLog(@"file %d of %d", i, filesCount);
-            document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:!closeDocuments error:&error];
+            document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:NO error:&error];
             if (!document) {
                 // maybe try to determine cause of error and recover first
                 NSAlert *theAlert = [NSAlert alertWithError:error];
@@ -417,7 +419,6 @@
     }
     
 	[error release];
-	[[self window] makeKeyAndOrderFront:self];
 	    
 	// This way we don't get bolded text!
     [NSApp endSheet:progressSheet];
@@ -860,7 +861,7 @@
                     warningMsg = [NSString stringWithFormat:@"WARNING: The confirmed peak '%@' at index %d was matched to a hitherto unidentified compound. It was previously encountered", [peak label], [peak peakID]];
                     warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
                     if ([[peak label] isEqualToString:@""]) {
-                        NSLog(@"ARGH!!1 %@ - %@",[document displayName], [peak description]);
+                        JKLogDebug(@"ARGH!!1 %@ - %@",[document displayName], [peak description]);
                     }
                     [combinedPeak setLabel:[peak label]];
                     [combinedPeak setLibraryEntry:[peak libraryHit]];
@@ -884,7 +885,7 @@
                     warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
                     // Do not change combinedPeak label because not confirmed >> do, because we now have the certainty factor shown
                     if ([[peak label] isEqualToString:@""]) {
-                        NSLog(@"ARGH!!2 %@ - %@",[document displayName], [peak description]);
+                        JKLogDebug(@"ARGH!!2 %@ - %@",[document displayName], [peak description]);
                     }
                     [combinedPeak setLabel:[peak label]];
                     [combinedPeak setLibraryEntry:[peak libraryHit]];
@@ -932,7 +933,7 @@
                 }
    			} else {
                 if ([[peak label] isEqualToString:@""]) {
-                    NSLog(@"ARGH!!3 %@ - %@",[document displayName], [peak description]);
+                    JKLogDebug(@"ARGH!!3 %@ - %@",[document displayName], [peak description]);
                 }
                 [combinedPeak setLabel:[peak label]];
                 [combinedPeak setLibraryEntry:[peak libraryHit]];
@@ -1072,19 +1073,24 @@
 
     //    float minimumScoreSearchResultsF = [[document minimumScoreSearchResults] floatValue];
     
-    if ([combinedPeak unknownCompound]) {
+    if ([combinedPeak unknownCompound] || ![combinedPeak libraryEntry]) {
         // Add result to combinedPEak
         NSEnumerator *peakEnum = [[combinedPeak peaks] objectEnumerator];
         JKPeakRecord *peak;
         
         while ((peak = [peakEnum nextObject]) != nil) {
             if ([peak confirmed]) {
-                break;
+ //               if ([peak libraryHit])
+                    break;
             }
         }
-        if (peak) {
+        if (peak && [peak libraryHit]) {
             [combinedPeak setLibraryEntry:[peak libraryHit]];
             [combinedPeak setLabel:[[peak libraryHit] name]];
+            [combinedPeak setUnknownCompound:NO];
+        } else if (peak && ![peak libraryHit]) {
+            [combinedPeak setLibraryEntry:[peak libraryEntryRepresentation]];
+            [combinedPeak setLabel:[[peak libraryEntryRepresentation] name]];
             [combinedPeak setUnknownCompound:NO];
         } else {
             NSRunInformationalAlertPanel(@"Finding missing peaks not possible",@"To find missing peaks identify and confirm at least one peak in the selected combined peak.",@"OK",nil,nil);
@@ -1097,7 +1103,7 @@
         // do we have a peak for earch file?
         if (![combinedPeak valueForKey:[NSString stringWithFormat:@"file_%d",i]]) {
             // open document if not already open and get a reference
-            document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:YES error:&error];
+            document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:NO error:&error];
             if (!document) {
                 // maybe try to determine cause of error and recover first
                 NSAlert *theAlert = [NSAlert alertWithError:error];
@@ -1114,16 +1120,35 @@
             // obtain the chromatogram we need
             chromatogramToSearch = [document chromatogramForModel:[combinedPeak model]];
 #warning [?] Is the right behavior?
-            [[combinedPeak libraryEntry] setRetentionIndex:[combinedPeak retentionIndex]];
+            [[combinedPeak libraryEntry] setRetentionIndex:[combinedPeak averageRetentionIndex]];
+            NSAssert(chromatogramToSearch, @"chromatogramToSearch is nil");
+            NSAssert([combinedPeak libraryEntry], @"[combinedPeak libraryEntry] is nil");
             [document performBackwardSearchForChromatograms:[NSArray arrayWithObject:chromatogramToSearch] withLibraryEntries:[NSArray arrayWithObject:[combinedPeak libraryEntry]] maximumRetentionIndexDifference:[maximumRetentionIndexDifference floatValue]];
             
             // Add result to combinedPEak
             NSEnumerator *peakEnum = [[chromatogramToSearch peaks] objectEnumerator];
-            JKPeakRecord *peak;
+            JKPeakRecord *peak = nil;
 
             while ((peak = [peakEnum nextObject]) != nil) {
             	if ([[peak libraryHit] isEqualTo:[combinedPeak libraryEntry]]) {
                     break;
+                }
+            }
+            if (!peak) {
+                float score = 0.0;
+                JKPeakRecord *somePeak = nil;
+                peakEnum = [[chromatogramToSearch peaks] objectEnumerator];
+                while ((somePeak = [peakEnum nextObject]) != nil) {
+                    if ([somePeak identified] && [[somePeak label] isEqualToString:[[combinedPeak libraryEntry] name]]) {
+                        if ([[[somePeak identifiedSearchResult] score] floatValue] > score) {
+                            peak = somePeak;
+                        }                        
+                    }
+//                    if ([[[somePeak identifiedSearchResult] libraryHit] isEqualTo:[combinedPeak libraryEntry]]) {
+//                        if ([[[somePeak identifiedSearchResult] score] floatValue] > score) {
+//                            peak = somePeak;
+//                        }
+//                    }
                 }
             }
             if (peak) {
@@ -1396,18 +1421,23 @@
 		return;
 	} else if ([sender clickedColumn] == 0) {
 		return;
-	} else if ([sender clickedColumn] == 1) {
-		return;
-	} else if ([sender clickedColumn] == 2) {
-		return;
-	} else if ([sender clickedColumn] == 3) {
-		return;
+//	} else if ([sender clickedColumn] == 1) {
+//		return;
+//	} else if ([sender clickedColumn] == 2) {
+//		return;
+//	} else if ([sender clickedColumn] == 3) {
+//		return;
 	} else if ([sender clickedRow] == -1) {
 		// A column was double clicked
 		// Bring forward the associated file
 		//[[[[[[sender tableColumns] objectAtIndex:[sender clickedColumn]] identifier] mainWindowController] window] makeKeyAndOrderFront:self];
 		//JKLogDebug([[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-1]]);
-		[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-4]]] display:YES error:&error];
+		JKGCMSDocument *document;
+		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-1]]] display:YES error:&error];
+        if ([[document windowControllers] count] == 0) {
+            [document makeWindowControllers];
+            [document showWindows];
+        }
 	} else {
 		// A cell was double clicked
 		// Bring forwars associated file and
@@ -1416,20 +1446,28 @@
 
         if ([NSEvent isOptionKeyDown]) {
             JKCombinedPeak *combiPeak = [[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]];
-            NSString *key = [NSString stringWithFormat:@"file_%d",[sender clickedColumn]-4];
+            NSString *key = [NSString stringWithFormat:@"file_%d",[sender clickedColumn]-1];
             [combiPeak setValue:nil forKey:key];
         } else {
             // Which document?
-            NSURL *url = [NSURL fileURLWithPath:[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-4]]];
+            NSURL *url = [NSURL fileURLWithPath:[[metadata objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",[sender clickedColumn]-1]]];
             document = [[NSDocumentController sharedDocumentController] documentForURL:url];
             // Open document if not yet open
             if (!document) {
                 document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:url display:YES error:&error];
             }
+            if ([[document windowControllers] count] == 0) {
+                [document makeWindowControllers];
+                [document showWindows];
+            }
             // Select peaks
             int index, i, combinedPeaksCount = [[combinedPeaksController selectedObjects] count];
             JKPeakRecord *peak = nil;
             for (i = 0; i < combinedPeaksCount; i++) {
+                // Harmless if already present
+                [document addChromatogramForModel:[[[combinedPeaksController selectedObjects] objectAtIndex:i] model]];
+                [[[document mainWindowController] chromatogramsController] setSelectedObjects:[NSArray arrayWithObject:[document chromatogramForModel:[[[combinedPeaksController selectedObjects] objectAtIndex:i] model]]]];
+                
                 NSEnumerator *peaksEnumerator = [[[[combinedPeaksController selectedObjects] objectAtIndex:i] peaks] objectEnumerator];		
                 while ((peak = [peaksEnumerator nextObject])) {
                     //if ([[peak label] isEqualToString:[peakInDocument label]]
@@ -1511,6 +1549,10 @@
 	[NSApp endSheet:ratiosEditor];
 }
 
+- (IBAction)runFactorAnalysis:(id)sender
+{
+    [[self document] performFactorAnalysis];
+}
 
 - (IBAction)exportSummary:(id)sender {
     if (rerunNeeded) {
@@ -1639,7 +1681,7 @@
 //			[outStr appendFormat:@"%@",   [[[self combinedPeaks] objectAtIndex:j] valueForKey:@"standardDeviationSurface"]];
 			for (i=0; i < fileCount; i++) {
 				retentionTime = [[[[[self combinedPeaks] objectAtIndex:j] valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"retentionIndex"] stringValue];
-				if (normalizedSurface != nil) {
+				if (retentionTime != nil) {
 					[outStr appendFormat:@"\t%@", retentionTime];					
 				} else {
 					[outStr appendString:@"\t-"];										
@@ -1738,6 +1780,9 @@
 					  ofObject:(id)object
 						change:(NSDictionary *)change
 					   context:(void *)context {
+    if (object == combinedPeaksController) {
+        [[[JKPanelController sharedController] infoTableView] reloadData];
+    }
 //    int i,combinedPeaksCount;
 //    id document;
 //    NSEnumerator *enumerator = nil;
@@ -1993,6 +2038,163 @@
 	} else {
 		return NO;
 	}
+}
+#pragma mark -
+
+#pragma mark InfoTable Datasource Protocol
+- (int)numberOfRowsInTableView:(NSTableView *)tableView {
+    if ([[combinedPeaksController selectedObjects] count] == 1) {
+        return 14;
+    }
+    return -1;			
+}
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
+    int dummy;
+    NSMutableString *nameString, *keyString;
+
+    if ([[combinedPeaksController selectedObjects] count] == 1) {
+        JKCombinedPeak *selectedCombinedPeak = [[combinedPeaksController selectedObjects] objectAtIndex:0];
+        switch (row) {
+            case 0:
+                nameString = [@"label" mutableCopy];
+                break;
+            case 1:
+                nameString = [@"symbol" mutableCopy];
+                break;
+            case 2:
+                nameString = [@"model" mutableCopy];
+                break;
+            case 3:
+                nameString = [@"group" mutableCopy];
+                break;
+            case 4:
+                nameString = [@"countOfPeaks" mutableCopy];
+                break;
+            case 5:
+                nameString = [@"certainty" mutableCopy];
+                break;
+            case 6:
+                nameString = [@"unknownCompound" mutableCopy];
+                break;
+            case 7:
+                nameString = [@"retentionIndex" mutableCopy];
+                break;
+            case 8:
+                nameString = [@"averageRetentionIndex" mutableCopy];
+                break;
+            case 9:
+                nameString = [@"standardDeviationRetentionIndex" mutableCopy];
+                break;
+            case 10:
+                nameString = [@"averageSurface" mutableCopy];
+                break;
+            case 11:
+                nameString = [@"standardDeviationSurface" mutableCopy];
+                break;
+            case 12:
+                nameString = [@"averageHeight" mutableCopy];
+                break;
+            case 13:
+                nameString = [@"standardDeviationHeight" mutableCopy];
+                break;
+            default:
+                break;
+        }
+        keyString = [selectedCombinedPeak valueForKey:nameString];
+    } else {
+        return nil;
+    }
+    
+        
+    if ([[tableColumn identifier] isEqualToString:@"name"]) {
+         // We need to replace "_" with " "
+        dummy = [nameString replaceOccurrencesOfString:@"_" withString:@" " options:NSLiteralSearch range:NSMakeRange(0, [nameString length])];
+        
+        return [nameString capitalizedString];
+    } else if ([[tableColumn identifier] isEqualToString:@"value"]) {
+        return keyString;
+    } else {
+        [NSException raise:NSInvalidArgumentException format:@"Exception raised in JKStatisticsWindowController -tableView:objectValueForTableColumn:row: - tableColumn identifier not known"];
+        return nil;
+    }        
+}
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+{
+    NSString *nameString;
+    JKCombinedPeak *selectedCombinedPeak = nil;
+    
+    if ([[combinedPeaksController selectedObjects] count] == 1) {
+        selectedCombinedPeak = [[combinedPeaksController selectedObjects] objectAtIndex:0];
+        switch (rowIndex) {
+            case 0:
+                nameString = @"label";
+                break;
+            case 1:
+                nameString = @"symbol";
+                break;
+            case 2:
+                //nameString = @"model";
+                return;
+                break;
+            case 3:
+                nameString = @"group";
+                break;
+            case 4:
+                //nameString = @"countOfPeaks";
+                return;
+                break;
+            case 5:
+                //nameString = @"certainty";
+                return;
+                break;
+            case 6:
+                //nameString = @"unknownCompound";
+                return;
+                break;
+            case 7:
+                nameString = @"retentionIndex";
+                break;
+            case 8:
+                //nameString = @"averageRetentionIndex";
+                return;
+                break;
+            case 9:
+                //nameString = @"standardDeviationRetentionIndex";
+                return;
+                break;
+            case 10:
+                //nameString = @"averageSurface";
+                return;
+                break;
+            case 11:
+                //nameString = @"standardDeviationSurface";
+                return;
+                break;
+            case 12:
+                //nameString = [@"averageHeight";
+                return;
+                break;
+            case 13:
+                //nameString = @"standardDeviationHeight";
+                return;
+                break;
+            default:
+                return;
+                break;
+        }
+    } else {
+        return;
+    }
+
+    if ([[aTableColumn identifier] isEqualToString:@"name"]) {
+        return;
+    } else if ([[aTableColumn identifier] isEqualToString:@"value"]) {
+         [selectedCombinedPeak setValue:anObject forKey:nameString];
+        return;
+    } else {
+        [NSException raise:NSInvalidArgumentException format:@"Exception raised in JKPanelController -tableView:setObjectValue:forTableColumn:row: - tableColumn identifier not known"];
+        return;
+    }
 }
 #pragma mark -
 

@@ -716,10 +716,6 @@ static void *PropertyObservationContext = (void *)1093;
 //}
 //
 
-#pragma mark HELPER ROUTINES
-- (NSRect)boundingRect {
-	return [[self plotPath] bounds];
-}
 
 #pragma mark KEY VALUE OBSERVING MANAGEMENT
 - (void)observeValueForKeyPath:(NSString *)keyPath

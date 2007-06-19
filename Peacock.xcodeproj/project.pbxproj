@@ -60,6 +60,8 @@
 		C75846640C07268D00756ED8 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C75846620C07268D00756ED8 /* JKLibraryEntry.m */; };
 		C75846650C07268D00756ED8 /* JKLibraryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846610C07268D00756ED8 /* JKLibraryEntry.h */; };
 		C75846660C07268D00756ED8 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C75846620C07268D00756ED8 /* JKLibraryEntry.m */; };
+		C765B8AB0C23237B00C4F153 /* factoranalysis.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = C765B8AA0C23237A00C4F153 /* factoranalysis.txt */; };
+		C765B8AC0C23237B00C4F153 /* factoranalysis.txt in Resources */ = {isa = PBXBuildFile; fileRef = C765B8AA0C23237A00C4F153 /* factoranalysis.txt */; };
 		C7680FBF0C035C4800973566 /* JKLibrary.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */; };
 		C7680FC00C035C4800973566 /* JKLibrary.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */; };
 		C76814070C05E66C00973566 /* JKManagedLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */; };
@@ -384,6 +386,7 @@
 			files = (
 				C7ADC9110BA05609007D9134 /* Sparkle.framework in CopyFiles */,
 				C7ADC9120BA05609007D9134 /* Growl.framework in CopyFiles */,
+				C765B8AB0C23237B00C4F153 /* factoranalysis.txt in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,6 +432,7 @@
 		C75846130C071ACC00756ED8 /* JKComparableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKComparableProtocol.h; sourceTree = "<group>"; };
 		C75846610C07268D00756ED8 /* JKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKLibraryEntry.h; sourceTree = "<group>"; };
 		C75846620C07268D00756ED8 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = "<group>"; };
+		C765B8AA0C23237A00C4F153 /* factoranalysis.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = factoranalysis.txt; sourceTree = "<group>"; };
 		C7680E390C03426900973566 /* MAKeyedArchiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAKeyedArchiver.h; sourceTree = "<group>"; };
 		C7680E3A0C03426A00973566 /* MAKeyedArchiver.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MAKeyedArchiver.m; sourceTree = "<group>"; };
 		C7680E3B0C03426A00973566 /* MAKeyedUnarchiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAKeyedUnarchiver.h; sourceTree = "<group>"; };
@@ -1128,6 +1132,7 @@
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
 				C7EB180D0898CFBD007FC2ED /* periodic.table */,
+				C765B8AA0C23237A00C4F153 /* factoranalysis.txt */,
 			);
 			path = Text;
 			sourceTree = "<group>";
@@ -1347,6 +1352,7 @@
 				C77E2FBE0C0EF20C00B8A64A /* plus.png in Resources */,
 				C77E2FC10C0EF21700B8A64A /* minus.png in Resources */,
 				C77E32B90C0F2CBB00B8A64A /* libraries.png in Resources */,
+				C765B8AC0C23237B00C4F153 /* factoranalysis.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

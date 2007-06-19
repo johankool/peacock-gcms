@@ -178,7 +178,7 @@
     // Calculate deviation
     return [NSNumber numberWithFloat:sqrtf(sum/([self countOfPeaks]-1))];		
 }
-- (NSNumber *)standardDeviatioHeight {
+- (NSNumber *)standardDeviationHeight {
    	JKPeakRecord *peak = nil;
 	NSEnumerator *peaksEnumerator = [[self peaks] objectEnumerator];
 	float sum = 0.0f;
@@ -300,6 +300,13 @@
 	model = [aModel retain];
 }
 
+- (NSString *)group {
+	return group;
+}
+- (void)setGroup:(NSString *)aGroup {
+	[group autorelease];
+	group = [aGroup retain];
+}
 - (JKSpectrum *)spectrum {
 	return spectrum;
 }

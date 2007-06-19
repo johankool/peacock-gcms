@@ -131,6 +131,7 @@ typedef enum {
 
 #pragma mark HELPER ROUTINES
 - (void)calculateCoordinateConversions;
+- (void)scaleVertically;
 - (void)zoomToRect:(NSRect)rect;
 - (void)zoomToRectInView:(NSRect)aRect;
 - (void)zoomIn;

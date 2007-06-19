@@ -9,6 +9,7 @@
 #import "JKPanelController.h"
 
 #import "JKGCMSDocument.h"
+#import "JKStatisticsDocument.h"
 #import "MyGraphView.h"
 #import "netcdf.h"
 #import "FontNameToDisplayNameTransformer.h"
@@ -165,7 +166,7 @@ static JKPanelController *theSharedController;
 #pragma mark NOTIFICATIONS
 
 - (void)documentActivateNotification:(NSNotification *)aNotification {
-	if ([[[aNotification object] document] isKindOfClass:[JKGCMSDocument class]]) {
+	if ([[[aNotification object] document] isKindOfClass:[JKGCMSDocument class]] || [[[aNotification object] document] isKindOfClass:[JKStatisticsDocument class]]) {
 		if ([[aNotification object] document] != inspectedDocument) {
 			[self setInspectedDocument:[[aNotification object] document]];
 			[infoTableView reloadData];
@@ -221,60 +222,42 @@ static JKPanelController *theSharedController;
 
 // Info tableView
 - (int)numberOfRowsInTableView:(NSTableView *)tableView {
-    int count, dummy, ncid;
     if (tableView ==  infoTableView) {
 		if([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKGCMSDocument class]]) {
-			ncid = [(JKGCMSDocument *)[self inspectedDocument] ncid];
-			dummy =  nc_inq_natts(ncid, &count);
-			if (dummy == NC_NOERR) return count;
-			return -1;			
+            return [(JKGCMSDocument *)[self inspectedDocument] numberOfRowsInTableView:tableView];
+        } else if ([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKStatisticsDocument class]]) {
+            return [(JKStatisticsDocument *)[[self inspectedDocument] statisticsWindowController] numberOfRowsInTableView:tableView];
 		} else {
 			return -1;
 		}
     } 
-	//[NSException raise:NSInvalidArgumentException format:@"Exception raised in JKPanelController -numberOfRowsInTableView: - tableView not known"];
     return -1;
 }
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
-    int dummy;
-    NSMutableString *nameString, *keyString;
-    
     if (tableView == infoTableView) {
-        int ncid = [(JKGCMSDocument *)[self inspectedDocument] ncid];
-        char name[256];
-        char value[256];
-        
-        dummy =  nc_inq_attname (ncid,NC_GLOBAL, row, (void *) &name);
-        dummy =  nc_get_att_text(ncid,NC_GLOBAL, name, (void *) &value);
-        
-        nameString = [NSMutableString stringWithCString:name];
-        keyString = [NSMutableString stringWithCString:value];
-
-        if ([[tableColumn identifier] isEqualToString:@"name"]) {
-            // We need to replace "_" with " "
-            dummy = [nameString replaceOccurrencesOfString:@"_" withString:@" " options:NSLiteralSearch range:NSMakeRange(0, [nameString length])];
-
-            return [nameString capitalizedString];
-        } else if ([[tableColumn identifier] isEqualToString:@"value"]) {
-            /*
-             NSCalendarDate *date;
-            if ([nameString rangeOfString:@"time_stamp"].location > 0) {
-                JKLogDebug(@"date");
-                date = [NSCalendarDate dateWithString:keyString calendarFormat:@"%Y%m%d%H%M%S%z"];
-                keyString = "2323";
-                return keyString;
-            }
-             */
-             return keyString;
-        } else {
-            [NSException raise:NSInvalidArgumentException format:@"Exception raised in JKPanelController -tableView:objectValueForTableColumn:row: - tableColumn identifier not known"];
-            return nil;
-        }        
+		if([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKGCMSDocument class]]) {
+            return [(JKGCMSDocument *)[self inspectedDocument] tableView:tableView objectValueForTableColumn:tableColumn row:row];
+        } else if ([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKStatisticsDocument class]]) {
+           return [(JKStatisticsDocument *)[[self inspectedDocument] statisticsWindowController] tableView:tableView objectValueForTableColumn:tableColumn row:row];
+		} 
     } 
 
     [NSException raise:NSInvalidArgumentException format:@"Exception raised in JKPanelController -tableView:objectValueForTableColumn:row: - tableView not known"];
     return nil;
+}
+
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+{
+    if (aTableView == infoTableView) {
+		if([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKGCMSDocument class]]) {
+            return [(JKGCMSDocument *)[self inspectedDocument] tableView:aTableView setObjectValue:anObject forTableColumn:aTableColumn row:rowIndex];
+        } else if ([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKStatisticsDocument class]]) {
+            return [(JKStatisticsDocument *)[[self inspectedDocument] statisticsWindowController] tableView:aTableView setObjectValue:anObject forTableColumn:aTableColumn row:rowIndex];
+		} else {
+			return;
+		}
+    }
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
@@ -319,7 +302,7 @@ static JKPanelController *theSharedController;
         deltaHeight = [infoPanelView frame].size.height - [[[self window] contentView] frame].size.height;
         [[self window] setContentView:infoPanelView];
         [[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
-    } else if (([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"processing"]) && ([self inspectedDocument])) {
+    } else if (([[[[self window] toolbar] selectedItemIdentifier] isEqualToString:@"processing"]) && ([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKGCMSDocument class]])) {
         deltaHeight = [processingPanelView frame].size.height - [[[self window] contentView] frame].size.height;
         [[self window] setContentView:processingPanelView];
         [[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width,windowFrame.size.height+deltaHeight) display:YES animate:YES];
@@ -363,7 +346,9 @@ static JKPanelController *theSharedController;
 	inspectedGraphView = aInspectedGraphView;
 }
 
-
+- (NSTableView *)infoTableView {
+    return infoTableView;
+}
 //idAccessor(inspectedDocument, setInspectedDocument)
 //idAccessor(inspectedGraphView, setInspectedGraphView)
 

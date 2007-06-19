@@ -51,6 +51,7 @@
 #pragma mark ACCESSORS
 idAccessor_h(inspectedGraphView, setInspectedGraphView)
 idAccessor_h(inspectedDocument, setInspectedDocument)
+- (NSTableView *)infoTableView ;
 
 #pragma mark MENU VALIDATION
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem;

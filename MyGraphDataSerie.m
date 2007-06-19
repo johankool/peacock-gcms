@@ -22,15 +22,17 @@ static void *ArrayObservationContext = (void *)1092;
         // Zet de standaardwaarden
         seriesTitle = [NSLocalizedString(@"New Serie",@"New series title") retain];
         keyForXValue = [@"xValue" retain];
+        keyForLabel = [@"xValue" retain];
         keyForYValue = [@"yValue" retain];
         seriesColor = [[NSColor blueColor] retain];
-        seriesType = 1;
+        seriesType = 0;
         shouldDrawLabels = YES;
         verticalScale = [[NSNumber alloc] initWithFloat:1.0f];
         dataArray = [[NSMutableArray alloc] init];
         plotPath = [[NSBezierPath alloc] init];
 		// Creeer de plot een eerste keer.
 //		[self constructPlotPath];
+        _previousTrans = nil;
 	}
     return self;
 }
@@ -47,9 +49,6 @@ static void *ArrayObservationContext = (void *)1092;
 	[super dealloc];
 }
 
-- (id)initWithArray:(NSArray *)array {
-    return [self init];
-}
 
 - (void)loadDataPoints:(int)npts withXValues:(float *)xpts andYValues:(float *)ypts {
     if (npts < 1) {
@@ -71,31 +70,53 @@ static void *ArrayObservationContext = (void *)1092;
 
 
 #pragma mark DRAWING ROUTINES
-- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view {
+- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view
+{
     _graphView = view;
-	NSBezierPath *bezierpath;
+    NSBezierPath *bezierpath;
+    
+    switch  ([self seriesType]) {
+		case 0: // Points
+            if (trans != _previousTrans || ![self plotPath]) {
+                _previousTrans = trans; // So constructPlotPath can have a peek at the trans 
+                [self constructPlotPath];
+            }
+            _previousTrans = trans;
+            
+            [[self seriesColor] set];
+            
+            // Met stroke wordt de bezierpath getekend.
+            [[self plotPath] fill];
+			break;
+        case 1:
+        case 2:
+        default:
+            if (![self plotPath]) {
+                [self constructPlotPath];
+            }
+            
+            // Hier gaan we van dataserie-coordinaten naar scherm-coordinaten.
+            bezierpath = [trans transformBezierPath:[self plotPath]];
+
+            // Hier stellen we in hoe de lijnen eruit moeten zien.
+            [bezierpath setLineWidth:0.5];
+            [[self seriesColor] set];
+            
+            // Met stroke wordt de bezierpath getekend.
+            [bezierpath stroke];
+            
+            break;
+    }
 	
-	// Hier gaan we van dataserie-coordinaten naar scherm-coordinaten.
-	bezierpath = [trans transformBezierPath:[self plotPath]];
-	
-	// Hier stellen we in hoe de lijnen eruit moeten zien.
-	[bezierpath setLineWidth:0.5];
-	[[self seriesColor] set];
-	
-	// Met stroke wordt de bezierpath getekend.
-	[bezierpath stroke];
 	
 	if(shouldDrawLabels) {
-		if (seriesType == 2) {
-			[self drawLabelsWithTransform:trans inView:view];
-
-		}
+        [self drawLabelsWithTransform:trans inView:view];
 	}
 }
 
 - (void)constructPlotPath {
 	int i, count;
-	NSPoint pointInUnits, pointInUnits2;
+	NSPoint pointInUnits, pointInUnits2, pointInScreen;
 	NSBezierPath *bezierpath = [[NSBezierPath alloc] init];
 	
 	count = [[self dataArray] count];
@@ -105,8 +126,15 @@ static void *ArrayObservationContext = (void *)1092;
 	
 	switch  (seriesType) {
 		case 0: // Points
+            count = [[self dataArray] count];
+			for (i=0; i<count; i++) {    
+                pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue],
+                                           [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
+                pointInScreen = [_previousTrans transformPoint:pointInUnits];
+                [bezierpath appendBezierPathWithOvalInRect:NSMakeRect(pointInScreen.x-1.5f, pointInScreen.y-1.5f, 3.0f, 3.0f)];
+			}
+                                    
 			break;
-			
 		case 1: // Line
 				// Creeer het pad.
 			[bezierpath moveToPoint:NSMakePoint([[[[self dataArray] objectAtIndex:0] valueForKey:keyForXValue] floatValue],
@@ -163,7 +191,7 @@ static void *ArrayObservationContext = (void *)1092;
 	// We should go through the values from highest intensity ('y') to lowest instead of along the x-axis.
 	// It is more important to label the higher intensities.
 	for (i=0; i<count; i++) {
-		string = [[NSMutableAttributedString alloc] initWithString:[NSString localizedStringWithFormat:formatString, [[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue]] attributes:attrs];
+		string = [[NSMutableAttributedString alloc] initWithString:[[[self dataArray] objectAtIndex:i] valueForKey:keyForLabel] attributes:attrs];
 		
 		pointToDraw = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]);
 		stringSize = [string size];
@@ -347,6 +375,17 @@ static void *ArrayObservationContext = (void *)1092;
         [keyForYValue autorelease];
         keyForYValue = inValue;
         [self constructPlotPath];
+    }
+}
+
+- (NSString *)keyForLabel {
+	return keyForLabel;
+}
+- (void)setKeyForLabel:(NSString *)inValue {
+	if (inValue != keyForLabel) {
+        [inValue retain];
+        [keyForLabel autorelease];
+        keyForLabel = inValue;
     }
 }
 

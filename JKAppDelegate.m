@@ -15,7 +15,7 @@
 #import "JKMainWindowController.h"
 #import "BooleanToStringTransformer.h"
 #import "JKLibrary.h"
-
+#import "JKManagedLibraryEntry.h"
 
 // Name of the application support folder
 static NSString * SUPPORT_FOLDER_NAME = @"Peacock";
@@ -59,7 +59,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 
 	// Default presets
 	[defaultValues setObject:[NSArray arrayWithObjects:
-        [NSDictionary dictionaryWithObjectsAndKeys:@"Alkanes",@"name",@"55+57",@"massValue",nil],
+        [NSDictionary dictionaryWithObjectsAndKeys:@"Alkanes",@"name",@"57+71",@"massValue",nil],
         [NSDictionary dictionaryWithObjectsAndKeys:@"Alkenes",@"name",@"55+69",@"massValue",nil],
         [NSDictionary dictionaryWithObjectsAndKeys:@"Fatty acids",@"name",@"129+185",@"massValue",nil],
         [NSDictionary dictionaryWithObjectsAndKeys:@"Methylketones",@"name",@"58+59",@"massValue",nil],
@@ -142,6 +142,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
         [NSValueTransformer setValueTransformer:transformer forName:@"BooleanToStringTransformer"];
                 
         availableDictionaries = [[NSMutableArray alloc] init];
+        libraryConfigurationLoaded = @"";
 	}
 	return self;
 }
@@ -202,12 +203,14 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 //    [self loadPlugins];
     
     [documentListTableView setDoubleAction:@selector(doubleClickAction:)];
-    [self loadLibrary];
+    libraryConfigurationLoaded = @"";
+    [self loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
+
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
-    if (library)
+    if ([library isDocumentEdited])
         [[library managedObjectContext] save:NULL];
 }
 
@@ -382,8 +385,10 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
         NSBeep();
     }        
 }
-- (void)loadLibrary
+
+- (void)loadLibraryForConfiguration:(NSString *)configuration
 {
+    JKLogDebug(@"configuration %@",configuration);
     [self willChangeValueForKey:@"library"];
     [self willChangeValueForKey:@"availableDictionaries"];
     [self willChangeValueForKey:@"availableConfigurations"];
@@ -420,7 +425,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
         while (file = [dirEnum nextObject]) {
             if ([[file pathExtension] isEqualToString: @"peacock-library"]) {// || [[file pathExtension] isEqualToString: @"jdx"] ||[[file pathExtension] isEqualToString: @"hpj"]
                 count++;
-                if ([self shouldLoadLibrary:[file stringByDeletingPathExtension]]) {
+                if ([self shouldLoadLibrary:[file stringByDeletingPathExtension] forConfiguration:configuration]) {
                     if (![[[library managedObjectContext] persistentStoreCoordinator] addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:file]] options:nil error:nil]) {
                         JKLogError(@"Can't add '%@' to library persistent store coordinator.", file);
                     } else {
@@ -451,9 +456,27 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
             NSRunAlertPanel(NSLocalizedString(@"No Libraries could be opened or created",@""),NSLocalizedString(@"This is not good. Identifying compounds isn't going to work.",@""),@"OK, I guess...",nil,nil);
         }        
      }
+    // Store configuration
+    [libraryConfigurationLoaded release];
+    [configuration retain];
+    libraryConfigurationLoaded = configuration;
     [self didChangeValueForKey:@"library"];
     [self didChangeValueForKey:@"availableDictionaries"];
     [self didChangeValueForKey:@"availableConfigurations"];
+}
+
+- (JKLibrary *)libraryForConfiguration:(NSString *)libraryConfiguration
+{
+    JKLogDebug(@"libraryConfigurationLoaded %@",libraryConfigurationLoaded);
+    JKLogDebug(@"libraryConfiguration %@",libraryConfiguration);
+    
+    if (![libraryConfiguration isEqualToString:libraryConfigurationLoaded]) {
+        if ([library isDocumentEdited])
+            [[library managedObjectContext] save:NULL];
+
+        [self loadLibraryForConfiguration:libraryConfiguration];
+    }
+    return library;
 }
 
 - (JKLibrary *)library
@@ -461,9 +484,8 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     return library;
 }
 
-- (BOOL)shouldLoadLibrary:(NSString *)fileName
+- (BOOL)shouldLoadLibrary:(NSString *)fileName forConfiguration:(NSString *)configuration
 {
-    NSString *configuration = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"];
     if ([configuration isEqualToString:NSLocalizedString(@"All",@"")]) {
         return YES;
     } else if ([configuration isEqualToString:fileName]) {
@@ -480,14 +502,31 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 {
     return [[NSArray arrayWithObject:NSLocalizedString(@"All",@"")] arrayByAddingObjectsFromArray:[availableDictionaries valueForKey:@"name"]];
 }
-- (BOOL)addLibraryEntryBasedOnPeak:(JKPeakRecord *)aPeak
+- (JKManagedLibraryEntry *)addLibraryEntryBasedOnPeak:(JKPeakRecord *)aPeak
 {
-#warning To be implemented
-    int answer = NSRunAlertPanel(NSLocalizedString(@"Peak without library hit being confirmed",@""),NSLocalizedString(@"You are confirming a peak for which you do not have a library hit. Peacock should now ask you if you want to store your identifaction as a library entry so it can be used for future compound identifications. But unfortunately this feature isn't yet implemented... Sorry...",@""),@"Confirm Peak Anyway",@"Cancel",nil);
+    NSString *path = nil;
+    JKManagedLibraryEntry *libEntry = nil;
+    int answer = NSRunAlertPanel(NSLocalizedString(@"Peak without library hit being confirmed",@""),NSLocalizedString(@"You are confirming a peak for which you do not have a library hit. Do you want to store your identification as a library entry so it can be used for future compound identifications? ",@""),@"Add Library Entry",@"Cancel",nil);
     if (answer == NSOKButton) {
-        return YES; 
+        libEntry = [NSEntityDescription insertNewObjectForEntityForName:@"JKManagedLibraryEntry" inManagedObjectContext:[library managedObjectContext]];
+        NSString *defaultLibrary = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibraryForNewEntries"];
+        NSArray *searchpaths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+        if ([searchpaths count] > 0) {
+            // look for the Peacock support folder (and create if not there)
+            path = [[[[searchpaths objectAtIndex:0] stringByAppendingPathComponent: SUPPORT_FOLDER_NAME] stringByAppendingPathComponent: LIBRARY_FOLDER_NAME] stringByAppendingPathComponent:[defaultLibrary stringByAppendingPathExtension:@"peacock-library"]];
+        } else {
+            return nil;
+        }      
+        NSLog(@"Saving to %@", path);
+#warning should check if path is file
+        id persistentStore = [[[library managedObjectContext] persistentStoreCoordinator] persistentStoreForURL:[NSURL fileURLWithPath:path]];
+        if (persistentStore) {
+            [[library managedObjectContext] assignObject:libEntry toPersistentStore:persistentStore];            
+        }
+        [libEntry setJCAMPString:[[aPeak libraryEntryRepresentation] jcampString]];
+        return libEntry; 
     } else {
-        return NO;
+        return nil;
     }
 
 }
@@ -543,7 +582,11 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
     if ([[aNotification object] selectedRow] != -1) {
-        [[[self documents] objectAtIndex:[[aNotification object] selectedRow]] showWindows];        
+        NSDocument *document = [[self documents] objectAtIndex:[[aNotification object] selectedRow]];
+        if ([[document windowControllers] count] == 0) {
+            [document makeWindowControllers];
+        }
+        [document showWindows];
     }
 }
 

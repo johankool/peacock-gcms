@@ -753,6 +753,7 @@ static void *MetadataObservationContext = (void *)1104;
         }
         NSArray *peakColorsArray = [peakColors allKeys];
         int peakColorsArrayCount = [peakColorsArray count];
+        int prevCount = [chromatogramDataSeries count];
         
         [chromatogramDataSeries removeAllObjects];
         NSEnumerator *chromatogramEnumerator = [[[self document] chromatograms] objectEnumerator];
@@ -792,6 +793,24 @@ static void *MetadataObservationContext = (void *)1104;
         }
         
         [chromatogramView scaleVertically];
+        
+        // this should actually be done in MyGraphView
+        int newCount = [chromatogramDataSeries count];
+        switch ([chromatogramView drawingMode]) {
+            case JKStackedDrawingMode:
+                if (prevCount < newCount) {
+                    [chromatogramView setYMaximum:[NSNumber numberWithFloat:([[chromatogramView yMaximum] floatValue] + [[chromatogramView yMaximum] floatValue] /prevCount)]];
+                } else if (prevCount > newCount) {
+                    [chromatogramView setYMaximum:[NSNumber numberWithFloat:([[chromatogramView yMaximum] floatValue] - [[chromatogramView yMaximum] floatValue] /prevCount)]];
+                } 
+                     break;
+            case JKNormalDrawingMode:
+            default:            
+                break;
+        }
+        
+        
+        
 //        [chromatogramView showAll:self];
         [chromatogramView setNeedsDisplay:YES];
     }
@@ -1322,7 +1341,7 @@ static void *MetadataObservationContext = (void *)1104;
 
             NSEnumerator *enumerator = [peaks objectEnumerator];
             JKPeakRecord *peak = nil;
-            JKPeakRecord *newPeak = nil;
+//            JKPeakRecord *newPeak = nil;
             while ((peak = [enumerator nextObject]) != nil) {
                 [[peak chromatogram] removeObjectFromPeaksAtIndex:[[[peak chromatogram] peaks] indexOfObject:peak]];
                 [chrom insertObject:peak inPeaksAtIndex:[chrom countOfPeaks]];

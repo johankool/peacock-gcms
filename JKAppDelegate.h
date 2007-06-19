@@ -28,6 +28,7 @@
 	JKBatchProcessWindowController *batchProcessWindowController;
     JKLibrary *library;
     NSMutableArray *availableDictionaries;
+    NSString *libraryConfigurationLoaded;
 }
 
 
@@ -41,7 +42,9 @@
 - (IBAction)showDocumentList:(id)sender;
 
 - (JKLibrary *)library;
-- (void)loadLibrary;
+- (JKLibrary *)libraryForConfiguration:(NSString *)libraryConfiguration;
+- (void)loadLibraryForConfiguration:(NSString *)configuration;
+- (BOOL)shouldLoadLibrary:(NSString *)fileName forConfiguration:(NSString *)configuration;
 
 #pragma mark GROWL SUPPORT
 - (NSDictionary *)registrationDictionaryForGrowl;

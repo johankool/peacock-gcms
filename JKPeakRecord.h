@@ -45,6 +45,7 @@
 - (BOOL)identifyAsLibraryEntry:(JKLibraryEntry *)aLibraryEntry;
 - (BOOL)addSearchResultForLibraryEntry:(JKLibraryEntry *)aLibraryEntry;
 - (void)addSearchResult:(JKSearchResult *)searchResult;
+-(JKLibraryEntry *)libraryEntryRepresentation;
 
 #pragma mark CALCULATED ACCESSORS
 

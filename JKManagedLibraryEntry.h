@@ -66,8 +66,8 @@
 - (void)setMolString:(NSString *)newmolString;
 - (NSString *)symbol;
 - (void)setSymbol:(NSString *)newsymbol;
-- (NSString *)modelChr;
-- (void)setModelChr:(NSString *)newmodelChr;
+- (NSString *)model;
+- (void)setModel:(NSString *)newmodel;
 - (NSString *)group;
 - (void)setGroup:(NSString *)newgroup;
 - (NSString *)synonyms;

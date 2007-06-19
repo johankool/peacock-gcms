@@ -38,13 +38,13 @@ typedef enum {
 	NSNumber *verticalScale;
 	NSString *keyForXValue;
 	NSString *keyForYValue;
+    NSString *keyForLabel;
 	NSString *seriesTitle;
 
 //	NSArray *_oldData;		
     MyGraphView *_graphView;
+    NSAffineTransform *_previousTrans;
 }
-
-- (id)initWithArray:(NSArray *)array;
 
 #pragma mark DRAWING ROUTINES
 - (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view;

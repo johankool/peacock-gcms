@@ -18,6 +18,7 @@
     NSNumber *symbol;
     NSNumber *retentionIndex;
     NSString *model;
+    NSString *group;
     JKSpectrum *spectrum;
     JKLibraryEntry *libraryEntry;
     NSMutableDictionary *peaks;
@@ -32,7 +33,7 @@
 - (NSNumber *)averageHeight;
 - (NSNumber *)standardDeviationRetentionIndex;
 - (NSNumber *)standardDeviationSurface;
-- (NSNumber *)standardDeviatioHeight;
+- (NSNumber *)standardDeviationHeight;
                 
 #pragma mark SPECIAL ACCESSORS
 - (id)valueForUndefinedKey:(NSString *)key;
@@ -55,6 +56,8 @@
 - (void)setLibraryEntry:(JKLibraryEntry *)libraryEntry;
 - (BOOL)unknownCompound;
 - (void)setUnknownCompound:(BOOL)unknownCompound;
+- (NSString *)group;
+- (void)setGroup:(NSString *)aGroup;
 
 - (NSMutableDictionary *)peaks;
 - (void)setPeaks:(NSMutableDictionary *)inValue;

@@ -9,10 +9,16 @@
 #import "JKStatisticsDocument.h"
 
 #import "BDAlias.h"
+#import "JKCombinedPeak.h"
 #import "JKLibrary.h"
 #import "JKPeakRecord.h"
 #import "JKStatisticsWindowController.h"
 #import "JKGCMSDocument.h"
+#import "MyGraphDataSerie.h"
+
+NSString *const JKStatisticsDocument_DocumentDeactivateNotification = @"JKStatisticsDocument_DocumentDeactivateNotification";
+NSString *const JKStatisticsDocument_DocumentActivateNotification   = @"JKStatisticsDocument_DocumentActivateNotification";
+NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatisticsDocument_DocumentLoadedNotification";
 
 @implementation JKStatisticsDocument
 
@@ -68,7 +74,10 @@
         [archiver encodeInt:[statisticsWindowController valueToUse] forKey:@"valueToUse"];
         [archiver encodeBool:[statisticsWindowController closeDocuments] forKey:@"closeDocuments"];
         [archiver encodeBool:[statisticsWindowController calculateRatios] forKey:@"calculateRatios"];
-               
+        [archiver encodeObject:[self loadingsDataSeries] forKey:@"loadingsDataSeries"];       
+        [archiver encodeObject:[self scoresDataSeries] forKey:@"scoresDataSeries"];       
+        [archiver encodeInt:[self numberOfFactors] forKey:@"numberOfFactors"];
+        
 		[archiver finishEncoding];
 		[archiver release];
 		
@@ -187,7 +196,7 @@
         JKLogDebug(@"BDAlias at path: %@",[object fullPath]);
 		document = [[NSDocumentController sharedDocumentController] documentForURL:[NSURL fileURLWithPath:[object fullPath]]];
         if (!document) {
-            document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[object fullPath]] display:YES error:&error];
+            document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[object fullPath]] display:NO error:&error];
             if (!document) {
                 // maybe try to determine cause of error and recover first
                 NSAlert *theAlert = [NSAlert alertWithError:error];
@@ -198,6 +207,208 @@
         return document;
     }
     return object;
+}
+
+- (NSString *)exportForFactorAnalysis
+{
+    NSMutableString *outStr = [[NSMutableString alloc] init]; 
+    int i,j;
+    int fileCount = [[statisticsWindowController files] count];
+    int compoundCount;
+    NSNumber *countForGroup;
+    float surface, totalSurface, normalizedSurface;
+    JKCombinedPeak *compound;
+    id file;
+    NSMutableDictionary *uniqueDict = [NSMutableDictionary dictionary];
+    
+    // Make sure that the count is higher than 1
+    NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"countOfPeaks > 1"];
+    NSMutableArray *filteredPeaks = [[[statisticsWindowController combinedPeaks] filteredArrayUsingPredicate:filterPredicate] mutableCopy];
+    
+    // Sort array on retention index
+    NSSortDescriptor *retentionIndexDescriptor =[[NSSortDescriptor alloc] initWithKey:@"averageRetentionIndex" 
+                                                                            ascending:YES];
+    NSArray *sortDescriptors=[NSArray arrayWithObjects:retentionIndexDescriptor,nil];
+    [filteredPeaks sortUsingDescriptors:sortDescriptors];
+    [retentionIndexDescriptor release];
+    
+    compoundCount = [filteredPeaks count];
+    
+    [outStr appendString:@"Sample"];
+    
+    // Compound symbol
+    for (j=0; j < compoundCount; j++) {
+        compound = [filteredPeaks objectAtIndex:j];
+        // ensure symbol is set
+        if (![compound group]) {
+            [compound setGroup:@"X"];
+        }
+        // replace odd characters
+        // ensure symbol starts with letter
+        if ([[compound group] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location == 0) {
+            NSString *newGroup = [NSString stringWithFormat:@"X%@", [compound group]];
+            [compound setGroup:newGroup];
+        }
+        // get countForSymbol 
+        countForGroup = [uniqueDict valueForKey:[compound group]];
+        if (!countForGroup) {
+            countForGroup = [NSNumber numberWithInt:1];
+        } else if (countForGroup) {
+            countForGroup = [NSNumber numberWithInt:[countForGroup intValue]+1];
+        }
+        [uniqueDict setValue:countForGroup forKey:[compound group]];
+         // must be unique (note that a few cases are missed here, e.g. when a group is named X (and gets count 11 and another X1 and gets count 1)
+        [outStr appendFormat:@",%@%d", [compound group], [countForGroup intValue]];
+    }
+    [outStr appendString:@"\n"];
+
+    for (i=0; i < fileCount; i++) {
+        file = [[statisticsWindowController files] objectAtIndex:i];
+        // File sample code
+        // ensure code is set
+        // ensure code starts with letter
+        // must be unique
+        [outStr appendFormat:@"%@", [[[statisticsWindowController metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]] ];
+
+        // For each file calculated total surface
+        for (j=0; j < compoundCount; j++) {
+            compound = [filteredPeaks objectAtIndex:j];
+            surface = [[[compound valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"surface"] floatValue];
+            totalSurface = totalSurface + surface;
+        }
+        // Surface values
+        for (j=0; j < compoundCount; j++) {
+            compound = [filteredPeaks objectAtIndex:j];
+
+            surface = [[[compound valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"surface"] floatValue];
+            normalizedSurface = surface * 100 / totalSurface;
+            if (normalizedSurface != nil) {
+                [outStr appendFormat:@",%g", normalizedSurface];					
+            } else {
+                [outStr appendString:@",0"];										
+            }
+        }
+        [outStr appendString:@"\n"];
+    }
+    
+    return outStr;
+}
+
+- (BOOL)performFactorAnalysis
+{
+     // Get temporary directory
+    NSString *tempDir = [NSTemporaryDirectory() stringByAppendingPathComponent:@"Peacock"];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeFileAtPath:tempDir handler:nil];
+    if (![fileManager createDirectoryAtPath:tempDir attributes:nil]) {
+        JKLogError(@"Could not create temporary directory at %@.", tempDir);
+        return NO;
+    }
+    
+    // Export data
+    [[self exportForFactorAnalysis] writeToFile:[tempDir stringByAppendingPathComponent:@"data.csv"] atomically:NO encoding:NSASCIIStringEncoding error:NULL];
+    
+    // Create R run file
+    NSString *rCommandPath;
+    NSMutableString *rCommand;
+    if (rCommandPath = [[NSBundle mainBundle] pathForResource:@"factoranalysis" ofType:@"txt"])  {
+        rCommand = [NSMutableString stringWithContentsOfFile:rCommandPath encoding:NSASCIIStringEncoding error:NULL];
+        [rCommand replaceOccurrencesOfString:@"{TEMP_DIR}" withString:tempDir options:nil range:NSMakeRange(0, [rCommand length])];
+        [rCommand replaceOccurrencesOfString:@"{NUMBER_OF_FACTORS}" withString:@"4" options:nil range:NSMakeRange(0, [rCommand length])];
+    }
+    
+    NSLog(rCommand);
+    
+    [rCommand writeToFile:[tempDir stringByAppendingPathComponent:@"input.R"] atomically:NO encoding:NSASCIIStringEncoding error:NULL];
+    
+    // Create task
+    NSTask *aTask = [[NSTask alloc] init];
+    NSMutableArray *args = [NSMutableArray array];
+    
+    // Set arguments
+    [args addObject:@"--vanilla"];
+    [args addObject:@"--silent"];
+    [args addObject:@"--slave"];
+    [args addObject:@"--file=input.R"];
+    [aTask setCurrentDirectoryPath:tempDir];
+    [aTask setLaunchPath:@"/usr/bin/R"];
+    [aTask setArguments:args];
+    
+    // Run task
+    [aTask launch];
+    
+    // Have a little patience
+    [aTask waitUntilExit];
+    
+    // Read Loadings
+    if ([fileManager fileExistsAtPath:[tempDir stringByAppendingPathComponent:@"loadings.csv"]]) {
+        NSMutableArray *loadings = [NSMutableArray array];
+        NSString *resultString = [NSString stringWithContentsOfFile:[tempDir stringByAppendingPathComponent:@"loadings.csv"] encoding:NSASCIIStringEncoding error:NULL];
+        NSArray *linesArray = [resultString componentsSeparatedByString:@"\n"];
+        NSMutableArray *keyArray = [[[linesArray objectAtIndex:0] componentsSeparatedByString:@","] mutableCopy];
+        [keyArray replaceObjectAtIndex:0 withObject:@"Compound"];
+        int linesCount = [linesArray count]-1; // last line is empty
+        int keyCount = [keyArray count];
+        int i,j;
+        for (i=1; i < linesCount; i++) {
+            NSArray *lineArray = [[linesArray objectAtIndex:i] componentsSeparatedByString:@","];
+            NSMutableDictionary *loading = [NSMutableDictionary dictionary];
+            [loading setValue:[lineArray objectAtIndex:0] forKey:[keyArray objectAtIndex:0]];
+            for (j=1; j < keyCount; j++) {
+                [loading setValue:[NSNumber numberWithFloat:[[lineArray objectAtIndex:j] floatValue]] forKey:[keyArray objectAtIndex:j]];
+            }
+            [loadings addObject:loading];
+        }
+        
+        MyGraphDataSerie *loadingsDataSerie = [[MyGraphDataSerie alloc] init];
+        [loadingsDataSerie setKeyForLabel:[keyArray objectAtIndex:0]];
+        [loadingsDataSerie setKeyForXValue:[keyArray objectAtIndex:1]];
+        [loadingsDataSerie setKeyForYValue:[keyArray objectAtIndex:2]];
+        [loadingsDataSerie setDataArray:loadings];
+        [loadingsDataSerie setSeriesTitle:@"Loadings"];
+        [self setLoadingsDataSeries:[NSArray arrayWithObject:loadingsDataSerie]];
+        [loadingsDataSerie release];        
+    } else {
+        [self setLoadingsDataSeries:nil];
+    }
+
+    // Read scores
+    if ([fileManager fileExistsAtPath:[tempDir stringByAppendingPathComponent:@"scores.csv"]]) {
+        NSMutableArray *scores = [NSMutableArray array];
+        NSString *resultString = [NSString stringWithContentsOfFile:[tempDir stringByAppendingPathComponent:@"scores.csv"] encoding:NSASCIIStringEncoding error:NULL];
+        NSArray *linesArray = [resultString componentsSeparatedByString:@"\n"];
+        NSMutableArray *keyArray = [[[linesArray objectAtIndex:0] componentsSeparatedByString:@","] mutableCopy];
+        [keyArray replaceObjectAtIndex:0 withObject:@"Sample"];
+        int linesCount = [linesArray count]-1; // last line is empty
+        int keyCount = [keyArray count];
+        int i,j;
+        for (i=1; i < linesCount; i++) {
+            NSArray *lineArray = [[linesArray objectAtIndex:i] componentsSeparatedByString:@","];
+            NSMutableDictionary *score = [NSMutableDictionary dictionary];
+            [score setValue:[lineArray objectAtIndex:0] forKey:[keyArray objectAtIndex:0]];
+            for (j=1; j < keyCount; j++) {
+                [score setValue:[NSNumber numberWithFloat:[[lineArray objectAtIndex:j] floatValue]] forKey:[keyArray objectAtIndex:j]];
+            }
+            [scores addObject:score];
+        }
+        
+        MyGraphDataSerie *scoresDataSerie = [[MyGraphDataSerie alloc] init];
+        [scoresDataSerie setKeyForLabel:[keyArray objectAtIndex:0]];
+        [scoresDataSerie setKeyForXValue:[keyArray objectAtIndex:1]];
+        [scoresDataSerie setKeyForYValue:[keyArray objectAtIndex:2]];
+        [scoresDataSerie setDataArray:scores];
+        [scoresDataSerie setSeriesTitle:@"Scores"];
+        [self setScoresDataSeries:[NSArray arrayWithObject:scoresDataSerie]];
+        [scoresDataSerie release];        
+    } else {
+        [self setScoresDataSeries:nil];
+    }
+    
+//    if (![fileManager removeFileAtPath:tempDir handler:nil]) {
+//        JKLogWarning(@"Could not remove temporary directory at %@.", tempDir);
+//    }
+    return YES;
 }
 
 #pragma mark PRINTING
@@ -222,11 +433,53 @@
 				  didRunSelector:NULL
 					 contextInfo:NULL];
 }
+#pragma mark -
+
+#pragma mark Notifications
+- (void)postNotification:(NSString *)notificationName
+{
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    
+    [center postNotificationName:notificationName object:self];
+}
+
+- (void)windowDidBecomeMain:(NSNotification *)notification
+{
+    [self postNotification:JKStatisticsDocument_DocumentActivateNotification];
+}
+
+- (void) windowDidResignMain: (NSNotification *) notification
+{
+    [self postNotification:JKStatisticsDocument_DocumentDeactivateNotification];
+}
+
+- (void) windowWillClose: (NSNotification *) notification
+{
+    [self postNotification:JKStatisticsDocument_DocumentDeactivateNotification];
+}
+#pragma mark -
+
 
 #pragma mark ACCESSORS
 
 - (JKStatisticsWindowController *)statisticsWindowController {
     return statisticsWindowController;
+}
+
+- (NSArray *)loadingsDataSeries {
+	return loadingsDataSeries;
+}
+- (void)setLoadingsDataSeries:(NSArray *)aLoadingsDataSeries {
+	[loadingsDataSeries autorelease];
+	loadingsDataSeries = [aLoadingsDataSeries retain];
+}
+
+- (NSArray *)scoresDataSeries {
+	return scoresDataSeries;
+}
+- (void)setScoresDataSeries:(NSArray *)aScoresDataSeries {
+	[scoresDataSeries autorelease];
+	scoresDataSeries = [aScoresDataSeries retain];
 }
 
 @end

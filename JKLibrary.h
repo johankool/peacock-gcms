@@ -23,6 +23,7 @@
 
 //- (BOOL)importAMDISFromFile:(NSString *)fileName;
 //- (BOOL)exportAMDISToFile:(NSString *)fileName;
+- (BOOL)requiresObjectForPredicateForSearchTemplate:(NSString *)searchTemplateName;
 - (NSPredicate *)predicateForSearchTemplate:(NSString *)searchTemplateName andObject:(id <JKTargetObjectProtocol>)targetObject;
 - (NSArray *)libraryEntriesWithPredicate:(NSPredicate *)predicate;
 

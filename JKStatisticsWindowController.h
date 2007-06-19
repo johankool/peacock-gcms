@@ -84,6 +84,12 @@
     IBOutlet NSArrayController *chromatogramDataSeriesController;
     IBOutlet NSArrayController *peaksController;
     IBOutlet MyGraphView *altGraphView;
+    
+    IBOutlet MyGraphView *loadingsGraphView;
+    IBOutlet NSArrayController *loadingsDataSeriesController;
+    IBOutlet MyGraphView *scoresGraphView;
+    IBOutlet NSArrayController *scoresDataSeriesController;
+    
 }
 
 #pragma mark ACTIONS

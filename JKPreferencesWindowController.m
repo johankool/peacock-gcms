@@ -76,7 +76,7 @@
 
 - (IBAction)reloadLibrary:(id)sender
 {
-    [[NSApp delegate] loadLibrary];
+    [[NSApp delegate] loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
 }
 
 #pragma mark TOOLBAR

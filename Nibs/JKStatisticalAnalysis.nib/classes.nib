@@ -13,11 +13,13 @@
             ACTIONS = {
                 addButtonAction = id; 
                 cancelEditRatios = id; 
+                combinePeaksAction = id; 
                 editRatios = id; 
                 exportSummary = id; 
                 options = id; 
                 repopulate = id; 
                 repopulateContextMenuAction = id; 
+                runFactorAnalysis = id; 
                 runStatisticalAnalysisButtonAction = id; 
                 saveEditRatios = id; 
                 stopButtonAction = id; 
@@ -31,11 +33,14 @@
                 altGraphView = MyGraphView; 
                 chromatogramDataSeriesController = NSArrayController; 
                 combinedPeaksController = NSArrayController; 
+                comparisonScrollView = NSScrollView; 
                 detailStatusTextField = NSTextField; 
                 doneButton = NSButton; 
                 fileProgressIndicator = NSProgressIndicator; 
                 fileStatusTextField = NSTextField; 
                 filesTableView = NSTableView; 
+                loadingsDataSeriesController = NSArrayController; 
+                loadingsGraphView = MyGraphView; 
                 metadataController = NSArrayController; 
                 metadataTable = NSTableView; 
                 metadataTableScrollView = NSScrollView; 
@@ -50,6 +55,8 @@
                 resultsTable = NSTableView; 
                 resultsTableScrollView = NSScrollView; 
                 runBatchButton = NSButton; 
+                scoresDataSeriesController = NSArrayController; 
+                scoresGraphView = MyGraphView; 
                 searchOptionsButton = NSButton; 
                 stopButton = NSButton; 
                 summarizeOptionsSheet = NSWindow; 

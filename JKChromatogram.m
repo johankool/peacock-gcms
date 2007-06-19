@@ -211,21 +211,28 @@
 
 - (void)identifyPeaks
 {
+    [self identifyPeaksWithForce:NO];
+}
+
+- (void)identifyPeaksWithForce:(BOOL)forced
+{
 	int i, j, answer;
 	int start, end, top;
     float maximumIntensity;
-    NSMutableArray *newPeaks = [self peaks];
+    [self willChangeValueForKey:@"peaks"];
     
-    if ([[self peaks] count] > 0) {
-        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete current peaks?",@""),NSLocalizedString(@"Peaks that are already identified could cause doublures. It's recommended to delete the current peaks.",@""),NSLocalizedString(@"Delete",@""),NSLocalizedString(@"Cancel",@""),NSLocalizedString(@"Keep",@""));
-        if (answer == NSOKButton) {
-            // Delete contents!
-            newPeaks = [NSMutableArray array];
-        } else if (answer == NSCancelButton) {
-            return;
-        } else {
-            newPeaks = [self peaks];
-        }
+    if (!forced) {
+        if ([[self peaks] count] > 0) {
+            answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete current peaks?",@""),NSLocalizedString(@"Peaks that are already identified could cause doublures. It's recommended to delete the current peaks.",@""),NSLocalizedString(@"Delete",@""),NSLocalizedString(@"Cancel",@""),NSLocalizedString(@"Keep",@""));
+            if (answer == NSOKButton) {
+                // Delete contents!
+                [[self peaks] removeAllObjects];
+             } else if (answer == NSCancelButton) {
+                return;
+            } else {
+
+            }
+        }        
     }
     
     // Baseline check
@@ -269,15 +276,18 @@
             
             if ((top != start && top != end) && ((totalIntensity[top] - [self baselineValueAtScan:top])/maximumIntensity > peakIdentificationThresholdF)) { // Sanity check
                 JKPeakRecord *newPeak = [self peakFromScan:start toScan:end];
-                [newPeaks addObject:newPeak];
+                if (![peaks containsObject:newPeak]) {
+                    [self insertObject:newPeak inPeaksAtIndex:[peaks count]];                    
+                }
             }
             
             // Continue looking for peaks from end of this peak
             i = end;			
         }
     }
-    [self setPeaks:newPeaks];
+    [self didChangeValueForKey:@"peaks"];
 }
+
 
 - (JKPeakRecord *)peakFromScan:(int)startScan toScan:(int)endScan {
     // Baseline check
@@ -292,6 +302,15 @@
     }
     if (startScan == endScan) {
         endScan++;
+    }
+    
+    NSEnumerator *peakEnum = [[self peaks] objectEnumerator];
+    JKPeakRecord *somePeak;
+
+    while ((somePeak = [peakEnum nextObject]) != nil) {
+    	if (([somePeak start] == startScan) && ([somePeak end] == endScan)) {
+            return somePeak;
+        }
     }
     JKPeakRecord *newPeak = [[JKPeakRecord alloc] init];
     [newPeak setPeakID:[[self document] nextPeakID]];
@@ -579,8 +598,20 @@
         peaks = [[coder decodeObjectForKey:@"peaks"] retain];
         NSEnumerator *peakEnum = [peaks objectEnumerator];
         JKPeakRecord *peak;
-        
         while ((peak = [peakEnum nextObject]) != nil) {
+//            // Remove duplicate peaks
+//            int firstIndex = [peaks indexOfObject:peak];
+//            int count = [peaks count];
+//            if (firstIndex == count) {
+//                break;
+//            }
+//            while ([peaks indexOfObject:peak inRange:NSMakeRange(firstIndex+1,count-firstIndex-1)] != NSNotFound) {
+//                count = [peaks count];
+//                if (firstIndex == count) {
+//                    break;
+//                }                
+//                [peaks removeObjectAtIndex:[peaks indexOfObject:peak inRange:NSMakeRange(firstIndex+1,count-firstIndex-1)]];
+//            }
             [peak setContainer:self];
         }
         
@@ -778,7 +809,15 @@
 }
 
 - (void)removeObjectFromPeaksAtIndex:(int)index{
+    if (index >= [peaks count] || index < 0) {
+        JKLogError(@"No peak at out-of-bounds index %d.", index);
+        return;
+    }
 	JKPeakRecord *aPeak = [peaks objectAtIndex:index];
+    if (!aPeak) {
+        JKLogError(@"No peak found at index %d.", index);
+        return;
+    }
 	if ([aPeak confirmed]) {
         int  answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete Confirmed Peak",@""),NSLocalizedString(@"The peak you are about to remove was previously confirmed. Are you sure you want to delete this peak?",@""), NSLocalizedString(@"Delete",@""), NSLocalizedString(@"Cancel",@""), nil);
         if (answer == NSOKButton) {

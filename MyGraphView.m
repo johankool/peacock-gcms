@@ -926,6 +926,8 @@ static int   kPaddingLabels             = 4;
 	NSRect totRect, newRect;
 	MyGraphDataSerie *mgds;
 	
+    totRect = NSZeroRect;
+    
 	// Voor iedere dataserie wordt de grootte in grafiek-coordinaten opgevraagd en de totaal omvattende rect bepaald
 	count = [[self dataSeries] count];
     float maxTotal = 0.0f;
@@ -980,6 +982,7 @@ static int   kPaddingLabels             = 4;
 
 - (void)scaleVertically 
 {
+//    NSLog(@"scaleVertically");
    	int i, count;
 	MyGraphDataSerie *mgds;
 	
@@ -1010,6 +1013,7 @@ static int   kPaddingLabels             = 4;
         }
 	}
      
+    [self setNeedsDisplay:YES];
 }
 //- (void)showMagnifyingGlass:(NSEvent *)theEvent  
 //{
@@ -1091,17 +1095,29 @@ static int   kPaddingLabels             = 4;
 }
 
 - (void)zoomToRect:(NSRect)aRect { // aRect in grafiek coördinaten
-	NSPoint newOrig;
+    NSPoint newOrig;
+//    int seriesNumber;
+//    
+//    switch (drawingMode) {
+//        case JKStackedDrawingMode:
+//            // starts in series number 
+//            seriesNumber = (((aRect.origin.y - [self plottingArea].origin.y)/[self plottingArea].size.height) * [[self dataSeries] count])/1;
+//            NSLog(@"seriesNumber %d",seriesNumber);
+//            aRect.origin.y =  aRect.origin.y - seriesNumber * ([self plottingArea].size.height / [[self dataSeries] count]);
+//            NSLog(@"aRect.origin.y %g", aRect.origin.y);
+//            break;
+//        case JKNormalDrawingMode:
+//        default:            
+//            break;
+//    }
+    [self setPixelsPerXUnit:[NSNumber numberWithFloat:(([self plottingArea].size.width  )/aRect.size.width)]];
+    [self setPixelsPerYUnit:[NSNumber numberWithFloat:(([self plottingArea].size.height )/aRect.size.height)]];
+    
+    newOrig.x = [self plottingArea].origin.x - aRect.origin.x * [[self pixelsPerXUnit] floatValue];
+    newOrig.y = [self plottingArea].origin.y - aRect.origin.y * [[self pixelsPerYUnit] floatValue];
+    [self setOrigin:newOrig];
+    [self calculateCoordinateConversions];
 
-	[self setPixelsPerXUnit:[NSNumber numberWithFloat:(([self plottingArea].size.width  )/aRect.size.width)]];
-	[self setPixelsPerYUnit:[NSNumber numberWithFloat:(([self plottingArea].size.height )/aRect.size.height)]];
-
-	newOrig.x = [self plottingArea].origin.x - aRect.origin.x * [[self pixelsPerXUnit] floatValue];
-	newOrig.y = [self plottingArea].origin.y - aRect.origin.y * [[self pixelsPerYUnit] floatValue];
-	[self setOrigin:newOrig];
-	[self calculateCoordinateConversions];
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
 }
 
 - (void)zoomToRectInView:(NSRect)aRect { // aRect in view coördinaten
@@ -1109,7 +1125,7 @@ static int   kPaddingLabels             = 4;
 		
 	newRect.origin = [[self transformScreenToGraph] transformPoint:aRect.origin];
 	newRect.size = [[self transformScreenToGraph] transformSize:aRect.size];
-	JKLogDebug(@"zoomToRectInView x %f, y %f, w %f, h %f",newRect.origin.x, newRect.origin.y, newRect.size.width, newRect.size.height);
+//	JKLogDebug(@"zoomToRectInView x %f, y %f, w %f, h %f",newRect.origin.x, newRect.origin.y, newRect.size.width, newRect.size.height);
 	[self zoomToRect:newRect];
 
 }
@@ -1122,9 +1138,6 @@ static int   kPaddingLabels             = 4;
 	float yWidth = [[self yMaximum] floatValue] - [[self yMinimum] floatValue];
 	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] - yWidth/8]];
 	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] + yWidth/8]];
-	
-//	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
-
 }
 
 - (void)zoomOut {
@@ -1135,45 +1148,30 @@ static int   kPaddingLabels             = 4;
 	float yWidth = [[self yMaximum] floatValue] - [[self yMinimum] floatValue];
 	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] + yWidth/4]];
 	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] - yWidth/4]];
-	
-//	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
-
 }
 
 - (void)moveLeft {
 	float xWidth = [[self xMaximum] floatValue] - [[self xMinimum] floatValue];
 	[self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] - xWidth/4]];
 	[self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] - xWidth/4]];
-	
-//	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
-
 }
 
 - (void)moveRight {
 	float xWidth = [[self xMaximum] floatValue] - [[self xMinimum] floatValue];
 	[self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] + xWidth/4]];
 	[self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] + xWidth/4]];
-	
-//	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
-
 }
 
 - (void)moveUp {
 	float yWidth = [[self yMaximum] floatValue] - [[self yMinimum] floatValue];
 	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] + yWidth/4]];
 	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] + yWidth/4]];
-	
-//	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
-
 }
 
 - (void)moveDown {
 	float yWidth = [[self yMaximum] floatValue] - [[self yMinimum] floatValue];
 	[self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] - yWidth/4]];
 	[self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] - yWidth/4]];
-	
-//	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphViewSynchronizedZooming" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[self xMinimum], @"newXMinimum", [self xMaximum], @"newXMaximum", nil]];
-
 }
 
 - (void)selectNextPeak {
@@ -1425,9 +1423,9 @@ static int   kPaddingLabels             = 4;
                 [self setNeedsDisplayInRect:[self plottingArea]];
 			} else if (([theEvent modifierFlags] & NSShiftKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
 				[self showAll:self];
-			} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
-				//  add peak
-				JKLogDebug(@"add peak");
+//			} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
+//				//  add peak
+//				JKLogDebug(@"add peak");
 			} else if ([theEvent modifierFlags] & NSCommandKeyMask) {
 			} else {
 				//  select scan and show spectrum 
@@ -1542,7 +1540,7 @@ static int   kPaddingLabels             = 4;
             scan = lroundf( (graphLocation.x - retentionRemainder)/retentionSlope );
          }
     } else {
-        JKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
+//        JKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
     }
     
     return scan;
@@ -1573,11 +1571,11 @@ static int   kPaddingLabels             = 4;
                     return peak;
                 }                         
             } else {
-                JKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
+//                JKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
             }
         }
     } else {
-        JKLogError(@"No chromatogram available");
+//        JKLogError(@"No chromatogram available");
     }
     return peak;
 }
@@ -1615,7 +1613,7 @@ static int   kPaddingLabels             = 4;
         [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"Total Intensity"];
         
     } else {
-        JKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
+//        JKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
     }
     
     return thePoint;
@@ -2544,8 +2542,11 @@ static int   kPaddingLabels             = 4;
 }
 
 - (NSArray *)availableKeys {
+    if (![self dataSeries] || [[self dataSeries] count] == 0) {
+        return nil;
+    }
     // Assumes that the first datapoint in the first dataseries is representative for all
-    // This *should* be the casen though.
+    // This *should* be the case though.
     return [[[self dataSeries] objectAtIndex:0] dataArrayKeys];
 }
 

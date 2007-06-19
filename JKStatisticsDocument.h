@@ -13,8 +13,16 @@
 @interface JKStatisticsDocument : NSDocument {
     JKStatisticsWindowController *statisticsWindowController;
     NSDictionary *_documentProxy;
+    NSArray *loadingsDataSeries;
+    NSArray *scoresDataSeries;
 }
 
 - (JKStatisticsWindowController *)statisticsWindowController;
 
+- (NSArray *)loadingsDataSeries;
+- (void)setLoadingsDataSeries:(NSArray *)loadingsDataSeries;
+- (NSArray *)scoresDataSeries;
+- (void)setScoresDataSeries:(NSArray *)aScoresDataSeries;
+
+- (BOOL)performFactorAnalysis;
 @end
