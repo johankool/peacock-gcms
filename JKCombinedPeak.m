@@ -19,6 +19,7 @@
 - (id)init {
 	if ((self = [super init]) != nil) {
 		peaks = [[NSMutableDictionary alloc] init];
+        index = -1;
 	}
 	return self;
 }
@@ -32,16 +33,31 @@
 
 - (id)initWithCoder:(NSCoder *)decoder {
 	[super init];
-    
+    int version = [decoder decodeIntForKey:@"version"];
+    if (version < 1) {
+        index = -1;
+        symbol= [[decoder decodeObjectForKey:@"symbol"] retain];
+        if (symbol)
+            index = [symbol intValue];
+    } else {
+        symbol= [[decoder decodeObjectForKey:@"symbol"] retain];
+        index = [decoder decodeIntForKey:@"index"];
+    }       
     document = [decoder decodeObjectForKey:@"document"];
     label= [[decoder decodeObjectForKey:@"label"] retain];
-    symbol= [[decoder decodeObjectForKey:@"symbol"] retain];
     retentionIndex = [[decoder decodeObjectForKey:@"retentionIndex"] retain];
     model = [[decoder decodeObjectForKey:@"model"] retain];
     spectrum = [[decoder decodeObjectForKey:@"spectrum"] retain];
     libraryEntry = [[decoder decodeObjectForKey:@"libraryEntry"] retain];
     unknownCompound = [decoder decodeBoolForKey:@"unknownCompound"];
     peaks = [[decoder decodeObjectForKey:@"peaks"] retain];
+
+    if (version < 1) {
+        if (libraryEntry)
+            group = [[libraryEntry group] retain];
+    } else {
+        group = [[decoder decodeObjectForKey:@"group"] retain];
+    }       
     
     // If a peak is not found, we'll sadly need to remove it...
     NSMutableArray *keysToDeleteArray = [NSMutableArray arrayWithCapacity:[peaks count]];
@@ -55,7 +71,7 @@
         }
     }
     if ([keysToDeleteArray count] > 0) {
-        JKLogDebug(@"Removing peaks for %@",keysToDeleteArray);
+        JKLogWarning(@"Removing peaks for %@",keysToDeleteArray);
         [peaks removeObjectsForKeys:keysToDeleteArray];
     }
         
@@ -63,11 +79,13 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeInt:0 forKey:@"version"];
+    [encoder encodeInt:1 forKey:@"version"];
 	[encoder encodeObject:label forKey:@"label"];
+    [encoder encodeInt:index forKey:@"index"];
 	[encoder encodeObject:symbol forKey:@"symbol"];
 	[encoder encodeObject:retentionIndex forKey:@"retentionIndex"];
 	[encoder encodeObject:model forKey:@"model"];
+	[encoder encodeObject:group forKey:@"group"];
 	[encoder encodeObject:spectrum forKey:@"spectrum"];
 	[encoder encodeObject:libraryEntry forKey:@"libraryEntry"];
 	[encoder encodeObject:peaks forKey:@"peaks"];
@@ -264,10 +282,11 @@
         }
      }
 }
-- (NSNumber *)symbol {
+
+- (NSString *)symbol {
 	return symbol;
 }
-- (void)setSymbol:(NSNumber *)aSymbol {
+- (void)setSymbol:(NSString *)aSymbol {
     if (aSymbol != symbol) {
         [[self undoManager] registerUndoWithTarget:self
                                           selector:@selector(setSymbol:)
@@ -280,10 +299,18 @@
         NSEnumerator *peakEnum = [peaks objectEnumerator];
         JKPeakRecord *peak;
         while (peak = [peakEnum nextObject]) {
-            [peak setSymbol:[symbol stringValue]];
+            [peak setSymbol:symbol];
         }
     }
 }
+- (int)index {
+	return index;
+}
+- (void)setIndex:(int)aIndex {
+	index = aIndex;
+}
+
+
 - (NSNumber *)retentionIndex {
 	return retentionIndex;
 }
@@ -320,6 +347,9 @@
 - (void)setLibraryEntry:(JKLibraryEntry *)aLibraryEntry {
 	[libraryEntry autorelease];
 	libraryEntry = [aLibraryEntry retain];
+    if ([libraryEntry group]) {
+        [self setGroup:[libraryEntry group]];
+    }
 }
 - (BOOL)unknownCompound {
 	return unknownCompound;

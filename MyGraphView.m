@@ -53,6 +53,8 @@ static int   kPaddingLabels             = 4;
 	[self setKeys:[NSArray arrayWithObjects:@"origin",@"plottingArea",@"pixelsPerXUnit",@"trans",nil] triggerChangeNotificationsForDependentKey:@"xMaximum"];	
 	[self setKeys:[NSArray arrayWithObjects:@"origin",@"plottingArea",@"pixelsPerYUnit",@"trans",nil] triggerChangeNotificationsForDependentKey:@"yMinimum"];	
 	[self setKeys:[NSArray arrayWithObjects:@"origin",@"plottingArea",@"pixelsPerYUnit",@"trans",nil] triggerChangeNotificationsForDependentKey:@"yMaximum"];	
+	[self setKeys:[NSArray arrayWithObjects:@"dataSeries", @"keyForXValue", nil] triggerChangeNotificationsForDependentKey:@"acceptableKeysForXValue"];	
+	[self setKeys:[NSArray arrayWithObjects:@"dataSeries", @"keyForYValue", nil] triggerChangeNotificationsForDependentKey:@"acceptableKeysForYValue"];	
 }
 
 - (NSArray *)exposedBindings {
@@ -875,7 +877,8 @@ static int   kPaddingLabels             = 4;
     
 	// Hier stellen we in hoe de lijnen eruit moeten zien.
 	[framesPath setLineWidth:1.0];
-#warning [BUG] Wrong color used?
+//#warning [BUG] Wrong color used?
+    // No, because it is just a displaced axis after all, frameColor should be used for the rectangle around the graph
 	[[self axesColor] set];
     
 	// Met stroke wordt de bezierpath getekend.
@@ -975,7 +978,10 @@ static int   kPaddingLabels             = 4;
         }
 		totRect = NSUnionRect(totRect, newRect);
 	}
-    
+    if ((totRect.size.height <= 0.0f) || (totRect.size.width <= 0.0f)) {
+        return;
+    }
+        
 //    JKLogDebug(@"zooming to new rect");
 	[self zoomToRect:totRect];
 }
@@ -1838,6 +1844,13 @@ static int   kPaddingLabels             = 4;
         newLegendArea.origin.y = newLegendArea.origin.y - (newLegendArea.size.height - [self legendArea].size.height);
         [self setLegendArea:newLegendArea];
         
+        if (![self keyForXValue] && [[self dataSeries] count] > 0) {
+            [self setKeyForXValue:[[[self dataSeries] objectAtIndex:0] keyForXValue]];
+        }
+        if (![self keyForYValue] && [[self dataSeries] count] > 0) {
+            [self setKeyForYValue:[[[self dataSeries] objectAtIndex:0] keyForYValue]];
+        }
+        
 		[self setNeedsDisplayInRect:[self plottingArea]];
     } 
     else if (context == BaselineObservationContext) 
@@ -2528,26 +2541,45 @@ static int   kPaddingLabels             = 4;
             [self setXAxisLabelString:[[[NSMutableAttributedString alloc] initWithString:[NSString stringWithUTF8String:"m/z Values \u2192"]  attributes:[xAxisLabelString attributesAtIndex:0 effectiveRange:nil]] autorelease]];
         } else if ([keyForXValue isEqualToString:@"Retention Index"]) {
             [self setXAxisLabelString:[[[NSMutableAttributedString alloc] initWithString:[NSString stringWithUTF8String:"Retention Index \u2192"]  attributes:[xAxisLabelString attributesAtIndex:0 effectiveRange:nil]] autorelease]];
+        } else if ([keyForXValue hasPrefix:@"Factor"]) {
+            [self setXAxisLabelString:[[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", keyForXValue, [NSString stringWithUTF8String:"\u2192"]] attributes:[xAxisLabelString attributesAtIndex:0 effectiveRange:nil]] autorelease]];
         }
         
         int i, count;
         count = [[self dataSeries] count];
         for (i=0; i<count; i++){
             [[[self dataSeries] objectAtIndex:i] setKeyForXValue:inValue];
-            [[[self dataSeries] objectAtIndex:i] constructPlotPath];
         }    
         [self showAll:self];
         [self setNeedsDisplay:YES];        
     }
 }
 
-- (NSArray *)availableKeys {
+//- (NSArray *)availableKeys {
+//    if (![self dataSeries] || [[self dataSeries] count] == 0) {
+//        return nil;
+//    }
+//    // Assumes that the first datapoint in the first dataseries is representative for all
+//    // This *should* be the case though.
+//    return [[[self dataSeries] objectAtIndex:0] dataArrayKeys];
+//}
+
+- (NSArray *)acceptableKeysForXValue {
     if (![self dataSeries] || [[self dataSeries] count] == 0) {
         return nil;
     }
     // Assumes that the first datapoint in the first dataseries is representative for all
     // This *should* be the case though.
-    return [[[self dataSeries] objectAtIndex:0] dataArrayKeys];
+    return [[[self dataSeries] objectAtIndex:0] acceptableKeysForXValue];    
+}
+
+- (NSArray *)acceptableKeysForYValue {
+    if (![self dataSeries] || [[self dataSeries] count] == 0) {
+        return nil;
+    }
+    // Assumes that the first datapoint in the first dataseries is representative for all
+    // This *should* be the case though.
+    return [[[self dataSeries] objectAtIndex:0] acceptableKeysForYValue];    
 }
 
 - (NSString *)keyForYValue {
@@ -2563,14 +2595,16 @@ static int   kPaddingLabels             = 4;
             [self setYAxisLabelString:[[[NSMutableAttributedString alloc] initWithString:[NSString stringWithUTF8String:"Total Intensity \u2192"] attributes:[yAxisLabelString attributesAtIndex:0 effectiveRange:nil]] autorelease]];
         } else  if ([keyForYValue isEqualToString:@"Intensity"]) {
             [self setYAxisLabelString:[[[NSMutableAttributedString alloc] initWithString:[NSString stringWithUTF8String:"Intensity \u2192"] attributes:[yAxisLabelString attributesAtIndex:0 effectiveRange:nil]] autorelease]];
+        } else if ([keyForYValue hasPrefix:@"Factor"]) {
+            [self setYAxisLabelString:[[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", keyForYValue, [NSString stringWithUTF8String:"\u2192"]] attributes:[yAxisLabelString attributesAtIndex:0 effectiveRange:nil]] autorelease]];
         }
+        
         
         int i, count;
         count = [[self dataSeries] count];
         
         for (i=0;i<count; i++){
             [[[self dataSeries] objectAtIndex:i] setKeyForYValue:inValue];
-            [[[self dataSeries] objectAtIndex:i] constructPlotPath];
         }
         [self showAll:self];
         [self setNeedsDisplay:YES];        

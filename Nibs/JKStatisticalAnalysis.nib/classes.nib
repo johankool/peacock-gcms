@@ -46,6 +46,7 @@
                 metadataTableScrollView = NSScrollView; 
                 optionsSheet = NSWindow; 
                 peaksController = NSArrayController; 
+                printAccessoryView = id; 
                 progressSheet = NSWindow; 
                 ratiosController = NSArrayController; 
                 ratiosEditor = NSWindow; 
@@ -58,6 +59,7 @@
                 scoresDataSeriesController = NSArrayController; 
                 scoresGraphView = MyGraphView; 
                 searchOptionsButton = NSButton; 
+                splitView = id; 
                 stopButton = NSButton; 
                 summarizeOptionsSheet = NSWindow; 
                 tabView = NSTabView; 

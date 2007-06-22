@@ -66,6 +66,10 @@
 		C7680FC00C035C4800973566 /* JKLibrary.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */; };
 		C76814070C05E66C00973566 /* JKManagedLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */; };
 		C76814240C05E6F200973566 /* FilteringDNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */; };
+		C7696D6F0C2C1A25009A013E /* JKStatisticsPrintView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7696D6D0C2C1A25009A013E /* JKStatisticsPrintView.h */; };
+		C7696D700C2C1A25009A013E /* JKStatisticsPrintView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7696D6E0C2C1A25009A013E /* JKStatisticsPrintView.m */; };
+		C7696D710C2C1A26009A013E /* JKStatisticsPrintView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7696D6D0C2C1A25009A013E /* JKStatisticsPrintView.h */; };
+		C7696D720C2C1A26009A013E /* JKStatisticsPrintView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7696D6E0C2C1A25009A013E /* JKStatisticsPrintView.m */; };
 		C7713B36095029C200653D2A /* JKBatchProcess.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7713B35095029C200653D2A /* JKBatchProcess.nib */; };
 		C7713B430950368F00653D2A /* JKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */; };
 		C773669808E02D87002B72F1 /* ChromatogramGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */; };
@@ -432,7 +436,7 @@
 		C75846130C071ACC00756ED8 /* JKComparableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKComparableProtocol.h; sourceTree = "<group>"; };
 		C75846610C07268D00756ED8 /* JKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKLibraryEntry.h; sourceTree = "<group>"; };
 		C75846620C07268D00756ED8 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = "<group>"; };
-		C765B8AA0C23237A00C4F153 /* factoranalysis.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = factoranalysis.txt; sourceTree = "<group>"; };
+		C765B8AA0C23237A00C4F153 /* factoranalysis.txt */ = {isa = PBXFileReference; fileEncoding = 7; lastKnownFileType = text; path = factoranalysis.txt; sourceTree = "<group>"; };
 		C7680E390C03426900973566 /* MAKeyedArchiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAKeyedArchiver.h; sourceTree = "<group>"; };
 		C7680E3A0C03426A00973566 /* MAKeyedArchiver.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MAKeyedArchiver.m; sourceTree = "<group>"; };
 		C7680E3B0C03426A00973566 /* MAKeyedUnarchiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAKeyedUnarchiver.h; sourceTree = "<group>"; };
@@ -451,6 +455,8 @@
 		C7680E480C03426A00973566 /* MAStringTable.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MAStringTable.m; sourceTree = "<group>"; };
 		C7680E490C03426A00973566 /* README */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = JKLibrary.xcdatamodel; sourceTree = "<group>"; };
+		C7696D6D0C2C1A25009A013E /* JKStatisticsPrintView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKStatisticsPrintView.h; sourceTree = "<group>"; };
+		C7696D6E0C2C1A25009A013E /* JKStatisticsPrintView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKStatisticsPrintView.m; sourceTree = "<group>"; };
 		C7713B35095029C200653D2A /* JKBatchProcess.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = JKBatchProcess.nib; sourceTree = "<group>"; };
 		C7713B410950368F00653D2A /* JKBatchProcessWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKBatchProcessWindowController.h; sourceTree = "<group>"; };
 		C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKBatchProcessWindowController.m; sourceTree = "<group>"; };
@@ -723,6 +729,8 @@
 				C777A2B70A1DFE7D00CF44D9 /* JKPathPopUpButton */,
 				C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */,
 				C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */,
+				C7696D6D0C2C1A25009A013E /* JKStatisticsPrintView.h */,
+				C7696D6E0C2C1A25009A013E /* JKStatisticsPrintView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1176,6 +1184,7 @@
 				C7F8DF050BF0D41000A34F5D /* DisplayOptionsWindowController.h in Headers */,
 				C75846140C071ACC00756ED8 /* JKComparableProtocol.h in Headers */,
 				C75846630C07268D00756ED8 /* JKLibraryEntry.h in Headers */,
+				C7696D710C2C1A26009A013E /* JKStatisticsPrintView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1214,6 +1223,7 @@
 				C7F8DE960BF0CDEE00A34F5D /* AMRemovableColumnsTableView.h in Headers */,
 				C7F8DF070BF0D41000A34F5D /* DisplayOptionsWindowController.h in Headers */,
 				C75846650C07268D00756ED8 /* JKLibraryEntry.h in Headers */,
+				C7696D6F0C2C1A25009A013E /* JKStatisticsPrintView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1525,6 +1535,7 @@
 				C76814070C05E66C00973566 /* JKManagedLibraryEntry.m in Sources */,
 				C76814240C05E6F200973566 /* FilteringDNDArrayController.m in Sources */,
 				C75846660C07268D00756ED8 /* JKLibraryEntry.m in Sources */,
+				C7696D700C2C1A25009A013E /* JKStatisticsPrintView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1592,6 +1603,7 @@
 				C7F8DF040BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */,
 				C7680FBF0C035C4800973566 /* JKLibrary.xcdatamodel in Sources */,
 				C75846640C07268D00756ED8 /* JKLibraryEntry.m in Sources */,
+				C7696D720C2C1A26009A013E /* JKStatisticsPrintView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

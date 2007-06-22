@@ -9,14 +9,30 @@
 @class MyGraphView;
 
 @protocol GraphDataSerie
-- (NSString *)seriesTitle;
-- (void)setSeriesTitle:(NSString *)inValue;
-- (NSString *)keyForXValue;
-- (void)setKeyForXValue:(NSString *)inValue;
-- (NSString *)keyForYValue;
-- (void)setKeyForYValue:(NSString *)inValue;
+- (BOOL)shouldDrawLabels;
+- (void)setShouldDrawLabels:(BOOL)shouldDrawLabels;
+
 - (NSColor *)seriesColor;
 - (void)setSeriesColor:(NSColor *)inValue;
+- (NSNumber *)verticalScale;
+- (void)setVerticalScale:(NSNumber *)inValue;
+- (NSString *)seriesTitle;
+- (void)setSeriesTitle:(NSString *)inValue;
+
+- (NSString *)keyForXValue;
+- (void)setKeyForXValue:(NSString *)inValue;
+- (NSArray *)acceptableKeysForXValue;
+- (void)setAcceptableKeysForXValue:(NSArray *)inValue;
+
+- (NSString *)keyForYValue;
+- (void)setKeyForYValue:(NSString *)inValue;
+- (NSArray *)acceptableKeysForYValue;
+- (void)setAcceptableKeysForYValue:(NSArray *)inValue;
+
+- (NSString *)keyForLabel;
+- (void)setKeyForLabel:(NSString *)inValue;
+- (NSArray *)acceptableKeysForLabel;
+- (void)setAcceptableKeysForLabel:(NSArray *)inValue;
 
 - (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view;
 - (void)transposeAxes;
@@ -29,41 +45,55 @@ typedef enum {
     JKSpectrumSeriesType
 } JKSeriesTypes;
 
-@interface MyGraphDataSerie : NSObject <GraphDataSerie> {
+@interface MyGraphDataSerie : NSObject <NSCoding, GraphDataSerie> {
 	BOOL shouldDrawLabels;
+    BOOL observeData;
 	JKSeriesTypes seriesType;
-	NSBezierPath *plotPath;
 	NSColor *seriesColor;
-	NSMutableArray *dataArray; 
 	NSNumber *verticalScale;
-	NSString *keyForXValue;
-	NSString *keyForYValue;
-    NSString *keyForLabel;
 	NSString *seriesTitle;
+    
+	NSMutableArray *dataArray; 
+	
+    NSString *keyForXValue;
+    NSArray *acceptableKeysForXValue;
+    
+	NSString *keyForYValue;
+    NSArray *acceptableKeysForYValue;
 
-//	NSArray *_oldData;		
+    NSString *keyForLabel;
+    NSArray *acceptableKeysForLabel;
+
+    BOOL _needsReconstructingPlotPath;
     MyGraphView *_graphView;
     NSAffineTransform *_previousTrans;
+    NSArray *_oldData;		
+    NSBezierPath *_plotPath;
+    NSRect _boundsRect;
+    float _lowestX, _highestX, _lowestY, _highestY;
 }
 
-#pragma mark DRAWING ROUTINES
+#pragma mark Drawing Routines
 - (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view;
 - (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view;
 - (void)constructPlotPath;
+#pragma mark -
 
-#pragma mark HELPER ROUTINES
+#pragma mark Helper Routines
 - (void)transposeAxes;
 - (NSRect)boundingRect;
+#pragma mark -
 
-#pragma mark KEY VALUE OBSERVING MANAGEMENT
+#pragma mark Key Value Observing Management
 - (void)startObservingData:(NSArray *)data;
 - (void)stopObservingData:(NSArray *)data;
+#pragma mark -
 
-#pragma mark MISC
-- (NSArray *)dataArrayKeys;
+#pragma mark Misc
 - (void)loadDataPoints:(int)npts withXValues:(float *)xpts andYValues:(float *)ypts ;
+#pragma mark -
 
-#pragma mark ACCESSORS
+#pragma mark Accessors
 - (NSMutableArray *)dataArray;
 - (void)setDataArray:(NSMutableArray *)inValue;
 - (NSString *)seriesTitle;
@@ -72,6 +102,8 @@ typedef enum {
 - (void)setKeyForXValue:(NSString *)inValue;
 - (NSString *)keyForYValue;
 - (void)setKeyForYValue:(NSString *)inValue;
+- (NSString *)keyForLabel ;
+- (void)setKeyForLabel:(NSString *)inValue;
 - (NSColor *)seriesColor;
 - (void)setSeriesColor:(NSColor *)inValue;
 - (int)seriesType;
@@ -82,7 +114,11 @@ typedef enum {
 - (void)setShouldDrawLabels:(BOOL)inValue;
 - (NSNumber *)verticalScale;
 - (void)setVerticalScale:(NSNumber *)inValue;
+#pragma mark -
 
-//- (NSArray *)oldData;
-//- (void)setOldData:(NSArray *)anOldData;
+#pragma mark Private Methods
+- (NSArray *)oldData;
+- (void)setOldData:(NSArray *)anOldData;
+- (NSAffineTransform *)oldTrans;
+- (void)setOldTrans:(NSAffineTransform *)anOldTrans;
 @end

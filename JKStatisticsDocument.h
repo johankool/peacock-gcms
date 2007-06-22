@@ -9,12 +9,16 @@
 #import <Cocoa/Cocoa.h>
 
 @class JKStatisticsWindowController;
+@class JKStatisticsPrintView;
 
 @interface JKStatisticsDocument : NSDocument {
     JKStatisticsWindowController *statisticsWindowController;
     NSDictionary *_documentProxy;
     NSArray *loadingsDataSeries;
     NSArray *scoresDataSeries;
+    int numberOfFactors;
+    
+    JKStatisticsPrintView *printView;
 }
 
 - (JKStatisticsWindowController *)statisticsWindowController;
@@ -23,6 +27,8 @@
 - (void)setLoadingsDataSeries:(NSArray *)loadingsDataSeries;
 - (NSArray *)scoresDataSeries;
 - (void)setScoresDataSeries:(NSArray *)aScoresDataSeries;
-
+- (int)numberOfFactors;
+- (void)setNumberOfFactors:(int)numberOfFactors;
+- (void)setUniqueSymbols;
 - (BOOL)performFactorAnalysis;
 @end

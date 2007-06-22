@@ -291,7 +291,7 @@ typedef enum {
 - (void)setKeyForXValue:(NSString *)inValue;
 - (NSString *)keyForYValue;
 - (void)setKeyForYValue:(NSString *)inValue;
-- (NSArray *)availableKeys;
+//- (NSArray *)availableKeys;
 - (NSNumber *)unitsPerMajorX;
 - (void)setUnitsPerMajorX:(NSNumber *)inValue;
 - (NSNumber *)unitsPerMajorY;

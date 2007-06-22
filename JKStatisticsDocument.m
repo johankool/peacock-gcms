@@ -15,6 +15,7 @@
 #import "JKStatisticsWindowController.h"
 #import "JKGCMSDocument.h"
 #import "MyGraphDataSerie.h"
+#import "JKStatisticsPrintView.h"
 
 NSString *const JKStatisticsDocument_DocumentDeactivateNotification = @"JKStatisticsDocument_DocumentDeactivateNotification";
 NSString *const JKStatisticsDocument_DocumentActivateNotification   = @"JKStatisticsDocument_DocumentActivateNotification";
@@ -28,6 +29,14 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
 	self = [super init];
     if (self != nil) {
         _documentProxy = [[NSDictionary alloc] initWithObjectsAndKeys:@"_documentProxy", @"_documentProxy",nil];
+        numberOfFactors = 4;
+        
+        [[self undoManager] disableUndoRegistration];
+        [self setPrintInfo:[NSPrintInfo sharedPrintInfo]];
+        [[self printInfo] setOrientation:NSLandscapeOrientation];
+        printView = [[JKStatisticsPrintView alloc] initWithDocument:self];
+        [[self undoManager] enableUndoRegistration];
+        
     }
     return self;
 }
@@ -105,6 +114,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         }        
         
         [statisticsWindowController willChangeValueForKey:@"combinedPeaks"];
+        int version = [unarchiver decodeIntForKey:@"version"];
         // open files first so we are ready to find peaks contained in combinedpeaks
 		[statisticsWindowController setFiles:[unarchiver decodeObjectForKey:@"files"]];
         [statisticsWindowController setRatioValues:[unarchiver decodeObjectForKey:@"ratioValues"]];
@@ -121,6 +131,12 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         [statisticsWindowController setCalculateRatios:[unarchiver decodeBoolForKey:@"calculateRatios"]];
 		[statisticsWindowController setCombinedPeaks:[unarchiver decodeObjectForKey:@"combinedPeaks"]];
         [statisticsWindowController didChangeValueForKey:@"combinedPeaks"];
+        
+        if (version > 1){
+            [self setNumberOfFactors:[unarchiver decodeIntForKey:@"numberOfFactors"]];
+            [self setLoadingsDataSeries:[unarchiver decodeObjectForKey:@"loadingsDataSeries"]];
+            [self setScoresDataSeries:[unarchiver decodeObjectForKey:@"scoresDataSeries"]];            
+        }
         JKLogDebug(@"retaincount = %d",[self retainCount]);
         [self retain];
 		[unarchiver finishDecoding];
@@ -209,17 +225,62 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
     return object;
 }
 
+- (void)setUniqueSymbols 
+{
+    NSMutableString *outStr = [[NSMutableString alloc] init]; 
+    int j;
+    int compoundCount;
+    NSNumber *countForGroup;
+    JKCombinedPeak *compound;
+    NSMutableDictionary *uniqueDict = [NSMutableDictionary dictionary];
+    NSMutableArray *peaks = [[statisticsWindowController combinedPeaks] mutableCopy];
+
+    // Sort array on retention index
+    NSSortDescriptor *retentionIndexDescriptor =[[NSSortDescriptor alloc] initWithKey:@"averageRetentionIndex" 
+                                                                            ascending:YES];
+    NSArray *sortDescriptors=[NSArray arrayWithObjects:retentionIndexDescriptor,nil];
+    [peaks sortUsingDescriptors:sortDescriptors];
+    [retentionIndexDescriptor release];
+    
+    compoundCount = [peaks count];
+    
+    [outStr appendString:@"Sample"];
+    
+    // Compound symbol
+    for (j=0; j < compoundCount; j++) {
+        compound = [peaks objectAtIndex:j];
+        // ensure symbol is set
+        if (![compound group] || [[compound group] isEqualToString:@""]) {
+            [compound setGroup:@"X"];
+        }
+        // replace odd characters
+        // ensure symbol starts with letter
+        if ([[compound group] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location == 0) {
+            NSString *newGroup = [NSString stringWithFormat:@"X%@", [compound group]];
+            [compound setGroup:newGroup];
+        }
+        // get countForSymbol 
+        countForGroup = [uniqueDict valueForKey:[compound group]];
+        if (!countForGroup) {
+            countForGroup = [NSNumber numberWithInt:1];
+        } else if (countForGroup) {
+            countForGroup = [NSNumber numberWithInt:[countForGroup intValue]+1];
+        }
+        [uniqueDict setValue:countForGroup forKey:[compound group]];
+        // must be unique (note that a few cases are missed here, e.g. when a group is named X (and gets count 11 and another X1 and gets count 1)
+        [compound setSymbol:[NSString stringWithFormat:@"%@%d", [compound group], [countForGroup intValue]]];
+    }
+}
+
 - (NSString *)exportForFactorAnalysis
 {
     NSMutableString *outStr = [[NSMutableString alloc] init]; 
     int i,j;
     int fileCount = [[statisticsWindowController files] count];
     int compoundCount;
-    NSNumber *countForGroup;
     float surface, totalSurface, normalizedSurface;
     JKCombinedPeak *compound;
     id file;
-    NSMutableDictionary *uniqueDict = [NSMutableDictionary dictionary];
     
     // Make sure that the count is higher than 1
     NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"countOfPeaks > 1"];
@@ -239,26 +300,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
     // Compound symbol
     for (j=0; j < compoundCount; j++) {
         compound = [filteredPeaks objectAtIndex:j];
-        // ensure symbol is set
-        if (![compound group]) {
-            [compound setGroup:@"X"];
-        }
-        // replace odd characters
-        // ensure symbol starts with letter
-        if ([[compound group] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location == 0) {
-            NSString *newGroup = [NSString stringWithFormat:@"X%@", [compound group]];
-            [compound setGroup:newGroup];
-        }
-        // get countForSymbol 
-        countForGroup = [uniqueDict valueForKey:[compound group]];
-        if (!countForGroup) {
-            countForGroup = [NSNumber numberWithInt:1];
-        } else if (countForGroup) {
-            countForGroup = [NSNumber numberWithInt:[countForGroup intValue]+1];
-        }
-        [uniqueDict setValue:countForGroup forKey:[compound group]];
-         // must be unique (note that a few cases are missed here, e.g. when a group is named X (and gets count 11 and another X1 and gets count 1)
-        [outStr appendFormat:@",%@%d", [compound group], [countForGroup intValue]];
+        [outStr appendFormat:@",%@", [compound symbol]];
     }
     [outStr appendString:@"\n"];
 
@@ -315,12 +357,12 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
     if (rCommandPath = [[NSBundle mainBundle] pathForResource:@"factoranalysis" ofType:@"txt"])  {
         rCommand = [NSMutableString stringWithContentsOfFile:rCommandPath encoding:NSASCIIStringEncoding error:NULL];
         [rCommand replaceOccurrencesOfString:@"{TEMP_DIR}" withString:tempDir options:nil range:NSMakeRange(0, [rCommand length])];
-        [rCommand replaceOccurrencesOfString:@"{NUMBER_OF_FACTORS}" withString:@"4" options:nil range:NSMakeRange(0, [rCommand length])];
+        [rCommand replaceOccurrencesOfString:@"{NUMBER_OF_FACTORS}" withString:[NSString stringWithFormat:@"%d",[self numberOfFactors]] options:nil range:NSMakeRange(0, [rCommand length])];
     }
     
-    NSLog(rCommand);
+//    NSLog(rCommand);
     
-    [rCommand writeToFile:[tempDir stringByAppendingPathComponent:@"input.R"] atomically:NO encoding:NSASCIIStringEncoding error:NULL];
+    [rCommand writeToFile:[tempDir stringByAppendingPathComponent:@"input.txt"] atomically:NO encoding:NSASCIIStringEncoding error:NULL];
     
     // Create task
     NSTask *aTask = [[NSTask alloc] init];
@@ -330,9 +372,13 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
     [args addObject:@"--vanilla"];
     [args addObject:@"--silent"];
     [args addObject:@"--slave"];
-    [args addObject:@"--file=input.R"];
+    [args addObject:@"--file=input.txt"];
     [aTask setCurrentDirectoryPath:tempDir];
     [aTask setLaunchPath:@"/usr/bin/R"];
+    [fileManager createFileAtPath:[tempDir stringByAppendingPathComponent:@"output.txt"] contents:[@"" dataUsingEncoding:NSASCIIStringEncoding] attributes:nil];
+    [aTask setStandardOutput:[NSFileHandle fileHandleForWritingAtPath:[tempDir stringByAppendingPathComponent:@"output.txt"]]];
+    [fileManager createFileAtPath:[tempDir stringByAppendingPathComponent:@"error.txt"] contents:[@"" dataUsingEncoding:NSASCIIStringEncoding] attributes:nil];
+    [aTask setStandardError:[NSFileHandle fileHandleForWritingAtPath:[tempDir stringByAppendingPathComponent:@"error.txt"]]];
     [aTask setArguments:args];
     
     // Run task
@@ -341,35 +387,57 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
     // Have a little patience
     [aTask waitUntilExit];
     
+    int status = [aTask terminationStatus];
+    if (status == 0) {
+        JKLogInfo(@"Task succeeded.");
+    } else {
+        [self setLoadingsDataSeries:nil];
+        [self setScoresDataSeries:nil];
+        NSRunAlertPanel(@"Factor Analysis Failed",@"The factor analysis could not be run successfully.",@"OK",nil,nil);    
+        return NO;
+    }
+    
     // Read Loadings
     if ([fileManager fileExistsAtPath:[tempDir stringByAppendingPathComponent:@"loadings.csv"]]) {
         NSMutableArray *loadings = [NSMutableArray array];
         NSString *resultString = [NSString stringWithContentsOfFile:[tempDir stringByAppendingPathComponent:@"loadings.csv"] encoding:NSASCIIStringEncoding error:NULL];
         NSArray *linesArray = [resultString componentsSeparatedByString:@"\n"];
-        NSMutableArray *keyArray = [[[linesArray objectAtIndex:0] componentsSeparatedByString:@","] mutableCopy];
-        [keyArray replaceObjectAtIndex:0 withObject:@"Compound"];
-        int linesCount = [linesArray count]-1; // last line is empty
-        int keyCount = [keyArray count];
-        int i,j;
-        for (i=1; i < linesCount; i++) {
-            NSArray *lineArray = [[linesArray objectAtIndex:i] componentsSeparatedByString:@","];
-            NSMutableDictionary *loading = [NSMutableDictionary dictionary];
-            [loading setValue:[lineArray objectAtIndex:0] forKey:[keyArray objectAtIndex:0]];
-            for (j=1; j < keyCount; j++) {
-                [loading setValue:[NSNumber numberWithFloat:[[lineArray objectAtIndex:j] floatValue]] forKey:[keyArray objectAtIndex:j]];
+        if ([linesArray count] > 2) {
+            NSMutableArray *keyArray = [[[linesArray objectAtIndex:0] componentsSeparatedByString:@","] mutableCopy];
+            [keyArray replaceObjectAtIndex:0 withObject:@"Compound"];
+            int i,j;
+            for (i = 0; i < [keyArray count]; i++) {
+                if ([[keyArray objectAtIndex:i] hasPrefix:@"Factor"]) {
+                    [keyArray replaceObjectAtIndex:i withObject:[NSString stringWithFormat:@"Factor %@", [[keyArray objectAtIndex:i] substringFromIndex:6]]];
+                }
             }
-            [loadings addObject:loading];
+            int linesCount = [linesArray count]-1; // last line is empty
+            int keyCount = [keyArray count];
+            for (i=1; i < linesCount; i++) {
+                NSArray *lineArray = [[linesArray objectAtIndex:i] componentsSeparatedByString:@","];
+                NSMutableDictionary *loading = [NSMutableDictionary dictionary];
+                [loading setValue:[lineArray objectAtIndex:0] forKey:[keyArray objectAtIndex:0]];
+                for (j=1; j < keyCount; j++) {
+                    [loading setValue:[NSNumber numberWithFloat:[[lineArray objectAtIndex:j] floatValue]] forKey:[keyArray objectAtIndex:j]];
+                }
+                [loadings addObject:loading];
+            }
+            
+            MyGraphDataSerie *loadingsDataSerie = [[MyGraphDataSerie alloc] init];
+            [loadingsDataSerie setKeyForLabel:[keyArray objectAtIndex:0]];
+            [loadingsDataSerie setAcceptableKeysForLabel:[NSArray arrayWithObject:[keyArray objectAtIndex:0]]];
+            [loadingsDataSerie setKeyForXValue:[keyArray objectAtIndex:1]];
+            [loadingsDataSerie setKeyForYValue:[keyArray objectAtIndex:2]];
+            [loadingsDataSerie setAcceptableKeysForXValue:[keyArray objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1,[keyArray count]-1)]]];
+            [loadingsDataSerie setAcceptableKeysForYValue:[keyArray objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1,[keyArray count]-1)]]];
+            [loadingsDataSerie setDataArray:loadings];
+            [loadingsDataSerie setSeriesTitle:@"Loadings"];
+            [self setLoadingsDataSeries:[NSArray arrayWithObject:loadingsDataSerie]];
+            [loadingsDataSerie release];                    
+        } else {
+            [self setLoadingsDataSeries:nil];
         }
-        
-        MyGraphDataSerie *loadingsDataSerie = [[MyGraphDataSerie alloc] init];
-        [loadingsDataSerie setKeyForLabel:[keyArray objectAtIndex:0]];
-        [loadingsDataSerie setKeyForXValue:[keyArray objectAtIndex:1]];
-        [loadingsDataSerie setKeyForYValue:[keyArray objectAtIndex:2]];
-        [loadingsDataSerie setDataArray:loadings];
-        [loadingsDataSerie setSeriesTitle:@"Loadings"];
-        [self setLoadingsDataSeries:[NSArray arrayWithObject:loadingsDataSerie]];
-        [loadingsDataSerie release];        
-    } else {
+     } else {
         [self setLoadingsDataSeries:nil];
     }
 
@@ -378,29 +446,33 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         NSMutableArray *scores = [NSMutableArray array];
         NSString *resultString = [NSString stringWithContentsOfFile:[tempDir stringByAppendingPathComponent:@"scores.csv"] encoding:NSASCIIStringEncoding error:NULL];
         NSArray *linesArray = [resultString componentsSeparatedByString:@"\n"];
-        NSMutableArray *keyArray = [[[linesArray objectAtIndex:0] componentsSeparatedByString:@","] mutableCopy];
-        [keyArray replaceObjectAtIndex:0 withObject:@"Sample"];
-        int linesCount = [linesArray count]-1; // last line is empty
-        int keyCount = [keyArray count];
-        int i,j;
-        for (i=1; i < linesCount; i++) {
-            NSArray *lineArray = [[linesArray objectAtIndex:i] componentsSeparatedByString:@","];
-            NSMutableDictionary *score = [NSMutableDictionary dictionary];
-            [score setValue:[lineArray objectAtIndex:0] forKey:[keyArray objectAtIndex:0]];
-            for (j=1; j < keyCount; j++) {
-                [score setValue:[NSNumber numberWithFloat:[[lineArray objectAtIndex:j] floatValue]] forKey:[keyArray objectAtIndex:j]];
+        if ([linesArray count] > 2) {
+            NSMutableArray *keyArray = [[[linesArray objectAtIndex:0] componentsSeparatedByString:@","] mutableCopy];
+            [keyArray replaceObjectAtIndex:0 withObject:@"Sample"];
+            int linesCount = [linesArray count]-1; // last line is empty
+            int keyCount = [keyArray count];
+            int i,j;
+            for (i=1; i < linesCount; i++) {
+                NSArray *lineArray = [[linesArray objectAtIndex:i] componentsSeparatedByString:@","];
+                NSMutableDictionary *score = [NSMutableDictionary dictionary];
+                [score setValue:[lineArray objectAtIndex:0] forKey:[keyArray objectAtIndex:0]];
+                for (j=1; j < keyCount; j++) {
+                    [score setValue:[NSNumber numberWithFloat:[[lineArray objectAtIndex:j] floatValue]] forKey:[keyArray objectAtIndex:j]];
+                }
+                [scores addObject:score];
             }
-            [scores addObject:score];
-        }
-        
-        MyGraphDataSerie *scoresDataSerie = [[MyGraphDataSerie alloc] init];
-        [scoresDataSerie setKeyForLabel:[keyArray objectAtIndex:0]];
-        [scoresDataSerie setKeyForXValue:[keyArray objectAtIndex:1]];
-        [scoresDataSerie setKeyForYValue:[keyArray objectAtIndex:2]];
-        [scoresDataSerie setDataArray:scores];
-        [scoresDataSerie setSeriesTitle:@"Scores"];
-        [self setScoresDataSeries:[NSArray arrayWithObject:scoresDataSerie]];
-        [scoresDataSerie release];        
+            
+            MyGraphDataSerie *scoresDataSerie = [[MyGraphDataSerie alloc] init];
+            [scoresDataSerie setKeyForLabel:[keyArray objectAtIndex:0]];
+            [scoresDataSerie setKeyForXValue:[keyArray objectAtIndex:1]];
+            [scoresDataSerie setKeyForYValue:[keyArray objectAtIndex:2]];
+            [scoresDataSerie setDataArray:scores];
+            [scoresDataSerie setSeriesTitle:@"Scores"];
+            [self setScoresDataSeries:[NSArray arrayWithObject:scoresDataSerie]];
+            [scoresDataSerie release];                    
+        } else {
+            [self setScoresDataSeries:nil];
+        }        
     } else {
         [self setScoresDataSeries:nil];
     }
@@ -411,12 +483,15 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
     return YES;
 }
 
-#pragma mark PRINTING
-
+#pragma mark Printing
+- (BOOL)shouldChangePrintInfo:(NSPrintInfo *)newPrintInfo {
+    [self setPrintInfo:newPrintInfo];
+    return YES;
+}
 - (void)printShowingPrintPanel:(BOOL)showPanels {
-    // Obtain a custom view that will be printed
-    NSView *printView = [[[self statisticsWindowController] window] contentView];
-	
+    // Prepare the custom view that will be printed
+    [printView preparePDFRepresentations];
+    
     // Construct the print operation and setup Print panel
     NSPrintOperation *op = [NSPrintOperation
                 printOperationWithView:printView
@@ -424,16 +499,20 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
     [op setShowPanels:showPanels];
     if (showPanels) {
         // Add accessory view, if needed
-//		[op setAccessoryView:[statisticsWindowController printAccessoryView]];
+		[op setAccessoryView:[statisticsWindowController printAccessoryView]];
     }
 	
     // Run operation, which shows the Print panel if showPanels was YES
     [self runModalPrintOperation:op
 						delegate:nil
-				  didRunSelector:NULL
+				  didRunSelector:@selector(documentDidRunModalPrintOperation:success:contextInfo:)
 					 contextInfo:NULL];
 }
+- (void)documentDidRunModalPrintOperation:(NSDocument *)document  success:(BOOL)success  contextInfo:(void *)contextInfo {
+    //    [printView release];
+}
 #pragma mark -
+
 
 #pragma mark Notifications
 - (void)postNotification:(NSString *)notificationName
@@ -480,6 +559,13 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
 - (void)setScoresDataSeries:(NSArray *)aScoresDataSeries {
 	[scoresDataSeries autorelease];
 	scoresDataSeries = [aScoresDataSeries retain];
+}
+
+- (int)numberOfFactors {
+	return numberOfFactors;
+}
+- (void)setNumberOfFactors:(int)aNumberOfFactors {
+	numberOfFactors = aNumberOfFactors;
 }
 
 @end

@@ -12,6 +12,8 @@
 @class MWController;
 @class JKBatchProcessWindowController;
 @class JKLibrary;
+@class JKManagedLibraryEntry;
+@class JKPeakRecord;
 
 #import <Growl/GrowlApplicationBridge.h>
 
@@ -41,10 +43,12 @@
 - (IBAction)openTestFile:(id)sender;
 - (IBAction)showDocumentList:(id)sender;
 
+- (void)showInFinder;
 - (JKLibrary *)library;
 - (JKLibrary *)libraryForConfiguration:(NSString *)libraryConfiguration;
 - (void)loadLibraryForConfiguration:(NSString *)configuration;
 - (BOOL)shouldLoadLibrary:(NSString *)fileName forConfiguration:(NSString *)configuration;
+- (JKManagedLibraryEntry *)addLibraryEntryBasedOnPeak:(JKPeakRecord *)aPeak;
 
 #pragma mark GROWL SUPPORT
 - (NSDictionary *)registrationDictionaryForGrowl;

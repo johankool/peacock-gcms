@@ -9,6 +9,7 @@
 #import "JKPreferencesWindowController.h"
 
 #import "BDAlias.h"
+#import "JKAppDelegate.h"
 #import "JKPathPopUpButton.h"
 
 @implementation JKPreferencesWindowController
@@ -71,12 +72,12 @@
 
 - (IBAction)showInFinder:(id)sender
 {
-    [[NSApp delegate] showInFinder];
+    [(JKAppDelegate *)[NSApp delegate] showInFinder];
 }
 
 - (IBAction)reloadLibrary:(id)sender
 {
-    [[NSApp delegate] loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
+    [(JKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
 }
 
 #pragma mark TOOLBAR

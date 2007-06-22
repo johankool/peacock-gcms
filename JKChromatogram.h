@@ -44,6 +44,7 @@
 
 - (void)obtainBaseline;
 - (void)identifyPeaks;
+- (void)identifyPeaksWithForce:(BOOL)forced;
 - (JKPeakRecord *)peakFromScan:(int)startScan toScan:(int)endScan;
 //- (void)addPeakFromScan:(int)startScan toScan:(int)endScan withLeftBaseline:(float)baselineLeft andRightBaseline:(float)baselineRight;
 - (BOOL)combinePeaks:(NSArray *)peaksToCombine;

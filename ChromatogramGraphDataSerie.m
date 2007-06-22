@@ -45,7 +45,7 @@ static void *PropertyObservationContext = (void *)1093;
         //        filterPredicate = [[NSPredicate predicateWithValue:YES] retain];
         
 		// Creeer de plot een eerste keer.
-		[self constructPlotPath];
+		_needsReconstructingPlotPath = YES;
 	}
     return self;
 }
@@ -68,7 +68,7 @@ static void *PropertyObservationContext = (void *)1093;
 	[self setDataArray:mutArray];
     [mutArray release];
     
-    [self constructPlotPath];
+    _needsReconstructingPlotPath = YES;
 }
 
 #pragma mark DRAWING ROUTINES
@@ -76,7 +76,7 @@ static void *PropertyObservationContext = (void *)1093;
     _graphView = view;
 	NSBezierPath *bezierpath;
 	
-	if (!plotPath) [self constructPlotPath];
+	if (_needsReconstructingPlotPath) [self constructPlotPath];
 	
     if ((![[view keyForXValue] isEqualToString:keyForXValue]) | (![[view keyForYValue] isEqualToString:keyForYValue])) {
         [self setKeyForXValue:[view keyForXValue]];
@@ -742,7 +742,7 @@ static void *PropertyObservationContext = (void *)1093;
 		//		
 		//		[self setOldData:newData];
 		
-		[self constructPlotPath];
+		_needsReconstructingPlotPath = YES;
 		return;
     }
 	
@@ -750,7 +750,7 @@ static void *PropertyObservationContext = (void *)1093;
 	{		
 		// We hoeven de plot alleen opnieuw te tekenen als de waarde voor de x of de y key veranderde.
 		if ([keyPath isEqualToString:[self keyForXValue]] || [keyPath isEqualToString:[self keyForYValue]]) {
-			[self constructPlotPath];
+			_needsReconstructingPlotPath = YES;
 			return;
 		} 
 		return;
@@ -763,7 +763,7 @@ static void *PropertyObservationContext = (void *)1093;
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];
 			return;
 		}
-		[self constructPlotPath];
+		_needsReconstructingPlotPath = YES;
 		return;
 	}
 }
@@ -778,10 +778,10 @@ static void *PropertyObservationContext = (void *)1093;
     }
 }
 
-#pragma mark MISC
-- (NSArray *)dataArrayKeys {
-    return [NSArray arrayWithObjects:NSLocalizedString(@"Retention Index", @""), NSLocalizedString(@"Scan", @""), NSLocalizedString(@"Time", @""), NSLocalizedString(@"Total Intensity", @""), nil];
-}
+//#pragma mark MISC
+//- (NSArray *)dataArrayKeys {
+//    return [NSArray arrayWithObjects:NSLocalizedString(@"Retention Index", @""), NSLocalizedString(@"Scan", @""), NSLocalizedString(@"Time", @""), NSLocalizedString(@"Total Intensity", @""), nil];
+//}
 
 #pragma mark ACCESSORS
 - (JKChromatogram *)chromatogram {

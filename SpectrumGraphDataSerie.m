@@ -33,8 +33,7 @@ static void *PropertyObservationContext = (void *)1093;
 		normalizeYData = NO;
 		_boundingRect = NSZeroRect;
 		
-		// Creeer de plot een eerste keer.
-//		[self constructPlotPath];
+		_needsReconstructingPlotPath = YES;
 	}
     return self;
 }
@@ -60,9 +59,8 @@ static void *PropertyObservationContext = (void *)1093;
         [self setKeyForYValue:NSLocalizedString(@"Intensity",@"")];
         [self loadDataPoints:[spectrum numberOfPoints] withXValues:[spectrum masses] andYValues:[spectrum intensities]];
         
- 		// Creeer de plot een eerste keer.
-//		[self constructPlotPath];
-	}
+        _needsReconstructingPlotPath = YES;
+    }
     return self;
 }
 
@@ -75,7 +73,7 @@ static void *PropertyObservationContext = (void *)1093;
 - (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view {
     _graphView = view;
 	NSBezierPath *bezierpath;
-	if (!plotPath) {
+	if (_needsReconstructingPlotPath) {
 		[self constructPlotPath];
 	}
 	// Hier gaan we van dataserie-coordinaten naar scherm-coordinaten.
@@ -137,6 +135,7 @@ static void *PropertyObservationContext = (void *)1093;
 	// Stuur een bericht naar de view dat deze serie opnieuw getekend wil worden.
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];
 	[bezierpath release];
+    _needsReconstructingPlotPath = NO;
 }
 
 - (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
@@ -223,10 +222,10 @@ static void *PropertyObservationContext = (void *)1093;
 	free(rects);
 }
 
-#pragma mark MISC
-- (NSArray *)dataArrayKeys {
-    return [NSArray arrayWithObjects:NSLocalizedString(@"Mass", @""), NSLocalizedString(@"Intensity", @""), nil];
-}
+//#pragma mark MISC
+//- (NSArray *)dataArrayKeys {
+//    return [NSArray arrayWithObjects:NSLocalizedString(@"Mass", @""), NSLocalizedString(@"Intensity", @""), nil];
+//}
 
 #pragma mark HELPER ROUTINES
 - (void)transposeAxes {
@@ -234,7 +233,7 @@ static void *PropertyObservationContext = (void *)1093;
 	NSString *tempString = [self keyForXValue];
 	[self setKeyForXValue:[self keyForYValue]];
 	[self setKeyForYValue:tempString];
-	[self constructPlotPath];
+	_needsReconstructingPlotPath = YES;
 }
 
 - (NSRect)boundingRect {	
@@ -267,7 +266,7 @@ static void *PropertyObservationContext = (void *)1093;
 		//		
 		//		[self setOldData:newData];
 		
-		[self constructPlotPath];
+		_needsReconstructingPlotPath = YES;
 		return;
     }
 	
@@ -275,7 +274,7 @@ static void *PropertyObservationContext = (void *)1093;
 	{		
 		// We hoeven de plot alleen opnieuw te tekenen als de waarde voor de x of de y key veranderde.
 		if ([keyPath isEqualToString:[self keyForXValue]] || [keyPath isEqualToString:[self keyForYValue]]) {
-			[self constructPlotPath];
+			_needsReconstructingPlotPath = YES;
 			return;
 		} 
 		return;
@@ -288,7 +287,7 @@ static void *PropertyObservationContext = (void *)1093;
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"MyGraphDataSerieDidChangeNotification" object:self];
 			return;
 		}
-		[self constructPlotPath];
+		_needsReconstructingPlotPath = YES;
 		return;
 	}
 }
@@ -313,7 +312,7 @@ static void *PropertyObservationContext = (void *)1093;
 }
 - (void)setDrawUpsideDown:(BOOL)inValue {
     drawUpsideDown = inValue;
-	[self constructPlotPath];
+	_needsReconstructingPlotPath = YES;
     [_graphView setNeedsDisplay:YES];
 }
 - (BOOL)normalizeYData{
@@ -322,7 +321,7 @@ static void *PropertyObservationContext = (void *)1093;
 
 - (void)setNormalizeYData:(BOOL)inValue{
 	normalizeYData = inValue;
-	[self constructPlotPath];
+	_needsReconstructingPlotPath = YES;
     [_graphView setNeedsDisplay:YES];
 }
 

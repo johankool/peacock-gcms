@@ -16,7 +16,7 @@
 #import "JKSearchResult.h"
 #import "JKSpectrum.h"
 #import "jk_statistics.h"
-
+#import "JKAppDelegate.h"
 
 @implementation JKPeakRecord
 
@@ -158,7 +158,7 @@ NSString *GetUUID(void) {
         return YES;
 	} else {
         // Allow this to mark a peak as confirmed with having the proper library entry
-        JKManagedLibraryEntry *managedLibEntry = [[NSApp delegate] addLibraryEntryBasedOnPeak:self];
+        JKManagedLibraryEntry *managedLibEntry = [(JKAppDelegate *)[NSApp delegate] addLibraryEntryBasedOnPeak:self];
         if (managedLibEntry) {
             result = [self identifyAsLibraryEntry:[JKLibraryEntry libraryEntryWithJCAMPString:[managedLibEntry jcampString]]];
             if (result) {

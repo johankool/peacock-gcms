@@ -24,11 +24,11 @@
 #include <unistd.h>
 
 
-static void *DocumentObservationContext = (void *)1100;
+//static void *DocumentObservationContext = (void *)1100;
 static void *ChromatogramObservationContext = (void *)1101;
 static void *SpectrumObservationContext = (void *)1102;
 static void *PeaksObservationContext = (void *)1103;
-static void *MetadataObservationContext = (void *)1104;
+//static void *MetadataObservationContext = (void *)1104;
 
 #define JKPeakRecordTableViewDataType @"JKPeakRecordTableViewDataType"
 #define JKSearchResultTableViewDataType @"JKSearchResultTableViewDataType"
@@ -725,7 +725,7 @@ static void *MetadataObservationContext = (void *)1104;
     
     JKPeakRecord *peak;
     peak = [[peakController selectedObjects] objectAtIndex:0];
-    if (![[self document] performForwardSearchLibraryForPeak:peak]) {
+    if (![(JKGCMSDocument *)[self document] performForwardSearchLibraryForPeak:peak]) {
         NSBeep();
     }	
     [self observeValueForKeyPath:@"selection.searchResults" ofObject:peakController change:nil context:PeaksObservationContext];
@@ -768,6 +768,8 @@ static void *MetadataObservationContext = (void *)1104;
                     
                     ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
                     [cgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatogramDataSeries count]%peakColorsArrayCount]]];
+                    [cgds setAcceptableKeysForXValue:[NSArray arrayWithObjects:NSLocalizedString(@"Retention Index", @""), NSLocalizedString(@"Scan", @""), NSLocalizedString(@"Time", @""), nil]];
+                    [cgds setAcceptableKeysForYValue:[NSArray arrayWithObjects:NSLocalizedString(@"Total Intensity", @""), nil]];                    
                     [chromatogramDataSeries addObject:cgds];                    
                 }                    
             } else {
@@ -778,6 +780,8 @@ static void *MetadataObservationContext = (void *)1104;
                     
                     ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
                     [cgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatogramDataSeries count]%peakColorsArrayCount]]];
+                    [cgds setAcceptableKeysForXValue:[NSArray arrayWithObjects:NSLocalizedString(@"Retention Index", @""), NSLocalizedString(@"Scan", @""), NSLocalizedString(@"Time", @""), nil]];
+                    [cgds setAcceptableKeysForYValue:[NSArray arrayWithObjects:NSLocalizedString(@"Total Intensity", @""), nil]];
                     [chromatogramDataSeries addObject:cgds];                    
                 }                                        
             }
@@ -839,7 +843,9 @@ static void *MetadataObservationContext = (void *)1104;
                 [sgds setNormalizeYData:YES];
             }
             [sgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[spectrumArray count]%peakColorsArrayCount]]];
-        	[spectrumArray addObject:sgds];
+            [sgds setAcceptableKeysForXValue:[NSArray arrayWithObjects:NSLocalizedString(@"Mass", @""), nil]];
+            [sgds setAcceptableKeysForYValue:[NSArray arrayWithObjects:NSLocalizedString(@"Intensity", @""), nil]];
+            [spectrumArray addObject:sgds];
         }
         
         if (showLibraryHit) {
@@ -853,6 +859,8 @@ static void *MetadataObservationContext = (void *)1104;
                     [sgds setNormalizeYData:YES];
                 }
                 [sgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[spectrumArray count]%peakColorsArrayCount]]];
+                [sgds setAcceptableKeysForXValue:[NSArray arrayWithObjects:NSLocalizedString(@"Mass", @""), nil]];
+                [sgds setAcceptableKeysForYValue:[NSArray arrayWithObjects:NSLocalizedString(@"Intensity", @""), nil]];
                 [spectrumArray addObject:sgds];
             }            
         }

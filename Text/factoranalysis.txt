@@ -1,6 +1,3 @@
-# suppress console output
-options(echo=FALSE)
-
 # import data
 data <- read.csv("{TEMP_DIR}/data.csv")
 
@@ -199,7 +196,7 @@ if (!exists("fa")) {
                                                                            })
                                                                         ans
     }
-
+    
     # obtain covariance matrix
     covmat <- factor.model.stat(data)
 
@@ -208,8 +205,8 @@ if (!exists("fa")) {
 }
 
 # write results to loadings.csv
-try(write.csv(fa$loadings, quote=FALSE, eol = "\n", file="{TEMP_DIR}/loadings.csv"), TRUE)
+try(write.csv(fa$loadings, quote=FALSE, file="{TEMP_DIR}/loadings.csv"), TRUE)
 
 # write results to scores.csv
-try(write.csv2(fa$scores, quote=FALSE, eol = "\n", file="{TEMP_DIR}/scores.csv"), TRUE)
+try(write.csv2(fa$scores, quote=FALSE, file="{TEMP_DIR}/scores.csv"), TRUE)
 

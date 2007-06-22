@@ -74,7 +74,8 @@
 	IBOutlet NSTableView *metadataTable;
 	IBOutlet NSScrollView *metadataTableScrollView;
 	IBOutlet NSArrayController *metadataController;
-	
+	IBOutlet id splitView;
+    
 	// Ratios editor
 	IBOutlet NSWindow *ratiosEditor;
 	
@@ -90,6 +91,7 @@
     IBOutlet MyGraphView *scoresGraphView;
     IBOutlet NSArrayController *scoresDataSeriesController;
     
+    IBOutlet NSView *printAccessoryView;
 }
 
 #pragma mark ACTIONS
@@ -118,6 +120,13 @@
 - (IBAction)stopButtonAction:(id)sender;
 - (IBAction)repopulate:(id)sender;
 - (IBAction)combinePeaksAction:(id)sender;
+
+#pragma mark IBOutlets
+- (NSView *)printAccessoryView;
+- (MyGraphView *)altGraphView;
+- (MyGraphView *)loadingsGraphView;
+- (MyGraphView *)scoresGraphView;
+#pragma mark -
 
 #pragma mark CALCULATED ACCESSORS
 - (NSPredicate *)filterPredicate;

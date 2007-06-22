@@ -15,7 +15,8 @@
 
 @interface JKCombinedPeak : NSObject <NSCoding> {
     NSString *label;
-    NSNumber *symbol;
+    NSString *symbol;
+    int index;
     NSNumber *retentionIndex;
     NSString *model;
     NSString *group;
@@ -44,9 +45,11 @@
 - (void)setDocument:(JKStatisticsDocument *)document;
 - (NSString *)label;
 - (void)setLabel:(NSString *)label;      
-- (NSNumber *)symbol;
-- (void)setSymbol:(NSNumber *)symbol;
+- (NSString *)symbol;
+- (void)setSymbol:(NSString *)symbol;
 - (NSNumber *)retentionIndex;
+- (NSString *)group;
+- (void)setGroup:(NSString *)group;
 - (void)setRetentionIndex:(NSNumber *)retentionIndex;
 - (NSString *)model;
 - (void)setModel:(NSString *)model;

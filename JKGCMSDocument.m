@@ -131,7 +131,7 @@ int const JKGCMSDocument_Version = 7;
 
 - (NSFileWrapper *)fileWrapperRepresentationOfType:(NSString *)aType {
 	if ([aType isEqualToString:@"Peacock File"]) {
-        NSDate *date = [NSDate date];
+//        NSDate *date = [NSDate date];
 		NSMutableData *data;
 		NSKeyedArchiver *archiver;
 		data = [NSMutableData data];
@@ -1131,9 +1131,9 @@ int intSort(id num1, id num2, void *context)
             [newChromatograms addObject:chromatogramToSearch];
         }
 #warning MESSED WITH THIS PART!!!
-        [self setBaselineDistanceThreshold:[NSNumber numberWithFloat:0.01f]];
-        [self setBaselineSlopeThreshold:[NSNumber numberWithFloat:0.01f]];
-        [self setPeakIdentificationThreshold:[NSNumber numberWithFloat:0.03f]];
+//        [self setBaselineDistanceThreshold:[NSNumber numberWithFloat:0.01f]];
+//        [self setBaselineSlopeThreshold:[NSNumber numberWithFloat:0.01f]];
+//        [self setPeakIdentificationThreshold:[NSNumber numberWithFloat:0.03f]];
         [chromatogramToSearch obtainBaseline];                          
 //        if ([[chromatogramToSearch peaks] count] == 0) {
 //            [chromatogramToSearch identifyPeaks];                          
@@ -1785,7 +1785,7 @@ boolAccessor(abortAction, setAbortAction)
 // but because we often need all peaks in the document context too
 // these method was constructed.
 - (NSMutableArray *)peaks{
-    NSMutableArray *array = [NSMutableArray array];
+    NSMutableArray *array = [NSMutableArray arrayWithCapacity:256];
     NSEnumerator *chromEnum = [[self chromatograms] objectEnumerator];
     JKChromatogram *chromatogram;
 

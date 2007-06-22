@@ -129,11 +129,44 @@
     [altGraphView setKeyForXValue:@"Time"];
     [altGraphView setKeyForYValue:@"Total Intensity"];
 
+    [loadingsGraphView setShouldDrawAxes:YES];
+    [loadingsGraphView setShouldDrawLabels:YES];
+    [loadingsGraphView setShouldDrawLabelsOnFrame:NO];
+    [loadingsGraphView setShouldDrawFrameLeft:NO];
+    [loadingsGraphView setShouldDrawLabelsOnFrameLeft:NO];
+    [loadingsGraphView setShouldDrawFrameBottom:NO];
+    [loadingsGraphView setShouldDrawLabelsOnFrameBottom:NO];
+    [loadingsGraphView setShouldDrawLegend:NO];
+    [loadingsGraphView setKeyForXValue:@"Factor 1"];
+    [loadingsGraphView setKeyForYValue:@"Factor 2"];
+    [loadingsGraphView setXMinimum:[NSNumber numberWithFloat:-1.0f]];
+    [loadingsGraphView setXMaximum:[NSNumber numberWithFloat:1.0f]];
+    [loadingsGraphView setYMinimum:[NSNumber numberWithFloat:-1.0f]];
+    [loadingsGraphView setYMaximum:[NSNumber numberWithFloat:1.0f]];
     [loadingsGraphView bind:@"dataSeries" toObject:loadingsDataSeriesController
            withKeyPath:@"arrangedObjects" options:nil];
+    [scoresGraphView setShouldDrawAxes:YES];
+    [scoresGraphView setShouldDrawLabels:YES];
+    [scoresGraphView setShouldDrawLabelsOnFrame:NO];
+    [scoresGraphView setShouldDrawFrameLeft:NO];
+    [scoresGraphView setShouldDrawLabelsOnFrameLeft:NO];
+    [scoresGraphView setShouldDrawFrameBottom:NO];
+    [scoresGraphView setShouldDrawLabelsOnFrameBottom:NO];
+    [scoresGraphView setShouldDrawLegend:NO];
+    [scoresGraphView setKeyForXValue:@"Factor 1"];
+    [scoresGraphView setKeyForYValue:@"Factor 2"];
+    [scoresGraphView setXMinimum:[NSNumber numberWithFloat:-1.0f]];
+    [scoresGraphView setXMaximum:[NSNumber numberWithFloat:1.0f]];
+    [scoresGraphView setYMinimum:[NSNumber numberWithFloat:-1.0f]];
+    [scoresGraphView setYMaximum:[NSNumber numberWithFloat:1.0f]];
+    [scoresGraphView bind:@"dataSeries" toObject:scoresDataSeriesController
+                withKeyPath:@"arrangedObjects" options:nil];
     
     // Register as observer
 	[combinedPeaksController addObserver:self forKeyPath:@"selection" options:nil context:nil];
+    
+    // This fixes the issue where the subsplitviews are drawn on top of each other on initial display
+    [splitView display];
 }
 #pragma mark -
 
@@ -253,19 +286,21 @@
 	[fileProgressIndicator setIndeterminate:YES];
     [self sortCombinedPeaks];
     
-    if (setPeakSymbolToNumber) {        
-        NSEnumerator *peaksEnumerator = nil;
-        JKPeakRecord *peak = nil;
-        int combinedPeaksCount = [[self combinedPeaks] count];
+    if (setPeakSymbolToNumber) {     
         [detailStatusTextField setStringValue:NSLocalizedString(@"Assigning Symbols",@"")];
-        // Number in order of occurence
-        for (i = 0; i < combinedPeaksCount; i++) {
-            [[combinedPeaks objectAtIndex:i] setSymbol:[NSNumber numberWithInt:i+1]];
-            peaksEnumerator = [[[combinedPeaks objectAtIndex:i] peaks] objectEnumerator];		
-            while ((peak = [peaksEnumerator nextObject])) {
-                [peak setSymbol:[NSString stringWithFormat:@"%d", i+1]];
-            }		
-        }
+        [[self document] setUniqueSymbols];
+//        NSEnumerator *peaksEnumerator = nil;
+//        JKPeakRecord *peak = nil;
+//        int combinedPeaksCount = [[self combinedPeaks] count];
+//        // Number in order of occurence
+//        for (i = 0; i < combinedPeaksCount; i++) {
+//            [[combinedPeaks objectAtIndex:i] setIndex:i+1];
+//            NSString *uniqueKey = [[combinedPeaks objectAtIndex:i] symbol];
+//            peaksEnumerator = [[[combinedPeaks objectAtIndex:i] peaks] objectEnumerator];		
+//            while ((peak = [peaksEnumerator nextObject])) {
+//                [peak setSymbol:uniqueKey];
+//            }		
+//        }
     }
     
    if (performSanityCheck) {
@@ -386,19 +421,21 @@
 	[fileProgressIndicator setIndeterminate:YES];
     [self sortCombinedPeaks];
     
-    if (setPeakSymbolToNumber) {        
-        NSEnumerator *peaksEnumerator = nil;
-        JKPeakRecord *peak = nil;
-        int combinedPeaksCount = [[self combinedPeaks] count];
+    if (setPeakSymbolToNumber) {     
         [detailStatusTextField setStringValue:NSLocalizedString(@"Assigning Symbols",@"")];
-        // Number in order of occurence
-        for (i = 0; i < combinedPeaksCount; i++) {
-            [[combinedPeaks objectAtIndex:i] setSymbol:[NSNumber numberWithInt:i+1]];
-            peaksEnumerator = [[[combinedPeaks objectAtIndex:i] peaks] objectEnumerator];		
-            while ((peak = [peaksEnumerator nextObject])) {
-                [peak setSymbol:[NSString stringWithFormat:@"%d", i+1]];
-            }		
-        }
+        [[self document] setUniqueSymbols];
+        //        NSEnumerator *peaksEnumerator = nil;
+        //        JKPeakRecord *peak = nil;
+        //        int combinedPeaksCount = [[self combinedPeaks] count];
+        //        // Number in order of occurence
+        //        for (i = 0; i < combinedPeaksCount; i++) {
+        //            [[combinedPeaks objectAtIndex:i] setIndex:i+1];
+        //            NSString *uniqueKey = [[combinedPeaks objectAtIndex:i] symbol];
+        //            peaksEnumerator = [[[combinedPeaks objectAtIndex:i] peaks] objectEnumerator];		
+        //            while ((peak = [peaksEnumerator nextObject])) {
+        //                [peak setSymbol:uniqueKey];
+        //            }		
+        //        }
     }
     
     if (performSanityCheck) {
@@ -974,7 +1011,7 @@
 	peaksArray = [document peaks];
 	peaksCount = [peaksArray count];
 	
-    int lastSymbolEncountered = 0;
+//    int lastSymbolEncountered = 0;
     
 	// Go through the peaks
 	for (j=0; j < peaksCount; j++) {
@@ -994,18 +1031,19 @@
                 [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];            
             }
         }
-        if (([peak symbol]) && (![[peak symbol] isEqualToString:@""])) {
-            if ([[peak symbol] intValue] < lastSymbolEncountered) {
-                if ([[peak label] isEqualToString:@""]) {
-                    warningMsg = [NSString stringWithFormat:@"WARNING: The peak with symbol '%@' at index %d was encountered out of the normal or average order of elution.", [peak label], [peak symbol], [peak peakID]];
-                } else {
-                    warningMsg = [NSString stringWithFormat:@"WARNING: The peak '%@' with symbol '%@' at index %d was encountered out of the normal or average order of elution.", [peak label], [peak symbol], [peak peakID]];
-                }
-               warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
-                [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];
-            }
-            lastSymbolEncountered = [[peak symbol] intValue];
-        }
+#warning Are the peaks ordered anyway? Seems odd to add index to each peak as well, use peakID somehow instead?
+//        if ([peak index] != -1) {
+//            if ([peak index] < lastSymbolEncountered) {
+//                if ([[peak label] isEqualToString:@""]) {
+//                    warningMsg = [NSString stringWithFormat:@"WARNING: The peak with symbol '%@' at index %d was encountered out of the normal or average order of elution.", [peak label], [peak symbol], [peak peakID]];
+//                } else {
+//                    warningMsg = [NSString stringWithFormat:@"WARNING: The peak '%@' with symbol '%@' at index %d was encountered out of the normal or average order of elution.", [peak label], [peak symbol], [peak peakID]];
+//                }
+//               warning = [NSDictionary dictionaryWithObjectsAndKeys:[document displayName], @"document", warningMsg, @"warning", nil];
+//                [self insertObject:warning inLogMessagesAtIndex:[self countOfLogMessages]];
+//            }
+//            lastSymbolEncountered = [peak index];
+//        }
 	} 	
 	
 }
@@ -1221,16 +1259,16 @@
 	
 	// Remove all but the first four column from the tableview
 	int columnCount = [metadataTable numberOfColumns];
-	for (i = columnCount-1; i > 3; i--) {
+	for (i = columnCount-1; i > 1; i--) {
 		[metadataTable removeTableColumn:[[metadataTable tableColumns] objectAtIndex:i]];
 	} 
 	columnCount = [resultsTable numberOfColumns];
-	for (i = columnCount-1; i > 3; i--) {
+	for (i = columnCount-1; i > 1; i--) {
 		[resultsTable removeTableColumn:[[resultsTable tableColumns] objectAtIndex:i]];
 	} 
 	
 	columnCount = [ratiosTable numberOfColumns];
-	for (i = columnCount-1; i > 3; i--) {
+	for (i = columnCount-1; i > 1; i--) {
 		[ratiosTable removeTableColumn:[[ratiosTable tableColumns] objectAtIndex:i]];
 	} 
 	
@@ -1355,23 +1393,13 @@
         // sets title to "filename: code - description (model)"
         [cgds setSeriesTitle:[NSString stringWithFormat:@"%@: %@ - %@ (%@)", [document displayName], [[metadata objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",index]],[[metadata objectAtIndex:1] valueForKey:[NSString stringWithFormat:@"file_%d",index]],[chromatogram model]]];
         [cgds setFilterPredicate:[self filterPredicate]];
+        [cgds setAcceptableKeysForXValue:[NSArray arrayWithObjects:NSLocalizedString(@"Retention Index", @""), NSLocalizedString(@"Scan", @""), NSLocalizedString(@"Time", @""), nil]];
+        [cgds setAcceptableKeysForYValue:[NSArray arrayWithObjects:NSLocalizedString(@"Total Intensity", @""), nil]];                    
     	[chromatogramDataSeriesController addObject:cgds];
 //    }
     [peaksController addObjects:[document peaks]];
 }
 
-- (void)synchronizedZooming:(NSNotification *)theNotification{
-	
-		NSEnumerator *enumerator = [[[comparisonScrollView documentView] subviews] objectEnumerator];
-		id subview;
-		NSNumber *newXMinimum = [[theNotification userInfo] valueForKey:@"newXMinimum"];
-		NSNumber *newXMaximum = [[theNotification userInfo] valueForKey:@"newXMaximum"];
-		
-		while ((subview = [enumerator nextObject])) {
-			[subview setXMinimum:newXMinimum];
-			[subview setXMaximum:newXMaximum];
-		}
-}
 
 // Move this method to JKStatisticsDocument
 - (NSPredicate *)filterPredicate {
@@ -1772,6 +1800,25 @@
     } else {
         NSBeep();
     }
+}
+#pragma mark -
+
+#pragma mark IBOutlets
+- (NSView *)printAccessoryView
+{
+    return printAccessoryView;
+}
+- (MyGraphView *)altGraphView
+{
+    return altGraphView;
+}
+- (MyGraphView *)loadingsGraphView
+{
+    return loadingsGraphView;
+}
+- (MyGraphView *)scoresGraphView
+{
+    return scoresGraphView;
 }
 #pragma mark -
 

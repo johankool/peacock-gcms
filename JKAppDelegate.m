@@ -16,6 +16,7 @@
 #import "BooleanToStringTransformer.h"
 #import "JKLibrary.h"
 #import "JKManagedLibraryEntry.h"
+#import "JKPeakRecord.h"
 
 // Name of the application support folder
 static NSString * SUPPORT_FOLDER_NAME = @"Peacock";
@@ -517,8 +518,8 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
         } else {
             return nil;
         }      
-        NSLog(@"Saving to %@", path);
-#warning should check if path is file
+        JKLogInfo(@"Saving new library entry to %@", path);
+#warning [TODO] Should check if path is file
         id persistentStore = [[[library managedObjectContext] persistentStoreCoordinator] persistentStoreForURL:[NSURL fileURLWithPath:path]];
         if (persistentStore) {
             [[library managedObjectContext] assignObject:libEntry toPersistentStore:persistentStore];            

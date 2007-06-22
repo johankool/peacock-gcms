@@ -37,6 +37,7 @@
 - (float)scoreComparedTo:(id <JKComparableProtocol>)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex;
 
 - (NSNumber *)retentionIndex;
+- (NSString *)peakTable;
 
 #pragma mark ACCESSORS
 - (JKGCMSDocument *)document;

@@ -121,6 +121,7 @@ typedef enum {
 - (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms;
 - (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms withLibraryEntries:(NSArray *)libraryEntries maximumRetentionIndexDifference:(float)aMaximumRetentionIndexDifference;
 - (BOOL)performForwardSearchForChromatograms:(NSArray *)someChromatograms;
+- (BOOL)performForwardSearchLibraryForPeak:(JKPeakRecord *)aPeak;
 
 //- (BOOL)searchLibraryForAllPeaks:(id)sender;
 //- (void)addChromatogramForMass:(NSString *)inString;

@@ -9,47 +9,110 @@
 #import "MyGraphDataSerie.h"
 #import "MyGraphView.h"
 
-//static void *DictionaryObservationContext = (void *)1091;
+static void *DictionaryObservationContext = (void *)1091;
 static void *ArrayObservationContext = (void *)1092;
 //static void *PropertyObservationContext = (void *)1093;
 
 @implementation MyGraphDataSerie
 
-#pragma mark INITIALIZATION
-- (id)init {
+#pragma mark Initialization & deallocation
+- (id)init 
+{
     self = [super init];
     if (self) {
         // Zet de standaardwaarden
         seriesTitle = [NSLocalizedString(@"New Serie",@"New series title") retain];
         keyForXValue = [@"xValue" retain];
-        keyForLabel = [@"xValue" retain];
         keyForYValue = [@"yValue" retain];
+        keyForLabel = [@"label" retain];
         seriesColor = [[NSColor blueColor] retain];
         seriesType = 0;
         shouldDrawLabels = YES;
         verticalScale = [[NSNumber alloc] initWithFloat:1.0f];
         dataArray = [[NSMutableArray alloc] init];
-        plotPath = [[NSBezierPath alloc] init];
-		// Creeer de plot een eerste keer.
-//		[self constructPlotPath];
+
+        _plotPath = [[NSBezierPath alloc] init];
         _previousTrans = nil;
+        _needsReconstructingPlotPath = YES;
+        observeData = NO;
 	}
     return self;
 }
 
 - (void) dealloc {	
+    if (observeData) {
+        [self stopObservingData:[self dataArray]];
+    }
+    
     [seriesTitle release];
     [keyForXValue release];
     [keyForYValue release];
     [seriesColor release];
     [verticalScale release];
     [dataArray release];
-    [plotPath release];
+    [_plotPath release];
+    [_previousTrans release];
     
 	[super dealloc];
 }
+#pragma mark -
 
+#pragma mark NSCoding
+- (id)initWithCoder:(NSCoder *)decoder
+{
+	[super init];
+	shouldDrawLabels = [decoder decodeBoolForKey:@"shouldDrawLabels"];
+	observeData = [decoder decodeBoolForKey:@"observeData"];
+	seriesType = [decoder decodeIntForKey:@"seriesType"];
+	seriesColor = [[decoder decodeObjectForKey:@"seriesColor"] retain];
+	verticalScale = [[decoder decodeObjectForKey:@"verticalScale"] retain];
+	seriesTitle = [[decoder decodeObjectForKey:@"seriesTitle"] retain];
+    
+	dataArray = [[decoder decodeObjectForKey:@"dataArray"] retain];
 
+    keyForXValue = [[decoder decodeObjectForKey:@"keyForXValue"] retain];
+	acceptableKeysForXValue = [[decoder decodeObjectForKey:@"acceptableKeysForXValue"] retain];
+
+    keyForYValue = [[decoder decodeObjectForKey:@"keyForYValue"] retain];
+	acceptableKeysForYValue = [[decoder decodeObjectForKey:@"acceptableKeysForYValue"] retain];
+
+    keyForLabel = [[decoder decodeObjectForKey:@"keyForLabel"] retain];
+	acceptableKeysForLabel = [[decoder decodeObjectForKey:@"acceptableKeysForLabel"] retain];
+
+    _plotPath = [[NSBezierPath alloc] init];
+    _previousTrans = nil;
+    _needsReconstructingPlotPath = YES;
+    
+    if (observeData) {
+        [self startObservingData:[self dataArray]];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeInt:0 forKey:@"version"];
+    [encoder encodeBool:shouldDrawLabels forKey:@"shouldDrawLabels"];
+	[encoder encodeBool:observeData forKey:@"observeData"];
+	[encoder encodeInt:seriesType forKey:@"seriesType"];
+	[encoder encodeObject:seriesColor forKey:@"seriesColor"];
+	[encoder encodeObject:verticalScale forKey:@"verticalScale"];
+	[encoder encodeObject:seriesTitle forKey:@"seriesTitle"];
+
+    [encoder encodeObject:dataArray forKey:@"dataArray"];
+    
+    [encoder encodeObject:keyForXValue forKey:@"keyForXValue"];
+	[encoder encodeObject:acceptableKeysForXValue forKey:@"acceptableKeysForXValue"];
+
+    [encoder encodeObject:keyForYValue forKey:@"keyForYValue"];
+	[encoder encodeObject:acceptableKeysForYValue forKey:@"acceptableKeysForYValue"];
+
+    [encoder encodeObject:keyForLabel forKey:@"keyForLabel"];
+	[encoder encodeObject:acceptableKeysForLabel forKey:@"acceptableKeysForLabel"];
+}
+#pragma mark -
+
+#pragma mark Reading Data
 - (void)loadDataPoints:(int)npts withXValues:(float *)xpts andYValues:(float *)ypts {
     if (npts < 1) {
         return;
@@ -67,36 +130,34 @@ static void *ArrayObservationContext = (void *)1092;
     
     [self constructPlotPath];
 }
+#pragma mark -
 
-
-#pragma mark DRAWING ROUTINES
+#pragma mark Drawing Routines
 - (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view
 {
     _graphView = view;
     NSBezierPath *bezierpath;
     
+    
     switch  ([self seriesType]) {
 		case 0: // Points
-            if (trans != _previousTrans || ![self plotPath]) {
-                _previousTrans = trans; // So constructPlotPath can have a peek at the trans 
-                [self constructPlotPath];
-            }
-            _previousTrans = trans;
-            
+            [self setOldTrans:trans];
+            _needsReconstructingPlotPath = YES;
+            [self constructPlotPath];
+         
             [[self seriesColor] set];
             
             // Met stroke wordt de bezierpath getekend.
-            [[self plotPath] fill];
+            [_plotPath fill];
+            [_plotPath stroke];
 			break;
         case 1:
         case 2:
-        default:
-            if (![self plotPath]) {
-                [self constructPlotPath];
-            }
-            
+        default:       
+            [self constructPlotPath];
+
             // Hier gaan we van dataserie-coordinaten naar scherm-coordinaten.
-            bezierpath = [trans transformBezierPath:[self plotPath]];
+            bezierpath = [trans transformBezierPath:_plotPath];
 
             // Hier stellen we in hoe de lijnen eruit moeten zien.
             [bezierpath setLineWidth:0.5];
@@ -115,25 +176,56 @@ static void *ArrayObservationContext = (void *)1092;
 }
 
 - (void)constructPlotPath {
+    if (!_needsReconstructingPlotPath) {
+        return;
+    }
+
 	int i, count;
 	NSPoint pointInUnits, pointInUnits2, pointInScreen;
-	NSBezierPath *bezierpath = [[NSBezierPath alloc] init];
-	
+    
+	// Keeping track of the bounds rect, because NSBezierPath can't handle that for circles?!!!!
+	_boundsRect = NSZeroRect;
+    
 	count = [[self dataArray] count];
 	if (count <= 0) {	
 		return;
 	}
-	
+
+    NSBezierPath *bezierpath = [[NSBezierPath alloc] init];
+
 	switch  (seriesType) {
 		case 0: // Points
-            count = [[self dataArray] count];
+            _lowestX = 0.0f;
+            _highestX = 0.0f;
+            _lowestY = 0.0f;
+            _highestY = 0.0f;
 			for (i=0; i<count; i++) {    
                 pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue],
                                            [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]);
-                pointInScreen = [_previousTrans transformPoint:pointInUnits];
-                [bezierpath appendBezierPathWithOvalInRect:NSMakeRect(pointInScreen.x-1.5f, pointInScreen.y-1.5f, 3.0f, 3.0f)];
+                if ([self oldTrans]) {
+                    pointInScreen = [[self oldTrans] transformPoint:pointInUnits];
+                    NSRect pointRect = NSMakeRect(pointInScreen.x-1.5f, pointInScreen.y-1.5f, 3.0f, 3.0f);
+  //                  _boundsRect = NSUnionRect(pointRect,_boundsRect);
+                    if (pointInScreen.x < _lowestX) {
+                        _lowestX = pointInScreen.x;
+                    }
+                    if (pointInScreen.x > _highestX) {
+                        _highestX = pointInScreen.x;
+                    }
+                    if (pointInScreen.y < _lowestX) {
+                        _lowestY = pointInScreen.y;
+                    }
+                    if (pointInScreen.y > _highestY) {
+                        _highestY = pointInScreen.y;
+                    }
+                    [bezierpath appendBezierPathWithOvalInRect:pointRect];                   
+                } else {
+                    NSRect pointRect = NSMakeRect(pointInUnits.x-1.5f, pointInUnits.y-1.5f, 3.0f, 3.0f);
+                    _boundsRect = NSUnionRect(pointRect,_boundsRect);
+                    [bezierpath appendBezierPathWithOvalInRect:pointRect];                   
+                }
 			}
-                                    
+            
 			break;
 		case 1: // Line
 				// Creeer het pad.
@@ -158,11 +250,13 @@ static void *ArrayObservationContext = (void *)1092;
 			}
 			
 	}
+    
 	[self setPlotPath:bezierpath];
 	
 	// Stuur een bericht naar de view dat deze serie opnieuw getekend wil worden.
 	[_graphView setNeedsDisplayInRect:[_graphView plottingArea]];
 	[bezierpath release];
+    _needsReconstructingPlotPath = NO;
 }
 
 - (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view {
@@ -178,7 +272,7 @@ static void *ArrayObservationContext = (void *)1092;
 	BOOL drawLabel;
 	NSSize stringSize;
 	NSPoint pointToDraw;
-	NSString *formatString = @"%.f";
+//	NSString *formatString = @"%.f";
 	NSRect labelRect;
 	
 	int rectCount = [[self dataArray] count];
@@ -191,7 +285,12 @@ static void *ArrayObservationContext = (void *)1092;
 	// We should go through the values from highest intensity ('y') to lowest instead of along the x-axis.
 	// It is more important to label the higher intensities.
 	for (i=0; i<count; i++) {
-		string = [[NSMutableAttributedString alloc] initWithString:[[[self dataArray] objectAtIndex:i] valueForKey:keyForLabel] attributes:attrs];
+        id label =[[[self dataArray] objectAtIndex:i] valueForKey:keyForLabel];
+        if ([label respondsToSelector:@selector(stringValue)]) {
+            string = [[NSMutableAttributedString alloc] initWithString:[label stringValue] attributes:attrs];          
+        } else {
+            string = [[NSMutableAttributedString alloc] initWithString:(NSString *)label attributes:attrs];          
+        }
 		
 		pointToDraw = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]);
 		stringSize = [string size];
@@ -213,6 +312,23 @@ static void *ArrayObservationContext = (void *)1092;
 				drawLabel = NO;
 			}
 		}
+        if (!drawLabel && seriesType == 0) {
+            if ([[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue] >= 0.0 ){
+                pointToDraw.y = pointToDraw.y - stringSize.height - 4;
+            } else {
+                pointToDraw.y = pointToDraw.y + 4;
+            }		
+            
+            labelRect = NSMakeRect(pointToDraw.x,pointToDraw.y,stringSize.width,stringSize.height); // The rect for the label to draw
+            
+            // Only draw label if it doesn't run over another one
+            drawLabel = YES;
+            for (j = 0; j < rectCount; j++) {
+                if (NSIntersectsRect(labelRect,rects[j])) {
+                    drawLabel = NO;
+                }
+            }            
+        }
 		if (drawLabel) {
 			[string drawAtPoint:pointToDraw];
 			[string release];
@@ -225,74 +341,76 @@ static void *ArrayObservationContext = (void *)1092;
 		}
 	}
 }
+#pragma mark -
 
-#pragma mark HELPER ROUTINES
+#pragma mark Helper Routines
 - (void)transposeAxes {
 	// Deze routine wisselt de x-as met de y-as om
 	NSString *tempString = [self keyForXValue];
 	[self setKeyForXValue:[self keyForYValue]];
 	[self setKeyForYValue:tempString];
-	[self constructPlotPath];
+	_needsReconstructingPlotPath = YES;
 }
 - (NSRect)boundingRect {
-	return [[self plotPath] bounds];
+//    return NSMakeRect(-1.0f,-1.0f,2.0f,2.0f);
+    [self constructPlotPath];
+    if (seriesType == 0) {
+        NSAffineTransform *invertedTransform = [[self oldTrans] copy];
+        [invertedTransform invert];
+        NSRect bounds = [[invertedTransform transformBezierPath:[self plotPath]] bounds];
+        [invertedTransform release];
+        return bounds;
+    }
+//            NSMakeRect(_lowestX, _lowestY, _highestX-_lowestX, _highestY-_lowestY);
+    return [_plotPath bounds];
 }
+#pragma mark -
 
-#pragma mark KEY VALUE OBSERVING MANAGEMENT
+#pragma mark Key Value Observing Management
 - (void)startObservingData:(NSArray *)data{
-//	if ([data isEqual:[NSNull null]]) {
-//		return;
-//	}
-//	
-//	// Register to observe each of the new datapoints, and each of their observable properties
-//	NSEnumerator *dataEnumerator = [data objectEnumerator];
-//	
-//	// Declare newDataPoint as NSObject * to get key value observing methods
-//    NSMutableDictionary *newDataPoint;
-//	// Register as observer
-//    while ((newDataPoint = [dataEnumerator nextObject])) {		
-//		//		NSArray *keys = [newDataPoint allKeys];
-//		//		// The problem here is that we don't can register for keys that aren't yet defined in the dictionary
-//		//		NSEnumerator *keyEnumerator = [keys objectEnumerator];
-//		//		NSString *key;
-//		//		while (key = [keyEnumerator nextObject]) {
-//		//			[newDataPoint addObserver:self
-//		//						 forKeyPath:key
-//		//							options:nil
-//		//							context:DictionaryObservationContext];
-//		//		}
-//		[newDataPoint addObserver:self
-//					   forKeyPath:keyForXValue
-//						  options:nil
-//						  context:DictionaryObservationContext];
-//		[newDataPoint addObserver:self
-//					   forKeyPath:keyForYValue
-//						  options:nil
-//						  context:DictionaryObservationContext];
-//		
-//	}
+	if ([data isEqual:[NSNull null]]) {
+		return;
+	}
+	
+    if (observeData) {
+        // Register to observe each of the new datapoints, and each of their observable properties
+        NSEnumerator *dataEnumerator = [data objectEnumerator];
+        
+        // Declare newDataPoint as NSObject * to get key value observing methods
+        NSMutableDictionary *newDataPoint;
+        
+        // Register as observer
+        while ((newDataPoint = [dataEnumerator nextObject])) {		
+            [newDataPoint addObserver:self
+                           forKeyPath:keyForXValue
+                              options:nil
+                              context:DictionaryObservationContext];
+            [newDataPoint addObserver:self
+                           forKeyPath:keyForYValue
+                              options:nil
+                              context:DictionaryObservationContext];
+            [newDataPoint addObserver:self
+                           forKeyPath:keyForLabel
+                              options:nil
+                              context:DictionaryObservationContext];		
+        }        
+    }
 }
 
 - (void)stopObservingData:(NSArray *)data {
-//	if ([data isEqual:[NSNull null]]) {
-//		return;
-//	}
-//	
-//	NSEnumerator *dataEnumerator = [data objectEnumerator];
-//	
-//    NSMutableDictionary *oldDataPoint;
-//    while ((oldDataPoint = [dataEnumerator nextObject])) {
-//		//		NSArray *keys = [oldDataPoint allKeys];
-//		//		NSEnumerator *keyEnumerator = [keys objectEnumerator];
-//		//		
-//		//		NSString *key;
-//		//		while (key = [keyEnumerator nextObject]) {
-//		//			[oldDataPoint removeObserver:self forKeyPath:key];
-//		//		}
-//		[oldDataPoint removeObserver:self forKeyPath:keyForXValue];
-//		[oldDataPoint removeObserver:self forKeyPath:keyForYValue];
-//		
-//	}
+	if ([data isEqual:[NSNull null]]) {
+		return;
+	}
+	if (observeData) {
+        NSEnumerator *dataEnumerator = [data objectEnumerator];
+        
+        NSMutableDictionary *oldDataPoint;
+        while ((oldDataPoint = [dataEnumerator nextObject])) {
+            [oldDataPoint removeObserver:self forKeyPath:keyForXValue];
+            [oldDataPoint removeObserver:self forKeyPath:keyForYValue];
+            [oldDataPoint removeObserver:self forKeyPath:keyForLabel];		
+        }        
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -302,34 +420,21 @@ static void *ArrayObservationContext = (void *)1092;
 	
     if (context == ArrayObservationContext)
 	{
-		//		NSArray *newData = [self dataArray];
-		////		NSMutableArray *onlyNew = [newData mutableCopy];
-		////		[onlyNew removeObjectsInArray:_oldData];
-		////		[self startObservingData:onlyNew];
-		////		[onlyNew release];
-		////		
-		////		NSMutableArray *removed = [_oldData mutableCopy];
-		////		[removed removeObjectsInArray:newData];
-		////		[self stopObservingData:removed];
-		////		[removed release];
-		//		
-		//		// Slordig, kan veel slimmer, maar dit is veel sneller dan wat hierboven staat!
-		//		[self stopObservingData:_oldData];
-		//		[self startObservingData:newData];
-		//		
-		//		[self setOldData:newData];
+        if (observeData) {
+            NSArray *newData = [self dataArray];
+            [self stopObservingData:_oldData];
+            [self startObservingData:newData];
+            
+            [self setOldData:newData];            
+        }
 		
-		[self constructPlotPath];
+		_needsReconstructingPlotPath = YES;
 		return;
     }
 }
+#pragma mark -
 
-#pragma mark MISC
-- (NSArray *)dataArrayKeys {
-	return [[dataArray objectAtIndex:0] allKeys];
-}
-
-#pragma mark ACCESSORS
+#pragma mark Accessors
 - (NSMutableArray *)dataArray {
 	return dataArray;
 }
@@ -338,7 +443,7 @@ static void *ArrayObservationContext = (void *)1092;
         [inValue retain];
         [dataArray autorelease];
         dataArray = inValue;  
-        [self constructPlotPath];
+        _needsReconstructingPlotPath = YES;
     }
 }
 
@@ -359,10 +464,22 @@ static void *ArrayObservationContext = (void *)1092;
 }
 - (void)setKeyForXValue:(NSString *)inValue {
 	if (inValue != keyForXValue) {
+        [self stopObservingData:[self dataArray]];
         [inValue retain];
         [keyForXValue autorelease];
         keyForXValue = inValue;
-        [self constructPlotPath];
+        [self startObservingData:[self dataArray]];
+        _needsReconstructingPlotPath = YES;
+        [_graphView setNeedsDisplay:YES];
+    }
+}
+- (NSArray *)acceptableKeysForXValue {
+	return acceptableKeysForXValue;
+}
+- (void)setAcceptableKeysForXValue:(NSArray *)aAcceptableKeysForXValue {
+    if (aAcceptableKeysForXValue != acceptableKeysForXValue) {
+        [acceptableKeysForXValue autorelease];
+        acceptableKeysForXValue = [aAcceptableKeysForXValue retain];        
     }
 }
 
@@ -374,7 +491,18 @@ static void *ArrayObservationContext = (void *)1092;
         [inValue retain];
         [keyForYValue autorelease];
         keyForYValue = inValue;
-        [self constructPlotPath];
+        _needsReconstructingPlotPath = YES;
+        [_graphView setNeedsDisplay:YES];
+    }
+}
+
+- (NSArray *)acceptableKeysForYValue {
+	return acceptableKeysForYValue;
+}
+- (void)setAcceptableKeysForYValue:(NSArray *)aAcceptableKeysForYValue {
+    if (aAcceptableKeysForYValue != acceptableKeysForYValue) {
+        [acceptableKeysForYValue autorelease];
+        acceptableKeysForYValue = [aAcceptableKeysForYValue retain];        
     }
 }
 
@@ -386,6 +514,17 @@ static void *ArrayObservationContext = (void *)1092;
         [inValue retain];
         [keyForLabel autorelease];
         keyForLabel = inValue;
+        [_graphView setNeedsDisplayInRect:[_graphView plottingArea]];
+    }
+}
+
+- (NSArray *)acceptableKeysForLabel {
+	return acceptableKeysForLabel;
+}
+- (void)setAcceptableKeysForLabel:(NSArray *)aAcceptableKeysForLabel {
+    if (aAcceptableKeysForLabel != acceptableKeysForLabel) {
+        [acceptableKeysForLabel autorelease];
+        acceptableKeysForLabel = [aAcceptableKeysForLabel retain];        
     }
 }
 
@@ -407,18 +546,19 @@ static void *ArrayObservationContext = (void *)1092;
 - (void)setSeriesType:(int)inValue {
     if (inValue != seriesType) {
         seriesType = inValue;
-        [self constructPlotPath];
+        _needsReconstructingPlotPath = YES;
+        [_graphView setNeedsDisplayInRect:[_graphView plottingArea]];
     }
 }
 
 - (NSBezierPath *)plotPath {
-	return plotPath;
+	return _plotPath;
 }
 - (void)setPlotPath:(NSBezierPath *)inValue {
-    if (inValue != plotPath) {
+    if (inValue != _plotPath) {
         [inValue retain];
-        [plotPath autorelease];
-        plotPath = inValue;        
+        [_plotPath autorelease];
+        _plotPath = inValue;        
     }
 }
 
@@ -440,19 +580,29 @@ static void *ArrayObservationContext = (void *)1092;
         [inValue retain];
         [verticalScale autorelease];
         verticalScale = inValue;
-        [self constructPlotPath];
-        if (_graphView) {
-            [_graphView setNeedsDisplayInRect:[_graphView plottingArea]];
-        }
+        _needsReconstructingPlotPath = YES;
+        [_graphView setNeedsDisplayInRect:[_graphView plottingArea]];
     }
 }
 
-//- (NSArray *)_oldData { 
-//	return _oldData; 
-//}
-//- (void)setOldData:(NSArray *)anOldData {
-//	[anOldData retain];
-//	[_oldData autorelease];
-//	_oldData = anOldData;
-//}
+- (NSArray *)oldData { 
+	return _oldData; 
+}
+- (void)setOldData:(NSArray *)anOldData {
+	[anOldData retain];
+	[_oldData autorelease];
+	_oldData = anOldData;
+}
+
+- (NSAffineTransform *)oldTrans { 
+	return _previousTrans; 
+}
+- (void)setOldTrans:(NSAffineTransform *)anOldTrans {
+    if (anOldTrans != _previousTrans) {
+        [anOldTrans retain];
+        [_previousTrans autorelease];
+        _previousTrans = anOldTrans;
+        _needsReconstructingPlotPath = YES;
+    }
+}
 @end

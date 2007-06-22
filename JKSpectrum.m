@@ -520,7 +520,8 @@
     JKLogError(@"retentionIndex requested for spectrum '%@' without peak, document or recognized model", [self model]);
     return nil;
 }
-- (NSString *)peakTable{
+
+- (NSString *)peakTable {
 	NSMutableString *outStr = [[[NSMutableString alloc] init] autorelease];
 	int j;
 	for (j=0; j < numberOfPoints; j++) {
