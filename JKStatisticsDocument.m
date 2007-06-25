@@ -267,8 +267,16 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
             countForGroup = [NSNumber numberWithInt:[countForGroup intValue]+1];
         }
         [uniqueDict setValue:countForGroup forKey:[compound group]];
-        // must be unique (note that a few cases are missed here, e.g. when a group is named X (and gets count 11 and another X1 and gets count 1)
-        [compound setSymbol:[NSString stringWithFormat:@"%@%d", [compound group], [countForGroup intValue]]];
+        if ([[[compound group] substringFromIndex:[[compound group] length]-1] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location == [[compound group] length]-1) { // group ends with a number
+            if ([countForGroup intValue] == 1) {
+                [compound setSymbol:[NSString stringWithFormat:@"%@", [compound group]]];              
+            } else {
+                [compound setSymbol:[NSString stringWithFormat:@"%@-%d", [compound group], [countForGroup intValue]]];            
+            }
+        } else {
+            // must be unique (note that a few cases are missed here, e.g. when a group is named X (and gets count 11 and another X1 and gets count 1)
+            [compound setSymbol:[NSString stringWithFormat:@"%@%d", [compound group], [countForGroup intValue]]];            
+        }
     }
 }
 
@@ -375,10 +383,10 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
     [args addObject:@"--file=input.txt"];
     [aTask setCurrentDirectoryPath:tempDir];
     [aTask setLaunchPath:@"/usr/bin/R"];
-    [fileManager createFileAtPath:[tempDir stringByAppendingPathComponent:@"output.txt"] contents:[@"" dataUsingEncoding:NSASCIIStringEncoding] attributes:nil];
-    [aTask setStandardOutput:[NSFileHandle fileHandleForWritingAtPath:[tempDir stringByAppendingPathComponent:@"output.txt"]]];
-    [fileManager createFileAtPath:[tempDir stringByAppendingPathComponent:@"error.txt"] contents:[@"" dataUsingEncoding:NSASCIIStringEncoding] attributes:nil];
-    [aTask setStandardError:[NSFileHandle fileHandleForWritingAtPath:[tempDir stringByAppendingPathComponent:@"error.txt"]]];
+//    [fileManager createFileAtPath:[tempDir stringByAppendingPathComponent:@"output.txt"] contents:[@"" dataUsingEncoding:NSASCIIStringEncoding] attributes:nil];
+//    [aTask setStandardOutput:[NSFileHandle fileHandleForWritingAtPath:[tempDir stringByAppendingPathComponent:@"output.txt"]]];
+//    [fileManager createFileAtPath:[tempDir stringByAppendingPathComponent:@"error.txt"] contents:[@"" dataUsingEncoding:NSASCIIStringEncoding] attributes:nil];
+//    [aTask setStandardError:[NSFileHandle fileHandleForWritingAtPath:[tempDir stringByAppendingPathComponent:@"error.txt"]]];
     [aTask setArguments:args];
     
     // Run task

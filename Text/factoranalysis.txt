@@ -198,7 +198,8 @@ if (!exists("fa")) {
     }
     
     # obtain covariance matrix
-    covmat <- factor.model.stat(data)
+    # assign equal weight to all observations
+    covmat <- factor.model.stat(data, weight=seq(1, 1, length=nrow(data)))
 
     # do factor analysis
     fa <- factanal(factors={NUMBER_OF_FACTORS}, covmat=covmat)
