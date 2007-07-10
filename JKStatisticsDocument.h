@@ -17,7 +17,8 @@
     NSArray *loadingsDataSeries;
     NSArray *scoresDataSeries;
     int numberOfFactors;
-    
+    int scores;
+    int rotation;
     JKStatisticsPrintView *printView;
 }
 
@@ -31,4 +32,9 @@
 - (void)setNumberOfFactors:(int)numberOfFactors;
 - (void)setUniqueSymbols;
 - (BOOL)performFactorAnalysis;
+
+- (int)scores;
+- (void)setScores:(int)aScores;
+- (int)rotation;
+- (void)setRotation:(int)aRotation;
 @end

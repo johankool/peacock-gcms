@@ -166,7 +166,7 @@ int intSort(id num1, id num2, void *context);
     @functiongroup Accessors
 */
 
-- (void)addChromatogramForModel:(NSString *)modelString;
+- (BOOL)addChromatogramForModel:(NSString *)modelString;
 
 - (int)nextPeakID;
 

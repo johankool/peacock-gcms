@@ -101,13 +101,25 @@ NSString *GetUUID(void) {
     BOOL result;
     int answer;
     if (![[self document] modelString:[[self chromatogram] model] isEqualToString:[[identifiedSearchResult libraryHit] model]] && ![[[identifiedSearchResult libraryHit] model] isEqualToString:@""] && identifiedSearchResult) {   
-        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Model mismatch occurred",@""), NSLocalizedString(@"The model of the peak is different from the library entry. Are you sure you want to assign this library entry to this peak?",@""), NSLocalizedString(@"Assign",@""), NSLocalizedString(@"Cancel",@""),nil);
+        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Model mismatch occurred",@""), NSLocalizedString(@"The model of the peak is different from the library entry. Are you sure you want to assign this library entry to this peak?",@""), NSLocalizedString(@"Assign",@""), NSLocalizedString(@"Cancel",@""),nil);//NSLocalizedString(@"Move Peak to Model",@""));
         if (answer == NSOKButton) {
             // Continue
         } else if (answer == NSCancelButton) {
             // Cancel
             return NO;
-        }     
+//        } else {
+//            // Move peak to chromatogram of the model in the libraryentry
+//            JKChromatogram *targetChrom = nil;
+//            if ([[self document] addChromatogramForModel:[[identifiedSearchResult libraryHit] model]]) {
+//                targetChrom = [[self document] chromatogramForModel:[[identifiedSearchResult libraryHit] model]];
+//                [targetChrom obtainBaseline];
+//            } else {
+//                targetChrom = [[self document] chromatogramForModel:[[identifiedSearchResult libraryHit] model]];
+//            }
+//            JKChromatogram *oldChrom = [self chromatogram];
+//            [targetChrom insertObject:self inPeaksAtIndex:[targetChrom countOfPeaks]];
+//            [oldChrom removeObjectFromPeaksAtIndex:[[oldChrom peaks] indexOfObject:self]];
+        }
     }
     
     // check if there is already a peak with the same label
@@ -124,16 +136,16 @@ NSString *GetUUID(void) {
         }        
     }
         
-    // check if other peak with same top scan and offer to delete those
-    if ([[[self chromatogram] document] hasPeakAtTopScan:[self top] notBeing:self]) {
-        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Remove peaks in other models?",@""), NSLocalizedString(@"One or more peaks with the same top scan were found in other models. Most likely you want to identify and confirm a peak in one model only. Do you want to remove the peaks in the other models?",@""), NSLocalizedString(@"Delete",@""), NSLocalizedString(@"Keep",@""),nil);
-        if (answer == NSOKButton) {
-            // Delete
-            [[[self chromatogram] document] removePeaksAtTopScan:[self top] notBeing:self];
-        } else if (answer == NSCancelButton) {
-            // Keep
-        }     
-    }
+//    // check if other peak with same top scan and offer to delete those
+//    if ([[[self chromatogram] document] hasPeakAtTopScan:[self top] notBeing:self]) {
+//        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Remove peaks in other models?",@""), NSLocalizedString(@"One or more peaks with the same top scan were found in other models. Most likely you want to identify and confirm a peak in one model only. Do you want to remove the peaks in the other models?",@""), NSLocalizedString(@"Delete",@""), NSLocalizedString(@"Keep",@""),nil);
+//        if (answer == NSOKButton) {
+//            // Delete
+//            [[[self chromatogram] document] removePeaksAtTopScan:[self top] notBeing:self];
+//        } else if (answer == NSCancelButton) {
+//            // Keep
+//        }     
+//    }
     
 	if ([self identified]) {		
 		[self setConfirmed:YES];
@@ -263,8 +275,8 @@ NSString *GetUUID(void) {
 		NSSortDescriptor *sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"score" ascending:NO] autorelease];
 		[searchResults sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 		
-		if ([[[searchResults objectAtIndex:0] valueForKey:@"score"] floatValue] >= [[[self document] markAsIdentifiedThreshold] floatValue]) {
-			[self identifyAs:[searchResults objectAtIndex:0]];
+		if ([[searchResult score] floatValue] >= [[[self document] markAsIdentifiedThreshold] floatValue]) {
+			[self identifyAs:searchResult];
 		}
 	}	
 }

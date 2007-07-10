@@ -331,8 +331,22 @@
 	return group;
 }
 - (void)setGroup:(NSString *)aGroup {
-	[group autorelease];
-	group = [aGroup retain];
+   if (aGroup != group) {
+        [[self undoManager] registerUndoWithTarget:self
+                                          selector:@selector(setGroup:)
+                                            object:group];
+        
+       [group autorelease];
+       group = [aGroup retain];
+       
+        // Set group also for all peaks' libraryhits
+        NSEnumerator *peakEnum = [peaks objectEnumerator];
+        JKPeakRecord *peak;
+        while (peak = [peakEnum nextObject]) {
+            [[peak libraryHit] setGroup:group];
+        }
+        [[self libraryEntry] setGroup:group];
+    }    
 }
 - (JKSpectrum *)spectrum {
 	return spectrum;

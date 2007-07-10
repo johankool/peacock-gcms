@@ -30,7 +30,8 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
     if (self != nil) {
         _documentProxy = [[NSDictionary alloc] initWithObjectsAndKeys:@"_documentProxy", @"_documentProxy",nil];
         numberOfFactors = 4;
-        
+        scores = 1;
+        rotation = 1;
         [[self undoManager] disableUndoRegistration];
         [self setPrintInfo:[NSPrintInfo sharedPrintInfo]];
         [[self printInfo] setOrientation:NSLandscapeOrientation];
@@ -86,6 +87,8 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         [archiver encodeObject:[self loadingsDataSeries] forKey:@"loadingsDataSeries"];       
         [archiver encodeObject:[self scoresDataSeries] forKey:@"scoresDataSeries"];       
         [archiver encodeInt:[self numberOfFactors] forKey:@"numberOfFactors"];
+        [archiver encodeInt:[self scores] forKey:@"scores"];
+        [archiver encodeInt:[self rotation] forKey:@"rotation"];
         
 		[archiver finishEncoding];
 		[archiver release];
@@ -100,6 +103,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
 	if ([typeName isEqualToString:@"Peacock Statistics File"]) {
+        int i;
 		NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath:[absoluteURL path]];
 		NSData *data;
 		NSKeyedUnarchiver *unarchiver;
@@ -117,8 +121,19 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         int version = [unarchiver decodeIntForKey:@"version"];
         // open files first so we are ready to find peaks contained in combinedpeaks
 		[statisticsWindowController setFiles:[unarchiver decodeObjectForKey:@"files"]];
+        // Update the path to reflect changes in locations of aliases
+        NSEnumerator *enumerator = [[statisticsWindowController files] objectEnumerator];
+        NSMutableDictionary *dict;
+        while ((dict = [enumerator nextObject]) != nil) {
+        	[dict setValue:[[dict valueForKey:@"alias"] fileName] forKey:@"path"];
+        }
         [statisticsWindowController setRatioValues:[unarchiver decodeObjectForKey:@"ratioValues"]];
 		[statisticsWindowController setMetadata:[unarchiver decodeObjectForKey:@"metadata"]];
+        // Update the metadata to reflect changes in locations of aliases etc.
+        for (i = 0; i < [[statisticsWindowController files] count]; i++) {
+            [statisticsWindowController collectMetadataForDocument:[[[statisticsWindowController files] objectAtIndex:i] valueForKey:@"alias"] atIndex:i];
+        }
+        
 		[statisticsWindowController setLogMessages:[unarchiver decodeObjectForKey:@"logMessages"]];
         [statisticsWindowController setPeaksToUse:[unarchiver decodeIntForKey:@"peaksToUse"]];
         [statisticsWindowController setColumnSorting:[unarchiver decodeIntForKey:@"columnSorting"]];
@@ -134,6 +149,8 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         
         if (version > 1){
             [self setNumberOfFactors:[unarchiver decodeIntForKey:@"numberOfFactors"]];
+            [self setScores:[unarchiver decodeIntForKey:@"scores"]];
+            [self setRotation:[unarchiver decodeIntForKey:@"rotation"]];
             [self setLoadingsDataSeries:[unarchiver decodeObjectForKey:@"loadingsDataSeries"]];
             [self setScoresDataSeries:[unarchiver decodeObjectForKey:@"scoresDataSeries"]];            
         }
@@ -255,10 +272,10 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         }
         // replace odd characters
         // ensure symbol starts with letter
-        if ([[compound group] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location == 0) {
-            NSString *newGroup = [NSString stringWithFormat:@"X%@", [compound group]];
-            [compound setGroup:newGroup];
-        }
+//        if ([[compound group] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location == 0) {
+//            NSString *newGroup = [NSString stringWithFormat:@"X%@", [compound group]];
+//            [compound setGroup:newGroup];
+//        }
         // get countForSymbol 
         countForGroup = [uniqueDict valueForKey:[compound group]];
         if (!countForGroup) {
@@ -267,7 +284,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
             countForGroup = [NSNumber numberWithInt:[countForGroup intValue]+1];
         }
         [uniqueDict setValue:countForGroup forKey:[compound group]];
-        if ([[[compound group] substringFromIndex:[[compound group] length]-1] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location == [[compound group] length]-1) { // group ends with a number
+        if ([[[compound group] substringFromIndex:[[compound group] length]-1] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].length == 1) { // group ends with a number
             if ([countForGroup intValue] == 1) {
                 [compound setSymbol:[NSString stringWithFormat:@"%@", [compound group]]];              
             } else {
@@ -321,6 +338,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         [outStr appendFormat:@"%@", [[[statisticsWindowController metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i]] ];
 
         // For each file calculated total surface
+        totalSurface = 0.0;
         for (j=0; j < compoundCount; j++) {
             compound = [filteredPeaks objectAtIndex:j];
             surface = [[[compound valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"surface"] floatValue];
@@ -329,7 +347,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         // Surface values
         for (j=0; j < compoundCount; j++) {
             compound = [filteredPeaks objectAtIndex:j];
-
+            normalizedSurface = nil;
             surface = [[[compound valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"surface"] floatValue];
             normalizedSurface = surface * 100 / totalSurface;
             if (normalizedSurface != nil) {
@@ -362,15 +380,42 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
     // Create R run file
     NSString *rCommandPath;
     NSMutableString *rCommand;
-    if (rCommandPath = [[NSBundle mainBundle] pathForResource:@"factoranalysis" ofType:@"txt"])  {
+    if (rCommandPath = [[NSBundle mainBundle] pathForResource:@"factoranalysis" ofType:@"R"])  {
         rCommand = [NSMutableString stringWithContentsOfFile:rCommandPath encoding:NSASCIIStringEncoding error:NULL];
         [rCommand replaceOccurrencesOfString:@"{TEMP_DIR}" withString:tempDir options:nil range:NSMakeRange(0, [rCommand length])];
         [rCommand replaceOccurrencesOfString:@"{NUMBER_OF_FACTORS}" withString:[NSString stringWithFormat:@"%d",[self numberOfFactors]] options:nil range:NSMakeRange(0, [rCommand length])];
+        switch ([self scores]) {
+            case 0:
+            default:
+                [rCommand replaceOccurrencesOfString:@"{SCORES}" withString:@"none" options:nil range:NSMakeRange(0, [rCommand length])];
+                break;
+            case 1:
+                [rCommand replaceOccurrencesOfString:@"{SCORES}" withString:@"regression" options:nil range:NSMakeRange(0, [rCommand length])];
+                break;
+            case 2:
+                [rCommand replaceOccurrencesOfString:@"{SCORES}" withString:@"Bartlettt" options:nil range:NSMakeRange(0, [rCommand length])];
+                break;
+        }
+        switch ([self rotation]) {
+            case 0:
+            default:
+                [rCommand replaceOccurrencesOfString:@"{ROTATION}" withString:@"none" options:nil range:NSMakeRange(0, [rCommand length])];
+                break;
+            case 1:
+                [rCommand replaceOccurrencesOfString:@"{ROTATION}" withString:@"varimax" options:nil range:NSMakeRange(0, [rCommand length])];
+                break;
+            case 2:
+                [rCommand replaceOccurrencesOfString:@"{ROTATION}" withString:@"optimax" options:nil range:NSMakeRange(0, [rCommand length])];
+                break;
+        }
+    } else {
+        JKLogError(@"Resource file 'factoranalysis.R' not found.");
+        return NO;
     }
     
 //    NSLog(rCommand);
     
-    [rCommand writeToFile:[tempDir stringByAppendingPathComponent:@"input.txt"] atomically:NO encoding:NSASCIIStringEncoding error:NULL];
+    [rCommand writeToFile:[tempDir stringByAppendingPathComponent:@"input.R"] atomically:NO encoding:NSASCIIStringEncoding error:NULL];
     
     // Create task
     NSTask *aTask = [[NSTask alloc] init];
@@ -380,7 +425,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
     [args addObject:@"--vanilla"];
     [args addObject:@"--silent"];
     [args addObject:@"--slave"];
-    [args addObject:@"--file=input.txt"];
+    [args addObject:@"--file=input.R"];
     [aTask setCurrentDirectoryPath:tempDir];
     [aTask setLaunchPath:@"/usr/bin/R"];
 //    [fileManager createFileAtPath:[tempDir stringByAppendingPathComponent:@"output.txt"] contents:[@"" dataUsingEncoding:NSASCIIStringEncoding] attributes:nil];
@@ -457,9 +502,14 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         if ([linesArray count] > 2) {
             NSMutableArray *keyArray = [[[linesArray objectAtIndex:0] componentsSeparatedByString:@","] mutableCopy];
             [keyArray replaceObjectAtIndex:0 withObject:@"Sample"];
+            int i,j;
+            for (i = 0; i < [keyArray count]; i++) {
+                if ([[keyArray objectAtIndex:i] hasPrefix:@"Factor"]) {
+                    [keyArray replaceObjectAtIndex:i withObject:[NSString stringWithFormat:@"Factor %@", [[keyArray objectAtIndex:i] substringFromIndex:6]]];
+                }
+            }
             int linesCount = [linesArray count]-1; // last line is empty
             int keyCount = [keyArray count];
-            int i,j;
             for (i=1; i < linesCount; i++) {
                 NSArray *lineArray = [[linesArray objectAtIndex:i] componentsSeparatedByString:@","];
                 NSMutableDictionary *score = [NSMutableDictionary dictionary];
@@ -472,8 +522,11 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
             
             MyGraphDataSerie *scoresDataSerie = [[MyGraphDataSerie alloc] init];
             [scoresDataSerie setKeyForLabel:[keyArray objectAtIndex:0]];
+            [scoresDataSerie setAcceptableKeysForLabel:[NSArray arrayWithObject:[keyArray objectAtIndex:0]]];
             [scoresDataSerie setKeyForXValue:[keyArray objectAtIndex:1]];
             [scoresDataSerie setKeyForYValue:[keyArray objectAtIndex:2]];
+            [scoresDataSerie setAcceptableKeysForXValue:[keyArray objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1,[keyArray count]-1)]]];
+            [scoresDataSerie setAcceptableKeysForYValue:[keyArray objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1,[keyArray count]-1)]]];
             [scoresDataSerie setDataArray:scores];
             [scoresDataSerie setSeriesTitle:@"Scores"];
             [self setScoresDataSeries:[NSArray arrayWithObject:scoresDataSerie]];
@@ -576,4 +629,16 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
 	numberOfFactors = aNumberOfFactors;
 }
 
+- (int)rotation {
+	return rotation;
+}
+- (void)setRotation:(int)aRotation {
+	rotation = aRotation;
+}
+- (int)scores {
+	return scores;
+}
+- (void)setScores:(int)aScores {
+	scores = aScores;
+}
 @end

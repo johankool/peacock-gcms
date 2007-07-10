@@ -109,8 +109,8 @@ static void *PeaksObservationContext = (void *)1103;
 	[chromatogramView showAll:self];
     [chromatogramView setDrawingMode:JKStackedDrawingMode];
 	
-	[spectrumView setXMinimum:[NSNumber numberWithFloat:0]];
-	[spectrumView setXMaximum:[NSNumber numberWithFloat:650]];
+	[spectrumView setXMinimum:[NSNumber numberWithFloat:40]];
+	[spectrumView setXMaximum:[NSNumber numberWithFloat:450]];
 	[spectrumView setYMinimum:[NSNumber numberWithFloat:-1.1]];
 	[spectrumView setYMaximum:[NSNumber numberWithFloat:1.1]];
 	[spectrumView setShouldDrawLegend:YES];
@@ -161,7 +161,7 @@ static void *PeaksObservationContext = (void *)1103;
     _lastDetailsSplitSubviewDimension = [detailsSplitSubview dimension];
 
     [chromatogramView showAll:self];
-    [spectrumView showAll:self];
+//    [spectrumView showAll:self];
     
     [[[peaksTable tableColumnWithIdentifier:@"id"] headerCell] setImage:[NSImage imageNamed:@"flagged_header"]];
     // 	[tableView setObligatoryTableColumns:[NSSet setWithObject:[tableView tableColumnWithIdentifier:@"name"]]];
@@ -649,12 +649,6 @@ static void *PeaksObservationContext = (void *)1103;
 	}
 }
 
-- (IBAction)editLibrary:(id)sender {
-	NSError *error = [[NSError alloc] init];
-	[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[[self document] libraryAlias] fullPath]] display:YES error:&error];
-	[error release];
-}
-
 - (IBAction)fitChromatogramDataToView:(id)sender {
 	[chromatogramView showAll:self];
 }
@@ -871,13 +865,14 @@ static void *PeaksObservationContext = (void *)1103;
 		[chromatogramView setNeedsDisplay:YES];
         
         // spectrumView resizes to show all data
-        [spectrumView showAll:self];
+ //       [spectrumView showAll:self];
 		[spectrumView setNeedsDisplay:YES];
     }
 	if (context == ChromatogramObservationContext) {
 		[chromatogramView setNeedsDisplay:YES];
 	}
 	if (context == SpectrumObservationContext) {
+   //     [spectrumView showAll:self];
 		[spectrumView setNeedsDisplay:YES];
 	}
 	if ([keyPath hasPrefix:@"metadata"]) {

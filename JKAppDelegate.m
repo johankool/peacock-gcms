@@ -211,8 +211,11 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
-    if ([library isDocumentEdited])
+#warning [BUG] Not working save?
+    if ([library isSuperDocumentEdited]) {
+        JKLogInfo(@"Saving library...");
         [[library managedObjectContext] save:NULL];
+    }
 }
 
 #pragma mark ACTIONS
@@ -531,7 +534,19 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     }
 
 }
-#pragma mark PLUGINS
+- (IBAction)editLibrary:(id)sender {
+    if (![[[NSDocumentController sharedDocumentController] documents] containsObject:[self library]]) {        
+        [[NSDocumentController sharedDocumentController] addDocument:[self library]];
+    }
+    if ([[[self library] windowControllers] count] == 0) {
+        [[self library] makeWindowControllers];
+    }
+    [[self library] setFileName:NSLocalizedString(@"Library",@"")];
+    [[self library] showWindows];
+}
+#pragma mark -
+
+#pragma mark Plugins
 
 //- (void)loadPlugins {
 //    JKLogDebug(@"Loading plugins from %@",[[NSBundle mainBundle] builtInPlugInsPath]);

@@ -485,16 +485,16 @@
 	[metadataDictPath setValue:[document fileName] forKey:[NSString stringWithFormat:@"file_%d",index]];
 	[metadataDictDisplayName setValue:[document displayName] forKey:[NSString stringWithFormat:@"file_%d",index]];
 	
-	NSTableColumn *tableColumn = [[NSTableColumn alloc] init];
-	[tableColumn setIdentifier:document];
-	[[tableColumn headerCell] setStringValue:[document displayName]];
-	NSString *keyPath = [NSString stringWithFormat:@"arrangedObjects.%@",[NSString stringWithFormat:@"file_%d",index]];
-	[tableColumn bind:@"value" toObject:metadataController withKeyPath:keyPath options:nil];
-	[[tableColumn dataCell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
-	[[tableColumn dataCell] setAlignment:NSLeftTextAlignment];
-	[tableColumn setEditable:NO];
-	[metadataTable addTableColumn:tableColumn];
-	[tableColumn release];
+//	NSTableColumn *tableColumn = [[NSTableColumn alloc] init];
+//	[tableColumn setIdentifier:document];
+//	[[tableColumn headerCell] setStringValue:[document displayName]];
+//	NSString *keyPath = [NSString stringWithFormat:@"arrangedObjects.%@",[NSString stringWithFormat:@"file_%d",index]];
+//	[tableColumn bind:@"value" toObject:metadataController withKeyPath:keyPath options:nil];
+//	[[tableColumn dataCell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+//	[[tableColumn dataCell] setAlignment:NSLeftTextAlignment];
+//	[tableColumn setEditable:NO];
+//	[metadataTable addTableColumn:tableColumn];
+//	[tableColumn release];
 	return;
 }
 
@@ -998,6 +998,9 @@
 // Move this method to JKStatisticsDocument
 - (void)doSanityCheckForDocument:(JKGCMSDocument *)document atIndex:(int)index  
 {	
+#warning [BUG] Sanity check disabled due to crashing bug
+    JKLogError(@"Sanity check disabled due to crashing bug.");
+    return;
 	unsigned int i,j;
 	unsigned int peaksCount;
     int foundIndex = 0;
@@ -1149,10 +1152,11 @@
             }
 
             [[document undoManager] disableUndoRegistration];
-            NSNumber *orignalMinimumScoreSearchResults = [document minimumScoreSearchResults];
+//            NSNumber *orignalMinimumScoreSearchResults = [document minimumScoreSearchResults];
             NSNumber *orignalMarkAsIdentifiedThreshold = [document markAsIdentifiedThreshold];
-            [document setMinimumScoreSearchResults:[NSNumber numberWithFloat:0.0f]];
-            [document setMarkAsIdentifiedThreshold:[NSNumber numberWithFloat:0.0f]];
+//            [document setMinimumScoreSearchResults:[NSNumber numberWithFloat:0.0f]];
+//            [document setMarkAsIdentifiedThreshold:[NSNumber numberWithFloat:0.0f]];
+            [document setMarkAsIdentifiedThreshold:[self matchThreshold]];
             [[document undoManager] enableUndoRegistration];
 
             // obtain the chromatogram we need
@@ -1193,7 +1197,7 @@
                 [combinedPeak setValue:peak forKey:[NSString stringWithFormat:@"file_%d",i]];
             }     
             [[document undoManager] disableUndoRegistration];
-            [document setMinimumScoreSearchResults:orignalMinimumScoreSearchResults];
+//            [document setMinimumScoreSearchResults:orignalMinimumScoreSearchResults];
             [document setMarkAsIdentifiedThreshold:orignalMarkAsIdentifiedThreshold];
             [[document undoManager] enableUndoRegistration];
         }
@@ -1259,16 +1263,16 @@
 	
 	// Remove all but the first four column from the tableview
 	int columnCount = [metadataTable numberOfColumns];
-	for (i = columnCount-1; i > 1; i--) {
+	for (i = columnCount-1; i >= 1; i--) {
 		[metadataTable removeTableColumn:[[metadataTable tableColumns] objectAtIndex:i]];
 	} 
 	columnCount = [resultsTable numberOfColumns];
-	for (i = columnCount-1; i > 1; i--) {
+	for (i = columnCount-1; i >= 1; i--) {
 		[resultsTable removeTableColumn:[[resultsTable tableColumns] objectAtIndex:i]];
 	} 
 	
 	columnCount = [ratiosTable numberOfColumns];
-	for (i = columnCount-1; i > 1; i--) {
+	for (i = columnCount-1; i >= 1; i--) {
 		[ratiosTable removeTableColumn:[[ratiosTable tableColumns] objectAtIndex:i]];
 	} 
 	

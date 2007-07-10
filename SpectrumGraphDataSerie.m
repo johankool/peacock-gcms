@@ -236,7 +236,8 @@ static void *PropertyObservationContext = (void *)1093;
 	_needsReconstructingPlotPath = YES;
 }
 
-- (NSRect)boundingRect {	
+- (NSRect)boundingRect {
+    return [[self plotPath] bounds];
 	return _boundingRect;
 }
 

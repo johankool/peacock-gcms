@@ -568,6 +568,16 @@
     }
     return @"";
 }
+//- (void)setLibrary:(NSString *)aLibrary
+//{
+//    
+//    id persistentStore = [[self objectID] persistentStore]; 
+//    if (persistentStore) {
+//        NSURL *url = [[[self managedObjectContext] persistentStoreCoordinator] URLForPersistentStore:persistentStore];
+//        return [[[url path] lastPathComponent] stringByDeletingPathExtension]; 
+//    }
+//    return @"";
+//}
 #pragma mark -
 
 #pragma mark Accessors (NSManagedObject style)

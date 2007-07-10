@@ -925,6 +925,7 @@ static int   kPaddingLabels             = 4;
 
 
 - (IBAction)showAll:(id)sender {
+//    JKLogDebug([self description]);
 	int i, count;
 	NSRect totRect, newRect;
 	MyGraphDataSerie *mgds;
@@ -1123,7 +1124,7 @@ static int   kPaddingLabels             = 4;
     newOrig.y = [self plottingArea].origin.y - aRect.origin.y * [[self pixelsPerYUnit] floatValue];
     [self setOrigin:newOrig];
     [self calculateCoordinateConversions];
-
+    [self setNeedsDisplay:YES];
 }
 
 - (void)zoomToRectInView:(NSRect)aRect { // aRect in view coördinaten

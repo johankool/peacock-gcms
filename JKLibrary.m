@@ -11,6 +11,7 @@
 #import "JKLibraryWindowController.h"
 #import "JKManagedLibraryEntry.h"
 #import "JKTargetObjectProtocol.h"
+#import "JKAppDelegate.h"
 
 @implementation JKLibrary
 
@@ -41,9 +42,25 @@
 
 #pragma mark OPEN/SAVE DOCUMENT
 
+- (BOOL)isDocumentEdited {
+    // The main library will get saved on exit anyway
+    if ([(JKAppDelegate *)[NSApp delegate] library] == self) {
+        return NO;
+    } else {
+        return [super isDocumentEdited];
+    }
+}
+- (BOOL)isSuperDocumentEdited {
+    return [super isDocumentEdited];  
+}
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)absoluteOriginalContentsURL error:(NSError **)error 
 {
     if ([typeName isEqualToString:@"Peacock Library"]) {
+        if ([(JKAppDelegate *)[NSApp delegate] library] == self) {
+			if (error != NULL)
+				*error = [[[NSError alloc] initWithDomain:@"Peacock" code:1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Library cannot be relocated", NSLocalizedDescriptionKey, @"This library is a representation of the main library used throughout Peacock.", NSLocalizedFailureReasonErrorKey, @"Changes made to this library will automatically be saved on exiting Peacock. It is also possible to export this library as a JCAMP library.", NSLocalizedRecoverySuggestionErrorKey, nil]] autorelease];
+            return NO;
+        }    
         // Check if a persistent store is available
         if ([[[[self managedObjectContext] persistentStoreCoordinator] persistentStores] count] == 0) {
             // Add persistent store if needed

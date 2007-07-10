@@ -229,7 +229,10 @@ int const JKGCMSDocument_Version = 7;
         result = [self readNetCDFFile:[[absoluteURL path] stringByAppendingPathComponent:@"netcdf"] error:outError];
 		if (result) {
 			peacockFileWrapper = wrapper;
-		}
+		} else {
+            JKLogError(@"No NetCDF file found at '%@'.",[[absoluteURL path] stringByAppendingPathComponent:@"netcdf"]);
+            return NO;
+        }
         
         NSData *data = nil;
 		NSKeyedUnarchiver *unarchiver = nil;
@@ -781,14 +784,16 @@ int intSort(id num1, id num2, void *context)
         return NSOrderedSame;
 }
 
-- (void)addChromatogramForModel:(NSString *)modelString {
+- (BOOL)addChromatogramForModel:(NSString *)modelString {
     JKChromatogram *chromatogram = [self chromatogramForModel:modelString];
     if (!chromatogram) {
-        return;
+        return NO;
     }
     if (![[self chromatograms] containsObject:chromatogram]) {
-        [self insertObject:chromatogram inChromatogramsAtIndex:[[self chromatograms] count]];        
+        [self insertObject:chromatogram inChromatogramsAtIndex:[[self chromatograms] count]];  
+        return YES;
     }
+    return NO;
 }
 
 - (JKSpectrum *)spectrumForScan:(int)scan {

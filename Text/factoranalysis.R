@@ -8,7 +8,7 @@ rownames(data) <- data$Sample
 data$Sample <- NULL
 
 # try to do factor analysis without obtaining covmat
-try(fa <- factanal(x=data, factors={NUMBER_OF_FACTORS}, scores = "regression"), TRUE)
+try(fa <- factanal(x=data, factors={NUMBER_OF_FACTORS}, scores = "{SCORES}", rotation = "{ROTATION}"), TRUE)
 
 if (!exists("fa")) {
 
@@ -202,12 +202,16 @@ if (!exists("fa")) {
     covmat <- factor.model.stat(data, weight=seq(1, 1, length=nrow(data)))
 
     # do factor analysis
-    fa <- factanal(factors={NUMBER_OF_FACTORS}, covmat=covmat)
+    fa <- factanal(factors={NUMBER_OF_FACTORS}, covmat=covmat, rotation = "{ROTATION}")
+    
+    # since factanal doesn't do scores when given a covmat, do them manually
+    # only for regression scores and orthogonal rotation?
+    fa$scores <- scale(data, mean(data), sd(data)) %*% (solve(fa$correlation) %*% fa$loadings)
 }
 
 # write results to loadings.csv
 try(write.csv(fa$loadings, quote=FALSE, file="{TEMP_DIR}/loadings.csv"), TRUE)
 
 # write results to scores.csv
-try(write.csv2(fa$scores, quote=FALSE, file="{TEMP_DIR}/scores.csv"), TRUE)
+try(write.csv(fa$scores, quote=FALSE, file="{TEMP_DIR}/scores.csv"), TRUE)
 

@@ -33,7 +33,6 @@
                 altGraphView = MyGraphView; 
                 chromatogramDataSeriesController = NSArrayController; 
                 combinedPeaksController = NSArrayController; 
-                comparisonScrollView = NSScrollView; 
                 detailStatusTextField = NSTextField; 
                 doneButton = NSButton; 
                 fileProgressIndicator = NSProgressIndicator; 
@@ -46,7 +45,7 @@
                 metadataTableScrollView = NSScrollView; 
                 optionsSheet = NSWindow; 
                 peaksController = NSArrayController; 
-                printAccessoryView = id; 
+                printAccessoryView = NSView; 
                 progressSheet = NSWindow; 
                 ratiosController = NSArrayController; 
                 ratiosEditor = NSWindow; 
@@ -59,7 +58,7 @@
                 scoresDataSeriesController = NSArrayController; 
                 scoresGraphView = MyGraphView; 
                 searchOptionsButton = NSButton; 
-                splitView = id; 
+                splitView = RBSplitView; 
                 stopButton = NSButton; 
                 summarizeOptionsSheet = NSWindow; 
                 tabView = NSTabView; 

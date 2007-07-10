@@ -60,8 +60,8 @@
 		C75846640C07268D00756ED8 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C75846620C07268D00756ED8 /* JKLibraryEntry.m */; };
 		C75846650C07268D00756ED8 /* JKLibraryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846610C07268D00756ED8 /* JKLibraryEntry.h */; };
 		C75846660C07268D00756ED8 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C75846620C07268D00756ED8 /* JKLibraryEntry.m */; };
-		C765B8AB0C23237B00C4F153 /* factoranalysis.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = C765B8AA0C23237A00C4F153 /* factoranalysis.txt */; };
-		C765B8AC0C23237B00C4F153 /* factoranalysis.txt in Resources */ = {isa = PBXBuildFile; fileRef = C765B8AA0C23237A00C4F153 /* factoranalysis.txt */; };
+		C765B8AB0C23237B00C4F153 /* factoranalysis.R in CopyFiles */ = {isa = PBXBuildFile; fileRef = C765B8AA0C23237A00C4F153 /* factoranalysis.R */; };
+		C765B8AC0C23237B00C4F153 /* factoranalysis.R in Resources */ = {isa = PBXBuildFile; fileRef = C765B8AA0C23237A00C4F153 /* factoranalysis.R */; };
 		C7680FBF0C035C4800973566 /* JKLibrary.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */; };
 		C7680FC00C035C4800973566 /* JKLibrary.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */; };
 		C76814070C05E66C00973566 /* JKManagedLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */; };
@@ -390,7 +390,7 @@
 			files = (
 				C7ADC9110BA05609007D9134 /* Sparkle.framework in CopyFiles */,
 				C7ADC9120BA05609007D9134 /* Growl.framework in CopyFiles */,
-				C765B8AB0C23237B00C4F153 /* factoranalysis.txt in CopyFiles */,
+				C765B8AB0C23237B00C4F153 /* factoranalysis.R in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,7 +436,7 @@
 		C75846130C071ACC00756ED8 /* JKComparableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKComparableProtocol.h; sourceTree = "<group>"; };
 		C75846610C07268D00756ED8 /* JKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKLibraryEntry.h; sourceTree = "<group>"; };
 		C75846620C07268D00756ED8 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = "<group>"; };
-		C765B8AA0C23237A00C4F153 /* factoranalysis.txt */ = {isa = PBXFileReference; fileEncoding = 7; lastKnownFileType = text; path = factoranalysis.txt; sourceTree = "<group>"; };
+		C765B8AA0C23237A00C4F153 /* factoranalysis.R */ = {isa = PBXFileReference; explicitFileType = text.script; fileEncoding = 7; path = factoranalysis.R; sourceTree = "<group>"; };
 		C7680E390C03426900973566 /* MAKeyedArchiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAKeyedArchiver.h; sourceTree = "<group>"; };
 		C7680E3A0C03426A00973566 /* MAKeyedArchiver.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MAKeyedArchiver.m; sourceTree = "<group>"; };
 		C7680E3B0C03426A00973566 /* MAKeyedUnarchiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAKeyedUnarchiver.h; sourceTree = "<group>"; };
@@ -544,6 +544,7 @@
 		C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKGCMSPrintView.m; sourceTree = "<group>"; };
 		C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+RoundRect.h"; sourceTree = "<group>"; };
 		C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+RoundRect.m"; sourceTree = "<group>"; };
+		C7DCD9F90C32AA000099DF2C /* factoranalysis.txt */ = {isa = PBXFileReference; fileEncoding = 7; lastKnownFileType = text; path = factoranalysis.txt; sourceTree = "<group>"; };
 		C7E5B1D20A14934200BB2291 /* BDAlias.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BDAlias.h; sourceTree = "<group>"; };
 		C7E5B1D30A14934200BB2291 /* BDAlias.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BDAlias.m; sourceTree = "<group>"; };
 		C7E61F180BB2BC4700D9A636 /* JKModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKModelObject.h; sourceTree = "<group>"; };
@@ -576,7 +577,7 @@
 		C7EB17F00898CFBC007FC2ED /* MolTypes.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = MolTypes.c; sourceTree = "<group>"; };
 		C7EB17F10898CFBC007FC2ED /* MolTypes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MolTypes.h; sourceTree = "<group>"; };
 		C7EB17F20898CFBC007FC2ED /* MolWeight.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MolWeight.h; sourceTree = "<group>"; };
-		C7EB17F40898CFBC007FC2ED /* MWController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MWController.m; sourceTree = "<group>"; };
+		C7EB17F40898CFBC007FC2ED /* MWController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MWController.m; path = MolWeight/MWController.m; sourceTree = "<group>"; };
 		C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MyGraphDataSerie.h; sourceTree = "<group>"; };
 		C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MyGraphDataSerie.m; sourceTree = "<group>"; };
 		C7EB17F70898CFBC007FC2ED /* MyGraphView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MyGraphView.h; sourceTree = "<group>"; };
@@ -591,7 +592,7 @@
 		C7EB18060898CFBD007FC2ED /* Parseable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Parseable.h; sourceTree = "<group>"; };
 		C7EB180A0898CFBD007FC2ED /* License.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
 		C7EB180D0898CFBD007FC2ED /* periodic.table */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = periodic.table; sourceTree = "<group>"; };
-		C7F0D0550B11D9030046F994 /* MWController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MWController.h; sourceTree = "<group>"; };
+		C7F0D0550B11D9030046F994 /* MWController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MWController.h; path = MolWeight/MWController.h; sourceTree = "<group>"; };
 		C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+Copying.h"; sourceTree = "<group>"; };
 		C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+Copying.m"; sourceTree = "<group>"; };
 		C7F5E8F308EAA98600AC1068 /* JKManagedLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKManagedLibraryEntry.h; sourceTree = "<group>"; };
@@ -707,12 +708,10 @@
 		2A37F4AAFDCFA73011CA2CEA /* Peacock */ = {
 			isa = PBXGroup;
 			children = (
-				2A37F4ABFDCFA73011CA2CEA /* Views */,
-				C773290908CA610700222B5B /* Controllers */,
-				C773290B08CA614200222B5B /* Models */,
+				C77E686F0C3A9C860051B016 /* Classes */,
+				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				C72C85C8098BF12600CEF565 /* Tests */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
-				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 				C72C8501098BE74400CEF565 /* Unit Testing-Info.plist */,
@@ -720,42 +719,19 @@
 			name = Peacock;
 			sourceTree = "<group>";
 		};
-		2A37F4ABFDCFA73011CA2CEA /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				C747B83409DD5638004837D0 /* GraphView */,
-				C747B85309DD5782004837D0 /* TableView */,
-				C777A2C90A1DFEAD00CF44D9 /* JKMoleculeView */,
-				C777A2B70A1DFE7D00CF44D9 /* JKPathPopUpButton */,
-				C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */,
-				C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */,
-				C7696D6D0C2C1A25009A013E /* JKStatisticsPrintView.h */,
-				C7696D6E0C2C1A25009A013E /* JKStatisticsPrintView.m */,
-			);
-			name = Views;
-			sourceTree = "<group>";
-		};
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				C7680E380C03426900973566 /* MAKeyedArchiver */,
-				C7C220610BEB831000510B5B /* BooleanToStringTransformer.h */,
-				C7C220620BEB831000510B5B /* BooleanToStringTransformer.m */,
-				C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */,
-				C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */,
+				C77E689C0C3A9E910051B016 /* AMRemovableColumns */,
 				C7E5B1C50A14930600BB2291 /* BDAlias */,
+				C7680E380C03426900973566 /* MAKeyedArchiver */,
 				C773290A08CA612600222B5B /* MolWeight */,
 				C79A6157094DBE4000C0887E /* RBSplitView */,
-				C7834D4E0941F3C2005431CD /* Smart Crash */,
 				C7EB17A60898CF2D007FC2ED /* AccessorMacros.h */,
 				32DBCF750370BD2300C91783 /* Peacock_Prefix.pch */,
-				C720AB8609EA7B6C007EF860 /* jk_statistics.h */,
-				C720AB8709EA7B6C007EF860 /* jk_statistics.c */,
+				2A37F4B0FDCFA73011CA2CEA /* main.m */,
 				C7BC505109A62C930093106E /* JKLog.h */,
 				C7BC505209A62C930093106E /* JKLog.m */,
-				2A37F4B0FDCFA73011CA2CEA /* main.m */,
-				C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */,
-				C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -763,13 +739,11 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				C747ED320ABF43C6001F98AF /* Peacock Test Files */,
-				C7C21FC50A5060E2006E82FD /* Peacock.sdef */,
+				C77E68C60C3A9F0D0051B016 /* Misc */,
 				C7EB17B00898CF2E007FC2ED /* Icons */,
 				C7EB17C00898CF2E007FC2ED /* Images */,
 				C7EB17F90898CFBC007FC2ED /* Nibs */,
 				C7EB18070898CFBD007FC2ED /* Text */,
-				C77C582F09800FAD002E7796 /* Peacock Help */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -788,158 +762,20 @@
 		C72C85C8098BF12600CEF565 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				C73533D00B7A703C00F7634B /* JKChromatogramTest.h */,
+				C73533D10B7A703C00F7634B /* JKChromatogramTest.m */,
 				C72C85D5098BF1B800CEF565 /* JKGeneralTesting.h */,
 				C72C85D6098BF1B800CEF565 /* JKGeneralTesting.m */,
 				C72C8507098BE83600CEF565 /* JKSpectrumTest.h */,
 				C72C8508098BE83600CEF565 /* JKSpectrumTest.m */,
-				C73533D00B7A703C00F7634B /* JKChromatogramTest.h */,
-				C73533D10B7A703C00F7634B /* JKChromatogramTest.m */,
 			);
 			name = Tests;
-			sourceTree = "<group>";
-		};
-		C747B83409DD5638004837D0 /* GraphView */ = {
-			isa = PBXGroup;
-			children = (
-				C7EB17F70898CFBC007FC2ED /* MyGraphView.h */,
-				C7EB17F80898CFBC007FC2ED /* MyGraphView.m */,
-				C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */,
-				C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */,
-				C773669408E02D87002B72F1 /* ChromatogramGraphDataSerie.h */,
-				C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */,
-				C773669608E02D87002B72F1 /* SpectrumGraphDataSerie.h */,
-				C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */,
-			);
-			name = GraphView;
-			sourceTree = "<group>";
-		};
-		C747B83909DD5684004837D0 /* MainDocument */ = {
-			isa = PBXGroup;
-			children = (
-				C7C2998E0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.h */,
-				C7C2998F0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.m */,
-				C7C29ABB0B8B67530017B2B2 /* NSCoder+CArrayEncoding.h */,
-				C7C29ABC0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m */,
-				C7C299880B8B48CC0017B2B2 /* ArrayEncodingObject.h */,
-				C7C299890B8B48CC0017B2B2 /* ArrayEncodingObject.m */,
-				C729CAA70A4B45CD00FAB04F /* JKDataModelProxy.h */,
-				C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */,
-				C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */,
-				C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */,
-				C73290E00AD68F9800D95E36 /* JKChromatogram.h */,
-				C73290E10AD68F9800D95E36 /* JKChromatogram.m */,
-				C7EB17E40898CF2F007FC2ED /* JKPeakRecord.h */,
-				C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */,
-				C75846130C071ACC00756ED8 /* JKComparableProtocol.h */,
-				C79618900C0C75BC00D79FAC /* JKTargetObjectProtocol.h */,
-				C7EB17EA0898CF2F007FC2ED /* JKSpectrum.h */,
-				C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */,
-				C7752C360B6778DA0010EE72 /* JKSearchResult.h */,
-				C7752C370B6778DA0010EE72 /* JKSearchResult.m */,
-				C7E61F180BB2BC4700D9A636 /* JKModelObject.h */,
-				C7E61F190BB2BC4800D9A636 /* JKModelObject.m */,
-				C75846610C07268D00756ED8 /* JKLibraryEntry.h */,
-				C75846620C07268D00756ED8 /* JKLibraryEntry.m */,
-			);
-			name = MainDocument;
-			sourceTree = "<group>";
-		};
-		C747B83E09DD56A4004837D0 /* LibraryDocument */ = {
-			isa = PBXGroup;
-			children = (
-				C7EB17D40898CF2E007FC2ED /* JKLibrary.h */,
-				C7EB17D50898CF2E007FC2ED /* JKLibrary.m */,
-				C7F5E8F308EAA98600AC1068 /* JKManagedLibraryEntry.h */,
-				C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */,
-				C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */,
-			);
-			name = LibraryDocument;
-			sourceTree = "<group>";
-		};
-		C747B84109DD56BD004837D0 /* StasticsDocument */ = {
-			isa = PBXGroup;
-			children = (
-				C78599A009CDBBAD00351C87 /* JKStatisticsDocument.h */,
-				C78599A109CDBBAD00351C87 /* JKStatisticsDocument.m */,
-				C70DB8EB09573BEA00C2B386 /* JKRatio.h */,
-				C70DB8EC09573BEA00C2B386 /* JKRatio.m */,
-				C708E90A0B9D953A0085872E /* JKCombinedPeak.h */,
-				C708E90B0B9D953A0085872E /* JKCombinedPeak.m */,
-			);
-			name = StasticsDocument;
-			sourceTree = "<group>";
-		};
-		C747B84409DD5704004837D0 /* MainWindow */ = {
-			isa = PBXGroup;
-			children = (
-				C7EB17DC0898CF2E007FC2ED /* JKMainWindowController.h */,
-				C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */,
-				C7EB17DE0898CF2E007FC2ED /* JKPanelController.h */,
-				C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */,
-				C7AD38AB08B2A0D600A0F4BE /* FilteringDNDArrayController.h */,
-				C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */,
-			);
-			name = MainWindow;
-			sourceTree = "<group>";
-		};
-		C747B84709DD571D004837D0 /* ApplicationLevel */ = {
-			isa = PBXGroup;
-			children = (
-				C7EB17CE0898CF2E007FC2ED /* JKAppDelegate.h */,
-				C7EB17CF0898CF2E007FC2ED /* JKAppDelegate.m */,
-				C7EB17E80898CF2F007FC2ED /* JKPreferencesWindowController.h */,
-				C7EB17E90898CF2F007FC2ED /* JKPreferencesWindowController.m */,
-			);
-			name = ApplicationLevel;
-			sourceTree = "<group>";
-		};
-		C747B84A09DD5742004837D0 /* LibraryWindow */ = {
-			isa = PBXGroup;
-			children = (
-				C7EB17D80898CF2E007FC2ED /* JKLibraryWindowController.h */,
-				C7EB17D90898CF2E007FC2ED /* JKLibraryWindowController.m */,
-			);
-			name = LibraryWindow;
-			sourceTree = "<group>";
-		};
-		C747B84D09DD575C004837D0 /* BatchWindow */ = {
-			isa = PBXGroup;
-			children = (
-				C7713B410950368F00653D2A /* JKBatchProcessWindowController.h */,
-				C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */,
-			);
-			name = BatchWindow;
-			sourceTree = "<group>";
-		};
-		C747B85009DD576B004837D0 /* StatisticsWindow */ = {
-			isa = PBXGroup;
-			children = (
-				C785905409541F250083EC22 /* JKStatisticsWindowController.h */,
-				C785905509541F250083EC22 /* JKStatisticsWindowController.m */,
-			);
-			name = StatisticsWindow;
-			sourceTree = "<group>";
-		};
-		C747B85309DD5782004837D0 /* TableView */ = {
-			isa = PBXGroup;
-			children = (
-				C7F8DF030BF0D40F00A34F5D /* DisplayOptionsWindowController.h */,
-				C7F8DF020BF0D40F00A34F5D /* DisplayOptionsWindowController.m */,
-				C7F8DE8E0BF0CDED00A34F5D /* AMRemovableColumnsTableView.h */,
-				C7F8DE8C0BF0CDED00A34F5D /* AMRemovableColumnsTableView.m */,
-				C7F8DE8B0BF0CDED00A34F5D /* AMRemovableTableColumn.h */,
-				C7F8DE8D0BF0CDED00A34F5D /* AMRemovableTableColumn.m */,
-				C798C9E808E17B5400C6C7D1 /* DeleteTableView.h */,
-				C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */,
-				C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */,
-				C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */,
-			);
-			name = TableView;
 			sourceTree = "<group>";
 		};
 		C7680E380C03426900973566 /* MAKeyedArchiver */ = {
 			isa = PBXGroup;
 			children = (
+				C7680E490C03426A00973566 /* README */,
 				C7680E390C03426900973566 /* MAKeyedArchiver.h */,
 				C7680E3A0C03426A00973566 /* MAKeyedArchiver.m */,
 				C7680E3B0C03426A00973566 /* MAKeyedUnarchiver.h */,
@@ -956,94 +792,146 @@
 				C7680E460C03426A00973566 /* MAObjectStack.m */,
 				C7680E470C03426A00973566 /* MAStringTable.h */,
 				C7680E480C03426A00973566 /* MAStringTable.m */,
-				C7680E490C03426A00973566 /* README */,
 			);
 			path = MAKeyedArchiver;
-			sourceTree = "<group>";
-		};
-		C773290908CA610700222B5B /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				C747B84409DD5704004837D0 /* MainWindow */,
-				C747B84709DD571D004837D0 /* ApplicationLevel */,
-				C747B84A09DD5742004837D0 /* LibraryWindow */,
-				C747B84D09DD575C004837D0 /* BatchWindow */,
-				C747B85009DD576B004837D0 /* StatisticsWindow */,
-			);
-			name = Controllers;
 			sourceTree = "<group>";
 		};
 		C773290A08CA612600222B5B /* MolWeight */ = {
 			isa = PBXGroup;
 			children = (
+				C7EB17AB0898CF2E007FC2ED /* CMutableArray.h */,
+				C7EB17AC0898CF2E007FC2ED /* CMutableArray.m */,
 				C7EB17A70898CF2D007FC2ED /* CAtom.h */,
 				C7EB17A80898CF2D007FC2ED /* CAtom.m */,
 				C7EB17A90898CF2D007FC2ED /* CFragment.h */,
 				C7EB17AA0898CF2E007FC2ED /* CFragment.m */,
-				C7EB17AB0898CF2E007FC2ED /* CMutableArray.h */,
-				C7EB17AC0898CF2E007FC2ED /* CMutableArray.m */,
 				C7EB17F00898CFBC007FC2ED /* MolTypes.c */,
 				C7EB17F10898CFBC007FC2ED /* MolTypes.h */,
 				C7EB17F20898CFBC007FC2ED /* MolWeight.h */,
-				C7EB17F40898CFBC007FC2ED /* MWController.m */,
-				C7F0D0550B11D9030046F994 /* MWController.h */,
 				C7EB18060898CFBD007FC2ED /* Parseable.h */,
 			);
 			path = MolWeight;
 			sourceTree = "<group>";
 		};
-		C773290B08CA614200222B5B /* Models */ = {
+		C77E686F0C3A9C860051B016 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				C747B83909DD5684004837D0 /* MainDocument */,
-				C747B83E09DD56A4004837D0 /* LibraryDocument */,
-				C747B84109DD56BD004837D0 /* StasticsDocument */,
-				C777A2DA0A1DFEE700CF44D9 /* JKMolecule */,
-				C73290E80AD68F9800D95E36 /* JKFileWell.h */,
-				C73290F30AD68F9800D95E36 /* JKSynchroScrollView.h */,
-				C73290F40AD68F9800D95E36 /* JKSynchroScrollView.m */,
-			);
-			name = Models;
-			sourceTree = "<group>";
-		};
-		C777A2B70A1DFE7D00CF44D9 /* JKPathPopUpButton */ = {
-			isa = PBXGroup;
-			children = (
-				C7F8973E0A188B0D00A65A24 /* JKPathPopUpButton.h */,
-				C7F8973F0A188B0D00A65A24 /* JKPathPopUpButton.m */,
-			);
-			name = JKPathPopUpButton;
-			sourceTree = "<group>";
-		};
-		C777A2C90A1DFEAD00CF44D9 /* JKMoleculeView */ = {
-			isa = PBXGroup;
-			children = (
-				C777A2C30A1DFEA800CF44D9 /* JKMoleculeView.h */,
-				C777A2C40A1DFEA800CF44D9 /* JKMoleculeView.m */,
-				C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */,
-				C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */,
-			);
-			name = JKMoleculeView;
-			sourceTree = "<group>";
-		};
-		C777A2DA0A1DFEE700CF44D9 /* JKMolecule */ = {
-			isa = PBXGroup;
-			children = (
+				C7C299880B8B48CC0017B2B2 /* ArrayEncodingObject.h */,
+				C7C299890B8B48CC0017B2B2 /* ArrayEncodingObject.m */,
+				C7C220610BEB831000510B5B /* BooleanToStringTransformer.h */,
+				C7C220620BEB831000510B5B /* BooleanToStringTransformer.m */,
+				C773669408E02D87002B72F1 /* ChromatogramGraphDataSerie.h */,
+				C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */,
+				C798C9E808E17B5400C6C7D1 /* DeleteTableView.h */,
+				C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */,
+				C7AD38AB08B2A0D600A0F4BE /* FilteringDNDArrayController.h */,
+				C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */,
+				C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */,
+				C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */,
+				C720AB8709EA7B6C007EF860 /* jk_statistics.c */,
+				C720AB8609EA7B6C007EF860 /* jk_statistics.h */,
+				C7EB17CE0898CF2E007FC2ED /* JKAppDelegate.h */,
+				C7EB17CF0898CF2E007FC2ED /* JKAppDelegate.m */,
 				C777A2CC0A1DFEE400CF44D9 /* JKAtom.h */,
 				C777A2CD0A1DFEE400CF44D9 /* JKAtom.m */,
+				C7713B410950368F00653D2A /* JKBatchProcessWindowController.h */,
+				C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */,
 				C777A2CE0A1DFEE400CF44D9 /* JKBond.h */,
 				C777A2CF0A1DFEE400CF44D9 /* JKBond.m */,
+				C73290E00AD68F9800D95E36 /* JKChromatogram.h */,
+				C73290E10AD68F9800D95E36 /* JKChromatogram.m */,
+				C708E90A0B9D953A0085872E /* JKCombinedPeak.h */,
+				C708E90B0B9D953A0085872E /* JKCombinedPeak.m */,
+				C75846130C071ACC00756ED8 /* JKComparableProtocol.h */,
+				C729CAA70A4B45CD00FAB04F /* JKDataModelProxy.h */,
+				C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */,
+				C73290E80AD68F9800D95E36 /* JKFileWell.h */,
+				C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */,
+				C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */,
+				C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */,
+				C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */,
+				C7EB17D40898CF2E007FC2ED /* JKLibrary.h */,
+				C7EB17D50898CF2E007FC2ED /* JKLibrary.m */,
+				C75846610C07268D00756ED8 /* JKLibraryEntry.h */,
+				C75846620C07268D00756ED8 /* JKLibraryEntry.m */,
+				C7EB17D80898CF2E007FC2ED /* JKLibraryWindowController.h */,
+				C7EB17D90898CF2E007FC2ED /* JKLibraryWindowController.m */,
+				C7EB17DC0898CF2E007FC2ED /* JKMainWindowController.h */,
+				C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */,
+				C7F5E8F308EAA98600AC1068 /* JKManagedLibraryEntry.h */,
+				C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */,
+				C7E61F180BB2BC4700D9A636 /* JKModelObject.h */,
+				C7E61F190BB2BC4800D9A636 /* JKModelObject.m */,
 				C777A2D00A1DFEE400CF44D9 /* JKMoleculeModel.h */,
 				C777A2D10A1DFEE400CF44D9 /* JKMoleculeModel.m */,
+				C777A2C30A1DFEA800CF44D9 /* JKMoleculeView.h */,
+				C777A2C40A1DFEA800CF44D9 /* JKMoleculeView.m */,
+				C7EB17DE0898CF2E007FC2ED /* JKPanelController.h */,
+				C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */,
+				C7F8973E0A188B0D00A65A24 /* JKPathPopUpButton.h */,
+				C7F8973F0A188B0D00A65A24 /* JKPathPopUpButton.m */,
+				C7EB17E40898CF2F007FC2ED /* JKPeakRecord.h */,
+				C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */,
+				C7EB17E80898CF2F007FC2ED /* JKPreferencesWindowController.h */,
+				C7EB17E90898CF2F007FC2ED /* JKPreferencesWindowController.m */,
+				C70DB8EB09573BEA00C2B386 /* JKRatio.h */,
+				C70DB8EC09573BEA00C2B386 /* JKRatio.m */,
+				C7752C360B6778DA0010EE72 /* JKSearchResult.h */,
+				C7752C370B6778DA0010EE72 /* JKSearchResult.m */,
+				C7EB17EA0898CF2F007FC2ED /* JKSpectrum.h */,
+				C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */,
+				C78599A009CDBBAD00351C87 /* JKStatisticsDocument.h */,
+				C78599A109CDBBAD00351C87 /* JKStatisticsDocument.m */,
+				C7696D6D0C2C1A25009A013E /* JKStatisticsPrintView.h */,
+				C7696D6E0C2C1A25009A013E /* JKStatisticsPrintView.m */,
+				C785905409541F250083EC22 /* JKStatisticsWindowController.h */,
+				C785905509541F250083EC22 /* JKStatisticsWindowController.m */,
+				C73290F30AD68F9800D95E36 /* JKSynchroScrollView.h */,
+				C73290F40AD68F9800D95E36 /* JKSynchroScrollView.m */,
+				C79618900C0C75BC00D79FAC /* JKTargetObjectProtocol.h */,
+				C7F0D0550B11D9030046F994 /* MWController.h */,
+				C7EB17F40898CFBC007FC2ED /* MWController.m */,
+				C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */,
+				C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */,
+				C7EB17F70898CFBC007FC2ED /* MyGraphView.h */,
+				C7EB17F80898CFBC007FC2ED /* MyGraphView.m */,
+				C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */,
+				C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */,
+				C7C29ABB0B8B67530017B2B2 /* NSCoder+CArrayEncoding.h */,
+				C7C29ABC0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m */,
+				C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */,
+				C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */,
+				C7C2998E0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.h */,
+				C7C2998F0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.m */,
+				C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */,
+				C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */,
+				C773669608E02D87002B72F1 /* SpectrumGraphDataSerie.h */,
+				C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */,
 			);
-			name = JKMolecule;
+			name = Classes;
 			sourceTree = "<group>";
 		};
-		C7834D4E0941F3C2005431CD /* Smart Crash */ = {
+		C77E689C0C3A9E910051B016 /* AMRemovableColumns */ = {
 			isa = PBXGroup;
 			children = (
+				C7F8DE8E0BF0CDED00A34F5D /* AMRemovableColumnsTableView.h */,
+				C7F8DE8C0BF0CDED00A34F5D /* AMRemovableColumnsTableView.m */,
+				C7F8DE8B0BF0CDED00A34F5D /* AMRemovableTableColumn.h */,
+				C7F8DE8D0BF0CDED00A34F5D /* AMRemovableTableColumn.m */,
+				C7F8DF030BF0D40F00A34F5D /* DisplayOptionsWindowController.h */,
+				C7F8DF020BF0D40F00A34F5D /* DisplayOptionsWindowController.m */,
 			);
-			name = "Smart Crash";
+			name = AMRemovableColumns;
+			sourceTree = "<group>";
+		};
+		C77E68C60C3A9F0D0051B016 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */,
+				C747ED320ABF43C6001F98AF /* Peacock Test Files */,
+				C7C21FC50A5060E2006E82FD /* Peacock.sdef */,
+			);
+			name = Misc;
 			sourceTree = "<group>";
 		};
 		C79A6157094DBE4000C0887E /* RBSplitView */ = {
@@ -1134,13 +1022,15 @@
 		C7EB18070898CFBD007FC2ED /* Text */ = {
 			isa = PBXGroup;
 			children = (
+				C77C582F09800FAD002E7796 /* Peacock Help */,
 				C70DC019095B205500C2B386 /* Credits.rtf */,
 				C7EB180A0898CFBD007FC2ED /* License.rtf */,
 				C70DC016095B201200C2B386 /* Localizable.strings */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
 				C7EB180D0898CFBD007FC2ED /* periodic.table */,
-				C765B8AA0C23237A00C4F153 /* factoranalysis.txt */,
+				C7DCD9F90C32AA000099DF2C /* factoranalysis.txt */,
+				C765B8AA0C23237A00C4F153 /* factoranalysis.R */,
 			);
 			path = Text;
 			sourceTree = "<group>";
@@ -1362,7 +1252,7 @@
 				C77E2FBE0C0EF20C00B8A64A /* plus.png in Resources */,
 				C77E2FC10C0EF21700B8A64A /* minus.png in Resources */,
 				C77E32B90C0F2CBB00B8A64A /* libraries.png in Resources */,
-				C765B8AC0C23237B00C4F153 /* factoranalysis.txt in Resources */,
+				C765B8AC0C23237B00C4F153 /* factoranalysis.R in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1659,6 +1549,7 @@
 				C77C583009800FAD002E7796 /* English */,
 			);
 			name = "Peacock Help";
+			path = ..;
 			sourceTree = "<group>";
 		};
 		C7F8DEA60BF0D00600A34F5D /* DisplayOptions.nib */ = {
