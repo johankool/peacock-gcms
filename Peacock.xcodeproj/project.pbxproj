@@ -60,6 +60,8 @@
 		C75846640C07268D00756ED8 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C75846620C07268D00756ED8 /* JKLibraryEntry.m */; };
 		C75846650C07268D00756ED8 /* JKLibraryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846610C07268D00756ED8 /* JKLibraryEntry.h */; };
 		C75846660C07268D00756ED8 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C75846620C07268D00756ED8 /* JKLibraryEntry.m */; };
+		C75864960C43B6B600026820 /* DisplayOptions.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DEA70BF0D00700A34F5D /* DisplayOptions.nib */; };
+		C75864970C43B6B600026820 /* DisplayOptions.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DEA70BF0D00700A34F5D /* DisplayOptions.nib */; };
 		C765B8AB0C23237B00C4F153 /* factoranalysis.R in CopyFiles */ = {isa = PBXBuildFile; fileRef = C765B8AA0C23237A00C4F153 /* factoranalysis.R */; };
 		C765B8AC0C23237B00C4F153 /* factoranalysis.R in Resources */ = {isa = PBXBuildFile; fileRef = C765B8AA0C23237A00C4F153 /* factoranalysis.R */; };
 		C7680FBF0C035C4800973566 /* JKLibrary.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */; };
@@ -326,8 +328,6 @@
 		C7F8DE960BF0CDEE00A34F5D /* AMRemovableColumnsTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DE8E0BF0CDED00A34F5D /* AMRemovableColumnsTableView.h */; };
 		C7F8DEA40BF0CE1A00A34F5D /* table.png in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DEA30BF0CE1A00A34F5D /* table.png */; };
 		C7F8DEA50BF0CE1A00A34F5D /* table.png in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DEA30BF0CE1A00A34F5D /* table.png */; };
-		C7F8DEAC0BF0D00700A34F5D /* DisplayOptions.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DEA60BF0D00600A34F5D /* DisplayOptions.nib */; };
-		C7F8DEAD0BF0D00700A34F5D /* DisplayOptions.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DEA60BF0D00600A34F5D /* DisplayOptions.nib */; };
 		C7F8DF040BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8DF020BF0D40F00A34F5D /* DisplayOptionsWindowController.m */; };
 		C7F8DF050BF0D41000A34F5D /* DisplayOptionsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DF030BF0D40F00A34F5D /* DisplayOptionsWindowController.h */; };
 		C7F8DF060BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8DF020BF0D40F00A34F5D /* DisplayOptionsWindowController.m */; };
@@ -588,7 +588,7 @@
 		C7F8DE8D0BF0CDED00A34F5D /* AMRemovableTableColumn.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AMRemovableTableColumn.m; sourceTree = "<group>"; };
 		C7F8DE8E0BF0CDED00A34F5D /* AMRemovableColumnsTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AMRemovableColumnsTableView.h; sourceTree = "<group>"; };
 		C7F8DEA30BF0CE1A00A34F5D /* table.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = table.png; sourceTree = "<group>"; };
-		C7F8DEA70BF0D00700A34F5D /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/DisplayOptions.nib; sourceTree = "<group>"; };
+		C7F8DEA70BF0D00700A34F5D /* DisplayOptions.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = DisplayOptions.nib; sourceTree = "<group>"; };
 		C7F8DF020BF0D40F00A34F5D /* DisplayOptionsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DisplayOptionsWindowController.m; sourceTree = "<group>"; };
 		C7F8DF030BF0D40F00A34F5D /* DisplayOptionsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DisplayOptionsWindowController.h; sourceTree = "<group>"; };
 		C7FBE1E30AB6F1A4000E7EF2 /* presets.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = presets.png; sourceTree = "<group>"; };
@@ -962,7 +962,7 @@
 		C7EB17F90898CFBC007FC2ED /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
-				C7F8DEA60BF0D00600A34F5D /* DisplayOptions.nib */,
+				C7F8DEA70BF0D00700A34F5D /* DisplayOptions.nib */,
 				C7713B35095029C200653D2A /* JKBatchProcess.nib */,
 				C7EB17FA0898CFBC007FC2ED /* JKLibrary.nib */,
 				C7EB17FB0898CFBD007FC2ED /* JKGCMSDocument.nib */,
@@ -1204,7 +1204,7 @@
 				C7F8DE170BF0A4B500A34F5D /* flagged_header.tiff in Resources */,
 				C7F8DE180BF0A4B500A34F5D /* flagged.tiff in Resources */,
 				C7F8DEA50BF0CE1A00A34F5D /* table.png in Resources */,
-				C7F8DEAD0BF0D00700A34F5D /* DisplayOptions.nib in Resources */,
+				C75864960C43B6B600026820 /* DisplayOptions.nib in Resources */,
 				C77E2FBE0C0EF20C00B8A64A /* plus.png in Resources */,
 				C77E2FC10C0EF21700B8A64A /* minus.png in Resources */,
 				C77E32B90C0F2CBB00B8A64A /* libraries.png in Resources */,
@@ -1267,7 +1267,7 @@
 				C7F8DE150BF0A4B500A34F5D /* flagged_header.tiff in Resources */,
 				C7F8DE160BF0A4B500A34F5D /* flagged.tiff in Resources */,
 				C7F8DEA40BF0CE1A00A34F5D /* table.png in Resources */,
-				C7F8DEAC0BF0D00700A34F5D /* DisplayOptions.nib in Resources */,
+				C75864970C43B6B600026820 /* DisplayOptions.nib in Resources */,
 				C77E2FBF0C0EF20C00B8A64A /* plus.png in Resources */,
 				C77E2FC20C0EF21700B8A64A /* minus.png in Resources */,
 				C77E32BA0C0F2CBB00B8A64A /* libraries.png in Resources */,
@@ -1506,14 +1506,6 @@
 			);
 			name = "Peacock Help";
 			path = ..;
-			sourceTree = "<group>";
-		};
-		C7F8DEA60BF0D00600A34F5D /* DisplayOptions.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C7F8DEA70BF0D00700A34F5D /* English */,
-			);
-			name = DisplayOptions.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
