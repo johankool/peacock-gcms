@@ -437,23 +437,6 @@
 		C75846610C07268D00756ED8 /* JKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKLibraryEntry.h; sourceTree = "<group>"; };
 		C75846620C07268D00756ED8 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = "<group>"; };
 		C765B8AA0C23237A00C4F153 /* factoranalysis.R */ = {isa = PBXFileReference; explicitFileType = text.script; fileEncoding = 7; path = factoranalysis.R; sourceTree = "<group>"; };
-		C7680E390C03426900973566 /* MAKeyedArchiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAKeyedArchiver.h; sourceTree = "<group>"; };
-		C7680E3A0C03426A00973566 /* MAKeyedArchiver.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MAKeyedArchiver.m; sourceTree = "<group>"; };
-		C7680E3B0C03426A00973566 /* MAKeyedUnarchiver.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAKeyedUnarchiver.h; sourceTree = "<group>"; };
-		C7680E3C0C03426A00973566 /* MAKeyedUnarchiver.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MAKeyedUnarchiver.m; sourceTree = "<group>"; };
-		C7680E3D0C03426A00973566 /* MANSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MANSDataAdditions.h; sourceTree = "<group>"; };
-		C7680E3E0C03426A00973566 /* MANSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MANSDataAdditions.m; sourceTree = "<group>"; };
-		C7680E3F0C03426A00973566 /* MAObjectOffsetStack.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAObjectOffsetStack.h; sourceTree = "<group>"; };
-		C7680E400C03426A00973566 /* MAObjectOffsetStack.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MAObjectOffsetStack.m; sourceTree = "<group>"; };
-		C7680E410C03426A00973566 /* MAObjectOffsetTable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAObjectOffsetTable.h; sourceTree = "<group>"; };
-		C7680E420C03426A00973566 /* MAObjectOffsetTable.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MAObjectOffsetTable.m; sourceTree = "<group>"; };
-		C7680E430C03426A00973566 /* MAObjectSet.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAObjectSet.h; sourceTree = "<group>"; };
-		C7680E440C03426A00973566 /* MAObjectSet.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MAObjectSet.m; sourceTree = "<group>"; };
-		C7680E450C03426A00973566 /* MAObjectStack.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAObjectStack.h; sourceTree = "<group>"; };
-		C7680E460C03426A00973566 /* MAObjectStack.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MAObjectStack.m; sourceTree = "<group>"; };
-		C7680E470C03426A00973566 /* MAStringTable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAStringTable.h; sourceTree = "<group>"; };
-		C7680E480C03426A00973566 /* MAStringTable.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MAStringTable.m; sourceTree = "<group>"; };
-		C7680E490C03426A00973566 /* README */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = JKLibrary.xcdatamodel; sourceTree = "<group>"; };
 		C7696D6D0C2C1A25009A013E /* JKStatisticsPrintView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKStatisticsPrintView.h; sourceTree = "<group>"; };
 		C7696D6E0C2C1A25009A013E /* JKStatisticsPrintView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKStatisticsPrintView.m; sourceTree = "<group>"; };
@@ -544,7 +527,6 @@
 		C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKGCMSPrintView.m; sourceTree = "<group>"; };
 		C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+RoundRect.h"; sourceTree = "<group>"; };
 		C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+RoundRect.m"; sourceTree = "<group>"; };
-		C7DCD9F90C32AA000099DF2C /* factoranalysis.txt */ = {isa = PBXFileReference; fileEncoding = 7; lastKnownFileType = text; path = factoranalysis.txt; sourceTree = "<group>"; };
 		C7E5B1D20A14934200BB2291 /* BDAlias.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BDAlias.h; sourceTree = "<group>"; };
 		C7E5B1D30A14934200BB2291 /* BDAlias.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BDAlias.m; sourceTree = "<group>"; };
 		C7E61F180BB2BC4700D9A636 /* JKModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKModelObject.h; sourceTree = "<group>"; };
@@ -724,7 +706,6 @@
 			children = (
 				C77E689C0C3A9E910051B016 /* AMRemovableColumns */,
 				C7E5B1C50A14930600BB2291 /* BDAlias */,
-				C7680E380C03426900973566 /* MAKeyedArchiver */,
 				C773290A08CA612600222B5B /* MolWeight */,
 				C79A6157094DBE4000C0887E /* RBSplitView */,
 				C7EB17A60898CF2D007FC2ED /* AccessorMacros.h */,
@@ -770,30 +751,6 @@
 				C72C8508098BE83600CEF565 /* JKSpectrumTest.m */,
 			);
 			name = Tests;
-			sourceTree = "<group>";
-		};
-		C7680E380C03426900973566 /* MAKeyedArchiver */ = {
-			isa = PBXGroup;
-			children = (
-				C7680E490C03426A00973566 /* README */,
-				C7680E390C03426900973566 /* MAKeyedArchiver.h */,
-				C7680E3A0C03426A00973566 /* MAKeyedArchiver.m */,
-				C7680E3B0C03426A00973566 /* MAKeyedUnarchiver.h */,
-				C7680E3C0C03426A00973566 /* MAKeyedUnarchiver.m */,
-				C7680E3D0C03426A00973566 /* MANSDataAdditions.h */,
-				C7680E3E0C03426A00973566 /* MANSDataAdditions.m */,
-				C7680E3F0C03426A00973566 /* MAObjectOffsetStack.h */,
-				C7680E400C03426A00973566 /* MAObjectOffsetStack.m */,
-				C7680E410C03426A00973566 /* MAObjectOffsetTable.h */,
-				C7680E420C03426A00973566 /* MAObjectOffsetTable.m */,
-				C7680E430C03426A00973566 /* MAObjectSet.h */,
-				C7680E440C03426A00973566 /* MAObjectSet.m */,
-				C7680E450C03426A00973566 /* MAObjectStack.h */,
-				C7680E460C03426A00973566 /* MAObjectStack.m */,
-				C7680E470C03426A00973566 /* MAStringTable.h */,
-				C7680E480C03426A00973566 /* MAStringTable.m */,
-			);
-			path = MAKeyedArchiver;
 			sourceTree = "<group>";
 		};
 		C773290A08CA612600222B5B /* MolWeight */ = {
@@ -1029,7 +986,6 @@
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
 				C7EB180D0898CFBD007FC2ED /* periodic.table */,
-				C7DCD9F90C32AA000099DF2C /* factoranalysis.txt */,
 				C765B8AA0C23237A00C4F153 /* factoranalysis.R */,
 			);
 			path = Text;
