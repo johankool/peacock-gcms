@@ -1403,6 +1403,37 @@ static void *PeaksObservationContext = (void *)1103;
     }
     return NSDragOperationNone;    
 }
+#pragma mark -
+
+#pragma mark Data source for pulldown menu label 
+- (NSString *)comboBoxCell:(NSComboBoxCell *)aComboBoxCell completedString:(NSString *)uncompletedString {
+    NSEnumerator *entriesEnumerator = [[[NSApp delegate] autocompleteEntries] objectEnumerator];
+    NSString *entry;
+
+    while ((entry = [entriesEnumerator nextObject]) != nil) {
+    	if ([entry hasPrefix:uncompletedString]) {
+            return entry;
+        }
+    }
+    return nil;
+}
+- (unsigned int)comboBoxCell:(NSComboBoxCell *)aComboBoxCell indexOfItemWithStringValue:(NSString *)aString {
+    int i, count;
+    count = [[[NSApp delegate] autocompleteEntries] count];
+    for (i = 0; i < count; i++) {
+        if ([[[[NSApp delegate] autocompleteEntries] objectAtIndex:i] isEqualToString:aString]) {
+            return i;
+        }
+    }
+    return NSNotFound;
+}
+- (id)comboBoxCell:(NSComboBoxCell *)aComboBoxCell objectValueForItemAtIndex:(int)index {
+    return [[[NSApp delegate] autocompleteEntries] objectAtIndex:index];
+}
+- (int)numberOfItemsInComboBoxCell:(NSComboBoxCell *)aComboBoxCell {
+    return [[[NSApp delegate] autocompleteEntries] count];
+}
+#pragma mark -
 
 #pragma mark Accessors 
 #pragma mark (macrostyle)

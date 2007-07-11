@@ -15,6 +15,7 @@
 #import "JKMainWindowController.h"
 #import "BooleanToStringTransformer.h"
 #import "JKLibrary.h"
+#import "JKLibraryEntry.h"
 #import "JKManagedLibraryEntry.h"
 #import "JKPeakRecord.h"
 
@@ -143,6 +144,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
         [NSValueTransformer setValueTransformer:transformer forName:@"BooleanToStringTransformer"];
                 
         availableDictionaries = [[NSMutableArray alloc] init];
+        autocompleteEntries = [[NSArray alloc] init];
         libraryConfigurationLoaded = @"";
 	}
 	return self;
@@ -155,6 +157,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 					  name: nil
 					object: nil];
     [availableDictionaries release];
+    [autocompleteEntries release];
     [super dealloc];
 }
 
@@ -460,6 +463,17 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
             NSRunAlertPanel(NSLocalizedString(@"No Libraries could be opened or created",@""),NSLocalizedString(@"This is not good. Identifying compounds isn't going to work.",@""),@"OK, I guess...",nil,nil);
         }        
      }
+    // Get all synonyms for autocomplete in label fields
+    NSMutableArray *aNewAutocompleteEntries = [NSMutableArray array];
+    NSEnumerator *entriesEnumerator = [[library libraryEntries] objectEnumerator];
+    JKManagedLibraryEntry *managedLibEntry;
+
+    while ((managedLibEntry = [entriesEnumerator nextObject]) != nil) {
+    	[aNewAutocompleteEntries addObjectsFromArray:[managedLibEntry synonymsArray]];
+    }
+    [aNewAutocompleteEntries sortUsingSelector:@selector(compare:)];
+    [self setAutocompleteEntries:aNewAutocompleteEntries];
+//    NSLog([aNewAutocompleteEntries description]);
     // Store configuration
     [libraryConfigurationLoaded release];
     [configuration retain];
@@ -543,6 +557,38 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     }
     [[self library] setFileName:NSLocalizedString(@"Library",@"")];
     [[self library] showWindows];
+}
+
+- (JKLibraryEntry *)libraryEntryForName:(NSString *)compoundString {
+    int result = 0;
+    NSEnumerator *libraryEntriesEnumerator = [[library libraryEntries] objectEnumerator];
+    JKManagedLibraryEntry *managedLibEntry;
+    JKManagedLibraryEntry *foundLibEntry;
+
+    while ((managedLibEntry = [libraryEntriesEnumerator nextObject]) != nil) {
+    	if ([managedLibEntry isCompound:compoundString]) {
+            foundLibEntry = managedLibEntry;
+            result++;
+        }
+    }
+
+    if (result > 1) {
+        NSRunAlertPanel(NSLocalizedString(@"Duplicate Entry in Library",@""),[NSString stringWithFormat:NSLocalizedString(@"The compound '%@' is listed more than once in the library.",@""),compoundString], NSLocalizedString(@"OK", @""), nil, nil);
+        return nil;
+    } else if (result == 1) {
+        return [JKLibraryEntry libraryEntryWithJCAMPString:[foundLibEntry jcampString]];
+    } else {
+        return nil;
+    }
+}
+- (NSArray *)autocompleteEntries {
+	return autocompleteEntries;
+}
+- (void)setAutocompleteEntries:(NSArray *)aAutocompleteEntries {
+	if (aAutocompleteEntries != autocompleteEntries) {
+		[autocompleteEntries autorelease];
+		autocompleteEntries = [aAutocompleteEntries retain];
+	}
 }
 #pragma mark -
 

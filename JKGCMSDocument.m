@@ -493,6 +493,9 @@ int const JKGCMSDocument_Version = 7;
 	}
 	[error release];
 }
+- (IBAction)updateLibraryHits:(id)sender {
+    [self updateLibraryHits];
+}
 #pragma mark -
 
 #pragma mark Sorting Documents
@@ -1472,6 +1475,55 @@ int intSort(id num1, id num2, void *context)
 #pragma mark -
 
 #pragma mark Helper Actions
+- (void)updateLibraryHits {
+    BOOL flaggedPeak =  NO;
+    NSEnumerator *peakEnumerator = [[self peaks] objectEnumerator];
+    JKPeakRecord *peak = nil;
+    JKLibraryEntry *anEntry = nil;
+
+    while ((peak = [peakEnumerator nextObject]) != nil) {
+    	if ([peak confirmed] || [peak identified]) {
+            // Check if libraryHit present
+            if (![peak libraryHit]) {
+                // If not, try to find libraryHit for peak label
+                anEntry = [[NSApp delegate] libraryEntryForName:[peak label]];
+                // Assign if found
+                if (anEntry) {
+                    [peak identifyAsLibraryEntry:anEntry];
+                }
+            } else {
+                // Check if peak label is equal to libraryHit name
+                if (![[peak label] isEqualToString:[[peak libraryHit] name]]) {
+                    // If not, flag peak
+                    [peak setFlagged:YES];
+                    flaggedPeak = YES;
+                } else {
+                    anEntry = [[NSApp delegate] libraryEntryForName:[peak label]];
+                    // Assign if found
+                    if (anEntry) {
+                        [peak identifyAsLibraryEntry:anEntry];
+                    }                    
+                }
+            }            
+        } else {
+             NSEnumerator *searchResultsEnumerator = [[peak searchResults] objectEnumerator];
+             JKSearchResult *searchResult;
+
+             while ((searchResult = [searchResultsEnumerator nextObject]) != nil) {
+                 anEntry = [[NSApp delegate] libraryEntryForName:[[searchResult libraryHit] name]];
+                 // Assign if found
+                 if (anEntry) {
+                     [searchResult setLibraryHit:anEntry];
+                 }
+             }
+        }
+
+    }
+    if (flaggedPeak) {
+        NSRunAlertPanel(NSLocalizedString(@"Manual Check Required", @""), NSLocalizedString(@"One or more peaks were encountered with differing labels for the peak and the library entry. These peaks have been flagged. Please check manually which identification you expected.", @""), NSLocalizedString(@"OK", @""), nil, nil);
+    }
+}
+
 - (float)timeForScan:(int)scan 
 {
     NSAssert(scan >= 0, @"Scan must be equal or larger than zero");

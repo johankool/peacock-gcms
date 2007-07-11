@@ -15,6 +15,8 @@
     JKLibraryWindowController *libraryWindowController;
 }
 
+- (BOOL)isSuperDocumentEdited;
+
 #pragma mark IMPORT/EXPORT ACTIONS
 - (void)readJCAMPString:(NSString *)inString;
 

@@ -499,6 +499,27 @@
 #pragma mark -
 
 #pragma mark Helper functions
+- (BOOL)isCompound:(NSString *)compoundString
+{
+    NSArray *synonymsArray = [self synonymsArray];
+    NSEnumerator *synonymsEnumerator = [synonymsArray objectEnumerator];
+    NSString *synonym;
+    
+    while ((synonym = [synonymsEnumerator nextObject]) != nil) {
+        if ([synonym isEqualToString:compoundString]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (NSArray *)synonymsArray {
+    if (![self synonyms]) {
+        return [NSArray arrayWithObject:[self name]];
+    }
+    return [[[self synonyms] componentsSeparatedByString:@"; "] arrayByAddingObject:[self name]];
+}
+
 - (NSString *)fixString:(NSString *)inString{
 	NSString *fixedString = [inString lowercaseString];
 	if ([fixedString length] > 1) {

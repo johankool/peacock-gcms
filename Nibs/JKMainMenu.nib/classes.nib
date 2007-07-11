@@ -37,6 +37,7 @@
                 showSelectedChromatogramsOnlyAction = id; 
                 showSpectrumAction = id; 
                 showTICTraceAction = id; 
+                updateLibraryHits = id; 
                 viewOptions = id; 
             }; 
             CLASS = FirstResponder; 

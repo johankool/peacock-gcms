@@ -12,6 +12,7 @@
 @class MWController;
 @class JKBatchProcessWindowController;
 @class JKLibrary;
+@class JKLibraryEntry;
 @class JKManagedLibraryEntry;
 @class JKPeakRecord;
 
@@ -31,6 +32,7 @@
     JKLibrary *library;
     NSMutableArray *availableDictionaries;
     NSString *libraryConfigurationLoaded;
+    NSArray *autocompleteEntries;
 }
 
 
@@ -49,6 +51,7 @@
 - (void)loadLibraryForConfiguration:(NSString *)configuration;
 - (BOOL)shouldLoadLibrary:(NSString *)fileName forConfiguration:(NSString *)configuration;
 - (JKManagedLibraryEntry *)addLibraryEntryBasedOnPeak:(JKPeakRecord *)aPeak;
+- (JKLibraryEntry *)libraryEntryForName:(NSString *)compoundString;
 
 #pragma mark GROWL SUPPORT
 - (NSDictionary *)registrationDictionaryForGrowl;

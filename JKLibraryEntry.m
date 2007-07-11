@@ -566,6 +566,7 @@
 - (NSString *)legendEntry {
     return [NSString stringWithFormat:NSLocalizedString(@"Library Entry '%@'",@""),[self name]];
 }
+#pragma mark -
 
 #pragma mark Accessors
 #pragma mark (macrostyle)
@@ -596,31 +597,7 @@ idAccessor(library, setLibrary)
 
 #pragma mark -
 
-//intAccessor(numberOfPoints, setNumberOfPoints);
-//- (void)setMasses:(float *)inArray withCount:(int)inValue {
-//    numberOfPoints = inValue;
-//    masses = (float *) realloc(masses, numberOfPoints*sizeof(float));
-//    memcpy(masses, inArray, numberOfPoints*sizeof(float));
-//}
-//
-//- (float *)masses {
-//    return masses;
-//}
-//
-//- (void)setIntensities:(float *)inArray withCount:(int)inValue {
-//    numberOfPoints = inValue;
-//    intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
-//    memcpy(intensities, inArray, numberOfPoints*sizeof(float));
-//	maximumIntensity = jk_stats_float_max(intensities, numberOfPoints);
-//}
-//
-//- (float)maximumIntensity {
-//    return maximumIntensity;
-//}
-//- (float *)intensities {
-//    return intensities;
-//}
-
+#pragma mark 
 - (NSString *)peakTable{
 	NSMutableString *outStr = [[[NSMutableString alloc] init] autorelease];
 	int j;

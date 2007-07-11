@@ -23,6 +23,11 @@
 - (NSString *)library;
 #pragma mark -
 
+#pragma mark Helper functions
+- (BOOL)isCompound:(NSString *)compoundString;
+- (NSArray *)synonymsArray;
+#pragma mark -
+
 #pragma mark Undo
 - (NSUndoManager *)undoManager;
 #pragma mark -
