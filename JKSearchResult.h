@@ -10,12 +10,12 @@
 
 @class JKLibraryEntry;
 @class JKPeakRecord;
-@class BDAlias;
 
 @interface JKSearchResult : NSObject <NSCoding> {
     NSNumber *score;
     JKLibraryEntry *libraryHit;
     JKPeakRecord *peak;
+    int spectrumType; // 0 = spectrum; 1 = combinedSpectrum
 }
 
 - (NSNumber *)deltaRetentionIndex;

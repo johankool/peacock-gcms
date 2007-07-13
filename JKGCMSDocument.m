@@ -1477,12 +1477,14 @@ int intSort(id num1, id num2, void *context)
 #pragma mark Helper Actions
 - (void)updateLibraryHits {
     BOOL flaggedPeak =  NO;
+    BOOL peakConfirmed =  NO;
     NSEnumerator *peakEnumerator = [[self peaks] objectEnumerator];
     JKPeakRecord *peak = nil;
     JKLibraryEntry *anEntry = nil;
 
     while ((peak = [peakEnumerator nextObject]) != nil) {
     	if ([peak confirmed] || [peak identified]) {
+            peakConfirmed = [peak confirmed];
             // Check if libraryHit present
             if (![peak libraryHit]) {
                 // If not, try to find libraryHit for peak label
@@ -1493,7 +1495,7 @@ int intSort(id num1, id num2, void *context)
                 }
             } else {
                 // Check if peak label is equal to libraryHit name
-                if (![[peak label] isEqualToString:[[peak libraryHit] name]]) {
+                if (![[peak libraryHit] isCompound:[peak label]]) {
                     // If not, flag peak
                     [peak setFlagged:YES];
                     flaggedPeak = YES;
@@ -1505,6 +1507,9 @@ int intSort(id num1, id num2, void *context)
                     }                    
                 }
             }            
+            if (peakConfirmed) {
+                [peak confirm];
+            }
         } else {
              NSEnumerator *searchResultsEnumerator = [[peak searchResults] objectEnumerator];
              JKSearchResult *searchResult;
@@ -1522,6 +1527,10 @@ int intSort(id num1, id num2, void *context)
     if (flaggedPeak) {
         NSRunAlertPanel(NSLocalizedString(@"Manual Check Required", @""), NSLocalizedString(@"One or more peaks were encountered with differing labels for the peak and the library entry. These peaks have been flagged. Please check manually which identification you expected.", @""), NSLocalizedString(@"OK", @""), nil, nil);
     }
+    if (![[self undoManager] isUndoing]) {
+        [[self undoManager] setActionName:NSLocalizedString(@"Update Library Hits",@"Update Library Hits")];
+    }        
+    
 }
 
 - (float)timeForScan:(int)scan 

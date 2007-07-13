@@ -43,9 +43,9 @@
 - (void)discard;
 - (BOOL)identifyAs:(JKSearchResult *)searchResult;
 - (BOOL)identifyAsLibraryEntry:(JKLibraryEntry *)aLibraryEntry;
-- (BOOL)addSearchResultForLibraryEntry:(JKLibraryEntry *)aLibraryEntry;
+- (JKSearchResult *)addSearchResultForLibraryEntry:(JKLibraryEntry *)aLibraryEntry;
 - (void)addSearchResult:(JKSearchResult *)searchResult;
--(JKLibraryEntry *)libraryEntryRepresentation;
+- (JKLibraryEntry *)libraryEntryRepresentation;
 
 #pragma mark CALCULATED ACCESSORS
 
@@ -97,12 +97,12 @@
 - (NSMutableArray *)searchResults;
 - (void)setSearchResults:(NSMutableArray *)inValue;
 - (int)countOfSearchResults;
-- (NSDictionary *)objectInSearchResultsAtIndex:(int)index;
-- (void)getSearchResult:(NSDictionary **)someSearchResults range:(NSRange)inRange;
-- (void)insertObject:(NSDictionary *)aSearchResult inSearchResultsAtIndex:(int)index;
+- (JKSearchResult *)objectInSearchResultsAtIndex:(int)index;
+- (void)getSearchResult:(JKSearchResult **)someSearchResults range:(NSRange)inRange;
+- (void)insertObject:(JKSearchResult *)aSearchResult inSearchResultsAtIndex:(int)index;
 - (void)removeObjectFromSearchResultsAtIndex:(int)index;
-- (void)replaceObjectInSearchResultsAtIndex:(int)index withObject:(NSDictionary *)aSearchResult;
-- (BOOL)validateSearchResult:(NSDictionary **)aSearchResult error:(NSError **)outError;
+- (void)replaceObjectInSearchResultsAtIndex:(int)index withObject:(JKSearchResult *)aSearchResult;
+- (BOOL)validateSearchResult:(JKSearchResult **)aSearchResult error:(NSError **)outError;
 
 - (void)setLabel:(NSString *)inValue;
 - (NSString *)label;
@@ -115,9 +115,7 @@
 - (void)setFlagged:(BOOL)inValue;
 - (BOOL)flagged;
 
-- (void)setIdentifiedSearchResult:(id)inValue;
-- (id)identifiedSearchResult;
+- (void)setIdentifiedSearchResult:(JKSearchResult *)inValue;
+- (JKSearchResult *)identifiedSearchResult;
 
-//#pragma mark Support for older formats
-//- (void)updateForNewEncoding;
 @end

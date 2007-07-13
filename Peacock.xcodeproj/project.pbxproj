@@ -27,6 +27,10 @@
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		C708E90C0B9D953A0085872E /* JKCombinedPeak.h in Headers */ = {isa = PBXBuildFile; fileRef = C708E90A0B9D953A0085872E /* JKCombinedPeak.h */; };
 		C708E90D0B9D953A0085872E /* JKCombinedPeak.m in Sources */ = {isa = PBXBuildFile; fileRef = C708E90B0B9D953A0085872E /* JKCombinedPeak.m */; };
+		C709D00A0C465F3200C9C613 /* JKComboBoxCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C709D0080C465F3200C9C613 /* JKComboBoxCell.h */; };
+		C709D00B0C465F3200C9C613 /* JKComboBoxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C709D0090C465F3200C9C613 /* JKComboBoxCell.m */; };
+		C709D00C0C465F3200C9C613 /* JKComboBoxCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C709D0080C465F3200C9C613 /* JKComboBoxCell.h */; };
+		C709D00D0C465F3200C9C613 /* JKComboBoxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C709D0090C465F3200C9C613 /* JKComboBoxCell.m */; };
 		C70DB7610957141800C2B386 /* netcdf.h in Headers */ = {isa = PBXBuildFile; fileRef = C7EB17AF0898CF2E007FC2ED /* netcdf.h */; };
 		C70DB7620957141800C2B386 /* libnetcdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7EB17AE0898CF2E007FC2ED /* libnetcdf.a */; };
 		C70DB7640957141800C2B386 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -425,6 +429,8 @@
 		8D15AC370486D014006FF6A4 /* Peacock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Peacock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C708E90A0B9D953A0085872E /* JKCombinedPeak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKCombinedPeak.h; sourceTree = "<group>"; };
 		C708E90B0B9D953A0085872E /* JKCombinedPeak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKCombinedPeak.m; sourceTree = "<group>"; };
+		C709D0080C465F3200C9C613 /* JKComboBoxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKComboBoxCell.h; sourceTree = "<group>"; };
+		C709D0090C465F3200C9C613 /* JKComboBoxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKComboBoxCell.m; sourceTree = "<group>"; };
 		C70DB8EB09573BEA00C2B386 /* JKRatio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKRatio.h; sourceTree = "<group>"; };
 		C70DB8EC09573BEA00C2B386 /* JKRatio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKRatio.m; sourceTree = "<group>"; };
 		C70DC00F095B1FDB00C2B386 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
@@ -816,6 +822,8 @@
 				C73290E10AD68F9800D95E36 /* JKChromatogram.m */,
 				C708E90A0B9D953A0085872E /* JKCombinedPeak.h */,
 				C708E90B0B9D953A0085872E /* JKCombinedPeak.m */,
+				C709D0080C465F3200C9C613 /* JKComboBoxCell.h */,
+				C709D0090C465F3200C9C613 /* JKComboBoxCell.m */,
 				C75846130C071ACC00756ED8 /* JKComparableProtocol.h */,
 				C729CAA70A4B45CD00FAB04F /* JKDataModelProxy.h */,
 				C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */,
@@ -1048,6 +1056,7 @@
 				C75846140C071ACC00756ED8 /* JKComparableProtocol.h in Headers */,
 				C75846630C07268D00756ED8 /* JKLibraryEntry.h in Headers */,
 				C7696D710C2C1A26009A013E /* JKStatisticsPrintView.h in Headers */,
+				C709D00C0C465F3200C9C613 /* JKComboBoxCell.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1087,6 +1096,7 @@
 				C7F8DF070BF0D41000A34F5D /* DisplayOptionsWindowController.h in Headers */,
 				C75846650C07268D00756ED8 /* JKLibraryEntry.h in Headers */,
 				C7696D6F0C2C1A25009A013E /* JKStatisticsPrintView.h in Headers */,
+				C709D00A0C465F3200C9C613 /* JKComboBoxCell.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1405,6 +1415,7 @@
 				C76814240C05E6F200973566 /* FilteringDNDArrayController.m in Sources */,
 				C75846660C07268D00756ED8 /* JKLibraryEntry.m in Sources */,
 				C7696D700C2C1A25009A013E /* JKStatisticsPrintView.m in Sources */,
+				C709D00B0C465F3200C9C613 /* JKComboBoxCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1473,6 +1484,7 @@
 				C7680FBF0C035C4800973566 /* JKLibrary.xcdatamodel in Sources */,
 				C75846640C07268D00756ED8 /* JKLibraryEntry.m in Sources */,
 				C7696D720C2C1A26009A013E /* JKStatisticsPrintView.m in Sources */,
+				C709D00D0C465F3200C9C613 /* JKComboBoxCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1597,7 +1609,10 @@
 				COPY_PHASE_STRIP = YES;
 				EXECUTABLE_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Windows";
 				EXECUTABLE_SUFFIX = .exe;
-				FRAMEWORK_SEARCH_PATHS = /Developer/Cocotron/1.0/Windows/i386/Frameworks;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Developer/Cocotron/1.0/Windows/i386/Frameworks,
+					"$(SRCROOT)",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = "";
@@ -1622,7 +1637,10 @@
 				COPY_PHASE_STRIP = YES;
 				EXECUTABLE_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Windows";
 				EXECUTABLE_SUFFIX = .exe;
-				FRAMEWORK_SEARCH_PATHS = /Developer/Cocotron/1.0/Windows/i386/Frameworks;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Developer/Cocotron/1.0/Windows/i386/Frameworks,
+					"$(SRCROOT)",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = "";
@@ -1670,6 +1688,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
+					"$(SRCROOT)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks\"";
@@ -1708,6 +1727,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
+					"$(SRCROOT)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks\"";

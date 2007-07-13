@@ -49,6 +49,9 @@
 
 - (NSUndoManager *)undoManager;
 
+- (BOOL)isCompound:(NSString *)compoundString;
+- (NSArray *)synonymsArray;
+
 idAccessor_h(name, setName)
 idAccessor_h(origin, setOrigin)
 idAccessor_h(owner, setOwner)

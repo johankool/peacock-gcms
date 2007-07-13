@@ -10,6 +10,7 @@
 
 #import "BDAlias.h"
 #import "ChromatogramGraphDataSerie.h"
+#import "JKAppDelegate.h"
 #import "JKChromatogram.h"
 #import "JKGCMSDocument.h"
 #import "JKLibraryEntry.h"
@@ -1362,7 +1363,12 @@ static void *PeaksObservationContext = (void *)1103;
             JKLibraryEntry *libEntry = [unarchiver decodeObjectForKey:JKLibraryEntryTableViewDataType];
             [unarchiver finishDecoding];
             [unarchiver release];
-            return [peak identifyAsLibraryEntry:libEntry];
+            if ([peak identifyAsLibraryEntry:libEntry]) {
+                [peak confirm];
+                return YES;
+            } else {
+                return NO;
+            }
 		}	
 	} else if (tv == resultsTable) {
         if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKLibraryEntryTableViewDataType]]) {
@@ -1378,8 +1384,12 @@ static void *PeaksObservationContext = (void *)1103;
             JKLibraryEntry *libEntry = [unarchiver decodeObjectForKey:JKLibraryEntryTableViewDataType];
             [unarchiver finishDecoding];
             [unarchiver release];
-            return [peak addSearchResultForLibraryEntry:libEntry];
-		}	
+            if ([peak addSearchResultForLibraryEntry:libEntry]) {
+                return YES;
+            } else {
+                return NO;
+            }
+  		}	
     }
     return NO;    
 }
@@ -1407,7 +1417,12 @@ static void *PeaksObservationContext = (void *)1103;
 
 #pragma mark Data source for pulldown menu label 
 - (NSString *)comboBoxCell:(NSComboBoxCell *)aComboBoxCell completedString:(NSString *)uncompletedString {
-    NSEnumerator *entriesEnumerator = [[[NSApp delegate] autocompleteEntries] objectEnumerator];
+    NSEnumerator *entriesEnumerator;
+    if ([[[self chromatogramsController] selectedObjects] count] == 1) {
+        entriesEnumerator = [[[NSApp delegate] autocompleteEntriesForModel:[[[[self chromatogramsController] selectedObjects] objectAtIndex:0] model]] objectEnumerator];
+    } else {
+        entriesEnumerator = [[[NSApp delegate] autocompleteEntries] objectEnumerator];
+    }
     NSString *entry;
 
     while ((entry = [entriesEnumerator nextObject]) != nil) {
@@ -1419,19 +1434,34 @@ static void *PeaksObservationContext = (void *)1103;
 }
 - (unsigned int)comboBoxCell:(NSComboBoxCell *)aComboBoxCell indexOfItemWithStringValue:(NSString *)aString {
     int i, count;
-    count = [[[NSApp delegate] autocompleteEntries] count];
+    NSArray *autocompleteArray;
+    if ([[[self chromatogramsController] selectedObjects] count] == 1) {
+        autocompleteArray = [[NSApp delegate] autocompleteEntriesForModel:[[[[self chromatogramsController] selectedObjects] objectAtIndex:0] model]];
+    } else {
+        autocompleteArray = [[NSApp delegate] autocompleteEntries];
+    }
+    count = [autocompleteArray count];
     for (i = 0; i < count; i++) {
-        if ([[[[NSApp delegate] autocompleteEntries] objectAtIndex:i] isEqualToString:aString]) {
+        if ([[autocompleteArray objectAtIndex:i] isEqualToString:aString]) {
             return i;
         }
     }
     return NSNotFound;
+    
 }
 - (id)comboBoxCell:(NSComboBoxCell *)aComboBoxCell objectValueForItemAtIndex:(int)index {
-    return [[[NSApp delegate] autocompleteEntries] objectAtIndex:index];
+    if ([[[self chromatogramsController] selectedObjects] count] == 1) {
+        return [[[NSApp delegate] autocompleteEntriesForModel:[[[[self chromatogramsController] selectedObjects] objectAtIndex:0] model]] objectAtIndex:index];
+    } else {
+        return [[[NSApp delegate] autocompleteEntries] objectAtIndex:index];
+    }
 }
 - (int)numberOfItemsInComboBoxCell:(NSComboBoxCell *)aComboBoxCell {
-    return [[[NSApp delegate] autocompleteEntries] count];
+    if ([[[self chromatogramsController] selectedObjects] count] == 1) {
+        return [[[NSApp delegate] autocompleteEntriesForModel:[[[[self chromatogramsController] selectedObjects] objectAtIndex:0] model]] count];
+   } else {
+        return [[[NSApp delegate] autocompleteEntries] count];
+    }
 }
 #pragma mark -
 

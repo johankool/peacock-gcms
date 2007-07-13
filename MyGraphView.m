@@ -1241,8 +1241,7 @@ static int   kPaddingLabels             = 4;
 		[[NSCursor closedHandCursor] set];
 	} else if (_startedInsidePlottingArea) {
 		if (([theEvent modifierFlags] & NSCommandKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
-			//   combine spectrum
-			JKLogDebug(@"combine spectrum");
+			// adding peak
 		} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
 //			draggedRect.origin.x = (_mouseDownAtPoint.x < mouseLocation.x ? _mouseDownAtPoint.x : mouseLocation.x);
 //			draggedRect.origin.y = (_mouseDownAtPoint.y < mouseLocation.y ? _mouseDownAtPoint.y : mouseLocation.y);

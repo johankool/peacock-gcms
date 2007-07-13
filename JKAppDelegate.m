@@ -590,6 +590,17 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 		autocompleteEntries = [aAutocompleteEntries retain];
 	}
 }
+- (NSArray *)autocompleteEntriesForModel:(NSString *)model {
+    // Get all synonyms for autocomplete in label fields
+    NSMutableArray *aNewAutocompleteEntries = [NSMutableArray array];
+    NSEnumerator *entriesEnumerator = [[library libraryEntriesWithPredicate:[NSPredicate predicateWithFormat:@"model == %@", model]] objectEnumerator];
+    JKManagedLibraryEntry *managedLibEntry;
+    while ((managedLibEntry = [entriesEnumerator nextObject]) != nil) {
+    	[aNewAutocompleteEntries addObjectsFromArray:[managedLibEntry synonymsArray]];
+    }
+    [aNewAutocompleteEntries sortUsingSelector:@selector(compare:)];
+    return aNewAutocompleteEntries;
+}
 #pragma mark -
 
 #pragma mark Plugins

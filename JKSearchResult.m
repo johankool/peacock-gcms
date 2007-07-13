@@ -19,7 +19,7 @@
     if (self != nil) {
         score = [[NSNumber alloc] init];
         libraryHit = [[JKLibraryEntry alloc] init];
-//        peak = [[JKPeakRecord alloc] init];
+        spectrumType = 0;
     }
     return self;
 }
@@ -27,7 +27,6 @@
 - (void)dealloc {
     [score release];
     [libraryHit release];
-//    [peak release];
     [super dealloc];
 }
 
@@ -56,7 +55,6 @@
 	return peak;
 }
 - (void)setPeak:(JKPeakRecord *)aPeak {
-//	[peak autorelease];
 	peak = aPeak;
 }
 
@@ -69,7 +67,6 @@
 		[coder encodeObject:score forKey:@"score"]; 
 		[coder encodeObject:libraryHit forKey:@"libraryHit"]; 
 		[coder encodeConditionalObject:peak forKey:@"peak"];         
-//		[coder encodeObject:library forKey:@"library"];         
     } 
     return;
 }
@@ -78,26 +75,7 @@
     if ([coder allowsKeyedCoding]) {
 		score = [[coder decodeObjectForKey:@"score"] retain]; 
 		libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain]; 
-		peak = [coder decodeObjectForKey:@"peak"]; 
-        
-//        library = [[coder decodeObjectForKey:@"library"] retain];             
-//        // Sometimes BDAlias gets expanded so if we want to have the alias instead of the docuemnt we need to create it again
-//        id temp = [coder decodeObjectForKey:@"library"];
-//        if (temp) {
-////            JKLogDebug(@"%@",[temp description]);
-//            if ([temp isKindOfClass:[BDAlias class]]) {
-//                library = [[coder decodeObjectForKey:@"library"] retain];             
-//            } else if ([temp isKindOfClass:[JKLibrary class]]) {
-//                library = [[BDAlias aliasWithPath:[temp fileName]] retain];
-//                if(!library) {
-//                    JKLogDebug(@"unsuccessful in creating alias"); 
-//                }
-//            } else {
-//                JKLogDebug(@"Something unexpected got returned");
-//            }            
-//        } else {
-//            //JKLogDebug(@"Nothing got returned for library?!");
-//        }
+		peak = [coder decodeObjectForKey:@"peak"];
     } 
     return self;
 }

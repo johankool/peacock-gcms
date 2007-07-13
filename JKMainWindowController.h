@@ -109,7 +109,7 @@ enum JKPeakSelection {
 - (IBAction)previous:(id)sender;
 - (IBAction)other:(id)sender;
 - (IBAction)abort:(id)sender;
-- (IBAction)editLibrary:(id)sender;
+//- (IBAction)editLibrary:(id)sender;
 - (IBAction)fitChromatogramDataToView:(id)sender;
 - (IBAction)fitSpectrumDataToView:(id)sender;
 - (IBAction)showSelectedChromatogramsOnlyAction:(id)sender;

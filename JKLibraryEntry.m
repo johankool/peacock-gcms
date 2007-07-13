@@ -267,6 +267,18 @@
             model = [[NSString alloc] init];
         }
         
+        // SYMBOL
+        // Back to start of entry as order of entries is undefined
+		[theScanner setScanLocation:0];
+		[theScanner scanUpToString:@"##$SYMBOL=" intoString:NULL];
+		if ([theScanner scanString:@"##$SYMBOL=" intoString:NULL]) {
+            scannedString = @"";
+			[theScanner scanUpToString:@"##" intoString:&scannedString];
+			symbol = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
+		} else {
+            symbol = [[NSString alloc] init];
+        }
+        
         // GROUP
         // Back to start of entry as order of entries is undefined
 		[theScanner setScanLocation:0];
@@ -597,7 +609,28 @@ idAccessor(library, setLibrary)
 
 #pragma mark -
 
-#pragma mark 
+#pragma mark Helper functions
+- (BOOL)isCompound:(NSString *)compoundString
+{
+    NSArray *synonymsArray = [self synonymsArray];
+    NSEnumerator *synonymsEnumerator = [synonymsArray objectEnumerator];
+    NSString *synonym;
+    
+    while ((synonym = [synonymsEnumerator nextObject]) != nil) {
+        if ([synonym isEqualToString:compoundString]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (NSArray *)synonymsArray {
+    if (![self synonyms]) {
+        return [NSArray arrayWithObject:[self name]];
+    }
+    return [[[self synonyms] componentsSeparatedByString:@"; "] arrayByAddingObject:[self name]];
+}
+
 - (NSString *)peakTable{
 	NSMutableString *outStr = [[[NSMutableString alloc] init] autorelease];
 	int j;
@@ -714,8 +747,4 @@ idAccessor(library, setLibrary)
     return self;
 }
 
-//- (id)valueForUndefinedKey:(NSString *)key {
-//    JKLogDebug(@"%@ %@",[self description], key);
-//    return key;
-//}
 @end

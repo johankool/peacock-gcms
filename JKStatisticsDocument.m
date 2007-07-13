@@ -250,6 +250,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
     NSNumber *countForGroup;
     JKCombinedPeak *compound;
     NSMutableDictionary *uniqueDict = [NSMutableDictionary dictionary];
+    NSMutableArray *uniqueSymbolArray = [NSMutableArray array];
     NSMutableArray *peaks = [[statisticsWindowController combinedPeaks] mutableCopy];
 
     // Sort array on retention index
@@ -269,6 +270,11 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         // ensure symbol is set
         if (![compound group] || [[compound group] isEqualToString:@""]) {
             [compound setGroup:@"X"];
+        }
+        if (([compound symbol]) && (![[compound symbol] isEqualToString:@""]) && ([uniqueSymbolArray indexOfObjectIdenticalTo:[compound symbol]] == NSNotFound)) {
+            [compound setSymbol:[compound symbol]];
+            [uniqueSymbolArray addObject:[compound symbol]];
+            continue;
         }
         // replace odd characters
         // ensure symbol starts with letter
@@ -294,6 +300,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
             // must be unique (note that a few cases are missed here, e.g. when a group is named X (and gets count 11 and another X1 and gets count 1)
             [compound setSymbol:[NSString stringWithFormat:@"%@%d", [compound group], [countForGroup intValue]]];            
         }
+        [uniqueSymbolArray addObject:[compound symbol]];
     }
 }
 
@@ -372,6 +379,13 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
     if (![fileManager createDirectoryAtPath:tempDir attributes:nil]) {
         JKLogError(@"Could not create temporary directory at %@.", tempDir);
         return NO;
+    }
+    
+    if (![fileManager fileExistsAtPath:@"/usr/bin/R"]) {
+        [self setLoadingsDataSeries:nil];
+        [self setScoresDataSeries:nil];
+        NSRunAlertPanel(@"Factor Analysis Failed",@"The factor analysis could not be run because R doesn't seem to be installed on this computer. You can obtain this software from http://www.r-project.org",@"OK",nil,nil);    
+        return NO;        
     }
     
     // Export data

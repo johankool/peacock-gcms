@@ -53,6 +53,10 @@
 - (JKManagedLibraryEntry *)addLibraryEntryBasedOnPeak:(JKPeakRecord *)aPeak;
 - (JKLibraryEntry *)libraryEntryForName:(NSString *)compoundString;
 
+- (NSArray *)autocompleteEntries;
+- (void)setAutocompleteEntries:(NSArray *)aAutocompleteEntries;
+- (NSArray *)autocompleteEntriesForModel:(NSString *)model;
+
 #pragma mark GROWL SUPPORT
 - (NSDictionary *)registrationDictionaryForGrowl;
 

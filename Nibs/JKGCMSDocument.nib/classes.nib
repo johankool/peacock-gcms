@@ -30,6 +30,7 @@
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 
         }, 
+        {CLASS = JKComboBoxCell; LANGUAGE = ObjC; SUPERCLASS = NSComboBoxCell; }, 
         {CLASS = JKMainDocument; LANGUAGE = ObjC; SUPERCLASS = NSDocument; }, 
         {
             ACTIONS = {
@@ -95,8 +96,7 @@
             LANGUAGE = ObjC; 
             SUPERCLASS = NSView; 
         }, 
-        {CLASS = NSObject; LANGUAGE = ObjC; }, 
-        {CLASS = OAGradientTableView; LANGUAGE = ObjC; SUPERCLASS = DeleteTableView; }
+        {CLASS = NSObject; LANGUAGE = ObjC; }
     ); 
     IBVersion = 1; 
 }

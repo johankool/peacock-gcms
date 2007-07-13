@@ -239,7 +239,9 @@
                 }
                 if ([value libraryHit]) {
                     [self setLibraryEntry:[value libraryHit]];
-                    [self setSpectrum:[value libraryHit]];                    
+                    [self setSpectrum:[value libraryHit]];   
+                    [self setGroup:[[value libraryHit] group]];
+                    [self setSymbol:[[value libraryHit] symbol]];
                 }
             }
         } else {

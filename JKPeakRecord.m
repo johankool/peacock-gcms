@@ -27,11 +27,15 @@ NSString *GetUUID(void) {
     return [(NSString *)string autorelease];
 }
 
-# pragma mark INITIALIZATION
+# pragma mark Initialization & deallocation
 + (void)initialize{
-	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"library"];
-	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"deltaRetentionIndex"];
-	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"score"];
+	[self setKeys:[NSArray arrayWithObjects:@"identifiedSearchResult",nil] triggerChangeNotificationsForDependentKey:@"libraryHit"];
+	[self setKeys:[NSArray arrayWithObjects:@"identifiedSearchResult",nil] triggerChangeNotificationsForDependentKey:@"library"];
+	[self setKeys:[NSArray arrayWithObjects:@"identifiedSearchResult",nil] triggerChangeNotificationsForDependentKey:@"deltaRetentionIndex"];
+	[self setKeys:[NSArray arrayWithObjects:@"identifiedSearchResult",nil] triggerChangeNotificationsForDependentKey:@"score"];
+//	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"library"];
+//	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"deltaRetentionIndex"];
+//	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"score"];
     NSArray *startEndArray = [NSArray arrayWithObjects:@"start", @"end", @"baselineLeft", @"baselineRight", nil];
 	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"startTime"];
 	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"endTime"];
@@ -71,11 +75,9 @@ NSString *GetUUID(void) {
 }
 
 - (void)dealloc {
-//    JKLogEnteringMethod();
     [label release];
     [symbol release];
     [searchResults release];
-//    [identifiedSearchResult release];
     [uuid release];
     [baselineLeft release];
     [baselineRight release];
@@ -94,10 +96,64 @@ NSString *GetUUID(void) {
     JKLogDebug([libEntry jcampString]);
     return [libEntry autorelease];
 }
+#pragma mark -
 
-#pragma mark ACTIONS
+#pragma mark NSCoding
+- (void)encodeWithCoder:(NSCoder *)coder{
+    if ([coder allowsKeyedCoding]) {
+        if ([super conformsToProtocol:@protocol(NSCoding)]) {
+            [super encodeWithCoder:coder];        
+        } 
+		[coder encodeInt:6 forKey:@"version"];
+		[coder encodeInt:peakID forKey:@"peakID"];
+		[coder encodeInt:start forKey:@"start"];
+        [coder encodeInt:end forKey:@"end"];
+		[coder encodeObject:baselineLeft forKey:@"baselineLeft"];
+        [coder encodeObject:baselineRight forKey:@"baselineRight"];
+        [coder encodeObject:label forKey:@"label"];
+        [coder encodeObject:symbol forKey:@"symbol"];
+        [coder encodeBool:identified forKey:@"identified"];
+		[coder encodeBool:confirmed forKey:@"confirmed"];
+		[coder encodeBool:flagged forKey:@"flagged"];
+		[coder encodeObject:identifiedSearchResult forKey:@"identifiedSearchResult"];
+		[coder encodeObject:searchResults forKey:@"searchResults"];
+        [coder encodeObject:uuid forKey:@"uuid"];
+    } else {
+        [NSException raise:NSInvalidArchiveOperationException
+                    format:@"Only supports NSKeyedArchiver coders"];
+    }
+    return;
+}
 
-- (BOOL)confirm{
+- (id)initWithCoder:(NSCoder *)coder{
+    if ([coder allowsKeyedCoding]) {
+        int version = [coder decodeIntForKey:@"version"];
+        if (version < 6) {
+            JKLogWarning(@"Deprecated file format no longer supported.");
+        }
+        peakID = [coder decodeIntForKey:@"peakID"];
+        start = [coder decodeIntForKey:@"start"];
+        end = [coder decodeIntForKey:@"end"];
+        searchResults = [[coder decodeObjectForKey:@"searchResults"] retain];
+        identifiedSearchResult = [coder decodeObjectForKey:@"identifiedSearchResult"];
+        baselineLeft = [[coder decodeObjectForKey:@"baselineLeft"] retain];
+        baselineRight = [[coder decodeObjectForKey:@"baselineRight"] retain];
+        uuid = [[coder decodeObjectForKey:@"uuid"] retain];
+        label = [[coder decodeObjectForKey:@"label"] retain];
+        symbol = [[coder decodeObjectForKey:@"symbol"] retain];
+        identified = [coder decodeBoolForKey:@"identified"];
+        confirmed = [coder decodeBoolForKey:@"confirmed"]; 
+        flagged = [coder decodeBoolForKey:@"flagged"]; 
+	} else {
+        [NSException raise:NSInvalidArchiveOperationException
+                    format:@"Only supports NSKeyedUnarchiver decoders"];
+    }
+    return self;
+}
+#pragma mark -
+
+#pragma mark Actions
+- (BOOL)confirm {
     BOOL result;
     int answer;
     if (![[self document] modelString:[[self chromatogram] model] isEqualToString:[[identifiedSearchResult libraryHit] model]] && ![[[identifiedSearchResult libraryHit] model] isEqualToString:@""] && identifiedSearchResult) {   
@@ -149,146 +205,117 @@ NSString *GetUUID(void) {
     
 	if ([self identified]) {		
 		[self setConfirmed:YES];
-        [searchResults setArray:[NSArray arrayWithObject:identifiedSearchResult]];
-//		[searchResults removeObject:identifiedSearchResult];
-//		[[self document] redistributedSearchResults:self];
-//		[searchResults removeAllObjects];
-//		[searchResults addObject:identifiedSearchResult];
+        [self setSearchResults:[NSMutableArray arrayWithObject:identifiedSearchResult]];
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Confirm Library Hit",@"Confirm Library Hit")];
+        }
 		return YES;		
     } else if ([searchResults count] > 0) {
         result = [self identifyAs:[searchResults objectAtIndex:0]];
         if (result) {
-            [self setIdentified:YES];
             [self setConfirmed:YES];
-            [searchResults setArray:[NSArray arrayWithObject:identifiedSearchResult]];                    
+            [self setSearchResults:[NSMutableArray arrayWithObject:identifiedSearchResult]];
+            if (![[self undoManager] isUndoing]) {
+                [[self undoManager] setActionName:NSLocalizedString(@"Confirm Library Hit",@"Confirm Library Hit")];
+            }                
         }
         return result;
-//		[searchResults removeObject:identifiedSearchResult];
-//		[[self document] redistributedSearchResults:self];
-//		[searchResults removeAllObjects];
-//		[searchResults addObject:identifiedSearchResult];
-        return YES;
 	} else {
         // Allow this to mark a peak as confirmed with having the proper library entry
         JKManagedLibraryEntry *managedLibEntry = [(JKAppDelegate *)[NSApp delegate] addLibraryEntryBasedOnPeak:self];
         if (managedLibEntry) {
             result = [self identifyAsLibraryEntry:[JKLibraryEntry libraryEntryWithJCAMPString:[managedLibEntry jcampString]]];
             if (result) {
-                [self setIdentified:YES];
                 [self setConfirmed:YES]; 
-                [searchResults setArray:[NSArray arrayWithObject:identifiedSearchResult]];                    
+                [self setSearchResults:[NSMutableArray arrayWithObject:identifiedSearchResult]];
             }
         } else {
             return NO;
         }
+        
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Confirm Library Hit",@"Confirm Library Hit")];
+        }        
         return result;
-//        JKLogWarning(@"Peak with label '%@' was confirmed without being identified first.", [self label]);
-//		return NO;
 	}
 }
 
-- (void)discard{
-	[self setIdentified:NO];
+- (void)discard {
+    [self setIdentified:NO];
 	[self setConfirmed:NO];
 	[self setLabel:@""];
 	[self setSymbol:@""];
 	[self setIdentifiedSearchResult:nil];
+    if (![[self undoManager] isUndoing]) {
+        [[self undoManager] setActionName:NSLocalizedString(@"Discard Library Hit",@"Discard Library Hit")];
+    }    
+}
+
+- (BOOL)identifyAs:(JKSearchResult *)searchResult {
+    if (searchResult != identifiedSearchResult) {
+        [self setIdentifiedSearchResult:searchResult];
+        [self addSearchResult:searchResult];
+        // Initial default settings after identification, but can be customized by user later on
+        [self setLabel:[[searchResult libraryHit] name]];
+        [self setSymbol:[[searchResult libraryHit] symbol]];
+        [self setIdentified:YES];
+        [self setConfirmed:NO];
+        
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Identify as Library Hit",@"Identify as Library Hit")];
+        }        
+    }
+    return YES;
 }
 
 - (BOOL)identifyAsLibraryEntry:(JKLibraryEntry *)aLibraryEntry
 {
-    [self willChangeValueForKey:@"libraryHit"];
-    JKSearchResult *searchResult = [[JKSearchResult alloc] init];
-    [searchResult setPeak:self];
-    [searchResult setLibraryHit:[JKLibraryEntry libraryEntryWithJCAMPString:[aLibraryEntry jcampString]]];
-    [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedTo:aLibraryEntry]]];
-    [self addSearchResult:searchResult];
-    [self setIdentifiedSearchResult:searchResult];
-    [self setIdentified:YES];
-    [searchResult release];
-    
-    if ([self confirm]) {
-        // Initial default settings after identification, but can be customized by user later on
-        [self setLabel:[aLibraryEntry name]];
-        [self setSymbol:[aLibraryEntry symbol]];
-        [self setIdentified:YES];            
-    } else {
-        // NOT completely right, if identified before, now not anymore... 
-        [self removeObjectFromSearchResultsAtIndex:[[self searchResults] indexOfObject:searchResults]];
-        [self discard];
-        [self didChangeValueForKey:@"libraryHit"];
-        return NO;
+    JKSearchResult *searchResult = [self addSearchResultForLibraryEntry:aLibraryEntry];
+    if (searchResult) {
+        [self identifyAs:searchResult];
+        
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Identify as Library Hit",@"Identify as Library Hit")];
+        }        
+        
+        return YES;        
     }
-    
-    [self didChangeValueForKey:@"libraryHit"];
-    return YES;
-}
-
-- (BOOL)addSearchResultForLibraryEntry:(JKLibraryEntry *)aLibraryEntry
-{
-    if ([[self document] modelString:[[self chromatogram] model] isEqualToString:[aLibraryEntry model]]) {        
-        [self willChangeValueForKey:@"searchResults"];
-        JKSearchResult *searchResult = [[JKSearchResult alloc] init];
-        [searchResult setPeak:self];
-        [searchResult setLibraryHit:[JKLibraryEntry libraryEntryWithJCAMPString:[aLibraryEntry jcampString]]];
-        [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedTo:aLibraryEntry]]];
-        [self addSearchResult:searchResult];
-        [searchResult release];
-        [self didChangeValueForKey:@"searchResults"];
-        return YES;
-    }   
     return NO;
 }
 
-- (BOOL)identifyAs:(JKSearchResult *)searchResult{
-    [self willChangeValueForKey:@"libraryHit"];
-    [self setIdentifiedSearchResult:searchResult];
-    // Initial default settings after identification, but can be customized by user later on
-    [self setLabel:[searchResult valueForKeyPath:@"libraryHit.name"]];
-    [self setSymbol:[searchResult valueForKeyPath:@"libraryHit.symbol"]];
-    [self setIdentified:YES];
-    [self setConfirmed:NO];
-    
-    if (![searchResults containsObject:searchResult]) {
-        [self willChangeValueForKey:@"searchResultCount"];
-        [searchResults insertObject:searchResult atIndex:[searchResults count]];
-        [self didChangeValueForKey:@"searchResultCount"];
-    }
-    [self didChangeValueForKey:@"libraryHit"];
-	return YES;
-}
-
-- (void)addSearchResult:(JKSearchResult *)searchResult{
+- (void)addSearchResult:(JKSearchResult *)searchResult {
 	if (![searchResults containsObject:searchResult]) {
-        // Loop through searchResults and make sure we not already have a searhc result like this one
-        NSEnumerator *searchResultsEnum = [searchResults objectEnumerator];
-        JKSearchResult *aSearchResult;
-
-        while ((aSearchResult = [searchResultsEnum nextObject]) != nil) {
-        	if ([[[aSearchResult libraryHit] name] isEqualToString:[[searchResult libraryHit] name]]) {
-                if (aSearchResult != identifiedSearchResult) {
-                    [searchResults removeObject:aSearchResult];
-                }
-            }
-        }
-		[searchResults insertObject:searchResult atIndex:[searchResults count]];
+//        // Loop through searchResults and make sure we not already have a search result like this one
+//        NSEnumerator *searchResultsEnum = [searchResults objectEnumerator];
+//        JKSearchResult *aSearchResult;
+//
+//        while ((aSearchResult = [searchResultsEnum nextObject]) != nil) {
+//        	if ([[[aSearchResult libraryHit] name] isEqualToString:[[searchResult libraryHit] name]]) {
+//                return;
+//            }
+//        }
+        
+        [self insertObject:searchResult inSearchResultsAtIndex:[searchResults count]];
 		NSSortDescriptor *sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"score" ascending:NO] autorelease];
 		[searchResults sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 		
-		if ([[searchResult score] floatValue] >= [[[self document] markAsIdentifiedThreshold] floatValue]) {
+		if ((searchResult == [searchResults objectAtIndex:0]) && ([[searchResult score] floatValue] >= [[[self document] markAsIdentifiedThreshold] floatValue])) {
 			[self identifyAs:searchResult];
 		}
 	}	
 }
 
-- (void)selfDeconstruct
+- (JKSearchResult *)addSearchResultForLibraryEntry:(JKLibraryEntry *)aLibraryEntry
 {
-    int index = [[[self chromatogram] peaks] indexOfObject:self];
-    [[self chromatogram] removeObjectFromPeaksAtIndex:index];
-}
-
-- (NSUndoManager *)undoManager {
-    return [[self document] undoManager];
+    if ([[self document] modelString:[[self chromatogram] model] isEqualToString:[aLibraryEntry model]]) {        
+        JKSearchResult *searchResult = [[JKSearchResult alloc] init];
+        [searchResult setPeak:self];
+        [searchResult setLibraryHit:aLibraryEntry];
+        [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedTo:aLibraryEntry]]];
+        [self addSearchResult:searchResult];
+        return [searchResult autorelease];
+    }   
+    return nil;
 }
 #pragma mark -
 
@@ -315,7 +342,7 @@ NSString *GetUUID(void) {
 }
 #pragma mark -
 
-#pragma mark CALCULATED ACCESSORS
+#pragma mark Calculated Accessors
 
 - (NSNumber *)deltaRetentionIndex {
 	float value = 0.0;
@@ -462,18 +489,63 @@ NSString *GetUUID(void) {
     return [NSNumber numberWithInt:end-start];
 }
 
+- (NSString *)library {
+    if ([self identified]) {
+        return [[identifiedSearchResult libraryHit] library];
+    } else {
+        return nil;
+    }
+}
 
-#pragma mark ACCESSORS
+- (JKLibraryEntry *)libraryHit {
+	return [identifiedSearchResult libraryHit];
+}
+
+- (JKGCMSDocument *)document {
+    return [[self chromatogram] document];
+}
+
+- (NSUndoManager *)undoManager {
+    return [[self document] undoManager];
+}
+
+- (NSNumber *)score {
+    if ([self identified]) {
+        return [identifiedSearchResult score];
+    } else {
+        return nil;
+    }
+}
+
+- (NSString *)model {
+    return [[self chromatogram] model];
+}
+
+- (NSNumber *)startTime{
+    return [NSNumber numberWithFloat:[[self document] timeForScan:start]];
+}
+
+- (NSNumber *)endTime{
+    return [NSNumber numberWithFloat:[[self document] timeForScan:end]];
+}
+
+#pragma mark -
+
+#pragma mark Accessors
 - (NSString *)uuid {
     return uuid;
 }
+
 - (void)setPeakID:(int)inValue {
-    [[[self undoManager] prepareWithInvocationTarget:self] setPeakID:peakID];
-	if (![[self undoManager] isUndoing]) {
-        [[self undoManager] setActionName:NSLocalizedString(@"Change Peak ID",@"Change Peak ID")];
+    if (inValue != peakID) {
+        [[[self undoManager] prepareWithInvocationTarget:self] setPeakID:peakID];
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Change Peak ID",@"Change Peak ID")];
+        }
+        peakID = inValue;        
     }
-	peakID = inValue;
 }
+
 - (int)peakID {
     return peakID;
 }
@@ -486,50 +558,41 @@ NSString *GetUUID(void) {
     return [self setContainer:inValue];
 }
 
-- (JKGCMSDocument *)document {
-    return [[self chromatogram] document];
-}
-
-- (NSNumber *)score {
-    if ([self identified]) {
-        return [identifiedSearchResult score];
-    } else {
-        return nil;
-    }
-}
-
-
 - (void)setLabel:(NSString *)inValue {
-    [[self undoManager] registerUndoWithTarget:self
-                                      selector:@selector(setLabel:)
-                                        object:label];
-    if (![[self undoManager] isUndoing]) {
-        [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Label",@"Change Peak Label")];
+    if (![inValue isEqualToString:label]) {
+        [[self undoManager] registerUndoWithTarget:self
+                                          selector:@selector(setLabel:)
+                                            object:label];
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Label",@"Change Peak Label")];
+        }
+        
+        [inValue copy];
+        [label autorelease];
+        label = inValue;   
+        
+        if (!identifiedSearchResult) {
+            [self identifyAsLibraryEntry:[[NSApp delegate] libraryEntryForName:label]];
+        }
     }
-    
-	[inValue retain];
-	[label autorelease];
-	label = inValue;
 }
 
 - (NSString *)label {
     return label;
 }
 
-- (NSString *)model {
-    return [[self chromatogram] model];
-}
-
 - (void)setSymbol:(NSString *)inValue {
-    [[self undoManager] registerUndoWithTarget:self
-                                      selector:@selector(setSymbol:)
-                                        object:symbol];
-    if (![[self undoManager] isUndoing]) {
-        [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Symbol",@"Change Peak Symbol")];
+    if (![inValue isEqualToString:symbol]) {
+        [[self undoManager] registerUndoWithTarget:self
+                                          selector:@selector(setSymbol:)
+                                            object:symbol];
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Symbol",@"Change Peak Symbol")];
+        }
+        [inValue copy];
+        [symbol autorelease];
+        symbol = inValue;        
     }
-	[inValue retain];
-	[symbol autorelease];
-	symbol = inValue;
 }
 
 - (NSString *)symbol {
@@ -537,9 +600,18 @@ NSString *GetUUID(void) {
 } 
 
 - (void)setBaselineLeft:(NSNumber *)inValue {
-	[inValue retain];
-	[baselineLeft autorelease];
-	baselineLeft = inValue;
+    if ((!baselineLeft) || (![inValue isEqualToNumber:baselineLeft])) {
+        [[self undoManager] registerUndoWithTarget:self
+                                          selector:@selector(setBaselineLeft:)
+                                            object:baselineLeft];
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Left Baseline",@"Change Peak Left Baseline")];
+        }
+        
+        [inValue copy];
+        [baselineLeft autorelease];
+        baselineLeft = inValue;        
+    }
 }
 
 - (NSNumber *)baselineLeft {
@@ -577,9 +649,18 @@ NSString *GetUUID(void) {
 }
 
 - (void)setBaselineRight:(NSNumber *)inValue {
-	[inValue retain];
-	[baselineRight autorelease];
-	baselineRight = inValue;
+    if ((!baselineRight) || (![inValue isEqualToNumber:baselineRight])) {
+        [[self undoManager] registerUndoWithTarget:self
+                                          selector:@selector(setBaselineRight:)
+                                            object:baselineRight];
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Right Baseline",@"Change Peak Right Baseline")];
+        }
+        
+        [inValue copy];
+        [baselineRight autorelease];
+        baselineRight = inValue;        
+    }
 }
 
 - (NSNumber *)baselineRight {
@@ -617,7 +698,13 @@ NSString *GetUUID(void) {
 }
 
 - (void)setStart:(int)inValue {
-	start = inValue;
+    if (inValue != start) {
+        [[[self undoManager] prepareWithInvocationTarget:self] setStart:start];
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Start Scan",@"Change Start Scan")];
+        }
+        start = inValue;                
+    }
 }
 
 - (int)start {
@@ -653,20 +740,18 @@ NSString *GetUUID(void) {
     }
 }
 
-- (NSNumber *)startTime{
-    return [NSNumber numberWithFloat:[[self document] timeForScan:start]];
-}
-
 - (void)setEnd:(int)inValue {
-	end = inValue;
+    if (inValue != end) {
+        [[[self undoManager] prepareWithInvocationTarget:self] setEnd:end];
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Change Peak End Scan",@"Change End Scan")];
+        }
+        end = inValue;                
+    }
 }
 
 - (int)end {
     return end;
-}
-
-- (NSNumber *)endTime{
-    return [NSNumber numberWithFloat:[[self document] timeForScan:end]];
 }
 
 - (BOOL)validateEnd:(id *)ioValue error:(NSError **)outError {
@@ -699,7 +784,14 @@ NSString *GetUUID(void) {
 }
 
 - (void)setIdentified:(BOOL)inValue {
-	identified = inValue;
+    if (inValue != identified) {
+        [[[self undoManager] prepareWithInvocationTarget:self] setIdentified:identified];
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Identified Status",@"Change Peak Identified Status")];
+        }
+        
+        identified = inValue;        
+    }
 }
 
 - (BOOL)identified {
@@ -707,7 +799,14 @@ NSString *GetUUID(void) {
 }
 
 - (void)setConfirmed:(BOOL)inValue {
-	confirmed = inValue;
+    if (inValue != confirmed) {
+        [[[self undoManager] prepareWithInvocationTarget:self] setConfirmed:confirmed];
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Confirmed Status",@"Change Peak Confirmed Status")];
+        }
+        
+        confirmed = inValue;        
+    }
 }
 
 - (BOOL)confirmed {
@@ -715,33 +814,35 @@ NSString *GetUUID(void) {
 }
 
 - (void)setFlagged:(BOOL)inValue {
-	flagged = inValue;
+    if (inValue != flagged) {
+        [[[self undoManager] prepareWithInvocationTarget:self] setFlagged:flagged];
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Flagged Status",@"Change Peak Flagged Status")];
+        }
+        
+        flagged = inValue;        
+    }    
 }
 
 - (BOOL)flagged {
     return flagged;
 }
 
-- (NSString *)library {
-    if ([self identified]) {
-        return [[identifiedSearchResult libraryHit] library];
-    } else {
-        return nil;
-    }
-//	return [[NSFileManager defaultManager] displayNameAtPath:[[identifiedSearchResult library] fullPath]];
+- (void)setIdentifiedSearchResult:(JKSearchResult *)inValue {
+    if (inValue != identifiedSearchResult) {
+        [[self undoManager] registerUndoWithTarget:self
+                                          selector:@selector(setIdentifiedSearchResult:)
+                                            object:identifiedSearchResult];
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Identified Search Result",@"Change Peak Identified Search Result")];
+        }
+        
+        [inValue retain];
+        [identifiedSearchResult autorelease];
+        identifiedSearchResult = inValue;        
+    }	
 }
-
-- (JKLibraryEntry *)libraryHit {
-	return [identifiedSearchResult libraryHit];
-}
-
-- (void)setIdentifiedSearchResult:(id)inValue{
-//	[inValue retain];
-//	[identifiedSearchResult autorelease];
-	identifiedSearchResult = inValue;
-	
-}
-- (id)identifiedSearchResult{
+- (JKSearchResult *)identifiedSearchResult{
 	return identifiedSearchResult;
 }
 
@@ -751,25 +852,34 @@ NSString *GetUUID(void) {
 }
 
 - (void)setSearchResults:(NSMutableArray *)inValue {
-    [inValue retain];
-    [searchResults release];
-    searchResults = inValue;
+    if (inValue != searchResults) {
+        [[self undoManager] registerUndoWithTarget:self
+                                          selector:@selector(setSearchResults:)
+                                            object:searchResults];
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Set Search Results",@"Set Search Results")];
+        }
+        
+        [inValue retain];
+        [searchResults autorelease];
+        searchResults = inValue;        
+    }	
 }
 
 - (int)countOfSearchResults {
     return [[self searchResults] count];
 }
 
-- (NSDictionary *)objectInSearchResultsAtIndex:(int)index {
+- (JKSearchResult *)objectInSearchResultsAtIndex:(int)index {
     return [[self searchResults] objectAtIndex:index];
 }
 
-- (void)getSearchResult:(NSDictionary **)someSearchResults range:(NSRange)inRange {
+- (void)getSearchResult:(JKSearchResult **)someSearchResults range:(NSRange)inRange {
     // Return the objects in the specified range in the provided buffer.
     [searchResults getObjects:someSearchResults range:inRange];
 }
 
-- (void)insertObject:(NSDictionary *)aSearchResult inSearchResultsAtIndex:(int)index {
+- (void)insertObject:(JKSearchResult *)aSearchResult inSearchResultsAtIndex:(int)index {
 	// Add the inverse action to the undo stack
 	NSUndoManager *undo = [self undoManager];
 	[[undo prepareWithInvocationTarget:self] removeObjectFromSearchResultsAtIndex:index];
@@ -786,7 +896,7 @@ NSString *GetUUID(void) {
 
 - (void)removeObjectFromSearchResultsAtIndex:(int)index
 {
-	NSDictionary *aSearchResult = [searchResults objectAtIndex:index];
+	JKSearchResult *aSearchResult = [searchResults objectAtIndex:index];
 	
 	// Add the inverse action to the undo stack
 	NSUndoManager *undo = [self undoManager];
@@ -802,9 +912,9 @@ NSString *GetUUID(void) {
     [self didChangeValueForKey:@"searchResults"];
 }
 
-- (void)replaceObjectInSearchResultsAtIndex:(int)index withObject:(NSDictionary *)aSearchResult
+- (void)replaceObjectInSearchResultsAtIndex:(int)index withObject:(JKSearchResult *)aSearchResult
 {
-	NSDictionary *replacedSearchResult = [searchResults objectAtIndex:index];
+	JKSearchResult *replacedSearchResult = [searchResults objectAtIndex:index];
 	
 	// Add the inverse action to the undo stack
 	NSUndoManager *undo = [self undoManager];
@@ -820,123 +930,9 @@ NSString *GetUUID(void) {
     [self didChangeValueForKey:@"searchResults"];
 }
 
-- (BOOL)validateSearchResult:(NSDictionary **)aSearchResult error:(NSError **)outError {
+- (BOOL)validateSearchResult:(JKSearchResult **)aSearchResult error:(NSError **)outError {
     // Implement validation here...
     return YES;
 } // end searchResults
-
-
-
-#pragma mark NSCODING
-
-- (void)encodeWithCoder:(NSCoder *)coder{
-    if ([coder allowsKeyedCoding]) {
-        if ([super conformsToProtocol:@protocol(NSCoding)]) {
-            [super encodeWithCoder:coder];        
-        } 
-		[coder encodeInt:6 forKey:@"version"];
-		[coder encodeInt:peakID forKey:@"peakID"];
-		[coder encodeInt:start forKey:@"start"];
-        [coder encodeInt:end forKey:@"end"];
-		[coder encodeObject:baselineLeft forKey:@"baselineLeft"];
-        [coder encodeObject:baselineRight forKey:@"baselineRight"];
-        [coder encodeObject:label forKey:@"label"];
-        [coder encodeObject:symbol forKey:@"symbol"];
-        [coder encodeBool:identified forKey:@"identified"];
-		[coder encodeBool:confirmed forKey:@"confirmed"];
-		[coder encodeBool:flagged forKey:@"flagged"];
-		[coder encodeConditionalObject:identifiedSearchResult forKey:@"identifiedSearchResult"];
-		[coder encodeObject:searchResults forKey:@"searchResults"];
-        [coder encodeObject:uuid forKey:@"uuid"];
-    } else {
-        [NSException raise:NSInvalidArchiveOperationException
-                    format:@"Only supports NSKeyedArchiver coders"];
-    }
-    return;
-}
-
-- (id)initWithCoder:(NSCoder *)coder{
-    if ([coder allowsKeyedCoding]) {
-		int version = [coder decodeIntForKey:@"version"];
-        switch (version) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-//                [self setContai = [[[(NSKeyedArchiver *)coder delegate] chromatograms] objectAtIndex:0];
-//                NSAssert(chromatogram, @"peak should have chromatogram");
-                [[self container] insertObject:self inPeaksAtIndex:[[[self container] peaks] count]];
-                peakID = [[coder decodeObjectForKey:@"peakID"] intValue];
-                start = [[coder decodeObjectForKey:@"start"] intValue];
-                end = [[coder decodeObjectForKey:@"end"] intValue];
-                 
-                searchResults = [[NSMutableArray alloc] init];
-                NSArray *oldSearchResults = [coder decodeObjectForKey:@"searchResults"];
-                NSEnumerator *resultsEnum = [oldSearchResults objectEnumerator];
-                NSDictionary *result;
-
-                while ((result = [resultsEnum nextObject]) != nil) {
-                	JKSearchResult *newResult = [[JKSearchResult alloc] init];
-                    [newResult setPeak:self];
-                    [newResult setScore:[result valueForKey:@"score"]];
-                    [newResult setLibraryHit:[JKLibraryEntry libraryEntryWithJCAMPString:[[result valueForKey:@"libraryHit"] jcampString]]];
-//                    [newResult setLibrary:nil];
-                    [searchResults addObject:newResult];
-                }
-                if (([searchResults count] > 0) && ([coder decodeBoolForKey:@"identified"]))
-                    identifiedSearchResult = [searchResults objectAtIndex:0];
-
-                break;
-            case 5:
-            case 6:
-            default:
-  //              chromatogram = [coder decodeObjectForKey:@"chromatogram"];            
-                peakID = [coder decodeIntForKey:@"peakID"];
-                start = [coder decodeIntForKey:@"start"];
-                end = [coder decodeIntForKey:@"end"];
-                identifiedSearchResult = [coder decodeObjectForKey:@"identifiedSearchResult"];
-                searchResults = [[coder decodeObjectForKey:@"searchResults"] retain];
-                break;
-        }
-        switch (version) {
-            case 0:
-            case 1:
-            case 2:
-                baselineLeft = [[coder decodeObjectForKey:@"baselineL"] retain];
-                baselineRight = [[coder decodeObjectForKey:@"baselineR"] retain];
-                break;
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            default:
-                baselineLeft = [[coder decodeObjectForKey:@"baselineLeft"] retain];
-                baselineRight = [[coder decodeObjectForKey:@"baselineRight"] retain];
-                break;
-        }
-        switch (version) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                uuid = GetUUID();
-                [uuid retain];
-                break;
-            case 6:
-            default:
-                uuid = [[coder decodeObjectForKey:@"uuid"] retain];
-                break;
-        }
-        label = [[coder decodeObjectForKey:@"label"] retain];
-		symbol = [[coder decodeObjectForKey:@"symbol"] retain];
-        identified = [coder decodeBoolForKey:@"identified"];
-		confirmed = [coder decodeBoolForKey:@"confirmed"]; 
-        flagged = [coder decodeBoolForKey:@"flagged"]; 
-	} 
-    return self;
-}
 
 @end

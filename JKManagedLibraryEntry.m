@@ -288,6 +288,17 @@
 		} else {
         }
         
+        // SYMBOL
+        // Back to start of entry as order of entries is undefined
+		[theScanner setScanLocation:0];
+		[theScanner scanUpToString:@"##$SYMBOL=" intoString:NULL];
+		if ([theScanner scanString:@"##$SYMBOL=" intoString:NULL]) {
+            scannedString = @"";
+			[theScanner scanUpToString:@"##" intoString:&scannedString];
+			[self setSymbol:[[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain]];
+		} else {
+        }
+                
         // GROUP
         // Back to start of entry as order of entries is undefined
 		[theScanner setScanLocation:0];
