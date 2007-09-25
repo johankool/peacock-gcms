@@ -719,8 +719,10 @@
                 if ([[peak label] isEqualToString:@""] || ![peak label]) {
                     [combinedPeak setLabel:[NSString stringWithFormat:NSLocalizedString(@"Unknown compound %d ",@"Unknown compounds in stats summary."), unknownCount]];
                     unknownCount++;
+                    [combinedPeak setUnknownCompound:YES];
                 } else {
                     [combinedPeak setLabel:[peak label]];
+                    [combinedPeak setUnknownCompound:NO];
                 }
    			} else {
                 if ([[peak label] isEqualToString:@""]) {
@@ -728,6 +730,7 @@
                 }
                 [combinedPeak setLabel:[peak label]];
                 [combinedPeak setLibraryEntry:[peak libraryHit]];
+                [combinedPeak setUnknownCompound:NO];
 			}            
             [combinedPeak setUnknownCompound:!isKnownCompound];
             [combinedPeak setRetentionIndex:[peak retentionIndex]];

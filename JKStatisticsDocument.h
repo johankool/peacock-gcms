@@ -19,6 +19,7 @@
     int numberOfFactors;
     int scores;
     int rotation;
+    BOOL groupSymbols;
     JKStatisticsPrintView *printView;
 }
 

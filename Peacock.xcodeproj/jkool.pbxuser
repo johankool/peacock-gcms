@@ -10,7 +10,6 @@
 	};
 	2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 		activeBuildConfigurationName = Debug;
-		activeBuildStyle = C7990B150C4510360077F0EC /* Development */;
 		activeExecutable = C7EB17970898CF04007FC2ED /* Peacock-Mac */;
 		activeTarget = 8D15AC270486D014006FF6A4 /* Peacock-Mac */;
 		addToTargets = (
@@ -27,8 +26,8 @@
 			C7B2B3970C1EEEF400796697 /* JKGCMSDocument.m:1177 */,
 			C7B2B3A10C1EEF2200796697 /* JKGCMSDocument.m:1142 */,
 			C7B2B3A30C1EEF2900796697 /* JKGCMSDocument.m:1091 */,
-			C7B2B3AC0C1EEF5B00796697 /* JKStatisticsWindowController.m:1109 */,
-			C7B2B3AE0C1EEF7600796697 /* JKStatisticsWindowController.m:1751 */,
+			C7B2B3AC0C1EEF5B00796697 /* JKStatisticsWindowController.m:1112 */,
+			C7B2B3AE0C1EEF7600796697 /* JKStatisticsWindowController.m:1754 */,
 			C76D5BDD0C2ACB6F0070D270 /* -[_NSZombie forward::] */,
 			C73FF0B40C3AE9FF003C2DBC /* -floatValue */,
 			C73FF0DF0C3AF5CF003C2DBC /* JKMainWindowController.m:1376 */,
@@ -38,7 +37,6 @@
 			C73FF0FB0C3AF933003C2DBC /* JKPeakRecord.m:302 */,
 			C73FF0FE0C3AF972003C2DBC /* JKPeakRecord.m:303 */,
 		);
-		breakpointsGroup = C7AD308508AA232200A0F4BE /* XCBreakpointsBucket */;
 		codeSenseManager = C7EB17A50898CF22007FC2ED /* Code sense */;
 		executables = (
 			C7EB17970898CF04007FC2ED /* Peacock-Mac */,
@@ -140,7 +138,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					834,
+					749,
 					20,
 					48,
 					43,
@@ -216,8 +214,8 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					200,
-					527,
+					733,
+					60,
 					20,
 					48,
 					43,
@@ -233,39 +231,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 206028316;
-			PBXWorkspaceStateSaveDate = 206028316;
-		};
-		perUserProjectItems = {
-			C719EA890C3E583F00E951EC = C719EA890C3E583F00E951EC /* PBXTextBookmark */;
-			C730A0640C47998B00F6D9A7 = C730A0640C47998B00F6D9A7 /* PBXTextBookmark */;
-			C730A0700C47A37300F6D9A7 = C730A0700C47A37300F6D9A7 /* PBXTextBookmark */;
-			C730A0710C47A37300F6D9A7 = C730A0710C47A37300F6D9A7 /* PBXTextBookmark */;
-			C730A0760C47A37800F6D9A7 = C730A0760C47A37800F6D9A7 /* PBXTextBookmark */;
-			C730A08A0C47A93700F6D9A7 = C730A08A0C47A93700F6D9A7 /* PBXTextBookmark */;
-			C730A08B0C47A93700F6D9A7 = C730A08B0C47A93700F6D9A7 /* PBXTextBookmark */;
-			C730A0940C47AA0D00F6D9A7 = C730A0940C47AA0D00F6D9A7 /* PBXTextBookmark */;
-			C730A0950C47AA0D00F6D9A7 = C730A0950C47AA0D00F6D9A7 /* PBXTextBookmark */;
-			C730A0970C47AA0D00F6D9A7 = C730A0970C47AA0D00F6D9A7 /* PBXTextBookmark */;
-			C730A0980C47AA0D00F6D9A7 = C730A0980C47AA0D00F6D9A7 /* PBXTextBookmark */;
-			C730A0990C47AA0D00F6D9A7 = C730A0990C47AA0D00F6D9A7 /* PBXTextBookmark */;
-			C730A0A00C47AA7300F6D9A7 = C730A0A00C47AA7300F6D9A7 /* PBXTextBookmark */;
-			C730A0A20C47AA7300F6D9A7 = C730A0A20C47AA7300F6D9A7 /* PBXTextBookmark */;
-			C730A0A30C47AA7300F6D9A7 = C730A0A30C47AA7300F6D9A7 /* PBXTextBookmark */;
-			C730A0AE0C47B3F500F6D9A7 = C730A0AE0C47B3F500F6D9A7 /* PBXTextBookmark */;
-			C730A0B00C47B3F500F6D9A7 = C730A0B00C47B3F500F6D9A7 /* PBXTextBookmark */;
-			C730A0BA0C47B40300F6D9A7 = C730A0BA0C47B40300F6D9A7 /* PBXTextBookmark */;
-			C730A0CA0C47BC4D00F6D9A7 = C730A0CA0C47BC4D00F6D9A7 /* PBXTextBookmark */;
-			C730A0CB0C47BC4D00F6D9A7 = C730A0CB0C47BC4D00F6D9A7 /* PBXTextBookmark */;
-			C730A0CD0C47BC4E00F6D9A7 = C730A0CD0C47BC4E00F6D9A7 /* PBXTextBookmark */;
-			C730A0CF0C47BE1400F6D9A7 = C730A0CF0C47BE1400F6D9A7 /* PBXTextBookmark */;
-			C730A0D00C47BE1400F6D9A7 = C730A0D00C47BE1400F6D9A7 /* PBXTextBookmark */;
-			C730A10F0C47BE2100F6D9A7 /* PBXTextBookmark */ = C730A10F0C47BE2100F6D9A7 /* PBXTextBookmark */;
-			C730A1160C47BE3000F6D9A7 /* PBXTextBookmark */ = C730A1160C47BE3000F6D9A7 /* PBXTextBookmark */;
-			C730A11A0C47BE3000F6D9A7 /* PBXTextBookmark */ = C730A11A0C47BE3000F6D9A7 /* PBXTextBookmark */;
-			C785905509541F250083EC22 = C785905509541F250083EC22 /* JKStatisticsWindowController.m */;
-			C7EB17DD0898CF2E007FC2ED = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
-			C7EB17F80898CFBC007FC2ED = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */;
+			PBXPerProjectTemplateStateSaveDate = 211840661;
+			PBXWorkspaceStateSaveDate = 211840661;
 		};
 		sourceControlManager = C7EB17A40898CF22007FC2ED /* Source Control */;
 		userBuildSettings = {
@@ -318,9 +285,9 @@
 	};
 	C708E90B0B9D953A0085872E /* JKCombinedPeak.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1051, 5530}}";
-			sepNavSelRange = "{7880, 0}";
-			sepNavVisRect = "{{0, 3093}, {1051, 633}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 5530}}";
+			sepNavSelRange = "{10942, 56}";
+			sepNavVisRect = "{{0, 4800}, {966, 551}}";
 			sepNavWindowFrame = "{{15, -5}, {732, 832}}";
 		};
 	};
@@ -363,29 +330,21 @@
 	};
 	C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1051, 3500}}";
-			sepNavSelRange = "{4120, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {952, 3570}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 344}";
 			sepNavVisRect = "{{0, 1694}, {1051, 621}}";
 			sepNavWindowFrame = "{{429, 23}, {782, 809}}";
 		};
 	};
 	C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1051, 27972}}";
-			sepNavSelRange = "{15371, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {952, 27398}}";
+			sepNavSelRange = "{4667, 601}";
+			sepNavVisRange = "{4347, 1118}";
 			sepNavVisRect = "{{0, 4178}, {1051, 633}}";
 			sepNavWindowFrame = "{{429, 23}, {782, 809}}";
 		};
-	};
-	C719EA890C3E583F00E951EC /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C7E5B1D20A14934200BB2291 /* BDAlias.h */;
-		name = fullPath;
-		rLen = 8;
-		rLoc = 2272;
-		rType = 0;
-		vrLen = 1074;
-		vrLoc = 1658;
 	};
 	C720AB8609EA7B6C007EF860 /* jk_statistics.h */ = {
 		uiCtxt = {
@@ -455,256 +414,6 @@
 			sepNavWindowFrame = "{{15, 7}, {950, 820}}";
 		};
 	};
-	C730A0640C47998B00F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C777A2CC0A1DFEE400CF44D9 /* JKAtom.h */;
-		name = "JKAtom.h: stereoCareBox";
-		rLen = 0;
-		rLoc = 646;
-		rType = 0;
-		vrLen = 505;
-		vrLoc = 0;
-	};
-	C730A0700C47A37300F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C777A2CC0A1DFEE400CF44D9 /* JKAtom.h */;
-		name = "JKAtom.h: stereoCareBox";
-		rLen = 0;
-		rLoc = 646;
-		rType = 0;
-		vrLen = 893;
-		vrLoc = 0;
-	};
-	C730A0710C47A37300F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C78599A109CDBBAD00351C87 /* JKStatisticsDocument.m */;
-		name = "JKStatisticsDocument.m: 276";
-		rLen = 0;
-		rLoc = 13378;
-		rType = 0;
-		vrLen = 1575;
-		vrLoc = 12310;
-	};
-	C730A0760C47A37800F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C777A2CC0A1DFEE400CF44D9 /* JKAtom.h */;
-		name = "JKAtom.h: stereoCareBox";
-		rLen = 0;
-		rLoc = 646;
-		rType = 0;
-		vrLen = 505;
-		vrLoc = 0;
-	};
-	C730A08A0C47A93700F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
-		name = "JKPeakRecord.m: 454";
-		rLen = 0;
-		rLoc = 19418;
-		rType = 0;
-		vrLen = 1430;
-		vrLoc = 18761;
-	};
-	C730A08B0C47A93700F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C708E90B0B9D953A0085872E /* JKCombinedPeak.m */;
-		name = "JKCombinedPeak.m: 165";
-		rLen = 0;
-		rLoc = 4998;
-		rType = 0;
-		vrLen = 1147;
-		vrLoc = 4473;
-	};
-	C730A0940C47AA0D00F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C78599A109CDBBAD00351C87 /* JKStatisticsDocument.m */;
-		name = "Factor Analysis Failed";
-		rLen = 22;
-		rLoc = 18392;
-		rType = 0;
-		vrLen = 2071;
-		vrLoc = 17618;
-	};
-	C730A0950C47AA0D00F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C785905509541F250083EC22 /* JKStatisticsWindowController.m */;
-		name = BDAlias;
-		rLen = 7;
-		rLoc = 100487;
-		rType = 0;
-		vrLen = 2257;
-		vrLoc = 94033;
-	};
-	C730A0970C47AA0D00F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
-		name = "JKPeakRecord.m: 454";
-		rLen = 0;
-		rLoc = 19418;
-		rType = 0;
-		vrLen = 1612;
-		vrLoc = 18700;
-	};
-	C730A0980C47AA0D00F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C78599A109CDBBAD00351C87 /* JKStatisticsDocument.m */;
-		name = "Factor Analysis Failed";
-		rLen = 22;
-		rLoc = 18392;
-		rType = 0;
-		vrLen = 2071;
-		vrLoc = 17618;
-	};
-	C730A0990C47AA0D00F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C785905509541F250083EC22 /* JKStatisticsWindowController.m */;
-		name = BDAlias;
-		rLen = 7;
-		rLoc = 100487;
-		rType = 0;
-		vrLen = 2257;
-		vrLoc = 94033;
-	};
-	C730A0A00C47AA7300F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C7EB17D50898CF2E007FC2ED /* JKLibrary.m */;
-		name = "[NSPredicate predicateWithFormat:searchTemplateString]";
-		rLen = 54;
-		rLoc = 20060;
-		rType = 0;
-		vrLen = 1753;
-		vrLoc = 18903;
-	};
-	C730A0A20C47AA7300F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C708E90B0B9D953A0085872E /* JKCombinedPeak.m */;
-		name = "JKCombinedPeak.m: 244";
-		rLen = 0;
-		rLoc = 7880;
-		rType = 0;
-		vrLen = 1552;
-		vrLoc = 6668;
-	};
-	C730A0A30C47AA7300F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C7EB17D50898CF2E007FC2ED /* JKLibrary.m */;
-		name = "[NSPredicate predicateWithFormat:searchTemplateString]";
-		rLen = 54;
-		rLoc = 20060;
-		rType = 0;
-		vrLen = 1753;
-		vrLoc = 18903;
-	};
-	C730A0AE0C47B3F500F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
-		name = "JKGCMSDocument.m: 314";
-		rLen = 0;
-		rLoc = 15371;
-		rType = 0;
-		vrLen = 1667;
-		vrLoc = 14553;
-	};
-	C730A0B00C47B3F500F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
-		name = "JKGCMSDocument.m: 314";
-		rLen = 0;
-		rLoc = 15371;
-		rType = 0;
-		vrLen = 1667;
-		vrLoc = 14553;
-	};
-	C730A0BA0C47B40300F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C708E90B0B9D953A0085872E /* JKCombinedPeak.m */;
-		name = "JKCombinedPeak.m: 244";
-		rLen = 0;
-		rLoc = 7880;
-		rType = 0;
-		vrLen = 1527;
-		vrLoc = 6797;
-	};
-	C730A0CA0C47BC4D00F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
-		name = "JKChromatogram.m: 573";
-		rLen = 0;
-		rLoc = 20541;
-		rType = 0;
-		vrLen = 1627;
-		vrLoc = 21463;
-	};
-	C730A0CB0C47BC4D00F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
-		name = "JKPeakRecord.m: 454";
-		rLen = 0;
-		rLoc = 19418;
-		rType = 0;
-		vrLen = 1430;
-		vrLoc = 18761;
-	};
-	C730A0CD0C47BC4E00F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */;
-		name = "JKChromatogram.m: 573";
-		rLen = 0;
-		rLoc = 20541;
-		rType = 0;
-		vrLen = 2156;
-		vrLoc = 21335;
-	};
-	C730A0CF0C47BE1400F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C777A2CC0A1DFEE400CF44D9 /* JKAtom.h */;
-		name = "JKAtom.h: stereoCareBox";
-		rLen = 0;
-		rLoc = 646;
-		rType = 0;
-		vrLen = 1276;
-		vrLoc = 0;
-	};
-	C730A0D00C47BE1400F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
-		name = "JKPeakRecord.m: 454";
-		rLen = 0;
-		rLoc = 19418;
-		rType = 0;
-		vrLen = 1612;
-		vrLoc = 18700;
-	};
-	C730A10F0C47BE2100F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
-		name = "JKPeakRecord.m: 454";
-		rLen = 0;
-		rLoc = 19418;
-		rType = 0;
-		vrLen = 1612;
-		vrLoc = 18700;
-	};
-	C730A1160C47BE3000F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
-		name = "JKPeakRecord.m: 454";
-		rLen = 0;
-		rLoc = 19418;
-		rType = 0;
-		vrLen = 1571;
-		vrLoc = 18706;
-	};
-	C730A11A0C47BE3000F6D9A7 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
-		name = "JKPeakRecord.m: 454";
-		rLen = 0;
-		rLoc = 19418;
-		rType = 0;
-		vrLen = 1612;
-		vrLoc = 18700;
-	};
 	C73290E00AD68F9800D95E36 /* JKChromatogram.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {899, 1722}}";
@@ -761,10 +470,11 @@
 		isa = PBXSymbolicBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
-		hitCount = 1;
-		modificationTime = 206027846.696741;
+		hitCount = 0;
+		modificationTime = 211121142.242281;
 		state = 2;
 		symbolName = "-floatValue";
 	};
@@ -772,78 +482,84 @@
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
 		fileReference = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */;
 		functionName = "-tableView:acceptDrop:row:dropOperation:";
-		hitCount = 1;
+		hitCount = 0;
 		lineNumber = 1376;
-		modificationTime = 206027852.243259;
+		modificationTime = 211294348.942725;
 		state = 1;
 	};
 	C73FF0EB0C3AF63D003C2DBC /* JKPeakRecord.m:252 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
 		fileReference = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		functionName = "-identifyAsLibraryEntry:";
-		hitCount = 1;
+		hitCount = 0;
 		lineNumber = 252;
-		modificationTime = 206027848.788067;
+		modificationTime = 211294348.94206;
 		state = 1;
 	};
 	C73FF0ED0C3AF646003C2DBC /* JKPeakRecord.m:252 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
 		fileReference = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		functionName = "-identifyAsLibraryEntry:";
-		hitCount = 1;
+		hitCount = 0;
 		lineNumber = 252;
-		modificationTime = 206027848.798963;
+		modificationTime = 211294348.941801;
 		state = 1;
 	};
 	C73FF0F10C3AF656003C2DBC /* JKPeakRecord.m:252 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
 		fileReference = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		functionName = "-identifyAsLibraryEntry:";
-		hitCount = 1;
+		hitCount = 0;
 		lineNumber = 252;
-		modificationTime = 206027848.811932;
+		modificationTime = 211294348.943928;
 		state = 1;
 	};
 	C73FF0FB0C3AF933003C2DBC /* JKPeakRecord.m:302 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
 		fileReference = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		functionName = "-addSearchResult:";
-		hitCount = 1;
+		hitCount = 0;
 		lineNumber = 302;
-		modificationTime = 206027848.8268611;
+		modificationTime = 211294348.935809;
 		state = 1;
 	};
 	C73FF0FE0C3AF972003C2DBC /* JKPeakRecord.m:303 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
 		fileReference = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */;
 		functionName = "-addSearchResult:";
-		hitCount = 1;
+		hitCount = 0;
 		lineNumber = 303;
-		modificationTime = 206027848.827556;
+		modificationTime = 211294348.936328;
 		state = 1;
 	};
 	C75846130C071ACC00756ED8 /* JKComparableProtocol.h */ = {
@@ -1060,11 +776,13 @@
 		isa = PBXSymbolicBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
-		hitCount = 1;
-		modificationTime = 206027846.696287;
-		state = 1;
+		hitCount = 0;
+		location = Foundation;
+		modificationTime = 211121148.975384;
+		state = 0;
 		symbolName = "-[_NSZombie forward::]";
 	};
 	C7713B410950368F00653D2A /* JKBatchProcessWindowController.h */ = {
@@ -1084,17 +802,17 @@
 	};
 	C773669408E02D87002B72F1 /* ChromatogramGraphDataSerie.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {899, 574}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 574}}";
 			sepNavSelRange = "{368, 34}";
-			sepNavVisRect = "{{0, 0}, {899, 491}}";
+			sepNavVisRect = "{{0, 7}, {966, 553}}";
 			sepNavWindowFrame = "{{15, 7}, {950, 820}}";
 		};
 	};
 	C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {899, 11844}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 11732}}";
 			sepNavSelRange = "{34443, 18}";
-			sepNavVisRect = "{{0, 11284}, {899, 491}}";
+			sepNavVisRect = "{{0, 11165}, {966, 553}}";
 			sepNavWindowFrame = "{{15, 7}, {950, 820}}";
 		};
 	};
@@ -1185,42 +903,43 @@
 	};
 	C785905409541F250083EC22 /* JKStatisticsWindowController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1051, 3248}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 3248}}";
 			sepNavSelRange = "{6676, 5}";
-			sepNavVisRect = "{{0, 2217}, {1051, 621}}";
+			sepNavVisRect = "{{0, 135}, {966, 551}}";
 			sepNavWindowFrame = "{{15, -5}, {732, 832}}";
 		};
 	};
 	C785905509541F250083EC22 /* JKStatisticsWindowController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1051, 38752}}";
-			sepNavSelRange = "{100487, 7}";
-			sepNavVisRect = "{{0, 27550}, {1051, 633}}";
+			sepNavIntBoundsRect = "{{0, 0}, {583, 43386}}";
+			sepNavSelRange = "{21986, 44}";
+			sepNavVisRect = "{{0, 7378}, {583, 733}}";
 			sepNavWindowFrame = "{{15, -4}, {628, 831}}";
 		};
 	};
 	C78599A009CDBBAD00351C87 /* JKStatisticsDocument.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {899, 574}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 588}}";
 			sepNavSelRange = "{502, 0}";
-			sepNavVisRect = "{{0, 39}, {899, 521}}";
+			sepNavVisRect = "{{0, 0}, {966, 551}}";
 		};
 	};
 	C78599A109CDBBAD00351C87 /* JKStatisticsDocument.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1051, 9268}}";
-			sepNavSelRange = "{18392, 22}";
-			sepNavVisRect = "{{0, 5093}, {1051, 633}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 9800}}";
+			sepNavSelRange = "{22999, 0}";
+			sepNavVisRect = "{{0, 6567}, {966, 551}}";
 		};
 	};
 	C78DF4D60A3EB4F50001D828 /* _NSKVODeallocateLog */ = {
 		isa = PBXSymbolicBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 2;
-		hitCount = 1;
-		modificationTime = 206027846.695768;
+		hitCount = 0;
+		modificationTime = 211121142.241112;
 		state = 2;
 		symbolName = _NSKVODeallocateLog;
 	};
@@ -1297,31 +1016,6 @@
 			sepNavVisRect = "{{0, 868}, {899, 491}}";
 		};
 	};
-	C7AD308508AA232200A0F4BE /* XCBreakpointsBucket */ = {
-		isa = XCBreakpointsBucket;
-		name = Peacock;
-		objects = (
-			C7E7EF380A2E53A000849DD5 /* [NSException raise] */,
-			C78DF4D60A3EB4F50001D828 /* _NSKVODeallocateLog */,
-			C7B2B3880C1EEE9A00796697 /* JKGCMSDocument.m:1185 */,
-			C7B2B38A0C1EEE9D00796697 /* JKGCMSDocument.m:1166 */,
-			C7B2B3920C1EEEEB00796697 /* JKGCMSDocument.m:1191 */,
-			C7B2B3950C1EEEF100796697 /* JKGCMSDocument.m:1201 */,
-			C7B2B3970C1EEEF400796697 /* JKGCMSDocument.m:1177 */,
-			C7B2B3A10C1EEF2200796697 /* JKGCMSDocument.m:1142 */,
-			C7B2B3A30C1EEF2900796697 /* JKGCMSDocument.m:1091 */,
-			C7B2B3AC0C1EEF5B00796697 /* JKStatisticsWindowController.m:1109 */,
-			C7B2B3AE0C1EEF7600796697 /* JKStatisticsWindowController.m:1751 */,
-			C76D5BDD0C2ACB6F0070D270 /* -[_NSZombie forward::] */,
-			C73FF0B40C3AE9FF003C2DBC /* -floatValue */,
-			C73FF0DF0C3AF5CF003C2DBC /* JKMainWindowController.m:1376 */,
-			C73FF0EB0C3AF63D003C2DBC /* JKPeakRecord.m:252 */,
-			C73FF0ED0C3AF646003C2DBC /* JKPeakRecord.m:252 */,
-			C73FF0F10C3AF656003C2DBC /* JKPeakRecord.m:252 */,
-			C73FF0FB0C3AF933003C2DBC /* JKPeakRecord.m:302 */,
-			C73FF0FE0C3AF972003C2DBC /* JKPeakRecord.m:303 */,
-		);
-	};
 	C7AD38AB08B2A0D600A0F4BE /* FilteringDNDArrayController.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {899, 491}}";
@@ -1372,117 +1066,126 @@
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
 		fileReference = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		functionName = "-performBackwardSearchForChromatograms:withLibraryEntries::";
-		hitCount = 1;
+		hitCount = 0;
 		lineNumber = 1185;
-		modificationTime = 206027848.694791;
+		modificationTime = 211294348.943724;
 		state = 1;
 	};
 	C7B2B38A0C1EEE9D00796697 /* JKGCMSDocument.m:1166 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
 		fileReference = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		functionName = "-performBackwardSearchForChromatograms:withLibraryEntries::";
-		hitCount = 1;
+		hitCount = 0;
 		lineNumber = 1166;
-		modificationTime = 206027848.705745;
+		modificationTime = 211294348.936019;
 		state = 1;
 	};
 	C7B2B3920C1EEEEB00796697 /* JKGCMSDocument.m:1191 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
 		fileReference = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		functionName = "-performBackwardSearchForChromatograms:withLibraryEntries::";
-		hitCount = 1;
+		hitCount = 0;
 		lineNumber = 1191;
-		modificationTime = 206027848.714405;
+		modificationTime = 211294348.942388;
 		state = 1;
 	};
 	C7B2B3950C1EEEF100796697 /* JKGCMSDocument.m:1201 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
 		fileReference = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		functionName = "-performBackwardSearchForChromatograms:withLibraryEntries::";
-		hitCount = 1;
+		hitCount = 0;
 		lineNumber = 1201;
-		modificationTime = 206027848.723518;
+		modificationTime = 211294348.942567;
 		state = 1;
 	};
 	C7B2B3970C1EEEF400796697 /* JKGCMSDocument.m:1177 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
 		fileReference = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		functionName = "-performBackwardSearchForChromatograms:withLibraryEntries::";
-		hitCount = 1;
+		hitCount = 0;
 		lineNumber = 1177;
-		modificationTime = 206027848.732498;
+		modificationTime = 211294348.936176;
 		state = 1;
 	};
 	C7B2B3A10C1EEF2200796697 /* JKGCMSDocument.m:1142 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
 		fileReference = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		functionName = "-performBackwardSearchForChromatograms:withLibraryEntries::";
-		hitCount = 1;
+		hitCount = 0;
 		lineNumber = 1142;
-		modificationTime = 206027848.741513;
+		modificationTime = 211294348.935545;
 		state = 1;
 	};
 	C7B2B3A30C1EEF2900796697 /* JKGCMSDocument.m:1091 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
 		fileReference = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */;
 		functionName = "-performBackwardSearchForChromatograms:withLibraryEntries::";
-		hitCount = 1;
+		hitCount = 0;
 		lineNumber = 1091;
-		modificationTime = 206027848.750261;
+		modificationTime = 211294348.941485;
 		state = 1;
 	};
-	C7B2B3AC0C1EEF5B00796697 /* JKStatisticsWindowController.m:1109 */ = {
+	C7B2B3AC0C1EEF5B00796697 /* JKStatisticsWindowController.m:1112 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
 		fileReference = C785905509541F250083EC22 /* JKStatisticsWindowController.m */;
 		functionName = "-searchMissingPeaksInCombinedPeak:";
-		hitCount = 1;
-		lineNumber = 1109;
-		modificationTime = 206027852.242923;
+		hitCount = 0;
+		lineNumber = 1112;
+		modificationTime = 211294348.934852;
 		state = 1;
 	};
-	C7B2B3AE0C1EEF7600796697 /* JKStatisticsWindowController.m:1751 */ = {
+	C7B2B3AE0C1EEF7600796697 /* JKStatisticsWindowController.m:1754 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
 		fileReference = C785905509541F250083EC22 /* JKStatisticsWindowController.m */;
 		functionName = "-searchMissingPeaks:";
-		hitCount = 1;
-		lineNumber = 1751;
-		modificationTime = 206027852.243517;
+		hitCount = 0;
+		lineNumber = 1754;
+		modificationTime = 211294348.943451;
 		state = 1;
 	};
 	C7BC505109A62C930093106E /* JKLog.h */ = {
@@ -1535,8 +1238,9 @@
 	};
 	C7C299880B8B48CC0017B2B2 /* ArrayEncodingObject.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {899, 491}}";
-			sepNavSelRange = "{0, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {952, 532}}";
+			sepNavSelRange = "{169, 1}";
+			sepNavVisRange = "{0, 324}";
 			sepNavVisRect = "{{0, 0}, {899, 491}}";
 		};
 	};
@@ -1564,16 +1268,16 @@
 	};
 	C7C29ABB0B8B67530017B2B2 /* NSCoder+CArrayEncoding.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {899, 491}}";
-			sepNavSelRange = "{8, 0}";
-			sepNavVisRect = "{{0, 0}, {899, 491}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 553}}";
+			sepNavSelRange = "{1137, 0}";
+			sepNavVisRect = "{{0, 0}, {966, 553}}";
 		};
 	};
 	C7C29ABC0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {962, 1190}}";
-			sepNavSelRange = "{14, 0}";
-			sepNavVisRect = "{{0, 0}, {962, 491}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 1190}}";
+			sepNavSelRange = "{181, 0}";
+			sepNavVisRect = "{{0, 28}, {966, 553}}";
 		};
 	};
 	C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */ = {
@@ -1636,10 +1340,11 @@
 		isa = PBXSymbolicBreakpoint;
 		actions = (
 		);
+		breakpointStyle = 0;
 		continueAfterActions = 0;
 		delayBeforeContinue = 0;
-		hitCount = 1;
-		modificationTime = 206027846.695298;
+		hitCount = 0;
+		modificationTime = 211121142.240203;
 		state = 2;
 		symbolName = "[NSException raise]";
 	};
@@ -1685,6 +1390,8 @@
 		};
 		sourceDirectories = (
 		);
+		variableFormatDictionary = {
+		};
 	};
 	C7EB17A40898CF22007FC2ED /* Source Control */ = {
 		isa = PBXSourceControlManager;
@@ -1768,9 +1475,9 @@
 	};
 	C7EB17CF0898CF2E007FC2ED /* JKAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1051, 10290}}";
-			sepNavSelRange = "{29982, 0}";
-			sepNavVisRect = "{{0, 8158}, {1051, 620}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 10332}}";
+			sepNavSelRange = "{7508, 0}";
+			sepNavVisRect = "{{0, 1491}, {966, 551}}";
 			sepNavWindowFrame = "{{15, 66}, {950, 820}}";
 		};
 	};
@@ -1783,9 +1490,9 @@
 	};
 	C7EB17D50898CF2E007FC2ED /* JKLibrary.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1051, 7896}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 7924}}";
 			sepNavSelRange = "{20060, 54}";
-			sepNavVisRect = "{{0, 6081}, {1051, 633}}";
+			sepNavVisRect = "{{0, 6163}, {966, 551}}";
 			sepNavWindowFrame = "{{15, 11}, {801, 816}}";
 		};
 	};
@@ -1799,9 +1506,9 @@
 	};
 	C7EB17D90898CF2E007FC2ED /* JKLibraryWindowController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {899, 2548}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 2548}}";
 			sepNavSelRange = "{4648, 0}";
-			sepNavVisRect = "{{0, 1274}, {899, 491}}";
+			sepNavVisRect = "{{0, 1274}, {966, 551}}";
 			sepNavWindowFrame = "{{371, 11}, {801, 816}}";
 		};
 	};
@@ -1847,9 +1554,9 @@
 	};
 	C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1050, 13496}}";
-			sepNavSelRange = "{19418, 0}";
-			sepNavVisRect = "{{0, 6148}, {1050, 626}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 13552}}";
+			sepNavSelRange = "{18035, 0}";
+			sepNavVisRect = "{{0, 5723}, {966, 553}}";
 			sepNavWindowFrame = "{{355, 16}, {801, 816}}";
 		};
 	};
@@ -1862,9 +1569,9 @@
 	};
 	C7EB17E90898CF2F007FC2ED /* JKPreferencesWindowController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {899, 2744}}";
-			sepNavSelRange = "{2456, 0}";
-			sepNavVisRect = "{{0, 251}, {899, 491}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 2772}}";
+			sepNavSelRange = "{2023, 102}";
+			sepNavVisRect = "{{0, 586}, {966, 551}}";
 			sepNavWindowFrame = "{{15, 7}, {950, 820}}";
 		};
 	};
@@ -1916,17 +1623,17 @@
 	};
 	C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {899, 1750}}";
-			sepNavSelRange = "{97, 0}";
-			sepNavVisRect = "{{0, 27}, {899, 491}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 1750}}";
+			sepNavSelRange = "{1144, 0}";
+			sepNavVisRect = "{{0, 266}, {966, 553}}";
 			sepNavWindowFrame = "{{583, 0}, {782, 832}}";
 		};
 	};
 	C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {899, 8568}}";
-			sepNavSelRange = "{17748, 36}";
-			sepNavVisRect = "{{0, 6644}, {899, 521}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 8778}}";
+			sepNavSelRange = "{9720, 86}";
+			sepNavVisRect = "{{0, 3780}, {966, 551}}";
 			sepNavWindowFrame = "{{15, 11}, {801, 816}}";
 		};
 	};
@@ -1940,9 +1647,9 @@
 	};
 	C7EB17F80898CFBC007FC2ED /* MyGraphView.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1051, 39788}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 39928}}";
 			sepNavSelRange = "{58260, 0}";
-			sepNavVisRect = "{{0, 17381}, {1051, 620}}";
+			sepNavVisRect = "{{0, 16451}, {966, 551}}";
 			sepNavWindowFrame = "{{37, 16}, {801, 816}}";
 		};
 	};
@@ -1985,9 +1692,9 @@
 	};
 	C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {899, 1316}}";
-			sepNavSelRange = "{2908, 31}";
-			sepNavVisRect = "{{0, 811}, {899, 491}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 1316}}";
+			sepNavSelRange = "{177, 0}";
+			sepNavVisRect = "{{0, 0}, {966, 551}}";
 		};
 	};
 	C7F5E8F308EAA98600AC1068 /* JKManagedLibraryEntry.h */ = {

@@ -112,6 +112,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     // Additions for Peacock
     [defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"shouldDrawBaseline"];
     [defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"shouldDrawPeaks"];
+	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"drawLabelsAlways"];
     
     
 	// Hidden preference for logging verbosity

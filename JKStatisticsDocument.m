@@ -32,6 +32,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         numberOfFactors = 4;
         scores = 1;
         rotation = 1;
+        groupSymbols = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"groupSymbols"];
         [[self undoManager] disableUndoRegistration];
         [self setPrintInfo:[NSPrintInfo sharedPrintInfo]];
         [[self printInfo] setOrientation:NSLandscapeOrientation];
@@ -244,7 +245,6 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
 
 - (void)setUniqueSymbols 
 {
-    NSMutableString *outStr = [[NSMutableString alloc] init]; 
     int j;
     int compoundCount;
     NSNumber *countForGroup;
@@ -262,46 +262,55 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
     
     compoundCount = [peaks count];
     
-    [outStr appendString:@"Sample"];
-    
-    // Compound symbol
-    for (j=0; j < compoundCount; j++) {
-        compound = [peaks objectAtIndex:j];
-        // ensure symbol is set
-        if (![compound group] || [[compound group] isEqualToString:@""]) {
-            [compound setGroup:@"X"];
-        }
-        if (([compound symbol]) && (![[compound symbol] isEqualToString:@""]) && ([uniqueSymbolArray indexOfObjectIdenticalTo:[compound symbol]] == NSNotFound)) {
-            [compound setSymbol:[compound symbol]];
-            [uniqueSymbolArray addObject:[compound symbol]];
-            continue;
-        }
-        // replace odd characters
-        // ensure symbol starts with letter
-//        if ([[compound group] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location == 0) {
-//            NSString *newGroup = [NSString stringWithFormat:@"X%@", [compound group]];
-//            [compound setGroup:newGroup];
-//        }
-        // get countForSymbol 
-        countForGroup = [uniqueDict valueForKey:[compound group]];
-        if (!countForGroup) {
-            countForGroup = [NSNumber numberWithInt:1];
-        } else if (countForGroup) {
-            countForGroup = [NSNumber numberWithInt:[countForGroup intValue]+1];
-        }
-        [uniqueDict setValue:countForGroup forKey:[compound group]];
-        if ([[[compound group] substringFromIndex:[[compound group] length]-1] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].length == 1) { // group ends with a number
-            if ([countForGroup intValue] == 1) {
-                [compound setSymbol:[NSString stringWithFormat:@"%@", [compound group]]];              
-            } else {
-                [compound setSymbol:[NSString stringWithFormat:@"%@-%d", [compound group], [countForGroup intValue]]];            
+    if (groupSymbols) {
+        // Compound symbol
+        for (j=0; j < compoundCount; j++) {
+            compound = [peaks objectAtIndex:j];
+            // ensure symbol is set
+            if (![compound group] || [[compound group] isEqualToString:@""]) {
+                [compound setGroup:@"X"];
             }
-        } else {
-            // must be unique (note that a few cases are missed here, e.g. when a group is named X (and gets count 11 and another X1 and gets count 1)
-            [compound setSymbol:[NSString stringWithFormat:@"%@%d", [compound group], [countForGroup intValue]]];            
+            if (([compound symbol]) && (![[compound symbol] isEqualToString:@""]) && ([uniqueSymbolArray indexOfObjectIdenticalTo:[compound symbol]] == NSNotFound)) {
+                [compound setSymbol:[compound symbol]];
+                [uniqueSymbolArray addObject:[compound symbol]];
+                continue;
+            }
+            // replace odd characters
+            // ensure symbol starts with letter
+            //        if ([[compound group] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location == 0) {
+            //            NSString *newGroup = [NSString stringWithFormat:@"X%@", [compound group]];
+            //            [compound setGroup:newGroup];
+            //        }
+            // get countForSymbol 
+            countForGroup = [uniqueDict valueForKey:[compound group]];
+            if (!countForGroup) {
+                countForGroup = [NSNumber numberWithInt:1];
+            } else if (countForGroup) {
+                countForGroup = [NSNumber numberWithInt:[countForGroup intValue]+1];
+            }
+            [uniqueDict setValue:countForGroup forKey:[compound group]];
+            if ([[[compound group] substringFromIndex:[[compound group] length]-1] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].length == 1) { // group ends with a number
+                if ([countForGroup intValue] == 1) {
+                    [compound setSymbol:[NSString stringWithFormat:@"%@", [compound group]]];              
+                } else {
+                    [compound setSymbol:[NSString stringWithFormat:@"%@-%d", [compound group], [countForGroup intValue]]];            
+                }
+            } else {
+                // must be unique (note that a few cases are missed here, e.g. when a group is named X (and gets count 11 and another X1 and gets count 1)
+                [compound setSymbol:[NSString stringWithFormat:@"%@%d", [compound group], [countForGroup intValue]]];            
         }
-        [uniqueSymbolArray addObject:[compound symbol]];
+            [uniqueSymbolArray addObject:[compound symbol]];
+        }
+        
+    } else {
+        // Compound symbol
+        for (j=0; j < compoundCount; j++) {
+            compound = [peaks objectAtIndex:j];
+            [compound setSymbol:[NSString stringWithFormat:@"%d", j+1]];            
+        }
     }
+        
+    
 }
 
 - (NSString *)exportForFactorAnalysis
@@ -463,7 +472,9 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         NSRunAlertPanel(@"Factor Analysis Failed",@"The factor analysis could not be run successfully.",@"OK",nil,nil);    
         return NO;
     }
-    
+
+    NSRunAlertPanel(@"Factor Analysis Paused",@"You can now edit the factor analysis results before they get load back into Peacock.",@"Continue",nil,nil);    
+
     // Read Loadings
     if ([fileManager fileExistsAtPath:[tempDir stringByAppendingPathComponent:@"loadings.csv"]]) {
         NSMutableArray *loadings = [NSMutableArray array];
@@ -489,7 +500,10 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
                 }
                 [loadings addObject:loading];
             }
-            
+//            if ([[[self statisticsWindowController] combinedPeaks] count] != linesCount-1) {
+//                JKLogWarning(@"There might be a mismatch between loadings and metadata!");
+//            }
+//            
             MyGraphDataSerie *loadingsDataSerie = [[MyGraphDataSerie alloc] init];
             [loadingsDataSerie setKeyForLabel:[keyArray objectAtIndex:0]];
             [loadingsDataSerie setAcceptableKeysForLabel:[NSArray arrayWithObject:[keyArray objectAtIndex:0]]];
@@ -531,12 +545,20 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
                 for (j=1; j < keyCount; j++) {
                     [score setValue:[NSNumber numberWithFloat:[[lineArray objectAtIndex:j] floatValue]] forKey:[keyArray objectAtIndex:j]];
                 }
+                [score setValue:[[[[self statisticsWindowController] metadata] objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",i-1]] forKey:@"Sample Code"];
+                [score setValue:[[[[self statisticsWindowController] metadata] objectAtIndex:1] valueForKey:[NSString stringWithFormat:@"file_%d",i-1]] forKey:@"Sample Description"];
+                [score setValue:[[[[self statisticsWindowController] metadata] objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",i-1]] forKey:@"Path"];
+                [score setValue:[[[[self statisticsWindowController] metadata] objectAtIndex:3] valueForKey:[NSString stringWithFormat:@"file_%d",i-1]] forKey:@"Filename"];
                 [scores addObject:score];
+            }
+
+            if ([[[self statisticsWindowController] files] count] != linesCount-1) {
+                JKLogWarning(@"There might be a mismatch between scores and metadata!");
             }
             
             MyGraphDataSerie *scoresDataSerie = [[MyGraphDataSerie alloc] init];
             [scoresDataSerie setKeyForLabel:[keyArray objectAtIndex:0]];
-            [scoresDataSerie setAcceptableKeysForLabel:[NSArray arrayWithObject:[keyArray objectAtIndex:0]]];
+            [scoresDataSerie setAcceptableKeysForLabel:[NSArray arrayWithObjects:[keyArray objectAtIndex:0],@"Sample Code", @"Sample Description", @"Path", @"Filename",nil]];
             [scoresDataSerie setKeyForXValue:[keyArray objectAtIndex:1]];
             [scoresDataSerie setKeyForYValue:[keyArray objectAtIndex:2]];
             [scoresDataSerie setAcceptableKeysForXValue:[keyArray objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1,[keyArray count]-1)]]];

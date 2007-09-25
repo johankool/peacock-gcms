@@ -270,6 +270,11 @@ static void *ArrayObservationContext = (void *)1092;
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
 	int i,j;
 	BOOL drawLabel;
+//    NSLog([[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"drawLabelsAlways"]);
+    BOOL drawLabelAlways = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"drawLabelsAlways"] intValue];
+//    if (drawLabelAlways) {
+//        JKLogInfo(@"Will draw labels always");
+//    }
 	NSSize stringSize;
 	NSPoint pointToDraw;
 //	NSString *formatString = @"%.f";
@@ -286,6 +291,11 @@ static void *ArrayObservationContext = (void *)1092;
 	// It is more important to label the higher intensities.
 	for (i=0; i<count; i++) {
         id label =[[[self dataArray] objectAtIndex:i] valueForKey:keyForLabel];
+//       NSLog([label description]);
+        if (!label) {
+            JKLogWarning(@"No label");
+            continue;
+        }
         if ([label respondsToSelector:@selector(stringValue)]) {
             string = [[NSMutableAttributedString alloc] initWithString:[label stringValue] attributes:attrs];          
         } else {
@@ -307,31 +317,35 @@ static void *ArrayObservationContext = (void *)1092;
 		
 		// Only draw label if it doesn't run over another one
 		drawLabel = YES;
-		for (j = 0; j < rectCount; j++) {
-			if (NSIntersectsRect(labelRect,rects[j])) {
-				drawLabel = NO;
-			}
-		}
-        if (!drawLabel && seriesType == 0) {
-            if ([[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue] >= 0.0 ){
-                pointToDraw.y = pointToDraw.y - stringSize.height - 4;
-            } else {
-                pointToDraw.y = pointToDraw.y + 4;
-            }		
-            
-            labelRect = NSMakeRect(pointToDraw.x,pointToDraw.y,stringSize.width,stringSize.height); // The rect for the label to draw
-            
-            // Only draw label if it doesn't run over another one
-            drawLabel = YES;
+        if (!drawLabelAlways) {
             for (j = 0; j < rectCount; j++) {
                 if (NSIntersectsRect(labelRect,rects[j])) {
                     drawLabel = NO;
                 }
             }            
+        
+            if (!drawLabel && seriesType == 0) {
+                if ([[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue] >= 0.0 ){
+                    pointToDraw.y = pointToDraw.y - stringSize.height - 4;
+                } else {
+                    pointToDraw.y = pointToDraw.y + 4;
+                }		
+                
+                labelRect = NSMakeRect(pointToDraw.x,pointToDraw.y,stringSize.width,stringSize.height); // The rect for the label to draw
+                
+                // Only draw label if it doesn't run over another one
+                drawLabel = YES;
+                if (!drawLabelAlways) {
+                    for (j = 0; j < rectCount; j++) {
+                        if (NSIntersectsRect(labelRect,rects[j])) {
+                            drawLabel = NO;
+                        }
+                    }     
+                }
+            }
         }
 		if (drawLabel) {
 			[string drawAtPoint:pointToDraw];
-			[string release];
 			rects[i] = labelRect;		
 		} else {
 			// Try to see if we can draw the label if we move it to the left and up
@@ -339,6 +353,8 @@ static void *ArrayObservationContext = (void *)1092;
 			// Try to see if we can draw the label if we move it to the right and up
 			
 		}
+        [string release];
+
 	}
 }
 #pragma mark -
