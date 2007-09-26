@@ -1,0 +1,84 @@
+{
+    IBClasses = (
+        {CLASS = DeleteTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {
+            CLASS = FilteringDNDArrayController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {tableView = NSTableView; }; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = JKCombinedPeak; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                addButtonAction = id; 
+                cancelEditRatios = id; 
+                combinePeaksAction = id; 
+                editRatios = id; 
+                exportSummary = id; 
+                options = id; 
+                repopulate = id; 
+                repopulateContextMenuAction = id; 
+                runFactorAnalysis = id; 
+                runStatisticalAnalysisButtonAction = id; 
+                saveEditRatios = id; 
+                stopButtonAction = id; 
+                summarizeOptionsDoneAction = id; 
+                updateStatisticalAnalysisButtonAction = id; 
+            }; 
+            CLASS = JKStatisticsWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addButton = NSButton; 
+                altGraphView = MyGraphView; 
+                chromatogramDataSeriesController = NSArrayController; 
+                combinedPeaksController = NSArrayController; 
+                detailStatusTextField = NSTextField; 
+                doneButton = NSButton; 
+                fileProgressIndicator = NSProgressIndicator; 
+                fileStatusTextField = NSTextField; 
+                filesTableView = NSTableView; 
+                loadingsDataSeriesController = NSArrayController; 
+                loadingsGraphView = MyGraphView; 
+                metadataController = NSArrayController; 
+                metadataTable = NSTableView; 
+                metadataTableScrollView = NSScrollView; 
+                optionsSheet = NSWindow; 
+                peaksController = NSArrayController; 
+                printAccessoryView = NSView; 
+                progressSheet = NSWindow; 
+                ratiosController = NSArrayController; 
+                ratiosEditor = NSWindow; 
+                ratiosTable = NSTableView; 
+                ratiosTableScrollView = NSScrollView; 
+                ratiosValuesController = NSArrayController; 
+                resultsTable = NSTableView; 
+                resultsTableScrollView = NSScrollView; 
+                runBatchButton = NSButton; 
+                scoresDataSeriesController = NSArrayController; 
+                scoresGraphView = MyGraphView; 
+                searchOptionsButton = NSButton; 
+                splitView = RBSplitView; 
+                stopButton = NSButton; 
+                summarizeOptionsSheet = NSWindow; 
+                tabView = NSTabView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {centerOrigin = id; lowerLeftOrigin = id; showAll = id; squareAxes = id; }; 
+            CLASS = MyGraphView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {delegate = id; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {
+            ACTIONS = {reloadData = id; }; 
+            CLASS = NSTableView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSControl; 
+        }
+    ); 
+    IBVersion = 1; 
+}
