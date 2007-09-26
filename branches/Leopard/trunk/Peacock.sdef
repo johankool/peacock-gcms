@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<!-- This is a comment! -->
+<dictionary title="Peacock Dictionary">
+	<suite name="Peacock Suite" code="suit" description="Main suite.">
+		<cocoa name="MainSuite"/>
+		<class name="peak" code="peak" description="Peak" plural="peaks">
+			<cocoa class="JKPeakRecord"/>
+			<element description="Search results" type="search result">
+				<cocoa key="searchResults"/>
+				<accessor style="index"/>
+				<accessor style="id"/>
+				<accessor style="name"/>
+				<accessor style="range"/>
+				<accessor style="test"/>
+			</element>
+			<property name="start" code="strt" description="Start scan" type="integer">
+				<cocoa key="start"/>
+			</property>
+			<property name="top" code="topp" description="Top scan" type="integer">
+				<cocoa key="top"/>
+			</property>
+			<property name="end" code="endd" description="End scan" type="integer">
+				<cocoa key="end"/>
+			</property>
+			<property name="start time" code="stti" description="Start time" type="number">
+				<cocoa key="startTime"/>
+			</property>
+			<property name="top time" code="tpti" description="Top time" type="number">
+				<cocoa key="topTime"/>
+			</property>
+			<property name="end time" code="enti" description="End time" type="number">
+				<cocoa key="endTime"/>
+			</property>
+			<property name="spectrum" code="spct" type="spectrum">
+				<cocoa key="spectrum"/>
+			</property>
+		</class>
+		<class name="spectrum" code="spct" description="Spectrum" plural="spectra">
+			<cocoa class="JKSpectrum"/>
+		</class>
+		<class name="search result" code="srlt" description="A search result" plural="search results">
+			<cocoa class="NSMutableDictionary"/>
+			<property name="score" code="scor" description="Match factor" type="number" access="r">
+				<cocoa key="score"/>
+			</property>
+			<property name="library entry" code="libe" description="Library entry matched with the peak" type="library entry">
+				<cocoa key="libraryEntry"/>
+			</property>
+			<property name="delta retention index" code="dlri" description="Difference between retention index of peak and the library hit" type="number" access="r">
+				<cocoa key="deltaRetentionIndex"/>
+			</property>
+		</class>
+		<class name="chromatogram" code="chrm" description="Chromatogram" plural="chromatograms">
+			<cocoa class="JKChromatogram"/>
+			<element description="Peaks found in TIC chromatogram." type="peak">
+				<cocoa key="peaks"/>
+				<accessor style="index"/>
+				<accessor style="id"/>
+				<accessor style="name"/>
+				<accessor style="range"/>
+				<accessor style="test"/>
+			</element>
+			<responds-to name="identify peaks">
+				<cocoa method="identifyPeaks:"/>
+			</responds-to>
+			<responds-to name="identify baseline"/>
+			<responds-to name="identify compounds"/>
+		</class>
+		<class name="library entry" code="libe" plural="library entries">
+			<cocoa class="JKLibraryEntry"/>
+			<property name="CAS name" type="text">
+				<cocoa key="casName"/>
+			</property>
+			<property name="retention index" type="number">
+				<cocoa key="retentionIndex"/>
+			</property>
+			<property name="spectrum" type="spectrum">
+				<cocoa key="spectrum"/>
+			</property>
+		</class>
+		<class name="document" code="docu" plural="documents">
+			<cocoa class="JKGCMSDocument"/>
+			<element type="chromatogram">
+				<cocoa key="chromatograms"/>
+				<accessor style="index"/>
+				<accessor style="range"/>
+			</element>
+			<property name="sample code" type="text"/>
+			<property name="sample description" type="text"/>
+		</class>
+		<class name="library" code="libr" plural="libraries">
+			<cocoa class="JKLibrary"/>
+			<element type="library entry">
+				<cocoa key="entries"/>
+			</element>
+		</class>
+		<command name="identify baseline" code="idbl" description="Find the baseline in a chromatogram">
+			<cocoa name="identifyBaseline"/>
+		</command>
+		<command name="identify peaks" code="idpk" description="Find the peaks in a chromatogram."/>
+		<command name="identify compounds">
+			<result type="boolean"/>
+		</command>
+		<command name="exportChromatogramAsPDF" code="xpdf" description="Export the current chromatogram as PDF"/>
+	</suite>
+</dictionary>

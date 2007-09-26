@@ -1,0 +1,28 @@
+{
+    IBClasses = (
+        {
+            CLASS = CSnappingWindow; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {snappingInfoDelegate = id; }; 
+            SUPERCLASS = NSWindow; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {calculate = id; clear = id; }; 
+            CLASS = MWController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                contents = id; 
+                formula = id; 
+                lowerCase = id; 
+                panelWindow = id; 
+                status = id; 
+                statusIcon = id; 
+                weight = id; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+	<channel>
+	<title>Peacock Changelog</title>
+	<link>http://peacock.johankool.nl/</link>
+	<description>Most recent changes in Peacock with links to updates.</description>
+	<language>en</language>      
+		<item>
+			<title>Version 0.1.0</title>
+			<description>First public release.</description>
+			<pubDate>Thu, 19 Jan 2006 17:00:00 +0000</pubDate>
+			<enclosure url="http://www.geo.vu.nl/~jkool/peacock/releases/Peacock_0.1.0.tgz" length="557059" type="application/octet-stream"/>
+		</item>
+		<item>
+			<title>Version 0.1.1</title>
+			<description><![CDATA[ 
+			<p>Changes in this build:</p><ul>
+			<li>universal binary</li>
+			<li>temporarily disabled Growl and Smart Crash Reports</li>
+			<li>menus for Spectrum and Summary now functional</li>
+			<li>Summary tableviews have better synchronized scrolling</li>
+			<li>numerous other improvements</li>
+			</ul>
+
+			<p>Feedback is always welcome. This build is not tested on Intel-based Macs.</p>
+
+			]]></description>
+			<pubDate>Wed, 25 Jan 2006 19:00:00 +0000</pubDate>
+			<enclosure url="http://www.geo.vu.nl/~jkool/peacock/releases/Peacock_0.1.1.tgz" length="955684" type="application/octet-stream"/>
+		</item>
+		<item>
+			<title>Version 0.1.2</title>
+			<description><![CDATA[ 
+			<p>Changes in this build:</p><ul>
+			<li>re-enabled Growl</li>
+			<li>updated Sparkle (update checking engine)</li>
+			<li>using floats instead of doubles</li>
+			<li>changes to inspector</li>
+			<li>numerous other improvements</li>
+			</ul>
+
+			<p>Feedback is always welcome. This build is not tested on Intel-based Macs.</p>
+
+			]]></description>
+			<pubDate>Fri, 03 Mar 2006 18:00:00 +0000</pubDate>
+			<enclosure url="http://www.geo.vu.nl/~jkool/peacock/releases/Peacock_0.1.2.tgz" length="955684" type="application/octet-stream"/>
+		</item>
+		<item>
+			<title>Version 0.1.3</title>
+			<description><![CDATA[ 
+			<p>Changes in this build:</p><ul>
+			<li>statistical analysis</li>
+			<li>other improvements</li>
+			</ul>
+
+			<p>Feedback is always welcome. This build is not tested on Intel-based Macs.</p>
+
+			]]></description>
+			<pubDate>Fri, 17 Mar 2006 23:59:00 +0000</pubDate>
+			<enclosure url="http://www.geo.vu.nl/~jkool/peacock/releases/Peacock_0.1.3.dmg" length="1099011" type="application/octet-stream"/>
+		</item>
+		<item>
+			<title>Version 0.1.4</title>
+			<description><![CDATA[ 
+			<p>Changes in this build:</p><ul>
+			<li>much faster statistical analysis</li>
+			<li>other miscellaneous improvements</li>
+			</ul>
+
+			<p>Feedback is always welcome. This build works on Intel-based Macs too.</p>
+
+			]]></description>
+			<pubDate>Fri, 14 Apr 2006 23:59:00 +0000</pubDate>
+			<enclosure url="http://peacock.johankool.nl/releases/Peacock_0.1.4.dmg" length="990592" type="application/octet-stream"/>
+		</item>
+		<item>
+			<title>Version 0.1.5</title>
+			<description><![CDATA[ 
+			<p><b>Warning:</b></br />
+			The file format used to store search results has changed in this build. 
+			You will no longer be able to open Peacock files saved with earlier versions.</p>
+
+			<p>Changes in this build:</p><ul>
+			<li>restructured internals</li>
+			<li>file format changed</li>
+			<li>improved inspector</li>
+			<li>improved preferences</li>
+			<li>improved library editor</li>
+			<li>improved search algorithm</li>
+			<li>restructured menubar</li>
+			<li>other miscellaneous improvements</li>
+			</ul>
+			
+			<p>Feedback is always welcome.</p>
+			]]></description>
+			<pubDate>Mon, 22 May 2006 18:00:00 +0000</pubDate>
+			<enclosure url="http://peacock.johankool.nl/releases/Peacock_0.1.5.dmg" length="1081845" type="application/octet-stream"/>
+		</item>
+		<item>
+			<title>Version 0.1.6</title>
+			<description><![CDATA[ 
+			<p><b>Apology:</b></br />
+			The previous build (0.1.5) had a bug preventing opening saved files. The issue is resolved in this build.</p>
+	
+			<p><b>Warning:</b></br />
+			The file format has changed in this build. You will no longer be able to open Peacock files saved with earlier versions.</p>
+
+			<p>Changes in this build:</p><ul>
+			<li>opening and saving Peacock files</li>
+			<li>search algorithm</li>
+			<li>a few other miscellaneous improvements</li>
+			</ul>
+			
+			<p><b>Stay up-to-date:</b></br />
+			Feed back is always welcome. You can now also subscribe to a mailing list to stay up-to-date on the latest news regarding Peacock. More information on the website: <a href="http://peacock.johankool.nl">http://peacock.johankool.nl/</a>.
+			</p>			]]></description>
+			<pubDate>Wed, 24 May 2006 17:00:00 +0000</pubDate>
+			<enclosure url="http://peacock.johankool.nl/releases/Peacock_0.1.6.dmg" length="1019630" type="application/octet-stream"/>
+		</item>
+	</channel>
+</rss>
