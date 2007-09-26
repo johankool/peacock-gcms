@@ -1,0 +1,199 @@
+//
+//  PeacockSpectrumMatchPluginProtocol.h
+//
+//  Created by Alexander Griekspoor on Fri Jan 23 2007.
+//  Copyright (c) 2007 Mekentosj.com. All rights reserved.
+// 
+//  For use outside of the Peacock application structure, please contact
+//  feedback@mekentosj.com
+//  DO NOT REDISTRIBUTE WITHOUT ALL THE FILES THAT ARE CONTAINED IN THE PACKAGE THAT INCLUDED THIS FILE
+
+#import <Cocoa/Cocoa.h>
+
+/////////////////////////////////////////////////////////////
+/*  Importing records
+Peacock allows you through this protocol to write your own importer plugins.
+These can not only be used to import files but any kind of data from any source.
+It's important to note that the plugin's method performImportWithURLs: runs in 
+its own thread, although you normally would not have to worry about that, keep 
+in mind that if you do fancy stuff you use "performMethodOnMainThread: to prevent
+trouble. The plugin signals it's progress to the delegate using a number of delegate 
+methods. Make sure you ALWAYS call the delegate methods to signal your progress.
+A normal cycle of the plugin would be:
+
+Delegate -> Plugin		- (BOOL) readyToPerformMatch;						// Is the plugin Ready, if not importPreparationError is retrieved.
+
+Delegate -> Plugin		- (void) performMatchWithSpectra:(NSArray *)spectra;	// Delegate provides plugin with urls, initiates import.
+	
+		Delegate <- Plugin		- (void)didBeginMatch:(id)sender;				// Plugin informs delegate that it has started.
+
+		Delegate <- Plugin		- (void)didMatch:(NSNumber *)score;	// Plugin hands over found paper to delegate (optionally repeated).
+
+		Delegate <- Plugin		- (void)didEndMatch:(id)sender;				// Plugin signals it's done.
+
+Delegate -> Plugin		- (BOOL) successfulCompletion;						// Delegate asks plugin if success, if not importCompletionError is retrieved.
+
+Delegate -> Plugin		- (void) performCleanup;							// Allows the plugin to cleanup and reset for next import.
+
+
+*/
+
+/////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////
+/*  USING NSERRORS
+NSErrors are returned by two of the methods below in order to allow
+the main application to inform the user of problems that occur while 
+trying to use the plugin.  
+The domain should always be "Peacock Importer Error"
+
+The user dictionary should have two keys:
+"title" and "description".  By default, they will be used to create
+ the text of an informative dialog as: "title:  description"
+ So design your messages accordingly.  
+
+ PLEASE LOCALIZE YOUR MESSAGES WITHIN YOUR PLUGIN
+ Make sure the "title" and "description" keys are in an appropriate language by
+ the time the application gets the NSError.  This will allow the bundle to be
+ entirely self-contained.
+ Even if you don't know any other languages, provide the structure within your
+ plugin to allow others to do the localization.
+*/
+
+/////////////////////////////////////////////////////////////
+
+
+// THESE ARE METHODS THE PLUGIN DELEGATE IMPLEMENTS AND YOU SHOULD CALL
+
+@protocol PeacockImporterPluginDelegate <NSObject>
+
+// Signal the delegate that you started the import process
+// Allows the delegate to prepare the interface before displaying new data
+- (void)didBeginImport:(id)sender;	
+
+// Tell the delegate to create a new folder with name "name"
+// With level you indicate the hierarchy, use level 0 for "root" level
+// all objects you import after calling this method are added to the 
+// last created Group
+- (void)shouldCreateGroupWithName: (NSString *)name level: (int)level;
+
+// Provide here an autoreleased dictionary containing the results from your import. The structure of what this
+// dictionary should look like is shown above. Peacock will convert this dictionary in the corresponding model objects for you.
+// If you provide no or an empty dictionary Peacock will warn the user no records were imported. 
+// You can post the results one at the time or in batches or all at once. If you provide them all at once, return nil for
+// itemsToImport so that an indeterminate progressbar is shown.
+- (void)didImportObject:(NSDictionary *)dict;		
+
+// Signal the delegate that you are done. The delegate will inform how things went so be sure to set any errors and be ready
+// to answer didCompleteSuccessfully.
+- (void)didEndImport:(id)sender;					
+
+// Inform the delegate of a status change, use when statusString, importedItems or itemsToImport changes.
+// Status updates are automatically issued by calling any of the methods above
+- (void)updateStatus:(id)sender;
+
+@end
+
+
+
+// THESE ARE METHODS YOUR PLUGIN SHOULD IMPLEMENT
+
+@protocol  PeacockPluginProtocol
+
+// gives you a handle to the delegate object to which you deliver results and notify progress (see above)
+// do not retain the delegate
+- (id)delegate;
+- (void)setDelegate: (id)del;
+
+- (BOOL)containsPeakIdentificationMethod;
+- (NSString *)peakIdentificationMethod;
+- (BOOL)containsBaselineIdentificationMethod;
+- (NSString *)baselineIdentificationMethod;
+- (BOOL)containsCompoundIdentificationMethod;
+- (NSString *)compoundIdentificationMethod;
+- (BOOL)containsSpectraScoringMethod;
+- (NSString *)spectraScoringMethod;
+
+// this should return an array of all menu items as strings.  Menu titles should be as descriptive as possible,
+// so that we don't have naming collisions.
+- (NSArray *) menuTitles;
+
+// if your plugin works with files return YES, Peacock will run the open panel for you (with the
+// indicated allowedFileTypes and accessoryView if required.
+// 
+// NOTE: that your plugin can import anything you like and doesn't have to start with a file. 
+// You can open a sheet, interact with a website, fetch data etc. Just return NO here in that case.
+- (BOOL) shouldShowOpenPanel;
+
+// if your plugin returns YES on the above method, you have to return the allowedFileTypes as well.
+- (NSArray *) allowedFileTypes;
+
+// indicate what can be selected. Return NO when you don't open a file.
+- (BOOL) canChooseFiles;
+- (BOOL) canChooseDirectories;
+- (BOOL) canChooseMultiple;
+
+
+// if you would like to customize the openpanel even further, set one up and return your own. 
+// Otherwise return nil for the default one.
+- (NSOpenPanel *) openPanel;
+
+// if you would like to show options while the open panel is shown, return a custom view here and it will
+// be used as accessoryView. Otherwise return nil.
+- (NSView *) accessoryView;
+	
+// Return YES if you need an active internet connection in order to import your objects. 
+// If you return YES, Peacock will check whether a connection is available.
+- (BOOL)requiresInternetConnection;
+
+// a method to make sure everything's set to go before starting, do some setup or tests here if necessary.
+// and a method to find out what the problems are if things aren't set. See above for usage of errorCodes.
+- (BOOL) readyToPerformImport;
+- (NSError *) importPreparationError;
+
+
+// Return YES if you support cancelling the current import session (strongly advised).
+- (BOOL)canCancelImport;
+
+// Return YES if imported results should be linked to existing objects as much as possible (like authors). Returning NO might 
+// result in duplicates
+- (BOOL)shouldMerge;
+
+// Return YES if imported results should overwrite existing fields during a merge. For instance you are importing an author already 
+// present in the library with a different email address.
+- (BOOL)shouldOverwrite;
+
+
+// this method is the main worker method and launches the import process, here you are handed over
+// the URLs that were selected in the open panel, this array can be empty or nil if you return NO
+// to shouldShowOpenPanel, in case you want to ignore this argument anyway.
+// NOTE that this method runs in a separate thread. Signal your progress to the delegate.
+- (void) performImportWithURLs: (NSArray *)urls;
+
+// informs us that we should stop importing. Since we're running in a thread we should check regularly
+// if we have been cancelled
+- (void) cancelImport;
+
+
+// return the number of items you found and are about to import. As long as this value is nil an indeterminate
+// progress bar is shown, the moment you return a non-nil value for both the progress will be shown to the user. 
+// use in combination with the delegate method updateStatus: to push changes to the delegate and force an update.
+- (NSNumber *)itemsToImport;
+- (NSNumber *)importedItems;
+
+// return the current status of your plugin to inform the user. make sure these strings are localizable!
+// use in combination with the delegate method updateStatus: to push changes to the delegate and force an update.
+- (NSString *)statusString;
+
+
+// A method to check whether the import finished properly
+// and one to get at any errors that resulted. See above for usage of errorCodes.
+- (BOOL) successfulCompletion;
+- (NSError *) importCompletionError;
+
+// let the plugin get rid of any data that needs to be reset for a new import.
+- (void) performCleanup;
+
+@end
+
