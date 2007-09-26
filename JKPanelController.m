@@ -10,7 +10,7 @@
 
 #import "JKGCMSDocument.h"
 #import "JKStatisticsDocument.h"
-#import "MyGraphView.h"
+#import "PKGraphView.h"
 #import "netcdf.h"
 #import "FontNameToDisplayNameTransformer.h"
 
@@ -174,7 +174,7 @@ static JKPanelController *theSharedController;
     }  else {
 		[self setInspectedDocument:nil];
 	}
-    if ([[[aNotification object] firstResponder] isKindOfClass:[MyGraphView class]]) {
+    if ([[[aNotification object] firstResponder] isKindOfClass:[PKGraphView class]]) {
         [self setInspectedGraphView:[[aNotification object] firstResponder]];
     } else {
         [self setInspectedGraphView:nil];
@@ -193,7 +193,7 @@ static JKPanelController *theSharedController;
 } 
 
 - (void)plotViewDidBecomeFirstResponderNotification:(NSNotification *)aNotification {
-	if ([[aNotification object] isKindOfClass:[MyGraphView class]]) {
+	if ([[aNotification object] isKindOfClass:[PKGraphView class]]) {
 		if ([aNotification object] != inspectedGraphView) {
 			[self setInspectedGraphView:[aNotification object]];
 		}        
@@ -352,4 +352,19 @@ static JKPanelController *theSharedController;
 //idAccessor(inspectedDocument, setInspectedDocument)
 //idAccessor(inspectedGraphView, setInspectedGraphView)
 
+@synthesize inspectedDocumentController;
+@synthesize yAxisTextField;
+@synthesize subTitleTextField;
+@synthesize titleTextField;
+@synthesize xAxisTextField;
+@synthesize naPanelView;
+@synthesize displayPanelView;
+@synthesize processingPanelView;
+@synthesize axesLabelFontButton;
+@synthesize libraryPopUpButton;
+@synthesize infoTableView;
+@synthesize labelFontButton;
+@synthesize viewPanelView;
+@synthesize infoPanelView;
+@synthesize legendFontButton;
 @end

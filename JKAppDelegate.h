@@ -14,7 +14,7 @@
 @class JKLibrary;
 @class JKLibraryEntry;
 @class JKManagedLibraryEntry;
-@class JKPeakRecord;
+@class PKPeak;
 
 #import <Growl/GrowlApplicationBridge.h>
 
@@ -50,7 +50,7 @@
 - (JKLibrary *)libraryForConfiguration:(NSString *)libraryConfiguration;
 - (void)loadLibraryForConfiguration:(NSString *)configuration;
 - (BOOL)shouldLoadLibrary:(NSString *)fileName forConfiguration:(NSString *)configuration;
-- (JKManagedLibraryEntry *)addLibraryEntryBasedOnPeak:(JKPeakRecord *)aPeak;
+- (JKManagedLibraryEntry *)addLibraryEntryBasedOnPeak:(PKPeak *)aPeak;
 - (JKLibraryEntry *)libraryEntryForName:(NSString *)compoundString;
 
 - (NSArray *)autocompleteEntries;
@@ -60,4 +60,15 @@
 #pragma mark GROWL SUPPORT
 - (NSDictionary *)registrationDictionaryForGrowl;
 
+@property (retain) MWController *mwWindowController;
+@property (retain,getter=library) JKLibrary *library;
+@property (retain) NSMenu *showPresetMenu;
+@property (retain) JKBatchProcessWindowController *batchProcessWindowController;
+@property (retain) NSMenu *removeChromatogramMenu;
+@property (retain) NSString *libraryConfigurationLoaded;
+@property (retain) NSTableView *documentListTableView;
+@property (retain) NSPanel *documentListPanel;
+@property (retain) NSWindow *welcomeWindow;
+@property (retain) NSWindowController *preferencesWindowController;
+@property (retain) NSMenu *viewColumnsMenu;
 @end

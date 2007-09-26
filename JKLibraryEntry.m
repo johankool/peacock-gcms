@@ -467,7 +467,7 @@
     } else {
         [outStr appendFormat:@"##TITLE= %@\r\n", [self name]];	        
     }
-	[outStr appendString:@"##JCAMP-DX= 4.24 $$ Peacock 0.24\r\n"];	
+	[outStr appendString:@"##JCAMP-DX= 4.24 $$ Peacock 0.50\r\n"];	
 	[outStr appendString:@"##DATA TYPE= MASS SPECTRUM\r\n"];	
 	[outStr appendString:@"##DATA CLASS= PEAK TABLE\r\n"];	
 	if ([[self CASNumber] isNotEqualTo:@""]) {
@@ -613,10 +613,9 @@ idAccessor(library, setLibrary)
 - (BOOL)isCompound:(NSString *)compoundString
 {
     NSArray *synonymsArray = [self synonymsArray];
-    NSEnumerator *synonymsEnumerator = [synonymsArray objectEnumerator];
     NSString *synonym;
     
-    while ((synonym = [synonymsEnumerator nextObject]) != nil) {
+    for (synonym in synonymsArray) {
         if ([synonym isEqualToString:compoundString]) {
             return YES;
         }

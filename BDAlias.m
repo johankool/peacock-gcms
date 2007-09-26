@@ -328,4 +328,5 @@ static CFStringRef FSRefToPathCopy(const FSRef *inRef){
 
 
 
+@synthesize _alias;
 @end

@@ -32,4 +32,11 @@
 
 - (BOOL)visibleColumnWithIdentifier:(id)identifier;
 */
+@property BOOL allowsRowDeletion;
+@property (retain) NSString * tableContentKey;
+@property BOOL allowsColumnHiding;
+@property (retain) NSTableView *rightSideTableView;
+@property (retain) NSArrayController	*tableContentController;
+@property (retain) NSMutableDictionary *columnVisibility;
+@property (retain) NSTableView *leftSideTableView;
 @end

@@ -185,19 +185,17 @@
 
 - (BOOL)exportJCAMPToFile:(NSString *)fileName {
 	NSMutableString *outStr = [[[NSMutableString alloc] init] autorelease]; 
-	int i;
     NSArray *libraryEntries = [self libraryEntries];
-	int count = [libraryEntries count];
 	
-	for (i=0; i < count; i++) {
-		[outStr appendString:[[libraryEntries objectAtIndex:i] jcampString]];
+	for (id loopItem in libraryEntries) {
+		[outStr appendString:[loopItem jcampString]];
 	}
 	
-	if ([outStr writeToFile:fileName atomically:NO encoding:NSASCIIStringEncoding error:nil]) {
+	if ([outStr writeToFile:fileName atomically:NO encoding:NSASCIIStringEncoding error:NULL]) {
 		return YES;
 	} else {
 		NSRunInformationalAlertPanel(NSLocalizedString(@"File saved using UTF-8 encoding",@""),NSLocalizedString(@"Probably non-ASCII characters are used in entries of the library. Peacock will save the library in UTF-8 encoding instead of the prescribed ASCII encoding. In order to use this library in other applications the non-ASCII characters should probably be removed.",@""),NSLocalizedString(@"OK",@""),nil,nil);
-		return [outStr writeToFile:fileName atomically:NO];		
+		return [outStr writeToFile:fileName atomically:NO encoding:NSUTF8StringEncoding error:NULL];		
 	}
 }
 
@@ -405,10 +403,9 @@
 {
     // Get search template
     NSArray *searchTemplates = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"searchTemplates"];
-    NSEnumerator *enumerator = [searchTemplates objectEnumerator];
     NSDictionary *searchTemplateDict;
     
-    while ((searchTemplateDict = [enumerator nextObject]) != nil) {
+    for (searchTemplateDict in searchTemplates) {
     	if ([[searchTemplateDict valueForKey:@"name"] isEqualToString:searchTemplateName]) {
             break;
         }
@@ -429,10 +426,9 @@
 {    
     // Get search template
     NSArray *searchTemplates = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"searchTemplates"];
-    NSEnumerator *enumerator = [searchTemplates objectEnumerator];
     NSDictionary *searchTemplate;
 
-    while ((searchTemplate = [enumerator nextObject]) != nil) {
+    for (searchTemplate in searchTemplates) {
     	if ([[searchTemplate valueForKey:@"name"] isEqualToString:searchTemplateName]) {
             break;
         }
@@ -540,4 +536,5 @@
 	return inError;
 }
 
+@synthesize libraryWindowController;
 @end

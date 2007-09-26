@@ -189,9 +189,8 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 - (NSString*)stringWithSavedState {
 	NSArray* subviews = [self subviews];
 	NSMutableString* result = [NSMutableString stringWithFormat:@"%d",[subviews count]];
-	NSEnumerator* enumerator = [subviews objectEnumerator];
 	RBSplitSubview* sub;
-	while ((sub = [enumerator nextObject])) {
+	for (sub in subviews) {
 		double size = [sub dimension];
 		if ([sub isCollapsed]) {
 			size = -size;
@@ -932,6 +931,13 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
     return self;
 }
 
+@synthesize isAdjusting;
+@synthesize isDragging;
+@synthesize autosaveName;
+@synthesize mustAdjust;
+@synthesize mustClearFractions;
+@synthesize dividers;
+@synthesize canSaveState;
 @end
 
 @implementation RBSplitView (RB___ViewAdditions)

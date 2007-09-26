@@ -146,6 +146,14 @@ typedef enum {
 // subclassing, if you need custom dividers.
 - (void)drawDivider:(NSImage*)anImage inRect:(NSRect)rect betweenView:(RBSplitSubview*)leading andView:(RBSplitSubview*)trailing;
 
+@property (getter=mustAdjust) BOOL mustAdjust;
+@property (assign,getter=delegate,setter=setDelegate:) id delegate;
+@property NSRect* dividers;
+@property (getter=isDragging) BOOL isDragging;
+@property (retain,getter=autosaveName) NSString* autosaveName;
+@property BOOL mustClearFractions;
+@property BOOL canSaveState;
+@property BOOL isAdjusting;
 @end
 
 // The following methods are optionally implemented by the delegate.

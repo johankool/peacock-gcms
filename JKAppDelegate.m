@@ -17,7 +17,9 @@
 #import "JKLibrary.h"
 #import "JKLibraryEntry.h"
 #import "JKManagedLibraryEntry.h"
-#import "JKPeakRecord.h"
+#import "PKPeak.h"
+#import "JKPreferencesWindowController.h"
+#import "JKBatchProcessWindowController.h"
 
 // Name of the application support folder
 static NSString * SUPPORT_FOLDER_NAME = @"Peacock";
@@ -166,7 +168,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
     // Delegate method per NSApplication to suppress or allow untitled window at launch.
-    return NO;
+    return YES;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {	
@@ -521,7 +523,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 {
     return [[NSArray arrayWithObject:NSLocalizedString(@"All",@"")] arrayByAddingObjectsFromArray:[availableDictionaries valueForKey:@"name"]];
 }
-- (JKManagedLibraryEntry *)addLibraryEntryBasedOnPeak:(JKPeakRecord *)aPeak
+- (JKManagedLibraryEntry *)addLibraryEntryBasedOnPeak:(PKPeak *)aPeak
 {
     NSString *path = nil;
     JKManagedLibraryEntry *libEntry = nil;
@@ -711,4 +713,15 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     }
 }
 
+@synthesize welcomeWindow;
+@synthesize removeChromatogramMenu;
+@synthesize batchProcessWindowController;
+@synthesize library;
+@synthesize mwWindowController;
+@synthesize viewColumnsMenu;
+@synthesize preferencesWindowController;
+@synthesize libraryConfigurationLoaded;
+@synthesize documentListTableView;
+@synthesize documentListPanel;
+@synthesize showPresetMenu;
 @end

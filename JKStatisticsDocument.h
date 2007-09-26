@@ -38,4 +38,11 @@
 - (void)setScores:(int)aScores;
 - (int)rotation;
 - (void)setRotation:(int)aRotation;
+@property (retain,getter=statisticsWindowController) JKStatisticsWindowController *statisticsWindowController;
+@property (getter=numberOfFactors,setter=setNumberOfFactors:) int numberOfFactors;
+@property (getter=rotation,setter=setRotation:) int rotation;
+@property BOOL groupSymbols;
+@property (retain) JKStatisticsPrintView *printView;
+@property (retain) NSDictionary *_documentProxy;
+@property (getter=scores,setter=setScores:) int scores;
 @end

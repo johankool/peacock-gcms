@@ -29,4 +29,9 @@
 - (NSRect)rectForScores;
 - (NSRect)rectForPeakTable:(int)page;
 - (int)pagesForPeakTable;
+@property (retain) NSImage* chromImage;
+@property (retain) NSImage* loadingsImage;
+@property (retain) NSImage* scoresImage;
+@property (retain) NSAttributedString *peakTable;
+@property (retain) JKStatisticsDocument *document;
 @end

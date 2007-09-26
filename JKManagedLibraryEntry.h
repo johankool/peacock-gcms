@@ -80,4 +80,5 @@
 - (int)numberOfPoints;
 - (void)setNumberOfPoints:(int)newnumberOfPoints;
 
+@property BOOL peakTableRead;
 @end

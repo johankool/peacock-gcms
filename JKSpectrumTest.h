@@ -20,4 +20,9 @@
     JKSpectrum *testSpectrum5;
 }
 
+@property (retain) JKSpectrum *testSpectrum5;
+@property (retain) JKSpectrum *testSpectrum1;
+@property (retain) JKSpectrum *testSpectrum3;
+@property (retain) JKSpectrum *testSpectrum2;
+@property (retain) JKSpectrum *testSpectrum4;
 @end

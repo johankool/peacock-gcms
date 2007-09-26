@@ -186,4 +186,11 @@
 - (void)setLibraryAlias:(BDAlias *)inValue {
 	[[[NSUserDefaultsController sharedUserDefaultsController] values] setValue:[inValue fullPath] forKey:@"libraryAlias"];
 }
+@synthesize generalPreferencesView;
+@synthesize preferencesList;
+@synthesize processingPreferencesView;
+@synthesize searchTemplatesPreferencesView;
+@synthesize displayPreferencesView;
+@synthesize presetsPreferencesView;
+@synthesize libraryPopUpButton;
 @end

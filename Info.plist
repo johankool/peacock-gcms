@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
+    		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>pkd</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Peacock Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<true/>
+			<key>NSDocumentClass</key>
+			<string>PKDocument</string>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>XML</string>
+		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
@@ -91,7 +107,7 @@
 			<true/>
 			<key>NSDocumentClass</key>
 			<string>JKGCMSDocument</string>
-			<key>NSExportableAs</key>
+			<key>NSExportableTypes</key>
 			<array>
 				<string>Tab Delimited Text File</string>
 			</array>
@@ -103,6 +119,7 @@
 				<string>nc</string>
 				<string>andi</string>
 				<string>aia</string>
+				<string>CDF</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>netcdf_document</string>
@@ -122,7 +139,7 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>JKGCMSDocument</string>
-			<key>NSExportableAs</key>
+			<key>NSExportableTypes</key>
 			<array>
 				<string>Peacock File</string>
 			</array>
@@ -185,7 +202,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.24</string>
+	<string>0.50</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -246,6 +263,29 @@
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Peacock Library File</string>
+			<key>UTTypeIconFile</key>
+			<string>library_document</string>
+			<key>UTTypeIdentifier</key>
+			<string>nl.johankool.peacocklibrary</string>
+			<key>UTTypeReferenceURL</key>
+			<string>http://peacock.johankool.nl/</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>peacock-library</string>
+				</array>
+				<key>public.mime-type</key>
+				<string>application/x-peacock-library</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
 				<string>public.content</string>
 			</array>
 			<key>UTTypeDescription</key>
@@ -294,7 +334,7 @@
 				<string>chemical/x-jcamp-dx</string>
 			</dict>
 		</dict>
-		<dict>
+<!--		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.data</string>
@@ -318,7 +358,7 @@
 				<key>public.mime-type</key>
 				<string>application/x-netcdf</string>
 			</dict>
-		</dict>
+		</dict> -->
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>

@@ -21,4 +21,5 @@
 - (void)setHidden:(BOOL)flag;
 
 
+@property (assign,getter=mainTableView,setter=setMainTableView:) AMRemovableColumnsTableView *mainTableView;
 @end

@@ -70,7 +70,7 @@ static void *PropertyObservationContext = (void *)1093;
 }
 
 #pragma mark DRAWING ROUTINES
-- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view {
+- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(PKGraphView *)view {
     _graphView = view;
 	NSBezierPath *bezierpath;
 	if (_needsReconstructingPlotPath) {
@@ -138,7 +138,7 @@ static void *PropertyObservationContext = (void *)1093;
     _needsReconstructingPlotPath = NO;
 }
 
-- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
+- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(PKGraphView *)view{
     _graphView = view;
     BOOL belowZero;
 	int count = [[self dataArray] count];

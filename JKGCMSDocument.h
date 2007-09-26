@@ -8,10 +8,10 @@
 
 @class BDAlias;
 @class ChromatogramGraphDataSerie;
-@class JKChromatogram;
+@class PKChromatogram;
 @class JKLibrarySearch;
 @class JKMainWindowController;
-@class JKPeakRecord;
+@class PKPeak;
 @class JKGCMSPrintView;
 @class JKSpectrum;
 @class SpectrumGraphDataSerie;
@@ -121,11 +121,11 @@ typedef enum {
 - (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms;
 - (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms withLibraryEntries:(NSArray *)libraryEntries maximumRetentionIndexDifference:(float)aMaximumRetentionIndexDifference;
 - (BOOL)performForwardSearchForChromatograms:(NSArray *)someChromatograms;
-- (BOOL)performForwardSearchLibraryForPeak:(JKPeakRecord *)aPeak;
+- (BOOL)performForwardSearchLibraryForPeak:(PKPeak *)aPeak;
 
 //- (BOOL)searchLibraryForAllPeaks:(id)sender;
 //- (void)addChromatogramForMass:(NSString *)inString;
-- (void)redistributedSearchResults:(JKPeakRecord *)originatingPeak;
+- (void)redistributedSearchResults:(PKPeak *)originatingPeak;
 - (float)retentionIndexForScan:(int)scan;
 - (NSComparisonResult)metadataCompare:(JKGCMSDocument *)otherDocument;
 
@@ -146,7 +146,7 @@ int intSort(id num1, id num2, void *context);
     @abstract   Returns the TIC chromatogram.
     @discussion This method returns a chromatogram where all ions are totalled together for each scan of the mass spectrometer.
  */
-- (JKChromatogram *)ticChromatogram;
+- (PKChromatogram *)ticChromatogram;
 
 /*!
     @method     
@@ -154,7 +154,7 @@ int intSort(id num1, id num2, void *context);
     @param      model   String containing the masses separated by a "+"- or a "-"-sign, eg. "55+57+63-66".
     @discussion This method returns a chromatogram where the specified ions are totalled together for each scan of the mass spectrometer.
 */
-- (JKChromatogram *)chromatogramForModel:(NSString *)model;
+- (PKChromatogram *)chromatogramForModel:(NSString *)model;
 
 /*!
     @method     
@@ -173,10 +173,10 @@ int intSort(id num1, id num2, void *context);
 - (int)nextPeakID;
 
 #pragma mark Doublures management
-- (BOOL)hasPeakConfirmedAs:(JKLibraryEntry *)libraryHit notBeing:(JKPeakRecord *)originatingPeak;
-- (BOOL)hasPeakAtTopScan:(int)topScan notBeing:(JKPeakRecord *)originatingPeak;
-- (void)unconfirmPeaksConfirmedAs:(JKLibraryEntry *)libraryHit notBeing:(JKPeakRecord *)originatingPeak;
-- (void)removePeaksAtTopScan:(int)topScan notBeing:(JKPeakRecord *)originatingPeak;
+- (BOOL)hasPeakConfirmedAs:(JKLibraryEntry *)libraryHit notBeing:(PKPeak *)originatingPeak;
+- (BOOL)hasPeakAtTopScan:(int)topScan notBeing:(PKPeak *)originatingPeak;
+- (void)unconfirmPeaksConfirmedAs:(JKLibraryEntry *)libraryHit notBeing:(PKPeak *)originatingPeak;
+- (void)removePeaksAtTopScan:(int)topScan notBeing:(PKPeak *)originatingPeak;
 #pragma mark -
 
 
@@ -196,12 +196,12 @@ int intSort(id num1, id num2, void *context);
 - (NSMutableArray *)chromatograms;
 - (void)setChromatograms:(NSMutableArray *)inValue;
 - (int)countOfChromatograms;
-- (JKChromatogram *)objectInChromatogramsAtIndex:(int)index;
-- (void)getChromatogram:(JKChromatogram **)someChromatograms range:(NSRange)inRange;
-- (void)insertObject:(JKChromatogram *)aChromatogram inChromatogramsAtIndex:(int)index;
+- (PKChromatogram *)objectInChromatogramsAtIndex:(int)index;
+- (void)getChromatogram:(PKChromatogram **)someChromatograms range:(NSRange)inRange;
+- (void)insertObject:(PKChromatogram *)aChromatogram inChromatogramsAtIndex:(int)index;
 - (void)removeObjectFromChromatogramsAtIndex:(int)index;
-- (void)replaceObjectInChromatogramsAtIndex:(int)index withObject:(JKChromatogram *)aChromatogram;
-- (BOOL)validateChromatogram:(JKChromatogram **)aChromatogram error:(NSError **)outError;
+- (void)replaceObjectInChromatogramsAtIndex:(int)index withObject:(PKChromatogram *)aChromatogram;
+- (BOOL)validateChromatogram:(PKChromatogram **)aChromatogram error:(NSError **)outError;
 
 //- (void)startObservingChromatogram:(JKChromatogram *)chromatogram;
 //- (void)stopObservingChromatogram:(JKChromatogram *)chromatogram;
@@ -245,4 +245,13 @@ idAccessor_h(minimumScannedMassRange, setMinimumScannedMassRange)
 idAccessor_h(maximumScannedMassRange, setMaximumScannedMassRange)
 idAccessor_h(maximumRetentionIndexDifference, setMaximumRetentionIndexDifference)
 
+@property (retain) NSDictionary *_documentProxy;
+@property (getter=abortAction,setter=setAbortAction:) BOOL abortAction;
+@property (getter=hasSpectra,setter=setHasSpectra:) BOOL hasSpectra;
+@property int _lastReturnedIndex;
+@property (getter=isBusy) BOOL _isBusy;
+@property (getter=ncid,setter=setNcid:) int ncid;
+@property (retain) NSFileWrapper *peacockFileWrapper;
+@property (retain) JKGCMSPrintView *printView;
+@property (retain) NSString *_remainingString;
 @end

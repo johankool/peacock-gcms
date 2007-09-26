@@ -69,4 +69,5 @@
 + (BDAlias *)aliasWithFSRef:(FSRef *)ref;
 + (BDAlias *)aliasWithFSRef:(FSRef *)ref relativeToFSRef:(FSRef *)relRef;
 
+@property (getter=alias) AliasHandle _alias;
 @end

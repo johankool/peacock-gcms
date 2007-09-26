@@ -13,3 +13,5 @@ void normalize(float *input, int count);
 //int jk_stats_float_minmax(float *min, float *max, float *data, const stride, const n);
 float jk_stats_float_min(float *data, int count);
 float jk_stats_float_max(float *data, int count);
+NSString *GetUUID(void);
+int intSort(id num1, id num2, void *context);

@@ -8,12 +8,12 @@
 
 #import "JKChromatogramTest.h"
 
-#import "JKPeakRecord.h"
+#import "PKPeak.h"
 
 @implementation JKChromatogramTest
 - (void)setUp {
     // Create data structures here.
-    testChromatogram = [[JKChromatogram alloc] init];
+    testChromatogram = [[PKChromatogram alloc] init];
 
     float times[10];
     float intensities[10];
@@ -84,7 +84,7 @@
 
 - (void)testCaseAddPeak {
     [testChromatogram obtainBaseline];
-    JKPeakRecord *peak = [testChromatogram peakFromScan:3 toScan:7];
+    PKPeak *peak = [testChromatogram peakFromScan:3 toScan:7];
     [testChromatogram insertObject:peak inPeaksAtIndex:0];
     unsigned int count= 1; // is expected value?
     STAssertEquals([[testChromatogram peaks] count], count, @"Number of baseline points");
@@ -101,4 +101,5 @@
 
 }
 
+@synthesize testChromatogram;
 @end

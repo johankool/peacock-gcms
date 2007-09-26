@@ -49,7 +49,7 @@
 		C71D9FCC099CD19D007EB10D /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C71D9FCB099CD19D007EB10D /* Growl.framework */; };
 		C71D9FE9099CD291007EB10D /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C71D9FCB099CD19D007EB10D /* Growl.framework */; };
 		C720AB8809EA7B6C007EF860 /* jk_statistics.h in Headers */ = {isa = PBXBuildFile; fileRef = C720AB8609EA7B6C007EF860 /* jk_statistics.h */; };
-		C720AB8909EA7B6C007EF860 /* jk_statistics.c in Sources */ = {isa = PBXBuildFile; fileRef = C720AB8709EA7B6C007EF860 /* jk_statistics.c */; };
+		C720AB8909EA7B6C007EF860 /* jk_statistics.m in Sources */ = {isa = PBXBuildFile; fileRef = C720AB8709EA7B6C007EF860 /* jk_statistics.m */; };
 		C729CAA90A4B45CD00FAB04F /* JKDataModelProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = C729CAA70A4B45CD00FAB04F /* JKDataModelProxy.h */; };
 		C729CAAA0A4B45CD00FAB04F /* JKDataModelProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */; };
 		C72C8509098BE83600CEF565 /* JKSpectrumTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C8508098BE83600CEF565 /* JKSpectrumTest.m */; };
@@ -78,6 +78,56 @@
 		C7696D720C2C1A26009A013E /* JKStatisticsPrintView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7696D6E0C2C1A25009A013E /* JKStatisticsPrintView.m */; };
 		C7713B36095029C200653D2A /* JKBatchProcess.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7713B35095029C200653D2A /* JKBatchProcess.nib */; };
 		C7713B430950368F00653D2A /* JKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */; };
+		C771FC830CA96348002F12FB /* PKDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC670CA96347002F12FB /* PKDocument.h */; };
+		C771FC840CA96348002F12FB /* PKDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC680CA96347002F12FB /* PKDocument.m */; };
+		C771FC850CA96348002F12FB /* PKMeasurement.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC690CA96347002F12FB /* PKMeasurement.h */; };
+		C771FC860CA96348002F12FB /* PKMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC6A0CA96347002F12FB /* PKMeasurement.m */; };
+		C771FC870CA96348002F12FB /* PKGCMSMeasurement.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC6B0CA96347002F12FB /* PKGCMSMeasurement.h */; };
+		C771FC880CA96348002F12FB /* PKGCMSMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC6C0CA96347002F12FB /* PKGCMSMeasurement.m */; };
+		C771FC8B0CA96348002F12FB /* PKTICChromatogram.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC6F0CA96347002F12FB /* PKTICChromatogram.h */; };
+		C771FC8C0CA96348002F12FB /* PKTICChromatogram.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC700CA96347002F12FB /* PKTICChromatogram.m */; };
+		C771FC8F0CA96348002F12FB /* PKSpectrum.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC730CA96347002F12FB /* PKSpectrum.h */; };
+		C771FC900CA96348002F12FB /* PKSpectrum.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC740CA96347002F12FB /* PKSpectrum.m */; };
+		C771FC910CA96348002F12FB /* PKSearchResult.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC750CA96347002F12FB /* PKSearchResult.h */; };
+		C771FC920CA96348002F12FB /* PKSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC760CA96347002F12FB /* PKSearchResult.m */; };
+		C771FC930CA96348002F12FB /* PKLibraryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC770CA96347002F12FB /* PKLibraryEntry.h */; };
+		C771FC940CA96348002F12FB /* PKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC780CA96347002F12FB /* PKLibraryEntry.m */; };
+		C771FC970CA96348002F12FB /* PKChromatogramView.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC7B0CA96347002F12FB /* PKChromatogramView.h */; };
+		C771FC980CA96348002F12FB /* PKChromatogramView.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC7C0CA96347002F12FB /* PKChromatogramView.m */; };
+		C771FC990CA96348002F12FB /* PKSpectrumView.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC7D0CA96347002F12FB /* PKSpectrumView.h */; };
+		C771FC9A0CA96348002F12FB /* PKSpectrumView.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC7E0CA96347002F12FB /* PKSpectrumView.m */; };
+		C771FC9B0CA96348002F12FB /* PKMainWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC7F0CA96347002F12FB /* PKMainWindowController.h */; };
+		C771FC9C0CA96348002F12FB /* PKMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC800CA96347002F12FB /* PKMainWindowController.m */; };
+		C771FC9D0CA96348002F12FB /* PKObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC810CA96347002F12FB /* PKObject.h */; };
+		C771FC9E0CA96348002F12FB /* PKObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC820CA96348002F12FB /* PKObject.m */; };
+		C771FC9F0CA96348002F12FB /* PKDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC670CA96347002F12FB /* PKDocument.h */; };
+		C771FCA00CA96348002F12FB /* PKDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC680CA96347002F12FB /* PKDocument.m */; };
+		C771FCA10CA96348002F12FB /* PKMeasurement.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC690CA96347002F12FB /* PKMeasurement.h */; };
+		C771FCA20CA96348002F12FB /* PKMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC6A0CA96347002F12FB /* PKMeasurement.m */; };
+		C771FCA30CA96348002F12FB /* PKGCMSMeasurement.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC6B0CA96347002F12FB /* PKGCMSMeasurement.h */; };
+		C771FCA40CA96348002F12FB /* PKGCMSMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC6C0CA96347002F12FB /* PKGCMSMeasurement.m */; };
+		C771FCA70CA96348002F12FB /* PKTICChromatogram.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC6F0CA96347002F12FB /* PKTICChromatogram.h */; };
+		C771FCA80CA96348002F12FB /* PKTICChromatogram.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC700CA96347002F12FB /* PKTICChromatogram.m */; };
+		C771FCAB0CA96348002F12FB /* PKSpectrum.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC730CA96347002F12FB /* PKSpectrum.h */; };
+		C771FCAC0CA96348002F12FB /* PKSpectrum.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC740CA96347002F12FB /* PKSpectrum.m */; };
+		C771FCAD0CA96348002F12FB /* PKSearchResult.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC750CA96347002F12FB /* PKSearchResult.h */; };
+		C771FCAE0CA96348002F12FB /* PKSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC760CA96347002F12FB /* PKSearchResult.m */; };
+		C771FCAF0CA96348002F12FB /* PKLibraryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC770CA96347002F12FB /* PKLibraryEntry.h */; };
+		C771FCB00CA96348002F12FB /* PKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC780CA96347002F12FB /* PKLibraryEntry.m */; };
+		C771FCB30CA96348002F12FB /* PKChromatogramView.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC7B0CA96347002F12FB /* PKChromatogramView.h */; };
+		C771FCB40CA96348002F12FB /* PKChromatogramView.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC7C0CA96347002F12FB /* PKChromatogramView.m */; };
+		C771FCB50CA96348002F12FB /* PKSpectrumView.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC7D0CA96347002F12FB /* PKSpectrumView.h */; };
+		C771FCB60CA96348002F12FB /* PKSpectrumView.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC7E0CA96347002F12FB /* PKSpectrumView.m */; };
+		C771FCB70CA96348002F12FB /* PKMainWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC7F0CA96347002F12FB /* PKMainWindowController.h */; };
+		C771FCB80CA96348002F12FB /* PKMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC800CA96347002F12FB /* PKMainWindowController.m */; };
+		C771FCB90CA96348002F12FB /* PKObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FC810CA96347002F12FB /* PKObject.h */; };
+		C771FCBA0CA96348002F12FB /* PKObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FC820CA96348002F12FB /* PKObject.m */; };
+		C771FCCF0CA9649A002F12FB /* PKDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = C771FCCE0CA9649A002F12FB /* PKDocument.nib */; };
+		C771FCD00CA9649A002F12FB /* PKDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = C771FCCE0CA9649A002F12FB /* PKDocument.nib */; };
+		C771FD970CA9ACFB002F12FB /* NSString+ModelCompare.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FD950CA9ACFB002F12FB /* NSString+ModelCompare.h */; };
+		C771FD980CA9ACFB002F12FB /* NSString+ModelCompare.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FD960CA9ACFB002F12FB /* NSString+ModelCompare.m */; };
+		C771FD990CA9ACFB002F12FB /* NSString+ModelCompare.h in Headers */ = {isa = PBXBuildFile; fileRef = C771FD950CA9ACFB002F12FB /* NSString+ModelCompare.h */; };
+		C771FD9A0CA9ACFB002F12FB /* NSString+ModelCompare.m in Sources */ = {isa = PBXBuildFile; fileRef = C771FD960CA9ACFB002F12FB /* NSString+ModelCompare.m */; };
 		C773669808E02D87002B72F1 /* ChromatogramGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */; };
 		C773669908E02D88002B72F1 /* SpectrumGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */; };
 		C7752C380B6778DA0010EE72 /* JKSearchResult.h in Headers */ = {isa = PBXBuildFile; fileRef = C7752C360B6778DA0010EE72 /* JKSearchResult.h */; };
@@ -134,7 +184,7 @@
 		C7A7BB5F0A9DE6E0005E3778 /* warning.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB520A9DE6E0005E3778 /* warning.tiff */; };
 		C7A7BB600A9DE6E0005E3778 /* layout.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB530A9DE6E0005E3778 /* layout.tiff */; };
 		C7A7BB610A9DE6E0005E3778 /* save_document.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB540A9DE6E0005E3778 /* save_document.tiff */; };
-		C7AD34C908AFA20800A0F4BE /* JKPeakRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */; };
+		C7AD34C908AFA20800A0F4BE /* PKPeak.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17E50898CF2F007FC2ED /* PKPeak.m */; };
 		C7ADC88A0BA05609007D9134 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C70DC019095B205500C2B386 /* Credits.rtf */; };
 		C7ADC88B0BA05609007D9134 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		C7ADC88C0BA05609007D9134 /* JKLibrary.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7EB17FA0898CFBC007FC2ED /* JKLibrary.nib */; };
@@ -177,7 +227,7 @@
 		C7ADC8B10BA05609007D9134 /* Identify Peaks.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A80ACAB30D00D4FCA4 /* Identify Peaks.tiff */; };
 		C7ADC8B20BA05609007D9134 /* Identify Baseline.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A90ACAB30D00D4FCA4 /* Identify Baseline.tiff */; };
 		C7ADC8B80BA05609007D9134 /* MyGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */; };
-		C7ADC8B90BA05609007D9134 /* MyGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */; };
+		C7ADC8B90BA05609007D9134 /* PKGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F80898CFBC007FC2ED /* PKGraphView.m */; };
 		C7ADC8BD0BA05609007D9134 /* JKAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17CF0898CF2E007FC2ED /* JKAppDelegate.m */; };
 		C7ADC8BE0BA05609007D9134 /* JKLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17D50898CF2E007FC2ED /* JKLibrary.m */; };
 		C7ADC8BF0BA05609007D9134 /* JKLibraryWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17D90898CF2E007FC2ED /* JKLibraryWindowController.m */; };
@@ -185,7 +235,7 @@
 		C7ADC8C10BA05609007D9134 /* JKPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */; };
 		C7ADC8C20BA05609007D9134 /* JKPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17E90898CF2F007FC2ED /* JKPreferencesWindowController.m */; };
 		C7ADC8C30BA05609007D9134 /* JKSpectrum.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */; };
-		C7ADC8C40BA05609007D9134 /* JKPeakRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */; };
+		C7ADC8C40BA05609007D9134 /* PKPeak.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17E50898CF2F007FC2ED /* PKPeak.m */; };
 		C7ADC8C50BA05609007D9134 /* FilteringDNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */; };
 		C7ADC8C60BA05609007D9134 /* ChromatogramGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */; };
 		C7ADC8C70BA05609007D9134 /* SpectrumGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */; };
@@ -196,7 +246,7 @@
 		C7ADC8CC0BA05609007D9134 /* JKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */; };
 		C7ADC8CD0BA05609007D9134 /* JKRatio.m in Sources */ = {isa = PBXBuildFile; fileRef = C70DB8EC09573BEA00C2B386 /* JKRatio.m */; };
 		C7ADC8CE0BA05609007D9134 /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
-		C7ADC8CF0BA05609007D9134 /* jk_statistics.c in Sources */ = {isa = PBXBuildFile; fileRef = C720AB8709EA7B6C007EF860 /* jk_statistics.c */; };
+		C7ADC8CF0BA05609007D9134 /* jk_statistics.m in Sources */ = {isa = PBXBuildFile; fileRef = C720AB8709EA7B6C007EF860 /* jk_statistics.m */; };
 		C7ADC8D00BA05609007D9134 /* JKGCMSDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */; };
 		C7ADC8D10BA05609007D9134 /* BDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E5B1D30A14934200BB2291 /* BDAlias.m */; };
 		C7ADC8D20BA05609007D9134 /* JKPathPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8973F0A188B0D00A65A24 /* JKPathPopUpButton.m */; };
@@ -210,7 +260,7 @@
 		C7ADC8DA0BA05609007D9134 /* NSTableView+Copying.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */; };
 		C7ADC8DB0BA05609007D9134 /* JKStatisticsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C785905509541F250083EC22 /* JKStatisticsWindowController.m */; };
 		C7ADC8DC0BA05609007D9134 /* JKStatisticsDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C78599A109CDBBAD00351C87 /* JKStatisticsDocument.m */; };
-		C7ADC8DD0BA05609007D9134 /* JKChromatogram.m in Sources */ = {isa = PBXBuildFile; fileRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */; };
+		C7ADC8DD0BA05609007D9134 /* PKChromatogram.m in Sources */ = {isa = PBXBuildFile; fileRef = C73290E10AD68F9800D95E36 /* PKChromatogram.m */; };
 		C7ADC8DE0BA05609007D9134 /* JKSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = C7752C370B6778DA0010EE72 /* JKSearchResult.m */; };
 		C7ADC8DF0BA05609007D9134 /* NSBezierPath+RoundRect.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */; };
 		C7ADC8E00BA05609007D9134 /* ArrayEncodingObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C299890B8B48CC0017B2B2 /* ArrayEncodingObject.m */; };
@@ -251,7 +301,7 @@
 		C7ADC9050BA05609007D9134 /* FontNameToDisplayNameTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */; };
 		C7ADC9060BA05609007D9134 /* MWController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D0550B11D9030046F994 /* MWController.h */; };
 		C7ADC9070BA05609007D9134 /* NSTableView+Copying.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */; };
-		C7ADC9080BA05609007D9134 /* JKChromatogram.h in Headers */ = {isa = PBXBuildFile; fileRef = C73290E00AD68F9800D95E36 /* JKChromatogram.h */; };
+		C7ADC9080BA05609007D9134 /* PKChromatogram.h in Headers */ = {isa = PBXBuildFile; fileRef = C73290E00AD68F9800D95E36 /* PKChromatogram.h */; };
 		C7ADC9090BA05609007D9134 /* JKSearchResult.h in Headers */ = {isa = PBXBuildFile; fileRef = C7752C360B6778DA0010EE72 /* JKSearchResult.h */; };
 		C7ADC90A0BA05609007D9134 /* NSBezierPath+RoundRect.h in Headers */ = {isa = PBXBuildFile; fileRef = C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */; };
 		C7ADC90B0BA05609007D9134 /* ArrayEncodingObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C299880B8B48CC0017B2B2 /* ArrayEncodingObject.h */; };
@@ -282,18 +332,18 @@
 		C7CFFC7A0BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */; };
 		C7D7D66A0B7203B0004ABEB5 /* NSBezierPath+RoundRect.h in Headers */ = {isa = PBXBuildFile; fileRef = C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */; };
 		C7D7D66B0B7203B0004ABEB5 /* NSBezierPath+RoundRect.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */; };
-		C7E25C060B387C0F00CD8D39 /* JKChromatogram.h in Headers */ = {isa = PBXBuildFile; fileRef = C73290E00AD68F9800D95E36 /* JKChromatogram.h */; };
-		C7E25C070B387C0F00CD8D39 /* JKChromatogram.m in Sources */ = {isa = PBXBuildFile; fileRef = C73290E10AD68F9800D95E36 /* JKChromatogram.m */; };
+		C7E25C060B387C0F00CD8D39 /* PKChromatogram.h in Headers */ = {isa = PBXBuildFile; fileRef = C73290E00AD68F9800D95E36 /* PKChromatogram.h */; };
+		C7E25C070B387C0F00CD8D39 /* PKChromatogram.m in Sources */ = {isa = PBXBuildFile; fileRef = C73290E10AD68F9800D95E36 /* PKChromatogram.m */; };
 		C7E5B1D70A14934200BB2291 /* BDAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E5B1D20A14934200BB2291 /* BDAlias.h */; };
 		C7E5B1D80A14934200BB2291 /* BDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E5B1D30A14934200BB2291 /* BDAlias.m */; };
-		C7E61F1A0BB2BC4800D9A636 /* JKModelObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E61F180BB2BC4700D9A636 /* JKModelObject.h */; };
-		C7E61F1B0BB2BC4800D9A636 /* JKModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E61F190BB2BC4800D9A636 /* JKModelObject.m */; };
-		C7E61F1C0BB2BC4800D9A636 /* JKModelObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E61F180BB2BC4700D9A636 /* JKModelObject.h */; };
-		C7E61F1D0BB2BC4900D9A636 /* JKModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E61F190BB2BC4800D9A636 /* JKModelObject.m */; };
+		C7E61F1A0BB2BC4800D9A636 /* PKModelObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E61F180BB2BC4700D9A636 /* PKModelObject.h */; };
+		C7E61F1B0BB2BC4800D9A636 /* PKModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E61F190BB2BC4800D9A636 /* PKModelObject.m */; };
+		C7E61F1C0BB2BC4800D9A636 /* PKModelObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E61F180BB2BC4700D9A636 /* PKModelObject.h */; };
+		C7E61F1D0BB2BC4900D9A636 /* PKModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E61F190BB2BC4800D9A636 /* PKModelObject.m */; };
 		C7EB18160898CFBD007FC2ED /* MolTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F00898CFBC007FC2ED /* MolTypes.c */; };
 		C7EB18170898CFBD007FC2ED /* MWController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F40898CFBC007FC2ED /* MWController.m */; };
 		C7EB18180898CFBD007FC2ED /* MyGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */; };
-		C7EB18190898CFBD007FC2ED /* MyGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F80898CFBC007FC2ED /* MyGraphView.m */; };
+		C7EB18190898CFBD007FC2ED /* PKGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F80898CFBC007FC2ED /* PKGraphView.m */; };
 		C7EB181A0898CFBD007FC2ED /* JKLibrary.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7EB17FA0898CFBC007FC2ED /* JKLibrary.nib */; };
 		C7EB181B0898CFBD007FC2ED /* JKGCMSDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7EB17FB0898CFBD007FC2ED /* JKGCMSDocument.nib */; };
 		C7EB181C0898CFBD007FC2ED /* JKMainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7EB17FC0898CFBD007FC2ED /* JKMainMenu.nib */; };
@@ -422,7 +472,7 @@
 		C716B4AD0AD6AA8F00DA408E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		C71D9FCB099CD19D007EB10D /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		C720AB8609EA7B6C007EF860 /* jk_statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jk_statistics.h; sourceTree = "<group>"; };
-		C720AB8709EA7B6C007EF860 /* jk_statistics.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jk_statistics.c; sourceTree = "<group>"; };
+		C720AB8709EA7B6C007EF860 /* jk_statistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = jk_statistics.m; sourceTree = "<group>"; };
 		C729CAA70A4B45CD00FAB04F /* JKDataModelProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKDataModelProxy.h; sourceTree = "<group>"; };
 		C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKDataModelProxy.m; sourceTree = "<group>"; };
 		C72C8500098BE74300CEF565 /* Unit Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -431,8 +481,8 @@
 		C72C8508098BE83600CEF565 /* JKSpectrumTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSpectrumTest.m; sourceTree = "<group>"; };
 		C72C85D5098BF1B800CEF565 /* JKGeneralTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKGeneralTesting.h; sourceTree = "<group>"; };
 		C72C85D6098BF1B800CEF565 /* JKGeneralTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKGeneralTesting.m; sourceTree = "<group>"; };
-		C73290E00AD68F9800D95E36 /* JKChromatogram.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKChromatogram.h; sourceTree = "<group>"; };
-		C73290E10AD68F9800D95E36 /* JKChromatogram.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKChromatogram.m; sourceTree = "<group>"; };
+		C73290E00AD68F9800D95E36 /* PKChromatogram.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PKChromatogram.h; sourceTree = "<group>"; };
+		C73290E10AD68F9800D95E36 /* PKChromatogram.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PKChromatogram.m; sourceTree = "<group>"; };
 		C73290E80AD68F9800D95E36 /* JKFileWell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKFileWell.h; sourceTree = "<group>"; };
 		C73290F30AD68F9800D95E36 /* JKSynchroScrollView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKSynchroScrollView.h; sourceTree = "<group>"; };
 		C73290F40AD68F9800D95E36 /* JKSynchroScrollView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKSynchroScrollView.m; sourceTree = "<group>"; };
@@ -449,6 +499,31 @@
 		C7713B35095029C200653D2A /* JKBatchProcess.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = JKBatchProcess.nib; sourceTree = "<group>"; };
 		C7713B410950368F00653D2A /* JKBatchProcessWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKBatchProcessWindowController.h; sourceTree = "<group>"; };
 		C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKBatchProcessWindowController.m; sourceTree = "<group>"; };
+		C771FC670CA96347002F12FB /* PKDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKDocument.h; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKDocument.h"; sourceTree = "<absolute>"; };
+		C771FC680CA96347002F12FB /* PKDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKDocument.m; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKDocument.m"; sourceTree = "<absolute>"; };
+		C771FC690CA96347002F12FB /* PKMeasurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKMeasurement.h; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKMeasurement.h"; sourceTree = "<absolute>"; };
+		C771FC6A0CA96347002F12FB /* PKMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKMeasurement.m; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKMeasurement.m"; sourceTree = "<absolute>"; };
+		C771FC6B0CA96347002F12FB /* PKGCMSMeasurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKGCMSMeasurement.h; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKGCMSMeasurement.h"; sourceTree = "<absolute>"; };
+		C771FC6C0CA96347002F12FB /* PKGCMSMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKGCMSMeasurement.m; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKGCMSMeasurement.m"; sourceTree = "<absolute>"; };
+		C771FC6F0CA96347002F12FB /* PKTICChromatogram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKTICChromatogram.h; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKTICChromatogram.h"; sourceTree = "<absolute>"; };
+		C771FC700CA96347002F12FB /* PKTICChromatogram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKTICChromatogram.m; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKTICChromatogram.m"; sourceTree = "<absolute>"; };
+		C771FC730CA96347002F12FB /* PKSpectrum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKSpectrum.h; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKSpectrum.h"; sourceTree = "<absolute>"; };
+		C771FC740CA96347002F12FB /* PKSpectrum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKSpectrum.m; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKSpectrum.m"; sourceTree = "<absolute>"; };
+		C771FC750CA96347002F12FB /* PKSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKSearchResult.h; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKSearchResult.h"; sourceTree = "<absolute>"; };
+		C771FC760CA96347002F12FB /* PKSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKSearchResult.m; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKSearchResult.m"; sourceTree = "<absolute>"; };
+		C771FC770CA96347002F12FB /* PKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKLibraryEntry.h; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKLibraryEntry.h"; sourceTree = "<absolute>"; };
+		C771FC780CA96347002F12FB /* PKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKLibraryEntry.m; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKLibraryEntry.m"; sourceTree = "<absolute>"; };
+		C771FC7B0CA96347002F12FB /* PKChromatogramView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKChromatogramView.h; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKChromatogramView.h"; sourceTree = "<absolute>"; };
+		C771FC7C0CA96347002F12FB /* PKChromatogramView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKChromatogramView.m; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKChromatogramView.m"; sourceTree = "<absolute>"; };
+		C771FC7D0CA96347002F12FB /* PKSpectrumView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKSpectrumView.h; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKSpectrumView.h"; sourceTree = "<absolute>"; };
+		C771FC7E0CA96347002F12FB /* PKSpectrumView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKSpectrumView.m; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKSpectrumView.m"; sourceTree = "<absolute>"; };
+		C771FC7F0CA96347002F12FB /* PKMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKMainWindowController.h; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKMainWindowController.h"; sourceTree = "<absolute>"; };
+		C771FC800CA96347002F12FB /* PKMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKMainWindowController.m; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKMainWindowController.m"; sourceTree = "<absolute>"; };
+		C771FC810CA96347002F12FB /* PKObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKObject.h; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKObject.h"; sourceTree = "<absolute>"; };
+		C771FC820CA96348002F12FB /* PKObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKObject.m; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/PKObject.m"; sourceTree = "<absolute>"; };
+		C771FCCE0CA9649A002F12FB /* PKDocument.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = PKDocument.nib; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/Nibs/PKDocument.nib"; sourceTree = "<absolute>"; };
+		C771FD950CA9ACFB002F12FB /* NSString+ModelCompare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+ModelCompare.h"; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/NSString+ModelCompare.h"; sourceTree = "<absolute>"; };
+		C771FD960CA9ACFB002F12FB /* NSString+ModelCompare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+ModelCompare.m"; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/NSString+ModelCompare.m"; sourceTree = "<absolute>"; };
 		C773669408E02D87002B72F1 /* ChromatogramGraphDataSerie.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ChromatogramGraphDataSerie.h; sourceTree = "<group>"; };
 		C773669508E02D87002B72F1 /* ChromatogramGraphDataSerie.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ChromatogramGraphDataSerie.m; sourceTree = "<group>"; };
 		C773669608E02D87002B72F1 /* SpectrumGraphDataSerie.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SpectrumGraphDataSerie.h; sourceTree = "<group>"; };
@@ -535,8 +610,8 @@
 		C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+RoundRect.m"; sourceTree = "<group>"; };
 		C7E5B1D20A14934200BB2291 /* BDAlias.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BDAlias.h; sourceTree = "<group>"; };
 		C7E5B1D30A14934200BB2291 /* BDAlias.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BDAlias.m; sourceTree = "<group>"; };
-		C7E61F180BB2BC4700D9A636 /* JKModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKModelObject.h; sourceTree = "<group>"; };
-		C7E61F190BB2BC4800D9A636 /* JKModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKModelObject.m; sourceTree = "<group>"; };
+		C7E61F180BB2BC4700D9A636 /* PKModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKModelObject.h; sourceTree = "<group>"; };
+		C7E61F190BB2BC4800D9A636 /* PKModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKModelObject.m; sourceTree = "<group>"; };
 		C7EB17A60898CF2D007FC2ED /* AccessorMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccessorMacros.h; sourceTree = "<group>"; };
 		C7EB17A70898CF2D007FC2ED /* CAtom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAtom.h; sourceTree = "<group>"; };
 		C7EB17A80898CF2D007FC2ED /* CAtom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CAtom.m; sourceTree = "<group>"; };
@@ -556,8 +631,8 @@
 		C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKMainWindowController.m; sourceTree = "<group>"; };
 		C7EB17DE0898CF2E007FC2ED /* JKPanelController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKPanelController.h; sourceTree = "<group>"; };
 		C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKPanelController.m; sourceTree = "<group>"; };
-		C7EB17E40898CF2F007FC2ED /* JKPeakRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKPeakRecord.h; sourceTree = "<group>"; };
-		C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKPeakRecord.m; sourceTree = "<group>"; };
+		C7EB17E40898CF2F007FC2ED /* PKPeak.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PKPeak.h; sourceTree = "<group>"; };
+		C7EB17E50898CF2F007FC2ED /* PKPeak.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PKPeak.m; sourceTree = "<group>"; };
 		C7EB17E80898CF2F007FC2ED /* JKPreferencesWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKPreferencesWindowController.h; sourceTree = "<group>"; };
 		C7EB17E90898CF2F007FC2ED /* JKPreferencesWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKPreferencesWindowController.m; sourceTree = "<group>"; };
 		C7EB17EA0898CF2F007FC2ED /* JKSpectrum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKSpectrum.h; sourceTree = "<group>"; };
@@ -568,8 +643,8 @@
 		C7EB17F40898CFBC007FC2ED /* MWController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MWController.m; path = MolWeight/MWController.m; sourceTree = "<group>"; };
 		C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MyGraphDataSerie.h; sourceTree = "<group>"; };
 		C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MyGraphDataSerie.m; sourceTree = "<group>"; };
-		C7EB17F70898CFBC007FC2ED /* MyGraphView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MyGraphView.h; sourceTree = "<group>"; };
-		C7EB17F80898CFBC007FC2ED /* MyGraphView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MyGraphView.m; sourceTree = "<group>"; };
+		C7EB17F70898CFBC007FC2ED /* PKGraphView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PKGraphView.h; sourceTree = "<group>"; };
+		C7EB17F80898CFBC007FC2ED /* PKGraphView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PKGraphView.m; sourceTree = "<group>"; };
 		C7EB17FA0898CFBC007FC2ED /* JKLibrary.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = JKLibrary.nib; sourceTree = "<group>"; };
 		C7EB17FB0898CFBD007FC2ED /* JKGCMSDocument.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = JKGCMSDocument.nib; sourceTree = "<group>"; };
 		C7EB17FC0898CFBD007FC2ED /* JKMainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = JKMainMenu.nib; sourceTree = "<group>"; };
@@ -696,6 +771,7 @@
 		2A37F4AAFDCFA73011CA2CEA /* Peacock */ = {
 			isa = PBXGroup;
 			children = (
+				C771FC660CA96347002F12FB /* PKClasses */,
 				C77E686F0C3A9C860051B016 /* Classes */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				C72C85C8098BF12600CEF565 /* Tests */,
@@ -759,6 +835,41 @@
 			name = Tests;
 			sourceTree = "<group>";
 		};
+		C771FC660CA96347002F12FB /* PKClasses */ = {
+			isa = PBXGroup;
+			children = (
+				C771FC670CA96347002F12FB /* PKDocument.h */,
+				C771FC680CA96347002F12FB /* PKDocument.m */,
+				C771FC690CA96347002F12FB /* PKMeasurement.h */,
+				C771FC6A0CA96347002F12FB /* PKMeasurement.m */,
+				C771FC6B0CA96347002F12FB /* PKGCMSMeasurement.h */,
+				C771FC6C0CA96347002F12FB /* PKGCMSMeasurement.m */,
+				C771FC6F0CA96347002F12FB /* PKTICChromatogram.h */,
+				C771FC700CA96347002F12FB /* PKTICChromatogram.m */,
+				C73290E00AD68F9800D95E36 /* PKChromatogram.h */,
+				C73290E10AD68F9800D95E36 /* PKChromatogram.m */,
+				C7EB17E40898CF2F007FC2ED /* PKPeak.h */,
+				C7EB17E50898CF2F007FC2ED /* PKPeak.m */,
+				C771FC730CA96347002F12FB /* PKSpectrum.h */,
+				C771FC740CA96347002F12FB /* PKSpectrum.m */,
+				C771FC750CA96347002F12FB /* PKSearchResult.h */,
+				C771FC760CA96347002F12FB /* PKSearchResult.m */,
+				C771FC770CA96347002F12FB /* PKLibraryEntry.h */,
+				C771FC780CA96347002F12FB /* PKLibraryEntry.m */,
+				C771FC7B0CA96347002F12FB /* PKChromatogramView.h */,
+				C771FC7C0CA96347002F12FB /* PKChromatogramView.m */,
+				C771FC7D0CA96347002F12FB /* PKSpectrumView.h */,
+				C771FC7E0CA96347002F12FB /* PKSpectrumView.m */,
+				C771FC7F0CA96347002F12FB /* PKMainWindowController.h */,
+				C771FC800CA96347002F12FB /* PKMainWindowController.m */,
+				C771FC810CA96347002F12FB /* PKObject.h */,
+				C771FC820CA96348002F12FB /* PKObject.m */,
+				C7EB17F70898CFBC007FC2ED /* PKGraphView.h */,
+				C7EB17F80898CFBC007FC2ED /* PKGraphView.m */,
+			);
+			name = PKClasses;
+			sourceTree = "<group>";
+		};
 		C773290A08CA612600222B5B /* MolWeight */ = {
 			isa = PBXGroup;
 			children = (
@@ -779,6 +890,8 @@
 		C77E686F0C3A9C860051B016 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */,
+				C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */,
 				C7C299880B8B48CC0017B2B2 /* ArrayEncodingObject.h */,
 				C7C299890B8B48CC0017B2B2 /* ArrayEncodingObject.m */,
 				C7C220610BEB831000510B5B /* BooleanToStringTransformer.h */,
@@ -791,7 +904,7 @@
 				C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */,
 				C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */,
 				C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */,
-				C720AB8709EA7B6C007EF860 /* jk_statistics.c */,
+				C720AB8709EA7B6C007EF860 /* jk_statistics.m */,
 				C720AB8609EA7B6C007EF860 /* jk_statistics.h */,
 				C7EB17CE0898CF2E007FC2ED /* JKAppDelegate.h */,
 				C7EB17CF0898CF2E007FC2ED /* JKAppDelegate.m */,
@@ -801,8 +914,6 @@
 				C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */,
 				C777A2CE0A1DFEE400CF44D9 /* JKBond.h */,
 				C777A2CF0A1DFEE400CF44D9 /* JKBond.m */,
-				C73290E00AD68F9800D95E36 /* JKChromatogram.h */,
-				C73290E10AD68F9800D95E36 /* JKChromatogram.m */,
 				C708E90A0B9D953A0085872E /* JKCombinedPeak.h */,
 				C708E90B0B9D953A0085872E /* JKCombinedPeak.m */,
 				C709D0080C465F3200C9C613 /* JKComboBoxCell.h */,
@@ -811,8 +922,6 @@
 				C729CAA70A4B45CD00FAB04F /* JKDataModelProxy.h */,
 				C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */,
 				C73290E80AD68F9800D95E36 /* JKFileWell.h */,
-				C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */,
-				C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */,
 				C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */,
 				C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */,
 				C7EB17D40898CF2E007FC2ED /* JKLibrary.h */,
@@ -825,8 +934,8 @@
 				C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */,
 				C7F5E8F308EAA98600AC1068 /* JKManagedLibraryEntry.h */,
 				C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */,
-				C7E61F180BB2BC4700D9A636 /* JKModelObject.h */,
-				C7E61F190BB2BC4800D9A636 /* JKModelObject.m */,
+				C7E61F180BB2BC4700D9A636 /* PKModelObject.h */,
+				C7E61F190BB2BC4800D9A636 /* PKModelObject.m */,
 				C777A2D00A1DFEE400CF44D9 /* JKMoleculeModel.h */,
 				C777A2D10A1DFEE400CF44D9 /* JKMoleculeModel.m */,
 				C777A2C30A1DFEA800CF44D9 /* JKMoleculeView.h */,
@@ -835,8 +944,6 @@
 				C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */,
 				C7F8973E0A188B0D00A65A24 /* JKPathPopUpButton.h */,
 				C7F8973F0A188B0D00A65A24 /* JKPathPopUpButton.m */,
-				C7EB17E40898CF2F007FC2ED /* JKPeakRecord.h */,
-				C7EB17E50898CF2F007FC2ED /* JKPeakRecord.m */,
 				C7EB17E80898CF2F007FC2ED /* JKPreferencesWindowController.h */,
 				C7EB17E90898CF2F007FC2ED /* JKPreferencesWindowController.m */,
 				C70DB8EB09573BEA00C2B386 /* JKRatio.h */,
@@ -858,8 +965,6 @@
 				C7EB17F40898CFBC007FC2ED /* MWController.m */,
 				C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */,
 				C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */,
-				C7EB17F70898CFBC007FC2ED /* MyGraphView.h */,
-				C7EB17F80898CFBC007FC2ED /* MyGraphView.m */,
 				C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */,
 				C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */,
 				C7C29ABB0B8B67530017B2B2 /* NSCoder+CArrayEncoding.h */,
@@ -872,6 +977,8 @@
 				C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */,
 				C773669608E02D87002B72F1 /* SpectrumGraphDataSerie.h */,
 				C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */,
+				C771FD950CA9ACFB002F12FB /* NSString+ModelCompare.h */,
+				C771FD960CA9ACFB002F12FB /* NSString+ModelCompare.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -970,6 +1077,7 @@
 		C7EB17F90898CFBC007FC2ED /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
+				C771FCCE0CA9649A002F12FB /* PKDocument.nib */,
 				C7F8DEA70BF0D00700A34F5D /* DisplayOptions.nib */,
 				C7713B35095029C200653D2A /* JKBatchProcess.nib */,
 				C7EB17FA0898CFBC007FC2ED /* JKLibrary.nib */,
@@ -1022,7 +1130,7 @@
 				C7ADC9050BA05609007D9134 /* FontNameToDisplayNameTransformer.h in Headers */,
 				C7ADC9060BA05609007D9134 /* MWController.h in Headers */,
 				C7ADC9070BA05609007D9134 /* NSTableView+Copying.h in Headers */,
-				C7ADC9080BA05609007D9134 /* JKChromatogram.h in Headers */,
+				C7ADC9080BA05609007D9134 /* PKChromatogram.h in Headers */,
 				C7ADC9090BA05609007D9134 /* JKSearchResult.h in Headers */,
 				C7ADC90A0BA05609007D9134 /* NSBezierPath+RoundRect.h in Headers */,
 				C7ADC90B0BA05609007D9134 /* ArrayEncodingObject.h in Headers */,
@@ -1030,7 +1138,7 @@
 				C7ADC90D0BA05609007D9134 /* NSCoder+CArrayEncoding.h in Headers */,
 				C7ADC90E0BA05609007D9134 /* JKCombinedPeak.h in Headers */,
 				C7ADC90F0BA05609007D9134 /* NSEvent+ModifierKeys.h in Headers */,
-				C7E61F1A0BB2BC4800D9A636 /* JKModelObject.h in Headers */,
+				C7E61F1A0BB2BC4800D9A636 /* PKModelObject.h in Headers */,
 				C7CFFC790BBC0C290060B0C7 /* JKGCMSPrintView.h in Headers */,
 				C7C220630BEB831000510B5B /* BooleanToStringTransformer.h in Headers */,
 				C7F8DE8F0BF0CDEE00A34F5D /* AMRemovableTableColumn.h in Headers */,
@@ -1040,6 +1148,18 @@
 				C75846630C07268D00756ED8 /* JKLibraryEntry.h in Headers */,
 				C7696D710C2C1A26009A013E /* JKStatisticsPrintView.h in Headers */,
 				C709D00C0C465F3200C9C613 /* JKComboBoxCell.h in Headers */,
+				C771FC9F0CA96348002F12FB /* PKDocument.h in Headers */,
+				C771FCA10CA96348002F12FB /* PKMeasurement.h in Headers */,
+				C771FCA30CA96348002F12FB /* PKGCMSMeasurement.h in Headers */,
+				C771FCA70CA96348002F12FB /* PKTICChromatogram.h in Headers */,
+				C771FCAB0CA96348002F12FB /* PKSpectrum.h in Headers */,
+				C771FCAD0CA96348002F12FB /* PKSearchResult.h in Headers */,
+				C771FCAF0CA96348002F12FB /* PKLibraryEntry.h in Headers */,
+				C771FCB30CA96348002F12FB /* PKChromatogramView.h in Headers */,
+				C771FCB50CA96348002F12FB /* PKSpectrumView.h in Headers */,
+				C771FCB70CA96348002F12FB /* PKMainWindowController.h in Headers */,
+				C771FCB90CA96348002F12FB /* PKObject.h in Headers */,
+				C771FD990CA9ACFB002F12FB /* NSString+ModelCompare.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1063,7 +1183,7 @@
 				C7BDA6C20AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h in Headers */,
 				C7F0D0560B11D9030046F994 /* MWController.h in Headers */,
 				C7F0D3B30B1497D40046F994 /* NSTableView+Copying.h in Headers */,
-				C7E25C060B387C0F00CD8D39 /* JKChromatogram.h in Headers */,
+				C7E25C060B387C0F00CD8D39 /* PKChromatogram.h in Headers */,
 				C7752C380B6778DA0010EE72 /* JKSearchResult.h in Headers */,
 				C7D7D66A0B7203B0004ABEB5 /* NSBezierPath+RoundRect.h in Headers */,
 				C7C2998A0B8B48CC0017B2B2 /* ArrayEncodingObject.h in Headers */,
@@ -1071,7 +1191,7 @@
 				C7C29ABD0B8B67540017B2B2 /* NSCoder+CArrayEncoding.h in Headers */,
 				C708E90C0B9D953A0085872E /* JKCombinedPeak.h in Headers */,
 				C79281D30B9F1CC100EDF996 /* NSEvent+ModifierKeys.h in Headers */,
-				C7E61F1C0BB2BC4800D9A636 /* JKModelObject.h in Headers */,
+				C7E61F1C0BB2BC4800D9A636 /* PKModelObject.h in Headers */,
 				C7CFFC770BBC0C290060B0C7 /* JKGCMSPrintView.h in Headers */,
 				C7C220650BEB831000510B5B /* BooleanToStringTransformer.h in Headers */,
 				C7F8DE930BF0CDEE00A34F5D /* AMRemovableTableColumn.h in Headers */,
@@ -1080,6 +1200,18 @@
 				C75846650C07268D00756ED8 /* JKLibraryEntry.h in Headers */,
 				C7696D6F0C2C1A25009A013E /* JKStatisticsPrintView.h in Headers */,
 				C709D00A0C465F3200C9C613 /* JKComboBoxCell.h in Headers */,
+				C771FC830CA96348002F12FB /* PKDocument.h in Headers */,
+				C771FC850CA96348002F12FB /* PKMeasurement.h in Headers */,
+				C771FC870CA96348002F12FB /* PKGCMSMeasurement.h in Headers */,
+				C771FC8B0CA96348002F12FB /* PKTICChromatogram.h in Headers */,
+				C771FC8F0CA96348002F12FB /* PKSpectrum.h in Headers */,
+				C771FC910CA96348002F12FB /* PKSearchResult.h in Headers */,
+				C771FC930CA96348002F12FB /* PKLibraryEntry.h in Headers */,
+				C771FC970CA96348002F12FB /* PKChromatogramView.h in Headers */,
+				C771FC990CA96348002F12FB /* PKSpectrumView.h in Headers */,
+				C771FC9B0CA96348002F12FB /* PKMainWindowController.h in Headers */,
+				C771FC9D0CA96348002F12FB /* PKObject.h in Headers */,
+				C771FD970CA9ACFB002F12FB /* NSString+ModelCompare.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1154,6 +1286,7 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C7EB17A00898CF22007FC2ED /* Build configuration list for PBXProject "Peacock" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* Peacock */;
 			projectDirPath = "";
@@ -1220,6 +1353,7 @@
 				C77E2FC10C0EF21700B8A64A /* minus.png in Resources */,
 				C77E32B90C0F2CBB00B8A64A /* libraries.png in Resources */,
 				C765B8AC0C23237B00C4F153 /* factoranalysis.R in Resources */,
+				C771FCCF0CA9649A002F12FB /* PKDocument.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1282,6 +1416,7 @@
 				C77E2FBF0C0EF20C00B8A64A /* plus.png in Resources */,
 				C77E2FC20C0EF21700B8A64A /* minus.png in Resources */,
 				C77E32BA0C0F2CBB00B8A64A /* libraries.png in Resources */,
+				C771FCD00CA9649A002F12FB /* PKDocument.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1340,7 +1475,7 @@
 				C7EB18160898CFBD007FC2ED /* MolTypes.c in Sources */,
 				C7EB18170898CFBD007FC2ED /* MWController.m in Sources */,
 				C7EB18180898CFBD007FC2ED /* MyGraphDataSerie.m in Sources */,
-				C7EB18190898CFBD007FC2ED /* MyGraphView.m in Sources */,
+				C7EB18190898CFBD007FC2ED /* PKGraphView.m in Sources */,
 				C7EB18470898D1C8007FC2ED /* CAtom.m in Sources */,
 				C7EB18480898D1CB007FC2ED /* CFragment.m in Sources */,
 				C7EB18490898D1CC007FC2ED /* CMutableArray.m in Sources */,
@@ -1351,7 +1486,7 @@
 				C7EB18520898D1D2007FC2ED /* JKPanelController.m in Sources */,
 				C7EB18570898D1D6007FC2ED /* JKPreferencesWindowController.m in Sources */,
 				C7EB18580898D1D7007FC2ED /* JKSpectrum.m in Sources */,
-				C7AD34C908AFA20800A0F4BE /* JKPeakRecord.m in Sources */,
+				C7AD34C908AFA20800A0F4BE /* PKPeak.m in Sources */,
 				C773669808E02D87002B72F1 /* ChromatogramGraphDataSerie.m in Sources */,
 				C773669908E02D88002B72F1 /* SpectrumGraphDataSerie.m in Sources */,
 				C798C9EA08E17B5400C6C7D1 /* DeleteTableView.m in Sources */,
@@ -1360,7 +1495,7 @@
 				C7713B430950368F00653D2A /* JKBatchProcessWindowController.m in Sources */,
 				C70DB8EE09573BEA00C2B386 /* JKRatio.m in Sources */,
 				C7BC505409A62C930093106E /* JKLog.m in Sources */,
-				C720AB8909EA7B6C007EF860 /* jk_statistics.c in Sources */,
+				C720AB8909EA7B6C007EF860 /* jk_statistics.m in Sources */,
 				C715DECF0A136B2F00348AB5 /* JKGCMSDocument.m in Sources */,
 				C7E5B1D80A14934200BB2291 /* BDAlias.m in Sources */,
 				C7F897410A188B0D00A65A24 /* JKPathPopUpButton.m in Sources */,
@@ -1374,7 +1509,7 @@
 				C7F0D3B40B1497D40046F994 /* NSTableView+Copying.m in Sources */,
 				C7F0D6C50B1732C60046F994 /* JKStatisticsWindowController.m in Sources */,
 				C7F0D6C60B1732CD0046F994 /* JKStatisticsDocument.m in Sources */,
-				C7E25C070B387C0F00CD8D39 /* JKChromatogram.m in Sources */,
+				C7E25C070B387C0F00CD8D39 /* PKChromatogram.m in Sources */,
 				C7752C390B6778DA0010EE72 /* JKSearchResult.m in Sources */,
 				C7D7D66B0B7203B0004ABEB5 /* NSBezierPath+RoundRect.m in Sources */,
 				C7C2998B0B8B48CC0017B2B2 /* ArrayEncodingObject.m in Sources */,
@@ -1382,7 +1517,7 @@
 				C7C29ABE0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m in Sources */,
 				C708E90D0B9D953A0085872E /* JKCombinedPeak.m in Sources */,
 				C79281D40B9F1CC200EDF996 /* NSEvent+ModifierKeys.m in Sources */,
-				C7E61F1D0BB2BC4900D9A636 /* JKModelObject.m in Sources */,
+				C7E61F1D0BB2BC4900D9A636 /* PKModelObject.m in Sources */,
 				C7CFFC780BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */,
 				C7C220660BEB831000510B5B /* BooleanToStringTransformer.m in Sources */,
 				C7F8DE940BF0CDEE00A34F5D /* AMRemovableColumnsTableView.m in Sources */,
@@ -1394,6 +1529,18 @@
 				C75846660C07268D00756ED8 /* JKLibraryEntry.m in Sources */,
 				C7696D700C2C1A25009A013E /* JKStatisticsPrintView.m in Sources */,
 				C709D00B0C465F3200C9C613 /* JKComboBoxCell.m in Sources */,
+				C771FC840CA96348002F12FB /* PKDocument.m in Sources */,
+				C771FC860CA96348002F12FB /* PKMeasurement.m in Sources */,
+				C771FC880CA96348002F12FB /* PKGCMSMeasurement.m in Sources */,
+				C771FC8C0CA96348002F12FB /* PKTICChromatogram.m in Sources */,
+				C771FC900CA96348002F12FB /* PKSpectrum.m in Sources */,
+				C771FC920CA96348002F12FB /* PKSearchResult.m in Sources */,
+				C771FC940CA96348002F12FB /* PKLibraryEntry.m in Sources */,
+				C771FC980CA96348002F12FB /* PKChromatogramView.m in Sources */,
+				C771FC9A0CA96348002F12FB /* PKSpectrumView.m in Sources */,
+				C771FC9C0CA96348002F12FB /* PKMainWindowController.m in Sources */,
+				C771FC9E0CA96348002F12FB /* PKObject.m in Sources */,
+				C771FD980CA9ACFB002F12FB /* NSString+ModelCompare.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1412,7 +1559,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7ADC8B80BA05609007D9134 /* MyGraphDataSerie.m in Sources */,
-				C7ADC8B90BA05609007D9134 /* MyGraphView.m in Sources */,
+				C7ADC8B90BA05609007D9134 /* PKGraphView.m in Sources */,
 				C7ADC8BD0BA05609007D9134 /* JKAppDelegate.m in Sources */,
 				C7ADC8BE0BA05609007D9134 /* JKLibrary.m in Sources */,
 				C7ADC8BF0BA05609007D9134 /* JKLibraryWindowController.m in Sources */,
@@ -1420,7 +1567,7 @@
 				C7ADC8C10BA05609007D9134 /* JKPanelController.m in Sources */,
 				C7ADC8C20BA05609007D9134 /* JKPreferencesWindowController.m in Sources */,
 				C7ADC8C30BA05609007D9134 /* JKSpectrum.m in Sources */,
-				C7ADC8C40BA05609007D9134 /* JKPeakRecord.m in Sources */,
+				C7ADC8C40BA05609007D9134 /* PKPeak.m in Sources */,
 				C7ADC8C50BA05609007D9134 /* FilteringDNDArrayController.m in Sources */,
 				C7ADC8C60BA05609007D9134 /* ChromatogramGraphDataSerie.m in Sources */,
 				C7ADC8C70BA05609007D9134 /* SpectrumGraphDataSerie.m in Sources */,
@@ -1431,7 +1578,7 @@
 				C7ADC8CC0BA05609007D9134 /* JKBatchProcessWindowController.m in Sources */,
 				C7ADC8CD0BA05609007D9134 /* JKRatio.m in Sources */,
 				C7ADC8CE0BA05609007D9134 /* JKLog.m in Sources */,
-				C7ADC8CF0BA05609007D9134 /* jk_statistics.c in Sources */,
+				C7ADC8CF0BA05609007D9134 /* jk_statistics.m in Sources */,
 				C7ADC8D00BA05609007D9134 /* JKGCMSDocument.m in Sources */,
 				C7ADC8D10BA05609007D9134 /* BDAlias.m in Sources */,
 				C7ADC8D20BA05609007D9134 /* JKPathPopUpButton.m in Sources */,
@@ -1445,7 +1592,7 @@
 				C7ADC8DA0BA05609007D9134 /* NSTableView+Copying.m in Sources */,
 				C7ADC8DB0BA05609007D9134 /* JKStatisticsWindowController.m in Sources */,
 				C7ADC8DC0BA05609007D9134 /* JKStatisticsDocument.m in Sources */,
-				C7ADC8DD0BA05609007D9134 /* JKChromatogram.m in Sources */,
+				C7ADC8DD0BA05609007D9134 /* PKChromatogram.m in Sources */,
 				C7ADC8DE0BA05609007D9134 /* JKSearchResult.m in Sources */,
 				C7ADC8DF0BA05609007D9134 /* NSBezierPath+RoundRect.m in Sources */,
 				C7ADC8E00BA05609007D9134 /* ArrayEncodingObject.m in Sources */,
@@ -1453,7 +1600,7 @@
 				C7ADC8E20BA05609007D9134 /* NSCoder+CArrayEncoding.m in Sources */,
 				C7ADC8E30BA05609007D9134 /* JKCombinedPeak.m in Sources */,
 				C7ADC8E40BA05609007D9134 /* NSEvent+ModifierKeys.m in Sources */,
-				C7E61F1B0BB2BC4800D9A636 /* JKModelObject.m in Sources */,
+				C7E61F1B0BB2BC4800D9A636 /* PKModelObject.m in Sources */,
 				C7CFFC7A0BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */,
 				C7C220640BEB831000510B5B /* BooleanToStringTransformer.m in Sources */,
 				C7F8DE900BF0CDEE00A34F5D /* AMRemovableColumnsTableView.m in Sources */,
@@ -1463,6 +1610,18 @@
 				C75846640C07268D00756ED8 /* JKLibraryEntry.m in Sources */,
 				C7696D720C2C1A26009A013E /* JKStatisticsPrintView.m in Sources */,
 				C709D00D0C465F3200C9C613 /* JKComboBoxCell.m in Sources */,
+				C771FCA00CA96348002F12FB /* PKDocument.m in Sources */,
+				C771FCA20CA96348002F12FB /* PKMeasurement.m in Sources */,
+				C771FCA40CA96348002F12FB /* PKGCMSMeasurement.m in Sources */,
+				C771FCA80CA96348002F12FB /* PKTICChromatogram.m in Sources */,
+				C771FCAC0CA96348002F12FB /* PKSpectrum.m in Sources */,
+				C771FCAE0CA96348002F12FB /* PKSearchResult.m in Sources */,
+				C771FCB00CA96348002F12FB /* PKLibraryEntry.m in Sources */,
+				C771FCB40CA96348002F12FB /* PKChromatogramView.m in Sources */,
+				C771FCB60CA96348002F12FB /* PKSpectrumView.m in Sources */,
+				C771FCB80CA96348002F12FB /* PKMainWindowController.m in Sources */,
+				C771FCBA0CA96348002F12FB /* PKObject.m in Sources */,
+				C771FD9A0CA9ACFB002F12FB /* NSString+ModelCompare.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1695,10 +1854,9 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
 				PREBINDING = NO;
 				PRODUCT_NAME = Peacock;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SYMROOT = build/Mac;
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
@@ -1741,17 +1899,23 @@
 		C7EB17A10898CF22007FC2ED /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH)";
 				FRAMEWORK_SEARCH_PATHS = Frameworks;
 				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Debug;
 		};
 		C7EB17A20898CF22007FC2ED /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				DEAD_CODE_STRIPPING = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = Frameworks;
@@ -1760,6 +1924,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 				STRIP_STYLE = all;
 			};
 			name = Release;

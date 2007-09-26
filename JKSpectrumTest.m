@@ -261,4 +261,9 @@
     
 }
 
+@synthesize testSpectrum2;
+@synthesize testSpectrum3;
+@synthesize testSpectrum5;
+@synthesize testSpectrum1;
+@synthesize testSpectrum4;
 @end

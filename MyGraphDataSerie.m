@@ -7,7 +7,7 @@
 //
 
 #import "MyGraphDataSerie.h"
-#import "MyGraphView.h"
+#import "PKGraphView.h"
 
 static void *DictionaryObservationContext = (void *)1091;
 static void *ArrayObservationContext = (void *)1092;
@@ -133,7 +133,7 @@ static void *ArrayObservationContext = (void *)1092;
 #pragma mark -
 
 #pragma mark Drawing Routines
-- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view
+- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(PKGraphView *)view
 {
     _graphView = view;
     NSBezierPath *bezierpath;
@@ -259,7 +259,7 @@ static void *ArrayObservationContext = (void *)1092;
     _needsReconstructingPlotPath = NO;
 }
 
-- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view {
+- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(PKGraphView *)view {
     _graphView = view;
 	int count = [[self dataArray] count];
 	if (count <= 0) {	
@@ -390,24 +390,23 @@ static void *ArrayObservationContext = (void *)1092;
 	
     if (observeData) {
         // Register to observe each of the new datapoints, and each of their observable properties
-        NSEnumerator *dataEnumerator = [data objectEnumerator];
         
         // Declare newDataPoint as NSObject * to get key value observing methods
         NSMutableDictionary *newDataPoint;
         
         // Register as observer
-        while ((newDataPoint = [dataEnumerator nextObject])) {		
+        for (newDataPoint in data) {		
             [newDataPoint addObserver:self
                            forKeyPath:keyForXValue
-                              options:nil
+                              options:0
                               context:DictionaryObservationContext];
             [newDataPoint addObserver:self
                            forKeyPath:keyForYValue
-                              options:nil
+                              options:0
                               context:DictionaryObservationContext];
             [newDataPoint addObserver:self
                            forKeyPath:keyForLabel
-                              options:nil
+                              options:0
                               context:DictionaryObservationContext];		
         }        
     }
@@ -418,10 +417,9 @@ static void *ArrayObservationContext = (void *)1092;
 		return;
 	}
 	if (observeData) {
-        NSEnumerator *dataEnumerator = [data objectEnumerator];
         
         NSMutableDictionary *oldDataPoint;
-        while ((oldDataPoint = [dataEnumerator nextObject])) {
+        for (oldDataPoint in data) {
             [oldDataPoint removeObserver:self forKeyPath:keyForXValue];
             [oldDataPoint removeObserver:self forKeyPath:keyForYValue];
             [oldDataPoint removeObserver:self forKeyPath:keyForLabel];		
@@ -621,4 +619,10 @@ static void *ArrayObservationContext = (void *)1092;
         _needsReconstructingPlotPath = YES;
     }
 }
+@synthesize _plotPath;
+@synthesize observeData;
+@synthesize _graphView;
+@synthesize _needsReconstructingPlotPath;
+@synthesize _previousTrans;
+@synthesize _oldData;
 @end

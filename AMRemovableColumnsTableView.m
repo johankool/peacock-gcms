@@ -252,9 +252,8 @@ static BOOL AMRemovableColumnsTableView_readPersistentTableColumnsIsPublic = NO;
 	NSArray *visibleColumnIdentifiers = [[NSUserDefaults standardUserDefaults] objectForKey:[self columnVisibilitySaveName]];
 	if (visibleColumnIdentifiers) {
 		NSSet *allColumns = [self allTableColumns];
-		NSEnumerator *enumerator = [allColumns objectEnumerator];
 		NSTableColumn *column;
-		while (column = [enumerator nextObject]) {
+		for (column in allColumns) {
 			if ([visibleColumnIdentifiers containsObject:[column identifier]]) {
 				[self showTableColumn:column];
 			} else {
@@ -303,9 +302,8 @@ static BOOL AMRemovableColumnsTableView_readPersistentTableColumnsIsPublic = NO;
 	NSSet *obligatoryColumns = [self obligatoryTableColumns];
 	NSMutableArray *options = [NSMutableArray array];
 	NSMutableDictionary *option = nil;
-	NSEnumerator *enumerator = [allColumns objectEnumerator];
 	NSTableColumn *column;
-	while (column = [enumerator nextObject]) {
+	for (column in allColumns) {
 		option = [NSMutableDictionary dictionaryWithCapacity:3];
 		[option setObject:[column identifier] forKey:@"identifier"];
 		[option setObject:[NSNumber numberWithBool:[visibleColumns containsObject:column]] forKey:@"selected"];
@@ -322,9 +320,8 @@ static BOOL AMRemovableColumnsTableView_readPersistentTableColumnsIsPublic = NO;
 - (void)setViewOptions:(NSArray *)options
 {
 	NSTableColumn *column;
-	NSEnumerator *enumerator = [options objectEnumerator];
 	NSDictionary *option;
-	while (option = [enumerator nextObject]) {
+	for (option in options) {
 		column = [self tableColumnWithIdentifier:[option objectForKey:@"identifier"]];
 		NSAssert2((column != nil), @"unknown column: %@ for table: %@", [option objectForKey:@"identifier"], [self autosaveName]);
 		if ([[option objectForKey:@"selected"] boolValue]) {
@@ -336,4 +333,7 @@ static BOOL AMRemovableColumnsTableView_readPersistentTableColumnsIsPublic = NO;
 }
 
 
+@synthesize am_hasAwokenFromNib;
+@synthesize obligatoryColumnIdentifiers;
+@synthesize am_respondsToControlDidBecomeFirstResponder;
 @end

@@ -20,4 +20,11 @@
 - (void)showError:(BOOL)input;
 - (IBAction)openPanel:(id)sender;
 
+@property (retain) id panelWindow;
+@property (retain) id lowerCase;
+@property (retain) id formula;
+@property (retain) id weight;
+@property (retain) id statusIcon;
+@property (retain) id contents;
+@property (retain) id status;
 @end

@@ -11,16 +11,16 @@
 #import "BDAlias.h"
 #import "ChromatogramGraphDataSerie.h"
 #import "Growl/GrowlApplicationBridge.h"
-#import "JKChromatogram.h"
+#import "PKChromatogram.h"
 #import "JKCombinedPeak.h"
 #import "JKGCMSDocument.h"
 #import "JKMainWindowController.h"
-#import "JKPeakRecord.h"
+#import "PKPeak.h"
 #import "JKRatio.h"
 #import "JKSearchResult.h"
 #import "JKSpectrum.h"
 #import "JKStatisticsDocument.h"
-#import "MyGraphView.h"
+#import "PKGraphView.h"
 #import "NSEvent+ModifierKeys.h"
 #import "JKPanelController.h"
 
@@ -72,15 +72,14 @@
 - (void)windowDidLoad {
 	// Load Ratios file from application support folder
 	NSArray *paths;
-	unsigned int i;
 	BOOL foundFile = NO;
 	NSFileManager *mgr = [NSFileManager defaultManager];
 	NSString *destPath;
 	
 	paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSAllDomainsMask, YES);
 	
-	for (i = 0; i < [paths count]; i++) {
-		destPath = [[paths objectAtIndex:i] stringByAppendingPathComponent:@"Peacock/Ratios.plist"];
+	for (id loopItem in paths) {
+		destPath = [loopItem stringByAppendingPathComponent:@"Peacock/Ratios.plist"];
 		if ([mgr fileExistsAtPath:destPath]) {
 			[self setRatios:[NSKeyedUnarchiver unarchiveObjectWithFile:destPath]];
 			foundFile = YES;
@@ -163,7 +162,7 @@
                 withKeyPath:@"arrangedObjects" options:nil];
     
     // Register as observer
-	[combinedPeaksController addObserver:self forKeyPath:@"selection" options:nil context:nil];
+	[combinedPeaksController addObserver:self forKeyPath:@"selection" options:0 context:nil];
     
     // This fixes the issue where the subsplitviews are drawn on top of each other on initial display
     [splitView display];
@@ -514,10 +513,10 @@
     float matchTreshold = [[self matchThreshold] floatValue];
 
 	NSMutableArray *peaksArray = nil;
-	JKPeakRecord *peak = nil;
+	PKPeak *peak = nil;
 	JKCombinedPeak *combinedPeak = nil;
 	JKSpectrum *spectrum = nil;
-	JKPeakRecord *previousMatchedPeak = nil;
+	PKPeak *previousMatchedPeak = nil;
         
 	// Problems!
 	//  - should use retention index instead of retention time
@@ -654,7 +653,7 @@
                     }
                     // Should log the peaks that were unidentified
                     NSEnumerator *peakEnumerator = [[combinedPeak peaks] objectEnumerator];
-                    JKPeakRecord *oldPeak;
+                    PKPeak *oldPeak;
                     
                     while ((oldPeak = [peakEnumerator nextObject]) != nil) {
                         if ([oldPeak document] != document)
@@ -684,7 +683,7 @@
                     
                     // Should log the peaks that were unidentified
                     NSEnumerator *peakEnumerator = [[combinedPeak peaks] objectEnumerator];
-                    JKPeakRecord *oldPeak;
+                    PKPeak *oldPeak;
                     
                     while ((oldPeak = [peakEnumerator nextObject]) != nil) {
                         if ([oldPeak document] != document)
@@ -770,10 +769,10 @@
     float matchTreshold = [[self matchThreshold] floatValue];
     
 	NSMutableArray *peaksArray = nil;
-	JKPeakRecord *peak = nil;
+	PKPeak *peak = nil;
 	JKCombinedPeak *combinedPeak = nil;
 	JKSpectrum *spectrum = nil;
-	JKPeakRecord *previousMatchedPeak = nil;
+	PKPeak *previousMatchedPeak = nil;
     
 	// Problems!
 	//  - should use retention index instead of retention time
@@ -908,7 +907,7 @@
                     [combinedPeak setUnknownCompound:NO];
                     // Should log the peaks that were unidentified
                     NSEnumerator *peakEnumerator = [[combinedPeak peaks] objectEnumerator];
-                    JKPeakRecord *oldPeak;
+                    PKPeak *oldPeak;
                     
                     while ((oldPeak = [peakEnumerator nextObject]) != nil) {
                         if ([oldPeak document] != document)
@@ -933,7 +932,7 @@
                     
                     // Should log the peaks that were unidentified
                     NSEnumerator *peakEnumerator = [[combinedPeak peaks] objectEnumerator];
-                    JKPeakRecord *oldPeak;
+                    PKPeak *oldPeak;
                     
                     while ((oldPeak = [peakEnumerator nextObject]) != nil) {
                         if ([oldPeak document] != document)
@@ -1009,7 +1008,7 @@
     int foundIndex = 0;
      
 	NSMutableArray *peaksArray;
-	JKPeakRecord *peak;
+	PKPeak *peak;
     NSDictionary *warning;
     NSString *warningMsg;
     NSMutableArray *peakLabels = [[NSMutableArray alloc] init];
@@ -1109,7 +1108,7 @@
 }
 
 - (void)searchMissingPeaksInCombinedPeak:(JKCombinedPeak *)combinedPeak {
-    JKChromatogram *chromatogramToSearch = nil;
+    PKChromatogram *chromatogramToSearch = nil;
     int filesCount = [[self files] count];
     int i;
     JKGCMSDocument *document = nil;
@@ -1120,7 +1119,7 @@
     if ([combinedPeak unknownCompound] || ![combinedPeak libraryEntry]) {
         // Add result to combinedPEak
         NSEnumerator *peakEnum = [[combinedPeak peaks] objectEnumerator];
-        JKPeakRecord *peak;
+        PKPeak *peak;
         
         while ((peak = [peakEnum nextObject]) != nil) {
             if ([peak confirmed]) {
@@ -1172,7 +1171,7 @@
             
             // Add result to combinedPEak
             NSEnumerator *peakEnum = [[chromatogramToSearch peaks] objectEnumerator];
-            JKPeakRecord *peak = nil;
+            PKPeak *peak = nil;
 
             while ((peak = [peakEnum nextObject]) != nil) {
             	if ([[peak libraryHit] isEqualTo:[combinedPeak libraryEntry]]) {
@@ -1181,7 +1180,7 @@
             }
             if (!peak) {
                 float score = 0.0;
-                JKPeakRecord *somePeak = nil;
+                PKPeak *somePeak = nil;
                 peakEnum = [[chromatogramToSearch peaks] objectEnumerator];
                 while ((somePeak = [peakEnum nextObject]) != nil) {
                     if ([somePeak identified] && [[somePeak label] isEqualToString:[[combinedPeak libraryEntry] name]]) {
@@ -1393,7 +1392,7 @@
 
 - (void)setupComparisonWindowForDocument:(JKGCMSDocument *)document atIndex:(int)index{
 //    NSEnumerator *chromatogramEnum = [[[document chromatograms] objectEnumerator];
-    JKChromatogram *chromatogram = [[document chromatograms] objectAtIndex:0]; // TIC only!!
+    PKChromatogram *chromatogram = [[document chromatograms] objectAtIndex:0]; // TIC only!!
 
 //    while ((chromatogram = [chromatogramEnum nextObject]) != nil) {
         ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
@@ -1497,7 +1496,7 @@
             }
             // Select peaks
             int index, i, combinedPeaksCount = [[combinedPeaksController selectedObjects] count];
-            JKPeakRecord *peak = nil;
+            PKPeak *peak = nil;
             for (i = 0; i < combinedPeaksCount; i++) {
                 // Harmless if already present
                 [document addChromatogramForModel:[[[combinedPeaksController selectedObjects] objectAtIndex:i] model]];
@@ -1815,15 +1814,15 @@
 {
     return printAccessoryView;
 }
-- (MyGraphView *)altGraphView
+- (PKGraphView *)altGraphView
 {
     return altGraphView;
 }
-- (MyGraphView *)loadingsGraphView
+- (PKGraphView *)loadingsGraphView
 {
     return loadingsGraphView;
 }
-- (MyGraphView *)scoresGraphView
+- (PKGraphView *)scoresGraphView
 {
     return scoresGraphView;
 }
@@ -2026,10 +2025,8 @@
         }
 		BOOL alreadyInFiles;
         NSArray *filesToOpen = [sheet filenames];
-        int i, count = [filesToOpen count];
-        for (i=0; i<count; i++) {
+        for (NSString *aFile in filesToOpen) {
 			alreadyInFiles = NO;
-            NSString *aFile = [filesToOpen objectAtIndex:i];
 			NSEnumerator *enumerator = [files objectEnumerator];
 			id anObject;
 			
@@ -2702,4 +2699,46 @@ idAccessor(maximumRetentionIndexDifference, setMaximumRetentionIndexDifference)
 boolAccessor(closeDocuments, setCloseDocuments)
 boolAccessor(calculateRatios, setCalculateRatios)
 
+@synthesize loadingsGraphView;
+@synthesize searchOptionsButton;
+@synthesize stopButton;
+@synthesize metadataController;
+@synthesize metadataTableScrollView;
+@synthesize altGraphView;
+@synthesize ratiosTable;
+@synthesize rerunNeeded;
+@synthesize addButton;
+@synthesize tabView;
+@synthesize sanityCheck;
+@synthesize detailStatusTextField;
+@synthesize ratiosController;
+@synthesize filesTableView;
+@synthesize scoresDataSeriesController;
+@synthesize peaksController;
+@synthesize loadingsDataSeriesController;
+@synthesize chromatogramDataSeriesController;
+@synthesize optionsSheet;
+@synthesize resultsTableScrollView;
+@synthesize metadataTable;
+@synthesize movingColumnsProgramatically;
+@synthesize ratiosEditor;
+@synthesize printAccessoryView;
+@synthesize performSanityCheck;
+@synthesize combinePeaks;
+@synthesize progressSheet;
+@synthesize scrollingViewProgrammatically;
+@synthesize combinedPeaksController;
+@synthesize unknownCount;
+@synthesize fileProgressIndicator;
+@synthesize scoresGraphView;
+@synthesize comparePeaks;
+@synthesize resultsTable;
+@synthesize ratiosTableScrollView;
+@synthesize ratiosValuesController;
+@synthesize doneButton;
+@synthesize runBatchButton;
+@synthesize fileStatusTextField;
+@synthesize splitView;
+@synthesize comparisonScrollView;
+@synthesize summarizeOptionsSheet;
 @end

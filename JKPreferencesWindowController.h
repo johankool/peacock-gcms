@@ -21,4 +21,11 @@
 	BDAlias *libraryAlias;
 }
 - (IBAction)changeAutoSaveAction:(id)sender;
+@property (retain) NSView *presetsPreferencesView;
+@property (retain) NSView *generalPreferencesView;
+@property (retain) JKPathPopUpButton *libraryPopUpButton;
+@property (retain) NSMutableDictionary *preferencesList;
+@property (retain) NSView *processingPreferencesView;
+@property (retain) NSView *searchTemplatesPreferencesView;
+@property (retain) NSView *displayPreferencesView;
 @end

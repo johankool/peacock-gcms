@@ -29,4 +29,5 @@
 
 - (NSIndexSet *)indexSetFromRows:(NSArray *)rows;
 - (int)rowsAboveRow:(int)row inIndexSet:(NSIndexSet *)indexSet;
+@property (retain) NSTableView *tableView;
 @end
