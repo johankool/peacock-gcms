@@ -119,8 +119,4 @@
     [super dealloc];
 }
 
-@synthesize theElementSize;
-@synthesize theArray;
-@synthesize theCount;
-@synthesize theElementType;
 @end

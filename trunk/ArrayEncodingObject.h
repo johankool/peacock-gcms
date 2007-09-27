@@ -30,8 +30,4 @@
 - (id)initWithFloatArray:(float *)anArray elementSize:(int)theSize andCount:(unsigned long)aCount;
 - (id)initWithDoubleArray:(double *)anArray elementSize:(int)theSize andCount:(unsigned long)aCount;
 
-@property (getter=count) unsigned long theCount;
-@property (retain) id theArray;
-@property int theElementType;
-@property int theElementSize;
 @end

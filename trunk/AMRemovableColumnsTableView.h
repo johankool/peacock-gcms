@@ -38,7 +38,4 @@
 - (BOOL)showTableColumn:(NSTableColumn *)column;
 
 
-@property BOOL am_respondsToControlDidBecomeFirstResponder;
-@property (retain) id obligatoryColumnIdentifiers;
-@property BOOL am_hasAwokenFromNib;
 @end

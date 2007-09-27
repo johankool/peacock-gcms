@@ -30,6 +30,4 @@
 - (void)setDrawUpsideDown:(BOOL)inValue;
 - (BOOL)normalizeYData;
 - (void)setNormalizeYData:(BOOL)inValue;
-@property (getter=normalizeYData,setter=setNormalizeYData:) BOOL normalizeYData;
-@property (getter=drawUpsideDown,setter=setDrawUpsideDown:) BOOL drawUpsideDown;
 @end

@@ -127,8 +127,10 @@
 	NSString *string2;
 	NSRange multiplierRange;
 
-	for (string2 in array1) {
+	unsigned int i;
+	for (i = 0; i < [array1 count]; i++) {
 		NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
+		string2 = [array1 objectAtIndex:i];
 		multiplierRange = [string2 rangeOfString:@"*"];
 		if (multiplierRange.location == NSNotFound) {
 			[mutDict setValue:@"1.0" forKey:@"multiplier"];

@@ -27,8 +27,4 @@
 - (NSRect)rectForSpectrum;
 - (NSRect)rectForPeakTable:(int)page;
 - (int)pagesForPeakTable;
-@property (retain) NSImage* spectrumImage;
-@property (retain) NSAttributedString *peakTable;
-@property (retain) JKGCMSDocument *document;
-@property (retain) NSImage* chromImage;
 @end

@@ -487,6 +487,8 @@
     if (!aMoleculeString) {
         return;
     }
+/*###490 [cc] warning: comparison of distinct Objective-C types lacks a cast%%%*/
+/*###490 [cc] warning: comparison of distinct Objective-C types lacks a cast%%%*/
     if (moleculeStringContainer == self) {
         return;
     }
@@ -632,5 +634,4 @@ floatAccessor(textHeight, setTextHeight)
     [self setNeedsDisplay:YES];    
 }
 
-@synthesize _isTargettedForDrop;
 @end

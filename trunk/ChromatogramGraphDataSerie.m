@@ -8,10 +8,10 @@
 
 #import "ChromatogramGraphDataSerie.h"
 
-#import "PKChromatogram.h"
+#import "JKChromatogram.h"
 #import "JKGCMSDocument.h"
-#import "PKPeak.h"
-#import "PKGraphView.h"
+#import "JKPeakRecord.h"
+#import "MyGraphView.h"
 
 static void *DictionaryObservationContext = (void *)1091;
 static void *ArrayObservationContext = (void *)1092;
@@ -25,7 +25,7 @@ static void *PropertyObservationContext = (void *)1093;
     return [self initWithChromatogram:nil];
 }
 
-- (id)initWithChromatogram:(PKChromatogram *)aChromatogram {
+- (id)initWithChromatogram:(JKChromatogram *)aChromatogram {
     self = [super init];
     if (self) {
         // Zet de standaardwaarden
@@ -72,7 +72,7 @@ static void *PropertyObservationContext = (void *)1093;
 }
 
 #pragma mark DRAWING ROUTINES
-- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(PKGraphView *)view{
+- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
     _graphView = view;
 	NSBezierPath *bezierpath;
 	
@@ -258,7 +258,7 @@ static void *PropertyObservationContext = (void *)1093;
 	return bezierpath;
 }
 
-- (void)drawPeaksWithTransform:(NSAffineTransform *)trans inView:(PKGraphView *)view{
+- (void)drawPeaksWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
     _graphView = view;
 	int i, count;
     
@@ -303,7 +303,7 @@ static void *PropertyObservationContext = (void *)1093;
             
             for (i=0; i < count; i++) {
                 [peaksPath removeAllPoints];
-                peakStart = [(PKPeak *)[[self peaks] objectAtIndex:i] start];
+                peakStart = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] start];
                 pointToDrawFirst = NSMakePoint(peakStart * retentionSlope + retentionRemainder,
                                                [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]*[verticalScale floatValue]); 
                 pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
@@ -311,15 +311,15 @@ static void *PropertyObservationContext = (void *)1093;
                 [peaksPath moveToPoint:pointToDrawFirst];
                 
                 // fori over data points
-                start = [(PKPeak *)[[self peaks] objectAtIndex:i] start];
-                end   = [(PKPeak *)[[self peaks] objectAtIndex:i] end]+1;
+                start = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] start];
+                end   = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] end]+1;
                 for (j=start; j < end; j++) {
                     pointInUnits = NSMakePoint(j * retentionSlope + retentionRemainder,
                                                yValues[j] * [verticalScale floatValue]);
                     pointInUnits  = [trans transformPoint:pointInUnits];
                     [peaksPath lineToPoint:pointInUnits];
                 }
-                peakEnd = [(PKPeak *)[[self peaks] objectAtIndex:i] end];
+                peakEnd = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] end];
                 pointToDrawLast  = NSMakePoint(peakEnd * retentionSlope + retentionRemainder,
                                                [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]*[verticalScale floatValue]);
                 pointToDrawLast  = [trans transformPoint:pointToDrawLast];
@@ -340,7 +340,7 @@ static void *PropertyObservationContext = (void *)1093;
             
             for (i=0; i < count; i++) {
                 [peaksPath removeAllPoints];
-                peakStart = [(PKPeak *)[[self peaks] objectAtIndex:i] start];
+                peakStart = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] start];
                 pointToDrawFirst = NSMakePoint(xValues[peakStart] * retentionSlope + retentionRemainder,
                                                [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]*[verticalScale floatValue]); 
                 pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
@@ -348,15 +348,15 @@ static void *PropertyObservationContext = (void *)1093;
                 [peaksPath moveToPoint:pointToDrawFirst];
                 
                 // fori over data points
-                start = [(PKPeak *)[[self peaks] objectAtIndex:i] start];
-                end   = [(PKPeak *)[[self peaks] objectAtIndex:i] end]+1;
+                start = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] start];
+                end   = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] end]+1;
                 for (j=start; j < end; j++) {
                     pointInUnits = NSMakePoint(xValues[j] * retentionSlope + retentionRemainder,
                                                yValues[j] * [verticalScale floatValue]);
                     pointInUnits  = [trans transformPoint:pointInUnits];
                     [peaksPath lineToPoint:pointInUnits];
                 }
-                peakEnd = [(PKPeak *)[[self peaks] objectAtIndex:i] end];
+                peakEnd = [(JKPeakRecord *)[[self peaks] objectAtIndex:i] end];
                 pointToDrawLast  = NSMakePoint(xValues[peakEnd] * retentionSlope + retentionRemainder,
                                                [[[[self peaks] objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]*[verticalScale floatValue]);
                 pointToDrawLast  = [trans transformPoint:pointToDrawLast];
@@ -379,7 +379,7 @@ static void *PropertyObservationContext = (void *)1093;
 	// Draw seleced peak!
 	NSMutableArray *selectedPeaks = [NSMutableArray array];
     NSEnumerator *enumerator = [[self peaks] objectEnumerator];
-    PKPeak *aPeak;
+    JKPeakRecord *aPeak;
     
     while ((aPeak = [enumerator nextObject]) != nil) {
     	if ([[[view peaksContainer] selectedObjects] containsObject:aPeak]) {
@@ -392,7 +392,7 @@ static void *PropertyObservationContext = (void *)1093;
     if ([keyForXValue isEqualToString:NSLocalizedString(@"Scan", @"")]) {
         for (i=0; i < count; i++) {
             [peaksPath removeAllPoints];
-            peakStart = [(PKPeak *)[selectedPeaks objectAtIndex:i] start];
+            peakStart = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] start];
             pointToDrawFirst = NSMakePoint(peakStart * retentionSlope + retentionRemainder,
                                            [[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]*[verticalScale floatValue]);
             pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
@@ -400,15 +400,15 @@ static void *PropertyObservationContext = (void *)1093;
             [peaksPath moveToPoint:pointToDrawFirst];
             
             // fori over data points
-            start = [(PKPeak *)[selectedPeaks objectAtIndex:i] start];
-            end   = [(PKPeak *)[selectedPeaks objectAtIndex:i] end]+1;
+            start = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] start];
+            end   = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] end]+1;
             for (j=start; j < end; j++) {
                 pointInUnits = NSMakePoint(j * retentionSlope + retentionRemainder,
                                            yValues[j]*[verticalScale floatValue]);
                 pointInUnits  = [trans transformPoint:pointInUnits];
                 [peaksPath lineToPoint:pointInUnits];
             }
-            peakEnd = [(PKPeak *)[selectedPeaks objectAtIndex:i] end];
+            peakEnd = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] end];
             pointToDrawLast  = NSMakePoint(peakEnd * retentionSlope + retentionRemainder,
                                            [[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]*[verticalScale floatValue]);
             pointToDrawLast  = [trans transformPoint:pointToDrawLast];
@@ -433,7 +433,7 @@ static void *PropertyObservationContext = (void *)1093;
             // Draw an arrow
             if ([[NSGraphicsContext currentContext] isDrawingToScreen]) {
                 [arrowPath removeAllPoints];
-                top = [(PKPeak *)[selectedPeaks objectAtIndex:i] top];
+                top = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] top];
                 pointInUnits = NSMakePoint(top * retentionSlope + retentionRemainder,
                                            yValues[top]*[verticalScale floatValue]);
                 pointInUnits  = [trans transformPoint:pointInUnits];
@@ -461,7 +461,7 @@ static void *PropertyObservationContext = (void *)1093;
     } else {
     	for (i=0; i < count; i++) {
             [peaksPath removeAllPoints];
-            peakStart = [(PKPeak *)[selectedPeaks objectAtIndex:i] start];
+            peakStart = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] start];
             pointToDrawFirst = NSMakePoint(xValues[peakStart] * retentionSlope + retentionRemainder,
                                            [[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineLeft"] floatValue]*[verticalScale floatValue]);
             pointToDrawFirst = [trans transformPoint:pointToDrawFirst];
@@ -469,15 +469,15 @@ static void *PropertyObservationContext = (void *)1093;
             [peaksPath moveToPoint:pointToDrawFirst];
             
             // fori over data points
-            start = [(PKPeak *)[selectedPeaks objectAtIndex:i] start];
-            end   = [(PKPeak *)[selectedPeaks objectAtIndex:i] end]+1;
+            start = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] start];
+            end   = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] end]+1;
             for (j=start; j < end; j++) {
                 pointInUnits = NSMakePoint(xValues[j] * retentionSlope + retentionRemainder,
                                            yValues[j]*[verticalScale floatValue]);
                 pointInUnits  = [trans transformPoint:pointInUnits];
                 [peaksPath lineToPoint:pointInUnits];
             }
-            peakEnd = [(PKPeak *)[selectedPeaks objectAtIndex:i] end];
+            peakEnd = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] end];
             pointToDrawLast  = NSMakePoint(xValues[peakEnd] * retentionSlope + retentionRemainder,
                                            [[[selectedPeaks objectAtIndex:i] valueForKey:@"baselineRight"] floatValue]*[verticalScale floatValue]);
             pointToDrawLast  = [trans transformPoint:pointToDrawLast];
@@ -502,7 +502,7 @@ static void *PropertyObservationContext = (void *)1093;
             // Draw an arrow
             if ([[NSGraphicsContext currentContext] isDrawingToScreen]) {
                 [arrowPath removeAllPoints];
-                top = [(PKPeak *)[selectedPeaks objectAtIndex:i] top];
+                top = [(JKPeakRecord *)[selectedPeaks objectAtIndex:i] top];
                 pointInUnits = NSMakePoint(xValues[top] * retentionSlope + retentionRemainder,
                                            yValues[top]*[verticalScale floatValue]);
                 pointInUnits  = [trans transformPoint:pointInUnits];
@@ -534,7 +534,7 @@ static void *PropertyObservationContext = (void *)1093;
 	[peaksPath release];
 }
 
-- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(PKGraphView *)view{
+- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view{
     _graphView = view;
     NSArray *peaksToDraw = nil;
     if ([[[self chromatogram] model] isEqualToString:@"TIC"]){
@@ -593,12 +593,12 @@ static void *PropertyObservationContext = (void *)1093;
 			string = [[NSMutableAttributedString alloc] initWithString:[[peaksToDraw objectAtIndex:i] valueForKey:@"label"] attributes:attrs];
 			drawVertical = YES; drawLabelAlways = YES;
 		} else {
-			string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"#%d",[(PKPeak *)[peaksToDraw objectAtIndex:i] peakID]] attributes:attrs];
+			string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"#%d",[(JKPeakRecord *)[peaksToDraw objectAtIndex:i] peakID]] attributes:attrs];
 			drawVertical = YES; drawLabelAlways = NO;
 		}
 		
 		// Where will it be drawn?
-        top = [(PKPeak *)[peaksToDraw objectAtIndex:i] top];
+        top = [(JKPeakRecord *)[peaksToDraw objectAtIndex:i] top];
         if ([keyForXValue isEqualToString:NSLocalizedString(@"Scan", @"")]) {
             pointToDraw = NSMakePoint(top * retentionSlope + retentionRemainder, 
                                       yValues[top]*[verticalScale floatValue]);
@@ -784,11 +784,11 @@ static void *PropertyObservationContext = (void *)1093;
 //}
 
 #pragma mark ACCESSORS
-- (PKChromatogram *)chromatogram {
+- (JKChromatogram *)chromatogram {
     return chromatogram;
 }
 
-- (void)setChromatogram:(PKChromatogram *)aChromatogram {
+- (void)setChromatogram:(JKChromatogram *)aChromatogram {
     if (aChromatogram != chromatogram) {
         [aChromatogram retain];
         [chromatogram autorelease];

@@ -10,11 +10,10 @@
 
 #import "AccessorMacros.h"
 #import "JKLog.h"
-#import "PKChromatogram.h"
+#import "JKChromatogram.h"
 
 @interface JKChromatogramTest : SenTestCase {
-    PKChromatogram *testChromatogram;
+    JKChromatogram *testChromatogram;
 }
 
-@property (retain) PKChromatogram *testChromatogram;
 @end

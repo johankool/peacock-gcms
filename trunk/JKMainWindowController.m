@@ -11,14 +11,14 @@
 #import "BDAlias.h"
 #import "ChromatogramGraphDataSerie.h"
 #import "JKAppDelegate.h"
-#import "PKChromatogram.h"
+#import "JKChromatogram.h"
 #import "JKGCMSDocument.h"
 #import "JKLibraryEntry.h"
 #import "JKMoleculeModel.h"
 #import "JKMoleculeView.h"
-#import "PKPeak.h"
+#import "JKPeakRecord.h"
 #import "JKSpectrum.h"
-#import "PKGraphView.h"
+#import "MyGraphView.h"
 #import "RBSplitSubview.h"
 #import "SpectrumGraphDataSerie.h"
 #import "netcdf.h"
@@ -126,18 +126,18 @@ static void *PeaksObservationContext = (void *)1103;
     [spectrumView setDrawingMode:JKNormalDrawingMode];
 
 	// Register as observer
-	[self addObserver:self forKeyPath:@"showNormalizedSpectra" options:0 context:SpectrumObservationContext];
-	[self addObserver:self forKeyPath:@"showCombinedSpectrum" options:0 context:SpectrumObservationContext];
-    [self addObserver:self forKeyPath:@"showLibraryHit" options:0 context:SpectrumObservationContext];
-	[self addObserver:self forKeyPath:@"showTICTrace" options:0 context:ChromatogramObservationContext];
-	[self addObserver:self forKeyPath:@"showSelectedChromatogramsOnly" options:0 context:ChromatogramObservationContext];
+	[self addObserver:self forKeyPath:@"showNormalizedSpectra" options:nil context:SpectrumObservationContext];
+	[self addObserver:self forKeyPath:@"showCombinedSpectrum" options:nil context:SpectrumObservationContext];
+    [self addObserver:self forKeyPath:@"showLibraryHit" options:nil context:SpectrumObservationContext];
+	[self addObserver:self forKeyPath:@"showTICTrace" options:nil context:ChromatogramObservationContext];
+	[self addObserver:self forKeyPath:@"showSelectedChromatogramsOnly" options:nil context:ChromatogramObservationContext];
 
-    [chromatogramsController addObserver:self forKeyPath:@"selection" options:0 context:ChromatogramObservationContext];
-	[peakController addObserver:self forKeyPath:@"selection" options:0 context:PeaksObservationContext];
-	[peakController addObserver:self forKeyPath:@"selection.countOfSearchResults" options:0 context:PeaksObservationContext];
-	[peakController addObserver:self forKeyPath:@"selection.confirmed" options:0 context:PeaksObservationContext];
-	[peakController addObserver:self forKeyPath:@"selection.identified" options:0 context:PeaksObservationContext];
-	[searchResultsController addObserver:self forKeyPath:@"selection" options:0 context:SpectrumObservationContext];
+    [chromatogramsController addObserver:self forKeyPath:@"selection" options:nil context:ChromatogramObservationContext];
+	[peakController addObserver:self forKeyPath:@"selection" options:nil context:PeaksObservationContext];
+	[peakController addObserver:self forKeyPath:@"selection.countOfSearchResults" options:nil context:PeaksObservationContext];
+	[peakController addObserver:self forKeyPath:@"selection.confirmed" options:nil context:PeaksObservationContext];
+	[peakController addObserver:self forKeyPath:@"selection.identified" options:nil context:PeaksObservationContext];
+	[searchResultsController addObserver:self forKeyPath:@"selection" options:nil context:SpectrumObservationContext];
 
 	// Double click action
 	[resultsTable setDoubleAction:@selector(resultDoubleClicked:)];
@@ -287,7 +287,7 @@ static void *PeaksObservationContext = (void *)1103;
 
 - (IBAction)showMassChromatogram:(id)sender {	
 	[[self document] addChromatogramForModel:[sender stringValue]];
-    PKChromatogram *chrom = [[self document] chromatogramForModel:[sender stringValue]];
+    JKChromatogram *chrom = [[self document] chromatogramForModel:[sender stringValue]];
     if (chrom) {
         [chromatogramsController addSelectedObjects:[NSArray arrayWithObject:chrom]];
         [sender setStringValue:@""];
@@ -298,7 +298,7 @@ static void *PeaksObservationContext = (void *)1103;
 
 - (void)showChromatogramForModel:(NSString *)modelString {
   	[[self document] addChromatogramForModel:modelString]; 
-    PKChromatogram *chrom = [[self document] chromatogramForModel:modelString];
+    JKChromatogram *chrom = [[self document] chromatogramForModel:modelString];
     if (chrom) {
         [chromatogramsController addSelectedObjects:[NSArray arrayWithObject:chrom]];
     } else {
@@ -333,7 +333,7 @@ static void *PeaksObservationContext = (void *)1103;
 - (IBAction)combinePeaksAction:(id)sender{
 	[[[self document] undoManager] setActionName:NSLocalizedString(@"Combine Peaks",@"")];
     if ([[[self peakController] selectedObjects] count] != NSNotFound) {
-        if ([(PKChromatogram *)[[[peakController selectedObjects] objectAtIndex:0] chromatogram] combinePeaks:[peakController selectedObjects]]) {            
+        if ([(JKChromatogram *)[[[peakController selectedObjects] objectAtIndex:0] chromatogram] combinePeaks:[peakController selectedObjects]]) {            
             [chromatogramView setNeedsDisplay:YES];
         }
     }
@@ -658,7 +658,7 @@ static void *PeaksObservationContext = (void *)1103;
 }
 
 - (IBAction)resultDoubleClicked:(id)sender{
-	PKPeak *selectedPeak = [[peakController selectedObjects] objectAtIndex:0];
+	JKPeakRecord *selectedPeak = [[peakController selectedObjects] objectAtIndex:0];
 	[selectedPeak identifyAs:[[searchResultsController selectedObjects] objectAtIndex:0]];
 	[selectedPeak confirm];
 }
@@ -667,7 +667,7 @@ static void *PeaksObservationContext = (void *)1103;
 	id preset = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"presets"] objectAtIndex:[sender tag]];
 	if ([preset valueForKey:@"massValue"]) {
 		[[self document] addChromatogramForModel:[preset valueForKey:@"massValue"]];
-        PKChromatogram *chrom = [[self document] chromatogramForModel:[preset valueForKey:@"massValue"]];
+        JKChromatogram *chrom = [[self document] chromatogramForModel:[preset valueForKey:@"massValue"]];
         if (chrom) {
             [chromatogramsController addSelectedObjects:[NSArray arrayWithObject:chrom]];
             
@@ -718,7 +718,7 @@ static void *PeaksObservationContext = (void *)1103;
           contextInfo: nil];
     
     
-    PKPeak *peak;
+    JKPeakRecord *peak;
     peak = [[peakController selectedObjects] objectAtIndex:0];
     if (![(JKGCMSDocument *)[self document] performForwardSearchLibraryForPeak:peak]) {
         NSBeep();
@@ -752,7 +752,7 @@ static void *PeaksObservationContext = (void *)1103;
         
         [chromatogramDataSeries removeAllObjects];
         NSEnumerator *chromatogramEnumerator = [[[self document] chromatograms] objectEnumerator];
-        PKChromatogram *chromatogram;
+        JKChromatogram *chromatogram;
         
         while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
             if ([chromatogramsTableSplitView isCollapsed]) {
@@ -825,7 +825,7 @@ static void *PeaksObservationContext = (void *)1103;
         int peakColorsArrayCount = [peakColorsArray count];
         
         NSEnumerator *peakEnumerator = [[peakController selectedObjects] objectEnumerator];
-        PKPeak *peak;
+        JKPeakRecord *peak;
         SpectrumGraphDataSerie *sgds;
         
         while ((peak = [peakEnumerator nextObject]) != nil) {
@@ -958,7 +958,7 @@ static void *PeaksObservationContext = (void *)1103;
         if ([[peakController selectedObjects] count] > 0) {
             NSMutableArray *chromsToSelect = [NSMutableArray array];
             NSEnumerator *peakEnum = [[peakController selectedObjects] objectEnumerator];
-            PKPeak *peak;
+            JKPeakRecord *peak;
             while ((peak = [peakEnum nextObject]) != nil) {
                 [chromsToSelect addObject:[[self document] chromatogramForModel:[peak model]]];
             }
@@ -1137,11 +1137,11 @@ static void *PeaksObservationContext = (void *)1103;
 #pragma mark -
 
 #pragma mark Accessors
-- (PKGraphView *)chromatogramView {
+- (MyGraphView *)chromatogramView {
     return chromatogramView;
 }
 
-- (PKGraphView *)spectrumView {
+- (MyGraphView *)spectrumView {
     return spectrumView;
 }
 
@@ -1335,7 +1335,7 @@ static void *PeaksObservationContext = (void *)1103;
 	if (tv == chromatogramsTable) {
         if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKPeakRecordTableViewDataType]]){
             // Add peaks to target chromatogram
-            PKChromatogram *chrom = [[chromatogramsController arrangedObjects] objectAtIndex:row];
+            JKChromatogram *chrom = [[chromatogramsController arrangedObjects] objectAtIndex:row];
             
             NSData *data = [[info draggingPasteboard] dataForType:JKPeakRecordTableViewDataType];
             NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
@@ -1343,9 +1343,10 @@ static void *PeaksObservationContext = (void *)1103;
             [unarchiver finishDecoding];
             [unarchiver release];
 
-            PKPeak *peak = nil;
+            NSEnumerator *enumerator = [peaks objectEnumerator];
+            JKPeakRecord *peak = nil;
 //            JKPeakRecord *newPeak = nil;
-            for (peak in peaks) {
+            while ((peak = [enumerator nextObject]) != nil) {
                 [[peak chromatogram] removeObjectFromPeaksAtIndex:[[[peak chromatogram] peaks] indexOfObject:peak]];
                 [chrom insertObject:peak inPeaksAtIndex:[chrom countOfPeaks]];
             }
@@ -1354,7 +1355,7 @@ static void *PeaksObservationContext = (void *)1103;
     } else if (tv == peaksTable) {
         if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKLibraryEntryTableViewDataType]]) {
             // Add the library entry to the peak
-            PKPeak *peak = [[peakController arrangedObjects] objectAtIndex:row];
+            JKPeakRecord *peak = [[peakController arrangedObjects] objectAtIndex:row];
             
             NSData *data = [[info draggingPasteboard] dataForType:JKLibraryEntryTableViewDataType];
             NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
@@ -1375,7 +1376,7 @@ static void *PeaksObservationContext = (void *)1103;
             if ([[peakController selectedObjects] count] != 1) {
                 return NO;
             }
-            PKPeak *peak = [[peakController selectedObjects] objectAtIndex:0];
+            JKPeakRecord *peak = [[peakController selectedObjects] objectAtIndex:0];
             
             NSData *data = [[info draggingPasteboard] dataForType:JKLibraryEntryTableViewDataType];
             NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
@@ -1476,34 +1477,4 @@ intAccessor(showPeaks, setShowPeaks)
 idAccessor(printAccessoryView, setPrintAccessoryView)
 idAccessor(chromatogramDataSeries, setChromatogramDataSeries)
 
-@synthesize resultsTable;
-@synthesize chromatogramSelectionSheet;
-@synthesize searchResultsController;
-@synthesize discardLibraryHitButton;
-@synthesize detailsTabViewItemView;
-@synthesize confirmLibraryHitButton;
-@synthesize chromatogramView;
-@synthesize searchResultsTabViewItemView;
-@synthesize progressBar;
-@synthesize hiddenColumnsPeaksTable;
-@synthesize progressSheet;
-@synthesize moleculeSplitSubview;
-@synthesize peaksTable;
-@synthesize detailsTabView;
-@synthesize spectrumDataSeriesController;
-@synthesize chromatogramSelectionSheetButton;
-@synthesize moleculeView;
-@synthesize spectrumView;
-@synthesize mainWindowSplitView;
-@synthesize peakController;
-@synthesize resultsTableScrollView;
-@synthesize identifyCompoundBox;
-@synthesize detailsTabViewItemScrollView;
-@synthesize detailsSplitSubview;
-@synthesize chromatogramDataSeriesController;
-@synthesize _lastDetailsSplitSubviewDimension;
-@synthesize chromatogramsTableSplitView;
-@synthesize chromatogramsController;
-@synthesize progressText;
-@synthesize chromatogramsTable;
 @end

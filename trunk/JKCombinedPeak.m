@@ -8,7 +8,7 @@
 
 #import "JKCombinedPeak.h"
 
-#import "PKPeak.h"
+#import "JKPeakRecord.h"
 #import "JKSpectrum.h"
 #import "JKStatisticsDocument.h"
 #import "JKLibraryEntry.h"
@@ -66,7 +66,7 @@
     NSEnumerator *keyEnumerator = [peaks keyEnumerator];
     while (aKey = [keyEnumerator nextObject]) {
         peak = [peaks objectForKey:aKey];
-        if(![peak isKindOfClass:[PKPeak class]]) {
+        if(![peak isKindOfClass:[JKPeakRecord class]]) {
             [keysToDeleteArray addObject:aKey];
         }
     }
@@ -101,7 +101,7 @@
 
 #pragma mark ACTIONS
 - (void)confirm {
-    PKPeak *peak = nil;
+    JKPeakRecord *peak = nil;
 	NSEnumerator *peaksEnumerator = [[self peaks] objectEnumerator];
     
     while ((peak = [peaksEnumerator nextObject])) {
@@ -120,7 +120,7 @@
 - (NSNumber *)certainty {
     int count = 0;
     NSEnumerator *peakEnum = [peaks objectEnumerator];
-    PKPeak *peak;
+    JKPeakRecord *peak;
 
     while ((peak = [peakEnum nextObject]) != nil) {
     	if ([peak confirmed]) {
@@ -131,7 +131,7 @@
     return [NSNumber numberWithFloat:count*1.0f/[self countOfPeaks]];
 }
 - (NSNumber *)averageRetentionIndex {
-    PKPeak *peak = nil;
+    JKPeakRecord *peak = nil;
 	NSEnumerator *peaksEnumerator = [[self peaks] objectEnumerator];
 	float sum = 0.0f;
     
@@ -144,7 +144,7 @@
     
  }
 - (NSNumber *)averageSurface {
-  	PKPeak *peak = nil;
+  	JKPeakRecord *peak = nil;
 	NSEnumerator *peaksEnumerator = [[self peaks] objectEnumerator];
 	float sum = 0.0f;
     
@@ -157,7 +157,7 @@
 }
 
 - (NSNumber *)averageHeight {
-  	PKPeak *peak = nil;
+  	JKPeakRecord *peak = nil;
 	NSEnumerator *peaksEnumerator = [[self peaks] objectEnumerator];
 	float sum = 0.0f;
     
@@ -170,7 +170,7 @@
 }
 
 - (NSNumber *)standardDeviationRetentionIndex {
-	PKPeak *peak = nil;
+	JKPeakRecord *peak = nil;
 	NSEnumerator *peaksEnumerator = [[self peaks] objectEnumerator];
 	float sum = 0.0f;
     float average = [[self averageRetentionIndex] floatValue];
@@ -184,7 +184,7 @@
 }
 
 - (NSNumber *)standardDeviationSurface {
-  	PKPeak *peak = nil;
+  	JKPeakRecord *peak = nil;
 	NSEnumerator *peaksEnumerator = [[self peaks] objectEnumerator];
 	float sum = 0.0f;
     float average = [[self averageSurface] floatValue];
@@ -197,7 +197,7 @@
     return [NSNumber numberWithFloat:sqrtf(sum/([self countOfPeaks]-1))];		
 }
 - (NSNumber *)standardDeviationHeight {
-   	PKPeak *peak = nil;
+   	JKPeakRecord *peak = nil;
 	NSEnumerator *peaksEnumerator = [[self peaks] objectEnumerator];
 	float sum = 0.0f;
     float average = [[self averageHeight] floatValue];
@@ -276,7 +276,7 @@
         if (aLabel) {
             if (!([aLabel isEqualToString:@""] || [aLabel hasPrefix:NSLocalizedString(@"Unknown compound",@"")])) {
                 NSEnumerator *peakEnum = [peaks objectEnumerator];
-                PKPeak *peak;
+                JKPeakRecord *peak;
                 while (peak = [peakEnum nextObject]) {
                     [peak setLabel:label];
                 }            
@@ -299,7 +299,7 @@
         
         // Set symbol also for all peaks
         NSEnumerator *peakEnum = [peaks objectEnumerator];
-        PKPeak *peak;
+        JKPeakRecord *peak;
         while (peak = [peakEnum nextObject]) {
             [peak setSymbol:symbol];
         }
@@ -343,7 +343,7 @@
        
         // Set group also for all peaks' libraryhits
         NSEnumerator *peakEnum = [peaks objectEnumerator];
-        PKPeak *peak;
+        JKPeakRecord *peak;
         while (peak = [peakEnum nextObject]) {
             [[peak libraryHit] setGroup:group];
         }

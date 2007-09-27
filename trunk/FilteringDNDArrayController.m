@@ -144,8 +144,9 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
 
 - (NSIndexSet *)indexSetFromRows:(NSArray *)rows{
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    NSEnumerator *rowEnumerator = [rows objectEnumerator];
     NSNumber *idx;
-    for (idx in rows) {
+    while ((idx = [rowEnumerator nextObject])) {
         JKLogDebug([idx description]);
 		[indexSet addIndex:[idx intValue]];
     }
@@ -164,5 +165,4 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
     return i;
 }
 
-@synthesize tableView;
 @end

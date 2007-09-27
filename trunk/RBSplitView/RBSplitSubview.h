@@ -137,11 +137,5 @@ typedef enum {
 // to call this directly.
 - (float)changeDimensionBy:(float)increment mayCollapse:(BOOL)mayCollapse;
 
-@property BOOL notInLimits;
-@property (getter=maxDimension) float maxDimension;
-@property unsigned int actDivider;
-@property (getter=RB___fraction) double fraction;
-@property (getter=tag,setter=setTag:) int tag;
-@property (getter=minDimension) float minDimension;
 @end
 

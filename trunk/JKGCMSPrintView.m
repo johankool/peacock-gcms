@@ -9,7 +9,7 @@
 #import "JKGCMSPrintView.h"
 
 #import "JKGCMSDocument.h"
-#import "PKPeak.h"
+#import "JKPeakRecord.h"
 #import "JKMainWindowController.h"
 
 @implementation JKGCMSPrintView
@@ -205,7 +205,7 @@
     
     // Collecting the peak table only once makes sense too...
     NSEnumerator *peakEnum = [[document peaks] objectEnumerator];
-    PKPeak *peak;
+    JKPeakRecord *peak;
     NSMutableString *string = [NSMutableString string];
     [string setString:@"<table>"];
     [string appendFormat:@"<caption>Peak List for document \"%@\"</caption>", [document displayName]];
@@ -285,8 +285,4 @@
 {
     return NO;
 }
-@synthesize peakTable;
-@synthesize chromImage;
-@synthesize document;
-@synthesize spectrumImage;
 @end

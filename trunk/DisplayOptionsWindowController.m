@@ -134,8 +134,9 @@
 	int row = 0;
 	int column = 0;
 	NSButtonCell *cell = nil;
+	NSEnumerator *enumerator = [options objectEnumerator];
 	NSDictionary *option;
-	for (option in options) {
+	while (option = [enumerator nextObject]) {
 		cell = [optionsMatrix cellAtRow:row column:column];
 		[cell setTitle:[option valueForKey:@"title"]];
 		[cell setEnabled:[[option valueForKey:@"enabled"] boolValue]];
@@ -170,7 +171,4 @@
 
 
 
-@synthesize iconView;
-@synthesize optionsMatrix;
-@synthesize headingField;
 @end

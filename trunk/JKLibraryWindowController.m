@@ -12,7 +12,7 @@
 #import "JKManagedLibraryEntry.h"
 #import "JKMoleculeModel.h"
 #import "JKMoleculeView.h"
-#import "PKGraphView.h"
+#import "MyGraphView.h"
 #import "SpectrumGraphDataSerie.h"
 
 
@@ -42,7 +42,7 @@
 	
 	[spectrumView bind:@"dataSeries" toObject:spectrumViewDataseriesController withKeyPath:@"arrangedObjects" options:nil];
 	
-	[libraryController addObserver:self forKeyPath:@"selection" options:0 context:nil];
+	[libraryController addObserver:self forKeyPath:@"selection" options:nil context:nil];
 
     [moleculeView bind:@"moleculeString" toObject: libraryController
 		   withKeyPath:@"selection.molString" options:nil];
@@ -174,12 +174,4 @@
 - (NSArrayController *)libraryController {
 	return libraryController;
 }
-@synthesize showNormalizedSpectra;
-@synthesize casNumberField;
-@synthesize spectrumViewDataseriesController;
-@synthesize addCasNumberSheet;
-@synthesize libraryController;
-@synthesize tableView;
-@synthesize moleculeView;
-@synthesize spectrumView;
 @end

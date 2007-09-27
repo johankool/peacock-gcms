@@ -194,6 +194,8 @@
     // Only one NSPrintOperation can be active at one point, so we need to fetch the pdf before the print operation on the document starts
 
     // Drawing chromatogram
+/*###197 [cc] warning: initialization from distinct Objective-C type%%%*/
+/*###197 [cc] warning: initialization from distinct Objective-C type%%%*/
     NSView *chromView = [[document statisticsWindowController] altGraphView];
     NSRect chromRect = [self rectForChromatogram];
     NSRect oldRect = [chromView frame];
@@ -336,9 +338,4 @@
 {
     return NO;
 }
-@synthesize peakTable;
-@synthesize chromImage;
-@synthesize loadingsImage;
-@synthesize scoresImage;
-@synthesize document;
 @end
