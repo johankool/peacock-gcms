@@ -149,11 +149,4 @@
 }
 
 */
-@synthesize columnVisibility;
-@synthesize tableContentController;
-@synthesize rightSideTableView;
-@synthesize allowsColumnHiding;
-@synthesize tableContentKey;
-@synthesize allowsRowDeletion;
-@synthesize leftSideTableView;
 @end

@@ -11,7 +11,7 @@
 #import "JKLibraryEntry.h"
 #import "jk_statistics.h"
 #import "JKGCMSDocument.h"
-#import "PKPeak.h"
+#import "JKPeakRecord.h"
 #import "SpectrumGraphDataSerie.h"
 #import "NSCoder+CArrayEncoding.h"
 
@@ -90,11 +90,11 @@
     }
 }
 
-- (void)setPeak:(PKPeak *)inValue {
+- (void)setPeak:(JKPeakRecord *)inValue {
 	// Weak reference
 	peak = inValue;
 }
-- (PKPeak *)peak {
+- (JKPeakRecord *)peak {
     return peak;
 }
 
@@ -592,7 +592,4 @@
     return self;
 }
 
-@synthesize numberOfPoints;
-@synthesize masses;
-@synthesize intensities;
 @end

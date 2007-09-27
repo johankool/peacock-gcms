@@ -34,13 +34,4 @@
 #pragma mark ACCESSORS
 idAccessor_h(files, setFiles)
 boolAccessor_h(abortAction, setAbortAction)
-@property (retain) NSButton *addButton;
-@property (getter=abortAction,setter=setAbortAction:) BOOL abortAction;
-@property (retain) NSTableView *filesTableView;
-@property (retain) NSButton *stopButton;
-@property (retain) NSButton *runBatchButton;
-@property (retain) NSTextField *detailStatusTextField;
-@property (retain) NSProgressIndicator *fileProgressIndicator;
-@property (retain) NSWindow *progressSheet;
-@property (retain) NSTextField *fileStatusTextField;
 @end

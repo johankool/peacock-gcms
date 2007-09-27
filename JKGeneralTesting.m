@@ -11,12 +11,12 @@
 #import "JKGCMSDocument.h"
 #import "JKRatio.h"
 
-@class PKPeak;
+@class JKPeakRecord;
 
 @implementation JKGeneralTesting
 
 - (void)testJKPeakRecord {
-	PKPeak *object = [[PKPeak alloc] init];	
+	JKPeakRecord *object = [[JKPeakRecord alloc] init];	
 	STAssertNotNil(object, @"Could not create instance.");
 }
 

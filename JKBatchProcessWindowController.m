@@ -40,7 +40,9 @@
 - (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
     if (returnCode == NSOKButton) {
         NSArray *filesToOpen = [sheet filenames];
-        for (NSString *aFile in filesToOpen) {
+        int i, count = [filesToOpen count];
+        for (i=0; i<count; i++) {
+            NSString *aFile = [filesToOpen objectAtIndex:i];
 			NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
 			[mutDict setValue:[aFile lastPathComponent] forKey:@"filename"];
 			[mutDict setValue:aFile forKey:@"path"];
@@ -83,7 +85,7 @@
 	
 	NSError *error = [[NSError alloc] init];
 	JKGCMSDocument *document;
-    PKGraphView *chromatogramView;
+    MyGraphView *chromatogramView;
 	NSString *path;
 
 	for (i=0; i < filesCount; i++) {
@@ -275,14 +277,4 @@ boolAccessor(abortAction, setAbortAction)
 - (void)windowDidEndSheet:(NSNotification *)notification {
 	return;
 }
-
-@synthesize addButton;
-@synthesize filesTableView;
-@synthesize stopButton;
-@synthesize runBatchButton;
-@synthesize detailStatusTextField;
-@synthesize fileProgressIndicator;
-@synthesize progressSheet;
-@synthesize fileStatusTextField;
-
 @end

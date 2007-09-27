@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class JKSpectrum;
-@class PKPeak;
+@class JKPeakRecord;
 @class JKStatisticsDocument;
 @class JKLibraryEntry;
 
@@ -66,7 +66,4 @@
 - (void)setPeaks:(NSMutableDictionary *)inValue;
 - (int)countOfPeaks;
 
-@property (assign,getter=document,setter=setDocument:) JKStatisticsDocument *document;
-@property (getter=unknownCompound,setter=setUnknownCompound:) BOOL unknownCompound;
-@property (getter=index,setter=setIndex:) int index;
 @end

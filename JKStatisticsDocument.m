@@ -11,7 +11,7 @@
 #import "BDAlias.h"
 #import "JKCombinedPeak.h"
 #import "JKLibrary.h"
-#import "PKPeak.h"
+#import "JKPeakRecord.h"
 #import "JKStatisticsWindowController.h"
 #import "JKGCMSDocument.h"
 #import "MyGraphDataSerie.h"
@@ -173,7 +173,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         return [BDAlias aliasWithPath:[object fileName]];
     } else if ([object isKindOfClass:[JKLibrary class]]) {
         return [BDAlias aliasWithPath:[object fileName]];
-    } else if ([object isKindOfClass:[PKPeak class]]) {
+    } else if ([object isKindOfClass:[JKPeakRecord class]]) {
         return [NSDictionary dictionaryWithObject:[object uuid] forKey:@"_peakUuid"];
     }
     return object;
@@ -191,7 +191,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
             while ((document = [docEnum nextObject]) != nil) {
                 if ([document isKindOfClass:[JKGCMSDocument class]]) {
                     NSEnumerator *peakEnum = [[(JKGCMSDocument *)document peaks] objectEnumerator];
-                    PKPeak *peak;
+                    JKPeakRecord *peak;
                     
                     while ((peak = [peakEnum nextObject]) != nil) {
                         if ([[peak uuid] isEqualToString:uuid]) {
@@ -363,14 +363,14 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         // Surface values
         for (j=0; j < compoundCount; j++) {
             compound = [filteredPeaks objectAtIndex:j];
- //           normalizedSurface = nil;
+            normalizedSurface = nil;
             surface = [[[compound valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"surface"] floatValue];
             normalizedSurface = surface * 100 / totalSurface;
-      //      if (normalizedSurface != NaN) {
+            if (normalizedSurface != nil) {
                 [outStr appendFormat:@",%g", normalizedSurface];					
- //           } else {
-//                [outStr appendString:@",0"];										
-//            }
+            } else {
+                [outStr appendString:@",0"];										
+            }
         }
         [outStr appendString:@"\n"];
     }
@@ -405,30 +405,30 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
     NSMutableString *rCommand;
     if (rCommandPath = [[NSBundle mainBundle] pathForResource:@"factoranalysis" ofType:@"R"])  {
         rCommand = [NSMutableString stringWithContentsOfFile:rCommandPath encoding:NSASCIIStringEncoding error:NULL];
-        [rCommand replaceOccurrencesOfString:@"{TEMP_DIR}" withString:tempDir options:0 range:NSMakeRange(0, [rCommand length])];
-        [rCommand replaceOccurrencesOfString:@"{NUMBER_OF_FACTORS}" withString:[NSString stringWithFormat:@"%d",[self numberOfFactors]] options:0 range:NSMakeRange(0, [rCommand length])];
+        [rCommand replaceOccurrencesOfString:@"{TEMP_DIR}" withString:tempDir options:nil range:NSMakeRange(0, [rCommand length])];
+        [rCommand replaceOccurrencesOfString:@"{NUMBER_OF_FACTORS}" withString:[NSString stringWithFormat:@"%d",[self numberOfFactors]] options:nil range:NSMakeRange(0, [rCommand length])];
         switch ([self scores]) {
             case 0:
             default:
-                [rCommand replaceOccurrencesOfString:@"{SCORES}" withString:@"none" options:0 range:NSMakeRange(0, [rCommand length])];
+                [rCommand replaceOccurrencesOfString:@"{SCORES}" withString:@"none" options:nil range:NSMakeRange(0, [rCommand length])];
                 break;
             case 1:
-                [rCommand replaceOccurrencesOfString:@"{SCORES}" withString:@"regression" options:0 range:NSMakeRange(0, [rCommand length])];
+                [rCommand replaceOccurrencesOfString:@"{SCORES}" withString:@"regression" options:nil range:NSMakeRange(0, [rCommand length])];
                 break;
             case 2:
-                [rCommand replaceOccurrencesOfString:@"{SCORES}" withString:@"Bartlettt" options:0 range:NSMakeRange(0, [rCommand length])];
+                [rCommand replaceOccurrencesOfString:@"{SCORES}" withString:@"Bartlettt" options:nil range:NSMakeRange(0, [rCommand length])];
                 break;
         }
         switch ([self rotation]) {
             case 0:
             default:
-                [rCommand replaceOccurrencesOfString:@"{ROTATION}" withString:@"none" options:0 range:NSMakeRange(0, [rCommand length])];
+                [rCommand replaceOccurrencesOfString:@"{ROTATION}" withString:@"none" options:nil range:NSMakeRange(0, [rCommand length])];
                 break;
             case 1:
-                [rCommand replaceOccurrencesOfString:@"{ROTATION}" withString:@"varimax" options:0 range:NSMakeRange(0, [rCommand length])];
+                [rCommand replaceOccurrencesOfString:@"{ROTATION}" withString:@"varimax" options:nil range:NSMakeRange(0, [rCommand length])];
                 break;
             case 2:
-                [rCommand replaceOccurrencesOfString:@"{ROTATION}" withString:@"optimax" options:0 range:NSMakeRange(0, [rCommand length])];
+                [rCommand replaceOccurrencesOfString:@"{ROTATION}" withString:@"optimax" options:nil range:NSMakeRange(0, [rCommand length])];
                 break;
         }
     } else {
@@ -677,8 +677,4 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
 - (void)setScores:(int)aScores {
 	scores = aScores;
 }
-@synthesize statisticsWindowController;
-@synthesize _documentProxy;
-@synthesize groupSymbols;
-@synthesize printView;
 @end

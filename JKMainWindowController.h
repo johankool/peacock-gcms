@@ -10,12 +10,12 @@
 @class JKGCMSDocument;
 @class JKLibraryEntry;
 @class JKLibrarySearch;
-@class PKPeak;
+@class JKPeakRecord;
 @class JKSpectrum;
 @class JKMoleculeView;
 @class RBSplitSubview;
 
-#import "PKGraphView.h"
+#import "MyGraphView.h"
 
 enum JKPeakSelection {
 	JKAllPeaks,
@@ -30,12 +30,12 @@ enum JKPeakSelection {
 	IBOutlet NSView *mainWindowSplitView;
 	
 	// Chromatogram
-    IBOutlet PKGraphView *chromatogramView;
+    IBOutlet MyGraphView *chromatogramView;
     IBOutlet NSTableView *chromatogramsTable;
     IBOutlet NSArrayController *chromatogramDataSeriesController;
 
 	// Spectrum
-	IBOutlet PKGraphView *spectrumView;
+	IBOutlet MyGraphView *spectrumView;
 	IBOutlet NSArrayController *spectrumDataSeriesController;
 
 	// Peak list
@@ -118,8 +118,8 @@ enum JKPeakSelection {
 - (void)setupToolbar;
 
 #pragma mark ACCESSORS
-- (PKGraphView *)chromatogramView;
-- (PKGraphView *)spectrumView;
+- (MyGraphView *)chromatogramView;
+- (MyGraphView *)spectrumView;
 - (NSArrayController *)chromatogramDataSeriesController;
 - (NSTableView *)peaksTable;
 - (NSArrayController *)peakController;
@@ -140,41 +140,4 @@ intAccessor_h(showPeaks, setShowPeaks)
 idAccessor_h(printAccessoryView, setPrintAccessoryView)
 boolAccessor_h(showSelectedChromatogramsOnly, setShowSelectedChromatogramsOnly)
 
-@property (retain) RBSplitSubview *detailsSplitSubview;
-@property (retain) NSButton *confirmLibraryHitButton;
-@property (retain,getter=chromatogramView) PKGraphView *chromatogramView;
-@property (retain) NSView *searchResultsTabViewItemView;
-@property (getter=showTICTrace,setter=setShowTICTrace:) BOOL showTICTrace;
-@property (retain,getter=progressIndicator) NSProgressIndicator *progressBar;
-@property (retain,getter=hiddenColumnsPeaksTable) NSMutableArray *hiddenColumnsPeaksTable;
-@property (retain) NSWindow *progressSheet;
-@property (retain) RBSplitSubview *moleculeSplitSubview;
-@property (getter=showCombinedSpectrum,setter=setShowCombinedSpectrum:) BOOL showCombinedSpectrum;
-@property (retain,getter=peaksTable) NSTableView *peaksTable;
-@property (retain) NSTabView *detailsTabView;
-@property (getter=abortAction,setter=setAbortAction:) BOOL abortAction;
-@property (getter=showPeaks,setter=setShowPeaks:) int showPeaks;
-@property (retain) NSArrayController *spectrumDataSeriesController;
-@property (retain) JKMoleculeView *moleculeView;
-@property (retain,getter=spectrumView) PKGraphView *spectrumView;
-@property (retain) NSView *mainWindowSplitView;
-@property (retain,getter=peakController) NSArrayController *peakController;
-@property (retain) NSScrollView *resultsTableScrollView;
-@property (retain) NSBox *identifyCompoundBox;
-@property (retain) NSScrollView *detailsTabViewItemScrollView;
-@property (retain,getter=chromatogramDataSeriesController) NSArrayController *chromatogramDataSeriesController;
-@property float _lastDetailsSplitSubviewDimension;
-@property (retain) RBSplitSubview *chromatogramsTableSplitView;
-@property (retain,getter=chromatogramsController) NSArrayController *chromatogramsController;
-@property (retain,getter=progressText) NSTextField *progressText;
-@property (retain) NSTableView *chromatogramsTable;
-@property (retain,getter=resultsTable) NSTableView *resultsTable;
-@property (retain) NSWindow *chromatogramSelectionSheet;
-@property (retain,getter=searchResultsController) NSArrayController *searchResultsController;
-@property (getter=showNormalizedSpectra,setter=setShowNormalizedSpectra:) BOOL showNormalizedSpectra;
-@property (getter=showLibraryHit,setter=setShowLibraryHit:) BOOL showLibraryHit;
-@property (getter=showSelectedChromatogramsOnly,setter=setShowSelectedChromatogramsOnly:) BOOL showSelectedChromatogramsOnly;
-@property (retain) NSButton *discardLibraryHitButton;
-@property (retain) NSView *detailsTabViewItemView;
-@property (retain) NSButton *chromatogramSelectionSheetButton;
 @end

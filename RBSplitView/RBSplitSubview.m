@@ -598,11 +598,6 @@ static animationData* animation = NULL;
     return self;
 }
 
-@synthesize fraction;
-@synthesize actDivider;
-@synthesize notInLimits;
-@synthesize maxDimension;
-@synthesize minDimension;
 @end
 
 @implementation RBSplitSubview (RB___SubviewAdditions)

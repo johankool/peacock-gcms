@@ -9,12 +9,12 @@
 #import <Cocoa/Cocoa.h>
 
 @class JKLibraryEntry;
-@class PKPeak;
+@class JKPeakRecord;
 
 @interface JKSearchResult : NSObject <NSCoding> {
     NSNumber *score;
     JKLibraryEntry *libraryHit;
-    PKPeak *peak;
+    JKPeakRecord *peak;
     int spectrumType; // 0 = spectrum; 1 = combinedSpectrum
 }
 
@@ -26,9 +26,7 @@
 - (JKLibraryEntry *)libraryHit;
 - (void)setLibraryHit:(JKLibraryEntry *)libraryHit;
 
-- (PKPeak *)peak;
-- (void)setPeak:(PKPeak *)aPeak;
+- (JKPeakRecord *)peak;
+- (void)setPeak:(JKPeakRecord *)aPeak;
 
-@property int spectrumType;
-@property (assign,getter=peak,setter=setPeak:) PKPeak *peak;
 @end

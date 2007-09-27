@@ -6,17 +6,17 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
-#import "PKModelObject.h"
+#import "JKModelObject.h"
 #import "JKComparableProtocol.h"
 #import "JKTargetObjectProtocol.h"
 
 @class JKLibraryEntry;
 @class JKGCMSDocument;
-@class PKPeak;
+@class JKPeakRecord;
 @class SpectrumGraphDataSerie;
 
-@interface JKSpectrum : PKModelObject <NSCoding, JKComparableProtocol, JKTargetObjectProtocol> {
-	PKPeak *peak;
+@interface JKSpectrum : JKModelObject <NSCoding, JKComparableProtocol, JKTargetObjectProtocol> {
+	JKPeakRecord *peak;
 	NSString *model;
     	
 	int numberOfPoints;
@@ -41,8 +41,8 @@
 
 #pragma mark ACCESSORS
 - (JKGCMSDocument *)document;
-- (void)setPeak:(PKPeak *)inValue;
-- (PKPeak *)peak;
+- (void)setPeak:(JKPeakRecord *)inValue;
+- (JKPeakRecord *)peak;
 - (NSString *)model;
 - (void)setModel:(NSString *)aString;
 - (int)numberOfPoints;
@@ -51,8 +51,4 @@
 - (void)setIntensities:(float *)inArray withCount:(int)inValue;
 - (float *)intensities;
 
-@property (getter=numberOfPoints) int numberOfPoints;
-@property (getter=masses) float *masses;
-@property (assign,getter=peak,setter=setPeak:) PKPeak *peak;
-@property (getter=intensities) float *intensities;
 @end

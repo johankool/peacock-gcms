@@ -6,7 +6,7 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
-@class PKGraphView;
+@class MyGraphView;
 
 @protocol GraphDataSerie
 - (BOOL)shouldDrawLabels;
@@ -34,7 +34,7 @@
 - (NSArray *)acceptableKeysForLabel;
 - (void)setAcceptableKeysForLabel:(NSArray *)inValue;
 
-- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(PKGraphView *)view;
+- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view;
 - (void)transposeAxes;
 - (NSRect)boundingRect;
 @end
@@ -65,7 +65,7 @@ typedef enum {
     NSArray *acceptableKeysForLabel;
 
     BOOL _needsReconstructingPlotPath;
-    PKGraphView *_graphView;
+    MyGraphView *_graphView;
     NSAffineTransform *_previousTrans;
     NSArray *_oldData;		
     NSBezierPath *_plotPath;
@@ -74,8 +74,8 @@ typedef enum {
 }
 
 #pragma mark Drawing Routines
-- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(PKGraphView *)view;
-- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(PKGraphView *)view;
+- (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view;
+- (void)drawLabelsWithTransform:(NSAffineTransform *)trans inView:(MyGraphView *)view;
 - (void)constructPlotPath;
 #pragma mark -
 
@@ -121,10 +121,4 @@ typedef enum {
 - (void)setOldData:(NSArray *)anOldData;
 - (NSAffineTransform *)oldTrans;
 - (void)setOldTrans:(NSAffineTransform *)anOldTrans;
-@property (retain,getter=plotPath) NSBezierPath *_plotPath;
-@property BOOL observeData;
-@property (retain) PKGraphView *_graphView;
-@property BOOL _needsReconstructingPlotPath;
-@property (retain,getter=oldData) NSArray *_oldData;
-@property (retain,getter=oldTrans) NSAffineTransform *_previousTrans;
 @end

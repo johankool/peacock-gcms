@@ -50,7 +50,7 @@
 		[self setFileAliasKeyPath:observableKeyPath];
 		[fileAliasContainer addObserver:self
 							  forKeyPath:fileAliasKeyPath
-								 options:0
+								 options:nil
 								 context:nil];
     } else {
 		[super bind:bindingName
@@ -174,5 +174,4 @@
 //idAccessor(fileAliasContainer, setFileAliasContainer)
 //idAccessor(fileAliasKeyPath, setFileAliasKeyPath)
 
-@synthesize fileTypes;
 @end

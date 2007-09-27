@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class JKGCMSDocument;
-@class PKGraphView;
+@class MyGraphView;
 @class JKRatio;
 @class JKCombinedPeak;
 
@@ -84,11 +84,11 @@
     
     IBOutlet NSArrayController *chromatogramDataSeriesController;
     IBOutlet NSArrayController *peaksController;
-    IBOutlet PKGraphView *altGraphView;
+    IBOutlet MyGraphView *altGraphView;
     
-    IBOutlet PKGraphView *loadingsGraphView;
+    IBOutlet MyGraphView *loadingsGraphView;
     IBOutlet NSArrayController *loadingsDataSeriesController;
-    IBOutlet PKGraphView *scoresGraphView;
+    IBOutlet MyGraphView *scoresGraphView;
     IBOutlet NSArrayController *scoresDataSeriesController;
     
     IBOutlet NSView *printAccessoryView;
@@ -123,9 +123,9 @@
 
 #pragma mark IBOutlets
 - (NSView *)printAccessoryView;
-- (PKGraphView *)altGraphView;
-- (PKGraphView *)loadingsGraphView;
-- (PKGraphView *)scoresGraphView;
+- (MyGraphView *)altGraphView;
+- (MyGraphView *)loadingsGraphView;
+- (MyGraphView *)scoresGraphView;
 #pragma mark -
 
 #pragma mark CALCULATED ACCESSORS
@@ -228,55 +228,4 @@ idAccessor_h(maximumRetentionIndexDifference, setMaximumRetentionIndexDifference
 boolAccessor_h(closeDocuments, setCloseDocuments)
 boolAccessor_h(calculateRatios, setCalculateRatios)
 
-@property (getter=calculateRatios,setter=setCalculateRatios:) BOOL calculateRatios;
-@property (retain) NSButton *stopButton;
-@property (retain) NSButton *searchOptionsButton;
-@property (retain) NSArrayController *metadataController;
-@property (retain) NSScrollView *comparisonScrollView;
-@property (retain,getter=loadingsGraphView) PKGraphView *loadingsGraphView;
-@property (retain) NSArrayController *ratiosController;
-@property (getter=scoreBasis,setter=setScoreBasis:) int scoreBasis;
-@property BOOL sanityCheck;
-@property (retain) NSButton *addButton;
-@property (getter=abortAction,setter=setAbortAction:) BOOL abortAction;
-@property (getter=valueToUse,setter=setValueToUse:) int valueToUse;
-@property (getter=penalizeForRetentionIndex,setter=setPenalizeForRetentionIndex:) BOOL penalizeForRetentionIndex;
-@property (retain) NSTableView *ratiosTable;
-@property (retain,getter=altGraphView) PKGraphView *altGraphView;
-@property BOOL rerunNeeded;
-@property (retain) NSScrollView *metadataTableScrollView;
-@property (retain) id splitView;
-@property (retain) NSTextField *fileStatusTextField;
-@property (retain) NSButton *runBatchButton;
-@property (retain) NSButton *doneButton;
-@property (retain) NSArrayController *ratiosValuesController;
-@property (retain) NSScrollView *ratiosTableScrollView;
-@property (retain) NSTableView *resultsTable;
-@property BOOL comparePeaks;
-@property (retain,getter=scoresGraphView) PKGraphView *scoresGraphView;
-@property (retain) NSProgressIndicator *fileProgressIndicator;
-@property int unknownCount;
-@property (retain) NSArrayController *combinedPeaksController;
-@property BOOL scrollingViewProgrammatically;
-@property (retain) NSWindow *progressSheet;
-@property BOOL combinePeaks;
-@property (getter=setPeakSymbolToNumber,setter=setSetPeakSymbolToNumber:) BOOL setPeakSymbolToNumber;
-@property (getter=columnSorting,setter=setColumnSorting:) int columnSorting;
-@property BOOL performSanityCheck;
-@property (retain,getter=printAccessoryView) NSView *printAccessoryView;
-@property (retain) NSWindow *ratiosEditor;
-@property BOOL movingColumnsProgramatically;
-@property (retain) NSTableView *metadataTable;
-@property (retain) NSScrollView *resultsTableScrollView;
-@property (retain) NSWindow *summarizeOptionsSheet;
-@property (getter=peaksToUse,setter=setPeaksToUse:) int peaksToUse;
-@property (retain) NSWindow *optionsSheet;
-@property (retain) NSArrayController *chromatogramDataSeriesController;
-@property (retain) NSArrayController *loadingsDataSeriesController;
-@property (getter=closeDocuments,setter=setCloseDocuments:) BOOL closeDocuments;
-@property (retain) NSArrayController *peaksController;
-@property (retain) NSArrayController *scoresDataSeriesController;
-@property (retain) NSTableView *filesTableView;
-@property (retain) NSTextField *detailStatusTextField;
-@property (retain) NSTabView *tabView;
 @end

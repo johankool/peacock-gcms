@@ -9,7 +9,7 @@
 #import "JKSearchResult.h"
 
 #import "JKLibraryEntry.h"
-#import "PKPeak.h"
+#import "JKPeakRecord.h"
 #import "JKLibrary.h"
 
 @implementation JKSearchResult
@@ -51,10 +51,10 @@
 	libraryHit = [aLibraryHit retain];
 }
 
-- (PKPeak *)peak {
+- (JKPeakRecord *)peak {
 	return peak;
 }
-- (void)setPeak:(PKPeak *)aPeak {
+- (void)setPeak:(JKPeakRecord *)aPeak {
 	peak = aPeak;
 }
 
@@ -80,5 +80,4 @@
     return self;
 }
 
-@synthesize spectrumType;
 @end
