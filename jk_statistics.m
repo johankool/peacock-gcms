@@ -10,6 +10,8 @@
 #import "jk_statistics.h"
 #import "math.h"
 
+#import "JKGCMSDocument.h"
+
 #pragma mark FUNCTIONS
 
 void normalize(float *input, int count) {
