@@ -49,7 +49,6 @@
 		C71D9FCC099CD19D007EB10D /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C71D9FCB099CD19D007EB10D /* Growl.framework */; };
 		C71D9FE9099CD291007EB10D /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C71D9FCB099CD19D007EB10D /* Growl.framework */; };
 		C720AB8809EA7B6C007EF860 /* jk_statistics.h in Headers */ = {isa = PBXBuildFile; fileRef = C720AB8609EA7B6C007EF860 /* jk_statistics.h */; };
-		C720AB8909EA7B6C007EF860 /* jk_statistics.m in Sources */ = {isa = PBXBuildFile; fileRef = C720AB8709EA7B6C007EF860 /* jk_statistics.m */; };
 		C729CAA90A4B45CD00FAB04F /* JKDataModelProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = C729CAA70A4B45CD00FAB04F /* JKDataModelProxy.h */; };
 		C729CAAA0A4B45CD00FAB04F /* JKDataModelProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */; };
 		C72C8509098BE83600CEF565 /* JKSpectrumTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C8508098BE83600CEF565 /* JKSpectrumTest.m */; };
@@ -59,6 +58,30 @@
 		C73291130AD68F9800D95E36 /* JKSynchroScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C73290F40AD68F9800D95E36 /* JKSynchroScrollView.m */; };
 		C73533D20B7A703C00F7634B /* JKChromatogramTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C73533D10B7A703C00F7634B /* JKChromatogramTest.m */; };
 		C747ED350ABF43C6001F98AF /* Peacock Test Files in Resources */ = {isa = PBXBuildFile; fileRef = C747ED320ABF43C6001F98AF /* Peacock Test Files */; };
+		C7490D4D0CAC0B29005DCA39 /* JKChromatogram.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D420CAC0B28005DCA39 /* JKChromatogram.h */; };
+		C7490D4E0CAC0B29005DCA39 /* JKChromatogram.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D430CAC0B28005DCA39 /* JKChromatogram.m */; };
+		C7490D4F0CAC0B29005DCA39 /* JKFileWell.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D440CAC0B28005DCA39 /* JKFileWell.m */; };
+		C7490D500CAC0B29005DCA39 /* JKModelObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D450CAC0B28005DCA39 /* JKModelObject.h */; };
+		C7490D510CAC0B29005DCA39 /* JKModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D460CAC0B28005DCA39 /* JKModelObject.m */; };
+		C7490D520CAC0B29005DCA39 /* JKPeakRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D470CAC0B28005DCA39 /* JKPeakRecord.h */; };
+		C7490D530CAC0B29005DCA39 /* JKPeakRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D480CAC0B28005DCA39 /* JKPeakRecord.m */; };
+		C7490D540CAC0B29005DCA39 /* MyGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D490CAC0B28005DCA39 /* MyGraphView.h */; };
+		C7490D550CAC0B29005DCA39 /* MyGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D4A0CAC0B28005DCA39 /* MyGraphView.m */; };
+		C7490D560CAC0B29005DCA39 /* NSString+ModelCompare.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D4B0CAC0B28005DCA39 /* NSString+ModelCompare.h */; };
+		C7490D570CAC0B29005DCA39 /* NSString+ModelCompare.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D4C0CAC0B28005DCA39 /* NSString+ModelCompare.m */; };
+		C7490D580CAC0B29005DCA39 /* JKChromatogram.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D420CAC0B28005DCA39 /* JKChromatogram.h */; };
+		C7490D590CAC0B29005DCA39 /* JKChromatogram.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D430CAC0B28005DCA39 /* JKChromatogram.m */; };
+		C7490D5A0CAC0B29005DCA39 /* JKFileWell.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D440CAC0B28005DCA39 /* JKFileWell.m */; };
+		C7490D5B0CAC0B29005DCA39 /* JKModelObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D450CAC0B28005DCA39 /* JKModelObject.h */; };
+		C7490D5C0CAC0B29005DCA39 /* JKModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D460CAC0B28005DCA39 /* JKModelObject.m */; };
+		C7490D5D0CAC0B29005DCA39 /* JKPeakRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D470CAC0B28005DCA39 /* JKPeakRecord.h */; };
+		C7490D5E0CAC0B29005DCA39 /* JKPeakRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D480CAC0B28005DCA39 /* JKPeakRecord.m */; };
+		C7490D5F0CAC0B29005DCA39 /* MyGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D490CAC0B28005DCA39 /* MyGraphView.h */; };
+		C7490D600CAC0B29005DCA39 /* MyGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D4A0CAC0B28005DCA39 /* MyGraphView.m */; };
+		C7490D610CAC0B29005DCA39 /* NSString+ModelCompare.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D4B0CAC0B28005DCA39 /* NSString+ModelCompare.h */; };
+		C7490D620CAC0B29005DCA39 /* NSString+ModelCompare.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D4C0CAC0B28005DCA39 /* NSString+ModelCompare.m */; };
+		C7490D720CAC0CA5005DCA39 /* jk_statistics.c in Sources */ = {isa = PBXBuildFile; fileRef = C7490D710CAC0CA4005DCA39 /* jk_statistics.c */; };
+		C7490D730CAC0CA5005DCA39 /* jk_statistics.c in Sources */ = {isa = PBXBuildFile; fileRef = C7490D710CAC0CA4005DCA39 /* jk_statistics.c */; };
 		C75846140C071ACC00756ED8 /* JKComparableProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846130C071ACC00756ED8 /* JKComparableProtocol.h */; };
 		C75846630C07268D00756ED8 /* JKLibraryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846610C07268D00756ED8 /* JKLibraryEntry.h */; };
 		C75846640C07268D00756ED8 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C75846620C07268D00756ED8 /* JKLibraryEntry.m */; };
@@ -193,7 +216,6 @@
 		C7ADC8CC0BA05609007D9134 /* JKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */; };
 		C7ADC8CD0BA05609007D9134 /* JKRatio.m in Sources */ = {isa = PBXBuildFile; fileRef = C70DB8EC09573BEA00C2B386 /* JKRatio.m */; };
 		C7ADC8CE0BA05609007D9134 /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
-		C7ADC8CF0BA05609007D9134 /* jk_statistics.m in Sources */ = {isa = PBXBuildFile; fileRef = C720AB8709EA7B6C007EF860 /* jk_statistics.m */; };
 		C7ADC8D00BA05609007D9134 /* JKGCMSDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */; };
 		C7ADC8D10BA05609007D9134 /* BDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E5B1D30A14934200BB2291 /* BDAlias.m */; };
 		C7ADC8D20BA05609007D9134 /* JKPathPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8973F0A188B0D00A65A24 /* JKPathPopUpButton.m */; };
@@ -279,10 +301,6 @@
 		C7D7D66B0B7203B0004ABEB5 /* NSBezierPath+RoundRect.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */; };
 		C7E5B1D70A14934200BB2291 /* BDAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E5B1D20A14934200BB2291 /* BDAlias.h */; };
 		C7E5B1D80A14934200BB2291 /* BDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E5B1D30A14934200BB2291 /* BDAlias.m */; };
-		C7E61F1A0BB2BC4800D9A636 /* PKModelObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E61F180BB2BC4700D9A636 /* PKModelObject.h */; };
-		C7E61F1B0BB2BC4800D9A636 /* PKModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E61F190BB2BC4800D9A636 /* PKModelObject.m */; };
-		C7E61F1C0BB2BC4800D9A636 /* PKModelObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E61F180BB2BC4700D9A636 /* PKModelObject.h */; };
-		C7E61F1D0BB2BC4900D9A636 /* PKModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E61F190BB2BC4800D9A636 /* PKModelObject.m */; };
 		C7EB18160898CFBD007FC2ED /* MolTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F00898CFBC007FC2ED /* MolTypes.c */; };
 		C7EB18170898CFBD007FC2ED /* MWController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F40898CFBC007FC2ED /* MWController.m */; };
 		C7EB18180898CFBD007FC2ED /* MyGraphDataSerie.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */; };
@@ -429,6 +447,18 @@
 		C73533D00B7A703C00F7634B /* JKChromatogramTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKChromatogramTest.h; sourceTree = "<group>"; };
 		C73533D10B7A703C00F7634B /* JKChromatogramTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKChromatogramTest.m; sourceTree = "<group>"; };
 		C747ED320ABF43C6001F98AF /* Peacock Test Files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Peacock Test Files"; sourceTree = "<group>"; };
+		C7490D420CAC0B28005DCA39 /* JKChromatogram.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKChromatogram.h; sourceTree = "<group>"; };
+		C7490D430CAC0B28005DCA39 /* JKChromatogram.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKChromatogram.m; sourceTree = "<group>"; };
+		C7490D440CAC0B28005DCA39 /* JKFileWell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKFileWell.m; sourceTree = "<group>"; };
+		C7490D450CAC0B28005DCA39 /* JKModelObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKModelObject.h; sourceTree = "<group>"; };
+		C7490D460CAC0B28005DCA39 /* JKModelObject.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKModelObject.m; sourceTree = "<group>"; };
+		C7490D470CAC0B28005DCA39 /* JKPeakRecord.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKPeakRecord.h; sourceTree = "<group>"; };
+		C7490D480CAC0B28005DCA39 /* JKPeakRecord.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKPeakRecord.m; sourceTree = "<group>"; };
+		C7490D490CAC0B28005DCA39 /* MyGraphView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MyGraphView.h; sourceTree = "<group>"; };
+		C7490D4A0CAC0B28005DCA39 /* MyGraphView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MyGraphView.m; sourceTree = "<group>"; };
+		C7490D4B0CAC0B28005DCA39 /* NSString+ModelCompare.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSString+ModelCompare.h"; sourceTree = "<group>"; };
+		C7490D4C0CAC0B28005DCA39 /* NSString+ModelCompare.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSString+ModelCompare.m"; sourceTree = "<group>"; };
+		C7490D710CAC0CA4005DCA39 /* jk_statistics.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = jk_statistics.c; sourceTree = "<group>"; };
 		C75846130C071ACC00756ED8 /* JKComparableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKComparableProtocol.h; sourceTree = "<group>"; };
 		C75846610C07268D00756ED8 /* JKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKLibraryEntry.h; sourceTree = "<group>"; };
 		C75846620C07268D00756ED8 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = "<group>"; };
@@ -525,8 +555,6 @@
 		C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+RoundRect.m"; sourceTree = "<group>"; };
 		C7E5B1D20A14934200BB2291 /* BDAlias.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BDAlias.h; sourceTree = "<group>"; };
 		C7E5B1D30A14934200BB2291 /* BDAlias.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BDAlias.m; sourceTree = "<group>"; };
-		C7E61F180BB2BC4700D9A636 /* PKModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKModelObject.h; sourceTree = "<group>"; };
-		C7E61F190BB2BC4800D9A636 /* PKModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKModelObject.m; sourceTree = "<group>"; };
 		C7EB17A60898CF2D007FC2ED /* AccessorMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccessorMacros.h; sourceTree = "<group>"; };
 		C7EB17A70898CF2D007FC2ED /* CAtom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAtom.h; sourceTree = "<group>"; };
 		C7EB17A80898CF2D007FC2ED /* CAtom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CAtom.m; sourceTree = "<group>"; };
@@ -765,6 +793,18 @@
 		C77E686F0C3A9C860051B016 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C7490D710CAC0CA4005DCA39 /* jk_statistics.c */,
+				C7490D420CAC0B28005DCA39 /* JKChromatogram.h */,
+				C7490D430CAC0B28005DCA39 /* JKChromatogram.m */,
+				C7490D440CAC0B28005DCA39 /* JKFileWell.m */,
+				C7490D450CAC0B28005DCA39 /* JKModelObject.h */,
+				C7490D460CAC0B28005DCA39 /* JKModelObject.m */,
+				C7490D470CAC0B28005DCA39 /* JKPeakRecord.h */,
+				C7490D480CAC0B28005DCA39 /* JKPeakRecord.m */,
+				C7490D490CAC0B28005DCA39 /* MyGraphView.h */,
+				C7490D4A0CAC0B28005DCA39 /* MyGraphView.m */,
+				C7490D4B0CAC0B28005DCA39 /* NSString+ModelCompare.h */,
+				C7490D4C0CAC0B28005DCA39 /* NSString+ModelCompare.m */,
 				C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */,
 				C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */,
 				C7C299880B8B48CC0017B2B2 /* ArrayEncodingObject.h */,
@@ -809,8 +849,6 @@
 				C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */,
 				C7F5E8F308EAA98600AC1068 /* JKManagedLibraryEntry.h */,
 				C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */,
-				C7E61F180BB2BC4700D9A636 /* PKModelObject.h */,
-				C7E61F190BB2BC4800D9A636 /* PKModelObject.m */,
 				C777A2D00A1DFEE400CF44D9 /* JKMoleculeModel.h */,
 				C777A2D10A1DFEE400CF44D9 /* JKMoleculeModel.m */,
 				C777A2C30A1DFEA800CF44D9 /* JKMoleculeView.h */,
@@ -1009,7 +1047,6 @@
 				C7ADC90D0BA05609007D9134 /* NSCoder+CArrayEncoding.h in Headers */,
 				C7ADC90E0BA05609007D9134 /* JKCombinedPeak.h in Headers */,
 				C7ADC90F0BA05609007D9134 /* NSEvent+ModifierKeys.h in Headers */,
-				C7E61F1A0BB2BC4800D9A636 /* PKModelObject.h in Headers */,
 				C7CFFC790BBC0C290060B0C7 /* JKGCMSPrintView.h in Headers */,
 				C7C220630BEB831000510B5B /* BooleanToStringTransformer.h in Headers */,
 				C7F8DE8F0BF0CDEE00A34F5D /* AMRemovableTableColumn.h in Headers */,
@@ -1019,6 +1056,11 @@
 				C75846630C07268D00756ED8 /* JKLibraryEntry.h in Headers */,
 				C7696D710C2C1A26009A013E /* JKStatisticsPrintView.h in Headers */,
 				C709D00C0C465F3200C9C613 /* JKComboBoxCell.h in Headers */,
+				C7490D580CAC0B29005DCA39 /* JKChromatogram.h in Headers */,
+				C7490D5B0CAC0B29005DCA39 /* JKModelObject.h in Headers */,
+				C7490D5D0CAC0B29005DCA39 /* JKPeakRecord.h in Headers */,
+				C7490D5F0CAC0B29005DCA39 /* MyGraphView.h in Headers */,
+				C7490D610CAC0B29005DCA39 /* NSString+ModelCompare.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1049,7 +1091,6 @@
 				C7C29ABD0B8B67540017B2B2 /* NSCoder+CArrayEncoding.h in Headers */,
 				C708E90C0B9D953A0085872E /* JKCombinedPeak.h in Headers */,
 				C79281D30B9F1CC100EDF996 /* NSEvent+ModifierKeys.h in Headers */,
-				C7E61F1C0BB2BC4800D9A636 /* PKModelObject.h in Headers */,
 				C7CFFC770BBC0C290060B0C7 /* JKGCMSPrintView.h in Headers */,
 				C7C220650BEB831000510B5B /* BooleanToStringTransformer.h in Headers */,
 				C7F8DE930BF0CDEE00A34F5D /* AMRemovableTableColumn.h in Headers */,
@@ -1058,6 +1099,11 @@
 				C75846650C07268D00756ED8 /* JKLibraryEntry.h in Headers */,
 				C7696D6F0C2C1A25009A013E /* JKStatisticsPrintView.h in Headers */,
 				C709D00A0C465F3200C9C613 /* JKComboBoxCell.h in Headers */,
+				C7490D4D0CAC0B29005DCA39 /* JKChromatogram.h in Headers */,
+				C7490D500CAC0B29005DCA39 /* JKModelObject.h in Headers */,
+				C7490D520CAC0B29005DCA39 /* JKPeakRecord.h in Headers */,
+				C7490D540CAC0B29005DCA39 /* MyGraphView.h in Headers */,
+				C7490D560CAC0B29005DCA39 /* NSString+ModelCompare.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1268,7 +1314,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		C724D13B0AA6E9B400EDC6D9 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			comments = "Script to put the svnversion in the about box.";
 			files = (
 			);
@@ -1276,7 +1322,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = "/usr/bin/perl -w";
 			shellScript = "# Xcode auto-versioning script for Subversion\n# by Axel Andersson, modified by Daniel Jalkut to add\n# \"--revision HEAD\" to the svn info line, which allows\n# the latest revision to always be used.\n\nuse strict;\n\ndie \"$0: Must be run from Xcode\" unless $ENV{\"BUILT_PRODUCTS_DIR\"};\n\n# Get the current subversion revision number and use it to set the CFBundleVersion value\nmy $REV = `/usr/bin/svnversion -n ./`;\nmy $INFO = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{WRAPPER_NAME}/Contents/Info.plist\";\n\nmy $version = $REV;\n\n# (Match the last group of digits and optional letter M/S):\n\n# ugly yet functional (barely) regex by Daniel Jalkut:\n#$version =~ s/([\\d]*:)(\\d)+[M|S]*.*/$2/;\n\n# better yet still functional regex via Kevin \"Regex Nerd\" Ballard\n($version =~ m/\\d+[MS]*$/) && ($version = $&);\n\ndie \"$0: No Subversion revision found $version $REV\" unless $version;\n\nopen(FH, \"$INFO\") or die \"$0: $INFO: $!\";\nmy $info = join(\"\", <FH>);\nclose(FH);\n\n$info =~ s/([\\t ]+<key>CFBundleVersion<\\/key>\\n[\\t ]+<string>).*?(<\\/string>)/$1$version$2/;\n\nopen(FH, \">$INFO\") or die \"$0: $INFO: $!\";\nprint FH $info;\nclose(FH);";
 		};
@@ -1336,7 +1382,6 @@
 				C7713B430950368F00653D2A /* JKBatchProcessWindowController.m in Sources */,
 				C70DB8EE09573BEA00C2B386 /* JKRatio.m in Sources */,
 				C7BC505409A62C930093106E /* JKLog.m in Sources */,
-				C720AB8909EA7B6C007EF860 /* jk_statistics.m in Sources */,
 				C715DECF0A136B2F00348AB5 /* JKGCMSDocument.m in Sources */,
 				C7E5B1D80A14934200BB2291 /* BDAlias.m in Sources */,
 				C7F897410A188B0D00A65A24 /* JKPathPopUpButton.m in Sources */,
@@ -1357,7 +1402,6 @@
 				C7C29ABE0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m in Sources */,
 				C708E90D0B9D953A0085872E /* JKCombinedPeak.m in Sources */,
 				C79281D40B9F1CC200EDF996 /* NSEvent+ModifierKeys.m in Sources */,
-				C7E61F1D0BB2BC4900D9A636 /* PKModelObject.m in Sources */,
 				C7CFFC780BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */,
 				C7C220660BEB831000510B5B /* BooleanToStringTransformer.m in Sources */,
 				C7F8DE940BF0CDEE00A34F5D /* AMRemovableColumnsTableView.m in Sources */,
@@ -1369,6 +1413,13 @@
 				C75846660C07268D00756ED8 /* JKLibraryEntry.m in Sources */,
 				C7696D700C2C1A25009A013E /* JKStatisticsPrintView.m in Sources */,
 				C709D00B0C465F3200C9C613 /* JKComboBoxCell.m in Sources */,
+				C7490D4E0CAC0B29005DCA39 /* JKChromatogram.m in Sources */,
+				C7490D4F0CAC0B29005DCA39 /* JKFileWell.m in Sources */,
+				C7490D510CAC0B29005DCA39 /* JKModelObject.m in Sources */,
+				C7490D530CAC0B29005DCA39 /* JKPeakRecord.m in Sources */,
+				C7490D550CAC0B29005DCA39 /* MyGraphView.m in Sources */,
+				C7490D570CAC0B29005DCA39 /* NSString+ModelCompare.m in Sources */,
+				C7490D720CAC0CA5005DCA39 /* jk_statistics.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1404,7 +1455,6 @@
 				C7ADC8CC0BA05609007D9134 /* JKBatchProcessWindowController.m in Sources */,
 				C7ADC8CD0BA05609007D9134 /* JKRatio.m in Sources */,
 				C7ADC8CE0BA05609007D9134 /* JKLog.m in Sources */,
-				C7ADC8CF0BA05609007D9134 /* jk_statistics.m in Sources */,
 				C7ADC8D00BA05609007D9134 /* JKGCMSDocument.m in Sources */,
 				C7ADC8D10BA05609007D9134 /* BDAlias.m in Sources */,
 				C7ADC8D20BA05609007D9134 /* JKPathPopUpButton.m in Sources */,
@@ -1425,7 +1475,6 @@
 				C7ADC8E20BA05609007D9134 /* NSCoder+CArrayEncoding.m in Sources */,
 				C7ADC8E30BA05609007D9134 /* JKCombinedPeak.m in Sources */,
 				C7ADC8E40BA05609007D9134 /* NSEvent+ModifierKeys.m in Sources */,
-				C7E61F1B0BB2BC4800D9A636 /* PKModelObject.m in Sources */,
 				C7CFFC7A0BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */,
 				C7C220640BEB831000510B5B /* BooleanToStringTransformer.m in Sources */,
 				C7F8DE900BF0CDEE00A34F5D /* AMRemovableColumnsTableView.m in Sources */,
@@ -1435,6 +1484,13 @@
 				C75846640C07268D00756ED8 /* JKLibraryEntry.m in Sources */,
 				C7696D720C2C1A26009A013E /* JKStatisticsPrintView.m in Sources */,
 				C709D00D0C465F3200C9C613 /* JKComboBoxCell.m in Sources */,
+				C7490D590CAC0B29005DCA39 /* JKChromatogram.m in Sources */,
+				C7490D5A0CAC0B29005DCA39 /* JKFileWell.m in Sources */,
+				C7490D5C0CAC0B29005DCA39 /* JKModelObject.m in Sources */,
+				C7490D5E0CAC0B29005DCA39 /* JKPeakRecord.m in Sources */,
+				C7490D600CAC0B29005DCA39 /* MyGraphView.m in Sources */,
+				C7490D620CAC0B29005DCA39 /* NSString+ModelCompare.m in Sources */,
+				C7490D730CAC0CA5005DCA39 /* jk_statistics.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
