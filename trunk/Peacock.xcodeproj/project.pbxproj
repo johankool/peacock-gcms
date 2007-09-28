@@ -129,6 +129,8 @@
 		C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C79281D30B9F1CC100EDF996 /* NSEvent+ModifierKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */; };
 		C79281D40B9F1CC200EDF996 /* NSEvent+ModifierKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */; };
+		C79302940CAC5C1100DB5AB8 /* PKDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = C79302930CAC5C1100DB5AB8 /* PKDocument.nib */; };
+		C79302950CAC5C1100DB5AB8 /* PKDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = C79302930CAC5C1100DB5AB8 /* PKDocument.nib */; };
 		C798C9EA08E17B5400C6C7D1 /* DeleteTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */; };
 		C799B0AA0ACAB30D00D4FCA4 /* Identify Compounds.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A70ACAB30D00D4FCA4 /* Identify Compounds.tiff */; };
 		C799B0AB0ACAB30D00D4FCA4 /* Identify Peaks.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A80ACAB30D00D4FCA4 /* Identify Peaks.tiff */; };
@@ -499,6 +501,7 @@
 		C7859A9909CEBCE900351C87 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSEvent+ModifierKeys.h"; sourceTree = "<group>"; };
 		C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSEvent+ModifierKeys.m"; sourceTree = "<group>"; };
+		C79302930CAC5C1100DB5AB8 /* PKDocument.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = PKDocument.nib; sourceTree = "<group>"; };
 		C79618900C0C75BC00D79FAC /* JKTargetObjectProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKTargetObjectProtocol.h; sourceTree = "<group>"; };
 		C798C9E808E17B5400C6C7D1 /* DeleteTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteTableView.h; sourceTree = "<group>"; };
 		C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteTableView.m; sourceTree = "<group>"; };
@@ -998,6 +1001,7 @@
 				C7EB17FF0898CFBD007FC2ED /* JKPeakIdentification.nib */,
 				C7EB18010898CFBD007FC2ED /* JKPreferences.nib */,
 				C7858FE90951E9990083EC22 /* JKStatisticalAnalysis.nib */,
+				C79302930CAC5C1100DB5AB8 /* PKDocument.nib */,
 			);
 			path = Nibs;
 			sourceTree = "<group>";
@@ -1244,6 +1248,7 @@
 				C77E2FC10C0EF21700B8A64A /* minus.png in Resources */,
 				C77E32B90C0F2CBB00B8A64A /* libraries.png in Resources */,
 				C765B8AC0C23237B00C4F153 /* factoranalysis.R in Resources */,
+				C79302940CAC5C1100DB5AB8 /* PKDocument.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1306,6 +1311,7 @@
 				C77E2FBF0C0EF20C00B8A64A /* plus.png in Resources */,
 				C77E2FC20C0EF21700B8A64A /* minus.png in Resources */,
 				C77E32BA0C0F2CBB00B8A64A /* libraries.png in Resources */,
+				C79302950CAC5C1100DB5AB8 /* PKDocument.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
