@@ -9,6 +9,7 @@
 		};
 	};
 	2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
+		activeArchitecture = i386;
 		activeBuildConfigurationName = Debug;
 		activeExecutable = C7EB17970898CF04007FC2ED /* Peacock-Mac */;
 		activeTarget = 8D15AC270486D014006FF6A4 /* Peacock-Mac */;
@@ -22,7 +23,6 @@
 			C76D5BDD0C2ACB6F0070D270 /* -[_NSZombie forward::] */,
 			C73FF0B40C3AE9FF003C2DBC /* -floatValue */,
 		);
-		breakpointsGroup = C7960F520CAC04FA00154E66 /* XCBreakpointsBucket */;
 		codeSenseManager = C7EB17A50898CF22007FC2ED /* Code sense */;
 		executables = (
 			C7EB17970898CF04007FC2ED /* Peacock-Mac */,
@@ -124,7 +124,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					508,
+					810,
 					20,
 					48,
 					43,
@@ -217,27 +217,29 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 212673092;
-			PBXWorkspaceStateSaveDate = 212673092;
+			PBXPerProjectTemplateStateSaveDate = 212682592;
+			PBXWorkspaceStateSaveDate = 212682592;
 		};
 		perUserProjectItems = {
-			C7490D680CAC0C34005DCA39 /* PBXTextBookmark */ = C7490D680CAC0C34005DCA39 /* PBXTextBookmark */;
-			C7490D750CAC0CC7005DCA39 /* PBXTextBookmark */ = C7490D750CAC0CC7005DCA39 /* PBXTextBookmark */;
-			C7490D760CAC0CC7005DCA39 /* PBXTextBookmark */ = C7490D760CAC0CC7005DCA39 /* PBXTextBookmark */;
-			C7490D780CAC0CC7005DCA39 /* PBXTextBookmark */ = C7490D780CAC0CC7005DCA39 /* PBXTextBookmark */;
-			C7490D7A0CAC0CC7005DCA39 /* PBXTextBookmark */ = C7490D7A0CAC0CC7005DCA39 /* PBXTextBookmark */;
-			C7E9D90D0CAD3C4E00290FA9 /* PBXTextBookmark */ = C7E9D90D0CAD3C4E00290FA9 /* PBXTextBookmark */;
-			C7E9D90E0CAD3C4E00290FA9 /* PBXTextBookmark */ = C7E9D90E0CAD3C4E00290FA9 /* PBXTextBookmark */;
-			C7E9D9100CAD3C4E00290FA9 /* PBXTextBookmark */ = C7E9D9100CAD3C4E00290FA9 /* PBXTextBookmark */;
-			C7E9D9110CAD3C4E00290FA9 /* PBXTextBookmark */ = C7E9D9110CAD3C4E00290FA9 /* PBXTextBookmark */;
-			C7E9D9120CAD3C4E00290FA9 /* PBXTextBookmark */ = C7E9D9120CAD3C4E00290FA9 /* PBXTextBookmark */;
-			C7E9D9150CAD3C6300290FA9 /* PBXTextBookmark */ = C7E9D9150CAD3C6300290FA9 /* PBXTextBookmark */;
-			C7E9D91D0CAD3E3700290FA9 /* PBXTextBookmark */ = C7E9D91D0CAD3E3700290FA9 /* PBXTextBookmark */;
-			C7E9D9250CAD3E4700290FA9 /* PBXTextBookmark */ = C7E9D9250CAD3E4700290FA9 /* PBXTextBookmark */;
-			C7E9D9430CAD407A00290FA9 /* PBXTextBookmark */ = C7E9D9430CAD407A00290FA9 /* PBXTextBookmark */;
-			C7E9D9460CAD43C600290FA9 /* PBXTextBookmark */ = C7E9D9460CAD43C600290FA9 /* PBXTextBookmark */;
-			C7E9D9490CAD462E00290FA9 /* PBXTextBookmark */ = C7E9D9490CAD462E00290FA9 /* PBXTextBookmark */;
-			C7E9D94A0CAD462E00290FA9 /* PBXTextBookmark */ = C7E9D94A0CAD462E00290FA9 /* PBXTextBookmark */;
+			C7490D680CAC0C34005DCA39 = C7490D680CAC0C34005DCA39 /* PBXTextBookmark */;
+			C7490D750CAC0CC7005DCA39 = C7490D750CAC0CC7005DCA39 /* PBXTextBookmark */;
+			C7490D760CAC0CC7005DCA39 = C7490D760CAC0CC7005DCA39 /* PBXTextBookmark */;
+			C7490D780CAC0CC7005DCA39 = C7490D780CAC0CC7005DCA39 /* PBXTextBookmark */;
+			C7490D7A0CAC0CC7005DCA39 = C7490D7A0CAC0CC7005DCA39 /* PBXTextBookmark */;
+			C79A4B050CAD479D00031C4B /* PBXBookmark */ = C79A4B050CAD479D00031C4B /* PBXBookmark */;
+			C79A4B060CAD479D00031C4B /* PBXTextBookmark */ = C79A4B060CAD479D00031C4B /* PBXTextBookmark */;
+			C7E9D90D0CAD3C4E00290FA9 = C7E9D90D0CAD3C4E00290FA9 /* PBXTextBookmark */;
+			C7E9D90E0CAD3C4E00290FA9 = C7E9D90E0CAD3C4E00290FA9 /* PBXTextBookmark */;
+			C7E9D9100CAD3C4E00290FA9 = C7E9D9100CAD3C4E00290FA9 /* PBXTextBookmark */;
+			C7E9D9110CAD3C4E00290FA9 = C7E9D9110CAD3C4E00290FA9 /* PBXTextBookmark */;
+			C7E9D9120CAD3C4E00290FA9 = C7E9D9120CAD3C4E00290FA9 /* PBXTextBookmark */;
+			C7E9D9150CAD3C6300290FA9 = C7E9D9150CAD3C6300290FA9 /* PBXTextBookmark */;
+			C7E9D91D0CAD3E3700290FA9 = C7E9D91D0CAD3E3700290FA9 /* PBXTextBookmark */;
+			C7E9D9250CAD3E4700290FA9 = C7E9D9250CAD3E4700290FA9 /* PBXTextBookmark */;
+			C7E9D9430CAD407A00290FA9 = C7E9D9430CAD407A00290FA9 /* PBXTextBookmark */;
+			C7E9D9460CAD43C600290FA9 = C7E9D9460CAD43C600290FA9 /* PBXTextBookmark */;
+			C7E9D9490CAD462E00290FA9 = C7E9D9490CAD462E00290FA9 /* PBXTextBookmark */;
+			C7E9D94A0CAD462E00290FA9 = C7E9D94A0CAD462E00290FA9 /* PBXTextBookmark */;
 		};
 		sourceControlManager = C7EB17A40898CF22007FC2ED /* Source Control */;
 		userBuildSettings = {
@@ -467,11 +469,20 @@
 		);
 		breakpointStyle = 0;
 		continueAfterActions = 0;
+		countType = 0;
 		delayBeforeContinue = 0;
 		hitCount = 0;
+		ignoreCount = 0;
 		modificationTime = 212458653.632429;
 		state = 2;
 		symbolName = "-floatValue";
+	};
+	C7490D460CAC0B28005DCA39 /* JKModelObject.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1012, 1106}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 503}";
+		};
 	};
 	C7490D4B0CAC0B28005DCA39 /* NSString+ModelCompare.h */ = {
 		uiCtxt = {
@@ -755,8 +766,10 @@
 		);
 		breakpointStyle = 0;
 		continueAfterActions = 0;
+		countType = 0;
 		delayBeforeContinue = 0;
 		hitCount = 0;
+		ignoreCount = 0;
 		location = Foundation;
 		modificationTime = 212458653.62958;
 		state = 2;
@@ -923,8 +936,10 @@
 		);
 		breakpointStyle = 0;
 		continueAfterActions = 0;
+		countType = 0;
 		delayBeforeContinue = 2;
 		hitCount = 0;
+		ignoreCount = 0;
 		modificationTime = 212458653.626359;
 		state = 2;
 		symbolName = _NSKVODeallocateLog;
@@ -942,16 +957,6 @@
 			sepNavSelRange = "{205, 0}";
 			sepNavVisRect = "{{0, 0}, {899, 467}}";
 		};
-	};
-	C7960F520CAC04FA00154E66 /* XCBreakpointsBucket */ = {
-		isa = XCBreakpointsBucket;
-		name = "Project Breakpoints";
-		objects = (
-			C7E7EF380A2E53A000849DD5 /* [NSException raise] */,
-			C78DF4D60A3EB4F50001D828 /* _NSKVODeallocateLog */,
-			C76D5BDD0C2ACB6F0070D270 /* -[_NSZombie forward::] */,
-			C73FF0B40C3AE9FF003C2DBC /* -floatValue */,
-		);
 	};
 	C79618900C0C75BC00D79FAC /* JKTargetObjectProtocol.h */ = {
 		uiCtxt = {
@@ -974,6 +979,20 @@
 			sepNavVisRect = "{{0, 91}, {899, 491}}";
 			sepNavWindowFrame = "{{15, 7}, {950, 820}}";
 		};
+	};
+	C79A4B050CAD479D00031C4B /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = C7490D460CAC0B28005DCA39 /* JKModelObject.m */;
+	};
+	C79A4B060CAD479D00031C4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7490D460CAC0B28005DCA39 /* JKModelObject.m */;
+		name = "JKModelObject.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 503;
+		vrLoc = 0;
 	};
 	C79A614F094DBE3A00C0887E /* RBSplitSubview.h */ = {
 		uiCtxt = {
@@ -1034,12 +1053,12 @@
 	};
 	C7ADC91A0BA05609007D9134 /* Peacock-Windows */ = {
 		isa = PBXExecutable;
-		activeArgIndex = 2147483647;
 		activeArgIndices = (
 		);
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
+		breakpointsEnabled = 1;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
@@ -1202,8 +1221,10 @@
 		);
 		breakpointStyle = 0;
 		continueAfterActions = 0;
+		countType = 0;
 		delayBeforeContinue = 0;
 		hitCount = 0;
+		ignoreCount = 0;
 		modificationTime = 212458653.621401;
 		state = 2;
 		symbolName = "[NSException raise]";
@@ -1290,6 +1311,7 @@
 	};
 	C7E9D9260CAD3E4700290FA9 /* Annotations for JKPreferences.nib */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = file;
 		path = "Annotations for JKPreferences.nib";
 		sourceTree = "<group>";
 	};
@@ -1335,7 +1357,6 @@
 	};
 	C7EB17970898CF04007FC2ED /* Peacock-Mac */ = {
 		isa = PBXExecutable;
-		activeArgIndex = 2147483647;
 		activeArgIndices = (
 			NO,
 		);
@@ -1343,6 +1364,7 @@
 			"-NSBindingDebugLogLevel 1",
 		);
 		autoAttachOnCrash = 1;
+		breakpointsEnabled = 1;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
@@ -1384,7 +1406,7 @@
 		isSCMEnabled = 1;
 		scmConfiguration = {
 			SubversionToolPath = /usr/local/bin/svn;
-			repositoryName = "";
+			repositoryName = Peacock;
 		};
 		scmType = scm.subversion;
 	};
