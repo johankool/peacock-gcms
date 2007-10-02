@@ -487,9 +487,7 @@
     if (!aMoleculeString) {
         return;
     }
-/*###490 [cc] warning: comparison of distinct Objective-C types lacks a cast%%%*/
-/*###490 [cc] warning: comparison of distinct Objective-C types lacks a cast%%%*/
-    if (moleculeStringContainer == self) {
+    if (moleculeStringContainer == (id)self) {
         return;
     }
     if (moleculeStringContainer && moleculeStringKeyPath) {

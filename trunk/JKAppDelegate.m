@@ -20,6 +20,8 @@
 #import "JKPeakRecord.h"
 #import "JKSummaryController.h"
 #import "JKSummarizer.h"
+#import "JKPreferencesWindowController.h"
+#import "JKBatchProcessWindowController.h"
 
 // Name of the application support folder
 static NSString * SUPPORT_FOLDER_NAME = @"Peacock";

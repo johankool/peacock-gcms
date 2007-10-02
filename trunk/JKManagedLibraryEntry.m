@@ -567,11 +567,11 @@
 - (NSNumber *)calculateMassWeight:(NSString *)inString {
 	CFragment*	atom;
      
-    if (CreateSymbolTable([[[[NSBundle mainBundle] resourcePath] stringByAppendingString:@"/periodic.table"] cString]) != 0) {
+    if (CreateSymbolTable([[[[NSBundle mainBundle] resourcePath] stringByAppendingString:@"/periodic.table"] cStringUsingEncoding:NSASCIIStringEncoding]) != 0) {
         printf("Unable to read periodic table.\n");
         return nil;
     }
-	atom = [[CFragment alloc] initFromString:[inString cString]:NULL];
+	atom = [[CFragment alloc] initFromString:[inString cStringUsingEncoding:NSASCIIStringEncoding]:NULL];
 	
 	return [NSNumber numberWithFloat:[atom calculateWeight]];
 }

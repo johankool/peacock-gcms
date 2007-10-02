@@ -24,12 +24,12 @@
     CFragment*	atom;
     [self showError:NO];
     
-    if (CreateSymbolTable([[[[NSBundle mainBundle] resourcePath] stringByAppendingString:@"/periodic.table"] cString]) != 0) {
+    if (CreateSymbolTable([[[[NSBundle mainBundle] resourcePath] stringByAppendingString:@"/periodic.table"] cStringUsingEncoding:NSASCIIStringEncoding]) != 0) {
         printf("Unable to read periodic table.\n");
         return;
     }
     if(![[formula stringValue] isEqualToString:@""]) {
-        if ((atom = [[CFragment alloc] initFromString:[[formula stringValue] cString]:NULL])) {
+        if ((atom = [[CFragment alloc] initFromString:[[formula stringValue] cStringUsingEncoding:NSASCIIStringEncoding]:NULL])) {
             //       [text replaceOccurrencesOfString:@"­ " withString:@"Ð" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [text length])];
             
             [formula setStringValue:[atom writeToString]];

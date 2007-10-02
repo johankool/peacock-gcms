@@ -163,7 +163,7 @@
                 withKeyPath:@"arrangedObjects" options:nil];
     
     // Register as observer
-	[combinedPeaksController addObserver:self forKeyPath:@"selection" options:nil context:nil];
+	[combinedPeaksController addObserver:self forKeyPath:@"selection" options:0 context:nil];
     
     // This fixes the issue where the subsplitviews are drawn on top of each other on initial display
     [splitView display];

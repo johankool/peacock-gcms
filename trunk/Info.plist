@@ -266,6 +266,30 @@
 				<string>application/x-peacock-stats</string>
 			</dict>
 		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+				<string>public.content</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Peacock Library</string>
+			<key>UTTypeIconFile</key>
+			<string>peacock_library</string>
+			<key>UTTypeIdentifier</key>
+			<string>nl.johankool.peacocklibrary</string>
+			<key>UTTypeReferenceURL</key>
+			<string>http://peacock.johankool.nl/</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>peacock-library</string>
+				</array>
+				<key>public.mime-type</key>
+				<string>application/x-peacock-library</string>
+			</dict>
+		</dict>
 	</array>
 	<key>UTImportedTypeDeclarations</key>
 	<array>

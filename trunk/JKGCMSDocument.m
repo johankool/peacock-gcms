@@ -143,7 +143,7 @@ int const JKGCMSDocument_Version = 7;
 #pragma mark File Access Management
 
 - (NSFileWrapper *)fileWrapperRepresentationOfType:(NSString *)aType {
-	if ([aType isEqualToString:@"Peacock File"]) {
+	if ([aType isEqualToString:@"Peacock File"] || [aType isEqualToString:@"nl.johankool.peacock.data"]) {
 //        NSDate *date = [NSDate date];
 		NSMutableData *data;
 		NSKeyedArchiver *archiver;
@@ -217,7 +217,7 @@ int const JKGCMSDocument_Version = 7;
 
 		return peacockFileWrapper;	
 		
-	} else if ([aType isEqualToString:@"Tab Delimited Text File"]) {
+	} else if ([aType isEqualToString:@"Tab Delimited Text File"] || [aType isEqualToString:@"public.plain-text"]) {
 		NSFileWrapper *fileWrapperForData = [[NSFileWrapper alloc] initRegularFileWithContents:[[self exportTabDelimitedText] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];
 		[fileWrapperForData autorelease];
 		return fileWrapperForData;
@@ -365,7 +365,7 @@ int const JKGCMSDocument_Version = 7;
     BOOL	hasVarid_scanaqtime;
 
 	// Get the file's name and pull the id. Test to make sure that this all worked.
-	errCode = nc_open([fileName cString], NC_NOWRITE, &ncid);
+	errCode = nc_open([fileName cStringUsingEncoding:NSASCIIStringEncoding], NC_NOWRITE, &ncid);
 	if (errCode != NC_NOERR) {
 		if (anError != NULL)
 			*anError = [[[NSError alloc] initWithDomain:@"JKNetCDFDomain" 
@@ -378,10 +378,10 @@ int const JKGCMSDocument_Version = 7;
 	
 	//    NS_DURING
 	
-	if ([self ncid] == nil) {
-		[NSException raise:NSLocalizedString(@"NetCDF data absent",@"NetCDF data absent") format:NSLocalizedString(@"No id for the NetCDF file could be obtained, which is critical for accessing the data.",@"")];
-		return NO;
-	}
+//	if ([self ncid] == nil) {
+//		[NSException raise:NSLocalizedString(@"NetCDF data absent",@"NetCDF data absent") format:NSLocalizedString(@"No id for the NetCDF file could be obtained, which is critical for accessing the data.",@"")];
+//		return NO;
+//	}
     hasVarid_scanaqtime = YES;
 	
 	// Checks to ensure we have a correct NetCDF file and differentiate between GC and GCMS files

@@ -1885,7 +1885,7 @@ static int   kPaddingLabels             = 4;
 		[self setPeaksKeyPath:observableKeyPath];
 		[peaksContainer addObserver:self
 						 forKeyPath:peaksKeyPath
-							options:nil
+							options:0
 							context:PeaksObservationContext];
 	}
 //	else if ([bindingName isEqualToString:@"baseline"])

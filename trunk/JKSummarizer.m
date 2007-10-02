@@ -19,6 +19,9 @@
         summary = [[NSMutableArray alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didConfirmPeak:) name:@"JKDidConfirmPeak" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didUnconfirmPeak:) name:@"JKDidUnconfirmPeak" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentLoaded:) name:@"JKGCMSDocument_DocumentLoadedNotification" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentUnloaded:) name:@"JKGCMSDocument_DocumentUnloadedNotification" object:nil];
+
     }
     return self;
 }
@@ -43,6 +46,39 @@
     JKCombinedPeak *combinedPeak = [self combinedPeakForLabel:[peak label]];
     [combinedPeak removeUnconfirmedPeak:peak];
 }
+
+- (void)documentLoaded:(NSNotification *)aNotification
+{
+    JKGCMSDocument *document = [aNotification object];
+    NSEnumerator *enumerator = [[document peaks] objectEnumerator];
+    JKPeakRecord *peak;
+    
+    while ((peak = [enumerator nextObject])) {
+        if ([peak confirmed]) {
+            JKCombinedPeak *combinedPeak = [self combinedPeakForLabel:[peak label]];
+            if (!combinedPeak) {
+                combinedPeak = [[JKCombinedPeak alloc] init];
+                [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:[NSIndexSet indexSetWithIndex:[summary count]] forKey:@"summary"];
+                [summary addObject:combinedPeak];
+                [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:[NSIndexSet indexSetWithIndex:[summary count]-1] forKey:@"summary"];
+                [combinedPeak release];
+            }
+            [combinedPeak addConfirmedPeak:peak];
+        }
+    }
+}
+
+- (void)documentUnloaded:(NSNotification *)aNotification
+{
+    NSString *key = [[aNotification object] uuid];
+    NSEnumerator *enumerator = [summary objectEnumerator];
+    JKCombinedPeak *combinedPeak;
+    
+    while ((combinedPeak = [enumerator nextObject])) {
+        [combinedPeak setValue:nil forKey:key];
+    }
+}
+
 
 - (JKCombinedPeak *)combinedPeakForLabel:(NSString *)label
 {
