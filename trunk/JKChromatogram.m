@@ -479,7 +479,7 @@
     JKPeakRecord *peak;
     NSMutableArray *peaksToSave = [NSMutableArray array];
     while ((peak = [peakEnum nextObject]) != nil) {
-    	if (([peak identified] | [[peak searchResults] count] > 0) | (![[peak label] isEqualToString:@""])) {
+    	if ((([peak identified]) | ([[peak searchResults] count] > 0)) | (![[peak label] isEqualToString:@""])) {
             [peaksToSave addObject:peak];
         }
     }

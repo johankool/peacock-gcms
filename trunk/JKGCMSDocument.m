@@ -227,7 +227,8 @@ int const JKGCMSDocument_Version = 7;
 }
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
-    BOOL result;
+    JKLogEnteringMethod();
+   BOOL result;
 	if ([typeName isEqualToString:@"NetCDF/ANDI File"] || [typeName isEqualToString:@"edu.ucar.unidata.netcdf.andi"]) {
         [self setAbsolutePathToNetCDF:[absoluteURL path]];
         result = [self readNetCDFFile:[absoluteURL path] error:outError];
@@ -323,7 +324,8 @@ int const JKGCMSDocument_Version = 7;
         }
         
         [chromatograms sortUsingSelector:@selector(sortOrderComparedTo:)];
-        
+        JKLogExitingMethod();
+
  		return result;	
     } else {
         if (outError != NULL)
@@ -1428,7 +1430,9 @@ int const JKGCMSDocument_Version = 7;
 
 - (void)windowDidBecomeMain:(NSNotification *)notification
 {
+    JKLogEnteringMethod();
     [self postNotification:JKGCMSDocument_DocumentActivateNotification];
+    JKLogExitingMethod();
 }
 
 - (void) windowDidResignMain: (NSNotification *) notification

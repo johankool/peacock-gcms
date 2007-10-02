@@ -177,7 +177,7 @@ static int   kPaddingLabels             = 4;
 
 #pragma mark Drawing Routines
 - (void)drawRect:(NSRect)rect {
-	[self calculateCoordinateConversions];
+ 	[self calculateCoordinateConversions];
         
 	// Fancy schaduw effecten...
 	NSShadow *noShadow = [[NSShadow alloc] init];
@@ -1792,8 +1792,12 @@ static int   kPaddingLabels             = 4;
     return YES;
 }
 - (BOOL) becomeFirstResponder {
+    JKLogEnteringMethod();
+
 	[[NSNotificationCenter defaultCenter] postNotificationName:MyGraphView_DidBecomeFirstResponderNotification object:self];
 	[self setNeedsDisplay:YES];
+    JKLogExitingMethod();
+
     return YES;
 }
 

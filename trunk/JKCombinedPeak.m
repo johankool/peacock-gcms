@@ -315,7 +315,7 @@
             if (!([aLabel isEqualToString:@""] || [aLabel hasPrefix:NSLocalizedString(@"Unknown compound",@"")])) {
                 NSEnumerator *peakEnum = [peaks objectEnumerator];
                 JKPeakRecord *peak;
-                while (peak = [peakEnum nextObject]) {
+                while ((peak = [peakEnum nextObject])) {
                     [peak setLabel:label];
                 }            
             }            
@@ -338,7 +338,7 @@
         // Set symbol also for all peaks
         NSEnumerator *peakEnum = [peaks objectEnumerator];
         JKPeakRecord *peak;
-        while (peak = [peakEnum nextObject]) {
+        while ((peak = [peakEnum nextObject])) {
             [peak setSymbol:symbol];
         }
     }
@@ -382,7 +382,7 @@
         // Set group also for all peaks' libraryhits
         NSEnumerator *peakEnum = [peaks objectEnumerator];
         JKPeakRecord *peak;
-        while (peak = [peakEnum nextObject]) {
+        while ((peak = [peakEnum nextObject])) {
             [[peak libraryHit] setGroup:group];
         }
         [[self libraryEntry] setGroup:group];

@@ -6,3 +6,4 @@
 - (float *)intensities;
 - (NSString *)model;
 @end
+

@@ -302,10 +302,10 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 
 - (void)runPageLayout:(id)sender {
     NSPageLayout *pl = [NSPageLayout pageLayout];
-    NSPrintInfo *pi = [NSPrintInfo sharedPrintInfo];
-    if ([pl runModalWithPrintInfo:pi] == NSOKButton) {
-        JKLogDebug(@"%d", [pi orientation]);
-        [NSPrintInfo setSharedPrintInfo:pi];
+    NSPrintInfo *printInfo = [NSPrintInfo sharedPrintInfo];
+    if ([pl runModalWithPrintInfo:printInfo] == NSOKButton) {
+        JKLogDebug(@"%d", [printInfo orientation]);
+        [NSPrintInfo setSharedPrintInfo:printInfo];
     }
 }
 #pragma mark GROWL SUPPORT
@@ -440,7 +440,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
         NSDirectoryEnumerator *dirEnum = [fileManager enumeratorAtPath:path];
         int count = 0;
         int loadedCount = 0;
-        while (file = [dirEnum nextObject]) {
+        while ((file = [dirEnum nextObject])) {
             if ([[file pathExtension] isEqualToString: @"peacock-library"]) {// || [[file pathExtension] isEqualToString: @"jdx"] ||[[file pathExtension] isEqualToString: @"hpj"]
                 count++;
                 if ([self shouldLoadLibrary:[file stringByDeletingPathExtension] forConfiguration:configuration]) {
