@@ -363,14 +363,14 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         // Surface values
         for (j=0; j < compoundCount; j++) {
             compound = [filteredPeaks objectAtIndex:j];
-            normalizedSurface = nil;
+//            normalizedSurface = nil;
             surface = [[[compound valueForKey:[NSString stringWithFormat:@"file_%d",i]] valueForKey:@"surface"] floatValue];
             normalizedSurface = surface * 100 / totalSurface;
-            if (normalizedSurface != nil) {
+//            if (normalizedSurface != nil) {
                 [outStr appendFormat:@",%g", normalizedSurface];					
-            } else {
-                [outStr appendString:@",0"];										
-            }
+//            } else {
+//                [outStr appendString:@",0"];										
+//            }
         }
         [outStr appendString:@"\n"];
     }

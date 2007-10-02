@@ -49,6 +49,7 @@ typedef enum {
 	
 	// File representation
 	int ncid;
+    NSString *uuid;
 	NSString *absolutePathToNetCDF;
 	NSFileWrapper *peacockFileWrapper;
 	
@@ -132,7 +133,7 @@ typedef enum {
 - (BOOL)isBusy;
 - (NSString *)cleanupModelString:(NSString *)model;
 - (BOOL)modelString:(NSString *)stringA isEqualToString:(NSString *)stringB;
-int intSort(id num1, id num2, void *context);
+//int intSort(id num1, id num2, void *context);
 
 - (void)updateLibraryHits;
 
@@ -220,6 +221,8 @@ int intSort(id num1, id num2, void *context);
 
 - (void)setAbsolutePathToNetCDF:(NSString *)aAbsolutePathToNetCDF;
 - (NSString *)absolutePathToNetCDF;
+
+- (NSString *)uuid;
 
 #pragma mark ACCESSORS (MACROSTYLE)
 idAccessor_h(baselineWindowWidth, setBaselineWindowWidth)

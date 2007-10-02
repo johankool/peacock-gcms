@@ -18,6 +18,8 @@
 #import "JKLibraryEntry.h"
 #import "JKManagedLibraryEntry.h"
 #import "JKPeakRecord.h"
+#import "JKSummaryController.h"
+#import "JKSummarizer.h"
 
 // Name of the application support folder
 static NSString * SUPPORT_FOLDER_NAME = @"Peacock";
@@ -211,6 +213,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     libraryConfigurationLoaded = @"";
     [self loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
 
+    summarizer = [[JKSummarizer alloc] init];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
@@ -257,17 +260,22 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 }
 
 - (IBAction)showStatisticsAction:(id)sender {
-	NSError *error = [[NSError alloc] init];
-	JKStatisticsDocument *document = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"Peacock Statistics File" error:&error];
-	[[NSDocumentController sharedDocumentController] addDocument:document];
-	[document makeWindowControllers];
-	[document showWindows];
-	[error release];
+//	NSError *error = [[NSError alloc] init];
+//	JKStatisticsDocument *document = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"Peacock Statistics File" error:&error];
+//	[[NSDocumentController sharedDocumentController] addDocument:document];
+//	[document makeWindowControllers];
+//	[document showWindows];
+//	[error release];
 		
 //	if (!statisticsWindowController) {
 //        statisticsWindowController = [[JKStatisticsWindowController alloc] init];
 //    }
 //    [statisticsWindowController showWindow:self];	
+
+	if (!summaryController) {
+        summaryController = [[JKSummaryController alloc] init];
+    }
+    [summaryController showWindow:self];	
 }
 
 - (IBAction)openTestFile:(id)sender {
@@ -709,6 +717,10 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     } else {
         [documentListPanel orderFront:nil];        
     }
+}
+
+- (JKSummarizer *)summarizer {
+    return summarizer;
 }
 
 @end

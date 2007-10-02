@@ -12,6 +12,7 @@
 #import "JKSpectrum.h"
 #import "JKStatisticsDocument.h"
 #import "JKLibraryEntry.h"
+#import "JKGCMSDocument.h"
 
 @implementation JKCombinedPeak
 
@@ -212,10 +213,46 @@
 
 
 #pragma mark SPECIAL ACCESSORS
+- (BOOL)isValidDocumentKey:(NSString *)aKey
+{
+    NSArray *documents = [[NSDocumentController sharedDocumentController] documents];
+    NSEnumerator *enumerator = [documents objectEnumerator];
+    NSDocument *aDocument;
+    
+    while ((aDocument = [enumerator nextObject])) {
+        if ([aDocument isKindOfClass:[JKGCMSDocument class]]) {
+            if ([[(JKGCMSDocument *)aDocument uuid] isEqualToString:aKey])
+                return YES;
+        }
+    }
+    NSLog(@"Rejected key: %@", aKey);
+    return NO;
+}
+
+- (void)addConfirmedPeak:(JKPeakRecord *)aPeak
+{
+    NSString *documentKey = [[aPeak document] uuid];
+    NSAssert([aPeak document], @"No document set for peak.");
+    NSAssert(documentKey, @"UUID of document is not set.");
+    [self setValue:aPeak forKey:documentKey];
+}
+
+- (void)removeUnconfirmedPeak:(JKPeakRecord *)aPeak
+{
+    NSString *documentKey = [[aPeak document] uuid];
+    NSAssert(documentKey, @"UUID of document is not set.");
+    [self setValue:nil forKey:documentKey];
+}
+
+- (BOOL)isIdenticalToCompound:(NSString *)aString
+{
+    return [[self label] isEqualToString:aString];
+}
+
 - (id)valueForUndefinedKey:(NSString *)key {
     // Peaks can be accessed using key in the format "file_nn"
-    if ([key hasPrefix:@"file_"]) {
-//        if ([peaks objectForKey:key]
+//    if ([key hasPrefix:@"file_"]) {
+    if ([self isValidDocumentKey:key]) {
         return [peaks objectForKey:key];
     } else {
         return [super valueForUndefinedKey:key];
@@ -223,7 +260,8 @@
 }
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {
     // Peaks can be set using key in the format "file_nn"
-    if ([key hasPrefix:@"file_"]) {
+//    if ([key hasPrefix:@"file_"]) {
+     if ([self isValidDocumentKey:key]) {
         NSUndoManager *undo = [self undoManager];
         if ([peaks objectForKey:key]) {
             [[undo prepareWithInvocationTarget:peaks] setObject:[peaks objectForKey:key] forKey:key];            

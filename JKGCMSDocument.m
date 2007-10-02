@@ -27,6 +27,7 @@
 NSString *const JKGCMSDocument_DocumentDeactivateNotification = @"JKGCMSDocument_DocumentDeactivateNotification";
 NSString *const JKGCMSDocument_DocumentActivateNotification   = @"JKGCMSDocument_DocumentActivateNotification";
 NSString *const JKGCMSDocument_DocumentLoadedNotification     = @"JKGCMSDocument_DocumentLoadedNotification";
+NSString *const JKGCMSDocument_DocumentUnloadedNotification     = @"JKGCMSDocument_DocumentUnloadedNotification";
 int const JKGCMSDocument_Version = 7;
 //static void *DocumentObservationContext = (void *)1100;
 
@@ -65,6 +66,10 @@ int const JKGCMSDocument_Version = 7;
 		maximumScannedMassRange = [[defaultValues valueForKey:@"maximumScannedMassRange"] retain];
         maximumRetentionIndexDifference = [[defaultValues valueForKey:@"maximumRetentionIndexDifference"] retain];
         
+        uuid = [@"uuid" retain];
+        uuid = [GetUUID() retain];
+        
+        
         [[self undoManager] disableUndoRegistration];
         _documentProxy = [[NSDictionary alloc] initWithObjectsAndKeys:@"_documentProxy", @"_documentProxy",nil];
         [self setPrintInfo:[NSPrintInfo sharedPrintInfo]];
@@ -74,6 +79,12 @@ int const JKGCMSDocument_Version = 7;
         _lastReturnedIndex = -1;
 	}
     return self;
+}
+
+- (void)close
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:JKGCMSDocument_DocumentUnloadedNotification object:self];
+    [super close];
 }
 
 - (void)dealloc {
@@ -110,7 +121,9 @@ int const JKGCMSDocument_Version = 7;
 
 - (void)makeWindowControllers {
 //    JKLogEnteringMethod();
-//    [self postNotification:JKGCMSDocument_DocumentLoadedNotification];
+    [[NSNotificationCenter defaultCenter] postNotificationName:JKGCMSDocument_DocumentLoadedNotification object:self];
+    
+ //   [self postNotification:JKGCMSDocument_DocumentLoadedNotification];
     if (!mainWindowController) {
         mainWindowController = [[JKMainWindowController alloc] init];
     }
@@ -215,14 +228,14 @@ int const JKGCMSDocument_Version = 7;
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
     BOOL result;
-	if ([typeName isEqualToString:@"NetCDF/ANDI File"]) {
+	if ([typeName isEqualToString:@"NetCDF/ANDI File"] || [typeName isEqualToString:@"edu.ucar.unidata.netcdf.andi"]) {
         [self setAbsolutePathToNetCDF:[absoluteURL path]];
         result = [self readNetCDFFile:[absoluteURL path] error:outError];
         [[self undoManager] disableUndoRegistration];
         [self insertObject:[self ticChromatogram] inChromatogramsAtIndex:0];
         [[self undoManager] enableUndoRegistration];
         return result;
-	} else if ([typeName isEqualToString:@"Peacock File"]) {		
+	} else if ([typeName isEqualToString:@"Peacock File"] || [typeName isEqualToString:@"nl.johankool.peacock.data"]) {		
 		NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath:[absoluteURL path]];
         [[self undoManager] disableUndoRegistration];
         
@@ -775,18 +788,7 @@ int const JKGCMSDocument_Version = 7;
 	return chromatogram;    
 }
 
-int intSort(id num1, id num2, void *context)
-{
-    int v1 = [num1 intValue];
-    int v2 = [num2 intValue];
-    if (v1 < v2)
-        return NSOrderedAscending;
-    else if (v1 > v2)
-        return NSOrderedDescending;
-    else
-        return NSOrderedSame;
-}
-
+ 
 - (BOOL)addChromatogramForModel:(NSString *)modelString {
     JKChromatogram *chromatogram = [self chromatogramForModel:modelString];
     if (!chromatogram) {
@@ -1718,6 +1720,11 @@ boolAccessor(abortAction, setAbortAction)
 - (void)setNcid:(int)inValue
 {
     ncid = inValue;
+}
+
+- (NSString *)uuid
+{
+    return uuid;
 }
 
 - (BOOL)hasSpectra 

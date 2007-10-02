@@ -364,7 +364,7 @@
             return NO;
         }
 
-    	if ([peak start] < [[peaksToCombine objectAtIndex:indexForStart] start]) {
+    	if ([peak start] < [(JKPeakRecord *)[peaksToCombine objectAtIndex:indexForStart] start]) {
             indexForStart = i;
         }
     	if ([peak end] > [[peaksToCombine objectAtIndex:indexForEnd] end]) {
@@ -401,7 +401,7 @@
         indexForCombinedPeak = indexForStart;
     }
     peak = [peaksToCombine objectAtIndex:indexForCombinedPeak];
-    [peak setStart:[[peaksToCombine objectAtIndex:indexForStart] start]];
+    [peak setStart:[(JKPeakRecord *)[peaksToCombine objectAtIndex:indexForStart] start]];
     [peak setEnd:[[peaksToCombine objectAtIndex:indexForEnd] end]];
     [peak setBaselineLeft:[[peaksToCombine objectAtIndex:indexForStart] baselineLeft]];
     [peak setBaselineRight:[[peaksToCombine objectAtIndex:indexForEnd] baselineRight]];
