@@ -47,7 +47,7 @@ static BOOL AMRemovableColumnsTableView_readPersistentTableColumnsIsPublic = NO;
 	// set main table view for columns
 	NSEnumerator *enumerator = [[self tableColumns] objectEnumerator];
 	AMRemovableTableColumn *column;
-	while (column = [enumerator nextObject]) {
+	while ((column = [enumerator nextObject])) {
 		[column setMainTableView:self];
 	}
 	

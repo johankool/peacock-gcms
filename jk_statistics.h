@@ -16,3 +16,4 @@ float jk_stats_float_max(float *data, int count);
 
 NSString *GetUUID(void);
 int intSort(id num1, id num2, void *context);
+

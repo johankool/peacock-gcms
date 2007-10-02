@@ -63,7 +63,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
 #pragma mark FILE ACCESS MANAGEMENT
 
 - (NSFileWrapper *)fileWrapperRepresentationOfType:(NSString *)aType {
-	if ([aType isEqualToString:@"Peacock Statistics File"]) {
+	if ([aType isEqualToString:@"Peacock Statistics File"] || [aType isEqualToString:@"nl.johankool.peacock.statistics"]) {
 		
 		NSMutableData *data;
 		NSKeyedArchiver *archiver;
@@ -103,7 +103,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
 }
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
-	if ([typeName isEqualToString:@"Peacock Statistics File"]) {
+	if ([typeName isEqualToString:@"Peacock Statistics File"] || [typeName isEqualToString:@"nl.johankool.peacock.statistics"]) {
         int i;
 		NSFileWrapper *wrapper = [[NSFileWrapper alloc] initWithPath:[absoluteURL path]];
 		NSData *data;
@@ -524,7 +524,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
 
     // Read scores
     if ([fileManager fileExistsAtPath:[tempDir stringByAppendingPathComponent:@"scores.csv"]]) {
-        NSMutableArray *scores = [NSMutableArray array];
+        NSMutableArray *scoresArray = [NSMutableArray array];
         NSString *resultString = [NSString stringWithContentsOfFile:[tempDir stringByAppendingPathComponent:@"scores.csv"] encoding:NSASCIIStringEncoding error:NULL];
         NSArray *linesArray = [resultString componentsSeparatedByString:@"\n"];
         if ([linesArray count] > 2) {
@@ -549,7 +549,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
                 [score setValue:[[[[self statisticsWindowController] metadata] objectAtIndex:1] valueForKey:[NSString stringWithFormat:@"file_%d",i-1]] forKey:@"Sample Description"];
                 [score setValue:[[[[self statisticsWindowController] metadata] objectAtIndex:2] valueForKey:[NSString stringWithFormat:@"file_%d",i-1]] forKey:@"Path"];
                 [score setValue:[[[[self statisticsWindowController] metadata] objectAtIndex:3] valueForKey:[NSString stringWithFormat:@"file_%d",i-1]] forKey:@"Filename"];
-                [scores addObject:score];
+                [scoresArray addObject:score];
             }
 
             if ([[[self statisticsWindowController] files] count] != linesCount-1) {

@@ -78,6 +78,7 @@ static void *PeaksObservationContext = (void *)1103;
 }
 
 - (void)windowDidLoad {
+    JKLogEnteringMethod();
 	// Setup the toolbar after the document nib has been loaded 
     [self setupToolbar];	
 
@@ -167,6 +168,8 @@ static void *PeaksObservationContext = (void *)1103;
     [[[peaksTable tableColumnWithIdentifier:@"id"] headerCell] setImage:[NSImage imageNamed:@"flagged_header"]];
     // 	[tableView setObligatoryTableColumns:[NSSet setWithObject:[tableView tableColumnWithIdentifier:@"name"]]];
     [[self window] setFrameFromString:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"mainWindowFrame"]];
+    JKLogExitingMethod();
+
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification
