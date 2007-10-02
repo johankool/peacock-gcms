@@ -32,7 +32,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         numberOfFactors = 4;
         scores = 1;
         rotation = 1;
-        groupSymbols = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"groupSymbols"];
+        groupSymbols = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"groupSymbols"] intValue];
         [[self undoManager] disableUndoRegistration];
         [self setPrintInfo:[NSPrintInfo sharedPrintInfo]];
         [[self printInfo] setOrientation:NSLandscapeOrientation];
@@ -405,30 +405,30 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
     NSMutableString *rCommand;
     if (rCommandPath = [[NSBundle mainBundle] pathForResource:@"factoranalysis" ofType:@"R"])  {
         rCommand = [NSMutableString stringWithContentsOfFile:rCommandPath encoding:NSASCIIStringEncoding error:NULL];
-        [rCommand replaceOccurrencesOfString:@"{TEMP_DIR}" withString:tempDir options:nil range:NSMakeRange(0, [rCommand length])];
-        [rCommand replaceOccurrencesOfString:@"{NUMBER_OF_FACTORS}" withString:[NSString stringWithFormat:@"%d",[self numberOfFactors]] options:nil range:NSMakeRange(0, [rCommand length])];
+        [rCommand replaceOccurrencesOfString:@"{TEMP_DIR}" withString:tempDir options:0 range:NSMakeRange(0, [rCommand length])];
+        [rCommand replaceOccurrencesOfString:@"{NUMBER_OF_FACTORS}" withString:[NSString stringWithFormat:@"%d",[self numberOfFactors]] options:0 range:NSMakeRange(0, [rCommand length])];
         switch ([self scores]) {
             case 0:
             default:
-                [rCommand replaceOccurrencesOfString:@"{SCORES}" withString:@"none" options:nil range:NSMakeRange(0, [rCommand length])];
+                [rCommand replaceOccurrencesOfString:@"{SCORES}" withString:@"none" options:0 range:NSMakeRange(0, [rCommand length])];
                 break;
             case 1:
-                [rCommand replaceOccurrencesOfString:@"{SCORES}" withString:@"regression" options:nil range:NSMakeRange(0, [rCommand length])];
+                [rCommand replaceOccurrencesOfString:@"{SCORES}" withString:@"regression" options:0 range:NSMakeRange(0, [rCommand length])];
                 break;
             case 2:
-                [rCommand replaceOccurrencesOfString:@"{SCORES}" withString:@"Bartlettt" options:nil range:NSMakeRange(0, [rCommand length])];
+                [rCommand replaceOccurrencesOfString:@"{SCORES}" withString:@"Bartlettt" options:0 range:NSMakeRange(0, [rCommand length])];
                 break;
         }
         switch ([self rotation]) {
             case 0:
             default:
-                [rCommand replaceOccurrencesOfString:@"{ROTATION}" withString:@"none" options:nil range:NSMakeRange(0, [rCommand length])];
+                [rCommand replaceOccurrencesOfString:@"{ROTATION}" withString:@"none" options:0 range:NSMakeRange(0, [rCommand length])];
                 break;
             case 1:
-                [rCommand replaceOccurrencesOfString:@"{ROTATION}" withString:@"varimax" options:nil range:NSMakeRange(0, [rCommand length])];
+                [rCommand replaceOccurrencesOfString:@"{ROTATION}" withString:@"varimax" options:0 range:NSMakeRange(0, [rCommand length])];
                 break;
             case 2:
-                [rCommand replaceOccurrencesOfString:@"{ROTATION}" withString:@"optimax" options:nil range:NSMakeRange(0, [rCommand length])];
+                [rCommand replaceOccurrencesOfString:@"{ROTATION}" withString:@"optimax" options:0 range:NSMakeRange(0, [rCommand length])];
                 break;
         }
     } else {

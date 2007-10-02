@@ -55,7 +55,7 @@
 }
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)absoluteOriginalContentsURL error:(NSError **)error 
 {
-    if ([typeName isEqualToString:@"Peacock Library"]) {
+    if ([typeName isEqualToString:@"Peacock Library"] || [typeName isEqualToString:@"nl.johankool.peacocklibrary"]) {
         if ([(JKAppDelegate *)[NSApp delegate] library] == self) {
 			if (error != NULL)
 				*error = [[[NSError alloc] initWithDomain:@"Peacock" code:1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Library cannot be relocated", NSLocalizedDescriptionKey, @"This library is a representation of the main library used throughout Peacock.", NSLocalizedFailureReasonErrorKey, @"Changes made to this library will automatically be saved on exiting Peacock. It is also possible to export this library as a JCAMP library.", NSLocalizedRecoverySuggestionErrorKey, nil]] autorelease];
@@ -74,7 +74,7 @@
         }
         // If persistent persistent store is present simply call super
          return [super writeToURL:absoluteURL ofType:typeName forSaveOperation:saveOperation originalContentsURL:absoluteOriginalContentsURL error:error ];
-	} else if ([typeName isEqualToString:@"JCAMP Library"]) {
+	} else if ([typeName isEqualToString:@"JCAMP Library"] || [typeName isEqualToString:@"org.jcamp"]) {
 		return [self exportJCAMPToFile:[absoluteURL path]];
 	}
 //    else if ([typeName isEqualToString:@"AMDIS Target Library"]) {
@@ -85,9 +85,9 @@
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-	if ([typeName isEqualToString:@"Peacock Library"]) {
+	if ([typeName isEqualToString:@"Peacock Library"] || [typeName isEqualToString:@"nl.johankool.peacocklibrary"]) {
         return [super readFromURL:absoluteURL ofType:typeName error:outError];
-    } else if ([typeName isEqualToString:@"JCAMP Library"]) {
+    } else if ([typeName isEqualToString:@"JCAMP Library"] || [typeName isEqualToString:@"org.jcamp"]) {
         unsigned int usedEncoding;
         NSString *inString = [NSString stringWithContentsOfURL:absoluteURL usedEncoding:&usedEncoding error:outError];
 		if (!inString) {
@@ -197,7 +197,7 @@
 		return YES;
 	} else {
 		NSRunInformationalAlertPanel(NSLocalizedString(@"File saved using UTF-8 encoding",@""),NSLocalizedString(@"Probably non-ASCII characters are used in entries of the library. Peacock will save the library in UTF-8 encoding instead of the prescribed ASCII encoding. In order to use this library in other applications the non-ASCII characters should probably be removed.",@""),NSLocalizedString(@"OK",@""),nil,nil);
-		return [outStr writeToFile:fileName atomically:NO];		
+		return [outStr writeToFile:fileName atomically:NO encoding:NSUTF8StringEncoding error:nil];		
 	}
 }
 

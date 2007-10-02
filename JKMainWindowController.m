@@ -126,18 +126,18 @@ static void *PeaksObservationContext = (void *)1103;
     [spectrumView setDrawingMode:JKNormalDrawingMode];
 
 	// Register as observer
-	[self addObserver:self forKeyPath:@"showNormalizedSpectra" options:nil context:SpectrumObservationContext];
-	[self addObserver:self forKeyPath:@"showCombinedSpectrum" options:nil context:SpectrumObservationContext];
-    [self addObserver:self forKeyPath:@"showLibraryHit" options:nil context:SpectrumObservationContext];
-	[self addObserver:self forKeyPath:@"showTICTrace" options:nil context:ChromatogramObservationContext];
-	[self addObserver:self forKeyPath:@"showSelectedChromatogramsOnly" options:nil context:ChromatogramObservationContext];
+	[self addObserver:self forKeyPath:@"showNormalizedSpectra" options:0 context:SpectrumObservationContext];
+	[self addObserver:self forKeyPath:@"showCombinedSpectrum" options:0 context:SpectrumObservationContext];
+    [self addObserver:self forKeyPath:@"showLibraryHit" options:0 context:SpectrumObservationContext];
+	[self addObserver:self forKeyPath:@"showTICTrace" options:0 context:ChromatogramObservationContext];
+	[self addObserver:self forKeyPath:@"showSelectedChromatogramsOnly" options:0 context:ChromatogramObservationContext];
 
-    [chromatogramsController addObserver:self forKeyPath:@"selection" options:nil context:ChromatogramObservationContext];
-	[peakController addObserver:self forKeyPath:@"selection" options:nil context:PeaksObservationContext];
-	[peakController addObserver:self forKeyPath:@"selection.countOfSearchResults" options:nil context:PeaksObservationContext];
-	[peakController addObserver:self forKeyPath:@"selection.confirmed" options:nil context:PeaksObservationContext];
-	[peakController addObserver:self forKeyPath:@"selection.identified" options:nil context:PeaksObservationContext];
-	[searchResultsController addObserver:self forKeyPath:@"selection" options:nil context:SpectrumObservationContext];
+    [chromatogramsController addObserver:self forKeyPath:@"selection" options:0 context:ChromatogramObservationContext];
+	[peakController addObserver:self forKeyPath:@"selection" options:0 context:PeaksObservationContext];
+	[peakController addObserver:self forKeyPath:@"selection.countOfSearchResults" options:0 context:PeaksObservationContext];
+	[peakController addObserver:self forKeyPath:@"selection.confirmed" options:0 context:PeaksObservationContext];
+	[peakController addObserver:self forKeyPath:@"selection.identified" options:0 context:PeaksObservationContext];
+	[searchResultsController addObserver:self forKeyPath:@"selection" options:0 context:SpectrumObservationContext];
 
 	// Double click action
 	[resultsTable setDoubleAction:@selector(resultDoubleClicked:)];

@@ -399,15 +399,15 @@ static void *ArrayObservationContext = (void *)1092;
         while ((newDataPoint = [dataEnumerator nextObject])) {		
             [newDataPoint addObserver:self
                            forKeyPath:keyForXValue
-                              options:nil
+                              options:0
                               context:DictionaryObservationContext];
             [newDataPoint addObserver:self
                            forKeyPath:keyForYValue
-                              options:nil
+                              options:0
                               context:DictionaryObservationContext];
             [newDataPoint addObserver:self
                            forKeyPath:keyForLabel
-                              options:nil
+                              options:0
                               context:DictionaryObservationContext];		
         }        
     }

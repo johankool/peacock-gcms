@@ -194,9 +194,7 @@
     // Only one NSPrintOperation can be active at one point, so we need to fetch the pdf before the print operation on the document starts
 
     // Drawing chromatogram
-/*###197 [cc] warning: initialization from distinct Objective-C type%%%*/
-/*###197 [cc] warning: initialization from distinct Objective-C type%%%*/
-    NSView *chromView = [[document statisticsWindowController] altGraphView];
+    NSView *chromView = (NSView *)[[document statisticsWindowController] altGraphView];
     NSRect chromRect = [self rectForChromatogram];
     NSRect oldRect = [chromView frame];
     [chromView setFrame:chromRect];
@@ -212,9 +210,7 @@
     [chromView setFrame:oldRect];
     
     // Drawing loadings
-/*###213 [cc] warning: initialization from distinct Objective-C type%%%*/
-/*###213 [cc] warning: initialization from distinct Objective-C type%%%*/
-    NSView *loadingsView = [[document statisticsWindowController] loadingsGraphView];
+    NSView *loadingsView = (NSView *)[[document statisticsWindowController] loadingsGraphView];
     NSRect loadingsRect = [self rectForLoadings];
     loadingsRect.origin.y = 0.0f;
     oldRect = [loadingsView frame];
@@ -231,9 +227,7 @@
     [loadingsView setFrame:oldRect];    
 
     // Drawing scores
-/*###230 [cc] warning: initialization from distinct Objective-C type%%%*/
-/*###230 [cc] warning: initialization from distinct Objective-C type%%%*/
-    NSView *scoresView = [[document statisticsWindowController] scoresGraphView];
+    NSView *scoresView = (NSView *)[[document statisticsWindowController] scoresGraphView];
     NSRect scoresRect = [self rectForScores];
     scoresRect.origin.y = 0.0f;
     oldRect = [scoresView frame];

@@ -50,7 +50,7 @@
 		[self setFileAliasKeyPath:observableKeyPath];
 		[fileAliasContainer addObserver:self
 							  forKeyPath:fileAliasKeyPath
-								 options:nil
+								 options:0
 								 context:nil];
     } else {
 		[super bind:bindingName
