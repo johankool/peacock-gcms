@@ -334,8 +334,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -353,7 +351,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C73B291E0CB1958B00C09AAE</string>
+										<string>C77947ED0CB24C6D00A38969</string>
 										<key>history</key>
 										<array>
 											<string>C73B27EA0CB1303800C09AAE</string>
@@ -383,7 +381,7 @@
 											<string>C73B29040CB192E700C09AAE</string>
 											<string>C73B29180CB1958800C09AAE</string>
 											<string>C73B29190CB1958800C09AAE</string>
-											<string>C73B291A0CB1958800C09AAE</string>
+											<string>C77947EC0CB24C5E00A38969</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -391,149 +389,29 @@
 											<string>C73B28010CB1303800C09AAE</string>
 											<string>C73B28020CB1303800C09AAE</string>
 											<string>C73B28030CB1303800C09AAE</string>
-											<string>C73B28040CB1303800C09AAE</string>
-											<string>C73B28050CB1303800C09AAE</string>
 											<string>C73B28060CB1303800C09AAE</string>
-											<string>C73B28070CB1303800C09AAE</string>
-											<string>C73B28080CB1303800C09AAE</string>
-											<string>C73B28090CB1303800C09AAE</string>
-											<string>C73B280A0CB1303800C09AAE</string>
-											<string>C73B280B0CB1303800C09AAE</string>
 											<string>C73B280C0CB1303800C09AAE</string>
 											<string>C73B280D0CB1303800C09AAE</string>
-											<string>C73B280E0CB1303800C09AAE</string>
-											<string>C73B28100CB1303800C09AAE</string>
-											<string>C73B28120CB1303800C09AAE</string>
 											<string>C73B28130CB1303800C09AAE</string>
-											<string>C73B28140CB1303800C09AAE</string>
 											<string>C73B28150CB1303800C09AAE</string>
-											<string>C73B28160CB1303800C09AAE</string>
-											<string>C73B28170CB1303800C09AAE</string>
-											<string>C73B28180CB1303800C09AAE</string>
-											<string>C73B28190CB1303800C09AAE</string>
 											<string>C73B281A0CB1303800C09AAE</string>
 											<string>C73B281B0CB1303800C09AAE</string>
-											<string>C73B281C0CB1303800C09AAE</string>
-											<string>C73B281D0CB1303800C09AAE</string>
 											<string>C73B281E0CB1303800C09AAE</string>
-											<string>C73B281F0CB1303800C09AAE</string>
-											<string>C73B28200CB1303800C09AAE</string>
-											<string>C73B28210CB1303800C09AAE</string>
-											<string>C73B28230CB1303800C09AAE</string>
-											<string>C73B28240CB1303800C09AAE</string>
-											<string>C73B28250CB1303800C09AAE</string>
-											<string>C73B28260CB1303800C09AAE</string>
-											<string>C73B28270CB1303800C09AAE</string>
 											<string>C73B28280CB1303800C09AAE</string>
-											<string>C73B28290CB1303800C09AAE</string>
-											<string>C73B282A0CB1303800C09AAE</string>
-											<string>C73B282B0CB1303800C09AAE</string>
 											<string>C73B282D0CB1303800C09AAE</string>
 											<string>C73B282E0CB1303800C09AAE</string>
-											<string>C73B282F0CB1303800C09AAE</string>
-											<string>C73B28300CB1303800C09AAE</string>
-											<string>C73B28310CB1303800C09AAE</string>
-											<string>C73B28320CB1303800C09AAE</string>
-											<string>C73B28330CB1303800C09AAE</string>
-											<string>C73B28340CB1303800C09AAE</string>
-											<string>C73B28350CB1303800C09AAE</string>
-											<string>C73B28360CB1303800C09AAE</string>
-											<string>C73B28370CB1303800C09AAE</string>
-											<string>C73B28380CB1303800C09AAE</string>
 											<string>C73B28390CB1303800C09AAE</string>
-											<string>C73B283A0CB1303800C09AAE</string>
-											<string>C73B283B0CB1303800C09AAE</string>
-											<string>C73B283C0CB1303800C09AAE</string>
 											<string>C73B283D0CB1303800C09AAE</string>
 											<string>C73B283E0CB1303800C09AAE</string>
 											<string>C73B28400CB1303800C09AAE</string>
-											<string>C73B28410CB1303800C09AAE</string>
-											<string>C73B28430CB1303800C09AAE</string>
-											<string>C73B28440CB1303800C09AAE</string>
-											<string>C73B28460CB1303800C09AAE</string>
-											<string>C73B28470CB1303800C09AAE</string>
-											<string>C73B28480CB1303800C09AAE</string>
-											<string>C73B284A0CB1303800C09AAE</string>
-											<string>C73B284B0CB1303800C09AAE</string>
-											<string>C73B284D0CB1303800C09AAE</string>
-											<string>C73B284E0CB1303800C09AAE</string>
-											<string>C73B284F0CB1303800C09AAE</string>
-											<string>C73B28510CB1303800C09AAE</string>
-											<string>C73B28520CB1303800C09AAE</string>
-											<string>C73B28530CB1303800C09AAE</string>
-											<string>C73B28540CB1303800C09AAE</string>
-											<string>C73B28550CB1303800C09AAE</string>
 											<string>C73B28560CB1303800C09AAE</string>
-											<string>C73B28570CB1303800C09AAE</string>
-											<string>C73B28580CB1303800C09AAE</string>
-											<string>C73B285A0CB1303800C09AAE</string>
-											<string>C73B285B0CB1303800C09AAE</string>
-											<string>C73B285C0CB1303800C09AAE</string>
-											<string>C73B285D0CB1303800C09AAE</string>
-											<string>C73B285E0CB1303800C09AAE</string>
-											<string>C73B285F0CB1303800C09AAE</string>
-											<string>C73B28600CB1303800C09AAE</string>
-											<string>C73B28610CB1303800C09AAE</string>
-											<string>C73B28620CB1303800C09AAE</string>
-											<string>C73B28630CB1303800C09AAE</string>
-											<string>C73B28640CB1303800C09AAE</string>
-											<string>C73B28650CB1303800C09AAE</string>
-											<string>C73B28660CB1303800C09AAE</string>
-											<string>C73B28670CB1303800C09AAE</string>
-											<string>C73B28820CB1332F00C09AAE</string>
 											<string>C73B28840CB1332F00C09AAE</string>
 											<string>C73B28850CB1332F00C09AAE</string>
-											<string>C73B28860CB1332F00C09AAE</string>
-											<string>C73B28870CB1332F00C09AAE</string>
-											<string>C73B28880CB1332F00C09AAE</string>
-											<string>C73B288A0CB1332F00C09AAE</string>
-											<string>C73B288B0CB1332F00C09AAE</string>
-											<string>C73B288C0CB1332F00C09AAE</string>
-											<string>C73B288D0CB1332F00C09AAE</string>
-											<string>C73B288E0CB1332F00C09AAE</string>
-											<string>C73B28900CB1332F00C09AAE</string>
 											<string>C73B28910CB1332F00C09AAE</string>
-											<string>C73B28920CB1332F00C09AAE</string>
-											<string>C73B28930CB1332F00C09AAE</string>
-											<string>C73B28940CB1332F00C09AAE</string>
-											<string>C73B28950CB1332F00C09AAE</string>
 											<string>C73B28960CB1332F00C09AAE</string>
-											<string>C73B28970CB1332F00C09AAE</string>
-											<string>C73B28990CB1332F00C09AAE</string>
-											<string>C73B289B0CB1332F00C09AAE</string>
-											<string>C73B289D0CB1332F00C09AAE</string>
-											<string>C73B289E0CB1332F00C09AAE</string>
-											<string>C73B289F0CB1332F00C09AAE</string>
-											<string>C73B28AA0CB1347B00C09AAE</string>
-											<string>C73B28B60CB17D9E00C09AAE</string>
 											<string>C73B28BF0CB17E2D00C09AAE</string>
 											<string>C73B28C00CB17E2D00C09AAE</string>
-											<string>C73B28CE0CB1801500C09AAE</string>
 											<string>C73B280F0CB1303800C09AAE</string>
-											<string>C73B28E30CB184F900C09AAE</string>
-											<string>C73B28E40CB184F900C09AAE</string>
-											<string>C73B28E50CB184F900C09AAE</string>
-											<string>C73B28E60CB184F900C09AAE</string>
-											<string>C73B28E70CB184F900C09AAE</string>
-											<string>C73B28E80CB184F900C09AAE</string>
-											<string>C73B28E90CB184F900C09AAE</string>
-											<string>C73B28EA0CB184F900C09AAE</string>
-											<string>C73B28EB0CB184F900C09AAE</string>
-											<string>C73B28EC0CB184F900C09AAE</string>
-											<string>C73B28ED0CB184F900C09AAE</string>
-											<string>C73B28EE0CB184F900C09AAE</string>
-											<string>C73B28EF0CB184F900C09AAE</string>
-											<string>C73B28F00CB184F900C09AAE</string>
-											<string>C73B28F10CB184F900C09AAE</string>
-											<string>C73B28F20CB184F900C09AAE</string>
-											<string>C73B28FB0CB1873700C09AAE</string>
-											<string>C73B28FC0CB1873700C09AAE</string>
-											<string>C73B28FD0CB1873700C09AAE</string>
-											<string>C73B29060CB192E700C09AAE</string>
-											<string>C73B290B0CB1937B00C09AAE</string>
-											<string>C73B29130CB1943E00C09AAE</string>
-											<string>C73B291B0CB1958800C09AAE</string>
-											<string>C73B291C0CB1958800C09AAE</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -603,11 +481,11 @@
 											<key>PBXCVSModuleTreeModuleColumnWidthsKey</key>
 											<array>
 												<real>439</real>
-												<real>56.66162109375</real>
+												<real>56</real>
 												<real>63</real>
 												<real>60</real>
 												<real>63</real>
-												<real>355.556640625</real>
+												<real>355</real>
 											</array>
 											<key>PBXCVSModuleTreeModuleColumnsKey</key>
 											<array>
@@ -633,6 +511,8 @@
 									<string>PBXCVSModule</string>
 								</dict>
 								<dict>
+									<key>BecomeActive</key>
+									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXProjectModuleGUID</key>
@@ -677,11 +557,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>C73B27B90CAD75D400C09AAE</string>
+				<string>C77947EE0CB24C6D00A38969</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>C73B27BA0CAD75D400C09AAE</string>
+				<string>C77947EF0CB24C6D00A38969</string>
 				<string>C73B27B40CAD75CB00C09AAE</string>
-				<string>C73B27BB0CAD75D400C09AAE</string>
+				<string>C77947F00CB24C6D00A38969</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -829,14 +709,14 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>C73B27BC0CAD75D400C09AAE</string>
+				<string>C77947F10CB24C6D00A38969</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>C73B27BD0CAD75D400C09AAE</string>
-				<string>C73B27BE0CAD75D400C09AAE</string>
-				<string>C73B27BF0CAD75D400C09AAE</string>
-				<string>C73B27C00CAD75D400C09AAE</string>
-				<string>C73B27C10CAD75D400C09AAE</string>
+				<string>C77947F20CB24C6D00A38969</string>
+				<string>C77947F30CB24C6D00A38969</string>
+				<string>C77947F40CB24C6D00A38969</string>
+				<string>C77947F50CB24C6D00A38969</string>
+				<string>C77947F60CB24C6D00A38969</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -851,7 +731,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>212964747.42792001</real>
+	<real>213011565.84368801</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
@@ -866,10 +746,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1C530D5B069F1CE1000CFCEE</string>
-		<string>C73B28A40CB1337700C09AAE</string>
-		<string>C73B28A50CB1337700C09AAE</string>
-		<string>C73B28A60CB1337700C09AAE</string>
 		<string>/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/trunk/Peacock.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
