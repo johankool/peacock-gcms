@@ -20,12 +20,12 @@
 
 @implementation JKPeakRecord
 
-NSString *GetUUID(void) {
-    CFUUIDRef theUUID = CFUUIDCreate(NULL);
-    CFStringRef string = CFUUIDCreateString(NULL, theUUID);
-    CFRelease(theUUID);
-    return [(NSString *)string autorelease];
-}
+//NSString *GetUUID(void) {
+//    CFUUIDRef theUUID = CFUUIDCreate(NULL);
+//    CFStringRef string = CFUUIDCreateString(NULL, theUUID);
+//    CFRelease(theUUID);
+//    return [(NSString *)string autorelease];
+//}
 
 # pragma mark Initialization & deallocation
 + (void)initialize{
@@ -142,7 +142,9 @@ NSString *GetUUID(void) {
         label = [[coder decodeObjectForKey:@"label"] retain];
         symbol = [[coder decodeObjectForKey:@"symbol"] retain];
         identified = [coder decodeBoolForKey:@"identified"];
+        // We want notifications for confirmed peaks being posted
         confirmed = [coder decodeBoolForKey:@"confirmed"]; 
+        //[self setConfirmed:[coder decodeBoolForKey:@"confirmed"]];
         flagged = [coder decodeBoolForKey:@"flagged"]; 
 	} else {
         [NSException raise:NSInvalidArchiveOperationException
@@ -790,7 +792,13 @@ NSString *GetUUID(void) {
             [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Identified Status",@"Change Peak Identified Status")];
         }
         
-        identified = inValue;        
+        identified = inValue;    
+        
+        if (inValue) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"JKDidIdentifyPeak" object:self];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"JKDidUnidentifyPeak" object:self];
+        }
     }
 }
 
@@ -806,6 +814,12 @@ NSString *GetUUID(void) {
         }
         
         confirmed = inValue;        
+        
+        if (inValue) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"JKDidConfirmPeak" object:self];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"JKDidUnconfirmPeak" object:self];
+        }
     }
 }
 

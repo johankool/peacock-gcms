@@ -91,7 +91,7 @@
 			<true/>
 			<key>NSDocumentClass</key>
 			<string>JKGCMSDocument</string>
-			<key>NSExportableAs</key>
+			<key>NSExportableTypes</key>
 			<array>
 				<string>Tab Delimited Text File</string>
 			</array>
@@ -122,7 +122,7 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>JKGCMSDocument</string>
-			<key>NSExportableAs</key>
+			<key>NSExportableTypes</key>
 			<array>
 				<string>Peacock File</string>
 			</array>

@@ -57,6 +57,18 @@
 		C73291120AD68F9800D95E36 /* JKSynchroScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = C73290F30AD68F9800D95E36 /* JKSynchroScrollView.h */; };
 		C73291130AD68F9800D95E36 /* JKSynchroScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C73290F40AD68F9800D95E36 /* JKSynchroScrollView.m */; };
 		C73533D20B7A703C00F7634B /* JKChromatogramTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C73533D10B7A703C00F7634B /* JKChromatogramTest.m */; };
+		C73B27CE0CAD9EF600C09AAE /* JKSummarizer.h in Headers */ = {isa = PBXBuildFile; fileRef = C73B27CC0CAD9EF600C09AAE /* JKSummarizer.h */; };
+		C73B27CF0CAD9EF600C09AAE /* JKSummarizer.m in Sources */ = {isa = PBXBuildFile; fileRef = C73B27CD0CAD9EF600C09AAE /* JKSummarizer.m */; };
+		C73B27D00CAD9EF600C09AAE /* JKSummarizer.h in Headers */ = {isa = PBXBuildFile; fileRef = C73B27CC0CAD9EF600C09AAE /* JKSummarizer.h */; };
+		C73B27D10CAD9EF600C09AAE /* JKSummarizer.m in Sources */ = {isa = PBXBuildFile; fileRef = C73B27CD0CAD9EF600C09AAE /* JKSummarizer.m */; };
+		C73B27D40CB1221E00C09AAE /* JKSummary.nib in Resources */ = {isa = PBXBuildFile; fileRef = C73B27D30CB1221E00C09AAE /* JKSummary.nib */; };
+		C73B27D50CB1221E00C09AAE /* JKSummary.nib in Resources */ = {isa = PBXBuildFile; fileRef = C73B27D30CB1221E00C09AAE /* JKSummary.nib */; };
+		C73B27D80CB1224100C09AAE /* JKSummaryController.h in Headers */ = {isa = PBXBuildFile; fileRef = C73B27D60CB1224100C09AAE /* JKSummaryController.h */; };
+		C73B27D90CB1224100C09AAE /* JKSummaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73B27D70CB1224100C09AAE /* JKSummaryController.m */; };
+		C73B27DA0CB1224100C09AAE /* JKSummaryController.h in Headers */ = {isa = PBXBuildFile; fileRef = C73B27D60CB1224100C09AAE /* JKSummaryController.h */; };
+		C73B27DB0CB1224100C09AAE /* JKSummaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73B27D70CB1224100C09AAE /* JKSummaryController.m */; };
+		C73B28740CB1320A00C09AAE /* jk_statistics.m in Sources */ = {isa = PBXBuildFile; fileRef = C720AB8709EA7B6C007EF860 /* jk_statistics.m */; };
+		C73B28750CB1320B00C09AAE /* jk_statistics.m in Sources */ = {isa = PBXBuildFile; fileRef = C720AB8709EA7B6C007EF860 /* jk_statistics.m */; };
 		C747ED350ABF43C6001F98AF /* Peacock Test Files in Resources */ = {isa = PBXBuildFile; fileRef = C747ED320ABF43C6001F98AF /* Peacock Test Files */; };
 		C7490D4D0CAC0B29005DCA39 /* JKChromatogram.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D420CAC0B28005DCA39 /* JKChromatogram.h */; };
 		C7490D4E0CAC0B29005DCA39 /* JKChromatogram.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D430CAC0B28005DCA39 /* JKChromatogram.m */; };
@@ -80,8 +92,6 @@
 		C7490D600CAC0B29005DCA39 /* MyGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D4A0CAC0B28005DCA39 /* MyGraphView.m */; };
 		C7490D610CAC0B29005DCA39 /* NSString+ModelCompare.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D4B0CAC0B28005DCA39 /* NSString+ModelCompare.h */; };
 		C7490D620CAC0B29005DCA39 /* NSString+ModelCompare.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D4C0CAC0B28005DCA39 /* NSString+ModelCompare.m */; };
-		C7490D720CAC0CA5005DCA39 /* jk_statistics.c in Sources */ = {isa = PBXBuildFile; fileRef = C7490D710CAC0CA4005DCA39 /* jk_statistics.c */; };
-		C7490D730CAC0CA5005DCA39 /* jk_statistics.c in Sources */ = {isa = PBXBuildFile; fileRef = C7490D710CAC0CA4005DCA39 /* jk_statistics.c */; };
 		C75846140C071ACC00756ED8 /* JKComparableProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846130C071ACC00756ED8 /* JKComparableProtocol.h */; };
 		C75846630C07268D00756ED8 /* JKLibraryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846610C07268D00756ED8 /* JKLibraryEntry.h */; };
 		C75846640C07268D00756ED8 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C75846620C07268D00756ED8 /* JKLibraryEntry.m */; };
@@ -448,6 +458,11 @@
 		C73290F40AD68F9800D95E36 /* JKSynchroScrollView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKSynchroScrollView.m; sourceTree = "<group>"; };
 		C73533D00B7A703C00F7634B /* JKChromatogramTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKChromatogramTest.h; sourceTree = "<group>"; };
 		C73533D10B7A703C00F7634B /* JKChromatogramTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKChromatogramTest.m; sourceTree = "<group>"; };
+		C73B27CC0CAD9EF600C09AAE /* JKSummarizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JKSummarizer.h; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/trunk/JKSummarizer.h"; sourceTree = "<absolute>"; };
+		C73B27CD0CAD9EF600C09AAE /* JKSummarizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JKSummarizer.m; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/trunk/JKSummarizer.m"; sourceTree = "<absolute>"; };
+		C73B27D30CB1221E00C09AAE /* JKSummary.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = JKSummary.nib; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/trunk/Nibs/JKSummary.nib"; sourceTree = "<absolute>"; };
+		C73B27D60CB1224100C09AAE /* JKSummaryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JKSummaryController.h; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/trunk/JKSummaryController.h"; sourceTree = "<absolute>"; };
+		C73B27D70CB1224100C09AAE /* JKSummaryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JKSummaryController.m; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/trunk/JKSummaryController.m"; sourceTree = "<absolute>"; };
 		C747ED320ABF43C6001F98AF /* Peacock Test Files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Peacock Test Files"; sourceTree = "<group>"; };
 		C7490D420CAC0B28005DCA39 /* JKChromatogram.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKChromatogram.h; sourceTree = "<group>"; };
 		C7490D430CAC0B28005DCA39 /* JKChromatogram.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKChromatogram.m; sourceTree = "<group>"; };
@@ -796,20 +811,6 @@
 		C77E686F0C3A9C860051B016 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				C7490D710CAC0CA4005DCA39 /* jk_statistics.c */,
-				C7490D420CAC0B28005DCA39 /* JKChromatogram.h */,
-				C7490D430CAC0B28005DCA39 /* JKChromatogram.m */,
-				C7490D440CAC0B28005DCA39 /* JKFileWell.m */,
-				C7490D450CAC0B28005DCA39 /* JKModelObject.h */,
-				C7490D460CAC0B28005DCA39 /* JKModelObject.m */,
-				C7490D470CAC0B28005DCA39 /* JKPeakRecord.h */,
-				C7490D480CAC0B28005DCA39 /* JKPeakRecord.m */,
-				C7490D490CAC0B28005DCA39 /* MyGraphView.h */,
-				C7490D4A0CAC0B28005DCA39 /* MyGraphView.m */,
-				C7490D4B0CAC0B28005DCA39 /* NSString+ModelCompare.h */,
-				C7490D4C0CAC0B28005DCA39 /* NSString+ModelCompare.m */,
-				C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */,
-				C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */,
 				C7C299880B8B48CC0017B2B2 /* ArrayEncodingObject.h */,
 				C7C299890B8B48CC0017B2B2 /* ArrayEncodingObject.m */,
 				C7C220610BEB831000510B5B /* BooleanToStringTransformer.h */,
@@ -822,8 +823,9 @@
 				C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */,
 				C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */,
 				C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */,
-				C720AB8709EA7B6C007EF860 /* jk_statistics.m */,
+				C7490D710CAC0CA4005DCA39 /* jk_statistics.c */,
 				C720AB8609EA7B6C007EF860 /* jk_statistics.h */,
+				C720AB8709EA7B6C007EF860 /* jk_statistics.m */,
 				C7EB17CE0898CF2E007FC2ED /* JKAppDelegate.h */,
 				C7EB17CF0898CF2E007FC2ED /* JKAppDelegate.m */,
 				C777A2CC0A1DFEE400CF44D9 /* JKAtom.h */,
@@ -832,6 +834,8 @@
 				C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */,
 				C777A2CE0A1DFEE400CF44D9 /* JKBond.h */,
 				C777A2CF0A1DFEE400CF44D9 /* JKBond.m */,
+				C7490D420CAC0B28005DCA39 /* JKChromatogram.h */,
+				C7490D430CAC0B28005DCA39 /* JKChromatogram.m */,
 				C708E90A0B9D953A0085872E /* JKCombinedPeak.h */,
 				C708E90B0B9D953A0085872E /* JKCombinedPeak.m */,
 				C709D0080C465F3200C9C613 /* JKComboBoxCell.h */,
@@ -840,6 +844,9 @@
 				C729CAA70A4B45CD00FAB04F /* JKDataModelProxy.h */,
 				C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */,
 				C73290E80AD68F9800D95E36 /* JKFileWell.h */,
+				C7490D440CAC0B28005DCA39 /* JKFileWell.m */,
+				C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */,
+				C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */,
 				C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */,
 				C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */,
 				C7EB17D40898CF2E007FC2ED /* JKLibrary.h */,
@@ -852,6 +859,8 @@
 				C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */,
 				C7F5E8F308EAA98600AC1068 /* JKManagedLibraryEntry.h */,
 				C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */,
+				C7490D450CAC0B28005DCA39 /* JKModelObject.h */,
+				C7490D460CAC0B28005DCA39 /* JKModelObject.m */,
 				C777A2D00A1DFEE400CF44D9 /* JKMoleculeModel.h */,
 				C777A2D10A1DFEE400CF44D9 /* JKMoleculeModel.m */,
 				C777A2C30A1DFEA800CF44D9 /* JKMoleculeView.h */,
@@ -860,6 +869,8 @@
 				C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */,
 				C7F8973E0A188B0D00A65A24 /* JKPathPopUpButton.h */,
 				C7F8973F0A188B0D00A65A24 /* JKPathPopUpButton.m */,
+				C7490D470CAC0B28005DCA39 /* JKPeakRecord.h */,
+				C7490D480CAC0B28005DCA39 /* JKPeakRecord.m */,
 				C7EB17E80898CF2F007FC2ED /* JKPreferencesWindowController.h */,
 				C7EB17E90898CF2F007FC2ED /* JKPreferencesWindowController.m */,
 				C70DB8EB09573BEA00C2B386 /* JKRatio.h */,
@@ -874,6 +885,10 @@
 				C7696D6E0C2C1A25009A013E /* JKStatisticsPrintView.m */,
 				C785905409541F250083EC22 /* JKStatisticsWindowController.h */,
 				C785905509541F250083EC22 /* JKStatisticsWindowController.m */,
+				C73B27CC0CAD9EF600C09AAE /* JKSummarizer.h */,
+				C73B27CD0CAD9EF600C09AAE /* JKSummarizer.m */,
+				C73B27D60CB1224100C09AAE /* JKSummaryController.h */,
+				C73B27D70CB1224100C09AAE /* JKSummaryController.m */,
 				C73290F30AD68F9800D95E36 /* JKSynchroScrollView.h */,
 				C73290F40AD68F9800D95E36 /* JKSynchroScrollView.m */,
 				C79618900C0C75BC00D79FAC /* JKTargetObjectProtocol.h */,
@@ -881,6 +896,8 @@
 				C7EB17F40898CFBC007FC2ED /* MWController.m */,
 				C7EB17F50898CFBC007FC2ED /* MyGraphDataSerie.h */,
 				C7EB17F60898CFBC007FC2ED /* MyGraphDataSerie.m */,
+				C7490D490CAC0B28005DCA39 /* MyGraphView.h */,
+				C7490D4A0CAC0B28005DCA39 /* MyGraphView.m */,
 				C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */,
 				C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */,
 				C7C29ABB0B8B67530017B2B2 /* NSCoder+CArrayEncoding.h */,
@@ -889,6 +906,8 @@
 				C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */,
 				C7C2998E0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.h */,
 				C7C2998F0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.m */,
+				C7490D4B0CAC0B28005DCA39 /* NSString+ModelCompare.h */,
+				C7490D4C0CAC0B28005DCA39 /* NSString+ModelCompare.m */,
 				C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */,
 				C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */,
 				C773669608E02D87002B72F1 /* SpectrumGraphDataSerie.h */,
@@ -991,6 +1010,7 @@
 		C7EB17F90898CFBC007FC2ED /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
+				C73B27D30CB1221E00C09AAE /* JKSummary.nib */,
 				C7F8DEA70BF0D00700A34F5D /* DisplayOptions.nib */,
 				C7713B35095029C200653D2A /* JKBatchProcess.nib */,
 				C7EB17FA0898CFBC007FC2ED /* JKLibrary.nib */,
@@ -1065,6 +1085,8 @@
 				C7490D5D0CAC0B29005DCA39 /* JKPeakRecord.h in Headers */,
 				C7490D5F0CAC0B29005DCA39 /* MyGraphView.h in Headers */,
 				C7490D610CAC0B29005DCA39 /* NSString+ModelCompare.h in Headers */,
+				C73B27D00CAD9EF600C09AAE /* JKSummarizer.h in Headers */,
+				C73B27DA0CB1224100C09AAE /* JKSummaryController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1108,6 +1130,8 @@
 				C7490D520CAC0B29005DCA39 /* JKPeakRecord.h in Headers */,
 				C7490D540CAC0B29005DCA39 /* MyGraphView.h in Headers */,
 				C7490D560CAC0B29005DCA39 /* NSString+ModelCompare.h in Headers */,
+				C73B27CE0CAD9EF600C09AAE /* JKSummarizer.h in Headers */,
+				C73B27D80CB1224100C09AAE /* JKSummaryController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1250,6 +1274,7 @@
 				C77E32B90C0F2CBB00B8A64A /* libraries.png in Resources */,
 				C765B8AC0C23237B00C4F153 /* factoranalysis.R in Resources */,
 				C79302940CAC5C1100DB5AB8 /* PKDocument.nib in Resources */,
+				C73B27D40CB1221E00C09AAE /* JKSummary.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1313,6 +1338,7 @@
 				C77E2FC20C0EF21700B8A64A /* minus.png in Resources */,
 				C77E32BA0C0F2CBB00B8A64A /* libraries.png in Resources */,
 				C79302950CAC5C1100DB5AB8 /* PKDocument.nib in Resources */,
+				C73B27D50CB1221E00C09AAE /* JKSummary.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1426,7 +1452,9 @@
 				C7490D530CAC0B29005DCA39 /* JKPeakRecord.m in Sources */,
 				C7490D550CAC0B29005DCA39 /* MyGraphView.m in Sources */,
 				C7490D570CAC0B29005DCA39 /* NSString+ModelCompare.m in Sources */,
-				C7490D720CAC0CA5005DCA39 /* jk_statistics.c in Sources */,
+				C73B27CF0CAD9EF600C09AAE /* JKSummarizer.m in Sources */,
+				C73B27D90CB1224100C09AAE /* JKSummaryController.m in Sources */,
+				C73B28740CB1320A00C09AAE /* jk_statistics.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1497,7 +1525,9 @@
 				C7490D5E0CAC0B29005DCA39 /* JKPeakRecord.m in Sources */,
 				C7490D600CAC0B29005DCA39 /* MyGraphView.m in Sources */,
 				C7490D620CAC0B29005DCA39 /* NSString+ModelCompare.m in Sources */,
-				C7490D730CAC0CA5005DCA39 /* jk_statistics.c in Sources */,
+				C73B27D10CAD9EF600C09AAE /* JKSummarizer.m in Sources */,
+				C73B27DB0CB1224100C09AAE /* JKSummaryController.m in Sources */,
+				C73B28750CB1320B00C09AAE /* jk_statistics.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

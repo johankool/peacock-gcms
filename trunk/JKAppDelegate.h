@@ -15,6 +15,8 @@
 @class JKLibraryEntry;
 @class JKManagedLibraryEntry;
 @class JKPeakRecord;
+@class JKSummaryController;
+@class JKSummarizer;
 
 #import <Growl/GrowlApplicationBridge.h>
 
@@ -33,6 +35,9 @@
     NSMutableArray *availableDictionaries;
     NSString *libraryConfigurationLoaded;
     NSArray *autocompleteEntries;
+    
+    JKSummaryController *summaryController;
+    JKSummarizer *summarizer;
 }
 
 
@@ -56,6 +61,8 @@
 - (NSArray *)autocompleteEntries;
 - (void)setAutocompleteEntries:(NSArray *)aAutocompleteEntries;
 - (NSArray *)autocompleteEntriesForModel:(NSString *)model;
+
+- (JKSummarizer *)summarizer;
 
 #pragma mark GROWL SUPPORT
 - (NSDictionary *)registrationDictionaryForGrowl;
