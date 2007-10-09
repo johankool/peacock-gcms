@@ -109,6 +109,17 @@
         }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 
         {
+            CLASS = PKDocumentController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {documentTabView = NSTabView; window = NSWindow; }; 
+            SUPERCLASS = NSDocumentController; 
+        }, 
+        {
+            CLASS = PKWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
             ACTIONS = {checkForUpdates = id; }; 
             CLASS = SUUpdater; 
             LANGUAGE = ObjC; 

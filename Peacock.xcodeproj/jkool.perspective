@@ -283,7 +283,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>122</integer>
+									<integer>124</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -330,7 +330,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C7BC18FF0CBBCEDC0037FBA7</string>
+										<string>C7BC19CD0CBBE50D0037FBA7</string>
 										<key>history</key>
 										<array>
 											<string>C7BC7C7C0CBB8BB3006D121C</string>
@@ -547,13 +547,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>18</integer>
+									<integer>105</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 165}, {184, 869}}</string>
+							<string>{{0, 1366}, {184, 869}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -581,12 +581,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>C7490D380CAC0A32005DCA39</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>JKAppDelegate.h</string>
+								<string>PKWindowController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -594,11 +596,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>C7490D390CAC0A32005DCA39</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>JKAppDelegate.h</string>
+										<string>PKWindowController.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C7BC19060CBBCEDC0037FBA7</string>
+										<string>C7BC19D80CBBE50D0037FBA7</string>
 										<key>history</key>
 										<array>
 											<string>C7BC7C7C0CBB8BB3006D121C</string>
@@ -619,10 +621,12 @@
 											<string>C7BC18A20CBBBB540037FBA7</string>
 											<string>C7BC18B50CBBCBC50037FBA7</string>
 											<string>C7BC18B60CBBCBC50037FBA7</string>
-											<string>C7BC19000CBBCEDC0037FBA7</string>
-											<string>C7BC19010CBBCEDC0037FBA7</string>
 											<string>C7BC19020CBBCEDC0037FBA7</string>
-											<string>C7BC18EB0CBBCDB80037FBA7</string>
+											<string>C7BC19290CBBD4870037FBA7</string>
+											<string>C7BC19330CBBD6180037FBA7</string>
+											<string>C7BC19CE0CBBE50D0037FBA7</string>
+											<string>C7BC19CF0CBBE50D0037FBA7</string>
+											<string>C7BC19D00CBBE50D0037FBA7</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -678,6 +682,21 @@
 											<string>C7BC19030CBBCEDC0037FBA7</string>
 											<string>C7BC19040CBBCEDC0037FBA7</string>
 											<string>C7BC19050CBBCEDC0037FBA7</string>
+											<string>C7BC192B0CBBD4870037FBA7</string>
+											<string>C7BC19350CBBD6180037FBA7</string>
+											<string>C7BC19360CBBD6180037FBA7</string>
+											<string>C7BC19C20CBBE4030037FBA7</string>
+											<string>C7BC19C30CBBE4030037FBA7</string>
+											<string>C7BC19C40CBBE4030037FBA7</string>
+											<string>C7BC19C50CBBE4030037FBA7</string>
+											<string>C7BC19C60CBBE4030037FBA7</string>
+											<string>C7BC19D10CBBE50D0037FBA7</string>
+											<string>C7BC19D20CBBE50D0037FBA7</string>
+											<string>C7BC19D30CBBE50D0037FBA7</string>
+											<string>C7BC19D40CBBE50D0037FBA7</string>
+											<string>C7BC19D50CBBE50D0037FBA7</string>
+											<string>C7BC19D60CBBE50D0037FBA7</string>
+											<string>C7BC19D70CBBE50D0037FBA7</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -821,10 +840,14 @@
 			<array>
 				<string>XCToolbarPerspectiveControl</string>
 				<string>NSToolbarSeparatorItem</string>
+				<string>active-target-popup</string>
+				<string>active-executable-popup</string>
+				<string>active-buildstyle-popup</string>
+				<string>NSToolbarFlexibleSpaceItem</string>
 				<string>build-and-debug</string>
 				<string>debug</string>
-				<string>NSToolbarFlexibleSpaceItem</string>
 				<string>debugger-fix-and-continue</string>
+				<string>NSToolbarSeparatorItem</string>
 				<string>debugger-restart-executable</string>
 				<string>debugger-pause</string>
 				<string>debugger-continue</string>
@@ -832,7 +855,12 @@
 				<string>debugger-step-into</string>
 				<string>debugger-step-out</string>
 				<string>debugger-step-instruction</string>
+				<string>debugger-next-instruction</string>
+				<string>NSToolbarSeparatorItem</string>
+				<string>com.apple.ide.XCBreakpointsToolbarItem</string>
 				<string>NSToolbarFlexibleSpaceItem</string>
+				<string>servicesModulebreakpoints</string>
+				<string>debugger-show-console-window</string>
 			</array>
 			<key>ControllerClassBaseName</key>
 			<string>PBXDebugSessionModule</string>
@@ -841,7 +869,7 @@
 			<key>Identifier</key>
 			<string>perspective.debug</string>
 			<key>IsVertical</key>
-			<integer>1</integer>
+			<true/>
 			<key>Layout</key>
 			<array>
 				<dict>
@@ -855,12 +883,12 @@
 					<key>GeometryConfiguration</key>
 					<dict>
 						<key>Frame</key>
-						<string>{{0, 0}, {810, 0}}</string>
+						<string>{{0, 0}, {1270, 439}}</string>
 					</dict>
 					<key>Module</key>
 					<string>PBXDebugCLIModule</string>
 					<key>Proportion</key>
-					<string>0%</string>
+					<string>439pt</string>
 				</dict>
 				<dict>
 					<key>ContentConfiguration</key>
@@ -879,8 +907,8 @@
 								<string>yes</string>
 								<key>sizes</key>
 								<array>
-									<string>{{0, 0}, {395, 213}}</string>
-									<string>{{395, 0}, {415, 213}}</string>
+									<string>{{0, 0}, {635, 221}}</string>
+									<string>{{0, 221}, {635, 222}}</string>
 								</array>
 							</dict>
 							<key>VerticalSplitView</key>
@@ -895,8 +923,8 @@
 								<string>yes</string>
 								<key>sizes</key>
 								<array>
-									<string>{{0, 0}, {810, 213}}</string>
-									<string>{{0, 213}, {810, 225}}</string>
+									<string>{{0, 0}, {635, 443}}</string>
+									<string>{{635, 0}, {635, 443}}</string>
 								</array>
 							</dict>
 						</dict>
@@ -918,7 +946,7 @@
 						<key>DebugSTDIOWindowFrame</key>
 						<string>{{200, 200}, {500, 300}}</string>
 						<key>Frame</key>
-						<string>{{0, 7}, {810, 438}}</string>
+						<string>{{0, 444}, {1270, 443}}</string>
 					</dict>
 					<key>Module</key>
 					<string>PBXDebugSessionModule</string>
@@ -931,18 +959,26 @@
 			<key>ServiceClasses</key>
 			<array>
 				<string>XCModuleDock</string>
-				<string>XCModuleDock</string>
 				<string>PBXDebugCLIModule</string>
 				<string>PBXDebugSessionModule</string>
+				<string>PBXDebugProcessAndThreadModule</string>
+				<string>PBXDebugProcessViewModule</string>
+				<string>PBXDebugThreadViewModule</string>
+				<string>PBXDebugStackFrameViewModule</string>
+				<string>PBXNavigatorGroup</string>
 				<string>XCConsole</string>
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>1CC8E6A5069209BD00BB180A</string>
-				<string>1CC8E6A6069209BD00BB180A</string>
+				<string>C7BC191B0CBBD4620037FBA7</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>1CC8E6A7069209BD00BB180A</string>
+				<string>C7BC191C0CBBD4620037FBA7</string>
+				<string>C7BC191D0CBBD4620037FBA7</string>
+				<string>C7BC191E0CBBD4620037FBA7</string>
+				<string>C7BC191F0CBBD4620037FBA7</string>
+				<string>C7490D380CAC0A32005DCA39</string>
+				<string>C7BC19200CBBD4620037FBA7</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debug</string>
@@ -957,7 +993,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>213634780.319686</real>
+	<real>213640461.27173901</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
@@ -972,6 +1008,9 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>C7BC19220CBBD4620037FBA7</string>
+		<string>C7BC19230CBBD4620037FBA7</string>
+		<string>C7BC19200CBBD4620037FBA7</string>
 		<string>/Users/jkool/Developer/Peacock/trunk/Peacock.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
