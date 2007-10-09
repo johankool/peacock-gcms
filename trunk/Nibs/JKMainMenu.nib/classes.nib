@@ -68,6 +68,25 @@
             SUPERCLASS = NSApplication; 
         }, 
         {
+            ACTIONS = {showInspector = id; }; 
+            CLASS = JKPanelController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                deleteSheet = NSWindow; 
+                infoTableView = NSTableView; 
+                objectController = NSObjectController; 
+                panelWindow = NSWindow; 
+                plotViewTabView = NSTabView; 
+                saveSheet = NSWindow; 
+                subTitleTextField = NSTextField; 
+                templatePullDownMenu = NSPopUpButton; 
+                titleTextField = NSTextField; 
+                xAxisTextField = NSTextField; 
+                yAxisTextField = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
             ACTIONS = {calculate = id; clear = id; openPanel = id; }; 
             CLASS = MWController; 
             LANGUAGE = ObjC; 
@@ -88,28 +107,18 @@
             LANGUAGE = ObjC; 
             SUPERCLASS = NSResponder; 
         }, 
-        {
-            ACTIONS = {didAdjustSubviews = RBSplitView; willAdjustSubviews = RBSplitView; }; 
-            CLASS = NSObject; 
-            LANGUAGE = ObjC; 
-        }, 
-        {
-            ACTIONS = {copy = id; reloadData = id; }; 
-            CLASS = NSTableView; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSControl; 
-        }, 
-        {CLASS = RBSplitSubview; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {
-            CLASS = RBSplitView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {delegate = id; }; 
-            SUPERCLASS = RBSplitSubview; 
-        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
         {
             ACTIONS = {checkForUpdates = id; }; 
             CLASS = SUUpdater; 
             LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {changePanes = id; }; 
+            CLASS = UJKPanel; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {tabView = NSTabView; }; 
             SUPERCLASS = NSObject; 
         }
     ); 
