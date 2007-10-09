@@ -297,6 +297,10 @@
 		C7BC18AB0CBBCA5E0037FBA7 /* PKDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC18A70CBBCA5E0037FBA7 /* PKDocumentController.m */; };
 		C7BC18AD0CBBCAC60037FBA7 /* PKAllInOneWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7BC18AC0CBBCAC50037FBA7 /* PKAllInOneWindow.nib */; };
 		C7BC18AE0CBBCAC60037FBA7 /* PKAllInOneWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7BC18AC0CBBCAC50037FBA7 /* PKAllInOneWindow.nib */; };
+		C7BC19AB0CBBE2D20037FBA7 /* PKWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC19A90CBBE2D20037FBA7 /* PKWindowController.h */; };
+		C7BC19AC0CBBE2D20037FBA7 /* PKWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC19AA0CBBE2D20037FBA7 /* PKWindowController.m */; };
+		C7BC19AD0CBBE2D20037FBA7 /* PKWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC19A90CBBE2D20037FBA7 /* PKWindowController.h */; };
+		C7BC19AE0CBBE2D20037FBA7 /* PKWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC19AA0CBBE2D20037FBA7 /* PKWindowController.m */; };
 		C7BC505309A62C930093106E /* JKLog.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC505109A62C930093106E /* JKLog.h */; };
 		C7BC505409A62C930093106E /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
 		C7BC7CD40CBB91A0006D121C /* ExceptionHandling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7BC7CD10CBB91A0006D121C /* ExceptionHandling.framework */; };
@@ -582,6 +586,8 @@
 		C7BC18A60CBBCA5E0037FBA7 /* PKDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKDocumentController.h; sourceTree = "<group>"; };
 		C7BC18A70CBBCA5E0037FBA7 /* PKDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKDocumentController.m; sourceTree = "<group>"; };
 		C7BC18AC0CBBCAC50037FBA7 /* PKAllInOneWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = PKAllInOneWindow.nib; sourceTree = "<group>"; };
+		C7BC19A90CBBE2D20037FBA7 /* PKWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKWindowController.h; sourceTree = "<group>"; };
+		C7BC19AA0CBBE2D20037FBA7 /* PKWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKWindowController.m; sourceTree = "<group>"; };
 		C7BC505109A62C930093106E /* JKLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKLog.h; sourceTree = "<group>"; };
 		C7BC505209A62C930093106E /* JKLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLog.m; sourceTree = "<group>"; };
 		C7BC7CD10CBB91A0006D121C /* ExceptionHandling.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExceptionHandling.framework; path = /System/Library/Frameworks/ExceptionHandling.framework; sourceTree = "<absolute>"; };
@@ -946,6 +952,8 @@
 				C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */,
 				C7BC18A60CBBCA5E0037FBA7 /* PKDocumentController.h */,
 				C7BC18A70CBBCA5E0037FBA7 /* PKDocumentController.m */,
+				C7BC19A90CBBE2D20037FBA7 /* PKWindowController.h */,
+				C7BC19AA0CBBE2D20037FBA7 /* PKWindowController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1123,6 +1131,7 @@
 				C73B27D00CAD9EF600C09AAE /* JKSummarizer.h in Headers */,
 				C73B27DA0CB1224100C09AAE /* JKSummaryController.h in Headers */,
 				C7BC18AA0CBBCA5E0037FBA7 /* PKDocumentController.h in Headers */,
+				C7BC19AD0CBBE2D20037FBA7 /* PKWindowController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1169,6 +1178,7 @@
 				C73B27CE0CAD9EF600C09AAE /* JKSummarizer.h in Headers */,
 				C73B27D80CB1224100C09AAE /* JKSummaryController.h in Headers */,
 				C7BC18A80CBBCA5E0037FBA7 /* PKDocumentController.h in Headers */,
+				C7BC19AB0CBBE2D20037FBA7 /* PKWindowController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1499,6 +1509,7 @@
 				C71A0D670CBA8176008D5FB2 /* RBSplitSubview.m in Sources */,
 				C71A0D680CBA8178008D5FB2 /* RBSplitView.m in Sources */,
 				C7BC18A90CBBCA5E0037FBA7 /* PKDocumentController.m in Sources */,
+				C7BC19AC0CBBE2D20037FBA7 /* PKWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1573,6 +1584,7 @@
 				C73B27DB0CB1224100C09AAE /* JKSummaryController.m in Sources */,
 				C73B28750CB1320B00C09AAE /* jk_statistics.m in Sources */,
 				C7BC18AB0CBBCA5E0037FBA7 /* PKDocumentController.m in Sources */,
+				C7BC19AE0CBBE2D20037FBA7 /* PKWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
