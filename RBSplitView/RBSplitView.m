@@ -1,20 +1,30 @@
 //
-//  RBSplitView.m version 1.1.3
+//  RBSplitView.m version 1.1.4
 //  RBSplitView
 //
 //  Created by Rainer Brockerhoff on 24/09/2004.
-//  Copyright 2004,2005 Rainer Brockerhoff.
-//	Some Rights Reserved under the Creative Commons Attribution License, version 2.0, and/or the MIT License.
+//  Copyright 2004-2006 Rainer Brockerhoff.
+//	Some Rights Reserved under the Creative Commons Attribution License, version 2.5, and/or the MIT License.
 //
 
 #import "RBSplitView.h"
 #import "RBSplitViewPrivateDefines.h"
 
 // Please don't remove this copyright notice!
-static const unsigned char RBSplitView_Copyright[] __attribute__ ((used)) =  "RBSplitView Copyright(c)2004,2005 by Rainer Brockerhoff <rainer@brockerhoff.net>.";
+static const unsigned char RBSplitView_Copyright[] __attribute__ ((used)) =
+	"RBSplitView 1.1.4 Copyright(c)2004-2006 by Rainer Brockerhoff <rainer@brockerhoff.net>.";
 
 // This vector keeps currently used cursors. nil means the default cursor.
 static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
+
+// Our own fMIN and fMAX
+static inline float fMIN(float a,float b) {
+	return a<b?a:b;
+}
+
+static inline float fMAX(float a,float b) {
+	return a>b?a:b;
+}
 
 @implementation RBSplitView
 
@@ -159,12 +169,12 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // You need to call adjustSubviews after calling this.
 - (BOOL)setStatesFromArray:(NSArray*)array {
 	NSArray* subviews = [self subviews];
-	int count = [array count];
+	unsigned int count = [array count];
 	if (count==([subviews count]+1)) {
 		NSString* me = [array objectAtIndex:0];
 		if ([me isKindOfClass:[NSString class]]) {
 			if ([self setStateFromString:me]) {
-				int i;
+				unsigned int i;
 				for (i=1;i<count;i++) {
 					NSArray* item = [array objectAtIndex:i];
 					RBSplitView* suv = [[subviews objectAtIndex:i-1] asSplitView];
@@ -249,6 +259,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
  		dividers = NULL;
 		isCoupled = YES;
 		isDragging = NO;
+		isInScrollView = NO;
 		canSaveState = NO;
 		[self setVertical:YES];
 		[self setDivider:nil];
@@ -342,6 +353,11 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 	return isDragging;
 }
 
+// Returns YES if the view is directly contained in an NSScrollView.
+- (BOOL)isInScrollView {
+	return isInScrollView;
+}
+
 // This pair of methods allows you to move the dividers for background windows while holding down
 // the command key, without bringing the window to the foreground.
 - (BOOL)acceptsFirstMouse:(NSEvent*)theEvent {
@@ -420,7 +436,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // Returns the subview at a given position
 - (RBSplitSubview*)subviewAtPosition:(unsigned)position {
 	NSArray* subviews = [super subviews];
-	int subcount = [subviews count];
+	unsigned int subcount = [subviews count];
 	if (position<subcount) {
 		return [subviews objectAtIndex:position];
 	}
@@ -468,9 +484,9 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 	if (dividerThickness>0.0) {
 		return dividerThickness;
 	}
-	NSImage* div = [self divider];
-	if (div) {
-		NSSize size = [div size];
+	NSImage* divdr = [self divider];
+	if (divdr) {
+		NSSize size = [divdr size];
 		BOOL ishor = [self isHorizontal];
 		return DIM(size);
 	}
@@ -478,7 +494,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 - (void)setDividerThickness:(float)thickness {
-	float t = MAX(0.0,floorf(thickness));
+	float t = fMAX(0.0,floorf(thickness));
 	if ((int)dividerThickness!=(int)t) {
 		dividerThickness = t;
 		[self setMustAdjust];
@@ -508,7 +524,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 		RBSplitSubview* sub = [[[RBSplitSubview alloc] initWithFrame:[aView frame]] autorelease];
 		[aView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
 		[sub addSubview:aView];
-		[super addSubview:aView positioned:place relativeTo:otherView];
+		[super addSubview:sub positioned:place relativeTo:otherView];
 		[aView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
 	}
 	[self setMustAdjust];
@@ -521,6 +537,13 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 	} else {
 		[self addSubview:aView];
 	}
+}
+
+// This keeps the isInScrollView flag up-to-date.
+- (void)viewDidMoveToSuperview {
+	[super viewDidMoveToSuperview];
+	NSScrollView* scrollv = [self enclosingScrollView];
+	isInScrollView = scrollv?[scrollv documentView]==self:NO;
 }
 
 // This makes sure the subviews are adjusted after a subview is removed.
@@ -541,23 +564,21 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // the delegate if implemented.
 - (void)setFrameSize:(NSSize)size {
 	NSSize oldsize = [self frame].size;
-//	if (!NSEqualSizes(size,oldsize)) {
-		[super setFrameSize:size];
-		[self setMustAdjust];
-		if ([delegate respondsToSelector:@selector(splitView:wasResizedFrom:to:)]) {
-			BOOL ishor = [self isHorizontal];
-			float olddim = DIM(oldsize);
-			float newdim = DIM(size);
-// The delegate is not called if the dimension hasn't changed, or if state is being restored.
-			if (((int)newdim!=(int)olddim)) {
-				[delegate splitView:self wasResizedFrom:olddim to:newdim];
-			}
+	[super setFrameSize:size];
+	[self setMustAdjust];
+	if ([delegate respondsToSelector:@selector(splitView:wasResizedFrom:to:)]) {
+		BOOL ishor = [self isHorizontal];
+		float olddim = DIM(oldsize);
+		float newdim = DIM(size);
+// The delegate is not called if the dimension hasn't changed.
+		if (((int)newdim!=(int)olddim)) {
+			[delegate splitView:self wasResizedFrom:olddim to:newdim];
 		}
+	}
 // We adjust the subviews only if the delegate didn't.
-		if (mustAdjust&&!isAdjusting) {
-			[self adjustSubviews];
-		}
-//	}
+	if (mustAdjust&&!isAdjusting) {
+		[self adjustSubviews];
+	}
 }
 
 // This method handles dragging and double-clicking dividers with the mouse. While dragging, the
@@ -567,24 +588,24 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 	if (!dividers) {
 		return;
 	}
-	NSPoint where = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	NSArray* subviews = [self RB___subviews];
 	int subcount = [subviews count];
 	if (subcount<2) {
 		return;
 	}
-// If there's no divider image, handle it in RBSplitSubview.
-	if (![self divider]) {
+// If the mousedown was in an alternate dragview, or if there's no divider image, handle it in RBSplitSubview.
+	if ((actDivider<NSNotFound)||![self divider]) {
 		[super mouseDown:theEvent];
 		return;
 	}
+	NSPoint where = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	BOOL ishor = [self isHorizontal];
 	int i;
 	--subcount;
 // Loop over the divider rectangles.
 	for (i=0;i<subcount;i++) {
-		NSRect* div = &dividers[i];
-		if ([self mouse:where inRect:*div]) {
+		NSRect* divdr = &dividers[i];
+		if ([self mouse:where inRect:*divdr]) {
 // leading points at the subview immediately leading the divider being tracked.
 			RBSplitView* leading = [subviews objectAtIndex:i];
 // trailing points at the subview immediately trailing the divider being tracked.
@@ -641,28 +662,28 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 			} else {
 // Single click; record the offsets within the divider rectangle and check for nesting.
 				float divt = [self dividerThickness];
-				float offset = DIM(where)-DIM(div->origin);
+				float offset = DIM(where)-DIM(divdr->origin);
 // Check if the leading subview is nested and if yes, if one of its two-axis thumbs was hit.
-				int ldiv = NSNotFound;
+				int ldivdr = NSNotFound;
 				float loffset = 0.0;
 				NSPoint lwhere = where;
 				NSRect lrect = NSZeroRect;
 				if ((leading = [leading coupledSplitView])) {
-					ldiv = [leading RB___dividerHitBy:lwhere relativeToView:self thickness:divt];
-					if (ldiv!=NSNotFound) {
-						lrect = [leading RB___dividerRect:ldiv relativeToView:self];
+					ldivdr = [leading RB___dividerHitBy:lwhere relativeToView:self thickness:divt];
+					if (ldivdr!=NSNotFound) {
+						lrect = [leading RB___dividerRect:ldivdr relativeToView:self];
 						loffset = OTHER(lwhere)-OTHER(lrect.origin);
 					}
 				}
 // Check if the trailing subview is nested and if yes, if one of its two-axis thumbs was hit.
-				int tdiv = NSNotFound;
+				int tdivdr = NSNotFound;
 				float toffset = 0.0;
 				NSPoint twhere = where;
 				NSRect trect = NSZeroRect;
 				if ((trailing = [trailing coupledSplitView])) {
-					tdiv = [trailing RB___dividerHitBy:twhere relativeToView:self thickness:divt];
-					if (tdiv!=NSNotFound) {
-						trect = [trailing RB___dividerRect:tdiv relativeToView:self];
+					tdivdr = [trailing RB___dividerHitBy:twhere relativeToView:self thickness:divt];
+					if (tdivdr!=NSNotFound) {
+						trect = [trailing RB___dividerRect:tdivdr relativeToView:self];
 						toffset = OTHER(twhere)-OTHER(trect.origin);
 					}
 				}
@@ -675,13 +696,13 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 					NSDisableScreenUpdates();
 // Track the mouse along the main coordinate. 
 					[self RB___trackMouseEvent:theEvent from:where withBase:NSZeroPoint inDivider:i];
-					if (ldiv!=NSNotFound) {
+					if (ldivdr!=NSNotFound) {
 // Track any two-axis thumbs for the leading nested RBSplitView.
-						[leading RB___trackMouseEvent:theEvent from:[self convertPoint:lwhere toView:leading] withBase:NSZeroPoint inDivider:ldiv];
+						[leading RB___trackMouseEvent:theEvent from:[self convertPoint:lwhere toView:leading] withBase:NSZeroPoint inDivider:ldivdr];
 					}
-					if (tdiv!=NSNotFound) {
+					if (tdivdr!=NSNotFound) {
 // Track any two-axis thumbs for the trailing nested RBSplitView.
-						[trailing RB___trackMouseEvent:theEvent from:[self convertPoint:twhere toView:trailing] withBase:NSZeroPoint inDivider:tdiv];
+						[trailing RB___trackMouseEvent:theEvent from:[self convertPoint:twhere toView:trailing] withBase:NSZeroPoint inDivider:tdivdr];
 					}
 					if (mustAdjust||[leading mustAdjust]||[trailing mustAdjust]) {
 // The mouse was dragged and the subviews changed, so we must redisplay, as
@@ -689,17 +710,17 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 						RBSplitView* sv = [self splitView];
 						[sv?sv:self adjustSubviews];
 						[super display];
-						div = &dividers[i];
+						divdr = &dividers[i];
 // Adjust to the new cursor coordinates.
-						DIM(where) = DIM(div->origin)+offset;
-						if ((ldiv!=NSNotFound)&&![leading isCollapsed]) {
+						DIM(where) = DIM(divdr->origin)+offset;
+						if ((ldivdr!=NSNotFound)&&![leading isCollapsed]) {
 // Adjust for the leading nested RBSplitView's thumbs while it's not collapsed.
-							lrect = [leading RB___dividerRect:ldiv relativeToView:self];
+							lrect = [leading RB___dividerRect:ldivdr relativeToView:self];
 							OTHER(lwhere) = OTHER(lrect.origin)+loffset;
 						}
-						if ((tdiv!=NSNotFound)&&![trailing isCollapsed]) {
+						if ((tdivdr!=NSNotFound)&&![trailing isCollapsed]) {
 // Adjust for the trailing nested RBSplitView's thumbs while it's not collapsed.
-							trect = [trailing RB___dividerRect:tdiv relativeToView:self];
+							trect = [trailing RB___dividerRect:tdivdr relativeToView:self];
 							OTHER(twhere) = OTHER(trect.origin)+toffset;
 						}
 					}
@@ -725,7 +746,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 
 // We implement awakeFromNib to restore the state. This works if an autosaveName is set in the nib.
 - (void)awakeFromNib {
-	if ([[self superclass] instancesRespondToSelector:@selector(awakeFromNib)]) {
+	if ([RBSplitSubview instancesRespondToSelector:@selector(awakeFromNib)]) {
 		[super awakeFromNib];
 	}
 	if (![self splitView]) {
@@ -756,7 +777,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 	--subcount;
 	int i;
 // Cache the divider image.
-	NSImage* div = [self divider];
+	NSImage* divdr = [self divider];
 	float divt = [self dividerThickness];
 // Loop over the divider rectangles.
 	for (i=0;i<subcount;i++) {
@@ -764,13 +785,13 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 		if ([self needsToDrawRect:dividers[i]]) {
 			RBSplitView* leading = [subviews objectAtIndex:i];
 			RBSplitView* trailing = [subviews objectAtIndex:i+1];
-			BOOL lexp = div?![leading isCollapsed]:NO;
-			BOOL texp = div?![trailing isCollapsed]:NO;
+			BOOL lexp = divdr?![leading isCollapsed]:NO;
+			BOOL texp = divdr?![trailing isCollapsed]:NO;
 // We don't draw the divider image if either of the neighboring subviews is a non-collapsed
 // nested split view.
 			BOOL nodiv = (lexp&&[leading coupledSplitView])||(texp&&[trailing coupledSplitView]);
-			[self drawDivider:nodiv?nil:div inRect:dividers[i] betweenView:leading andView:trailing];
-			if (div) {
+			[self drawDivider:nodiv?nil:divdr inRect:dividers[i] betweenView:leading andView:trailing];
+			if (divdr) {
 // Draw the corresponding two-axis thumbs if the leading view is a nested RBSplitView.
 				if ((leading = [leading coupledSplitView])&&lexp) {
 					[leading RB___drawDividersIn:self forDividerRect:dividers[i] thickness:divt];
@@ -882,13 +903,15 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 		[coder encodeBool:isHorizontal forKey:@"isHorizontal"];
 		[coder encodeBool:isCoupled forKey:@"isCoupled"];
 	} else {
-		[coder encodeConditionalObject:delegate];
-		[coder encodeObject:autosaveName];
-		[coder encodeObject:[divider TIFFRepresentation]];
-		[coder encodeObject:background];
-		[coder encodeValueOfObjCType:@encode(float) at:&dividerThickness];
-		[coder encodeValueOfObjCType:@encode(BOOL) at:&isHorizontal];
-		[coder encodeValueOfObjCType:@encode(BOOL) at:&isCoupled];
+        NSLog(@"No keyed coding please");
+
+//		[coder encodeConditionalObject:delegate];
+//		[coder encodeObject:autosaveName];
+//		[coder encodeObject:[divider TIFFRepresentation]];
+//		[coder encodeObject:background];
+//		[coder encodeValueOfObjCType:@encode(typeof(dividerThickness)) at:&dividerThickness];
+//		[coder encodeValueOfObjCType:@encode(typeof(isHorizontal)) at:&isHorizontal];
+//		[coder encodeValueOfObjCType:@encode(typeof(isCoupled)) at:&isCoupled];
 	}
 }
 
@@ -898,6 +921,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 		float divt = 0.0;
 		isCoupled = YES;
 		isDragging = NO;
+		isInScrollView = NO;
 		canSaveState = NO;
 		if ([coder allowsKeyedCoding]) {
 			isCoupled = [coder decodeBoolForKey:@"isCoupled"];
@@ -908,13 +932,14 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 			divt = [coder decodeFloatForKey:@"dividerThickness"];
 			isHorizontal = [coder decodeBoolForKey:@"isHorizontal"];
 		} else {
-			[self setDelegate:[coder decodeObject]];
-			[self setAutosaveName:[coder decodeObject] recursively:NO];
-			data = [coder decodeObject];
-			[self setBackground:[coder decodeObject]];
-			[coder decodeValueOfObjCType:@encode(float) at:&divt];
-			[coder decodeValueOfObjCType:@encode(BOOL) at:&isHorizontal];
-			[coder decodeValueOfObjCType:@encode(BOOL) at:&isCoupled];
+            NSLog(@"No keyed coding please");
+//			[self setDelegate:[coder decodeObject]];
+//			[self setAutosaveName:[coder decodeObject] recursively:NO];
+//			data = [coder decodeObject];
+//			[self setBackground:[coder decodeObject]];
+//			[coder decodeValueOfObjCType:@encode(typeof(divt)) at:&divt];
+//			[coder decodeValueOfObjCType:@encode(typeof(isHorizontal)) at:&isHorizontal];
+//			[coder decodeValueOfObjCType:@encode(typeof(isCoupled)) at:&isCoupled];
 		}
 		dividers = NULL;
 		if (data) {
@@ -928,6 +953,8 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 		}
 		[self setDividerThickness:divt];
 		[self setMustAdjust];
+		[self performSelector:@selector(viewDidMoveToSuperview) withObject:nil afterDelay:0.0];
+		[self performSelector:@selector(RB___adjustOutermostIfNeeded) withObject:nil afterDelay:0.0];
 	}
     return self;
 }
@@ -957,11 +984,11 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // This returns the origin coordinate of the Nth divider.
-- (float)RB___dividerOrigin:(int)index {
+- (float)RB___dividerOrigin:(int)indx {
 	float result = 0.0;
 	if (dividers) {
 		BOOL ishor = [self isHorizontal];
-		result = DIM(dividers[index].origin);
+		result = DIM(dividers[indx].origin);
 	}
 	return result;
 }
@@ -988,15 +1015,15 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 - (float)RB___dimensionWithoutDividers {
 	BOOL ishor = [self isHorizontal];
 	NSSize size = [self frame].size;
-	return MAX(1.0,DIM(size)-[self dividerThickness]*([self RB___numberOfSubviews]-1));
+	return fMAX(1.0,DIM(size)-[self dividerThickness]*([self RB___numberOfSubviews]-1));
 }
 
 // This method returns one of the divider rectangles, or NSZeroRect if the index is invalid.
 // If view is non-nil, the rect will be expressed in that view's coordinates. We assume
 // that view is a superview of self.
-- (NSRect)RB___dividerRect:(unsigned)index relativeToView:(RBSplitView*)view {
-	if (dividers&&(index<[self RB___numberOfSubviews]-1)) {
-		NSRect result = dividers[index];
+- (NSRect)RB___dividerRect:(unsigned)indx relativeToView:(RBSplitView*)view {
+	if (dividers&&(indx<[self RB___numberOfSubviews]-1)) {
+		NSRect result = dividers[indx];
 		if (view&&(view!=self)) {
 			result = [self convertRect:result toView:view];
 		}
@@ -1020,10 +1047,10 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 	BOOL ishor = [self isHorizontal];
 	point = [self convertPoint:point fromView:view];
 	for (i=0;i<divcount;i++) {
-		NSRect div = dividers[i];
-		OTHER(div.origin) -= delta;
-		OTHER(div.size) += 2*delta;
-		if ([self mouse:point inRect:div]) {
+		NSRect divdr = dividers[i];
+		OTHER(divdr.origin) -= delta;
+		OTHER(divdr.size) += 2*delta;
+		if ([self mouse:point inRect:divdr]) {
 			return i;
 		}
 	}
@@ -1036,95 +1063,112 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 }
 
 // This local method asks the delegate if we should resize the trailing subview or the window
-// when a divider is dragged.
-- (BOOL)RB___shouldResizeWindowForDivider:(unsigned int)index betweenView:(RBSplitSubview*)leading andView:(RBSplitSubview*)trailing willGrow:(BOOL)grow {
-	if ([delegate respondsToSelector:@selector(splitView:shouldResizeWindowForDivider:betweenView:andView:willGrow:)]) {
-		return [delegate splitView:self shouldResizeWindowForDivider:index betweenView:leading andView:trailing willGrow:grow];
+// when a divider is dragged. Not called if we're inside an NSScrollView.
+- (BOOL)RB___shouldResizeWindowForDivider:(unsigned int)indx betweenView:(RBSplitSubview*)leading andView:(RBSplitSubview*)trailing willGrow:(BOOL)grow {
+	if (!isInScrollView&&[delegate respondsToSelector:@selector(splitView:shouldResizeWindowForDivider:betweenView:andView:willGrow:)]) {
+		return [delegate splitView:self shouldResizeWindowForDivider:indx betweenView:leading andView:trailing willGrow:grow];
 	}
 	return NO;
 }
 
-
 // This local method tries to expand the leading subview (which is assumed to be collapsed). Delta should be positive.
-- (void)RB___tryToExpandLeading:(RBSplitSubview*)leading divider:(unsigned int)index trailing:(RBSplitSubview*)trailing delta:(float)delta {
+- (void)RB___tryToExpandLeading:(RBSplitSubview*)leading divider:(unsigned int)indx trailing:(RBSplitSubview*)trailing delta:(float)delta {
 	NSWindow* window = nil;
-	NSSize maxsize = NSZeroSize;
+	NSView* document = nil;
+	NSSize maxsize = NSMakeSize(WAYOUT,WAYOUT);
 	NSRect frame = NSZeroRect;
-	NSRect screen = NSZeroRect;
+	NSRect screen = NSMakeRect(0,0,WAYOUT,WAYOUT);
 	BOOL ishor = NO;
 // First we ask the delegate, if there's any, if the window should resize.
-	BOOL dowin = ([self RB___shouldResizeWindowForDivider:index betweenView:leading andView:trailing willGrow:YES]);
+	BOOL dowin = ([self RB___shouldResizeWindowForDivider:indx betweenView:leading andView:trailing willGrow:YES]);
 	if (dowin) {
 // We initialize the other local variables only if we need them for the window.
 		ishor = [self isHorizontal];
-		window = [self window];
-		frame = [window frame];
-		maxsize = [window maxSize];
-		screen = [[NSScreen mainScreen] visibleFrame];
+		document = [[self enclosingScrollView] documentView];
+		if (document) {
+			frame = [document frame];
+		} else {
+			window = [self window];
+			frame = [window frame];
+			maxsize = [window maxSize];
+			screen = [[NSScreen mainScreen] visibleFrame];
+		}
 	}
 // The mouse has to move over half of the expanded size (plus hysteresis) and the expansion shouldn't
 // reduce the trailing subview to less than its minimum size (or grow the window beyond its maximum).
 	float limit = [leading minDimension];
 	float dimension = 0.0;
 	if (dowin) {
-		dimension = MIN(DIM(maxsize)-DIM(frame.size),MAX(0.0,(ishor?frame.origin.y-screen.origin.y:(screen.origin.x+screen.size.width)-(frame.origin.x+frame.size.width))));
+		float maxd = fMAX(0.0,(ishor?frame.origin.y-screen.origin.y:(screen.origin.x+screen.size.width)-(frame.origin.x+frame.size.width)));
+		dimension = fMIN(DIM(maxsize)-DIM(frame.size),maxd);
 	} else {
-		dimension = [trailing dimension];
+		dimension = trailing?[trailing dimension]:WAYOUT;
 	}
 	if (limit>dimension) {
 		return;
 	}
-	if (!dowin) {
+	if (!dowin&&trailing) {
 		limit += [trailing minDimension];
 		if (limit>dimension) {
 // If the trailing subview is going below its minimum, we try to collapse it first.
 // However, we don't collapse if that would cause the leading subview to become larger than its maximum.
 			if (([trailing canCollapse])&&(delta>(0.5+HYSTERESIS)*dimension)&&([leading maxDimension]<=dimension)) {
 				delta = -[trailing RB___collapse];
-				[leading changeDimensionBy:delta mayCollapse:NO];
+				[leading changeDimensionBy:delta mayCollapse:NO move:NO];
 			}
 			return;
 		}
 	}
 // The leading subview may be expanded normally.
-	delta = -[leading changeDimensionBy:delta mayCollapse:NO];
+	delta = -[leading changeDimensionBy:delta mayCollapse:NO move:NO];
 	if (dowin) {
 // If it does expand, we widen the window.
 		DIM(frame.size) -= delta;
 		if (ishor) {
 			DIM(frame.origin) += delta;
 		}
-		[window setFrame:frame display:YES];
+		if (document) {
+			[document setFrame:frame];
+			[document setNeedsDisplay:YES];
+		} else {
+			[window setFrame:frame display:YES];
+		}
 		[self setMustAdjust];
 	} else {
 // If it does expand, we shorten the trailing subview.
-		[trailing changeDimensionBy:delta mayCollapse:NO];
+		[trailing changeDimensionBy:delta mayCollapse:NO move:YES];
 	}
 }
 
 // This local method tries to shorten the leading subview. Both subviews are assumed to be expanded.
 // delta should be negative. If always is NO, the subview will be shortened only if it might also be
 // collapsed; otherwise, it's shortened as much as possible.
-- (void)RB___tryToShortenLeading:(RBSplitSubview*)leading divider:(unsigned int)index trailing:(RBSplitSubview*)trailing delta:(float)delta always:(BOOL)always {
+- (void)RB___tryToShortenLeading:(RBSplitSubview*)leading divider:(unsigned int)indx trailing:(RBSplitSubview*)trailing delta:(float)delta always:(BOOL)always {
 	NSWindow* window = nil;
+	NSView* document = nil;
 	NSSize minsize = NSZeroSize;
 	NSRect frame = NSZeroRect;
 	BOOL ishor = NO;
 // First we ask the delegate, if there's any, if the window should resize.
-	BOOL dowin = ([self RB___shouldResizeWindowForDivider:index betweenView:leading andView:trailing willGrow:NO]);
+	BOOL dowin = ([self RB___shouldResizeWindowForDivider:indx betweenView:leading andView:trailing willGrow:NO]);
 	if (dowin) {
 // We initialize the other local variables only if we need them for the window.
 		ishor = [self isHorizontal];
-		window = [self window];
-		frame = [window frame];
-		minsize = [window minSize];
+		document = [[self enclosingScrollView] documentView];
+		if (document) {
+			frame = [document frame];
+		} else {
+			window = [self window];
+			frame = [window frame];
+			minsize = [window minSize];
+		}
 	}
 // We avoid making the trailing subview larger than its maximum, or the window smaller than its minimum.
 	float limit = 0.0;
 	if (dowin) {
 		limit = DIM(frame.size)-DIM(minsize);
 	} else {
-		limit = [trailing maxDimension]-[trailing dimension];
+		limit = trailing?([trailing maxDimension]-[trailing dimension]):WAYOUT;
 	}
 	if (-delta>limit) {
 		if (always) {
@@ -1133,21 +1177,26 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 			return;
 		}
 	}
-	BOOL ok = limit>=[leading dimension];
-	if (always||ok) {
+	BOOL okl = limit>=[leading dimension];
+	if (always||okl) {
 // Resize leading.
-		delta = -[leading changeDimensionBy:delta mayCollapse:ok];
+		delta = -[leading changeDimensionBy:delta mayCollapse:okl move:NO];
 		if (dowin) {
 // Resize the window.
 			DIM(frame.size) -= delta;
 			if (ishor) {
 				DIM(frame.origin) += delta;
 			}
-			[window setFrame:frame display:YES];
+			if (document) {
+				[document setFrame:frame];
+				[document setNeedsDisplay:YES];
+			} else {
+				[window setFrame:frame display:YES];
+			}
 			[self setMustAdjust];
 		} else {
 // Otherwise, resize trailing.
-			[trailing changeDimensionBy:delta mayCollapse:NO];
+			[trailing changeDimensionBy:delta mayCollapse:NO move:YES];
 		}
 	}
 }
@@ -1155,26 +1204,33 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // This local method tries to shorten the trailing subview. Both subviews are assumed to be expanded.
 // delta should be positive. If always is NO, the subview will be shortened only if it might also be
 // collapsed; otherwise, it's shortened as much as possible.
-- (void)RB___tryToShortenTrailing:(RBSplitSubview*)trailing divider:(unsigned int)index leading:(RBSplitSubview*)leading delta:(float)delta always:(BOOL)always {
+- (void)RB___tryToShortenTrailing:(RBSplitSubview*)trailing divider:(unsigned int)indx leading:(RBSplitSubview*)leading delta:(float)delta always:(BOOL)always {
 	NSWindow* window = nil;
-	NSSize maxsize = NSZeroSize;
+	NSView* document = nil;
+	NSSize maxsize = NSMakeSize(WAYOUT,WAYOUT);
 	NSRect frame = NSZeroRect;
-	NSRect screen = NSZeroRect;
+	NSRect screen = NSMakeRect(0,0,WAYOUT,WAYOUT);
 	BOOL ishor = NO;
 // First we ask the delegate, if there's any, if the window should resize.
-	BOOL dowin = ([self RB___shouldResizeWindowForDivider:index betweenView:leading andView:trailing willGrow:YES]);
+	BOOL dowin = ([self RB___shouldResizeWindowForDivider:indx betweenView:leading andView:trailing willGrow:YES]);
 	if (dowin) {
 // We initialize the other local variables only if we need them for the window.
 		ishor = [self isHorizontal];
-		window = [self window];
-		frame = [window frame];
-		maxsize = [window maxSize];
-		screen = [[NSScreen mainScreen] visibleFrame];
+		document = [[self enclosingScrollView] documentView];
+		if (document) {
+			frame = [document frame];
+		} else {
+			window = [self window];
+			frame = [window frame];
+			maxsize = [window maxSize];
+			screen = [[NSScreen mainScreen] visibleFrame];
+		}
 	}
 // We avoid making the leading subview larger than its maximum, or the window larger than its maximum.
 	float limit = 0.0;
 	if (dowin) {
-		limit = MIN(DIM(maxsize)-DIM(frame.size),MAX(0.0,(ishor?frame.origin.y-screen.origin.y:(screen.origin.x+screen.size.width)-(frame.origin.x+frame.size.width))));
+		float maxd = fMAX(0.0,(ishor?frame.origin.y-screen.origin.y:(screen.origin.x+screen.size.width)-(frame.origin.x+frame.size.width)));
+		limit = fMIN(DIM(maxsize)-DIM(frame.size),maxd);
 	} else {
 		limit = [leading maxDimension]-[leading dimension];
 	}
@@ -1185,21 +1241,28 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 			return;
 		}
 	}
-	BOOL ok = dowin||(limit>=[trailing dimension]);
-	if (always||ok) {
+	BOOL okl = dowin||(limit>=(trailing?[trailing dimension]:WAYOUT));
+	if (always||okl) {
 		if (dowin) {
 // If we should resize the window, resize leading, then the window.
-			delta = [leading changeDimensionBy:delta mayCollapse:NO];
+			delta = [leading changeDimensionBy:delta mayCollapse:NO move:NO];
 			DIM(frame.size) += delta;
 			if (ishor) {
 				DIM(frame.origin) -= delta;
 			}
-			[window setFrame:frame display:YES];
+			if (document) {
+				[document setFrame:frame];
+				[document setNeedsDisplay:YES];
+			} else {
+				[window setFrame:frame display:YES];
+			}
 			[self setMustAdjust];
 		} else {
 // Otherwise, resize trailing, then leading.
-			delta = -[trailing changeDimensionBy:-delta mayCollapse:ok];
-			[leading changeDimensionBy:delta mayCollapse:NO];
+			if (trailing) {
+				delta = -[trailing changeDimensionBy:-delta mayCollapse:okl move:YES];
+			}
+			[leading changeDimensionBy:delta mayCollapse:NO move:NO];
 		}
 	}
 }
@@ -1209,22 +1272,24 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // The mouse has to move over half of the expanded size (plus hysteresis) and the expansion shouldn't
 // reduce the leading subview to less than its minimum size. If it does, we try to collapse it first.
 // However, we don't collapse if that would cause the trailing subview to become larger than its maximum.
-	float limit = [trailing minDimension];
+	float limit = trailing?[trailing minDimension]:0.0;
 	float dimension = [leading dimension];
 	if (limit>dimension) {
 		return;
 	}
 	limit += [leading minDimension];
 	if (limit>dimension) {
-		if ([leading canCollapse]&&(-delta>(0.5+HYSTERESIS)*dimension)&&([trailing maxDimension]<=dimension)) {
+		if ([leading canCollapse]&&(-delta>(0.5+HYSTERESIS)*dimension)&&((trailing?[trailing maxDimension]:0.0)<=dimension)) {
 			delta = -[leading RB___collapse];
-			[trailing changeDimensionBy:delta mayCollapse:NO];
+			[trailing changeDimensionBy:delta mayCollapse:NO move:YES];
 		}
 		return;
 	}
 // The trailing subview may be expanded normally. If it does expand, we shorten the leading subview.
-	delta = -[trailing changeDimensionBy:-delta mayCollapse:NO];
-	[leading changeDimensionBy:delta mayCollapse:NO];
+	if (trailing) {
+		delta = -[trailing changeDimensionBy:-delta mayCollapse:NO move:YES];
+	}
+	[leading changeDimensionBy:delta mayCollapse:NO move:NO];
 }
 
 
@@ -1235,15 +1300,15 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // where is the point where the original mouse-down happened, corrected for the current divider position,
 // and expressed in local coordinates.
 // base is an offset (x,y) applied to the mouse location (usually will be zero)
-// index is the number of the divider that's being dragged.
-- (void)RB___trackMouseEvent:(NSEvent*)theEvent from:(NSPoint)where withBase:(NSPoint)base inDivider:(unsigned)index {
+// indx is the number of the divider that's being dragged.
+- (void)RB___trackMouseEvent:(NSEvent*)theEvent from:(NSPoint)where withBase:(NSPoint)base inDivider:(unsigned)indx {
 	NSPoint result;
 	NSArray* subviews = [self RB___subviews];
 	int subcount = [subviews count];
 	int k;
 // leading and trailing point at the subviews immediately leading and trailing the divider being tracked
-	RBSplitSubview* leading = [subviews objectAtIndex:index];
-	RBSplitSubview* trailing = [subviews objectAtIndex:index+1];
+	RBSplitSubview* leading = [subviews objectAtIndex:indx];
+	RBSplitSubview* trailing = [subviews objectAtIndex:indx+1];
 // convert the mouse coordinates to apply to the same system the divider rects are in.
 	NSPoint mouse = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	mouse.x -= base.x;
@@ -1258,39 +1323,45 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // firstLeading will point at the first expanded subview to the left (or upwards) of the divider.
 // If there's none (all subviews are collapsed) it will point at the nearest subview.
 		RBSplitSubview* firstLeading = leading;
-		k = index;
-		while ([firstLeading isCollapsed]) {
+		k = indx;
+		while (![firstLeading canShrink]) {
 			if (--k<0) {
 				firstLeading = leading;
 				break;
 			}
 			firstLeading = [subviews objectAtIndex:k];
 		}
+		if (isInScrollView) {
+			trailing = nil;
+		}
 // If the trailing subview is collapsed, it might be expanded if some conditions are met.
 		if ([trailing isCollapsed]) {
 			[self RB___tryToExpandTrailing:trailing leading:firstLeading delta:delta];
 		} else {
-			[self RB___tryToShortenLeading:firstLeading divider:index trailing:trailing delta:delta always:YES];
+			[self RB___tryToShortenLeading:firstLeading divider:indx trailing:trailing delta:delta always:YES];
 		}
 	} else if (delta>0.0) {
 // Positive delta means the mouse is being moved right or downwards.
 // firstTrailing will point at the first expanded subview to the right (or downwards) of the divider.
 // If there's none (all subviews are collapsed) it will point at the nearest subview.
-		RBSplitSubview* firstTrailing = trailing;
-		k = index+1;
-		while ([firstTrailing isCollapsed]) {
-			if (++k>=subcount) {
-				firstTrailing = trailing;
-				break;
+		RBSplitSubview* firstTrailing = nil;
+		if (!isInScrollView) {
+			firstTrailing = trailing;
+			k = indx+1;
+			while (![firstTrailing canShrink]) {
+				if (++k>=subcount) {
+					firstTrailing = trailing;
+					break;
+				}
+				firstTrailing = [subviews objectAtIndex:k];
 			}
-			firstTrailing = [subviews objectAtIndex:k];
 		}
 // If the leading subview is collapsed, it might be expanded if some conditions are met.
 		if ([leading isCollapsed]) {
-			[self RB___tryToExpandLeading:leading divider:index trailing:firstTrailing delta:delta];
+			[self RB___tryToExpandLeading:leading divider:indx trailing:firstTrailing delta:delta];
 		} else {
 // The leading subview is not collapsed, so we try to shorten or even collapse it
-			[self RB___tryToShortenTrailing:firstTrailing divider:index leading:leading delta:delta always:YES];
+			[self RB___tryToShortenTrailing:firstTrailing divider:indx leading:leading delta:delta always:YES];
 		}
 	}
 }
@@ -1309,13 +1380,13 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // Loop over the divider rectangles, intersect them with the view's own, and add the thumb rectangle
 // to the containing split view.
 		for (i=0;i<divcount;i++) {
-			NSRect div = dividers[i];
-			div.origin = [self convertPoint:div.origin toView:masterView];
-			OTHER(div.origin) -= delta;
-			OTHER(div.size) += 2*delta;
-			div = NSIntersectionRect(div,rect);
-			if (!NSIsEmptyRect(div)) {
-				[masterView addCursorRect:div cursor:cursor];
+			NSRect divdr = dividers[i];
+			divdr.origin = [self convertPoint:divdr.origin toView:masterView];
+			OTHER(divdr.origin) -= delta;
+			OTHER(divdr.size) += 2*delta;
+			divdr = NSIntersectionRect(divdr,rect);
+			if (!NSIsEmptyRect(divdr)) {
+				[masterView addCursorRect:divdr cursor:cursor];
 			}
 		}
 	}
@@ -1337,14 +1408,27 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 	NSImage* image = [masterView divider];
 // Loop over the divider rectangles, intersect them with the view's own, and draw the thumb there.
 	for (i=0;i<divcount;i++) {
-		NSRect div = dividers[i];
-		div.origin = [self convertPoint:div.origin toView:masterView];
-		OTHER(div.origin) -= delta;
-		OTHER(div.size) += 2*delta;
-		div = NSIntersectionRect(div,rect);
-		if (!NSIsEmptyRect(div)) {
-			[masterView drawDivider:image inRect:div betweenView:nil andView:nil];
+		NSRect divdr = dividers[i];
+		divdr.origin = [self convertPoint:divdr.origin toView:masterView];
+		OTHER(divdr.origin) -= delta;
+		OTHER(divdr.size) += 2*delta;
+		divdr = NSIntersectionRect(divdr,rect);
+		if (!NSIsEmptyRect(divdr)) {
+			[masterView drawDivider:image inRect:divdr betweenView:nil andView:nil];
 		}
+	}
+}
+
+// This is usually called from initWithCoder to ensure that the outermost RBSplitView is
+// properly adjusted when first displayed.
+- (void)RB___adjustOutermostIfNeeded {
+	RBSplitView* sv = [self splitView];
+	if (sv) {
+		[sv RB___adjustOutermostIfNeeded];
+		return;
+	}
+	if (mustAdjust&&!isAdjusting) {
+		[self adjustSubviews];
 	}
 }
 
@@ -1373,6 +1457,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 // Tell the delegate we're about to adjust subviews.
 	if ([delegate respondsToSelector:@selector(willAdjustSubviews:)]) {
 		[delegate willAdjustSubviews:self];
+		bounds = [self bounds];
 	}
 	unsigned divcount = subcount-1;
 	if (divcount<1) {
@@ -1397,7 +1482,7 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 	float effsize = 0.0;
 	float limit;
 	subviewCache* curr;
-	int i;
+	unsigned int i;
 	BOOL ishor = [self isHorizontal];
 	float divt = [self dividerThickness];
 // First we loop over subviews and cache their information.
@@ -1423,7 +1508,11 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 			curr = &caches[i];
 			curr->constrain = NO;
 			if (curr->size>0.0) {
-				expsize += curr->size+curr->fraction;
+				expsize += curr->size;
+				if (!isInScrollView) {
+// ignore fractions if we're in a NSScrollView, however.
+					expsize += curr->fraction;
+				}
 				haveexp = YES;
 			} else {
 				limit = [curr->sub minDimension];
@@ -1441,114 +1530,120 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 			curr->fraction = 0.0;
 			expsize += curr->size;
 		}
+		if (isInScrollView) {
+// If we're inside an NSScrollView, we just grow the view to accommodate the subviews, instead of 
+// the other way around.
+			DIM(bounds.size) = expsize;
+			break;
+		} else {
 // If the total dimension of all expanded subviews is less than 1.0 we set the dimension of the smallest
 // subview (which we're sure is expanded at this point) to the available space.
-		newsize = DIM(bounds.size)-divcount*divt;
-		if (expsize<1.0) {
-			curr->size = newsize;
-			curr->fraction = 0.0;
-			expsize = newsize;
-		}
+			newsize = DIM(bounds.size)-divcount*divt;
+			if (expsize<1.0) {
+				curr->size = newsize;
+				curr->fraction = 0.0;
+				expsize = newsize;
+			}
 // Loop over the subviews and check if they're within the limits after scaling. We also recalculate the
 // exposed size and repeat until no more subviews hit the constraints during that loop.
-		BOOL constrained;
-		effsize = newsize;// we're caching newsize here, this is an integer.
-		do {
+			BOOL constrained;
+			effsize = newsize;// we're caching newsize here, this is an integer.
+			do {
 // scale is the scalefactor by which all views should be scaled - assuming none have constraints.
 // It's a double to (hopefully) keep rounding errors small enough for all practical purposes.
-			double scale = newsize/expsize;
-			constrained = NO;
-			realsize = 0.0;
-			expsize = 0.0;
-			for (i=0;i<subcount;i++) {
+				double scale = newsize/expsize;
+				constrained = NO;
+				realsize = 0.0;
+				expsize = 0.0;
+				for (i=0;i<subcount;i++) {
 // Loop over the cached subview info.
-				curr = &caches[i];
-				if (curr->size>0.0) {
+					curr = &caches[i];
+					if (curr->size>0.0) {
 // Check non-collapsed subviews only.
-					if (!curr->constrain) {
+						if (!curr->constrain) {
 // Check non-constrained subviews only; calculate the proposed new size.
-						float cursize = (curr->size+curr->fraction)*scale;
+							float cursize = (curr->size+curr->fraction)*scale;
 // Check if we hit a limit. limit will contain either the max or min dimension, whichever was hit.
-						if (([curr->sub RB___animationData:NO resize:NO]&&((limit = curr->size)>=0.0))||
-							((curr->sub==excepting)&&((limit = [curr->sub dimension])>0.0))||
-							(cursize<(limit = [curr->sub minDimension]))||
-							(cursize>(limit = [curr->sub maxDimension]))) {
+							if (([curr->sub RB___animationData:NO resize:NO]&&((limit = curr->size)>=0.0))||
+								((curr->sub==excepting)&&((limit = [curr->sub dimension])>0.0))||
+								(cursize<(limit = [curr->sub minDimension]))||
+								(cursize>(limit = [curr->sub maxDimension]))) {
 // If we hit a limit, we mark the view and set to repeat the loop; non-constrained subviews will
 // have to be recalculated.
-							curr->constrain = constrained = YES;
+								curr->constrain = constrained = YES;
 // We set the new size to the limit we hit, and subtract it from the total size to be subdivided.
-							cursize = limit;
-							curr->fraction = 0.0;
-							newsize -= cursize;
-						} else {
+								cursize = limit;
+								curr->fraction = 0.0;
+								newsize -= cursize;
+							} else {
 // If we didn't hit a limit, we round the size to the nearest integer and recalculate the fraction. 
-							double rem = fmod(cursize,1.0);
-							cursize -= rem;
-							if (rem>0.5) {
-								++cursize;
-								--rem;
+								double rem = fmod(cursize,1.0);
+								cursize -= rem;
+								if (rem>0.5) {
+									++cursize;
+									--rem;
+								}
+								expsize += cursize;
+								curr->fraction = rem;
 							}
-							expsize += cursize;
-							curr->fraction = rem;
-						}
 // We store the new size in the cache.
-						curr->size = cursize;
-					}
+							curr->size = cursize;
+						}
 // And add the full size with fraction to the actual sum of all expanded subviews.
-					realsize += curr->size+curr->fraction;
+						realsize += curr->size+curr->fraction;
+					}
 				}
-			}
 // At this point, newsize will be the sum of the new dimensions of non-constrained views.
 // expsize will be the sum of the recalculated dimensions of the same views, if any.
 // We repeat the loop if any view has been recently constrained, and if there are any
 // unconstrained views left.
-		} while (constrained&&(expsize>0.0));
+			} while (constrained&&(expsize>0.0));
 // At this point, the difference between realsize and effsize should be less than 1 pixel.
 // realsize is the total size of expanded subviews as recalculated above, and
 // effsize is the value realsize should have.
-		limit = realsize-effsize;
-		if (limit>=1.0) {
+			limit = realsize-effsize;
+			if (limit>=1.0) {
 // If realsize is larger than effsize by 1 pixel or more, we will need to collapse subviews to make room.
 // This in turn might expand previously collapsed subviews. So, we'll try collapsing constrained subviews
 // until we're back into range, and then recalculate everything from the beginning.
-			for (i=0;i<subcount;i++) {
-				curr = &caches[i];
-				if (curr->constrain&&(curr->sub!=excepting)&&([curr->sub RB___animationData:NO resize:NO]==nil)&&[curr->sub canCollapse]) {
-					realsize -= curr->size;
-					if (realsize<1.0) {
-						break;
-					}
-					curr->size = 0.0;
-					if ((realsize-effsize)<1.0) {
-						break;
+				for (i=0;i<subcount;i++) {
+					curr = &caches[i];
+					if (curr->constrain&&(curr->sub!=excepting)&&([curr->sub RB___animationData:NO resize:NO]==nil)&&[curr->sub canCollapse]) {
+						realsize -= curr->size;
+						if (realsize<1.0) {
+							break;
+						}
+						curr->size = 0.0;
+						if ((realsize-effsize)<1.0) {
+							break;
+						}
 					}
 				}
-			}
-		} else if (limit<=-1.0) {
+			} else if (limit<=-1.0) {
 // If realsize is smaller than effsize by 1 pixel or more, we will need to expand subviews.
 // This in turn might collapse previously expanded subviews. So, we'll try expanding collapsed subviews
 // until we're back into range, and then recalculate everything from the beginning.
-			for (i=0;i<subcount;i++) {
-				curr = &caches[i];
-				if (curr->size<=0.0) {
-					curr->size = [curr->sub minDimension];
-					curr->fraction = 0.0;
-					realsize += curr->size;
-					if ((realsize-effsize)>-1.0) {
-						break;
+				for (i=0;i<subcount;i++) {
+					curr = &caches[i];
+					if (curr->size<=0.0) {
+						curr->size = [curr->sub minDimension];
+						curr->fraction = 0.0;
+						realsize += curr->size;
+						if ((realsize-effsize)>-1.0) {
+							break;
+						}
 					}
 				}
-			}
-		} else {
+			} else {
 // The difference is less than 1 pixel, meaning that in all probability our calculations are
 // exact or off by at most one pixel after rounding, so we break the loop here.
-			break;
+				break;
+			}
 		}
-	}
 // After passing through the outer loop a few times, the frames may still be wrong, but there's nothing
 // else we can do about it. You probably should avoid this by some other means like setting a minimum
 // or maximum size for the window, for instance, or leaving at least one unlimited subview.
-//
+	}
 // newframe is used to reset all subview frames. Subviews always fill the entire RBSplitView along the
 // current orientation.
 	NSRect newframe = NSMakeRect(0.0,0.0,bounds.size.width,bounds.size.height);
@@ -1603,6 +1698,10 @@ static NSCursor* cursors[RBSVCursorTypeCount] = {nil};
 			dividers[i] = newframe;
 			DIM(newframe.origin) += divt;
 		}
+	}
+// We resize our frame at this point, if we're inside an NSScrollView.
+	if (isInScrollView) {
+		[super setFrameSize:bounds.size];
 	}
 // If there was at least one nested RBSplitView, we loop over the subviews and adjust those that need it.
 	for (i=nested;i<subcount;i++) {

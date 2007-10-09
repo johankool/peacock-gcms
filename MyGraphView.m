@@ -1792,12 +1792,8 @@ static int   kPaddingLabels             = 4;
     return YES;
 }
 - (BOOL) becomeFirstResponder {
-    JKLogEnteringMethod();
-
 	[[NSNotificationCenter defaultCenter] postNotificationName:MyGraphView_DidBecomeFirstResponderNotification object:self];
 	[self setNeedsDisplay:YES];
-    JKLogExitingMethod();
-
     return YES;
 }
 

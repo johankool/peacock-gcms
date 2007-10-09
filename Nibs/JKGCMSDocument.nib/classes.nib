@@ -31,7 +31,6 @@
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = JKComboBoxCell; LANGUAGE = ObjC; SUPERCLASS = NSComboBoxCell; }, 
-        {CLASS = JKMainDocument; LANGUAGE = ObjC; SUPERCLASS = NSDocument; }, 
         {
             ACTIONS = {
                 abort = id; 
@@ -89,14 +88,31 @@
             SUPERCLASS = NSWindowController; 
         }, 
         {CLASS = JKMoleculeView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {CLASS = JKPathPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {
             ACTIONS = {centerOrigin = id; lowerLeftOrigin = id; showAll = id; squareAxes = id; }; 
             CLASS = MyGraphView; 
             LANGUAGE = ObjC; 
+            OUTLETS = {delegate = id; }; 
             SUPERCLASS = NSView; 
         }, 
-        {CLASS = NSObject; LANGUAGE = ObjC; }
+        {
+            ACTIONS = {didAdjustSubviews = RBSplitView; willAdjustSubviews = RBSplitView; }; 
+            CLASS = NSObject; 
+            LANGUAGE = ObjC; 
+        }, 
+        {
+            ACTIONS = {copy = id; reloadData = id; }; 
+            CLASS = NSTableView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSControl; 
+        }, 
+        {CLASS = RBSplitSubview; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            CLASS = RBSplitView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {delegate = id; }; 
+            SUPERCLASS = RBSplitSubview; 
+        }
     ); 
     IBVersion = 1; 
 }

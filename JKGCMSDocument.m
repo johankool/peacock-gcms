@@ -227,8 +227,7 @@ int const JKGCMSDocument_Version = 7;
 }
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
-    JKLogEnteringMethod();
-   BOOL result;
+	BOOL result;
 	if ([typeName isEqualToString:@"NetCDF/ANDI File"] || [typeName isEqualToString:@"edu.ucar.unidata.netcdf.andi"]) {
         [self setAbsolutePathToNetCDF:[absoluteURL path]];
         result = [self readNetCDFFile:[absoluteURL path] error:outError];
@@ -297,14 +296,12 @@ int const JKGCMSDocument_Version = 7;
         [self setSearchDirection:[unarchiver decodeIntForKey:@"searchDirection"]];
         [self setSpectrumToUse:[unarchiver decodeIntForKey:@"spectrumToUse"]];
         [self setPenalizeForRetentionIndex:[unarchiver decodeBoolForKey:@"penalizeForRetentionIndex"]];
-        [self setMarkAsIdentifiedThreshold:[unarchiver decodeObjectForKey:@"markAsIdentifiedThreshold"]];		
+        if ([[unarchiver decodeObjectForKey:@"markAsIdentifiedThreshold"] isKindOfClass:[NSNumber class]])
+            [self setMarkAsIdentifiedThreshold:[unarchiver decodeObjectForKey:@"markAsIdentifiedThreshold"]];		
         [self setMinimumScoreSearchResults:[unarchiver decodeObjectForKey:@"minimumScoreSearchResults"]];		            
         
 		[unarchiver finishDecoding];
 		[unarchiver release];
-      
-//        JKLogExitingMethod();
-
         [[self undoManager] enableUndoRegistration];
         
         // Ensure the TIC chromatogram is still there
@@ -324,8 +321,6 @@ int const JKGCMSDocument_Version = 7;
         }
         
         [chromatograms sortUsingSelector:@selector(sortOrderComparedTo:)];
-        JKLogExitingMethod();
-
  		return result;	
     } else {
         if (outError != NULL)
