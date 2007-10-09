@@ -82,13 +82,15 @@
 
 - (JKCombinedPeak *)combinedPeakForLabel:(NSString *)label
 {
+    NSEnumerator *enumerator = [summary objectEnumerator];
     JKCombinedPeak *combinedPeak;
     
-    for (combinedPeak in summary) {
+    while ((combinedPeak = [enumerator nextObject])) {
         if ([combinedPeak isIdenticalToCompound:label]) {
             return combinedPeak;
-        }
-    }
+        }       
+    }    
+
     return nil;
 }
 

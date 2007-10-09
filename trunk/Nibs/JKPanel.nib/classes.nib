@@ -45,6 +45,12 @@
         {CLASS = NSObject; LANGUAGE = ObjC; }, 
         {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
         {
+            CLASS = PKDocumentController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {documentTabView = NSTabView; window = NSWindow; }; 
+            SUPERCLASS = NSDocumentController; 
+        }, 
+        {
             ACTIONS = {changePanes = id; }; 
             CLASS = UJKPanel; 
             LANGUAGE = ObjC; 

@@ -46,6 +46,8 @@
 		C715DEB40A136AD300348AB5 /* JKGCMSDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */; };
 		C715DECF0A136B2F00348AB5 /* JKGCMSDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */; };
 		C716B4BD0AD6AA8F00DA408E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C716B4AD0AD6AA8F00DA408E /* CoreData.framework */; };
+		C71A0D670CBA8176008D5FB2 /* RBSplitSubview.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6150094DBE3A00C0887E /* RBSplitSubview.m */; };
+		C71A0D680CBA8178008D5FB2 /* RBSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6152094DBE3A00C0887E /* RBSplitView.m */; };
 		C71D9FCC099CD19D007EB10D /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C71D9FCB099CD19D007EB10D /* Growl.framework */; };
 		C71D9FE9099CD291007EB10D /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C71D9FCB099CD19D007EB10D /* Growl.framework */; };
 		C720AB8809EA7B6C007EF860 /* jk_statistics.h in Headers */ = {isa = PBXBuildFile; fileRef = C720AB8609EA7B6C007EF860 /* jk_statistics.h */; };
@@ -145,8 +147,6 @@
 		C799B0AA0ACAB30D00D4FCA4 /* Identify Compounds.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A70ACAB30D00D4FCA4 /* Identify Compounds.tiff */; };
 		C799B0AB0ACAB30D00D4FCA4 /* Identify Peaks.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A80ACAB30D00D4FCA4 /* Identify Peaks.tiff */; };
 		C799B0AC0ACAB30D00D4FCA4 /* Identify Baseline.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A90ACAB30D00D4FCA4 /* Identify Baseline.tiff */; };
-		C79A6154094DBE3A00C0887E /* RBSplitSubview.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6150094DBE3A00C0887E /* RBSplitSubview.m */; };
-		C79A6155094DBE3A00C0887E /* RBSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6152094DBE3A00C0887E /* RBSplitView.m */; };
 		C7A7BB370A9DE5D3005E3778 /* library_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB2D0A9DE5D3005E3778 /* library_document.icns */; };
 		C7A7BB380A9DE5D3005E3778 /* atlas_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB2E0A9DE5D3005E3778 /* atlas_document.icns */; };
 		C7A7BB3A0A9DE5D3005E3778 /* peacock_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB300A9DE5D3005E3778 /* peacock_document.icns */; };
@@ -291,8 +291,16 @@
 		C7ADC9110BA05609007D9134 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C7ADC9120BA05609007D9134 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C71D9FCB099CD19D007EB10D /* Growl.framework */; };
 		C7B9BA2D0AA881AE00250EFE /* view.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7B9BA2C0AA881AE00250EFE /* view.tiff */; };
+		C7BC18A80CBBCA5E0037FBA7 /* PKDocumentController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC18A60CBBCA5E0037FBA7 /* PKDocumentController.h */; };
+		C7BC18A90CBBCA5E0037FBA7 /* PKDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC18A70CBBCA5E0037FBA7 /* PKDocumentController.m */; };
+		C7BC18AA0CBBCA5E0037FBA7 /* PKDocumentController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC18A60CBBCA5E0037FBA7 /* PKDocumentController.h */; };
+		C7BC18AB0CBBCA5E0037FBA7 /* PKDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC18A70CBBCA5E0037FBA7 /* PKDocumentController.m */; };
+		C7BC18AD0CBBCAC60037FBA7 /* PKAllInOneWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7BC18AC0CBBCAC50037FBA7 /* PKAllInOneWindow.nib */; };
+		C7BC18AE0CBBCAC60037FBA7 /* PKAllInOneWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7BC18AC0CBBCAC50037FBA7 /* PKAllInOneWindow.nib */; };
 		C7BC505309A62C930093106E /* JKLog.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC505109A62C930093106E /* JKLog.h */; };
 		C7BC505409A62C930093106E /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
+		C7BC7CD40CBB91A0006D121C /* ExceptionHandling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7BC7CD10CBB91A0006D121C /* ExceptionHandling.framework */; };
+		C7BC7CD50CBB91A0006D121C /* ExceptionHandling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7BC7CD10CBB91A0006D121C /* ExceptionHandling.framework */; };
 		C7BDA6C10AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */; };
 		C7BDA6C20AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */; };
 		C7C220630BEB831000510B5B /* BooleanToStringTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C220610BEB831000510B5B /* BooleanToStringTransformer.h */; };
@@ -371,6 +379,23 @@
 			);
 		};
 /* End PBXBuildRule section */
+
+/* Begin PBXBuildStyle section */
+		C7BC7C3B0CBB8A7A006D121C /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Development;
+		};
+		C7BC7C3C0CBB8A7A006D121C /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
 		C72C8532098BEAD500CEF565 /* PBXContainerItemProxy */ = {
@@ -554,8 +579,12 @@
 		C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FilteringDNDArrayController.m; sourceTree = "<group>"; };
 		C7ADC9190BA05609007D9134 /* Peacock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Peacock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7B9BA2C0AA881AE00250EFE /* view.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = view.tiff; sourceTree = "<group>"; };
+		C7BC18A60CBBCA5E0037FBA7 /* PKDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKDocumentController.h; sourceTree = "<group>"; };
+		C7BC18A70CBBCA5E0037FBA7 /* PKDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKDocumentController.m; sourceTree = "<group>"; };
+		C7BC18AC0CBBCAC50037FBA7 /* PKAllInOneWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = PKAllInOneWindow.nib; sourceTree = "<group>"; };
 		C7BC505109A62C930093106E /* JKLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKLog.h; sourceTree = "<group>"; };
 		C7BC505209A62C930093106E /* JKLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLog.m; sourceTree = "<group>"; };
+		C7BC7CD10CBB91A0006D121C /* ExceptionHandling.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExceptionHandling.framework; path = /System/Library/Frameworks/ExceptionHandling.framework; sourceTree = "<absolute>"; };
 		C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FontNameToDisplayNameTransformer.m; sourceTree = "<group>"; };
 		C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FontNameToDisplayNameTransformer.h; sourceTree = "<group>"; };
 		C7C21FC50A5060E2006E82FD /* Peacock.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = Peacock.sdef; sourceTree = "<group>"; };
@@ -654,6 +683,7 @@
 				C71D9FCC099CD19D007EB10D /* Growl.framework in Frameworks */,
 				C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */,
 				C716B4BD0AD6AA8F00DA408E /* CoreData.framework in Frameworks */,
+				C7BC7CD40CBB91A0006D121C /* ExceptionHandling.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -685,6 +715,7 @@
 				C7ADC8F40BA05609007D9134 /* Growl.framework in Frameworks */,
 				C7ADC8F50BA05609007D9134 /* Sparkle.framework in Frameworks */,
 				C7ADC8F60BA05609007D9134 /* CoreData.framework in Frameworks */,
+				C7BC7CD50CBB91A0006D121C /* ExceptionHandling.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -694,6 +725,7 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C7BC7CD10CBB91A0006D121C /* ExceptionHandling.framework */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
 				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
@@ -912,6 +944,8 @@
 				C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */,
 				C773669608E02D87002B72F1 /* SpectrumGraphDataSerie.h */,
 				C773669708E02D87002B72F1 /* SpectrumGraphDataSerie.m */,
+				C7BC18A60CBBCA5E0037FBA7 /* PKDocumentController.h */,
+				C7BC18A70CBBCA5E0037FBA7 /* PKDocumentController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1022,6 +1056,7 @@
 				C7EB18010898CFBD007FC2ED /* JKPreferences.nib */,
 				C7858FE90951E9990083EC22 /* JKStatisticalAnalysis.nib */,
 				C79302930CAC5C1100DB5AB8 /* PKDocument.nib */,
+				C7BC18AC0CBBCAC50037FBA7 /* PKAllInOneWindow.nib */,
 			);
 			path = Nibs;
 			sourceTree = "<group>";
@@ -1087,6 +1122,7 @@
 				C7490D610CAC0B29005DCA39 /* NSString+ModelCompare.h in Headers */,
 				C73B27D00CAD9EF600C09AAE /* JKSummarizer.h in Headers */,
 				C73B27DA0CB1224100C09AAE /* JKSummaryController.h in Headers */,
+				C7BC18AA0CBBCA5E0037FBA7 /* PKDocumentController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1132,6 +1168,7 @@
 				C7490D560CAC0B29005DCA39 /* NSString+ModelCompare.h in Headers */,
 				C73B27CE0CAD9EF600C09AAE /* JKSummarizer.h in Headers */,
 				C73B27D80CB1224100C09AAE /* JKSummaryController.h in Headers */,
+				C7BC18A80CBBCA5E0037FBA7 /* PKDocumentController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1206,11 +1243,15 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C7EB17A00898CF22007FC2ED /* Build configuration list for PBXProject "Peacock" */;
-			compatibilityVersion = "Xcode 2.4";
+			buildSettings = {
+			};
+			buildStyles = (
+				C7BC7C3B0CBB8A7A006D121C /* Development */,
+				C7BC7C3C0CBB8A7A006D121C /* Deployment */,
+			);
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* Peacock */;
 			projectDirPath = "";
-			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* Peacock-Mac */,
 				C7ADC8880BA05609007D9134 /* Peacock-Windows */,
@@ -1275,6 +1316,7 @@
 				C765B8AC0C23237B00C4F153 /* factoranalysis.R in Resources */,
 				C79302940CAC5C1100DB5AB8 /* PKDocument.nib in Resources */,
 				C73B27D40CB1221E00C09AAE /* JKSummary.nib in Resources */,
+				C7BC18AD0CBBCAC60037FBA7 /* PKAllInOneWindow.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1339,6 +1381,7 @@
 				C77E32BA0C0F2CBB00B8A64A /* libraries.png in Resources */,
 				C79302950CAC5C1100DB5AB8 /* PKDocument.nib in Resources */,
 				C73B27D50CB1221E00C09AAE /* JKSummary.nib in Resources */,
+				C7BC18AE0CBBCAC60037FBA7 /* PKAllInOneWindow.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1410,8 +1453,6 @@
 				C773669808E02D87002B72F1 /* ChromatogramGraphDataSerie.m in Sources */,
 				C773669908E02D88002B72F1 /* SpectrumGraphDataSerie.m in Sources */,
 				C798C9EA08E17B5400C6C7D1 /* DeleteTableView.m in Sources */,
-				C79A6154094DBE3A00C0887E /* RBSplitSubview.m in Sources */,
-				C79A6155094DBE3A00C0887E /* RBSplitView.m in Sources */,
 				C7713B430950368F00653D2A /* JKBatchProcessWindowController.m in Sources */,
 				C70DB8EE09573BEA00C2B386 /* JKRatio.m in Sources */,
 				C7BC505409A62C930093106E /* JKLog.m in Sources */,
@@ -1455,6 +1496,9 @@
 				C73B27CF0CAD9EF600C09AAE /* JKSummarizer.m in Sources */,
 				C73B27D90CB1224100C09AAE /* JKSummaryController.m in Sources */,
 				C73B28740CB1320A00C09AAE /* jk_statistics.m in Sources */,
+				C71A0D670CBA8176008D5FB2 /* RBSplitSubview.m in Sources */,
+				C71A0D680CBA8178008D5FB2 /* RBSplitView.m in Sources */,
+				C7BC18A90CBBCA5E0037FBA7 /* PKDocumentController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1528,6 +1572,7 @@
 				C73B27D10CAD9EF600C09AAE /* JKSummarizer.m in Sources */,
 				C73B27DB0CB1224100C09AAE /* JKSummaryController.m in Sources */,
 				C73B28750CB1320B00C09AAE /* jk_statistics.m in Sources */,
+				C7BC18AB0CBBCA5E0037FBA7 /* PKDocumentController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1807,35 +1852,7 @@
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH)";
 				FRAMEWORK_SEARCH_PATHS = Frameworks;
-				GCC_OPTIMIZATION_LEVEL = 1;
 				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
-				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = NO;
-				GCC_TREAT_NONCONFORMANT_CODE_ERRORS_AS_WARNINGS = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS = NO;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
-				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
-				GCC_WARN_INHIBIT_ALL_WARNINGS = NO;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = NO;
-				GCC_WARN_PEDANTIC = NO;
-				GCC_WARN_PROTOTYPE_CONVERSION = NO;
-				GCC_WARN_SHADOW = NO;
-				GCC_WARN_SIGN_COMPARE = YES;
-				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = NO;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
 			};
 			name = Debug;
 		};

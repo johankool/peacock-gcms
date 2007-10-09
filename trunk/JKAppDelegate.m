@@ -23,6 +23,8 @@
 #import "JKPreferencesWindowController.h"
 #import "JKBatchProcessWindowController.h"
 
+#import <ExceptionHandling/NSExceptionHandler.h>
+
 // Name of the application support folder
 static NSString * SUPPORT_FOLDER_NAME = @"Peacock";
 static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
@@ -151,6 +153,9 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
         availableDictionaries = [[NSMutableArray alloc] init];
         autocompleteEntries = [[NSArray alloc] init];
         libraryConfigurationLoaded = @"";
+        
+//        [[NSExceptionHandler defaultExceptionHandler] setDelegate:self];
+//        [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:NSHandleOtherExceptionMask];
 	}
 	return self;
 }
@@ -725,4 +730,37 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     return summarizer;
 }
 
+- (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldHandleException:(NSException *)exception mask:(unsigned int)aMask {
+    [self printStackTrace:exception];
+    return YES;
+}
+
+- (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldLogException:(NSException *)exception mask:(unsigned int)mask
+{
+    [self printStackTrace:exception];
+    return YES;
+}
+
+- (void)printStackTrace:(NSException *)e
+{
+    NSString *stack = [[e userInfo] objectForKey:NSStackTraceKey];
+    if (stack) {
+        NSTask *ls = [[NSTask alloc] init];
+        NSString *pid = [[NSNumber numberWithInt:[[NSProcessInfo processInfo] processIdentifier]] stringValue];
+        NSMutableArray *args = [NSMutableArray arrayWithCapacity:20];
+        
+        [args addObject:@"-p"];
+        [args addObject:pid];
+        [args addObjectsFromArray:[stack componentsSeparatedByString:@"  "]];
+        // Note: function addresses are separated by double spaces, not a single space.
+        
+        [ls setLaunchPath:@"/usr/bin/atos"];
+        [ls setArguments:args];
+        [ls launch];
+        [ls release];
+        
+    } else {
+        NSLog(@"No stack trace available.");
+    }
+}
 @end

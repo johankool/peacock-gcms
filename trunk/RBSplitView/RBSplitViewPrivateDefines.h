@@ -1,10 +1,10 @@
 //
-//  RBSplitViewPrivateDefines.h version 1.1.3
+//  RBSplitViewPrivateDefines.h version 1.1.4
 //  RBSplitView
 //
 //  Created by Rainer Brockerhoff on 19/11/2004.
-//  Copyright 2004,2005 Rainer Brockerhoff.
-//	Some Rights Reserved under the Creative Commons Attribution License, version 2.0, and/or the MIT License.
+//  Copyright 2004-2006 Rainer Brockerhoff.
+//	Some Rights Reserved under the Creative Commons Attribution License, version 2.5, and/or the MIT License.
 //
 
 // These defines are used only locally; no sense exporting them in the main header file where they might
@@ -21,7 +21,7 @@
 #define OTHER(x) (((float*)&(x))[!ishor])
 
 // This value for the view offsets is guaranteed to be out of view for quite some time and is used
-// to mark the view as collapsed (NSSplitView seems to use the same value).
+// to mark the view as collapsed.
 #define WAYOUT (1000000.0)
 
 // This is the default framerate for collapse/expand animation.
@@ -74,21 +74,22 @@ typedef struct animationData {
 
 @interface RBSplitView (RB___ViewAdditions)
 
+- (void)RB___adjustOutermostIfNeeded;
 - (void)RB___setDragging:(BOOL)flag;
-- (float)RB___dividerOrigin:(int)index;
+- (float)RB___dividerOrigin:(int)indx;
 - (NSArray*)RB___subviews;
 - (unsigned int)RB___numberOfSubviews;
 - (void)RB___adjustSubviewsExcepting:(RBSplitSubview*)excepting;
 - (float)RB___dimensionWithoutDividers;
 - (float)RB___dividerThickness;
-- (NSRect)RB___dividerRect:(unsigned)index relativeToView:(RBSplitView*)view;
+- (NSRect)RB___dividerRect:(unsigned)indx relativeToView:(RBSplitView*)view;
 - (void)RB___setMustClearFractions;
-- (BOOL)RB___shouldResizeWindowForDivider:(unsigned int)index betweenView:(RBSplitSubview*)leading andView:(RBSplitSubview*)trailing willGrow:(BOOL)grow;
-- (void)RB___tryToExpandLeading:(RBSplitSubview*)leading divider:(unsigned int)index trailing:(RBSplitSubview*)trailing delta:(float)delta;
-- (void)RB___tryToShortenLeading:(RBSplitSubview*)leading divider:(unsigned int)index trailing:(RBSplitSubview*)trailing delta:(float)delta always:(BOOL)always;
+- (BOOL)RB___shouldResizeWindowForDivider:(unsigned int)indx betweenView:(RBSplitSubview*)leading andView:(RBSplitSubview*)trailing willGrow:(BOOL)grow;
+- (void)RB___tryToExpandLeading:(RBSplitSubview*)leading divider:(unsigned int)indx trailing:(RBSplitSubview*)trailing delta:(float)delta;
+- (void)RB___tryToShortenLeading:(RBSplitSubview*)leading divider:(unsigned int)indx trailing:(RBSplitSubview*)trailing delta:(float)delta always:(BOOL)always;
 - (void)RB___tryToExpandTrailing:(RBSplitSubview*)trailing leading:(RBSplitSubview*)leading delta:(float)delta;
-- (void)RB___tryToShortenTrailing:(RBSplitSubview*)trailing divider:(unsigned int)index leading:(RBSplitSubview*)leading delta:(float)delta always:(BOOL)always;
-- (void)RB___trackMouseEvent:(NSEvent*)theEvent from:(NSPoint)where withBase:(NSPoint)base inDivider:(unsigned)index;
+- (void)RB___tryToShortenTrailing:(RBSplitSubview*)trailing divider:(unsigned int)indx leading:(RBSplitSubview*)leading delta:(float)delta always:(BOOL)always;
+- (void)RB___trackMouseEvent:(NSEvent*)theEvent from:(NSPoint)where withBase:(NSPoint)base inDivider:(unsigned)indx;
 - (void)RB___addCursorRectsTo:(RBSplitView*)masterView forDividerRect:(NSRect)rect thickness:(float)delta;
 - (unsigned)RB___dividerHitBy:(NSPoint)point relativeToView:(RBSplitView*)view thickness:(float)delta;
 - (void)RB___drawDividersIn:(RBSplitView*)masterView forDividerRect:(NSRect)rect thickness:(float)delta;

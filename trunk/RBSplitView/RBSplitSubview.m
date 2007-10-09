@@ -1,10 +1,10 @@
 //
-//  RBSplitSubview.m version 1.1.3
+//  RBSplitSubview.m version 1.1.4
 //  RBSplitView
 //
 //  Created by Rainer Brockerhoff on 19/11/2004.
-//  Copyright 2004,2005 Rainer Brockerhoff.
-//	Some Rights Reserved under the Creative Commons Attribution License, version 2.0, and/or the MIT License.
+//  Copyright 2004-2006 Rainer Brockerhoff.
+//	Some Rights Reserved under the Creative Commons Attribution License, version 2.5, and/or the MIT License.
 //
 
 #import "RBSplitView.h"
@@ -13,28 +13,31 @@
 // This variable points to the animation data structure while an animation is in
 // progress; if there's none, it will be NULL. Animating may be very CPU-intensive so
 // we allow only one animation to take place at a time.
-static animationData* animation = NULL;
+static animationData* currentAnimation = NULL;
 
 @implementation RBSplitSubview
 
 // This class method returns YES if an animation is in progress.
 + (BOOL)animating {
-	return animation!=NULL;
+	return currentAnimation!=NULL;
 }
 
 // This is the designated initializer for RBSplitSubview. It sets some reasonable defaults. However, you
 // can't rely on anything working until you insert it into a RBSplitView.
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
-	fraction = 0.0;
-	canCollapse = NO;
-	notInLimits = NO;
-	minDimension = 1.0;
-	maxDimension = WAYOUT;
-	identifier = @"";
-	previous = NSZeroRect;
-	savedSize = frame.size;
-	actDivider = NSNotFound;
+	if (self) {
+		fraction = 0.0;
+		canCollapse = NO;
+		notInLimits = NO;
+		minDimension = 1.0;
+		maxDimension = WAYOUT;
+		identifier = @"";
+		previous = NSZeroRect;
+		savedSize = frame.size;
+		actDivider = NSNotFound;
+		canDragWindow = NO;
+	}
 	return self;
 }
 
@@ -73,7 +76,7 @@ static animationData* animation = NULL;
 }
 
 // A hidden RBSplitSubview is not redrawn and is not considered for drawing dividers.
-// This won't work on before 10.3, though.
+// This won't work before 10.3, though.
 - (void)setHidden:(BOOL)flag {
 	if ([self isHidden]!=flag) {
 		RBSplitView* sv = [self splitView];
@@ -189,6 +192,16 @@ static animationData* animation = NULL;
 // Tests whether the subview is collapsed.
 - (BOOL)isCollapsed {
 	return [self RB___visibleDimension]<=0.0;
+}
+
+// Tests whether the subview can shrink further.
+- (BOOL)canShrink {
+	return [self RB___visibleDimension]>([self canCollapse]?0.0:minDimension);
+}
+
+// Tests whether the subview can expand further.
+- (BOOL)canExpand {
+	return [self RB___visibleDimension]<maxDimension;
 }
 
 // Returns the subview's status.
@@ -400,7 +413,7 @@ static animationData* animation = NULL;
 // This method is used internally when a divider is dragged. It tries to change the subview's dimension
 // and returns the actual change, collapsing or expanding whenever possible. You usually won't need
 // to call this directly.
-- (float)changeDimensionBy:(float)increment mayCollapse:(BOOL)mayCollapse {
+- (float)changeDimensionBy:(float)increment mayCollapse:(BOOL)mayCollapse move:(BOOL)move {
 	RBSplitView* sv = [self splitView];
 	if (!sv||(fabsf(increment)<1.0)) {
 		return 0.0;
@@ -432,9 +445,14 @@ static animationData* animation = NULL;
 	}
 	if ((int)newdim!=(int)olddim) {
 // The dimension has changed.
+		increment = newdim-olddim;
 		DIM(frame.size) = newdim;
+		if (move) {
+			DIM(frame.origin) -= increment;
+		}
 // We call super instead of self here to postpone adjusting subviews for nested splitviews.
-		[super setFrameSize:frame.size];
+//		[super setFrameSize:frame.size];
+		[super setFrame:frame];
 		[sv RB___setMustClearFractions];
 		[sv setMustAdjust];
 	}
@@ -454,12 +472,14 @@ static animationData* animation = NULL;
 		id delegate = [sv delegate];
 		if ([delegate respondsToSelector:@selector(splitView:dividerForPoint:inSubview:)]) {
 			actDivider = [delegate splitView:sv dividerForPoint:aPoint inSubview:self];
-			if (actDivider<(int)([sv RB___numberOfSubviews]-1)) {
+			if ((int)actDivider<(int)([sv RB___numberOfSubviews]-1)) {
 				return self;
 			}
 		}
 		actDivider = NSNotFound;
-		return [super hitTest:aPoint];
+		NSView* result = [super hitTest:aPoint];
+		canDragWindow = ![result isOpaque];
+		return result;
 	}
 	return nil;
 }
@@ -503,8 +523,8 @@ static animationData* animation = NULL;
 		actDivider = NSNotFound;
 		return;
 	}
-	if ([window isMovableByWindowBackground]&&![[self couplingSplitView] background]) {
-// If we get here, it's a textured (metal) window, the mouse has gone down on an empty portion
+	if (canDragWindow&&[window isMovableByWindowBackground]&&![[self couplingSplitView] background]) {
+// If we get here, it's a textured (metal) window, the mouse has gone down on an non-opaque portion
 // of the subview, and our RBSplitView has a transparent background. RBSplitView returns NO to
 // mouseDownCanMoveWindow, but the window should move here - after all, the window background
 // is visible right here! So we fake it and move the window as intended. Mwahahaha!
@@ -550,12 +570,14 @@ static animationData* animation = NULL;
 		[coder encodeDouble:fraction forKey:@"fraction"];
 		[coder encodeBool:canCollapse forKey:@"canCollapse"];
 	} else {
-		[coder encodeObject:identifier];
-		[coder encodeValueOfObjCType:@encode(int) at:&tag];
-		[coder encodeValueOfObjCType:@encode(float) at:&minDimension];
-		[coder encodeValueOfObjCType:@encode(float) at:&maxDimension];
-		[coder encodeValueOfObjCType:@encode(double) at:&fraction];
-		[coder encodeValueOfObjCType:@encode(BOOL) at:&canCollapse];
+        NSLog(@"No keyed coding please");
+//
+//		[coder encodeObject:identifier];
+//		[coder encodeValueOfObjCType:@encode(typeof(tag)) at:&tag];
+//		[coder encodeValueOfObjCType:@encode(typeof(minDimension)) at:&minDimension];
+//		[coder encodeValueOfObjCType:@encode(typeof(maxDimension)) at:&maxDimension];
+//		[coder encodeValueOfObjCType:@encode(typeof(fraction)) at:&fraction];
+//		[coder encodeValueOfObjCType:@encode(typeof(canCollapse)) at:&canCollapse];
 	}
 }
 
@@ -568,6 +590,7 @@ static animationData* animation = NULL;
 		maxDimension = WAYOUT;
 		identifier = @"";
 		actDivider = NSNotFound;
+		canDragWindow = NO;
 		previous = [self frame];
 		savedSize = previous.size;
 		if (previous.origin.x>=WAYOUT) {
@@ -587,12 +610,14 @@ static animationData* animation = NULL;
 			fraction = [coder decodeDoubleForKey:@"fraction"];
 			canCollapse = [coder decodeBoolForKey:@"canCollapse"];
 		} else {
-			[self setIdentifier:[coder decodeObject]];
-			[coder decodeValueOfObjCType:@encode(int) at:&tag];
-			[coder decodeValueOfObjCType:@encode(float) at:&minDimension];
-			[coder decodeValueOfObjCType:@encode(float) at:&maxDimension];
-			[coder decodeValueOfObjCType:@encode(double) at:&fraction];
-			[coder decodeValueOfObjCType:@encode(BOOL) at:&canCollapse];
+            NSLog(@"No keyed coding please");
+            return nil;
+//			[self setIdentifier:[coder decodeObject]];
+//			[coder decodeValueOfObjCType:@encode(typeof(tag)) at:&tag];
+//			[coder decodeValueOfObjCType:@encode(typeof(minDimension)) at:&minDimension];
+//			[coder decodeValueOfObjCType:@encode(typeof(maxDimension)) at:&maxDimension];
+//			[coder decodeValueOfObjCType:@encode(typeof(fraction)) at:&fraction];
+//			[coder decodeValueOfObjCType:@encode(typeof(canCollapse)) at:&canCollapse];
 		}
 	}
     return self;
@@ -612,7 +637,7 @@ static animationData* animation = NULL;
 // Otherwise, if the parameter is YES, a new animation will be started (or the current
 // one will be restarted).
 - (animationData*)RB___animationData:(BOOL)start resize:(BOOL)resize {
-	if (animation&&(animation->owner!=self)) {
+	if (currentAnimation&&(currentAnimation->owner!=self)) {
 // There already is an animation in progress on some other subview.
 		return nil;
 	}
@@ -629,60 +654,60 @@ static animationData* animation = NULL;
 			}
 // No use animating anything shorter than the frametime.
 			if (total>FRAMETIME) {
-				if (!animation) {
-					animation = (animationData*)malloc(sizeof(animationData));
+				if (!currentAnimation) {
+					currentAnimation = (animationData*)malloc(sizeof(animationData));
 				}
-				if (animation) {
-					animation->owner = self;
-					animation->stepsDone = 0;
-					animation->elapsedTime = 0.0;
-					animation->dimension = dim;
-					animation->collapsing = ![self isCollapsed];
-					animation->totalTime = total;
-					animation->finishTime = [NSDate timeIntervalSinceReferenceDate]+total;
-					animation->resizing = resize;
+				if (currentAnimation) {
+					currentAnimation->owner = self;
+					currentAnimation->stepsDone = 0;
+					currentAnimation->elapsedTime = 0.0;
+					currentAnimation->dimension = dim;
+					currentAnimation->collapsing = ![self isCollapsed];
+					currentAnimation->totalTime = total;
+					currentAnimation->finishTime = [NSDate timeIntervalSinceReferenceDate]+total;
+					currentAnimation->resizing = resize;
 					[sv RB___setDragging:YES];
 				}
-			} else if (animation) {
-				free(animation);
-				animation = NULL;
+			} else if (currentAnimation) {
+				free(currentAnimation);
+				currentAnimation = NULL;
 			}
 		}
 	}
-	return animation;
+	return currentAnimation;
 }
 
 // This internal method steps the animation to the next frame.
 - (void)RB___stepAnimation {
 	NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
-	animationData* animation = [self RB___animationData:NO resize:NO];
-	if (animation) {
+	animationData* anim = [self RB___animationData:NO resize:NO];
+	if (anim) {
 		RBSplitView* sv = [self splitView];
-		NSTimeInterval remain = animation->finishTime-now;
+		NSTimeInterval remain = anim->finishTime-now;
 		NSRect frame = [self frame];
 		BOOL ishor = [sv isHorizontal];
 // Continuing animation only makes sense if we still have at least FRAMETIME available.
 		if (remain>=FRAMETIME) {
 			float dim = DIM(frame.size);
-			float avg = animation->elapsedTime;
+			float avg = anim->elapsedTime;
 // We try to keep a record of how long it takes, on the average, to resize and adjust
 // one animation frame.
-			if (animation->stepsDone) {
-				avg /= animation->stepsDone;
+			if (anim->stepsDone) {
+				avg /= anim->stepsDone;
 			}
 			NSTimeInterval delay = MIN(0.0,FRAMETIME-avg);
 // We adjust the new dimension proportionally to how much of the designated time has passed.
-			dim = floorf(animation->dimension*(remain-avg)/animation->totalTime);
+			dim = floorf(anim->dimension*(remain-avg)/anim->totalTime);
 			if (dim>4.0) {
-				if (!animation->collapsing) {
-					dim = animation->dimension-dim;
+				if (!anim->collapsing) {
+					dim = anim->dimension-dim;
 				} 
 				DIM(frame.size) = dim;
 				[self RB___setFrame:frame withFraction:0.0 notify:NO];
 				[sv adjustSubviews];
 				[self display];
-				animation->elapsedTime += [NSDate timeIntervalSinceReferenceDate]-now;
-				++animation->stepsDone;
+				anim->elapsedTime += [NSDate timeIntervalSinceReferenceDate]-now;
+				++anim->stepsDone;
 // Schedule a timer to do the next animation step.
 				[self performSelector:@selector(RB___stepAnimation) withObject:nil afterDelay:delay inModes:[NSArray arrayWithObjects:NSDefaultRunLoopMode,NSModalPanelRunLoopMode,
 					NSEventTrackingRunLoopMode,nil]];
@@ -690,12 +715,12 @@ static animationData* animation = NULL;
 			}
 		}
 // We're finished, either collapse or expand entirely now.
-		if (animation->collapsing) {
+		if (anim->collapsing) {
 			DIM(frame.size) = 0.0;
-			[self RB___finishCollapse:frame withFraction:animation->dimension/[sv RB___dimensionWithoutDividers]];
+			[self RB___finishCollapse:frame withFraction:anim->dimension/[sv RB___dimensionWithoutDividers]];
 		} else {
 			float savemin,savemax;
-			float dim = [self RB___setMinAndMaxTo:animation->dimension savingMin:&savemin andMax:&savemax];
+			float dim = [self RB___setMinAndMaxTo:anim->dimension savingMin:&savemin andMax:&savemax];
 			DIM(frame.size) = dim;
 			[self RB___finishExpand:frame withFraction:0.0];
 			minDimension = savemin;
@@ -707,10 +732,10 @@ static animationData* animation = NULL;
 // This internal method stops the animation, if the receiver is being animated. It will
 // return YES if the animation was stopped.
 - (BOOL)RB___stopAnimation {
-	if (animation&&(animation->owner==self)) {
+	if (currentAnimation&&(currentAnimation->owner==self)) {
 		[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(RB___stepAnimation) object:nil];
-		free(animation);
-		animation = NULL;
+		free(currentAnimation);
+		currentAnimation = NULL;
 		[[self splitView] RB___setDragging:NO];
 		return YES;
 	}
