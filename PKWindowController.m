@@ -25,12 +25,8 @@
         [self setDocument:nil];
 	}
 }
-- (BOOL)windowShouldClose:(id)sender
+- (void)performClose:(id)sender
 {
- 	if ([managedDocuments count] > 1) {
-        return YES;
-    } else {
-        return NO;
-    }
+   // Don't!
 }
 @end

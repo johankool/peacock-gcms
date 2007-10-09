@@ -330,7 +330,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C7BC19CD0CBBE50D0037FBA7</string>
+										<string>C7BC19E10CBBE67F0037FBA7</string>
 										<key>history</key>
 										<array>
 											<string>C7BC7C7C0CBB8BB3006D121C</string>
@@ -581,8 +581,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -600,7 +598,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C7BC19D80CBBE50D0037FBA7</string>
+										<string>C7BC19E20CBBE67F0037FBA7</string>
 										<key>history</key>
 										<array>
 											<string>C7BC7C7C0CBB8BB3006D121C</string>
@@ -993,7 +991,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>213640461.27173901</real>
+	<real>213640831.67333099</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
