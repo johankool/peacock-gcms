@@ -10,7 +10,8 @@
 
 
 @interface PKWindowController : NSWindowController {
-	NSMutableArray *managedDocuments;
+	IBOutlet NSTabView *documentTabView;
+    IBOutlet NSTableView *documentTableView;
 }
 
 @end
