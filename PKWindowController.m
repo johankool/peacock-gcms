@@ -11,7 +11,6 @@
 #import "JKGCMSDocument.h"
 
 @implementation PKWindowController
-
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {
     if ([[tabViewItem identifier] isKindOfClass:[JKGCMSDocument class]]) {
@@ -20,8 +19,13 @@
         [[[tabViewItem identifier] mainWindowController] setWindow:[self window]];
         [self setDocument:[tabViewItem identifier]];
     } else {
+        if (![[documentTabView tabViewItemAtIndex:0] view] != [[[[NSApp delegate] summaryController] window] contentView]) {
+            [[documentTabView tabViewItemAtIndex:0] setView:[[[[NSApp delegate] summaryController] window] contentView]];
+            [[[NSApp delegate] summaryController] setWindow:[self window]];
+        }
         [[self window] setTitleWithRepresentedFilename:@""];
         [[self window] setTitle:@"Summary"];
+        [[self window] setNextResponder:[[NSApp delegate] summaryController]];
         [self setDocument:nil];
 	}
 }

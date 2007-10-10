@@ -111,12 +111,17 @@
         {
             CLASS = PKDocumentController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {documentTabView = NSTabView; window = NSWindow; }; 
+            OUTLETS = {
+                documentTabView = NSTabView; 
+                documentTableView = NSTableView; 
+                window = NSWindow; 
+            }; 
             SUPERCLASS = NSDocumentController; 
         }, 
         {
             CLASS = PKWindowController; 
             LANGUAGE = ObjC; 
+            OUTLETS = {documentTabView = NSTabView; documentTableView = NSTableView; }; 
             SUPERCLASS = NSWindowController; 
         }, 
         {

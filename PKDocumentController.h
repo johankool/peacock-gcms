@@ -12,6 +12,8 @@
 @interface PKDocumentController : NSDocumentController {
     IBOutlet NSWindow *window;
 	IBOutlet NSTabView *documentTabView;
+    IBOutlet NSTableView *documentTableView;
+    NSMutableArray *managedDocuments;
 }
 
 @end

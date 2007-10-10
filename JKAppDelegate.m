@@ -285,6 +285,14 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     [summaryController showWindow:self];	
 }
 
+- (id)summaryController
+{
+    if (!summaryController) {
+        summaryController = [[JKSummaryController alloc] init];
+    }
+    return summaryController;
+}
+
 - (IBAction)openTestFile:(id)sender {
     if ([[NSFileManager defaultManager] fileExistsAtPath:[[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:@"Peacock Test Files"]]) {
         if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:@"Peacock Test Files"] stringByAppendingPathComponent:@"Test File.cdf"]]) {
