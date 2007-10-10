@@ -167,6 +167,7 @@ static void *PeaksObservationContext = (void *)1103;
     [[[peaksTable tableColumnWithIdentifier:@"id"] headerCell] setImage:[NSImage imageNamed:@"flagged_header"]];
     // 	[tableView setObligatoryTableColumns:[NSSet setWithObject:[tableView tableColumnWithIdentifier:@"name"]]];
     [[self window] setFrameFromString:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"mainWindowFrame"]];
+    
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification
@@ -228,7 +229,9 @@ static void *PeaksObservationContext = (void *)1103;
 }
 
 - (IBAction)identifyCompounds:(id)sender {
-    if ([[[self document] chromatograms] count] > 1) {
+    if ([[self document] searchDirection] == JKBackwardSearchDirection) {
+        [NSThread detachNewThreadSelector:@selector(identifyCompounds) toTarget:self withObject:nil];
+    } else if ([[[self document] chromatograms] count] > 1) {
         // Run sheet to get selection
         [chromatogramSelectionSheetButton setTitle:NSLocalizedString(@"Identify Compounds",@"")];
         [chromatogramSelectionSheetButton setAction:@selector(identifyCompoundsForSelectedChromatograms:)];

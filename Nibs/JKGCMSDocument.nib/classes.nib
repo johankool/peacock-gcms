@@ -1,118 +1,277 @@
-{
-    IBClasses = (
-        {
-            CLASS = AMRemovableColumnsTableView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {obligatoryColumnIdentifiers = id; }; 
-            SUPERCLASS = DeleteTableView; 
-        }, 
-        {
-            CLASS = AMRemovableTableColumn; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {mainTableView = AMRemovableColumnsTableView; }; 
-            SUPERCLASS = NSTableColumn; 
-        }, 
-        {
-            CLASS = DeleteTableView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {leftSideTableView = NSTableView; rightSideTableView = NSTableView; }; 
-            SUPERCLASS = NSTableView; 
-        }, 
-        {
-            CLASS = FilteringDNDArrayController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {tableView = NSTableView; }; 
-            SUPERCLASS = NSArrayController; 
-        }, 
-        {
-            ACTIONS = {removeSpectrum = id; viewOptions = id; }; 
-            CLASS = FirstResponder; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = JKComboBoxCell; LANGUAGE = ObjC; SUPERCLASS = NSComboBoxCell; }, 
-        {
-            ACTIONS = {
-                abort = id; 
-                cancel = id; 
-                confirm = id; 
-                discard = id; 
-                editLibrary = id; 
-                fitChromatogramDataToView = id; 
-                fitSpectrumDataToView = id; 
-                identifyCompound = id; 
-                identifyPeaks = id; 
-                identifyPeaksForSelectedChromatograms = id; 
-                next = id; 
-                obtainBaseline = id; 
-                obtainBaselineForSelectedChromatograms = id; 
-                other = id; 
-                previous = id; 
-                renumberPeaks = id; 
-                showMassChromatogram = id; 
-                showSelectedChromatogramsOnlyAction = id; 
-            }; 
-            CLASS = JKMainWindowController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                chromatogramDataSeriesController = NSArrayController; 
-                chromatogramSelectionSheet = NSWindow; 
-                chromatogramSelectionSheetButton = NSButton; 
-                chromatogramView = MyGraphView; 
-                chromatogramsController = NSArrayController; 
-                chromatogramsTable = NSTableView; 
-                chromatogramsTableSplitView = RBSplitSubview; 
-                confirmLibraryHitButton = NSButton; 
-                detailsSplitSubview = RBSplitSubview; 
-                detailsTabView = NSTabView; 
-                detailsTabViewItemScrollView = NSScrollView; 
-                detailsTabViewItemView = NSView; 
-                discardLibraryHitButton = NSButton; 
-                identifyCompoundBox = NSBox; 
-                mainWindowSplitView = NSView; 
-                moleculeSplitSubview = RBSplitSubview; 
-                moleculeView = JKMoleculeView; 
-                peakController = NSArrayController; 
-                peaksTable = NSTableView; 
-                printAccessoryView = NSView; 
-                progressBar = NSProgressIndicator; 
-                progressSheet = NSWindow; 
-                progressText = NSTextField; 
-                resultsTable = NSTableView; 
-                resultsTableScrollView = NSScrollView; 
-                searchResultsController = NSArrayController; 
-                searchResultsTabViewItemView = NSView; 
-                spectrumDataSeriesController = NSArrayController; 
-                spectrumView = MyGraphView; 
-            }; 
-            SUPERCLASS = NSWindowController; 
-        }, 
-        {CLASS = JKMoleculeView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {
-            ACTIONS = {centerOrigin = id; lowerLeftOrigin = id; showAll = id; squareAxes = id; }; 
-            CLASS = MyGraphView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {delegate = id; }; 
-            SUPERCLASS = NSView; 
-        }, 
-        {
-            ACTIONS = {didAdjustSubviews = RBSplitView; willAdjustSubviews = RBSplitView; }; 
-            CLASS = NSObject; 
-            LANGUAGE = ObjC; 
-        }, 
-        {
-            ACTIONS = {copy = id; reloadData = id; }; 
-            CLASS = NSTableView; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSControl; 
-        }, 
-        {CLASS = RBSplitSubview; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {
-            CLASS = RBSplitView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {delegate = id; }; 
-            SUPERCLASS = RBSplitSubview; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>FilteringDNDArrayController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>tableView</key>
+				<string>NSTableView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSArrayController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>AMRemovableColumnsTableView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>obligatoryColumnIdentifiers</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>DeleteTableView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>RBSplitView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>RBSplitSubview</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>JKMoleculeView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>RBSplitSubview</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>JKComboBoxCell</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSComboBoxCell</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>abort</key>
+				<string>id</string>
+				<key>cancel</key>
+				<string>id</string>
+				<key>confirm</key>
+				<string>id</string>
+				<key>discard</key>
+				<string>id</string>
+				<key>editLibrary</key>
+				<string>id</string>
+				<key>fitChromatogramDataToView</key>
+				<string>id</string>
+				<key>fitSpectrumDataToView</key>
+				<string>id</string>
+				<key>identifyCompound</key>
+				<string>id</string>
+				<key>identifyPeaks</key>
+				<string>id</string>
+				<key>identifyPeaksForSelectedChromatograms</key>
+				<string>id</string>
+				<key>next</key>
+				<string>id</string>
+				<key>obtainBaseline</key>
+				<string>id</string>
+				<key>obtainBaselineForSelectedChromatograms</key>
+				<string>id</string>
+				<key>other</key>
+				<string>id</string>
+				<key>previous</key>
+				<string>id</string>
+				<key>renumberPeaks</key>
+				<string>id</string>
+				<key>showMassChromatogram</key>
+				<string>id</string>
+				<key>showSelectedChromatogramsOnlyAction</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>JKMainWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>chromatogramDataSeriesController</key>
+				<string>NSArrayController</string>
+				<key>chromatogramSelectionSheet</key>
+				<string>NSWindow</string>
+				<key>chromatogramSelectionSheetButton</key>
+				<string>NSButton</string>
+				<key>chromatogramView</key>
+				<string>MyGraphView</string>
+				<key>chromatogramsController</key>
+				<string>NSArrayController</string>
+				<key>chromatogramsTable</key>
+				<string>NSTableView</string>
+				<key>chromatogramsTableSplitView</key>
+				<string>RBSplitSubview</string>
+				<key>confirmLibraryHitButton</key>
+				<string>NSButton</string>
+				<key>detailsSplitSubview</key>
+				<string>RBSplitSubview</string>
+				<key>detailsTabView</key>
+				<string>NSTabView</string>
+				<key>detailsTabViewItemScrollView</key>
+				<string>NSScrollView</string>
+				<key>detailsTabViewItemView</key>
+				<string>NSView</string>
+				<key>discardLibraryHitButton</key>
+				<string>NSButton</string>
+				<key>identifyCompoundBox</key>
+				<string>NSBox</string>
+				<key>mainWindowSplitView</key>
+				<string>NSView</string>
+				<key>moleculeSplitSubview</key>
+				<string>RBSplitSubview</string>
+				<key>moleculeView</key>
+				<string>JKMoleculeView</string>
+				<key>peakController</key>
+				<string>NSArrayController</string>
+				<key>peaksTable</key>
+				<string>NSTableView</string>
+				<key>printAccessoryView</key>
+				<string>NSView</string>
+				<key>progressBar</key>
+				<string>NSProgressIndicator</string>
+				<key>progressSheet</key>
+				<string>NSWindow</string>
+				<key>progressText</key>
+				<string>NSTextField</string>
+				<key>resultsTable</key>
+				<string>NSTableView</string>
+				<key>resultsTableScrollView</key>
+				<string>NSScrollView</string>
+				<key>searchResultsController</key>
+				<string>NSArrayController</string>
+				<key>searchResultsTabViewItemView</key>
+				<string>NSView</string>
+				<key>spectrumDataSeriesController</key>
+				<string>NSArrayController</string>
+				<key>spectrumView</key>
+				<string>MyGraphView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>removeSpectrum</key>
+				<string>id</string>
+				<key>viewOptions</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>didAdjustSubviews</key>
+				<string>RBSplitView</string>
+				<key>willAdjustSubviews</key>
+				<string>RBSplitView</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>centerOrigin</key>
+				<string>id</string>
+				<key>lowerLeftOrigin</key>
+				<string>id</string>
+				<key>showAll</key>
+				<string>id</string>
+				<key>squareAxes</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>MyGraphView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>DeleteTableView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>leftSideTableView</key>
+				<string>NSTableView</string>
+				<key>rightSideTableView</key>
+				<string>NSTableView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSTableView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>copy</key>
+				<string>id</string>
+				<key>reloadData</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSTableView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSControl</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>AMRemovableTableColumn</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>mainTableView</key>
+				<string>AMRemovableColumnsTableView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSTableColumn</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

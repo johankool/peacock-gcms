@@ -15,47 +15,47 @@
 - (id)init {
     self = [super initWithWindowNibName:@"JKSummary"];
     if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentLoaded:) name:@"JKGCMSDocument_DocumentLoadedNotification" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentUnloaded:) name:@"JKGCMSDocument_DocumentUnloadedNotification" object:nil];
+        indexOfKeyForValue = 0;
+        keys = [[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"topTime", @"key", NSLocalizedString(@"topTime", @""), @"localized", nil], 
+            						     [NSDictionary dictionaryWithObjectsAndKeys:@"surface", @"key", NSLocalizedString(@"surface", @""), @"localized", nil], 
+            							 nil] retain];
+            
     }
     return self;
 }
 
 - (void)windowDidLoad
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentLoaded:) name:@"JKGCMSDocument_DocumentLoadedNotification" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentUnloaded:) name:@"JKGCMSDocument_DocumentUnloadedNotification" object:nil];
-    
-    NSArray *documents = [[NSDocumentController sharedDocumentController] documents];
-    NSEnumerator *enumerator = [documents objectEnumerator];
-    NSDocument *document;
-    
-    while ((document = [enumerator nextObject])) {
-        if ([document isKindOfClass:[JKGCMSDocument class]]) {
-            [self addTableColumForDocument:(JKGCMSDocument *)document];
-        }
-    }
+    [tableView setTarget:self];
+    [tableView setDoubleAction:@selector(doubleClickAction:)];
+    [combinedPeaksController bind:@"contentArray" toObject:[[NSApp delegate] summarizer] withKeyPath:@"combinedPeaks" options:nil];
 }
 
 - (void)documentLoaded:(NSNotification *)aNotification
 {
     id document = [aNotification object];
+    NSLog(@"Document loaded notification received for %@", [document description]);
     if ([document isKindOfClass:[JKGCMSDocument class]]) {
-        [self addTableColumForDocument:document];
+        if ([tableView columnWithIdentifier:document] == -1)
+            [self addTableColumForDocument:document];
     }
 }
 
 - (void)documentUnloaded:(NSNotification *)aNotification
 {
     id object = [aNotification object];
-    [tableView removeTableColumn:[tableView tableColumnWithIdentifier:(JKGCMSDocument *)[object uuid]]];
+    [tableView removeTableColumn:[tableView tableColumnWithIdentifier:object]];
 }
 
 - (void)addTableColumForDocument:(JKGCMSDocument *)document
 {
     // Setup bindings for Combined peaks
     NSTableColumn *tableColumn = [[NSTableColumn alloc] init];
-    [tableColumn setIdentifier:(JKGCMSDocument *)[document uuid]];
+    [tableColumn setIdentifier:document];
     [[tableColumn headerCell] setStringValue:[document displayName]];
-    NSString *keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.topTime",(JKGCMSDocument *)[document uuid]];
+    NSString *keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.%@",[(JKGCMSDocument *)document uuid],[self keyForValue]];
     [[tableColumn headerCell] setStringValue:[document displayName]];
     [tableColumn bind:@"value" toObject:combinedPeaksController withKeyPath:keyPath options:nil];
     [[tableColumn dataCell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
@@ -68,6 +68,76 @@
     [tableColumn setEditable:NO];
     [tableView addTableColumn:tableColumn];
     [tableColumn release];    
+}
+
+- (void)updateTableColumnBindings
+{
+    NSEnumerator *enumerator = [[tableView tableColumns] objectEnumerator];
+    NSTableColumn *tableColumn;
+    while ((tableColumn = [enumerator nextObject])) {
+        if ([[tableColumn identifier] isKindOfClass:[JKGCMSDocument class]]) {
+            NSString *keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.%@",[[tableColumn identifier] uuid],[self keyForValue]];
+            [tableColumn bind:@"value" toObject:combinedPeaksController withKeyPath:keyPath options:nil];
+        }
+    }
+    
+}
+
+- (NSString *)keyForValue
+{
+    return [[keys objectAtIndex:indexOfKeyForValue] valueForKey:@"key"];
+}
+
+- (NSArray *)localizedKeysForValue
+{
+    return [keys valueForKey:@"localized"];
+}
+
+- (int)indexOfKeyForValue
+{
+    return indexOfKeyForValue;
+}
+
+- (void)setIndexOfKeyForValue:(int)index 
+{
+    indexOfKeyForValue = index;
+    [self updateTableColumnBindings];
+}
+
+- (IBAction)doubleClickAction:(id)sender {
+	NSError *error = [[[NSError alloc] init] autorelease];
+	if (([sender clickedRow] == -1) && ([sender clickedColumn] == -1)) {
+		return;
+	} else if ([sender clickedColumn] == 0) {
+		return;
+    } else if ([sender clickedRow] == -1) {
+        // A column was double clicked
+        // Bring forward the associated file
+        JKGCMSDocument *document = [[[tableView tableColumns] objectAtIndex:[sender clickedColumn]] identifier];
+        [[NSDocumentController sharedDocumentController] showDocument:document];
+    } else {
+        // A cell was double clicked
+        // Bring forwars associated file and
+        // select associated peak
+        JKGCMSDocument *document = [[[tableView tableColumns] objectAtIndex:[sender clickedColumn]] identifier];
+        [[NSDocumentController sharedDocumentController] showDocument:document];
+        
+        JKCombinedPeak *combinedPeak = [[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]];
+        JKPeakRecord *peak = [combinedPeak valueForKey:[document uuid]];
+        if (peak) {
+            if (![[[[document mainWindowController] chromatogramsController] selectedObjects] containsObject:[document chromatogramForModel:[peak model]]]) {
+                if ([[[[document mainWindowController] chromatogramsController] selectedObjects] count] > 1) {
+                    [[[document mainWindowController] chromatogramsController] addSelectedObjects:[NSArray arrayWithObject:[document chromatogramForModel:[peak model]]]];
+                } else {             
+                    [[[document mainWindowController] chromatogramsController] setSelectedObjects:[NSArray arrayWithObject:[document chromatogramForModel:[peak model]]]];
+                }
+            }
+            [[[document mainWindowController] peakController] setSelectedObjects:[NSArray arrayWithObject:peak]];
+        } else {
+            [[[document mainWindowController] peakController] setSelectedObjects:nil];
+            NSBeep();
+        }
+ 	}
 }
 
 @end

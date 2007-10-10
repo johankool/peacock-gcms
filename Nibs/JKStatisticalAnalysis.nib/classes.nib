@@ -1,84 +1,193 @@
-{
-    IBClasses = (
-        {CLASS = DeleteTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
-        {
-            CLASS = FilteringDNDArrayController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {tableView = NSTableView; }; 
-            SUPERCLASS = NSArrayController; 
-        }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = JKCombinedPeak; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            ACTIONS = {
-                addButtonAction = id; 
-                cancelEditRatios = id; 
-                combinePeaksAction = id; 
-                editRatios = id; 
-                exportSummary = id; 
-                options = id; 
-                repopulate = id; 
-                repopulateContextMenuAction = id; 
-                runFactorAnalysis = id; 
-                runStatisticalAnalysisButtonAction = id; 
-                saveEditRatios = id; 
-                stopButtonAction = id; 
-                summarizeOptionsDoneAction = id; 
-                updateStatisticalAnalysisButtonAction = id; 
-            }; 
-            CLASS = JKStatisticsWindowController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                addButton = NSButton; 
-                altGraphView = MyGraphView; 
-                chromatogramDataSeriesController = NSArrayController; 
-                combinedPeaksController = NSArrayController; 
-                detailStatusTextField = NSTextField; 
-                doneButton = NSButton; 
-                fileProgressIndicator = NSProgressIndicator; 
-                fileStatusTextField = NSTextField; 
-                filesTableView = NSTableView; 
-                loadingsDataSeriesController = NSArrayController; 
-                loadingsGraphView = MyGraphView; 
-                metadataController = NSArrayController; 
-                metadataTable = NSTableView; 
-                metadataTableScrollView = NSScrollView; 
-                optionsSheet = NSWindow; 
-                peaksController = NSArrayController; 
-                printAccessoryView = NSView; 
-                progressSheet = NSWindow; 
-                ratiosController = NSArrayController; 
-                ratiosEditor = NSWindow; 
-                ratiosTable = NSTableView; 
-                ratiosTableScrollView = NSScrollView; 
-                ratiosValuesController = NSArrayController; 
-                resultsTable = NSTableView; 
-                resultsTableScrollView = NSScrollView; 
-                runBatchButton = NSButton; 
-                scoresDataSeriesController = NSArrayController; 
-                scoresGraphView = MyGraphView; 
-                searchOptionsButton = NSButton; 
-                splitView = RBSplitView; 
-                stopButton = NSButton; 
-                summarizeOptionsSheet = NSWindow; 
-                tabView = NSTabView; 
-            }; 
-            SUPERCLASS = NSWindowController; 
-        }, 
-        {
-            ACTIONS = {centerOrigin = id; lowerLeftOrigin = id; showAll = id; squareAxes = id; }; 
-            CLASS = MyGraphView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {delegate = id; }; 
-            SUPERCLASS = NSView; 
-        }, 
-        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
-        {
-            ACTIONS = {reloadData = id; }; 
-            CLASS = NSTableView; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSControl; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>NSSegmentedControl</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSControl</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FilteringDNDArrayController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>tableView</key>
+				<string>NSTableView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSArrayController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>centerOrigin</key>
+				<string>id</string>
+				<key>lowerLeftOrigin</key>
+				<string>id</string>
+				<key>showAll</key>
+				<string>id</string>
+				<key>squareAxes</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>MyGraphView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>DeleteTableView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTableView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>addButtonAction</key>
+				<string>id</string>
+				<key>cancelEditRatios</key>
+				<string>id</string>
+				<key>combinePeaksAction</key>
+				<string>id</string>
+				<key>editRatios</key>
+				<string>id</string>
+				<key>exportSummary</key>
+				<string>id</string>
+				<key>options</key>
+				<string>id</string>
+				<key>repopulate</key>
+				<string>id</string>
+				<key>repopulateContextMenuAction</key>
+				<string>id</string>
+				<key>runFactorAnalysis</key>
+				<string>id</string>
+				<key>runStatisticalAnalysisButtonAction</key>
+				<string>id</string>
+				<key>saveEditRatios</key>
+				<string>id</string>
+				<key>stopButtonAction</key>
+				<string>id</string>
+				<key>summarizeOptionsDoneAction</key>
+				<string>id</string>
+				<key>updateStatisticalAnalysisButtonAction</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>JKStatisticsWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>addButton</key>
+				<string>NSButton</string>
+				<key>altGraphView</key>
+				<string>MyGraphView</string>
+				<key>chromatogramDataSeriesController</key>
+				<string>NSArrayController</string>
+				<key>combinedPeaksController</key>
+				<string>NSArrayController</string>
+				<key>detailStatusTextField</key>
+				<string>NSTextField</string>
+				<key>doneButton</key>
+				<string>NSButton</string>
+				<key>fileProgressIndicator</key>
+				<string>NSProgressIndicator</string>
+				<key>fileStatusTextField</key>
+				<string>NSTextField</string>
+				<key>filesTableView</key>
+				<string>NSTableView</string>
+				<key>loadingsDataSeriesController</key>
+				<string>NSArrayController</string>
+				<key>loadingsGraphView</key>
+				<string>MyGraphView</string>
+				<key>metadataController</key>
+				<string>NSArrayController</string>
+				<key>metadataTable</key>
+				<string>NSTableView</string>
+				<key>metadataTableScrollView</key>
+				<string>NSScrollView</string>
+				<key>optionsSheet</key>
+				<string>NSWindow</string>
+				<key>peaksController</key>
+				<string>NSArrayController</string>
+				<key>printAccessoryView</key>
+				<string>NSView</string>
+				<key>progressSheet</key>
+				<string>NSWindow</string>
+				<key>ratiosController</key>
+				<string>NSArrayController</string>
+				<key>ratiosEditor</key>
+				<string>NSWindow</string>
+				<key>ratiosTable</key>
+				<string>NSTableView</string>
+				<key>ratiosTableScrollView</key>
+				<string>NSScrollView</string>
+				<key>ratiosValuesController</key>
+				<string>NSArrayController</string>
+				<key>resultsTable</key>
+				<string>NSTableView</string>
+				<key>resultsTableScrollView</key>
+				<string>NSScrollView</string>
+				<key>runBatchButton</key>
+				<string>NSButton</string>
+				<key>scoresDataSeriesController</key>
+				<string>NSArrayController</string>
+				<key>scoresGraphView</key>
+				<string>MyGraphView</string>
+				<key>searchOptionsButton</key>
+				<string>NSButton</string>
+				<key>splitView</key>
+				<string>RBSplitView</string>
+				<key>stopButton</key>
+				<string>NSButton</string>
+				<key>summarizeOptionsSheet</key>
+				<string>NSWindow</string>
+				<key>tabView</key>
+				<string>NSTabView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>reloadData</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSTableView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSControl</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

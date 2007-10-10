@@ -120,24 +120,13 @@ int const JKGCMSDocument_Version = 7;
 #pragma mark Window Management
 
 - (void)makeWindowControllers {
-//    JKLogEnteringMethod();
-    [[NSNotificationCenter defaultCenter] postNotificationName:JKGCMSDocument_DocumentLoadedNotification object:self];
-    
- //   [self postNotification:JKGCMSDocument_DocumentLoadedNotification];
     if (!mainWindowController) {
         mainWindowController = [[JKMainWindowController alloc] init];
-    }
-	[self addWindowController:mainWindowController];
-//    JKLogExitingMethod();
+     }
+    [self addWindowController:mainWindowController];
+    [[NSNotificationCenter defaultCenter] postNotificationName:JKGCMSDocument_DocumentLoadedNotification object:self];
 }
-//- (void)showWindows
-//{
-//    if (!mainWindowController) {
-//        mainWindowController = [[JKMainWindowController alloc] init];
-//        [self addWindowController:mainWindowController];
-//    }
-//    [super showWindows];
-//}
+
 #pragma mark -
 
 #pragma mark File Access Management
@@ -844,14 +833,13 @@ int const JKGCMSDocument_Version = 7;
 }
 
 - (BOOL)performLibrarySearchForChromatograms:(NSArray *)someChromatograms {
-    NSAssert([someChromatograms count] > 0, @"No chromatograms were selected to be searched.");
-
     switch (searchDirection) {
     case JKForwardSearchDirection:
+        NSAssert([someChromatograms count] > 0, @"No chromatograms were selected to be searched.");
         return [self performForwardSearchForChromatograms:someChromatograms];
         break;
     case JKBackwardSearchDirection:
-        return [self performBackwardSearchForChromatograms:someChromatograms];
+        return [self performBackwardSearch];
         break;
     default:
         [NSException raise:@"Search Direction Unknown" format:@"The search direction was not set."];
@@ -1025,7 +1013,7 @@ int const JKGCMSDocument_Version = 7;
 	return YES;
 }
 
-- (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms {
+- (BOOL)performBackwardSearch {
     NSProgressIndicator *progressIndicator = nil;
     NSTextField *progressText = nil;
     
@@ -1050,10 +1038,10 @@ int const JKGCMSDocument_Version = 7;
         return NO;
     }
     
-    return [self performBackwardSearchForChromatograms:someChromatograms withLibraryEntries:libraryEntries maximumRetentionIndexDifference:[[self maximumRetentionIndexDifference] floatValue]];
+    return [self performBackwardSearchWithLibraryEntries:libraryEntries maximumRetentionIndexDifference:[[self maximumRetentionIndexDifference] floatValue]];
     
 }
-- (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms withLibraryEntries:(NSArray *)libraryEntries maximumRetentionIndexDifference:(float)aMaximumRetentionIndexDifference {
+- (BOOL)performBackwardSearchWithLibraryEntries:(NSArray *)libraryEntries maximumRetentionIndexDifference:(float)aMaximumRetentionIndexDifference {
     _isBusy = YES;
     JKLibraryEntry *libraryEntry = nil;
     JKChromatogram *chromatogramToSearch = nil;
@@ -1077,7 +1065,7 @@ int const JKGCMSDocument_Version = 7;
 	[progressIndicator setIndeterminate:YES];
 	[progressIndicator startAnimation:self];
     	
-    NSMutableArray *searchChromatograms = [someChromatograms mutableCopy];
+    NSMutableArray *searchChromatograms = [chromatograms mutableCopy];
     NSMutableArray *newChromatograms = [NSMutableArray array];
 	float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];
 	// Loop through inPeaks(=combined spectra) and determine score
@@ -1706,7 +1694,7 @@ boolAccessor(abortAction, setAbortAction)
 {
     if (!mainWindowController) {
 		mainWindowController = [[JKMainWindowController alloc] init];
-		[self makeWindowControllers];
+//		[self makeWindowControllers];
 	}
 	return mainWindowController;
 }
