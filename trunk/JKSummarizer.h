@@ -11,7 +11,7 @@
 @class JKCombinedPeak;
 
 @interface JKSummarizer : NSObject {
-    NSMutableArray *summary;
+    NSMutableArray *combinedPeaks;
 }
 
 - (void)didConfirmPeak:(NSNotification *)aNotification;

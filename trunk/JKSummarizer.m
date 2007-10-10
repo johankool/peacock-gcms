@@ -16,7 +16,7 @@
 {
     self = [super init];
     if (self != nil) {
-        summary = [[NSMutableArray alloc] init];
+        combinedPeaks = [[NSMutableArray alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didConfirmPeak:) name:@"JKDidConfirmPeak" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didUnconfirmPeak:) name:@"JKDidUnconfirmPeak" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentLoaded:) name:@"JKGCMSDocument_DocumentLoadedNotification" object:nil];
@@ -32,9 +32,10 @@
     JKCombinedPeak *combinedPeak = [self combinedPeakForLabel:[peak label]];
     if (!combinedPeak) {
         combinedPeak = [[JKCombinedPeak alloc] init];
-        [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:[NSIndexSet indexSetWithIndex:[summary count]] forKey:@"summary"];
-        [summary addObject:combinedPeak];
-        [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:[NSIndexSet indexSetWithIndex:[summary count]-1] forKey:@"summary"];
+        NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks count]];
+        [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"combinedPeaks"];
+        [combinedPeaks addObject:combinedPeak];
+        [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"combinedPeaks"];
         [combinedPeak release];
     }
     [combinedPeak addConfirmedPeak:peak];
@@ -52,15 +53,16 @@
     JKGCMSDocument *document = [aNotification object];
     NSEnumerator *enumerator = [[document peaks] objectEnumerator];
     JKPeakRecord *peak;
-    
+
     while ((peak = [enumerator nextObject])) {
         if ([peak confirmed]) {
             JKCombinedPeak *combinedPeak = [self combinedPeakForLabel:[peak label]];
             if (!combinedPeak) {
                 combinedPeak = [[JKCombinedPeak alloc] init];
-                [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:[NSIndexSet indexSetWithIndex:[summary count]] forKey:@"summary"];
-                [summary addObject:combinedPeak];
-                [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:[NSIndexSet indexSetWithIndex:[summary count]-1] forKey:@"summary"];
+                NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks count]];
+                [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"combinedPeaks"];
+                [combinedPeaks addObject:combinedPeak];
+                [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"combinedPeaks"];
                 [combinedPeak release];
             }
             [combinedPeak addConfirmedPeak:peak];
@@ -71,7 +73,7 @@
 - (void)documentUnloaded:(NSNotification *)aNotification
 {
     NSString *key = [[aNotification object] uuid];
-    NSEnumerator *enumerator = [summary objectEnumerator];
+    NSEnumerator *enumerator = [combinedPeaks objectEnumerator];
     JKCombinedPeak *combinedPeak;
     
     while ((combinedPeak = [enumerator nextObject])) {
@@ -82,7 +84,7 @@
 
 - (JKCombinedPeak *)combinedPeakForLabel:(NSString *)label
 {
-    NSEnumerator *enumerator = [summary objectEnumerator];
+    NSEnumerator *enumerator = [combinedPeaks objectEnumerator];
     JKCombinedPeak *combinedPeak;
     
     while ((combinedPeak = [enumerator nextObject])) {
@@ -94,9 +96,14 @@
     return nil;
 }
 
-- (NSArray *)summary
-{
-    return summary;
+- (NSMutableArray *)combinedPeaks {
+	return combinedPeaks;
+}
+
+- (void)setCombinedPeaks:(NSMutableArray *)inValue {
+    [inValue retain];
+    [combinedPeaks release];
+    combinedPeaks = inValue;
 }
 
 @end

@@ -216,6 +216,7 @@
 - (BOOL)isValidDocumentKey:(NSString *)aKey
 {
     NSArray *documents = [[NSDocumentController sharedDocumentController] documents];
+//    NSLog([documents description]);
     NSEnumerator *enumerator = [documents objectEnumerator];
     NSDocument *aDocument;
     

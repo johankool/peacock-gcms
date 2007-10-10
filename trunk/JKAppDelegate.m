@@ -153,7 +153,9 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
         availableDictionaries = [[NSMutableArray alloc] init];
         autocompleteEntries = [[NSArray alloc] init];
         libraryConfigurationLoaded = @"";
-        
+     
+        summarizer = [[JKSummarizer alloc] init];
+
 //        [[NSExceptionHandler defaultExceptionHandler] setDelegate:self];
 //        [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:NSHandleOtherExceptionMask];
 	}
@@ -220,7 +222,6 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     libraryConfigurationLoaded = @"";
     [self loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
 
-    summarizer = [[JKSummarizer alloc] init];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
@@ -285,7 +286,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     [summaryController showWindow:self];	
 }
 
-- (id)summaryController
+- (JKSummaryController *)summaryController
 {
     if (!summaryController) {
         summaryController = [[JKSummaryController alloc] init];

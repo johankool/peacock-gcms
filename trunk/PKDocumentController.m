@@ -13,7 +13,6 @@
 - (id) init {
     self = [super init];
     if (self != nil) {
-        JKLogDebug(@"init");
         managedDocuments = [[NSMutableArray alloc] init];
     }
     return self;
@@ -22,11 +21,11 @@
 - (void)dealloc
 {
     [managedDocuments release];
+    [super dealloc];
 }
 
 - (void)addDocument:(NSDocument *)document
 {
-    NSLog(@"Document added %@", [document description]);
     if ([document isKindOfClass:[JKGCMSDocument class]]) {
         NSTabViewItem *newTabViewItem = [[NSTabViewItem alloc] initWithIdentifier:document];
         NSWindow *documentWindow = [[(JKGCMSDocument *)document mainWindowController] window];
@@ -36,13 +35,13 @@
         [documentTabView selectTabViewItemWithIdentifier:document];
         [managedDocuments addObject:document];
         [documentTableView reloadData];
+        [documentTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[managedDocuments indexOfObject:document]+1] byExtendingSelection:NO];
      }
     [super addDocument:document];
 }
 
 - (void)removeDocument:(NSDocument *)document
 {
-    NSLog(@"Document removed %@", [document description]);
     if ([document isKindOfClass:[JKGCMSDocument class]]) {
         [managedDocuments removeObject:document];
         [documentTabView removeTabViewItem:[documentTabView tabViewItemAtIndex:[documentTabView indexOfTabViewItemWithIdentifier:document]]];
@@ -51,6 +50,12 @@
 	[super removeDocument:document];
 }
 
+- (void)showDocument:(NSDocument *)document
+{
+    if ([document isKindOfClass:[JKGCMSDocument class]]) {
+        [documentTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[managedDocuments indexOfObject:document]+1] byExtendingSelection:NO];
+    }    
+}
 
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView {
     return [managedDocuments count]+1;

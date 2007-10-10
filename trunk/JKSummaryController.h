@@ -14,6 +14,8 @@
 @interface JKSummaryController : NSWindowController {
     IBOutlet NSTableView *tableView;
     IBOutlet NSArrayController *combinedPeaksController;
+    int indexOfKeyForValue;
+    NSArray *keys;
  }
 
 - (void)addTableColumForDocument:(JKGCMSDocument *)document;
