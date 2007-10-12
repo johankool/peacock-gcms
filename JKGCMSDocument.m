@@ -769,6 +769,9 @@ int const JKGCMSDocument_Version = 7;
     [chromatogram setTime:times withCount:num_scan];
     [chromatogram setTotalIntensity:intensities withCount:num_scan];
     
+    // Obtain the baseline
+    [chromatogram obtainBaseline];
+    
     free(massValues);
 	[chromatogram autorelease];	
 	return chromatogram;    
@@ -1065,7 +1068,7 @@ int const JKGCMSDocument_Version = 7;
 	[progressIndicator setIndeterminate:YES];
 	[progressIndicator startAnimation:self];
     	
-    NSMutableArray *searchChromatograms = [chromatograms mutableCopy];
+    NSMutableArray *searchChromatograms = [[self chromatograms] mutableCopy];
     NSMutableArray *newChromatograms = [NSMutableArray array];
 	float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];
 	// Loop through inPeaks(=combined spectra) and determine score
@@ -1124,15 +1127,9 @@ int const JKGCMSDocument_Version = 7;
         }
         if ([chromatogramToSearch baselinePointsCount] == 0) {              
             [newChromatograms addObject:chromatogramToSearch];
+            [chromatogramToSearch obtainBaseline];                          
         }
-#warning MESSED WITH THIS PART!!!
-//        [self setBaselineDistanceThreshold:[NSNumber numberWithFloat:0.01f]];
-//        [self setBaselineSlopeThreshold:[NSNumber numberWithFloat:0.01f]];
-//        [self setPeakIdentificationThreshold:[NSNumber numberWithFloat:0.03f]];
-        [chromatogramToSearch obtainBaseline];                          
-//        if ([[chromatogramToSearch peaks] count] == 0) {
-//            [chromatogramToSearch identifyPeaks];                          
-//        }
+
         [chromatogramToSearch identifyPeaksWithForce:YES];                          
         if ([[chromatogramToSearch peaks] count] == 0) {
             JKLogError(@"No peaks found for chromatogram with model '%@'. bls: %d", [chromatogramToSearch model],[chromatogramToSearch baselinePointsCount]);                        
@@ -1141,22 +1138,25 @@ int const JKGCMSDocument_Version = 7;
             [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Library Entry '%@'",@""),[libraryEntry name]] waitUntilDone:NO];
         }
         peaksCount = [[chromatogramToSearch peaks] count];
+        
+        [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Comparing Peaks against Library Entry '%@'",@""),[libraryEntry name]] waitUntilDone:NO];            
+
 		for (k = 0; k < peaksCount; k++) {
-            if (fabsf([[[[chromatogramToSearch peaks] objectAtIndex:k] retentionIndex] floatValue] - [[libraryEntry retentionIndex] floatValue]) < aMaximumRetentionIndexDifference) {
+ //           if (fabsf([[[[chromatogramToSearch peaks] objectAtIndex:k] retentionIndex] floatValue] - [[libraryEntry retentionIndex] floatValue]) < aMaximumRetentionIndexDifference) {
                 score = [[[[chromatogramToSearch peaks] objectAtIndex:k] spectrum] scoreComparedTo:libraryEntry];
                 if (score >= maximumScore) {
                     maximumScore = score;
                     maximumIndex = k;
                 }                
-            }
+//            }
 		}
         
 		// Add libentry as result to highest scoring peak if it is within range of acceptance
 		if ((maximumScore >= minimumScoreSearchResultsF) && (maximumIndex > -1)) {
+            JKLogDebug(@"Found match for %@",[libraryEntry name]);
 			JKSearchResult *searchResult = [[JKSearchResult alloc] init];
 			[searchResult setScore:[NSNumber numberWithFloat:maximumScore]];
             [searchResult setLibraryHit:[JKLibraryEntry libraryEntryWithJCAMPString:[libraryEntry jcampString]]];
-//            [searchResult setLibrary:[self libraryAlias]];
             [searchResult setPeak:[[chromatogramToSearch peaks] objectAtIndex:maximumIndex]];
 			[[[chromatogramToSearch peaks] objectAtIndex:maximumIndex] addSearchResult:searchResult];
 			[searchResult release];
@@ -1850,7 +1850,8 @@ boolAccessor(abortAction, setAbortAction)
     JKChromatogram *chromatogram;
 
     while ((chromatogram = [chromEnum nextObject]) != nil) {
-    	[array addObjectsFromArray:[chromatogram peaks]];
+        if (![[chromatogram model] isEqualToString:@"TIC"])
+            [array addObjectsFromArray:[chromatogram peaks]];
     }
     _lastReturnedIndex = [array count];
 	return array;

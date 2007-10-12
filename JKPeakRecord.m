@@ -194,16 +194,16 @@
         }        
     }
         
-//    // check if other peak with same top scan and offer to delete those
-//    if ([[[self chromatogram] document] hasPeakAtTopScan:[self top] notBeing:self]) {
-//        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Remove peaks in other models?",@""), NSLocalizedString(@"One or more peaks with the same top scan were found in other models. Most likely you want to identify and confirm a peak in one model only. Do you want to remove the peaks in the other models?",@""), NSLocalizedString(@"Delete",@""), NSLocalizedString(@"Keep",@""),nil);
-//        if (answer == NSOKButton) {
-//            // Delete
-//            [[[self chromatogram] document] removePeaksAtTopScan:[self top] notBeing:self];
-//        } else if (answer == NSCancelButton) {
-//            // Keep
-//        }     
-//    }
+    // check if other peak with same top scan and offer to delete those
+    if ([[[self chromatogram] document] hasPeakAtTopScan:[self top] notBeing:self]) {
+        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Remove peaks in other models?",@""), NSLocalizedString(@"One or more peaks with the same top scan were found in other models. Most likely you want to identify and confirm a peak in one model only. Do you want to remove the peaks in the other models?",@""), NSLocalizedString(@"Delete",@""), NSLocalizedString(@"Keep",@""),nil);
+        if (answer == NSOKButton) {
+            // Delete
+            [[[self chromatogram] document] removePeaksAtTopScan:[self top] notBeing:self];
+        } else if (answer == NSCancelButton) {
+            // Keep
+        }     
+    }
     
 	if ([self identified]) {		
 		[self setConfirmed:YES];
@@ -232,7 +232,8 @@
                 [self setSearchResults:[NSMutableArray arrayWithObject:identifiedSearchResult]];
             }
         } else {
-            return NO;
+            [self setConfirmed:YES];
+            result = YES;
         }
         
         if (![[self undoManager] isUndoing]) {

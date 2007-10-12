@@ -25,19 +25,12 @@
     [[self window] setShowsResizeIndicator:NO];
     [[self window] setDelegate:self];
     
-	preferencesList = [[NSMutableDictionary alloc] init];
-	[preferencesList setValue:@"General" forKey:@"general"];
-	[preferencesList setValue:@"Processing" forKey:@"processing"];
-	[preferencesList setValue:@"Presets" forKey:@"presets"];
-	[preferencesList setValue:@"Libraries" forKey:@"libraries"];
-//	[preferencesList setValue:@"Display" forKey:@"display"];
-
 	// Create a new toolbar instance, and attach it to our document window 
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier: @"nl.johankool.Peacock.preferences.toolbar"] autorelease];
     
     // Set up toolbar properties: Allow customization, give a default display mode, and remember state in user defaults 
     [toolbar setAllowsUserCustomization: NO];
-    [toolbar setAutosavesConfiguration: YES];
+    [toolbar setAutosavesConfiguration: NO];
     [toolbar setDisplayMode: NSToolbarDisplayModeIconAndLabel];
     [toolbar setSizeMode: NSToolbarSizeModeRegular];
     
@@ -52,10 +45,6 @@
 	[[self window] setContentView:generalPreferencesView];
 	[[self window] setShowsToolbarButton:NO];
     [toolbar setVisible:YES];
-    
-//	// Bind libraryPopUpButton manually
-//	[libraryPopUpButton bind:@"fileAlias" toObject:self withKeyPath:@"libraryAlias" options:nil];
-
 }
 
 - (IBAction)changeAutoSaveAction:(id)sender {
@@ -86,33 +75,20 @@
     // Required delegate method:  Given an item identifier, this method returns an item 
     // The toolbar will use this method to obtain toolbar items that can be displayed in the customization sheet, or in the toolbar itself 
     NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
-    NSString*		itemLabel = NSLocalizedString(itemIdent, @"String for toolbar label");//[itemsList objectForKey:itemIdent];
-																						  //    if( (itemLabel = [itemsList objectForKey:itemIdent]) != nil )
-																						  //   {
-																						  // Set the text label to be displayed in the toolbar and customization palette 
-        [toolbarItem setLabel: itemLabel];
-        [toolbarItem setPaletteLabel: itemLabel];
-		//       [toolbarItem setTag:[tabView indexOfTabViewItemWithIdentifier:itemIdent]];
-        
-        // Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
-        [toolbarItem setToolTip: itemLabel];
-        [toolbarItem setImage: [NSImage imageNamed:itemIdent]];
-        
-        // Tell the item what message to send when it is clicked 
-        [toolbarItem setTarget: self];
-        [toolbarItem setAction: @selector(changePanes:)];
-		//    }
-		//    else
-		//   {
-		//		JKLogDebug([toolbarItem description]);
-		//        // itemIdent refered to a toolbar item that is not provide or supported by us or cocoa 
-		//        // Returning nil will inform the toolbar this kind of item is not supported 
-		//        toolbarItem = nil;
-		//    }
-		
-		return toolbarItem;
+    NSString *itemLabel = NSLocalizedString(itemIdent, @"String for toolbar label");
+    [toolbarItem setLabel: itemLabel];
+    [toolbarItem setPaletteLabel: itemLabel];
+       
+    // Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
+    [toolbarItem setToolTip: itemLabel];
+    [toolbarItem setImage: [NSImage imageNamed:itemIdent]];
+    
+    // Tell the item what message to send when it is clicked 
+    [toolbarItem setTarget: self];
+    [toolbarItem setAction: @selector(changePanes:)];
+    
+    return toolbarItem;
 }
-
 
 - (IBAction)changePanes:(id)sender {
 	NSRect windowFrame = [[self window] frame];
@@ -136,6 +112,13 @@
 		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:YES];
         [[self window] setShowsResizeIndicator:YES];
         [[self window] setMinSize:NSMakeSize(445.0f,250.0f)];
+	} else if ([[sender itemIdentifier] isEqualToString:@"ratios"]) {
+		deltaHeight = [ratiosPreferencesView frame].size.height - [[[self window] contentView] frame].size.height;
+		deltaWidth = [ratiosPreferencesView frame].size.width - [[[self window] contentView] frame].size.width;
+		[[self window] setContentView:ratiosPreferencesView];
+		[[self window] setFrame:NSMakeRect(windowFrame.origin.x,windowFrame.origin.y-deltaHeight,windowFrame.size.width+deltaWidth,windowFrame.size.height+deltaHeight) display:YES animate:YES];
+        [[self window] setShowsResizeIndicator:YES];
+        [[self window] setMinSize:NSMakeSize(445.0f,250.0f)];
 	} else if ([[sender itemIdentifier] isEqualToString:@"display"]) {
 		deltaHeight = [displayPreferencesView frame].size.height - [[[self window] contentView] frame].size.height;
 		deltaWidth = [displayPreferencesView frame].size.width - [[[self window] contentView] frame].size.width;
@@ -156,9 +139,8 @@
     }    
 }
 
-
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
-	return [NSArray arrayWithObjects:@"general", @"processing", @"presets", @"libraries", nil];
+	return [NSArray arrayWithObjects:@"general", @"processing", @"presets", @"ratios", @"libraries", nil];
 }
 
 - (NSArray*) toolbarSelectableItemIdentifiers: (NSToolbar *) toolbar {
@@ -179,11 +161,4 @@
     [[self window] center];
 }
 
-- (BDAlias *)libraryAlias {
-	return [BDAlias aliasWithPath:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"libraryAlias"]];
-}
-
-- (void)setLibraryAlias:(BDAlias *)inValue {
-	[[[NSUserDefaultsController sharedUserDefaultsController] values] setValue:[inValue fullPath] forKey:@"libraryAlias"];
-}
 @end

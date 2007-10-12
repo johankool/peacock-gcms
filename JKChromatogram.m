@@ -753,6 +753,9 @@
 #pragma mark (to many relationships)
 // Mutable To-Many relationship peaks
 - (NSMutableArray *)peaks {
+    if ([[self model] isEqualToString:@"TIC"]) {
+        return [[self document] peaks];
+    }
 	return peaks;
 }
 

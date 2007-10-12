@@ -6,7 +6,7 @@
 //  Copyright 2006-2007 Johan Kool. All rights reserved.
 //
 
-#import "JKStatisticsDocument.h"
+// #import "JKStatisticsDocument.h"
 
 #import "BDAlias.h"
 #import "JKCombinedPeak.h"

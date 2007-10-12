@@ -19,7 +19,7 @@
 #import "JKRatio.h"
 #import "JKSearchResult.h"
 #import "JKSpectrum.h"
-#import "JKStatisticsDocument.h"
+// #import "JKStatisticsDocument.h"
 #import "MyGraphView.h"
 #import "NSEvent+ModifierKeys.h"
 #import "JKPanelController.h"

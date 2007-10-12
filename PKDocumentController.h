@@ -14,6 +14,13 @@
 	IBOutlet NSTabView *documentTabView;
     IBOutlet NSTableView *documentTableView;
     NSMutableArray *managedDocuments;
+    
+    NSCell *separatorCell;
+	NSCell *defaultCell;
+	
+	NSImage *libraryImage;
+	NSImage *playlistImage;
+    
 }
-
+- (int)numberOfSummaries;
 @end

@@ -13,12 +13,11 @@
 	IBOutlet NSView *generalPreferencesView;
 	IBOutlet NSView *processingPreferencesView;
 	IBOutlet NSView *presetsPreferencesView;
+	IBOutlet NSView *ratiosPreferencesView;
 	IBOutlet NSView *displayPreferencesView;
 	IBOutlet NSView *searchTemplatesPreferencesView;
-	IBOutlet JKPathPopUpButton *libraryPopUpButton;
-
-	NSMutableDictionary *preferencesList;
-	BDAlias *libraryAlias;
 }
+
 - (IBAction)changeAutoSaveAction:(id)sender;
+
 @end

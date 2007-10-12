@@ -10,7 +10,7 @@
 
 #import "JKPeakRecord.h"
 #import "JKSpectrum.h"
-#import "JKStatisticsDocument.h"
+// #import "JKStatisticsDocument.h"
 #import "JKLibraryEntry.h"
 #import "JKGCMSDocument.h"
 

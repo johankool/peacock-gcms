@@ -12,6 +12,7 @@
 
 @interface JKSummarizer : NSObject {
     NSMutableArray *combinedPeaks;
+    NSMutableArray *ratios;
 }
 
 - (void)didConfirmPeak:(NSNotification *)aNotification;

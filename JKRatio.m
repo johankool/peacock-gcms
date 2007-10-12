@@ -8,6 +8,8 @@
 
 #import "JKRatio.h"
 
+#import "JKGCMSDocument.h"
+
 
 @implementation JKRatio
 
@@ -31,8 +33,39 @@
 	[super dealloc];
 }
 
+- (BOOL)isValidDocumentKey:(NSString *)aKey
+{
+    NSArray *documents = [[NSDocumentController sharedDocumentController] documents];
+    NSEnumerator *enumerator = [documents objectEnumerator];
+    NSDocument *aDocument;
+    
+    while ((aDocument = [enumerator nextObject])) {
+        if ([aDocument isKindOfClass:[JKGCMSDocument class]]) {
+            if ([[(JKGCMSDocument *)aDocument uuid] isEqualToString:aKey])
+                return YES;
+        }
+    }
+    NSLog(@"Rejected key: %@", aKey);
+    return NO;
+}
+
+
+- (id)valueForUndefinedKey:(NSString *)key {
+    // Peaks can be accessed using key in the format "file_nn"
+    //    if ([key hasPrefix:@"file_"]) {
+    JKLogEnteringMethod();
+
+    if ([self isValidDocumentKey:key]) {
+        return [NSNumber numberWithFloat:[self calculateRatioForKey:key inCombinedPeaksArray:[[[NSApp delegate] summarizer] combinedPeaks]]];
+    } else {
+        return [super valueForUndefinedKey:key];
+    }
+}
+
+
 - (float)calculateRatioForKey:(NSString *)key inCombinedPeaksArray:(NSArray *)combinedPeaks {	
-	unsigned int i,j;
+	JKLogEnteringMethod();
+    unsigned int i,j;
 	float nominator = 0.0;
 	float denominator = 0.0;
 	float multiplier = 1.0;
@@ -92,6 +125,7 @@
 			}
 		}
 	}
+    JKLogDebug(@"%g",nominator/denominator);
 	return nominator/denominator;
 }
 
@@ -196,6 +230,7 @@
 		[formula release];
 		[outString retain];
 		formula = outString;
+        JKLogDebug(formula);
 		[self didChangeValueForKey:@"formula"];
 	}
 		

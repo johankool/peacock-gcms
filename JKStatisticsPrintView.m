@@ -8,7 +8,7 @@
 
 #import "JKStatisticsPrintView.h"
 
-#import "JKStatisticsDocument.h"
+// #import "JKStatisticsDocument.h"
 #import "JKCombinedPeak.h"
 #import "JKStatisticsWindowController.h"
 

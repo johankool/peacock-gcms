@@ -1226,138 +1226,125 @@ static int   kPaddingLabels             = 4;
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
+    NSCursor *zoomCursor = nil;
 	_didDrag = NO;
 	_mouseDownAtPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	_oldOrigin = [self origin];
 	_oldLegendOrigin = [self legendArea].origin;
 	_startedInsidePlottingArea = [self mouse:_mouseDownAtPoint inRect:[self plottingArea]];
 	_startedInsideLegendArea = [self mouse:_mouseDownAtPoint inRect:[self legendArea]];
-	_startedResizePlottingAreaLeft = [self mouse:_mouseDownAtPoint inRect:NSMakeRect([self plottingArea].origin.x-3.0,[self plottingArea].origin.y,6.0,[self plottingArea].size.height)];
-	_startedResizePlottingAreaRight = [self mouse:_mouseDownAtPoint inRect:NSMakeRect([self plottingArea].origin.x+[self plottingArea].size.width-3.0,[self plottingArea].origin.y,6.0,[self plottingArea].size.height)];
-	_startedResizePlottingAreaBottom = [self mouse:_mouseDownAtPoint inRect:NSMakeRect([self plottingArea].origin.x,[self plottingArea].origin.y-3.0,[self plottingArea].size.width,6.0)];
-	_startedResizePlottingAreaTop = [self mouse:_mouseDownAtPoint inRect:NSMakeRect([self plottingArea].origin.x,[self plottingArea].origin.y-3.0+[self plottingArea].size.height,[self plottingArea].size.width,6.0)];
-        
-	if (_startedInsideLegendArea & shouldDrawLegend) {
-		[[NSCursor closedHandCursor] set];
+    
+    if ([self mouse:_mouseDownAtPoint inRect:NSMakeRect([self plottingArea].origin.x-3.0,[self plottingArea].origin.y,6.0,[self plottingArea].size.height)]) {
+        _startedOperation = JKLeftResizePlottingAreaOperation;
+    } else if ([self mouse:_mouseDownAtPoint inRect:NSMakeRect([self plottingArea].origin.x+[self plottingArea].size.width-3.0,[self plottingArea].origin.y,6.0,[self plottingArea].size.height)]) {
+        _startedOperation = JKRightResizePlottingAreaOperation;
+    } else if ([self mouse:_mouseDownAtPoint inRect:NSMakeRect([self plottingArea].origin.x,[self plottingArea].origin.y-3.0,[self plottingArea].size.width,6.0)]) {
+        _startedOperation = JKBottomResizePlottingAreaOperation;
+    } else if ([self mouse:_mouseDownAtPoint inRect:NSMakeRect([self plottingArea].origin.x,[self plottingArea].origin.y-3.0+[self plottingArea].size.height,[self plottingArea].size.width,6.0)]) {
+        _startedOperation = JKTopResizePlottingAreaOperation;
+    } else if (_startedInsideLegendArea & shouldDrawLegend) {
+        _startedOperation = JKDragLegendOperation;
 	} else if (_startedInsidePlottingArea) {
 		if (([theEvent modifierFlags] & NSCommandKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
 			// adding peak
+            _startedOperation = JKAddPeakOperation;
+		} else if (([theEvent modifierFlags] & NSAlternateKeyMask) && ([theEvent modifierFlags] & NSShiftKeyMask)) {
+            // zoom out
+            _startedOperation = JKZoomOutOperation;
 		} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
-//			draggedRect.origin.x = (_mouseDownAtPoint.x < mouseLocation.x ? _mouseDownAtPoint.x : mouseLocation.x);
-//			draggedRect.origin.y = (_mouseDownAtPoint.y < mouseLocation.y ? _mouseDownAtPoint.y : mouseLocation.y);
-//			draggedRect.size.width = fabs(mouseLocation.x-_mouseDownAtPoint.x);
-//			draggedRect.size.height = fabs(mouseLocation.y-_mouseDownAtPoint.y);
-//			[self setSelectedRect:draggedRect];
-//            //			[self setNeedsDisplay:YES];
-		} else if ([theEvent modifierFlags] & NSCommandKeyMask) {
-//			//   select baseline points
-//			draggedRect.origin.x = (_mouseDownAtPoint.x < mouseLocation.x ? _mouseDownAtPoint.x : mouseLocation.x);
-//			draggedRect.origin.y = (_mouseDownAtPoint.y < mouseLocation.y ? _mouseDownAtPoint.y : mouseLocation.y);
-//			draggedRect.size.width = fabs(mouseLocation.x-_mouseDownAtPoint.x);
-//			draggedRect.size.height = fabs(mouseLocation.y-_mouseDownAtPoint.y);
-//			[self setSelectedRect:draggedRect];
-//            //			[self setNeedsDisplay:YES];
-		} else if ([theEvent modifierFlags] & NSShiftKeyMask) {
-			//   move chromatogram
-			JKLogDebug(@"move chromatogram");
+            // zoom
+            _startedOperation = JKZoomOperation;
 		} else {
-			[[NSCursor closedHandCursor] set];
+            // clicks
+            _startedOperation = JKSelectPeakOperation;
 		}		
 	} else {
 		if ([theEvent modifierFlags] & NSAlternateKeyMask) {
-			NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom_in"] hotSpot:NSMakePoint(10,12)];
-			[zoomCursor set];
-			[zoomCursor release];
+            if (_mouseDownAtPoint.x > plottingArea.origin.x && _mouseDownAtPoint.x < plottingArea.origin.x + plottingArea.size.width) {
+                _startedOperation = JKZoomHorizontalOnlyOperation;
+            } else {
+                _startedOperation = JKZoomVerticalOnlyOperation;                 
+            }
 		} else {
-			[[NSCursor closedHandCursor] set];
+            _startedOperation = JKNoOperation;
 		}		
 	}
     
+    [self setCursorForOperation:_startedOperation];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
 	_didDrag = YES;
 	NSRect draggedRect;
 	NSPoint mouseLocation = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	
-	if (_startedInsideLegendArea & shouldDrawLegend) {
-//		[[NSCursor closedHandCursor] push];
-		NSPoint newOrigin;
+    NSPoint newOrigin;
+  	NSRect legendRect;
+    NSRect newRect;
+    
+	switch (_startedOperation) {
+    case JKDragLegendOperation:
 		newOrigin.x = _oldLegendOrigin.x + (mouseLocation.x - _mouseDownAtPoint.x);
 		newOrigin.y = _oldLegendOrigin.y + (mouseLocation.y - _mouseDownAtPoint.y);
-		NSRect legendRect;
 		legendRect = [self legendArea];
 		legendRect.origin = newOrigin;
-		[self setLegendArea:legendRect];	
-//		[self setNeedsDisplay:YES];
-	} else if (_startedResizePlottingAreaLeft) {
-        NSRect newRect = [self plottingArea];
+		[self setLegendArea:legendRect];	        
+        break;
+    case JKLeftResizePlottingAreaOperation:
+        newRect = [self plottingArea];
         newRect.size.width = newRect.size.width - (mouseLocation.x - newRect.origin.x);
         newRect.origin.x = mouseLocation.x;
         [self setPlottingArea:newRect];
-    } else if (_startedResizePlottingAreaRight) {
-        NSRect newRect = [self plottingArea];
+        break;
+    case JKRightResizePlottingAreaOperation:
+        newRect = [self plottingArea];
         newRect.size.width = mouseLocation.x - newRect.origin.x;
         [self setPlottingArea:newRect];
-    } else if (_startedResizePlottingAreaTop) {
-        NSRect newRect = [self plottingArea];
-        newRect.size.height = mouseLocation.y - newRect.origin.y;
-        [self setPlottingArea:newRect];
-    } else if (_startedResizePlottingAreaBottom) {
-        NSRect newRect = [self plottingArea];
+        break;
+    case JKBottomResizePlottingAreaOperation:
+        newRect = [self plottingArea];
         newRect.size.height = newRect.size.height - (mouseLocation.y - newRect.origin.y);
         newRect.origin.y = mouseLocation.y;
         [self setPlottingArea:newRect];
-    } else if (_startedInsidePlottingArea) {
-		if (([theEvent modifierFlags] & NSCommandKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
-			//   combine spectrum
-			JKLogDebug(@"combine spectrum");
-		} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
-			draggedRect.origin.x = (_mouseDownAtPoint.x < mouseLocation.x ? _mouseDownAtPoint.x : mouseLocation.x);
-			draggedRect.origin.y = (_mouseDownAtPoint.y < mouseLocation.y ? _mouseDownAtPoint.y : mouseLocation.y);
-			draggedRect.size.width = fabs(mouseLocation.x-_mouseDownAtPoint.x);
-			draggedRect.size.height = fabs(mouseLocation.y-_mouseDownAtPoint.y);
-			[self setSelectedRect:draggedRect];
-//			[self setNeedsDisplay:YES];
-		} else if ([theEvent modifierFlags] & NSCommandKeyMask) {
-//			//   select baseline points
-//			draggedRect.origin.x = (_mouseDownAtPoint.x < mouseLocation.x ? _mouseDownAtPoint.x : mouseLocation.x);
-//			draggedRect.origin.y = (_mouseDownAtPoint.y < mouseLocation.y ? _mouseDownAtPoint.y : mouseLocation.y);
-//			draggedRect.size.width = fabs(mouseLocation.x-_mouseDownAtPoint.x);
-//			draggedRect.size.height = fabs(mouseLocation.y-_mouseDownAtPoint.y);
-//			[self setSelectedRect:draggedRect];
-//			[self setNeedsDisplay:YES];
-		} else if ([theEvent modifierFlags] & NSShiftKeyMask) {
-			//   move chromatogram
-			JKLogDebug(@"move chromatogram");
-				
-		} else {
-//			[[NSCursor closedHandCursor] push];
-			NSPoint newOrigin;
-			newOrigin.x = _oldOrigin.x + (mouseLocation.x - _mouseDownAtPoint.x);
-			newOrigin.y = _oldOrigin.y + (mouseLocation.y - _mouseDownAtPoint.y);
-			[self setOrigin:newOrigin];
-		}		
-	} else {
-		if ([theEvent modifierFlags] & NSAlternateKeyMask) {
-//			NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom_in"] hotSpot:NSMakePoint(10,12)];
-//			[zoomCursor push];
-//			[zoomCursor release];
-			draggedRect.origin.x = (_mouseDownAtPoint.x < mouseLocation.x ? _mouseDownAtPoint.x : mouseLocation.x);
-			draggedRect.origin.y = plottingArea.origin.y;
-			draggedRect.size.width = fabs(mouseLocation.x-_mouseDownAtPoint.x);
-			draggedRect.size.height = plottingArea.size.height;
-			[self setSelectedRect:draggedRect];
-//			[self setNeedsDisplay:YES];
-		} else {
-//			[[NSCursor closedHandCursor] push];
-			NSPoint newOrigin;
-			newOrigin.x = _oldOrigin.x + (mouseLocation.x - _mouseDownAtPoint.x);
-			newOrigin.y = _oldOrigin.y;
-			[self setOrigin:newOrigin];
-		}		
-	}
-
+        break;
+    case JKTopResizePlottingAreaOperation:
+        newRect = [self plottingArea];
+        newRect.size.height = mouseLocation.y - newRect.origin.y;
+        [self setPlottingArea:newRect];
+        break;
+    case JKZoomOperation:
+        draggedRect.origin.x = (_mouseDownAtPoint.x < mouseLocation.x ? _mouseDownAtPoint.x : mouseLocation.x);
+        draggedRect.origin.y = (_mouseDownAtPoint.y < mouseLocation.y ? _mouseDownAtPoint.y : mouseLocation.y);
+        draggedRect.size.width = fabs(mouseLocation.x-_mouseDownAtPoint.x);
+        draggedRect.size.height = fabs(mouseLocation.y-_mouseDownAtPoint.y);
+        [self setSelectedRect:draggedRect];
+        break;
+    case JKZoomHorizontalOnlyOperation:
+        draggedRect.origin.x = (_mouseDownAtPoint.x < mouseLocation.x ? _mouseDownAtPoint.x : mouseLocation.x);
+        draggedRect.origin.y = plottingArea.origin.y;
+        draggedRect.size.width = fabs(mouseLocation.x-_mouseDownAtPoint.x);
+        draggedRect.size.height = plottingArea.size.height;
+        [self setSelectedRect:draggedRect];
+        break;
+    case JKZoomVerticalOnlyOperation:
+        draggedRect.origin.x = plottingArea.origin.x;
+        draggedRect.origin.y = (_mouseDownAtPoint.y < mouseLocation.y ? _mouseDownAtPoint.y : mouseLocation.y);
+        draggedRect.size.width = plottingArea.size.width;
+        draggedRect.size.height = fabs(mouseLocation.y-_mouseDownAtPoint.y);
+        [self setSelectedRect:draggedRect];
+        break;
+    case JKSelectPeakOperation:
+    case JKDragOperation:
+        newOrigin;
+        newOrigin.x = _oldOrigin.x + (mouseLocation.x - _mouseDownAtPoint.x);
+        newOrigin.y = _oldOrigin.y + (mouseLocation.y - _mouseDownAtPoint.y);
+        [self setOrigin:newOrigin];
+        _startedOperation = JKDragOperation;
+		break;
+    default:
+        break;
+    }
+    
+    [self setCursorForOperation:_startedOperation];        	
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
@@ -1366,18 +1353,26 @@ static int   kPaddingLabels             = 4;
 //    int selectedScan = NSNotFound;
     int selectedPeakIndex = NSNotFound;
     
-    //	BOOL foundPeakToSelect = NO;
-	if (!_didDrag) {
-		if ([theEvent clickCount] == 1) { // Single click
-            if (([theEvent modifierFlags] & NSControlKeyMask) && ([theEvent modifierFlags] & NSCommandKeyMask)) {
-				// reserved for adding baseline points
-                // do nothing here...
-			} else if (([theEvent modifierFlags] & NSAlternateKeyMask) && ([theEvent modifierFlags] & NSShiftKeyMask)) {
-				[self zoomOut];
-			} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
-				[self zoomIn];
-			} else if ([theEvent modifierFlags] & NSCommandKeyMask ) {
-				//  select additional peak(/select baseline point/select scan)
+    switch (_startedOperation) {
+        case JKSelectPeakOperation:
+            if ([theEvent clickCount] == 2) { // Double click
+                //  select scan and show spectrum 
+                selectedScan = [self scanAtPoint:mouseLocation];
+                if (selectedScan != NSNotFound) {
+                    if ([delegate respondsToSelector:@selector(showSpectrumForScan:)]) {
+                        [self setSelectedScan:selectedScan];
+                        [delegate showSpectrumForScan:[self selectedScan]];
+                    }                     
+                } else {
+                    // or show chromatogram for mass
+                    int selectedMass = [self massAtPoint:mouseLocation];
+                    if ([delegate respondsToSelector:@selector(showChromatogramForModel:)]) {
+                        [delegate showChromatogramForModel:[NSString stringWithFormat:@"%d",selectedMass]];
+                    }                                         
+                }                
+                [self setNeedsDisplay:YES];
+            } else if ([theEvent modifierFlags] & NSCommandKeyMask ) {
+                //  select additional peak(/select baseline point/select scan)
                 selectedPeak = [self peakAtPoint:mouseLocation];
                 if (selectedPeak) {
                     _lastSelectedPeakIndex = [[self peaks] indexOfObject:selectedPeak];
@@ -1385,8 +1380,8 @@ static int   kPaddingLabels             = 4;
                 } else {
                     _lastSelectedPeakIndex = NSNotFound;
                 }
-			} else if ([theEvent modifierFlags] & NSShiftKeyMask) {
- 				//  select series of peaks(/select baseline point/select scan)
+            } else if ([theEvent modifierFlags] & NSShiftKeyMask) {
+                //  select series of peaks(/select baseline point/select scan)
                 selectedPeak = [self peakAtPoint:mouseLocation];
                 if (selectedPeak) {
                     selectedPeakIndex = [[self peaks] indexOfObject:selectedPeak];
@@ -1404,8 +1399,8 @@ static int   kPaddingLabels             = 4;
                 } else {
                     _lastSelectedPeakIndex = NSNotFound;
                 }
-			} else if (_startedInsidePlottingArea) {
- 				//  select peak(/select baseline point/select scan)
+            } else {
+                //  select peak(/select baseline point/select scan)
                 selectedPeak = [self peakAtPoint:mouseLocation];
                 if (selectedPeak) {
                     _lastSelectedPeakIndex = [[self peaks] indexOfObject:selectedPeak];
@@ -1413,49 +1408,10 @@ static int   kPaddingLabels             = 4;
                 } else {
                     _lastSelectedPeakIndex = NSNotFound;
                 }
-                [self setNeedsDisplayInRect:[self plottingArea]];
-			}
-		} else if ([theEvent clickCount] == 2) { // Double click
-            if (([theEvent modifierFlags] & NSControlKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
-                // add baseline point
-                JKChromatogram *chromatogram = [self chromatogramAtPoint:mouseLocation];
-                [chromatogram insertObject:[self pointAtPoint:mouseLocation] inBaselinePointsAtIndex:[chromatogram baselinePointsIndexAtScan:[self scanAtPoint:mouseLocation]]];
-                
-                NSEnumerator *dataSeriesEnum = [[self dataSeries] objectEnumerator];
-                id object;
-                while ((object = [dataSeriesEnum nextObject]) != nil) {
-                	[object setShouldDrawBaseline:YES];
-                }
-                [self setNeedsDisplayInRect:[self plottingArea]];
-			} else if (([theEvent modifierFlags] & NSShiftKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
-				[self showAll:self];
-//			} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
-//				//  add peak
-//				JKLogDebug(@"add peak");
-			} else if ([theEvent modifierFlags] & NSCommandKeyMask) {
-			} else {
-				//  select scan and show spectrum 
-				JKLogDebug(@" select scan and show spectrum");
-                selectedScan = [self scanAtPoint:mouseLocation];
-                if (selectedScan != NSNotFound) {
-                    if ([delegate respondsToSelector:@selector(showSpectrumForScan:)]) {
-                        [self setSelectedScan:selectedScan];
-                        [delegate showSpectrumForScan:[self selectedScan]];
-                    }                     
-                } else {
-                    // or show chromatogram for mass
-                    int selectedMass = [self massAtPoint:mouseLocation];
-                    if ([delegate respondsToSelector:@selector(showChromatogramForModel:)]) {
-                        [delegate showChromatogramForModel:[NSString stringWithFormat:@"%d",selectedMass]];
-                    }                                         
-                }                
-            }
-		} else {
-			NSBeep();
-		}
-	} else if (_didDrag) {
-		if (([theEvent modifierFlags] & NSCommandKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
-			//   combine spectrum
+             }
+            [self setNeedsDisplayInRect:[self plottingArea]];
+            break;
+        case JKAddPeakOperation:
             JKLogDebug(@"peak drag from scan %d to scan %d",[self scanAtPoint:_mouseDownAtPoint],[self scanAtPoint:mouseLocation]);
             JKChromatogram *theChromatogram = [self chromatogramAtPoint:_mouseDownAtPoint]; 
             JKPeakRecord *newPeak = [theChromatogram peakFromScan:[self scanAtPoint:_mouseDownAtPoint] toScan:[self scanAtPoint:mouseLocation]];
@@ -1467,57 +1423,75 @@ static int   kPaddingLabels             = 4;
             } else {
                 _lastSelectedPeakIndex = NSNotFound;
             }
-            [self setNeedsDisplayInRect:[self plottingArea]];
-            
-		} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
-			//   zoom in/move baseline point
-			[self zoomToRectInView:[self selectedRect]];
-		} else if ([theEvent modifierFlags] & NSCommandKeyMask) {
+            [self setNeedsDisplayInRect:[self plottingArea]];            
+            break;
+        case JKZoomOutOperation:
+            if ([theEvent clickCount] == 2) { // Double click
+				[self showAll:self];
+            } else {
+                [self zoomOut];
+            }
+            break;
+        case JKZoomOperation:
+        case JKZoomVerticalOnlyOperation:
+        case JKZoomHorizontalOnlyOperation:
+            if ([theEvent clickCount] == 2) { // Double click
+				[self showAll:self];
+            } else if ([self selectedRect].size.width > 2.0f && [self selectedRect].size.height > 2.0f) {
+                [self zoomToRectInView:[self selectedRect]];
+            } else {
+                [self zoomIn];
+            }
+            break;
+        case JKSelectBaselinePointsOperation:
             // deselect any peaks
             [peaksContainer setSelectedObjects:nil];
-//			//  select baselinpoints
-//            int i;
-//            float scanValue, intensityValue;
-//            NSPoint startPoint = [[self transformScreenToGraph] transformPoint:[self selectedRect].origin];
-//            NSSize selectedSize = [[self transformScreenToGraph] transformSize:[self selectedRect].size];
-//            NSMutableArray *mutArray = [NSMutableArray array];
-//            int count = [[self baseline] count];
-//            for (i=0; i< count; i++) {
-//                if ([keyForXValue isEqualToString:@"Scan"]) {
-//                    scanValue = [[[[self baseline] objectAtIndex:i] valueForKey:@"Scan"] floatValue];
-//                } else {
-//                    scanValue = [[[[self baseline] objectAtIndex:i] valueForKey:@"Time"] floatValue];                   
-//                }
-//                intensityValue = [[[[self baseline] objectAtIndex:i] valueForKey:@"Total Intensity"] floatValue];
-//                if ((scanValue > startPoint.x) && (scanValue < startPoint.x+selectedSize.width)) {
-//                    if ((intensityValue > startPoint.y) && (intensityValue < startPoint.y+selectedSize.height)) {
-//                        [mutArray addObject:[[self baseline] objectAtIndex:i]];
-//                    }
-//                }
-//            }
-//            
-//            [(NSArrayController *)[self  baselineContainer] setSelectedObjects:mutArray];
-//            
-		} else if ([theEvent modifierFlags] & NSShiftKeyMask) {
-		} else {
-			// move chromatogram
-			// handled in mouseDragged
+           	//  select baselinpoints
+            break;
+        case  JKDragOperation:
             [self setNeedsDisplay:YES];
-		}
-        [self setSelectedRect:NSMakeRect(0,0,0,0)];
-	}
-	
-	BOOL isInsidePlottingArea;
-	
-	// Waar is de muis?
-	isInsidePlottingArea = [self mouse:mouseLocation inRect:[self plottingArea]];
-    if (isInsidePlottingArea) {
-        [[NSCursor crosshairCursor] set];
-    } else {
-        [[NSCursor arrowCursor] set];
+            break;
+        default:
+            break;
     }
-        	
+            
+	// Reset
+    _startedOperation = JKNoOperation;
 	_didDrag = NO;
+    [self setSelectedRect:NSMakeRect(0,0,0,0)];
+	[self setCursorForOperation:JKNoOperation];        	
+}
+
+- (void)setCursorForOperation:(JKOperations)operation {
+    NSCursor *zoomCursor = nil;
+    NSPoint mouseLocation;
+    
+    switch (operation) {
+        case JKDragLegendOperation:
+        case JKDragOperation:
+            [[NSCursor closedHandCursor] set];
+            break;
+        case JKZoomOperation:
+        case JKZoomVerticalOnlyOperation:
+        case JKZoomHorizontalOnlyOperation:
+            zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom_in"] hotSpot:NSMakePoint(10,12)];
+            [zoomCursor set];
+            [zoomCursor release];        
+            break;
+        case JKZoomOutOperation:
+            zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom_out"] hotSpot:NSMakePoint(10,12)];
+            [zoomCursor set];
+            [zoomCursor release];        
+            break;
+        default:
+            mouseLocation = [self convertPoint: [[self window] mouseLocationOutsideOfEventStream] fromView:nil];
+            if ([self mouse:mouseLocation inRect:[self plottingArea]]) {
+               	[[NSCursor crosshairCursor] set];
+            } else {
+                [[NSCursor arrowCursor] set];
+            }
+            break;
+    }
 }
 
 - (void)scrollWheel:(NSEvent *)theEvent {
@@ -1672,42 +1646,17 @@ static int   kPaddingLabels             = 4;
 
 #pragma mark Keyboard Interaction Management
 - (void)flagsChanged:(NSEvent *)theEvent {
-	BOOL isInsidePlottingArea;
-	NSPoint mouseLocation = [self convertPoint: [[self window] mouseLocationOutsideOfEventStream] fromView:nil];
-	
-	// Waar is de muis?
-	isInsidePlottingArea = [self mouse:mouseLocation inRect:[self plottingArea]];
-    if (isInsidePlottingArea) {
-        if (([theEvent modifierFlags] & NSAlternateKeyMask ) && ([theEvent modifierFlags] & NSShiftKeyMask )) {
-            NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom_out"] hotSpot:NSMakePoint(12,10)];
-            [zoomCursor set];
-            [zoomCursor release];
-        } else if (([theEvent modifierFlags] & NSAlternateKeyMask ) && ([theEvent modifierFlags] & NSCommandKeyMask )) {
-            [[NSCursor crosshairCursor] set];
-        } else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
-            NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom_in"] hotSpot:NSMakePoint(12,10)];
-            [zoomCursor set];
-            [zoomCursor release];
-        } else {
-            [[NSCursor crosshairCursor] set];
-        }
+    if (_startedOperation != JKNoOperation) {
+        [self setCursorForOperation:_startedOperation];
+    } else if (([theEvent modifierFlags] & NSAlternateKeyMask ) && ([theEvent modifierFlags] & NSShiftKeyMask )) {
+        [self setCursorForOperation:JKZoomOutOperation];
+    } else if (([theEvent modifierFlags] & NSAlternateKeyMask ) && ([theEvent modifierFlags] & NSCommandKeyMask )) {
+        [self setCursorForOperation:JKAddPeakOperation];
+    } else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
+        [self setCursorForOperation:JKZoomOperation];
+    } else {
+        [self setCursorForOperation:JKNoOperation];
     }
-	
-//	if (!_didDrag){
-////		if (isInsidePlottingArea) {		
-//			if (([theEvent modifierFlags] & NSAlternateKeyMask ) && ([theEvent modifierFlags] & NSShiftKeyMask )) {
-//				NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom_out"] hotSpot:NSMakePoint(12,10)];
-//				[zoomCursor push];
-//				[zoomCursor release];
-//			} else if ([theEvent modifierFlags] & NSAlternateKeyMask ) {
-//				NSCursor *zoomCursor = [[NSCursor alloc] initWithImage:[NSImage imageNamed:@"zoom_in"] hotSpot:NSMakePoint(12,10)];
-//				[zoomCursor push];
-//				[zoomCursor release];
-//			} else {
-//				[[NSCursor crosshairCursor] push];
-//			}
-////		}		
-//	}
 }
 
 - (void)keyDown:(NSEvent *)theEvent {
