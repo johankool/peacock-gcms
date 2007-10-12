@@ -3,28 +3,20 @@
 <plist version="1.0">
 <dict>
 	<key>IBDocumentLocation</key>
-	<string>847 220 418 495 0 0 1680 1028 </string>
-	<key>IBEditorPositions</key>
-	<dict>
-		<key>29</key>
-		<string>58 963 453 44 0 0 1680 1028 </string>
-	</dict>
+	<string>309 131 356 240 0 0 1680 1028 </string>
 	<key>IBFramework Version</key>
 	<string>443.0</string>
-	<key>IBLockedTabItems</key>
-	<array>
-		<integer>1731</integer>
-	</array>
+	<key>IBLastKnownRelativeProjectPath</key>
+	<string>../../Peacock.xcodeproj</string>
 	<key>IBOldestOS</key>
-	<integer>3</integer>
+	<integer>4</integer>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>29</integer>
-		<integer>1691</integer>
-		<integer>999</integer>
-		<integer>1725</integer>
+		<integer>1</integer>
 	</array>
 	<key>IBSystem Version</key>
 	<string>8R2232</string>
+	<key>targetFramework</key>
+	<string>IBCocoaFramework</string>
 </dict>
 </plist>

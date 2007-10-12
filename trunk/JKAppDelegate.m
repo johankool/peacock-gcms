@@ -11,7 +11,7 @@
 #import "JKGCMSDocument.h"
 #import "JKLog.h"
 #import "JKPanelController.h"
-#import "JKStatisticsDocument.h"
+// #import "JKStatisticsDocument.h"
 #import "JKMainWindowController.h"
 #import "BooleanToStringTransformer.h"
 #import "JKLibrary.h"
@@ -19,6 +19,7 @@
 #import "JKManagedLibraryEntry.h"
 #import "JKPeakRecord.h"
 #import "JKSummaryController.h"
+#import "JKRatiosController.h"
 #import "JKSummarizer.h"
 #import "JKPreferencesWindowController.h"
 #import "JKBatchProcessWindowController.h"
@@ -40,7 +41,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 	[defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"SUCheckAtStartup"];
 	[defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"showInspectorOnLaunch"];
 	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"showMassCalculatorOnLaunch"];
-	[defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"showDocumentListOnLaunch"];
+	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"showDocumentListOnLaunch"];
 	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"autoSave"];
 	[defaultValues setValue:[NSNumber numberWithInt:10] forKey:@"autoSaveDelay"]; 
 	
@@ -72,7 +73,12 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
         [NSDictionary dictionaryWithObjectsAndKeys:@"Fatty acids",@"name",@"129+185",@"massValue",nil],
         [NSDictionary dictionaryWithObjectsAndKeys:@"Methylketones",@"name",@"58+59",@"massValue",nil],
         nil] forKey:@"presets"];
-	
+
+    // Default ratios
+    [defaultValues setObject:[NSArray arrayWithObjects:
+        [NSDictionary dictionaryWithObjectsAndKeys:@"Test",@"label",@"[a]/[b]*100%%",@"formula",nil],
+         nil] forKey:@"ratios"];
+    
 	// Default summary settings
     // Default statistics analysis
 	[defaultValues setValue:[NSNumber numberWithInt:3] forKey:@"statisticsAnalysisPeaksForSummary"]; // confirmed peaks
@@ -292,6 +298,14 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
         summaryController = [[JKSummaryController alloc] init];
     }
     return summaryController;
+}
+
+- (JKRatiosController *)ratiosController
+{
+    if (!ratiosController) {
+        ratiosController = [[JKRatiosController alloc] init];
+    }
+    return ratiosController;
 }
 
 - (IBAction)openTestFile:(id)sender {

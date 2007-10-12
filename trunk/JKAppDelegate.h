@@ -17,6 +17,7 @@
 @class JKPeakRecord;
 @class JKSummaryController;
 @class JKSummarizer;
+@class JKRatiosController;
 
 #import <Growl/GrowlApplicationBridge.h>
 
@@ -37,6 +38,7 @@
     NSArray *autocompleteEntries;
     
     JKSummaryController *summaryController;
+    JKRatiosController *ratiosController;
     JKSummarizer *summarizer;
 }
 

@@ -86,6 +86,8 @@
             }; 
             SUPERCLASS = NSWindowController; 
         }, 
+        {CLASS = JKSourceTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {CLASS = JKVariableCellColumn; LANGUAGE = ObjC; SUPERCLASS = NSTableColumn; }, 
         {
             ACTIONS = {calculate = id; clear = id; openPanel = id; }; 
             CLASS = MWController; 
@@ -124,6 +126,7 @@
             OUTLETS = {documentTabView = NSTabView; documentTableView = NSTableView; }; 
             SUPERCLASS = NSWindowController; 
         }, 
+        {CLASS = PolishedWindow; LANGUAGE = ObjC; SUPERCLASS = NSWindow; }, 
         {
             ACTIONS = {checkForUpdates = id; }; 
             CLASS = SUUpdater; 

@@ -10,6 +10,7 @@
 
 #import "JKPeakRecord.h"
 #import "JKCombinedPeak.h"
+#import "JKRatio.h"
 
 @implementation JKSummarizer
 - (id) init
@@ -17,14 +18,36 @@
     self = [super init];
     if (self != nil) {
         combinedPeaks = [[NSMutableArray alloc] init];
+        ratios = [[NSMutableArray alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didConfirmPeak:) name:@"JKDidConfirmPeak" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didUnconfirmPeak:) name:@"JKDidUnconfirmPeak" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentLoaded:) name:@"JKGCMSDocument_DocumentLoadedNotification" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentUnloaded:) name:@"JKGCMSDocument_DocumentUnloadedNotification" object:nil];
-
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupRatios) name:NSUserDefaultsDidChangeNotification object:nil];
+		[self setupRatios];
     }
     return self;
 }
+
+- (void)setupRatios
+{
+    [ratios removeAllObjects];
+ 	NSArray *prefRatios = [[NSUserDefaults standardUserDefaults] valueForKey:@"ratios"];
+    if (prefRatios) {
+        NSEnumerator *enumerator = [prefRatios objectEnumerator];
+        NSDictionary *aRatio;
+        
+        while ((aRatio = [enumerator nextObject])) {
+            NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[ratios count]];
+            [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"ratios"];
+            JKRatio *newRatio = [[JKRatio alloc] initWithString:@""];
+            [newRatio setFormula:[aRatio valueForKey:@"formula"]];
+            [newRatio setName:[aRatio valueForKey:@"label"]];
+            [ratios addObject:newRatio];
+            [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"ratios"];
+        }
+    }
+ }
 
 - (void)didConfirmPeak:(NSNotification *)aNotification
 {
@@ -104,6 +127,16 @@
     [inValue retain];
     [combinedPeaks release];
     combinedPeaks = inValue;
+}
+
+- (NSMutableArray *)ratios {
+	return ratios;
+}
+
+- (void)setRatios:(NSMutableArray *)inValue {
+    [inValue retain];
+    [ratios release];
+    ratios = inValue;
 }
 
 @end

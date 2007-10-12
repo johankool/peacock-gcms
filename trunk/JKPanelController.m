@@ -9,7 +9,7 @@
 #import "JKPanelController.h"
 
 #import "JKGCMSDocument.h"
-#import "JKStatisticsDocument.h"
+// #import "JKStatisticsDocument.h"
 #import "MyGraphView.h"
 #import "netcdf.h"
 #import "FontNameToDisplayNameTransformer.h"
@@ -166,7 +166,7 @@ static JKPanelController *theSharedController;
 #pragma mark NOTIFICATIONS
 
 - (void)documentActivateNotification:(NSNotification *)aNotification {
-	if ([[[aNotification object] document] isKindOfClass:[JKGCMSDocument class]] || [[[aNotification object] document] isKindOfClass:[JKStatisticsDocument class]]) {
+	if ([[[aNotification object] document] isKindOfClass:[JKGCMSDocument class]]) { // || [[[aNotification object] document] isKindOfClass:[JKStatisticsDocument class]]) {
 		if ([[aNotification object] document] != inspectedDocument) {
 			[self setInspectedDocument:[[aNotification object] document]];
 			[infoTableView reloadData];
@@ -225,8 +225,8 @@ static JKPanelController *theSharedController;
     if (tableView ==  infoTableView) {
 		if([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKGCMSDocument class]]) {
             return [(JKGCMSDocument *)[self inspectedDocument] numberOfRowsInTableView:tableView];
-        } else if ([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKStatisticsDocument class]]) {
-            return [(JKStatisticsDocument *)[[self inspectedDocument] statisticsWindowController] numberOfRowsInTableView:tableView];
+ //       } else if ([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKStatisticsDocument class]]) {
+//            return [(JKStatisticsDocument *)[[self inspectedDocument] statisticsWindowController] numberOfRowsInTableView:tableView];
 		} else {
 			return -1;
 		}
@@ -238,8 +238,8 @@ static JKPanelController *theSharedController;
     if (tableView == infoTableView) {
 		if([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKGCMSDocument class]]) {
             return [(JKGCMSDocument *)[self inspectedDocument] tableView:tableView objectValueForTableColumn:tableColumn row:row];
-        } else if ([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKStatisticsDocument class]]) {
-           return [(JKStatisticsDocument *)[[self inspectedDocument] statisticsWindowController] tableView:tableView objectValueForTableColumn:tableColumn row:row];
+ //       } else if ([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKStatisticsDocument class]]) {
+//           return [(JKStatisticsDocument *)[[self inspectedDocument] statisticsWindowController] tableView:tableView objectValueForTableColumn:tableColumn row:row];
 		} 
     } 
 
@@ -252,8 +252,8 @@ static JKPanelController *theSharedController;
     if (aTableView == infoTableView) {
 		if([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKGCMSDocument class]]) {
             return [(JKGCMSDocument *)[self inspectedDocument] tableView:aTableView setObjectValue:anObject forTableColumn:aTableColumn row:rowIndex];
-        } else if ([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKStatisticsDocument class]]) {
-            return [(JKStatisticsDocument *)[[self inspectedDocument] statisticsWindowController] tableView:aTableView setObjectValue:anObject forTableColumn:aTableColumn row:rowIndex];
+//        } else if ([self inspectedDocument] && [[self inspectedDocument] isKindOfClass:[JKStatisticsDocument class]]) {
+//            return [(JKStatisticsDocument *)[[self inspectedDocument] statisticsWindowController] tableView:aTableView setObjectValue:anObject forTableColumn:aTableColumn row:rowIndex];
 		} else {
 			return;
 		}

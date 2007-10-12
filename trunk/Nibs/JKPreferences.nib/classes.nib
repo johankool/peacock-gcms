@@ -14,20 +14,15 @@
         }, 
         {CLASS = JKPathPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {
-            ACTIONS = {
-                changeAutoSaveAction = id; 
-                changeLogLevelAction = id; 
-                reloadLibrary = id; 
-                showInFinder = id; 
-            }; 
+            ACTIONS = {changeAutoSaveAction = id; }; 
             CLASS = JKPreferencesWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 displayPreferencesView = NSView; 
                 generalPreferencesView = NSView; 
-                libraryPopUpButton = JKPathPopUpButton; 
                 presetsPreferencesView = NSView; 
                 processingPreferencesView = NSView; 
+                ratiosPreferencesView = NSView; 
                 searchTemplatesPreferencesView = NSView; 
             }; 
             SUPERCLASS = NSWindowController; 

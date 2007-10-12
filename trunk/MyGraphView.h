@@ -22,6 +22,23 @@ typedef enum {
     JKStackedDrawingMode
 } JKDrawingModes;
 
+typedef enum {
+    JKNoOperation,
+    JKDragOperation,
+    JKZoomOperation,
+    JKZoomHorizontalOnlyOperation,
+    JKZoomVerticalOnlyOperation,
+    JKZoomOutOperation,
+    JKSelectPeakOperation,
+    JKSelectBaselinePointsOperation,
+    JKLeftResizePlottingAreaOperation,
+    JKRightResizePlottingAreaOperation,
+    JKTopResizePlottingAreaOperation,
+    JKBottomResizePlottingAreaOperation,
+    JKAddPeakOperation,
+    JKDragLegendOperation
+} JKOperations;
+
 @interface MyGraphView : NSView {
 	id delegate; // Conformance to MyGraphViewDelegateProtocol is optional
 	
@@ -89,6 +106,7 @@ typedef enum {
 	NSAttributedString *yAxisLabelString;
 	
 	// Temporary storage items
+    JKOperations _startedOperation;
 	BOOL _didDrag;
 	BOOL _startedInsidePlottingArea;
 	BOOL _startedInsideLegendArea;
