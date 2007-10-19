@@ -530,6 +530,7 @@ int const JKGCMSDocument_Version = 7;
     NSPrintOperation *op = [NSPrintOperation
                 printOperationWithView:printView
 							 printInfo:[self printInfo]];
+    
     [op setShowPanels:showPanels];
     if (showPanels) {
         // Add accessory view, if needed

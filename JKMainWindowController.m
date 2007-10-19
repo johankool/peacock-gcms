@@ -78,6 +78,8 @@ static void *PeaksObservationContext = (void *)1103;
 }
 
 - (void)windowDidLoad {
+    JKLogEnteringMethod();
+    
 	// Setup the toolbar after the document nib has been loaded 
     [self setupToolbar];	
 
@@ -88,6 +90,9 @@ static void *PeaksObservationContext = (void *)1103;
     [self observeValueForKeyPath:nil ofObject:nil change:nil context:ChromatogramObservationContext];
 
 	// ChromatogramView bindings
+    // Created chromatogram data series
+    [self setupChromatogramDataSeries];
+
 	[chromatogramView bind:@"dataSeries" toObject: chromatogramDataSeriesController
 			   withKeyPath:@"arrangedObjects" options:nil];
 	[chromatogramView bind:@"peaks" toObject: peakController
@@ -160,14 +165,10 @@ static void *PeaksObservationContext = (void *)1103;
     [detailsSplitSubview setHidden:YES];
     [[detailsTabViewItemScrollView contentView] scrollToPoint:NSMakePoint(0.0f,1000.0f)];
     _lastDetailsSplitSubviewDimension = [detailsSplitSubview dimension];
-
-    [chromatogramView showAll:self];
-//    [spectrumView showAll:self];
     
     [[[peaksTable tableColumnWithIdentifier:@"id"] headerCell] setImage:[NSImage imageNamed:@"flagged_header"]];
     // 	[tableView setObligatoryTableColumns:[NSSet setWithObject:[tableView tableColumnWithIdentifier:@"name"]]];
     [[self window] setFrameFromString:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"mainWindowFrame"]];
-    
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification
@@ -193,6 +194,7 @@ static void *PeaksObservationContext = (void *)1103;
         [[[self document] chromatograms] makeObjectsPerformSelector:@selector(obtainBaseline)];
         [chromatogramView setShouldDrawBaseline:YES];
     }
+   
 }
 
 - (void)obtainBaselineForSelectedChromatograms:(id)sender {
@@ -414,34 +416,19 @@ static void *PeaksObservationContext = (void *)1103;
 - (IBAction)showPeaksAction:(id)sender {
 	if ([sender tag] == 1) {
 		[self setShowPeaks:JKIdenitifiedPeaks];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"identified == YES"];
-		[peakController setFilterPredicate:predicate];
-        [chromatogramDataSeries makeObjectsPerformSelector:@selector(setFilterPredicate:) withObject:predicate];
 	} else if ([sender tag] == 2) {
 		[self setShowPeaks:JKUnidentifiedPeaks];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"identified == NO"];
-		[peakController setFilterPredicate:predicate];
-        [chromatogramDataSeries makeObjectsPerformSelector:@selector(setFilterPredicate:) withObject:predicate];
 	} else if ([sender tag] == 3) {
 		[self setShowPeaks:JKConfirmedPeaks];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"confirmed == YES"];
-		[peakController setFilterPredicate:predicate];
-        [chromatogramDataSeries makeObjectsPerformSelector:@selector(setFilterPredicate:) withObject:predicate];
 	} else if ([sender tag] == 4) {
 		[self setShowPeaks:JKUnconfirmedPeaks];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(identified == YES) AND (confirmed == NO)"];
-		[peakController setFilterPredicate:predicate];
-        [chromatogramDataSeries makeObjectsPerformSelector:@selector(setFilterPredicate:) withObject:predicate];
 	} else if ([sender tag] == 5) {
 		[self setShowPeaks:JKFlaggedPeaks];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"flagged == YES"];
-		[peakController setFilterPredicate:predicate];
-        [chromatogramDataSeries makeObjectsPerformSelector:@selector(setFilterPredicate:) withObject:predicate];
 	} else {
 		[self setShowPeaks:JKAllPeaks];
-		[peakController setFilterPredicate:nil]; 
-        [chromatogramDataSeries makeObjectsPerformSelector:@selector(setFilterPredicate:) withObject:nil];
 	}
+    [peakController setFilterPredicate:[self predicateForPeakTypeShow]];
+    [chromatogramDataSeries makeObjectsPerformSelector:@selector(setFilterPredicate:) withObject:[self predicateForPeakTypeShow]];
 }
 
 -(NSString *)peakTypeShown
@@ -461,6 +448,25 @@ static void *PeaksObservationContext = (void *)1103;
         return NSLocalizedString(@"flagged ", @"Value used in information field about peaks, requires trailing space.");
     }
     return NSLocalizedString(@"",@"Value used in information field about peaks.");
+}
+
+- (NSPredicate *)predicateForPeakTypeShow
+{
+    // Value used in information field about peaks
+    if ([self showPeaks] == JKAllPeaks) {
+        return nil;
+    } else if ([self showPeaks] == JKIdenitifiedPeaks) {
+        return [NSPredicate predicateWithFormat:@"identified == YES"];
+    } else if ([self showPeaks] == JKUnidentifiedPeaks) {
+        return[NSPredicate predicateWithFormat:@"identified == NO"];
+    } else if ([self showPeaks] == JKConfirmedPeaks) {
+        return [NSPredicate predicateWithFormat:@"confirmed == YES"];
+    } else if ([self showPeaks] == JKUnconfirmedPeaks) {
+        return [NSPredicate predicateWithFormat:@"(identified == YES) AND (confirmed == NO)"];
+    } else if ([self showPeaks] == JKFlaggedPeaks) {
+        return [NSPredicate predicateWithFormat:@"flagged == YES"];
+    }
+    return nil;
 }
 
 - (IBAction)confirm:(id)sender {
@@ -744,77 +750,8 @@ static void *PeaksObservationContext = (void *)1103;
         return;
     }
     if (([keyPath isEqualToString:@"chromatograms"]) || (context == ChromatogramObservationContext) || ((object == peakController) && showSelectedChromatogramsOnly)) {
-        // Present graphdataseries in colors
-        NSColorList *peakColors = [NSColorList colorListNamed:@"Peacock Series"];
-        if (peakColors == nil) {
-            peakColors = [NSColorList colorListNamed:@"Crayons"]; // Crayons should always be there, as it can't be removed through the GUI
-        }
-        NSArray *peakColorsArray = [peakColors allKeys];
-        int peakColorsArrayCount = [peakColorsArray count];
-        int prevCount = [chromatogramDataSeries count];
-        
-        [chromatogramDataSeries removeAllObjects];
-        NSEnumerator *chromatogramEnumerator = [[[self document] chromatograms] objectEnumerator];
-        JKChromatogram *chromatogram;
-        
-        while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
-            if ([chromatogramsTableSplitView isCollapsed]) {
-                if ( (!showTICTrace && !showSelectedChromatogramsOnly && ![[chromatogram model] isEqualToString:@"TIC"]) || 
-                     (!showTICTrace && showSelectedChromatogramsOnly && ([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound)) ||
-                     (showTICTrace && !showSelectedChromatogramsOnly) ||
-                     (showTICTrace && showSelectedChromatogramsOnly && (([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound) || [[chromatogram model] isEqualToString:@"TIC"])) ) {
-                    
-                    ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
-                    [cgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatogramDataSeries count]%peakColorsArrayCount]]];
-                    [cgds setAcceptableKeysForXValue:[NSArray arrayWithObjects:NSLocalizedString(@"Retention Index", @""), NSLocalizedString(@"Scan", @""), NSLocalizedString(@"Time", @""), nil]];
-                    [cgds setAcceptableKeysForYValue:[NSArray arrayWithObjects:NSLocalizedString(@"Total Intensity", @""), nil]];                    
-                    [chromatogramDataSeries addObject:cgds];                    
-                }                    
-            } else {
-                if ( (!showTICTrace && !showSelectedChromatogramsOnly && ![[chromatogram model] isEqualToString:@"TIC"]) || 
-                     (!showTICTrace && showSelectedChromatogramsOnly && ([[[chromatogramsController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound)) ||
-                     (showTICTrace && !showSelectedChromatogramsOnly) ||
-                     (showTICTrace && showSelectedChromatogramsOnly && (([[[chromatogramsController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound) || [[chromatogram model] isEqualToString:@"TIC"])) ) {
-                    
-                    ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
-                    [cgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatogramDataSeries count]%peakColorsArrayCount]]];
-                    [cgds setAcceptableKeysForXValue:[NSArray arrayWithObjects:NSLocalizedString(@"Retention Index", @""), NSLocalizedString(@"Scan", @""), NSLocalizedString(@"Time", @""), nil]];
-                    [cgds setAcceptableKeysForYValue:[NSArray arrayWithObjects:NSLocalizedString(@"Total Intensity", @""), nil]];
-                    [chromatogramDataSeries addObject:cgds];                    
-                }                                        
-            }
-            
-            //               if ((!showTICTrace && !showSelectedChromatogramsOnly && ![[chromatogram model] isEqualToString:@"TIC"]) || 
-            //                    (!showTICTrace && showSelectedChromatogramsOnly && ([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound)) ||
-            //                    (showTICTrace && !showSelectedChromatogramsOnly) ||
-            //                    (showTICTrace && showSelectedChromatogramsOnly && (([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound) || [[chromatogram model] isEqualToString:@"TIC"]))) {
-            //                    ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
-            //                    [cgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatogramDataSeries count]%peakColorsArrayCount]]];
-            //                    [chromatogramDataSeries addObject:cgds];                    
-            //                }
-        }
-        
-        [chromatogramView scaleVertically];
-        
-        // this should actually be done in MyGraphView
-        int newCount = [chromatogramDataSeries count];
-        switch ([chromatogramView drawingMode]) {
-            case JKStackedDrawingMode:
-                if (prevCount < newCount) {
-                    [chromatogramView setYMaximum:[NSNumber numberWithFloat:([[chromatogramView yMaximum] floatValue] + [[chromatogramView yMaximum] floatValue] /prevCount)]];
-                } else if (prevCount > newCount) {
-                    [chromatogramView setYMaximum:[NSNumber numberWithFloat:([[chromatogramView yMaximum] floatValue] - [[chromatogramView yMaximum] floatValue] /prevCount)]];
-                } 
-                     break;
-            case JKNormalDrawingMode:
-            default:            
-                break;
-        }
-        
-        
-        
-//        [chromatogramView showAll:self];
-        [chromatogramView setNeedsDisplay:YES];
+        // Created chromatogram data series
+        [self setupChromatogramDataSeries];
     }
 	if ((((object == peakController) | (object == searchResultsController)) && (([peakController selection] != NSNoSelectionMarker) && ([searchResultsController selection] != NSNoSelectionMarker))) || (context == SpectrumObservationContext)) {
         NSMutableArray *spectrumArray = [NSMutableArray array];
@@ -943,6 +880,79 @@ static void *PeaksObservationContext = (void *)1103;
         [detailsSplitSubview collapseWithAnimation:YES withResize:NO];
         [moleculeSplitSubview collapseWithAnimation:YES withResize:NO];
     }
+}
+
+- (void)setupChromatogramDataSeries
+{
+    // Present graphdataseries in colors
+    NSColorList *peakColors = [NSColorList colorListNamed:@"Peacock Series"];
+    if (peakColors == nil) {
+        peakColors = [NSColorList colorListNamed:@"Crayons"]; // Crayons should always be there, as it can't be removed through the GUI
+    }
+    NSArray *peakColorsArray = [peakColors allKeys];
+    int peakColorsArrayCount = [peakColorsArray count];
+    int prevCount = [chromatogramDataSeries count];
+    
+    [chromatogramDataSeries removeAllObjects];
+    NSEnumerator *chromatogramEnumerator = [[[self document] chromatograms] objectEnumerator];
+    JKChromatogram *chromatogram;
+    
+    while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
+        if ([chromatogramsTableSplitView isCollapsed]) {
+            if ( (!showTICTrace && !showSelectedChromatogramsOnly && ![[chromatogram model] isEqualToString:@"TIC"]) || 
+                 (!showTICTrace && showSelectedChromatogramsOnly && ([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound)) ||
+                 (showTICTrace && !showSelectedChromatogramsOnly) ||
+                 (showTICTrace && showSelectedChromatogramsOnly && (([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound) || [[chromatogram model] isEqualToString:@"TIC"])) ) {
+                
+                ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+                [cgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatogramDataSeries count]%peakColorsArrayCount]]];
+                [cgds setAcceptableKeysForXValue:[NSArray arrayWithObjects:NSLocalizedString(@"Retention Index", @""), NSLocalizedString(@"Scan", @""), NSLocalizedString(@"Time", @""), nil]];
+                [cgds setAcceptableKeysForYValue:[NSArray arrayWithObjects:NSLocalizedString(@"Total Intensity", @""), nil]];                    
+                [chromatogramDataSeries addObject:cgds];                    
+            }                    
+        } else {
+            if ( (!showTICTrace && !showSelectedChromatogramsOnly && ![[chromatogram model] isEqualToString:@"TIC"]) || 
+                 (!showTICTrace && showSelectedChromatogramsOnly && ([[[chromatogramsController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound)) ||
+                 (showTICTrace && !showSelectedChromatogramsOnly) ||
+                 (showTICTrace && showSelectedChromatogramsOnly && (([[[chromatogramsController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound) || [[chromatogram model] isEqualToString:@"TIC"])) ) {
+                
+                ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+                [cgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatogramDataSeries count]%peakColorsArrayCount]]];
+                [cgds setAcceptableKeysForXValue:[NSArray arrayWithObjects:NSLocalizedString(@"Retention Index", @""), NSLocalizedString(@"Scan", @""), NSLocalizedString(@"Time", @""), nil]];
+                [cgds setAcceptableKeysForYValue:[NSArray arrayWithObjects:NSLocalizedString(@"Total Intensity", @""), nil]];
+                [chromatogramDataSeries addObject:cgds];                    
+            }                                        
+        }
+        
+        //               if ((!showTICTrace && !showSelectedChromatogramsOnly && ![[chromatogram model] isEqualToString:@"TIC"]) || 
+        //                    (!showTICTrace && showSelectedChromatogramsOnly && ([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound)) ||
+        //                    (showTICTrace && !showSelectedChromatogramsOnly) ||
+        //                    (showTICTrace && showSelectedChromatogramsOnly && (([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound) || [[chromatogram model] isEqualToString:@"TIC"]))) {
+        //                    ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+        //                    [cgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatogramDataSeries count]%peakColorsArrayCount]]];
+        //                    [chromatogramDataSeries addObject:cgds];                    
+        //                }
+    }
+    
+    [chromatogramDataSeries makeObjectsPerformSelector:@selector(setFilterPredicate:) withObject:[self predicateForPeakTypeShow]];
+
+    [chromatogramView scaleVertically];
+    
+    // this should actually be done in MyGraphView
+    int newCount = [chromatogramDataSeries count];
+    switch ([chromatogramView drawingMode]) {
+        case JKStackedDrawingMode:
+            if (prevCount < newCount) {
+                [chromatogramView setYMaximum:[NSNumber numberWithFloat:([[chromatogramView yMaximum] floatValue] + [[chromatogramView yMaximum] floatValue] /prevCount)]];
+            } else if (prevCount > newCount) {
+                [chromatogramView setYMaximum:[NSNumber numberWithFloat:([[chromatogramView yMaximum] floatValue] - [[chromatogramView yMaximum] floatValue] /prevCount)]];
+            } 
+            break;
+        case JKNormalDrawingMode:
+        default:            
+            break;
+    }
+    [chromatogramView setNeedsDisplay:YES];
 }
 #pragma mark -
 

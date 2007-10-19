@@ -23,6 +23,7 @@
 #import "JKSummarizer.h"
 #import "JKPreferencesWindowController.h"
 #import "JKBatchProcessWindowController.h"
+#import "PKDocumentController.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -214,6 +215,9 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
         [documentListPanel orderFront:self];
     } 
     
+    // Make the main window main 
+    [[[PKDocumentController sharedDocumentController] window] makeKeyAndOrderFront:self];
+
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"skipWelcomeDialog"] boolValue] == NO) {
         [welcomeWindow center];
         [welcomeWindow makeKeyAndOrderFront:self];

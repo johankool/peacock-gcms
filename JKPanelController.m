@@ -243,7 +243,7 @@ static JKPanelController *theSharedController;
 		} 
     } 
 
-    [NSException raise:NSInvalidArgumentException format:@"Exception raised in JKPanelController -tableView:objectValueForTableColumn:row: - tableView not known"];
+//    [NSException raise:NSInvalidArgumentException format:@"Exception raised in JKPanelController -tableView:objectValueForTableColumn:row: - tableView not known"];
     return nil;
 }
 
