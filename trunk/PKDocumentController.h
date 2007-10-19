@@ -23,4 +23,6 @@
     
 }
 - (int)numberOfSummaries;
+- (NSWindow *)window;
+- (NSArray *)managedDocuments;
 @end

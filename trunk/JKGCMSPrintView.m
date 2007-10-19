@@ -11,6 +11,7 @@
 #import "JKGCMSDocument.h"
 #import "JKPeakRecord.h"
 #import "JKMainWindowController.h"
+#import "MyGraphView.h"
 
 @implementation JKGCMSPrintView
 
@@ -68,7 +69,7 @@
 
     range->location = 1;
     range->length = numberOfPages;
-    JKLogDebug(@"knowsPageRange %d", numberOfPages);
+//    JKLogDebug(@"knowsPageRange %d", numberOfPages);
     return YES;
 }
 
@@ -169,11 +170,27 @@
 - (void)preparePDFRepresentations
 {
     // Only one NSPrintOperation can be active at one point, so we need to fetch the pdf before the print operation on the document starts
-
+    [peakTable release];
+    [chromImage release];
+    [spectrumImage release];
+    chromImage = [[NSImage alloc] initWithSize:NSMakeSize(100.0f,100.0f)];
+    spectrumImage = [[NSImage alloc] initWithSize:NSMakeSize(100.0f,100.0f)];
+    peakTable = [[NSAttributedString alloc] init];        
+    
     // Drawing chromatogram
-    NSView *chromView = [[document mainWindowController] chromatogramView];
+    MyGraphView *chromView = [[document mainWindowController] chromatogramView];
     NSRect chromRect = [self rectForChromatogram];
     NSRect oldRect = [chromView frame];
+//    BOOL shadow [chromView shouldDrawShadow];
+    [chromView setShouldDrawShadow:NO];
+    [chromView setShouldDrawGrid:NO];
+    [chromView setShouldDrawPeaks:NO];
+    [chromView setShouldDrawLegend:NO];
+    [chromView setShouldDrawBaseline:NO];
+    [chromView setLabelFont:[NSFont systemFontOfSize:8.0]];
+    NSAttributedString *title = [[NSAttributedString alloc] initWithString:[[document mainWindowController] windowTitleForDocumentDisplayName:[document displayName]]];
+    [chromView setTitleString:title];
+    [title release];
     [chromView setFrame:chromRect];
     NSData *chromData = [chromView dataWithPDFInsideRect:[chromView frame]];
     NSPDFImageRep* pdfRep = [NSPDFImageRep imageRepWithData:chromData]; 
@@ -204,11 +221,14 @@
     [spectrumView setFrame:oldRect];    
     
     // Collecting the peak table only once makes sense too...
-    NSEnumerator *peakEnum = [[document peaks] objectEnumerator];
+    
+    NSEnumerator *peakEnum = [[[document peaks] filteredArrayUsingPredicate:[[document mainWindowController] predicateForPeakTypeShow]] objectEnumerator];
     JKPeakRecord *peak;
     NSMutableString *string = [NSMutableString string];
-    [string setString:@"<table>"];
+    [string setString:@"<html><head><title>No title</title></head><body><table style=\"font-size: 9px; font-family: Helvetica, sans-serif;\" cellpadding=1 cellspacing=0 >"];
     [string appendFormat:@"<caption>Peak List for document \"%@\"</caption>", [document displayName]];
+    [string appendString:@"<col />"];
+    [string appendString:@"<col />"];
     [string appendString:@"<col />"];
     [string appendString:@"<col />"];
     [string appendString:@"<col />"];
@@ -223,6 +243,8 @@
     [string appendString:@"<th>Model</th>"];
     [string appendString:@"<th>Identified</th>"];
     [string appendString:@"<th>Confirmed</th>"];
+    [string appendString:@"<th>RT</th>"];
+    [string appendString:@"<th>RI</th>"];
     [string appendString:@"</tr>"];
     [string appendString:@"</thead><tbody>"];
     
@@ -234,9 +256,11 @@
         [string appendFormat:@"<td align=\"center\">%@</td>", [peak model]];
         [string appendFormat:@"<td align=\"center\">%d</td>", [peak identified]];
         [string appendFormat:@"<td align=\"center\">%d</td>", [peak confirmed]];
+        [string appendFormat:@"<td align=\"center\">%g</td>", [[peak topTime] floatValue]];
+        [string appendFormat:@"<td align=\"center\">%g</td>", [peak retentionIndex]];
         [string appendString:@"</tr>"];
     }
-    [string appendString:@"</tbody></table>"];
+    [string appendString:@"</tbody></table></body></html>"];
     peakTable = [[NSAttributedString alloc] initWithHTML:[string dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:nil];
   
     NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:peakTable];

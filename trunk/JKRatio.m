@@ -230,7 +230,7 @@
 		[formula release];
 		[outString retain];
 		formula = outString;
-        JKLogDebug(formula);
+//        JKLogDebug(formula);
 		[self didChangeValueForKey:@"formula"];
 	}
 		

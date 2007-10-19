@@ -925,7 +925,7 @@ static int   kPaddingLabels             = 4;
 
 
 - (IBAction)showAll:(id)sender {
-//    JKLogDebug([self description]);
+//    JKLogDebug(@"self: %@ sender: %@ count: %d",[self description],[sender description],[[self dataSeries] count]);
 	int i, count;
 	NSRect totRect, newRect;
 	MyGraphDataSerie *mgds;
@@ -1825,6 +1825,7 @@ static int   kPaddingLabels             = 4;
 								 options:(NSKeyValueObservingOptionNew |
 										  NSKeyValueObservingOptionOld)
 								 context:DataSeriesObservationContext];
+//        JKLogDebug(@"count: %d",[[self dataSeries] count]);
 		//[self startObservingGraphics:[graphicsContainer valueForKeyPath:graphicsKeyPath]];
 		
     }

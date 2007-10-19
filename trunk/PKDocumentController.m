@@ -36,7 +36,7 @@
 {
     if ([document isKindOfClass:[JKGCMSDocument class]]) {
         NSTabViewItem *newTabViewItem = [[NSTabViewItem alloc] initWithIdentifier:document];
-        NSWindow *documentWindow = [[(JKGCMSDocument *)document mainWindowController] window];
+	    NSWindow *documentWindow = [[(JKGCMSDocument *)document mainWindowController] window];
         [newTabViewItem setView:[documentWindow contentView]];
         [newTabViewItem setLabel:[document displayName]];
         [documentTabView addTabViewItem:newTabViewItem];
@@ -114,7 +114,9 @@
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:NSWindowDidResignMainNotification object:window];
-    if ([documentTableView selectedRow] < [self numberOfSummaries]) {
+    if ([documentTableView numberOfSelectedRows] > 1) {
+        [documentTabView selectTabViewItemWithIdentifier:@"multiple"];
+    } else if ([documentTableView selectedRow] < [self numberOfSummaries]) {
         switch ([documentTableView selectedRow]) {
             case 0:
                 [documentTabView selectTabViewItemWithIdentifier:@"summary"];
@@ -167,5 +169,16 @@
 	
 	return defaultCell;
 }
+
+- (NSWindow *)window
+{
+    return window;
+}
+
+- (NSArray *)managedDocuments
+{
+    return managedDocuments;
+}
+
 
 @end
