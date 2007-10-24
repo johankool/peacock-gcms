@@ -9,8 +9,8 @@
 		};
 	};
 	2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
-		activeArchitecture = ppc;
-		activeBuildConfigurationName = Debug;
+		activeBuildConfigurationName = Release;
+		activeBuildStyle = C75D5A050CCF8144004AF00D /* Development */;
 		activeExecutable = C7EB17970898CF04007FC2ED /* Peacock-Mac */;
 		activeTarget = 8D15AC270486D014006FF6A4 /* Peacock-Mac */;
 		addToTargets = (
@@ -23,6 +23,7 @@
 			C76D5BDD0C2ACB6F0070D270 /* -[_NSZombie forward::] */,
 			C71A0D910CBA866C008D5FB2 /* JKLibrary.m:56 */,
 		);
+		breakpointsGroup = C75D5B280CCF816A004AF00D /* XCBreakpointsBucket */;
 		codeSenseManager = C7EB17A50898CF22007FC2ED /* Code sense */;
 		executables = (
 			C7EB17970898CF04007FC2ED /* Peacock-Mac */,
@@ -124,7 +125,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Target_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					810,
+					1000,
 					20,
 					48,
 					43,
@@ -217,18 +218,16 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 214491805;
-			PBXWorkspaceStateSaveDate = 214491805;
+			PBXPerProjectTemplateStateSaveDate = 214926147;
+			PBXWorkspaceStateSaveDate = 214926147;
 		};
 		perUserProjectItems = {
-			C7C7EA250CC90739007B5619 /* PBXTextBookmark */ = C7C7EA250CC90739007B5619 /* PBXTextBookmark */;
-			C7C7EA260CC90739007B5619 /* PBXTextBookmark */ = C7C7EA260CC90739007B5619 /* PBXTextBookmark */;
-			C7C7EA270CC90739007B5619 /* PBXTextBookmark */ = C7C7EA270CC90739007B5619 /* PBXTextBookmark */;
-			C7C7EA290CC90739007B5619 /* PBXTextBookmark */ = C7C7EA290CC90739007B5619 /* PBXTextBookmark */;
-			C7C7EA2A0CC90739007B5619 /* PBXTextBookmark */ = C7C7EA2A0CC90739007B5619 /* PBXTextBookmark */;
-			C7C7EA2B0CC90739007B5619 /* PBXTextBookmark */ = C7C7EA2B0CC90739007B5619 /* PBXTextBookmark */;
-			C7C7EA300CC9081A007B5619 /* PBXTextBookmark */ = C7C7EA300CC9081A007B5619 /* PBXTextBookmark */;
-			C7C7EA330CC90DBA007B5619 /* PBXTextBookmark */ = C7C7EA330CC90DBA007B5619 /* PBXTextBookmark */;
+			C71C6E120CCF849100D9FB1E /* PBXTextBookmark */ = C71C6E120CCF849100D9FB1E /* PBXTextBookmark */;
+			C71C6E130CCF849100D9FB1E /* PBXTextBookmark */ = C71C6E130CCF849100D9FB1E /* PBXTextBookmark */;
+			C71C6E140CCF849200D9FB1E /* PBXTextBookmark */ = C71C6E140CCF849200D9FB1E /* PBXTextBookmark */;
+			C71C6E160CCF849300D9FB1E /* PBXTextBookmark */ = C71C6E160CCF849300D9FB1E /* PBXTextBookmark */;
+			C71C6E170CCF849A00D9FB1E /* PBXTextBookmark */ = C71C6E170CCF849A00D9FB1E /* PBXTextBookmark */;
+			C71C6E180CCF849A00D9FB1E /* PBXTextBookmark */ = C71C6E180CCF849A00D9FB1E /* PBXTextBookmark */;
 		};
 		sourceControlManager = C7EB17A40898CF22007FC2ED /* Source Control */;
 		userBuildSettings = {
@@ -268,10 +267,10 @@
 	};
 	8D15AC360486D014006FF6A4 /* Info.plist */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1002, 4438}}";
-			sepNavSelRange = "{1216, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {1427, 4382}}";
+			sepNavSelRange = "{4338, 0}";
 			sepNavVisRange = "{758, 937}";
-			sepNavVisRect = "{{0, 2489}, {899, 521}}";
+			sepNavVisRect = "{{0, 1862}, {1427, 658}}";
 			sepNavWindowFrame = "{{18, 16}, {801, 816}}";
 		};
 	};
@@ -352,17 +351,74 @@
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
-		breakpointStyle = 0;
 		continueAfterActions = 0;
-		countType = 0;
 		delayBeforeContinue = 0;
 		fileReference = C7EB17D50898CF2E007FC2ED /* JKLibrary.m */;
 		functionName = "-writeToURL:ofType:forSaveOperation:originalContentsURL:error:";
 		hitCount = 0;
-		ignoreCount = 0;
 		lineNumber = 56;
 		modificationTime = 214085070.69186;
 		state = 1;
+	};
+	C71C6E120CCF849100D9FB1E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		name = "Info.plist: 41";
+		rLen = 0;
+		rLoc = 1216;
+		rType = 0;
+		vrLen = 973;
+		vrLoc = 788;
+	};
+	C71C6E130CCF849100D9FB1E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		name = "Info.plist: 157";
+		rLen = 0;
+		rLoc = 4338;
+		rType = 0;
+		vrLen = 1171;
+		vrLoc = 4078;
+	};
+	C71C6E140CCF849200D9FB1E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		name = "Info.plist: 157";
+		rLen = 0;
+		rLoc = 4338;
+		rType = 0;
+		vrLen = 1519;
+		vrLoc = 3893;
+	};
+	C71C6E160CCF849300D9FB1E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		name = "Info.plist: 157";
+		rLen = 0;
+		rLoc = 4338;
+		rType = 0;
+		vrLen = 1158;
+		vrLoc = 3893;
+	};
+	C71C6E170CCF849A00D9FB1E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		name = "Info.plist: 157";
+		rLen = 0;
+		rLoc = 4338;
+		rType = 0;
+		vrLen = 1196;
+		vrLoc = 3826;
+	};
+	C71C6E180CCF849A00D9FB1E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		name = "Info.plist: 157";
+		rLen = 0;
+		rLoc = 4338;
+		rType = 0;
+		vrLen = 1504;
+		vrLoc = 3670;
 	};
 	C720AB8609EA7B6C007EF860 /* jk_statistics.h */ = {
 		uiCtxt = {
@@ -640,6 +696,16 @@
 			sepNavVisRect = "{{0, 0}, {1016, 530}}";
 		};
 	};
+	C75D5B280CCF816A004AF00D /* XCBreakpointsBucket */ = {
+		isa = XCBreakpointsBucket;
+		name = "Project Breakpoints";
+		objects = (
+			C7E7EF380A2E53A000849DD5 /* [NSException raise] */,
+			C78DF4D60A3EB4F50001D828 /* _NSKVODeallocateLog */,
+			C76D5BDD0C2ACB6F0070D270 /* -[_NSZombie forward::] */,
+			C71A0D910CBA866C008D5FB2 /* JKLibrary.m:56 */,
+		);
+	};
 	C765B8AA0C23237A00C4F153 /* factoranalysis.R */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {701, 3304}}";
@@ -833,12 +899,9 @@
 		isa = PBXSymbolicBreakpoint;
 		actions = (
 		);
-		breakpointStyle = 0;
 		continueAfterActions = 0;
-		countType = 0;
 		delayBeforeContinue = 0;
 		hitCount = 0;
-		ignoreCount = 0;
 		modificationTime = 214085070.868318;
 		state = 2;
 		symbolName = "-[_NSZombie forward::]";
@@ -1007,12 +1070,9 @@
 		isa = PBXSymbolicBreakpoint;
 		actions = (
 		);
-		breakpointStyle = 0;
 		continueAfterActions = 0;
-		countType = 0;
 		delayBeforeContinue = 2;
 		hitCount = 0;
-		ignoreCount = 0;
 		modificationTime = 214085070.868075;
 		state = 2;
 		symbolName = _NSKVODeallocateLog;
@@ -1116,12 +1176,12 @@
 	};
 	C7ADC91A0BA05609007D9134 /* Peacock-Windows */ = {
 		isa = PBXExecutable;
+		activeArgIndex = 2147483647;
 		activeArgIndices = (
 		);
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
-		breakpointsEnabled = 1;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
@@ -1281,86 +1341,6 @@
 			sepNavVisRect = "{{0, 28}, {966, 553}}";
 		};
 	};
-	C7C7EA250CC90739007B5619 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 32DBCF750370BD2300C91783 /* Peacock_Prefix.pch */;
-		name = "Peacock_Prefix.pch: 24";
-		rLen = 28;
-		rLoc = 502;
-		rType = 0;
-		vrLen = 558;
-		vrLoc = 0;
-	};
-	C7C7EA260CC90739007B5619 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C7C220610BEB831000510B5B /* BooleanToStringTransformer.h */;
-		name = "BooleanToStringTransformer.h: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 240;
-		vrLoc = 0;
-	};
-	C7C7EA270CC90739007B5619 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C777A2CD0A1DFEE400CF44D9 /* JKAtom.m */;
-		name = "JKAtom.m: 14";
-		rLen = 0;
-		rLoc = 254;
-		rType = 0;
-		vrLen = 1003;
-		vrLoc = 0;
-	};
-	C7C7EA290CC90739007B5619 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 32DBCF750370BD2300C91783 /* Peacock_Prefix.pch */;
-		name = "Peacock_Prefix.pch: 24";
-		rLen = 28;
-		rLoc = 502;
-		rType = 0;
-		vrLen = 558;
-		vrLoc = 0;
-	};
-	C7C7EA2A0CC90739007B5619 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C7C220610BEB831000510B5B /* BooleanToStringTransformer.h */;
-		name = "BooleanToStringTransformer.h: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 240;
-		vrLoc = 0;
-	};
-	C7C7EA2B0CC90739007B5619 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C777A2CD0A1DFEE400CF44D9 /* JKAtom.m */;
-		name = "JKAtom.m: 14";
-		rLen = 0;
-		rLoc = 254;
-		rType = 0;
-		vrLen = 1003;
-		vrLoc = 0;
-	};
-	C7C7EA300CC9081A007B5619 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C708E90B0B9D953A0085872E /* JKCombinedPeak.m */;
-		name = "JKCombinedPeak.m: 418";
-		rLen = 0;
-		rLoc = 12602;
-		rType = 0;
-		vrLen = 914;
-		vrLoc = 6969;
-	};
-	C7C7EA330CC90DBA007B5619 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = C708E90B0B9D953A0085872E /* JKCombinedPeak.m */;
-		name = "JKCombinedPeak.m: 418";
-		rLen = 0;
-		rLoc = 12602;
-		rType = 0;
-		vrLen = 914;
-		vrLoc = 6969;
-	};
 	C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1017, 596}}";
@@ -1408,18 +1388,16 @@
 		isa = PBXSymbolicBreakpoint;
 		actions = (
 		);
-		breakpointStyle = 0;
 		continueAfterActions = 0;
-		countType = 0;
 		delayBeforeContinue = 0;
 		hitCount = 0;
-		ignoreCount = 0;
 		modificationTime = 214085070.867468;
 		state = 2;
 		symbolName = "[NSException raise]";
 	};
 	C7EB17970898CF04007FC2ED /* Peacock-Mac */ = {
 		isa = PBXExecutable;
+		activeArgIndex = 2147483647;
 		activeArgIndices = (
 			NO,
 		);
@@ -1427,7 +1405,6 @@
 			"-NSBindingDebugLogLevel 1",
 		);
 		autoAttachOnCrash = 1;
-		breakpointsEnabled = 0;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
