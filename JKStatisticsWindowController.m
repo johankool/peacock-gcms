@@ -306,7 +306,7 @@
    if (performSanityCheck) {
        [detailStatusTextField setStringValue:NSLocalizedString(@"Checking Sanity",@"")];
        for (i=0; i < filesCount; i++) {
-           //NSLog(@"file %d of %d", i, filesCount);
+           //JKLogDebug(@"file %d of %d", i, filesCount);
            document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:NO error:&error];
            if (!document) {
                // maybe try to determine cause of error and recover first
@@ -441,7 +441,7 @@
     if (performSanityCheck) {
         [detailStatusTextField setStringValue:NSLocalizedString(@"Checking Sanity",@"")];
         for (i=0; i < filesCount; i++) {
-            //NSLog(@"file %d of %d", i, filesCount);
+            //JKLogDebug(@"file %d of %d", i, filesCount);
             document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:NO error:&error];
             if (!document) {
                 // maybe try to determine cause of error and recover first
@@ -1223,19 +1223,19 @@
 //                if ([[tableColumn2 identifier] isKindOfClass:[JKGCMSDocument class]])  {
 //                    result = [[tableColumn1 identifier] metadataCompare:[tableColumn2 identifier]];
 //                    if (result == NSOrderedAscending) {
-//                        NSLog(@"NSOrderedAscending");
+//                        JKLogDebug(@"NSOrderedAscending");
 //                        if (i > j)
 //                            [metadataTable moveColumn:j toColumn:i]; 
 //                        //[metadataTable moveColumn:i toColumn:j]; 
 //                    } else if (result == NSOrderedSame) {
-//                        NSLog(@"NSOrderedSame");
+//                        JKLogDebug(@"NSOrderedSame");
 //                        if (i-j > 1) {
 //                            [metadataTable moveColumn:j toColumn:i]; 
 //                        } else if (i-j < -1) {
 //                            [metadataTable moveColumn:i toColumn:j];                            
 //                        }
 //                    } else if (result == NSOrderedDescending) {
-//                        NSLog(@"NSOrderedDescending");
+//                        JKLogDebug(@"NSOrderedDescending");
 //                        if (i > j)
 //                            [metadataTable moveColumn:j toColumn:i]; 
 //                    }

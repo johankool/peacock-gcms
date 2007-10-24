@@ -496,7 +496,7 @@
 }
 
 //- (void)setValue:(id)value forUndefinedKey:(NSString *)key {
-//    NSLog(@"%@: %@", key, value);
+//    JKLogDebug(@"%@: %@", key, value);
 //}
 
 - (NSObjectController *)moleculeStringContainer{

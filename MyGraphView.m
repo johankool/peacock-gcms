@@ -72,6 +72,8 @@ static int   kPaddingLabels             = 4;
         pixelsPerXUnit = [[NSNumber alloc] initWithFloat:20.0f];
 		pixelsPerYUnit = [[NSNumber alloc] initWithFloat:10.0f];
         minimumPixelsPerMajorGridLine = [[NSNumber alloc] initWithFloat:25.0f];
+        minimumPixelsPerXUnit = [[NSNumber alloc] initWithFloat:1.0f];
+		minimumPixelsPerYUnit = [[NSNumber alloc] initWithFloat:1.0f];
         plottingArea = NSMakeRect(80.5,35.5,[self bounds].size.width-90.5,[self bounds].size.height-40.5);
         legendArea =   NSMakeRect([self bounds].size.width-200-10-10,[self bounds].size.height-18-10-5,200,18);
         selectedRect = NSMakeRect(0,0,0,0);
@@ -925,6 +927,8 @@ static int   kPaddingLabels             = 4;
 
 
 - (IBAction)showAll:(id)sender {
+    [self setMinimumPixelsPerXUnit:[NSNumber numberWithFloat:0.0f]];
+    [self setMinimumPixelsPerYUnit:[NSNumber numberWithFloat:0.0f]];
 //    JKLogDebug(@"self: %@ sender: %@ count: %d",[self description],[sender description],[[self dataSeries] count]);
 	int i, count;
 	NSRect totRect, newRect;
@@ -985,11 +989,13 @@ static int   kPaddingLabels             = 4;
         
 //    JKLogDebug(@"zooming to new rect");
 	[self zoomToRect:totRect];
+    [self setMinimumPixelsPerXUnit:[self pixelsPerXUnit]];
+    [self setMinimumPixelsPerYUnit:[self pixelsPerYUnit]];
 }
 
 - (void)scaleVertically 
 {
-//    NSLog(@"scaleVertically");
+//    JKLogDebug(@"scaleVertically");
    	int i, count;
 	MyGraphDataSerie *mgds;
 	
@@ -1061,9 +1067,15 @@ static int   kPaddingLabels             = 4;
         
         // De waarden omrekeningen naar pixels op het scherm.
          scalingMatrix = [NSAffineTransform transform];
-    //	 NSAssert([[self pixelsPerXUnit] floatValue] > 0, @"pixelsPerXUnit = 0");
-    //	 NSAssert([[self pixelsPerYUnit] floatValue] > 0, @"pixelsPerYUnit = 0");
-        [scalingMatrix scaleXBy:[[self pixelsPerXUnit] floatValue] yBy:[[self pixelsPerYUnit] floatValue]];
+         if ([[self pixelsPerXUnit] floatValue] <= 0.0f) {
+             [self setPixelsPerXUnit:[NSNumber numberWithFloat:1.0f]];
+         }
+         if ([[self pixelsPerYUnit] floatValue] <= 0.0f) {
+             [self setPixelsPerYUnit:[NSNumber numberWithFloat:1.0f]];
+         }
+         NSAssert([[self pixelsPerXUnit] floatValue] > 0, @"pixelsPerXUnit = 0");
+         NSAssert([[self pixelsPerYUnit] floatValue] > 0, @"pixelsPerYUnit = 0");
+         [scalingMatrix scaleXBy:[[self pixelsPerXUnit] floatValue] yBy:[[self pixelsPerYUnit] floatValue]];
         
         // In transformationMatrix combineren we de matrices. Eerst de verplaatsing, dan schalen.
         transformationMatrix = [NSAffineTransform transform];
@@ -1109,9 +1121,9 @@ static int   kPaddingLabels             = 4;
 //        case JKStackedDrawingMode:
 //            // starts in series number 
 //            seriesNumber = (((aRect.origin.y - [self plottingArea].origin.y)/[self plottingArea].size.height) * [[self dataSeries] count])/1;
-//            NSLog(@"seriesNumber %d",seriesNumber);
+//            JKLogDebug(@"seriesNumber %d",seriesNumber);
 //            aRect.origin.y =  aRect.origin.y - seriesNumber * ([self plottingArea].size.height / [[self dataSeries] count]);
-//            NSLog(@"aRect.origin.y %g", aRect.origin.y);
+//            JKLogDebug(@"aRect.origin.y %g", aRect.origin.y);
 //            break;
 //        case JKNormalDrawingMode:
 //        default:            
@@ -1495,11 +1507,26 @@ static int   kPaddingLabels             = 4;
 }
 
 - (void)scrollWheel:(NSEvent *)theEvent {
-    if ([theEvent deltaY] > 0) {
-        [self zoomIn];        
-    } else {
-        [self zoomOut];
-    }
+    float deltaX = [theEvent deltaX];
+    float deltaY = [theEvent deltaY];
+    float pixelsPerXUnit = [[self pixelsPerXUnit] floatValue];
+    float pixelsPerYUnit = [[self pixelsPerYUnit] floatValue];
+     if ([theEvent modifierFlags] & NSAlternateKeyMask) {
+         [self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] + 4.0f*deltaX/pixelsPerXUnit]];
+         [self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] - 4.0f*deltaX/pixelsPerXUnit]];
+         [self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] + 4.0f*deltaY/pixelsPerYUnit]];
+//         [self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] - 4.0f*deltaY/pixelsPerYUnit]];         
+//         if (deltaY > 0) {
+//             [self zoomIn];        
+//         } else {
+//             [self zoomOut];
+//         }         
+     } else {
+         [self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] - 4.0f*deltaX/pixelsPerXUnit]];
+         [self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] - 4.0f*deltaX/pixelsPerXUnit]];
+         [self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] + 4.0f*deltaY/pixelsPerYUnit]];
+         [self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] + 4.0f*deltaY/pixelsPerYUnit]];         
+     }
 }
 
 - (int)scanAtPoint:(NSPoint)aPoint {
@@ -2020,6 +2047,9 @@ static int   kPaddingLabels             = 4;
 }
 - (void)setPixelsPerXUnit:(NSNumber *)inValue {
 	if (pixelsPerXUnit != inValue) {
+        if ([inValue isLessThan:[self minimumPixelsPerXUnit]]) {
+            inValue = [self minimumPixelsPerXUnit];
+        }
         [inValue retain];
         [pixelsPerXUnit autorelease];
         pixelsPerXUnit = inValue;
@@ -2032,10 +2062,35 @@ static int   kPaddingLabels             = 4;
 }
 - (void)setPixelsPerYUnit:(NSNumber *)inValue {
 	if (pixelsPerYUnit != inValue) {
+        if ([inValue isLessThan:[self minimumPixelsPerYUnit]]) {
+            inValue = [self minimumPixelsPerYUnit];
+        }
         [inValue retain];
         [pixelsPerYUnit autorelease];
         pixelsPerYUnit = inValue;
         [self setNeedsDisplay:YES];        
+    }
+}
+
+- (NSNumber *)minimumPixelsPerXUnit {
+	return minimumPixelsPerXUnit;
+}
+- (void)setMinimumPixelsPerXUnit:(NSNumber *)inValue {
+	if (minimumPixelsPerXUnit != inValue) {
+        [inValue retain];
+        [minimumPixelsPerXUnit autorelease];
+        minimumPixelsPerXUnit = inValue;
+    }
+}
+
+- (NSNumber *)minimumPixelsPerYUnit {
+	return minimumPixelsPerYUnit;
+}
+- (void)setMinimumPixelsPerYUnit:(NSNumber *)inValue {
+	if (minimumPixelsPerYUnit != inValue) {
+        [inValue retain];
+        [minimumPixelsPerYUnit autorelease];
+        minimumPixelsPerYUnit = inValue;
     }
 }
 

@@ -45,7 +45,7 @@
                 return YES;
         }
     }
-    NSLog(@"Rejected key: %@", aKey);
+    JKLogDebug(@"Rejected key: %@", aKey);
     return NO;
 }
 

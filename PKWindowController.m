@@ -22,6 +22,9 @@
     [[(JKAppDelegate *)[NSApp delegate] ratiosController] setWindow:[self window]];
     [self setupToolbar];
     [[self window] setDelegate:self];
+    NSButton *closeButton = [[self window] standardWindowButton:NSWindowCloseButton];
+    [closeButton setTarget:[PKDocumentController sharedDocumentController]];
+    [closeButton setAction:@selector(performClose:)];
 }
 
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
@@ -34,18 +37,21 @@
         [[[tabViewItem identifier] mainWindowController] setWindow:[self window]];
      } else if ([[tabViewItem identifier] isEqualToString:@"summary"]) {
         [[self document] removeWindowController:self];
+        [[self window] setTitleWithRepresentedFilename:@""];
         [[self window] setTitle:@"Summary"];
         [[self document] removeWindowController:self];
 //        [[self window] setDelegate:self];
 //        [[self window] setNextResponder:(NSResponder *)[(JKAppDelegate *)[NSApp delegate] summaryController]];
     } else if ([[tabViewItem identifier] isEqualToString:@"ratios"]) {
         [[self document] removeWindowController:self];
+        [[self window] setTitleWithRepresentedFilename:@""];
         [[self window] setTitle:@"Ratios"];
         [[self document] removeWindowController:self];
 //        [[self window] setDelegate:self];
 //       [[self window] setNextResponder:(NSResponder *)[(JKAppDelegate *)[NSApp delegate] ratiosController]];
 	} else if ([[tabViewItem identifier] isEqualToString:@"multiple"]) {
         [[self document] removeWindowController:self];
+        [[self window] setTitleWithRepresentedFilename:@""];
         [[self window] setTitle:@"Multiple Items Selected"];
         [[self document] removeWindowController:self];
 //        [[self window] setNextResponder:nil];
@@ -58,7 +64,7 @@
         [[[documentTabView selectedTabViewItem] identifier] printDocument:sender];
     } else if ([[[documentTabView selectedTabViewItem] identifier] isEqualToString:@"multiple"]) {
         // Run print dialog for first documetn only, then for all other documents with the same settings
-        NSLog(@"multiple print");
+        JKLogDebug(@"multiple print");
         JKGCMSDocument *firstDoc = [[[PKDocumentController sharedDocumentController] managedDocuments] objectAtIndex:0];
         [firstDoc printDocumentWithSettings:nil showPrintPanel:YES delegate:self didPrintSelector:@selector(document:didPrint:contextInfo:) contextInfo:[NSNumber numberWithInt:0]];
     } else {
@@ -69,7 +75,7 @@
 - (void)document:(NSDocument *)document didPrint:(BOOL)didPrintSuccessfully  contextInfo: (void *)contextInfo
 {
     if (didPrintSuccessfully) {
-     	NSLog(@"printed %@ number %d", [document displayName], [contextInfo intValue]);   
+     	JKLogDebug(@"printed %@ number %d", [document displayName], [contextInfo intValue]);   
         if ([contextInfo intValue]+1 < [[[PKDocumentController sharedDocumentController] managedDocuments] count]) {
             JKGCMSDocument *nextDoc = [[[PKDocumentController sharedDocumentController] managedDocuments] objectAtIndex:[contextInfo intValue]+1];
             [nextDoc printDocumentWithSettings:nil showPrintPanel:NO delegate:self didPrintSelector:@selector(document:didPrint:contextInfo:) contextInfo:[NSNumber numberWithInt:[contextInfo intValue]+1]];
@@ -229,4 +235,8 @@
 }
 #pragma mark -
 
+- (BOOL)windowShouldClose:(id)sender
+{
+    return NO;
+}
 @end

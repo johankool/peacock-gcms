@@ -76,22 +76,29 @@
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
 {
-    if (rowIndex < [self numberOfSummaries]+1) {
-        switch (rowIndex) {
-        case 0:
-            return @"Summary";
-            break;
-        case 1:
-            return @"Ratios";
-            break;
-        case 2:
-            return @"";
-            break;
-        default:
-            break;
+    if ([[aTableColumn identifier] isEqualToString:@"name"]) {
+        if (rowIndex < [self numberOfSummaries]+1) {
+            switch (rowIndex) {
+            case 0:
+                return @"Summary";
+                break;
+            case 1:
+                return @"Ratios";
+                break;
+            case 2:
+                return @"";
+                break;
+            default:
+                break;
+            }
         }
+        return [[managedDocuments objectAtIndex:rowIndex-[self numberOfSummaries]-1] displayName];
+    } else  {
+        if (rowIndex < [self numberOfSummaries]+1) {
+            return @"";
+        }
+        return [[[managedDocuments objectAtIndex:rowIndex-[self numberOfSummaries]-1] metadata] valueForKey:[aTableColumn identifier]];        
     }
-    return [[managedDocuments objectAtIndex:rowIndex-[self numberOfSummaries]-1] displayName];
 }
 
 - (NSString *)tableView:(NSTableView *)aTableView toolTipForCell:(NSCell *)aCell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)aTableColumn row:(int)row mouseLocation:(NSPoint)mouseLocation
@@ -181,4 +188,31 @@
 }
 
 
+-(IBAction)performClose:(id)sender
+{
+    if (![[self window] isMainWindow]) {
+    	[[NSApp mainWindow] performSelector:@selector(performClose:) withObject:self];
+    } else {
+        if ([documentTableView selectedRow] > [self numberOfSummaries]) {
+#warning [BUG] On quitting with multiple edited docs this goes awry when the user selects "Review changes"
+            JKGCMSDocument *doc = [[documentTabView selectedTabViewItem] identifier];
+            [doc canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
+         } else {
+             [NSApp terminate:self];
+         }
+    }
+}
+
+- (void)document:(NSDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo {
+    if (shouldClose) {
+        [documentTableView selectRow:0 byExtendingSelection:NO];
+        [managedDocuments removeObject:doc];
+        [documentTableView reloadData];
+        NSWindow *tempWindow = [[NSWindow alloc] init];
+        [[doc mainWindowController] setWindow:tempWindow];
+        [[doc mainWindowController] setShouldCloseDocument:YES];
+        [tempWindow close];
+        [tempWindow release];
+    }
+}
 @end

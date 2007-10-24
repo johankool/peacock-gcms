@@ -1851,7 +1851,7 @@ boolAccessor(abortAction, setAbortAction)
     JKChromatogram *chromatogram;
 
     while ((chromatogram = [chromEnum nextObject]) != nil) {
-        if (![[chromatogram model] isEqualToString:@"TIC"])
+//        if (![[chromatogram model] isEqualToString:@"TIC"])
             [array addObjectsFromArray:[chromatogram peaks]];
     }
     _lastReturnedIndex = [array count];

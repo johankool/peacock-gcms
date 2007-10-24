@@ -138,7 +138,7 @@
     // Convert height to the scaled view 
     float scale = [[[pi dictionary] objectForKey:NSPrintScalingFactor]
         floatValue];
-//    NSLog(@"calculatePrintHeight %g",pageHeight / scale);
+//    JKLogDebug(@"calculatePrintHeight %g",pageHeight / scale);
     return pageHeight * scale;
 }
 
@@ -156,7 +156,7 @@
     // Convert height to the scaled view 
     float scale = [[[pi dictionary] objectForKey:NSPrintScalingFactor]
         floatValue];
-//    NSLog(@"calculatePrintWidth %g",pageWidth / scale);
+//    JKLogDebug(@"calculatePrintWidth %g",pageWidth / scale);
     return pageWidth * scale;
 }
 

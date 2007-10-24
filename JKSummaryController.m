@@ -18,25 +18,33 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentLoaded:) name:@"JKGCMSDocument_DocumentLoadedNotification" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentUnloaded:) name:@"JKGCMSDocument_DocumentUnloadedNotification" object:nil];
         indexOfKeyForValue = 0;
-        keys = [[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"topTime", @"key", NSLocalizedString(@"Top Time", @""), @"localized", nil], 
-            						     [NSDictionary dictionaryWithObjectsAndKeys:@"surface", @"key", NSLocalizedString(@"Surface", @""), @"localized", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"retentionIndex", @"key", NSLocalizedString(@"Retention Index", @""), @"localized", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"model", @"key", NSLocalizedString(@"Model", @""), @"localized", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"height", @"key", NSLocalizedString(@"Height", @""), @"localized", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"score", @"key", NSLocalizedString(@"Score", @""), @"localized", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"symbol", @"key", NSLocalizedString(@"Symbol", @""), @"localized", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"deltaRetentionIndex", @"key", NSLocalizedString(@"Delta Retention Index", @""), @"localized", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"top", @"key", NSLocalizedString(@"Top Scan", @""), @"localized", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"start", @"key", NSLocalizedString(@"Start Scan", @""), @"localized", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"end", @"key", NSLocalizedString(@"End Scan", @""), @"localized", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"width", @"key", NSLocalizedString(@"width", @""), @"localized", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"library", @"key", NSLocalizedString(@"Library", @""), @"localized", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"baselineLeft", @"key", NSLocalizedString(@"baselineLeft", @""), @"localized", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"baselineRight", @"key", NSLocalizedString(@"baselineRight", @""), @"localized", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"peakID", @"key", NSLocalizedString(@"Peak Number", @""), @"localized", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"uuid", @"key", NSLocalizedString(@"uuid", @""), @"localized", nil], 
+        indexOfSortKey = 0;
+        sortDirection = YES;
+        keys = [[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"topTime", @"key", NSLocalizedString(@"Top Time", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            						     [NSDictionary dictionaryWithObjectsAndKeys:@"surface", @"key", NSLocalizedString(@"Surface", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"retentionIndex", @"key", NSLocalizedString(@"Retention Index", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"model", @"key", NSLocalizedString(@"Model", @""), @"localized", [NSNumber numberWithInt:1], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"height", @"key", NSLocalizedString(@"Height", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"score", @"key", NSLocalizedString(@"Score", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"symbol", @"key", NSLocalizedString(@"Symbol", @""), @"localized", [NSNumber numberWithInt:1], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"deltaRetentionIndex", @"key", NSLocalizedString(@"Delta Retention Index", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"top", @"key", NSLocalizedString(@"Top Scan", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"start", @"key", NSLocalizedString(@"Start Scan", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"end", @"key", NSLocalizedString(@"End Scan", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"width", @"key", NSLocalizedString(@"Width", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"library", @"key", NSLocalizedString(@"Library", @""), @"localized", [NSNumber numberWithInt:1], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"baselineLeft", @"key", NSLocalizedString(@"Baseline Left", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"baselineRight", @"key", NSLocalizedString(@"Baseline Right", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"peakID", @"key", NSLocalizedString(@"Peak Number", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"uuid", @"key", NSLocalizedString(@"Unique ID", @""), @"localized", [NSNumber numberWithInt:1], @"format", nil], 
             nil] retain];
-            
+        sortKeys = [[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"label", @"key", NSLocalizedString(@"Compound name", @""), @"localized", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"averageRetentionIndex", @"key", NSLocalizedString(@"Retention Index", @""), @"localized", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"averageSurface", @"key", NSLocalizedString(@"Surface", @""), @"localized", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"averageHeight", @"key", NSLocalizedString(@"Height", @""), @"localized", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"countOfPeaks", @"key", NSLocalizedString(@"Number of Peaks", @""), @"localized", nil], 
+            nil] retain];
+        
     }
     return self;
 }
@@ -51,7 +59,7 @@
 - (void)documentLoaded:(NSNotification *)aNotification
 {
     id document = [aNotification object];
-    NSLog(@"Document loaded notification received for %@", [document description]);
+    JKLogDebug(@"Document loaded notification received for %@", [document description]);
     if ([document isKindOfClass:[JKGCMSDocument class]]) {
         if ([tableView columnWithIdentifier:document] == -1)
             [self addTableColumForDocument:document];
@@ -74,12 +82,22 @@
     [[tableColumn headerCell] setStringValue:[document displayName]];
     [tableColumn bind:@"value" toObject:combinedPeaksController withKeyPath:keyPath options:nil];
     [[tableColumn dataCell] setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
-    NSNumberFormatter *formatter = [[[NSNumberFormatter alloc] init] autorelease];
-    [formatter setFormatterBehavior:NSNumberFormatterDecimalStyle];
-    [formatter setPositiveFormat:@"#0.0"];
-    [formatter setLocalizesFormat:YES];
-    [[tableColumn dataCell] setFormatter:formatter];
-    [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
+    NSNumberFormatter *formatter;
+    switch ([self formatForValue]) {
+    case 0:
+        formatter = [[[NSNumberFormatter alloc] init] autorelease];
+        [formatter setFormatterBehavior:NSNumberFormatterDecimalStyle];
+        [formatter setPositiveFormat:@"#0.0"];
+        [formatter setLocalizesFormat:YES]; 
+        [[tableColumn dataCell] setFormatter:formatter];
+        [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
+        break;
+    case 1:
+    default:
+        [[tableColumn dataCell] setFormatter:nil];
+        [[tableColumn dataCell] setAlignment:NSLeftTextAlignment];
+         break;
+    }
     [tableColumn setEditable:NO];
     [tableView addTableColumn:tableColumn];
     [tableColumn release];    
@@ -93,6 +111,23 @@
         if ([[tableColumn identifier] isKindOfClass:[JKGCMSDocument class]]) {
             NSString *keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.%@",[[tableColumn identifier] uuid],[self keyForValue]];
             [tableColumn bind:@"value" toObject:combinedPeaksController withKeyPath:keyPath options:nil];
+            NSNumberFormatter *formatter;
+            switch ([self formatForValue]) {
+                case 0:
+                    formatter = [[[NSNumberFormatter alloc] init] autorelease];
+                    [formatter setFormatterBehavior:NSNumberFormatterDecimalStyle];
+                    [formatter setPositiveFormat:@"#0.0"];
+                    [formatter setLocalizesFormat:YES]; 
+                    [[tableColumn dataCell] setFormatter:formatter];
+                    [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
+                    break;
+                case 1:
+                default:
+                    [[tableColumn dataCell] setFormatter:nil];
+                    [[tableColumn dataCell] setAlignment:NSLeftTextAlignment];
+                    break;
+            }
+            
         }
     }
     
@@ -101,6 +136,11 @@
 - (NSString *)keyForValue
 {
     return [[keys objectAtIndex:indexOfKeyForValue] valueForKey:@"key"];
+}
+
+- (int)formatForValue
+{
+    return [[[keys objectAtIndex:indexOfKeyForValue] valueForKey:@"format"] intValue];
 }
 
 - (NSArray *)localizedKeysForValue
@@ -149,10 +189,64 @@
             }
             [[[document mainWindowController] peakController] setSelectedObjects:[NSArray arrayWithObject:peak]];
         } else {
-            [[[document mainWindowController] peakController] setSelectedObjects:nil];
-            NSBeep();
+            // Attempt to find the peak!
+            [document addChromatogramForModel:[[combinedPeak libraryEntry] model]];
+            JKChromatogram *chromatogram = [document chromatogramForModel:[[combinedPeak libraryEntry] model]];
+            [chromatogram identifyPeaksWithForce:YES];
+            [[[document mainWindowController] chromatogramsController] setSelectedObjects:[NSArray arrayWithObject:chromatogram]];
+            // Find peak closest to averageRetentionTime
+            float retTime = [[combinedPeak averageRetentionIndex] floatValue];
+            float smallestDifference = fabsf([[[[chromatogram peaks] objectAtIndex:0] retentionIndex] floatValue] - retTime);
+            unsigned int i, iout, count = [[chromatogram peaks] count];
+            if (count > 0) {
+                iout = 0;
+                for (i = 0; i < count; i++) {
+                      JKPeakRecord *peak = [[chromatogram peaks] objectAtIndex:i];
+                      if (fabsf([[peak retentionIndex] floatValue] - retTime) < smallestDifference) {
+                          smallestDifference = fabsf([[peak retentionIndex] floatValue] - retTime);
+                          iout = i;
+                      }
+                }
+                [[[chromatogram peaks] objectAtIndex:iout] addSearchResultForLibraryEntry:[combinedPeak libraryEntry]];
+                [[[document mainWindowController] peakController] setSelectedObjects:[NSArray arrayWithObject:[[chromatogram peaks] objectAtIndex:iout]]];
+            } else {
+                JKLogError(@"No peak found in chromatogram. Check baseline and peak detection settings.");
+            }
         }
  	}
+}
+
+- (IBAction)sortArrangedObjects:(id)sender
+{
+    [combinedPeaksController setSortDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:[self sortKey] ascending:[self sortDirection]] autorelease]]];
+}
+
+
+- (NSString *)sortKey
+{
+    return [[sortKeys objectAtIndex:indexOfSortKey] valueForKey:@"key"];
+}
+
+- (NSArray *)localizedSortKeys
+{
+    return [sortKeys valueForKey:@"localized"];
+}
+
+- (int)indexOfSortKey
+{
+    return indexOfSortKey;
+}
+
+
+- (BOOL)sortDirection {
+    return sortDirection;
+}
+
+- (void)setIndexOfSortKey:(int)index 
+{
+    sortDirection = (index != indexOfSortKey);
+    indexOfSortKey = index;
+    [self sortArrangedObjects:self];
 }
 
 @end

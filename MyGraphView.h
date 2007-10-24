@@ -55,6 +55,7 @@ typedef enum {
     NSAffineTransform *transformGraphToScreen;     
 	NSAffineTransform *transformScreenToGraph;
 	NSNumber *pixelsPerXUnit, *pixelsPerYUnit;
+	NSNumber *minimumPixelsPerXUnit, *minimumPixelsPerYUnit;
 	NSNumber *minimumPixelsPerMajorGridLine;
 	NSString *keyForXValue;
 	NSString *keyForYValue;

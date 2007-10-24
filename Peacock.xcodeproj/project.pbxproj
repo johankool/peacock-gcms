@@ -71,6 +71,8 @@
 		C73B27DB0CB1224100C09AAE /* JKSummaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73B27D70CB1224100C09AAE /* JKSummaryController.m */; };
 		C73B28740CB1320A00C09AAE /* jk_statistics.m in Sources */ = {isa = PBXBuildFile; fileRef = C720AB8709EA7B6C007EF860 /* jk_statistics.m */; };
 		C73B28750CB1320B00C09AAE /* jk_statistics.m in Sources */ = {isa = PBXBuildFile; fileRef = C720AB8709EA7B6C007EF860 /* jk_statistics.m */; };
+		C74378910CCCA5AF002DF365 /* BannerBackground.tif in Resources */ = {isa = PBXBuildFile; fileRef = C74378900CCCA5AF002DF365 /* BannerBackground.tif */; };
+		C74378920CCCA5AF002DF365 /* BannerBackground.tif in Resources */ = {isa = PBXBuildFile; fileRef = C74378900CCCA5AF002DF365 /* BannerBackground.tif */; };
 		C747ED350ABF43C6001F98AF /* Peacock Test Files in Resources */ = {isa = PBXBuildFile; fileRef = C747ED320ABF43C6001F98AF /* Peacock Test Files */; };
 		C7490D4D0CAC0B29005DCA39 /* JKChromatogram.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D420CAC0B28005DCA39 /* JKChromatogram.h */; };
 		C7490D4E0CAC0B29005DCA39 /* JKChromatogram.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D430CAC0B28005DCA39 /* JKChromatogram.m */; };
@@ -489,6 +491,7 @@
 		C73B27D30CB1221E00C09AAE /* JKSummary.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = JKSummary.nib; path = Nibs/JKSummary.nib; sourceTree = SOURCE_ROOT; };
 		C73B27D60CB1224100C09AAE /* JKSummaryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSummaryController.h; sourceTree = "<group>"; };
 		C73B27D70CB1224100C09AAE /* JKSummaryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSummaryController.m; sourceTree = "<group>"; };
+		C74378900CCCA5AF002DF365 /* BannerBackground.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = BannerBackground.tif; sourceTree = "<group>"; };
 		C747ED320ABF43C6001F98AF /* Peacock Test Files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Peacock Test Files"; sourceTree = "<group>"; };
 		C7490D420CAC0B28005DCA39 /* JKChromatogram.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKChromatogram.h; sourceTree = "<group>"; };
 		C7490D430CAC0B28005DCA39 /* JKChromatogram.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKChromatogram.m; sourceTree = "<group>"; };
@@ -1049,6 +1052,7 @@
 		C7EB17C00898CF2E007FC2ED /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C74378900CCCA5AF002DF365 /* BannerBackground.tif */,
 				C7F8DEA30BF0CE1A00A34F5D /* table.png */,
 				C7F8DE130BF0A4B500A34F5D /* flagged_header.tiff */,
 				C7F8DE140BF0A4B500A34F5D /* flagged.tiff */,
@@ -1361,6 +1365,7 @@
 				C765B8AC0C23237B00C4F153 /* factoranalysis.R in Resources */,
 				C73B27D40CB1221E00C09AAE /* JKSummary.nib in Resources */,
 				C7BF0DD70CBE6081003BEC49 /* JKRatios.nib in Resources */,
+				C74378920CCCA5AF002DF365 /* BannerBackground.tif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1424,6 +1429,7 @@
 				C77E32BA0C0F2CBB00B8A64A /* libraries.png in Resources */,
 				C73B27D50CB1221E00C09AAE /* JKSummary.nib in Resources */,
 				C7BF0DD60CBE6081003BEC49 /* JKRatios.nib in Resources */,
+				C74378910CCCA5AF002DF365 /* BannerBackground.tif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

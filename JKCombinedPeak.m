@@ -216,7 +216,6 @@
 - (BOOL)isValidDocumentKey:(NSString *)aKey
 {
     NSArray *documents = [[NSDocumentController sharedDocumentController] documents];
-//    NSLog([documents description]);
     NSEnumerator *enumerator = [documents objectEnumerator];
     NSDocument *aDocument;
     
@@ -226,7 +225,7 @@
                 return YES;
         }
     }
-    NSLog(@"Rejected key: %@", aKey);
+    JKLogDebug(@"Rejected key: %@", aKey);
     return NO;
 }
 
