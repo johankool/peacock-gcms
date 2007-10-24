@@ -123,7 +123,7 @@ static BOOL AMRemovableColumnsTableView_readPersistentTableColumnsIsPublic = NO;
 
 - (BOOL)hideTableColumn:(NSTableColumn *)column
 {
-	//NSLog(@"hideTableColumn: %@", [column identifier]);
+	//JKLogDebug(@"hideTableColumn: %@", [column identifier]);
 	BOOL result = NO;
 	if (![(AMRemovableTableColumn *)column isHidden] && ![self isObligatoryColumn:column]) {
 		[(AMRemovableTableColumn *)column setHidden:YES];
@@ -240,7 +240,7 @@ static BOOL AMRemovableColumnsTableView_readPersistentTableColumnsIsPublic = NO;
 {
 	NSString *autosaveName = [self autosaveName];
 	if (!autosaveName) {
-		NSLog(@"AMRemovableColumnsTableView: autosave name missing for table view: %@", self);
+		JKLogError(@"AMRemovableColumnsTableView: autosave name missing for table view: %@", self);
 		autosaveName = @"no-autosave-name-set";
 	}
 	return [@"AMRemovableColumnsTableView VisibleColumns " stringByAppendingString:autosaveName];

@@ -69,6 +69,9 @@
     JKPeakRecord *peak = [aNotification object];
     JKCombinedPeak *combinedPeak = [self combinedPeakForLabel:[peak label]];
     [combinedPeak removeUnconfirmedPeak:peak];
+//    if ([combinedPeak countOfPeaks] == 0) {
+//        [combinedPeaks removeObject:combinedPeak];
+//    }
 }
 
 - (void)documentLoaded:(NSNotification *)aNotification
@@ -101,6 +104,9 @@
     
     while ((combinedPeak = [enumerator nextObject])) {
         [combinedPeak setValue:nil forKey:key];
+//        if ([combinedPeak countOfPeaks] == 0) {
+//            [combinedPeaks removeObject:combinedPeak];
+//        }        
     }
 }
 

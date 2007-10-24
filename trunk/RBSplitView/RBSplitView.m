@@ -903,7 +903,7 @@ static inline float fMAX(float a,float b) {
 		[coder encodeBool:isHorizontal forKey:@"isHorizontal"];
 		[coder encodeBool:isCoupled forKey:@"isCoupled"];
 	} else {
-        NSLog(@"No keyed coding please");
+        JKLogDebug(@"No keyed coding please");
 
 //		[coder encodeConditionalObject:delegate];
 //		[coder encodeObject:autosaveName];
@@ -932,7 +932,7 @@ static inline float fMAX(float a,float b) {
 			divt = [coder decodeFloatForKey:@"dividerThickness"];
 			isHorizontal = [coder decodeBoolForKey:@"isHorizontal"];
 		} else {
-            NSLog(@"No keyed coding please");
+            JKLogDebug(@"No keyed coding please");
 //			[self setDelegate:[coder decodeObject]];
 //			[self setAutosaveName:[coder decodeObject] recursively:NO];
 //			data = [coder decodeObject];

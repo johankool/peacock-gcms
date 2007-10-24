@@ -16,8 +16,12 @@
     IBOutlet NSArrayController *combinedPeaksController;
     int indexOfKeyForValue;
     NSArray *keys;
+    int indexOfSortKey;
+    BOOL sortDirection;
+    NSArray *sortKeys;
  }
 
 - (void)addTableColumForDocument:(JKGCMSDocument *)document;
+- (int)formatForValue;
 
 @end

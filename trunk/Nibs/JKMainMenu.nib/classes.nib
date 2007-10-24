@@ -111,6 +111,7 @@
         }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 
         {
+            ACTIONS = {performClose = id; }; 
             CLASS = PKDocumentController; 
             LANGUAGE = ObjC; 
             OUTLETS = {

@@ -436,7 +436,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
         return NO;
     }
     
-//    NSLog(rCommand);
+//    JKLogDebug(rCommand);
     
     [rCommand writeToFile:[tempDir stringByAppendingPathComponent:@"input.R"] atomically:NO encoding:NSASCIIStringEncoding error:NULL];
     

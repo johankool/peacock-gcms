@@ -270,7 +270,7 @@ static void *ArrayObservationContext = (void *)1092;
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
 	int i,j;
 	BOOL drawLabel;
-//    NSLog([[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"drawLabelsAlways"]);
+//    JKLogDebug([[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"drawLabelsAlways"]);
     BOOL drawLabelAlways = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"drawLabelsAlways"] intValue];
 //    if (drawLabelAlways) {
 //        JKLogInfo(@"Will draw labels always");
@@ -291,7 +291,7 @@ static void *ArrayObservationContext = (void *)1092;
 	// It is more important to label the higher intensities.
 	for (i=0; i<count; i++) {
         id label =[[[self dataArray] objectAtIndex:i] valueForKey:keyForLabel];
-//       NSLog([label description]);
+//       JKLogDebug([label description]);
         if (!label) {
             JKLogWarning(@"No label");
             continue;

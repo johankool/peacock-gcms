@@ -233,6 +233,23 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     [self loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
 
 }
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
+    if ([[[PKDocumentController sharedDocumentController] documents] count] > 0) {
+        NSString *msgString;
+        if ([[[PKDocumentController sharedDocumentController] documents] count] == 1) {
+            msgString = [NSString localizedStringWithFormat:NSLocalizedString(@"There is one document open in Peacock. Do you want to quit anyway?", @"")];
+        } else {
+            msgString = [NSString localizedStringWithFormat:NSLocalizedString(@"There are %d documents open in Peacock. Do you want to quit anyway?", @""),[[[PKDocumentController sharedDocumentController] documents] count]];            
+        }
+        int answer = NSRunAlertPanel(@"Are you sure you want to quit Peacock?", msgString, @"Quit",@"Cancel",nil);
+        if (answer == NSCancelButton) {
+            return NSTerminateCancel;
+        } else {
+            return NSTerminateNow;
+        }
+    }
+    return NSTerminateNow;
+}
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
@@ -516,7 +533,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     }
     [aNewAutocompleteEntries sortUsingSelector:@selector(compare:)];
     [self setAutocompleteEntries:aNewAutocompleteEntries];
-//    NSLog([aNewAutocompleteEntries description]);
+//    JKLogDebug([aNewAutocompleteEntries description]);
     // Store configuration
     [libraryConfigurationLoaded release];
     [configuration retain];
@@ -758,14 +775,22 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 }
 
 - (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldHandleException:(NSException *)exception mask:(unsigned int)aMask {
-    [self printStackTrace:exception];
-    return YES;
+    if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue] >= JK_VERBOSITY_DEBUG) {
+        [self printStackTrace:exception];
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 - (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldLogException:(NSException *)exception mask:(unsigned int)mask
 {
-    [self printStackTrace:exception];
-    return YES;
+    if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue] >= JK_VERBOSITY_DEBUG) {
+        [self printStackTrace:exception];
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 - (void)printStackTrace:(NSException *)e
@@ -787,7 +812,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
         [ls release];
         
     } else {
-        NSLog(@"No stack trace available.");
+        JKLogDebug(@"No stack trace available.");
     }
 }
 @end
