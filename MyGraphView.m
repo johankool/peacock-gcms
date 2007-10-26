@@ -1238,7 +1238,6 @@ static int   kPaddingLabels             = 4;
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
-    NSCursor *zoomCursor = nil;
 	_didDrag = NO;
 	_mouseDownAtPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	_oldOrigin = [self origin];
@@ -1509,12 +1508,12 @@ static int   kPaddingLabels             = 4;
 - (void)scrollWheel:(NSEvent *)theEvent {
     float deltaX = [theEvent deltaX];
     float deltaY = [theEvent deltaY];
-    float pixelsPerXUnit = [[self pixelsPerXUnit] floatValue];
-    float pixelsPerYUnit = [[self pixelsPerYUnit] floatValue];
+    float pixelsPerXUnitF = [[self pixelsPerXUnit] floatValue];
+    float pixelsPerYUnitF = [[self pixelsPerYUnit] floatValue];
      if ([theEvent modifierFlags] & NSAlternateKeyMask) {
-         [self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] + 4.0f*deltaX/pixelsPerXUnit]];
-         [self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] - 4.0f*deltaX/pixelsPerXUnit]];
-         [self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] + 4.0f*deltaY/pixelsPerYUnit]];
+         [self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] + 4.0f*deltaX/pixelsPerXUnitF]];
+         [self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] - 4.0f*deltaX/pixelsPerXUnitF]];
+         [self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] + 4.0f*deltaY/pixelsPerYUnitF]];
 //         [self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] - 4.0f*deltaY/pixelsPerYUnit]];         
 //         if (deltaY > 0) {
 //             [self zoomIn];        
@@ -1522,10 +1521,10 @@ static int   kPaddingLabels             = 4;
 //             [self zoomOut];
 //         }         
      } else {
-         [self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] - 4.0f*deltaX/pixelsPerXUnit]];
-         [self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] - 4.0f*deltaX/pixelsPerXUnit]];
-         [self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] + 4.0f*deltaY/pixelsPerYUnit]];
-         [self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] + 4.0f*deltaY/pixelsPerYUnit]];         
+         [self setXMaximum:[NSNumber numberWithFloat:[[self xMaximum] floatValue] - 4.0f*deltaX/pixelsPerXUnitF]];
+         [self setXMinimum:[NSNumber numberWithFloat:[[self xMinimum] floatValue] - 4.0f*deltaX/pixelsPerXUnitF]];
+         [self setYMaximum:[NSNumber numberWithFloat:[[self yMaximum] floatValue] + 4.0f*deltaY/pixelsPerYUnitF]];
+         [self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] + 4.0f*deltaY/pixelsPerYUnitF]];         
      }
 }
 

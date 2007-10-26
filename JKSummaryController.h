@@ -22,6 +22,9 @@
  }
 
 - (void)addTableColumForDocument:(JKGCMSDocument *)document;
+- (NSString *)keyForValue;
 - (int)formatForValue;
+- (BOOL)sortDirection;
+- (NSString *)sortKey;
 
 @end

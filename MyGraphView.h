@@ -169,6 +169,9 @@ typedef enum {
 - (NSMutableDictionary *)pointAtPoint:(NSPoint)aPoint;
 - (int)massAtPoint:(NSPoint)aPoint;
 
+#pragma mark MOUSE
+- (void)setCursorForOperation:(JKOperations)operation;
+
 #pragma mark BINDINGS
 - (NSMutableArray *)dataSeries;
 - (NSArrayController *)dataSeriesContainer;
@@ -295,6 +298,11 @@ typedef enum {
 - (void)setShouldDrawPeaks:(BOOL)inValue;
 - (int)selectedScan;
 - (void)setSelectedScan:(int)inValue;
+
+- (NSNumber *)minimumPixelsPerXUnit;
+- (void)setMinimumPixelsPerXUnit:(NSNumber *)inValue;
+- (NSNumber *)minimumPixelsPerYUnit;
+- (void)setMinimumPixelsPerYUnit:(NSNumber *)inValue;
 
 #pragma mark CALCULATED ACCESSORS
 // Zooming

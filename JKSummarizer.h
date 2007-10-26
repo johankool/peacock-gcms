@@ -15,8 +15,11 @@
     NSMutableArray *ratios;
 }
 
+- (void)setupRatios;
+
 - (void)didConfirmPeak:(NSNotification *)aNotification;
 - (void)didUnconfirmPeak:(NSNotification *)aNotification;
 - (JKCombinedPeak *)combinedPeakForLabel:(NSString *)label;
+- (NSMutableArray *)combinedPeaks;
 
 @end

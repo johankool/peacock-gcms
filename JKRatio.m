@@ -9,7 +9,8 @@
 #import "JKRatio.h"
 
 #import "JKGCMSDocument.h"
-
+#import "JKSummarizer.h"
+#import "JKAppDelegate.h"
 
 @implementation JKRatio
 
@@ -56,7 +57,7 @@
     JKLogEnteringMethod();
 
     if ([self isValidDocumentKey:key]) {
-        return [NSNumber numberWithFloat:[self calculateRatioForKey:key inCombinedPeaksArray:[[[NSApp delegate] summarizer] combinedPeaks]]];
+        return [NSNumber numberWithFloat:[self calculateRatioForKey:key inCombinedPeaksArray:[[(JKAppDelegate *)[NSApp delegate] summarizer] combinedPeaks]]];
     } else {
         return [super valueForUndefinedKey:key];
     }

@@ -119,8 +119,10 @@ typedef enum {
 //- (BOOL)searchLibraryForAllPeaks;
 
 - (BOOL)performLibrarySearchForChromatograms:(NSArray *)someChromatograms;
-- (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms;
-- (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms withLibraryEntries:(NSArray *)libraryEntries maximumRetentionIndexDifference:(float)aMaximumRetentionIndexDifference;
+- (BOOL)performBackwardSearch;
+- (BOOL)performBackwardSearchWithLibraryEntries:(NSArray *)libraryEntries maximumRetentionIndexDifference:(float)aMaximumRetentionIndexDifference;
+//- (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms;
+//- (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms withLibraryEntries:(NSArray *)libraryEntries maximumRetentionIndexDifference:(float)aMaximumRetentionIndexDifference;
 - (BOOL)performForwardSearchForChromatograms:(NSArray *)someChromatograms;
 - (BOOL)performForwardSearchLibraryForPeak:(JKPeakRecord *)aPeak;
 

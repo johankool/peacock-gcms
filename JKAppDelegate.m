@@ -596,10 +596,13 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
             return nil;
         }      
         JKLogInfo(@"Saving new library entry to %@", path);
-#warning [TODO] Should check if path is file
-        id persistentStore = [[[library managedObjectContext] persistentStoreCoordinator] persistentStoreForURL:[NSURL fileURLWithPath:path]];
-        if (persistentStore) {
-            [[library managedObjectContext] assignObject:libEntry toPersistentStore:persistentStore];            
+        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+            id persistentStore = [[[library managedObjectContext] persistentStoreCoordinator] persistentStoreForURL:[NSURL fileURLWithPath:path]];
+            if (persistentStore) {
+                [[library managedObjectContext] assignObject:libEntry toPersistentStore:persistentStore];            
+            }
+        } else {
+            JKLogError(@"Saving new library entry to '%@' failed. No such library exists.", path);
         }
         [libEntry setJCAMPString:[[aPeak libraryEntryRepresentation] jcampString]];
         return libEntry; 

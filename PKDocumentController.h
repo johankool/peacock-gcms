@@ -25,4 +25,5 @@
 - (int)numberOfSummaries;
 - (NSWindow *)window;
 - (NSArray *)managedDocuments;
+- (void)showDocument:(NSDocument *)document;
 @end

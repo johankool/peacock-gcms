@@ -8,8 +8,14 @@
 
 #import "JKSummaryController.h"
 
+#import "JKAppDelegate.h"
+#import "JKChromatogram.h"
+#import "JKCombinedPeak.h"
 #import "JKGCMSDocument.h"
+#import "JKMainWindowController.h"
 #import "JKSummarizer.h"
+#import "JKPeakRecord.h"
+#import "PKDocumentController.h"
 
 @implementation JKSummaryController
 - (id)init {
@@ -53,7 +59,7 @@
 {
     [tableView setTarget:self];
     [tableView setDoubleAction:@selector(doubleClickAction:)];
-    [combinedPeaksController bind:@"contentArray" toObject:[[NSApp delegate] summarizer] withKeyPath:@"combinedPeaks" options:nil];
+    [combinedPeaksController bind:@"contentArray" toObject:[(JKAppDelegate *)[NSApp delegate] summarizer] withKeyPath:@"combinedPeaks" options:nil];
 }
 
 - (void)documentLoaded:(NSNotification *)aNotification
@@ -160,7 +166,6 @@
 }
 
 - (IBAction)doubleClickAction:(id)sender {
-	NSError *error = [[[NSError alloc] init] autorelease];
 	if (([sender clickedRow] == -1) && ([sender clickedColumn] == -1)) {
 		return;
 	} else if ([sender clickedColumn] == 0) {
@@ -169,22 +174,23 @@
         // A column was double clicked
         // Bring forward the associated file
         JKGCMSDocument *document = [[[tableView tableColumns] objectAtIndex:[sender clickedColumn]] identifier];
-        [[NSDocumentController sharedDocumentController] showDocument:document];
+        [[PKDocumentController sharedDocumentController] showDocument:document];
     } else {
         // A cell was double clicked
         // Bring forwars associated file and
         // select associated peak
         JKGCMSDocument *document = [[[tableView tableColumns] objectAtIndex:[sender clickedColumn]] identifier];
-        [[NSDocumentController sharedDocumentController] showDocument:document];
+        [[PKDocumentController sharedDocumentController] showDocument:document];
         
         JKCombinedPeak *combinedPeak = [[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]];
         JKPeakRecord *peak = [combinedPeak valueForKey:[document uuid]];
+        NSArrayController *chromatogramsController = [[document mainWindowController] chromatogramsController];
         if (peak) {
-            if (![[[[document mainWindowController] chromatogramsController] selectedObjects] containsObject:[document chromatogramForModel:[peak model]]]) {
-                if ([[[[document mainWindowController] chromatogramsController] selectedObjects] count] > 1) {
-                    [[[document mainWindowController] chromatogramsController] addSelectedObjects:[NSArray arrayWithObject:[document chromatogramForModel:[peak model]]]];
+            if (![[chromatogramsController selectedObjects] containsObject:[document chromatogramForModel:[peak model]]]) {
+                if ([[chromatogramsController selectedObjects] count] > 1) {
+                    [chromatogramsController addSelectedObjects:[NSArray arrayWithObject:[document chromatogramForModel:[peak model]]]];
                 } else {             
-                    [[[document mainWindowController] chromatogramsController] setSelectedObjects:[NSArray arrayWithObject:[document chromatogramForModel:[peak model]]]];
+                    [chromatogramsController setSelectedObjects:[NSArray arrayWithObject:[document chromatogramForModel:[peak model]]]];
                 }
             }
             [[[document mainWindowController] peakController] setSelectedObjects:[NSArray arrayWithObject:peak]];
@@ -193,7 +199,7 @@
             [document addChromatogramForModel:[[combinedPeak libraryEntry] model]];
             JKChromatogram *chromatogram = [document chromatogramForModel:[[combinedPeak libraryEntry] model]];
             [chromatogram identifyPeaksWithForce:YES];
-            [[[document mainWindowController] chromatogramsController] setSelectedObjects:[NSArray arrayWithObject:chromatogram]];
+            [chromatogramsController setSelectedObjects:[NSArray arrayWithObject:chromatogram]];
             // Find peak closest to averageRetentionTime
             float retTime = [[combinedPeak averageRetentionIndex] floatValue];
             float smallestDifference = fabsf([[[[chromatogram peaks] objectAtIndex:0] retentionIndex] floatValue] - retTime);
@@ -207,7 +213,7 @@
                           iout = i;
                       }
                 }
-                [[[chromatogram peaks] objectAtIndex:iout] addSearchResultForLibraryEntry:[combinedPeak libraryEntry]];
+                [(JKPeakRecord *)[[chromatogram peaks] objectAtIndex:iout] addSearchResultForLibraryEntry:[combinedPeak libraryEntry]];
                 [[[document mainWindowController] peakController] setSelectedObjects:[NSArray arrayWithObject:[[chromatogram peaks] objectAtIndex:iout]]];
             } else {
                 JKLogError(@"No peak found in chromatogram. Check baseline and peak detection settings.");

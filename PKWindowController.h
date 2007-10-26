@@ -13,5 +13,5 @@
 	IBOutlet NSTabView *documentTabView;
     IBOutlet NSTableView *documentTableView;
 }
-
+- (void)setupToolbar;
 @end

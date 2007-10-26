@@ -16,30 +16,30 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
 - (void)awakeFromNib{
     // register for drag and drop
     [tableView registerForDraggedTypes:
-		[NSArray arrayWithObjects:@"JKLibraryEntryTableViewDataType", MovedRowsType, nil]];
-//    [tableView setAllowsMultipleSelection:YES];
-////    
-
+	[NSArray arrayWithObjects:@"JKLibraryEntryTableViewDataType", MovedRowsType, nil]];
 }
 
 #pragma mark Tableview drag and drop support etc.
 
-- (BOOL)tableView:(NSTableView *)tv
-		writeRows:(NSArray*)rows
-	 toPasteboard:(NSPasteboard*)pboard{
+- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard {    
 	// declare our own pasteboard types
     NSArray *typesArray = [NSArray arrayWithObjects:@"JKLibraryEntryTableViewDataType", MovedRowsType, nil];
     [pboard declareTypes:typesArray owner:self];
 
-    // add rows array for local move
-    [pboard setPropertyList:rows forType:MovedRowsType];
-	
     NSMutableData *data;
     NSKeyedArchiver *archiver;
-    
+        
+    // add rows array for local move
     data = [NSMutableData data];
     archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-    [archiver encodeObject:[[self arrangedObjects] objectAtIndex:[[rows objectAtIndex:0] intValue]] forKey:@"JKLibraryEntryTableViewDataType"];
+    [archiver encodeObject:rowIndexes forKey:@"rowIndexes"];
+    [archiver finishEncoding];
+    [pboard setData:data forType:MovedRowsType];
+    [archiver release];
+ 	
+    data = [NSMutableData data];
+    archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:[[self arrangedObjects] objectAtIndex:[rowIndexes firstIndex]] forKey:@"JKLibraryEntryTableViewDataType"];
     [archiver finishEncoding];
     [pboard setData:data forType:@"JKLibraryEntryTableViewDataType"];
     [archiver release];
@@ -81,21 +81,14 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
     // if drag source is self, it's a move
     if ([info draggingSource] == tableView)
    {
-#warning [BUG] Also non-selected rows can be dragged, if that's the case the move will not occur
-		//NSArray *rows = [[info draggingPasteboard] propertyListForType:MovedRowsType];
-		//NSIndexSet  *indexSet = [self indexSetFromRows:rows];
-		NSIndexSet  *indexSet = [tableView selectedRowIndexes];
-                
+        NSData *data = [[info draggingPasteboard] dataForType:MovedRowsType];
+        NSKeyedUnarchiver *unarchiver;
+        unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+        NSIndexSet  *indexSet = [unarchiver decodeObjectForKey:@"rowIndexes"];
+        [unarchiver finishDecoding];
+        [unarchiver release];
+                  
         [self moveObjectsInArrangedObjectsFromIndexes:indexSet toIndex:row];
-		
-		// set selected rows to those that were just moved
-		// Need to work out what moved where to determine proper selection...
-		int rowsAbove = [self rowsAboveRow:row inIndexSet:indexSet];
-		
-		NSRange range = NSMakeRange(row - rowsAbove, [indexSet count]);
-		indexSet = [NSIndexSet indexSetWithIndexesInRange:range];
-		[self setSelectionIndexes:indexSet];
-		
 		return YES;
     }
 	
