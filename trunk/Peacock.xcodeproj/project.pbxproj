@@ -1881,6 +1881,7 @@
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
+				OTHER_CFLAGS = "-Wformat=2";
 				PREBINDING = NO;
 				PRODUCT_NAME = Peacock;
 				SYMROOT = build/Mac;
@@ -1918,6 +1919,7 @@
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
+				OTHER_CFLAGS = "-Wformat=2";
 				PRODUCT_NAME = Peacock;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SYMROOT = build/Mac;

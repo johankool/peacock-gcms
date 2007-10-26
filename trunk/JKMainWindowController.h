@@ -114,6 +114,10 @@ enum JKPeakSelection {
 - (IBAction)fitSpectrumDataToView:(id)sender;
 - (IBAction)showSelectedChromatogramsOnlyAction:(id)sender;
 - (IBAction)identifyCompound:(id)sender;
+
+- (NSPredicate *)predicateForPeakTypeShow;
+- (void)setupChromatogramDataSeries;
+
 #pragma mark NSTOOLBAR MANAGEMENT
 - (void)setupToolbar;
 

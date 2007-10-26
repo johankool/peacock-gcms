@@ -8,10 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class JKGCMSDocument;
 
 @interface JKRatiosController : NSWindowController {
     IBOutlet NSTableView *tableView;
     IBOutlet NSArrayController *ratiosController;
 }
+
+- (void)addTableColumForDocument:(JKGCMSDocument *)document;
 
 @end

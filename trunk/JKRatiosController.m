@@ -8,8 +8,10 @@
 
 #import "JKRatiosController.h"
 
+#import "JKAppDelegate.h"
 #import "JKGCMSDocument.h"
 #import "JKSummarizer.h"
+#import "PKDocumentController.h"
 
 @implementation JKRatiosController
 - (id)init {
@@ -25,7 +27,7 @@
 {
     [tableView setTarget:self];
     [tableView setDoubleAction:@selector(doubleClickAction:)];
-    [ratiosController bind:@"contentArray" toObject:[[NSApp delegate] summarizer] withKeyPath:@"ratios" options:nil];
+    [ratiosController bind:@"contentArray" toObject:[(JKAppDelegate *)[NSApp delegate] summarizer] withKeyPath:@"ratios" options:nil];
 }
 
 - (void)documentLoaded:(NSNotification *)aNotification
@@ -73,7 +75,7 @@
     } else {
         // Bring forwars associated file 
         JKGCMSDocument *document = [[[tableView tableColumns] objectAtIndex:[sender clickedColumn]] identifier];
-        [[NSDocumentController sharedDocumentController] showDocument:document];     
+        [[PKDocumentController sharedDocumentController] showDocument:document];     
   	}
 }
 

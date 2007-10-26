@@ -66,8 +66,12 @@
 
 - (JKSummaryController *)summaryController;
 - (JKSummarizer *)summarizer;
+- (JKRatiosController *)ratiosController;
 
 #pragma mark GROWL SUPPORT
 - (NSDictionary *)registrationDictionaryForGrowl;
+
+
+- (void)printStackTrace:(NSException *)e;
 
 @end

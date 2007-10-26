@@ -203,7 +203,7 @@
     }
 }
 
-- (void)document:(NSDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo {
+- (void)document:(JKGCMSDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo {
     if (shouldClose) {
         [documentTableView selectRow:0 byExtendingSelection:NO];
         [managedDocuments removeObject:doc];

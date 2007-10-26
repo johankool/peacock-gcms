@@ -7,9 +7,11 @@
 //
 
 #import "JKBatchProcessWindowController.h"
+
+#import "Growl/GrowlApplicationBridge.h"
 #import "JKGCMSDocument.h"
 #import "JKMainWindowController.h"
-#import "Growl/GrowlApplicationBridge.h"
+#import "PKDocumentController.h"
 
 @implementation JKBatchProcessWindowController
 
@@ -90,7 +92,7 @@
 
 	for (i=0; i < filesCount; i++) {
 		document = [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[files objectAtIndex:i] valueForKey:@"path"]] display:YES error:&error];
-        [[NSDocumentController sharedDocumentController] showDocument:document];
+        [[PKDocumentController sharedDocumentController] showDocument:document];
 //		[[self window] makeKeyAndOrderFront:self];
 		if (document == nil) {
 			JKLogError(@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]);
