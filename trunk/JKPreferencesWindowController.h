@@ -19,5 +19,7 @@
 }
 
 - (IBAction)changeAutoSaveAction:(id)sender;
+- (IBAction)showInFinder:(id)sender;
+- (IBAction)reloadLibrary:(id)sender;
 
 @end

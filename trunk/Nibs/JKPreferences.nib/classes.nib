@@ -14,7 +14,7 @@
         }, 
         {CLASS = JKPathPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
         {
-            ACTIONS = {changeAutoSaveAction = id; }; 
+            ACTIONS = {changeAutoSaveAction = id; reloadLibrary = id; showInFinder = id; }; 
             CLASS = JKPreferencesWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {

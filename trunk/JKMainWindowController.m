@@ -168,13 +168,14 @@ static void *PeaksObservationContext = (void *)1103;
     
     [[[peaksTable tableColumnWithIdentifier:@"id"] headerCell] setImage:[NSImage imageNamed:@"flagged_header"]];
     // 	[tableView setObligatoryTableColumns:[NSSet setWithObject:[tableView tableColumnWithIdentifier:@"name"]]];
-    [[self window] setFrameFromString:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"mainWindowFrame"]];
+
+//    [[self window] setFrameFromString:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"mainWindowFrame"]];
 }
 
-- (void)windowWillClose:(NSNotification *)aNotification
-{
-    [[[NSUserDefaultsController sharedUserDefaultsController] values] setValue:[[self window] stringWithSavedFrame] forKey:@"mainWindowFrame"];
-}
+//- (void)windowWillClose:(NSNotification *)aNotification
+//{
+//    [[[NSUserDefaultsController sharedUserDefaultsController] values] setValue:[[self window] stringWithSavedFrame] forKey:@"mainWindowFrame"];
+//}
 #pragma mark -
 
 #pragma mark IBActions
@@ -752,6 +753,9 @@ static void *PeaksObservationContext = (void *)1103;
     if (([keyPath isEqualToString:@"chromatograms"]) || (context == ChromatogramObservationContext) || ((object == peakController) && showSelectedChromatogramsOnly)) {
         // Created chromatogram data series
         [self setupChromatogramDataSeries];
+        if ([[peakController arrangedObjects] count] > 0 && [[peakController selectedObjects] count] == 0) {
+            [peakController setSelectionIndex:0];
+        }
     }
 	if ((((object == peakController) | (object == searchResultsController)) && (([peakController selection] != NSNoSelectionMarker) && ([searchResultsController selection] != NSNoSelectionMarker))) || (context == SpectrumObservationContext)) {
         NSMutableArray *spectrumArray = [NSMutableArray array];
@@ -936,7 +940,7 @@ static void *PeaksObservationContext = (void *)1103;
     
     [chromatogramDataSeries makeObjectsPerformSelector:@selector(setFilterPredicate:) withObject:[self predicateForPeakTypeShow]];
 
-    [chromatogramView scaleVertically];
+    [chromatogramView showAll:self];
     
     // this should actually be done in MyGraphView
     int newCount = [chromatogramDataSeries count];

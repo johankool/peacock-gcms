@@ -31,6 +31,7 @@
 #pragma mark -
 
 #pragma mark Importing data
+#warning [BUG] Too slow, store as data
 - (void)readPeakTable 
 {
     NSString *currentPeakTable = [self primitiveValueForKey:@"peakTable"];
