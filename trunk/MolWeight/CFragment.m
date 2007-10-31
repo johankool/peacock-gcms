@@ -1,5 +1,5 @@
 // ===============================================================================
-// CFragment.m												 ©1999-2000, J.T. Frey
+// CFragment.m												 ï¿½1999-2000, J.T. Frey
 // ===============================================================================
 // Written:		J.T. Frey, 03/11/2001
 // Purpose:		A fragment object holds atoms and other fragments.
@@ -23,10 +23,10 @@
 	// Last Mod:	n/a
 
 	- (id) initFromString
-		:(const char*)parseString
+		:(char*)parseString
 		:(char**)myDataEndsAt
 	{
-		char*			parse = parseString;
+        char*			parse = parseString;
 		id				tmpObj;
 		
 		self = [super init];

@@ -62,18 +62,18 @@
     
 	[theScanner release];	
     
-	NSMutableString *newPeakTable = [[[NSMutableString alloc] init] autorelease];
-	for (j=0; j < numberOfPoints; j++) {
-		[newPeakTable appendFormat:@"%.0f, %.0f ", masses[j], intensities[j]];
-		if (fmod(j,8) == 7 && j != numberOfPoints-1){
-			[newPeakTable appendString:@"\r\n"];
-		}
-	}
-    
-    if (peakTableRead) {
-        NSAssert([currentPeakTable isEqualToString:newPeakTable], @"peakTable not stable");
-    } else if (![currentPeakTable isEqualToString:newPeakTable]) {
-        [self setPrimitiveValue:newPeakTable forKey:@"peakTable"];
+//	NSMutableString *newPeakTable = [[[NSMutableString alloc] init] autorelease];
+//	for (j=0; j < numberOfPoints; j++) {
+//		[newPeakTable appendFormat:@"%.0f, %.0f ", masses[j], intensities[j]];
+//		if (fmod(j,8) == 7 && j != numberOfPoints-1){
+//			[newPeakTable appendString:@"\r\n"];
+//		}
+//	}
+//    
+//    if (peakTableRead) {
+//        NSAssert([currentPeakTable isEqualToString:newPeakTable], @"peakTable not stable");
+//    } else if (![currentPeakTable isEqualToString:newPeakTable]) {
+//        [self setPrimitiveValue:newPeakTable forKey:@"peakTable"];
     }
     
     peakTableRead = YES;

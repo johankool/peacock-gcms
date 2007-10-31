@@ -1,5 +1,5 @@
 // ===============================================================================
-// CAtom.m													 ©1999-2000, J.T. Frey
+// CAtom.m													 ï¿½1999-2000, J.T. Frey
 // ===============================================================================
 // Written:		J.T. Frey, 03/11/2001
 // Purpose:		An atom object holds an atom ID and a multiplicity.
@@ -22,11 +22,11 @@
 	// Last Mod:	n/a
 
 	- (id) initFromString
-		:(const char*)parseString
+		:(char*)parseString
 		:(char**)myDataEndsAt
 	{
 		TElementSym		newSym = 0;
-		char*			parse = parseString;
+        char*			parse = parseString;
 		
 		self = [super init];
 		
