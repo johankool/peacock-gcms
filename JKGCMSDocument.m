@@ -910,6 +910,15 @@ int const JKGCMSDocument_Version = 7;
                 }                
                 entriesCount = [libraryEntries count];                
             }
+            JKSpectrum *peakSpectrum = nil;
+            if (spectrumToUse == JKSpectrumSearchSpectrum) {
+                peakSpectrum = [aPeak spectrum];
+            } else if (spectrumToUse == JKCombinedSpectrumSearchSpectrum) {
+                peakSpectrum = [aPeak combinedSpectrum];
+            } else {
+                JKLogError(@"spectrumToUse has unexpected value.");
+            }
+            
             for (j = 0; j < entriesCount; j++) {
                 libraryEntry = [libraryEntries objectAtIndex:j];
 //                libraryEntryModel = [libraryEntry model];
@@ -921,13 +930,7 @@ int const JKGCMSDocument_Version = 7;
 //                } else {
 //                    continue;
 //                }
-                if (spectrumToUse == JKSpectrumSearchSpectrum) {
-                    score = [[peak spectrum] scoreComparedTo:libraryEntry];                    
-                } else if (spectrumToUse == JKCombinedSpectrumSearchSpectrum) {
-                    score = [[peak combinedSpectrum] scoreComparedTo:libraryEntry];
-                } else {
-                    JKLogError(@"spectrumToUse has unexpected value.");
-                }
+                score = [peakSpectrum scoreComparedTo:libraryEntry];                    
                 if (score >= minimumScoreSearchResultsF) {
                     JKSearchResult *searchResult = [[JKSearchResult alloc] init];
                     [searchResult setScore:[NSNumber numberWithFloat:score]];
@@ -992,16 +995,18 @@ int const JKGCMSDocument_Version = 7;
     [progressIndicator setIndeterminate:NO];
 	[progressIndicator setMaxValue:entriesCount*1.0];
     [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:NSLocalizedString(@"Comparing Library Entries",@"") waitUntilDone:NO];
-
+	JKSpectrum *peakSpectrum = nil;
+    if (spectrumToUse == JKSpectrumSearchSpectrum) {
+        peakSpectrum = [aPeak spectrum];
+    } else if (spectrumToUse == JKCombinedSpectrumSearchSpectrum) {
+        peakSpectrum = [aPeak combinedSpectrum];
+    } else {
+        JKLogError(@"spectrumToUse has unexpected value.");
+    }
+    
     for (j = 0; j < entriesCount; j++) {
         libraryEntry = [libraryEntries objectAtIndex:j];
-        if (spectrumToUse == JKSpectrumSearchSpectrum) {
-            score = [[aPeak spectrum] scoreComparedTo:libraryEntry];                    
-        } else if (spectrumToUse == JKCombinedSpectrumSearchSpectrum) {
-            score = [[aPeak combinedSpectrum] scoreComparedTo:libraryEntry];
-        } else {
-            JKLogError(@"spectrumToUse has unexpected value.");
-        }
+        score = [peakSpectrum scoreComparedTo:libraryEntry];                    
         if (score >= minimumScoreSearchResultsF) {
             JKSearchResult *searchResult = [[JKSearchResult alloc] init];
             [searchResult setScore:[NSNumber numberWithFloat:score]];

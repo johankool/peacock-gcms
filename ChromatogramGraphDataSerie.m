@@ -32,7 +32,7 @@ static void *PropertyObservationContext = (void *)1093;
         // From superclass!!
 		[self setSeriesColor:[NSColor blueColor]];
 		[self setSeriesType:1];
-		[self setShouldDrawPeaks:NO];
+		[self setShouldDrawPeaks:YES];
 		[self setShouldDrawLabels:YES];
         [self setVerticalScale:[NSNumber numberWithFloat:1.0]];
         [self setSeriesTitle:[aChromatogram model]];
