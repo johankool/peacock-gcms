@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>ActivePerspectiveName</key>
-	<string>Debug</string>
+	<string>Project</string>
 	<key>AllowedModules</key>
 	<array>
 		<dict>
@@ -254,6 +254,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -292,17 +294,22 @@
 							<array>
 								<string>2A37F4AAFDCFA73011CA2CEA</string>
 								<string>C77E686F0C3A9C860051B016</string>
+								<string>2A37F4B8FDCFA73011CA2CEA</string>
+								<string>C77E68C60C3A9F0D0051B016</string>
+								<string>C784A1330CD8F07C005F7178</string>
+								<string>2A37F4AFFDCFA73011CA2CEA</string>
+								<string>1C37FBAC04509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>28</integer>
+									<integer>49</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {185, 667}}</string>
+							<string>{{0, 568}, {185, 667}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -318,6 +325,8 @@
 							<string>MainColumn</string>
 							<real>185</real>
 						</array>
+						<key>RubberWindowFrame</key>
+						<string>-4 106 1280 726 0 0 1280 832 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -333,7 +342,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>C7C7EA090CC8E2A0007B5619</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>JKCombinedPeak.m</string>
+								<string>ChromatogramGraphDataSerie.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -341,24 +350,7 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>C7C7EA0A0CC8E2A0007B5619</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>JKCombinedPeak.m</string>
-										<key>_historyCapacity</key>
-										<integer>0</integer>
-										<key>bookmark</key>
-										<string>C7C7EA330CC90DBA007B5619</string>
-										<key>history</key>
-										<array>
-											<string>C7C7EA250CC90739007B5619</string>
-											<string>C7C7EA260CC90739007B5619</string>
-											<string>C7C7EA270CC90739007B5619</string>
-											<string>C7C7EA300CC9081A007B5619</string>
-										</array>
-										<key>prevStack</key>
-										<array>
-											<string>C7C7EA290CC90739007B5619</string>
-											<string>C7C7EA2A0CC90739007B5619</string>
-											<string>C7C7EA2B0CC90739007B5619</string>
-										</array>
+										<string>ChromatogramGraphDataSerie.m</string>
 									</dict>
 									<key>SplitCount</key>
 									<string>1</string>
@@ -372,6 +364,8 @@
 							<dict>
 								<key>Frame</key>
 								<string>{{0, 0}, {1073, 444}}</string>
+								<key>RubberWindowFrame</key>
+								<string>-4 106 1280 726 0 0 1280 832 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -395,6 +389,8 @@
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {1073, 209}}</string>
+										<key>RubberWindowFrame</key>
+										<string>-4 106 1280 726 0 0 1280 832 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -424,12 +420,12 @@
 										<dict>
 											<key>PBXCVSModuleTreeModuleColumnWidthsKey</key>
 											<array>
-												<real>200</real>
-												<real>56.66162109375</real>
+												<real>441</real>
+												<real>56</real>
 												<real>63</real>
 												<real>60</real>
 												<real>63</real>
-												<real>355.556640625</real>
+												<real>355</real>
 											</array>
 											<key>PBXCVSModuleTreeModuleColumnsKey</key>
 											<array>
@@ -449,7 +445,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 31}, {603, 297}}</string>
+										<string>{{10, 27}, {1073, 209}}</string>
 									</dict>
 									<key>Module</key>
 									<string>PBXCVSModule</string>
@@ -497,11 +493,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>C7C7EA0B0CC8E2A0007B5619</string>
+				<string>C784A1600CD8F5B1005F7178</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>C7C7EA0C0CC8E2A0007B5619</string>
+				<string>C784A1610CD8F5B1005F7178</string>
 				<string>C7C7EA090CC8E2A0007B5619</string>
-				<string>C7C7EA0D0CC8E2A0007B5619</string>
+				<string>C784A1620CD8F5B1005F7178</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -552,8 +548,6 @@
 					<dict>
 						<key>Frame</key>
 						<string>{{0, 0}, {1280, 237}}</string>
-						<key>RubberWindowFrame</key>
-						<string>0 106 1280 726 0 0 1280 832 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXDebugCLIModule</string>
@@ -628,11 +622,7 @@
 							</array>
 							<key>Frame</key>
 							<string>{{0, 221}, {640, 222}}</string>
-							<key>RubberWindowFrame</key>
-							<string>0 106 1280 726 0 0 1280 832 </string>
 						</dict>
-						<key>RubberWindowFrame</key>
-						<string>0 106 1280 726 0 0 1280 832 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXDebugSessionModule</string>
@@ -655,13 +645,13 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>C7C7EA170CC8E459007B5619</string>
+				<string>C7EED9220CD2B3B700A31EAD</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>C7C7EA180CC8E459007B5619</string>
-				<string>C7C7EA190CC8E459007B5619</string>
-				<string>C7C7EA1A0CC8E459007B5619</string>
-				<string>C7C7EA1B0CC8E459007B5619</string>
+				<string>C7EED9230CD2B3B700A31EAD</string>
+				<string>C7EED9240CD2B3B700A31EAD</string>
+				<string>C7EED9250CD2B3B700A31EAD</string>
+				<string>C7EED9260CD2B3B700A31EAD</string>
 				<string>C7C7EA090CC8E2A0007B5619</string>
 			</array>
 			<key>ToolbarConfiguration</key>
@@ -677,7 +667,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>214502842.788535</real>
+	<real>215545265.70579299</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
@@ -695,7 +685,7 @@
 		<string>/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/trunk/Peacock.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>0 106 1280 726 0 0 1280 832 </string>
+	<string>-4 106 1280 726 0 0 1280 832 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
