@@ -9,7 +9,9 @@
 
 #include "MolTypes.h"
 #include <strings.h>
-	
+#include <stdlib.h>
+#include <ctype.h>
+
 	short				gTableSize			= 0;
 	TTableEntry*		gSymbolTable		= NULL;
 	short*				gNumberTable		= NULL;
@@ -31,7 +33,7 @@
 	)
 	{
 		TElementSym		newSym = INVALID_SYMBOL;
-		char*			parse = string;
+		const char*			parse = string;
 		
 		if (isalpha(*parse)) {
 		  newSym = 0;

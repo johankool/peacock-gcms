@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 44;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -123,8 +123,6 @@
 		C75AE3A90CBE82190054E51B /* JKSourceTableView_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = C75AE3930CBE82190054E51B /* JKSourceTableView_Prefix.pch */; };
 		C765B8AB0C23237B00C4F153 /* factoranalysis.R in CopyFiles */ = {isa = PBXBuildFile; fileRef = C765B8AA0C23237A00C4F153 /* factoranalysis.R */; };
 		C765B8AC0C23237B00C4F153 /* factoranalysis.R in Resources */ = {isa = PBXBuildFile; fileRef = C765B8AA0C23237A00C4F153 /* factoranalysis.R */; };
-		C7680FBF0C035C4800973566 /* JKLibrary.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */; };
-		C7680FC00C035C4800973566 /* JKLibrary.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */; };
 		C76814070C05E66C00973566 /* JKManagedLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */; };
 		C76814240C05E6F200973566 /* FilteringDNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */; };
 		C7696D710C2C1A26009A013E /* JKStatisticsPrintView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7696D6D0C2C1A25009A013E /* JKStatisticsPrintView.h */; };
@@ -154,6 +152,10 @@
 		C7834D3D0941ED5C005431CD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D3C0941ED5C005431CD /* CoreFoundation.framework */; };
 		C7834D440941ED7A005431CD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D430941ED7A005431CD /* Security.framework */; };
 		C7834D4A0941EDAF005431CD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D490941EDAF005431CD /* libz.dylib */; };
+		C784A1340CD8F07C005F7178 /* JKLibrary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C784A1330CD8F07C005F7178 /* JKLibrary.xcdatamodeld */; };
+		C784A1350CD8F07C005F7178 /* JKLibrary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C784A1330CD8F07C005F7178 /* JKLibrary.xcdatamodeld */; };
+		C784A1430CD8F1BF005F7178 /* JKLibrary 2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = C784A1420CD8F1BF005F7178 /* JKLibrary 2.xcmappingmodel */; };
+		C784A1440CD8F1BF005F7178 /* JKLibrary 2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = C784A1420CD8F1BF005F7178 /* JKLibrary 2.xcmappingmodel */; };
 		C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C79281D30B9F1CC100EDF996 /* NSEvent+ModifierKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */; };
@@ -400,23 +402,6 @@
 		};
 /* End PBXBuildRule section */
 
-/* Begin PBXBuildStyle section */
-		C75D5A050CCF8144004AF00D /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-			};
-			name = Development;
-		};
-		C75D5A060CCF8144004AF00D /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
-
 /* Begin PBXContainerItemProxy section */
 		C72C8532098BEAD500CEF565 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -563,6 +548,8 @@
 		C7834D3C0941ED5C005431CD /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		C7834D430941ED7A005431CD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		C7834D490941EDAF005431CD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
+		C784A1360CD8F07C005F7178 /* JKLibrary 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "JKLibrary 2.xcdatamodel"; sourceTree = "<group>"; };
+		C784A1420CD8F1BF005F7178 /* JKLibrary 2.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; name = "JKLibrary 2.xcmappingmodel"; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/trunk/JKLibrary 2.xcmappingmodel"; sourceTree = "<absolute>"; };
 		C7858FE90951E9990083EC22 /* JKStatisticalAnalysis.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = JKStatisticalAnalysis.nib; sourceTree = "<group>"; };
 		C785905409541F250083EC22 /* JKStatisticsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKStatisticsWindowController.h; sourceTree = "<group>"; };
 		C785905509541F250083EC22 /* JKStatisticsWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKStatisticsWindowController.m; sourceTree = "<group>"; };
@@ -1022,9 +1009,10 @@
 		C77E68C60C3A9F0D0051B016 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
-				C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */,
+				C784A1330CD8F07C005F7178 /* JKLibrary.xcdatamodeld */,
 				C747ED320ABF43C6001F98AF /* Peacock Test Files */,
 				C7C21FC50A5060E2006E82FD /* Peacock.sdef */,
+				C784A1420CD8F1BF005F7178 /* JKLibrary 2.xcmappingmodel */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -1314,15 +1302,11 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C7EB17A00898CF22007FC2ED /* Build configuration list for PBXProject "Peacock" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				C75D5A050CCF8144004AF00D /* Development */,
-				C75D5A060CCF8144004AF00D /* Deployment */,
-			);
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* Peacock */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* Peacock-Mac */,
 				C7ADC8880BA05609007D9134 /* Peacock-Windows */,
@@ -1548,7 +1532,7 @@
 				C7F8DE940BF0CDEE00A34F5D /* AMRemovableColumnsTableView.m in Sources */,
 				C7F8DE950BF0CDEE00A34F5D /* AMRemovableTableColumn.m in Sources */,
 				C7F8DF060BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */,
-				C7680FC00C035C4800973566 /* JKLibrary.xcdatamodel in Sources */,
+				C784A1340CD8F07C005F7178 /* JKLibrary.xcdatamodeld in Sources */,
 				C76814070C05E66C00973566 /* JKManagedLibraryEntry.m in Sources */,
 				C76814240C05E6F200973566 /* FilteringDNDArrayController.m in Sources */,
 				C75846660C07268D00756ED8 /* JKLibraryEntry.m in Sources */,
@@ -1571,6 +1555,7 @@
 				C75AE3A40CBE82190054E51B /* JKSeparatorCell.m in Sources */,
 				C75AE3A60CBE82190054E51B /* JKSourceTableView.m in Sources */,
 				C75AE3A70CBE82190054E51B /* JKVariableCellColumn.m in Sources */,
+				C784A1440CD8F1BF005F7178 /* JKLibrary 2.xcmappingmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1631,7 +1616,7 @@
 				C7F8DE900BF0CDEE00A34F5D /* AMRemovableColumnsTableView.m in Sources */,
 				C7F8DE910BF0CDEE00A34F5D /* AMRemovableTableColumn.m in Sources */,
 				C7F8DF040BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */,
-				C7680FBF0C035C4800973566 /* JKLibrary.xcdatamodel in Sources */,
+				C784A1350CD8F07C005F7178 /* JKLibrary.xcdatamodeld in Sources */,
 				C75846640C07268D00756ED8 /* JKLibraryEntry.m in Sources */,
 				C7696D720C2C1A26009A013E /* JKStatisticsPrintView.m in Sources */,
 				C709D00D0C465F3200C9C613 /* JKComboBoxCell.m in Sources */,
@@ -1651,6 +1636,7 @@
 				C75AE3990CBE82190054E51B /* JKSeparatorCell.m in Sources */,
 				C75AE39B0CBE82190054E51B /* JKSourceTableView.m in Sources */,
 				C75AE39C0CBE82190054E51B /* JKVariableCellColumn.m in Sources */,
+				C784A1430CD8F1BF005F7178 /* JKLibrary 2.xcmappingmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1921,7 +1907,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
 				OTHER_CFLAGS = "-Wformat=2";
 				PRODUCT_NAME = Peacock;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SYMROOT = build/Mac;
 				WRAPPER_EXTENSION = app;
 			};
@@ -2004,6 +1990,20 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C784A1330CD8F07C005F7178 /* JKLibrary.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */,
+				C784A1360CD8F07C005F7178 /* JKLibrary 2.xcdatamodel */,
+			);
+			currentVersion = C784A1360CD8F07C005F7178 /* JKLibrary 2.xcdatamodel */;
+			path = JKLibrary.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 }
