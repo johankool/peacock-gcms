@@ -9,18 +9,12 @@
 #import "JKComparableProtocol.h"
 
 @interface JKManagedLibraryEntry : NSManagedObject <JKComparableProtocol> {	
-	int numberOfPoints;
-    BOOL peakTableRead;
-	float *masses;
-	float *intensities;
 }
 
 #pragma mark Importing data
 - (NSString *)jcampString;
 - (void)setJCAMPString:(NSString *)inString;
-- (void)readPeakTable;
 - (NSNumber *)calculateMassWeight:(NSString *)inString;
-- (NSString *)library;
 #pragma mark -
 
 #pragma mark Helper functions
@@ -32,9 +26,13 @@
 - (NSUndoManager *)undoManager;
 #pragma mark -
 
-#pragma mark Accessors (NSManagedObject style)
+#pragma mark Calculated Accessors
+- (NSString *)library;
 - (NSString *)peakTable;
 - (void)setPeakTable:(NSString *)inString;
+#pragma mark -
+
+#pragma mark Accessors (NSManagedObject style)
 - (NSString *)name;
 - (void)setName:(NSString *)newName;
 - (NSString *)origin;
@@ -79,5 +77,9 @@
 - (void)setSynonyms:(NSString *)newsynonyms;
 - (int)numberOfPoints;
 - (void)setNumberOfPoints:(int)newnumberOfPoints;
+- (float *)masses;
+- (void)setMasses:(float *)newMasses;
+- (float *)intensities;
+- (void)setIntensities:(float *)newIntensities;
 
 @end

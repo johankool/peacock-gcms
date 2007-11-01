@@ -912,9 +912,9 @@ int const JKGCMSDocument_Version = 7;
             }
             JKSpectrum *peakSpectrum = nil;
             if (spectrumToUse == JKSpectrumSearchSpectrum) {
-                peakSpectrum = [aPeak spectrum];
+                peakSpectrum = [peak spectrum];
             } else if (spectrumToUse == JKCombinedSpectrumSearchSpectrum) {
-                peakSpectrum = [aPeak combinedSpectrum];
+                peakSpectrum = [peak combinedSpectrum];
             } else {
                 JKLogError(@"spectrumToUse has unexpected value.");
             }
