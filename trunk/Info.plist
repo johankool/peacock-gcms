@@ -55,7 +55,7 @@
 			<string>JKLibrary</string>
             <key>NSExportableTypes</key>
 			<array>
-				<string>nl.johankool.library</string>
+				<string>nl.johankool.peacock.library</string>
 			</array>
 		</dict>
 		<dict> <!-- nl.johankool.peacock.data -->
@@ -179,19 +179,17 @@
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict> <!-- nl.johankool.peacock.data -->
+			<key>UTTypeDescription</key>
+			<string>Peacock File</string>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>com.apple.package</string>
 				<string>public.content</string>
 			</array>
-			<key>UTTypeDescription</key>
-			<string>Peacock File</string>
 			<key>UTTypeIconFile</key>
 			<string>peacock_document</string>
 			<key>UTTypeIdentifier</key>
 			<string>nl.johankool.peacock.data</string>
-			<key>UTTypeReferenceURL</key>
-			<string>http://peacock.johankool.nl/</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
@@ -203,19 +201,17 @@
 			</dict>
 		</dict>
         <dict> <!-- nl.johankool.peacock.library -->
+			<key>UTTypeDescription</key>
+			<string>Peacock Library</string>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.data</string>
 				<string>public.content</string>
 			</array>
-			<key>UTTypeDescription</key>
-			<string>Peacock Library</string>
 			<key>UTTypeIconFile</key>
 			<string>peacock_library</string>
 			<key>UTTypeIdentifier</key>
 			<string>nl.johankool.peacock.library</string>
-			<key>UTTypeReferenceURL</key>
-			<string>http://peacock.johankool.nl/</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>

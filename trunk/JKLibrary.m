@@ -53,6 +53,7 @@
 - (BOOL)isSuperDocumentEdited {
     return [super isDocumentEdited];  
 }
+
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)absoluteOriginalContentsURL error:(NSError **)error 
 {
     if ([typeName isEqualToString:@"Peacock Library"] || [typeName isEqualToString:@"nl.johankool.peacocklibrary"]) {
@@ -77,9 +78,6 @@
 	} else if ([typeName isEqualToString:@"JCAMP Library"] || [typeName isEqualToString:@"org.jcamp"]) {
 		return [self exportJCAMPToFile:[absoluteURL path]];
 	}
-//    else if ([typeName isEqualToString:@"AMDIS Target Library"]) {
-//		return [self exportAMDISToFile:[absoluteURL path]];
-//	}
     return NO;
 }
 
@@ -108,21 +106,7 @@
         [[[self managedObjectContext] undoManager] removeAllActions];
         [self updateChangeCount:NSChangeCleared];
  		return YES;
-//	} else if ([typeName isEqualToString:@"Inchi File"]) {
-//        [[[self managedObjectContext] undoManager] disableUndoRegistration];
-//		NSString *CASNumber = [[[absoluteURL path] lastPathComponent] stringByDeletingPathExtension];
-//		NSString *jcampString = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",CASNumber,CASNumber]]];
-//		JKManagedLibraryEntry *entry = [[JKManagedLibraryEntry alloc] initWithJCAMPString:jcampString];
-//		[entry setMolString:[NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",CASNumber,CASNumber]]]];
-//        
-//        [self setLibraryEntries:[NSMutableArray arrayWithObject:entry]];
-//		
-//        [[self undoManager] enableUndoRegistration];
-//		return YES;
 	}
-//	else if ([docType isEqualToString:@"AMDIS Target Library"]) {
-//		return [self importAMDISFromFile:fileName];
-//	}
     return NO;
 }
 #pragma mark -

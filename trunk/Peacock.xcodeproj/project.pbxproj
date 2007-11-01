@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 44;
+	objectVersion = 42;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -152,10 +152,6 @@
 		C7834D3D0941ED5C005431CD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D3C0941ED5C005431CD /* CoreFoundation.framework */; };
 		C7834D440941ED7A005431CD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D430941ED7A005431CD /* Security.framework */; };
 		C7834D4A0941EDAF005431CD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D490941EDAF005431CD /* libz.dylib */; };
-		C784A1340CD8F07C005F7178 /* JKLibrary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C784A1330CD8F07C005F7178 /* JKLibrary.xcdatamodeld */; };
-		C784A1350CD8F07C005F7178 /* JKLibrary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C784A1330CD8F07C005F7178 /* JKLibrary.xcdatamodeld */; };
-		C784A1430CD8F1BF005F7178 /* JKLibrary 2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = C784A1420CD8F1BF005F7178 /* JKLibrary 2.xcmappingmodel */; };
-		C784A1440CD8F1BF005F7178 /* JKLibrary 2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = C784A1420CD8F1BF005F7178 /* JKLibrary 2.xcmappingmodel */; };
 		C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C79281D30B9F1CC100EDF996 /* NSEvent+ModifierKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */; };
@@ -365,6 +361,7 @@
 		C7EB18570898D1D6007FC2ED /* JKPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17E90898CF2F007FC2ED /* JKPreferencesWindowController.m */; };
 		C7EB18580898D1D7007FC2ED /* JKSpectrum.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */; };
 		C7EB185B0898D20E007FC2ED /* libnetcdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7EB17AE0898CF2E007FC2ED /* libnetcdf.a */; };
+		C7EF71380CD9408300A9F1EF /* JKLibrary.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */; };
 		C7F0D0560B11D9030046F994 /* MWController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D0550B11D9030046F994 /* MWController.h */; };
 		C7F0D3B30B1497D40046F994 /* NSTableView+Copying.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */; };
 		C7F0D3B40B1497D40046F994 /* NSTableView+Copying.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */; };
@@ -548,8 +545,6 @@
 		C7834D3C0941ED5C005431CD /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		C7834D430941ED7A005431CD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		C7834D490941EDAF005431CD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
-		C784A1360CD8F07C005F7178 /* JKLibrary 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "JKLibrary 2.xcdatamodel"; sourceTree = "<group>"; };
-		C784A1420CD8F1BF005F7178 /* JKLibrary 2.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; name = "JKLibrary 2.xcmappingmodel"; path = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/trunk/JKLibrary 2.xcmappingmodel"; sourceTree = "<absolute>"; };
 		C7858FE90951E9990083EC22 /* JKStatisticalAnalysis.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = JKStatisticalAnalysis.nib; sourceTree = "<group>"; };
 		C785905409541F250083EC22 /* JKStatisticsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKStatisticsWindowController.h; sourceTree = "<group>"; };
 		C785905509541F250083EC22 /* JKStatisticsWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKStatisticsWindowController.m; sourceTree = "<group>"; };
@@ -1009,10 +1004,9 @@
 		C77E68C60C3A9F0D0051B016 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
-				C784A1330CD8F07C005F7178 /* JKLibrary.xcdatamodeld */,
+				C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */,
 				C747ED320ABF43C6001F98AF /* Peacock Test Files */,
 				C7C21FC50A5060E2006E82FD /* Peacock.sdef */,
-				C784A1420CD8F1BF005F7178 /* JKLibrary 2.xcmappingmodel */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -1301,6 +1295,9 @@
 /* Begin PBXProject section */
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = NO;
+			};
 			buildConfigurationList = C7EB17A00898CF22007FC2ED /* Build configuration list for PBXProject "Peacock" */;
 			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
@@ -1453,7 +1450,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = "/usr/bin/perl -w";
-			shellScript = "# Xcode auto-versioning script for Subversion\n# by Axel Andersson, modified by Daniel Jalkut to add\n# \"--revision HEAD\" to the svn info line, which allows\n# the latest revision to always be used.\n\nuse strict;\n\ndie \"$0: Must be run from Xcode\" unless $ENV{\"BUILT_PRODUCTS_DIR\"};\n\n# Get the current subversion revision number and use it to set the CFBundleVersion value\nmy $REV = `/usr/local/bin/svnversion -n ./`;\nmy $INFO = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{WRAPPER_NAME}/Contents/Info.plist\";\n\nmy $version = $REV;\n\n# (Match the last group of digits and optional letter M/S):\n\n# ugly yet functional (barely) regex by Daniel Jalkut:\n#$version =~ s/([\\d]*:)(\\d)+[M|S]*.*/$2/;\n\n# better yet still functional regex via Kevin \"Regex Nerd\" Ballard\n($version =~ m/\\d+[MS]*$/) && ($version = $&);\n\ndie \"$0: No Subversion revision found $version $REV\" unless $version;\n\nopen(FH, \"$INFO\") or die \"$0: $INFO: $!\";\nmy $info = join(\"\", <FH>);\nclose(FH);\n\n$info =~ s/([\\t ]+<key>CFBundleVersion<\\/key>\\n[\\t ]+<string>).*?(<\\/string>)/$1$version$2/;\n\nopen(FH, \">$INFO\") or die \"$0: $INFO: $!\";\nprint FH $info;\nclose(FH);";
+			shellScript = "# Xcode auto-versioning script for Subversion\n# by Axel Andersson, modified by Daniel Jalkut to add\n# \"--revision HEAD\" to the svn info line, which allows\n# the latest revision to always be used.\n\nuse strict;\n\ndie \"$0: Must be run from Xcode\" unless $ENV{\"BUILT_PRODUCTS_DIR\"};\n\n# Get the current subversion revision number and use it to set the CFBundleVersion value\nmy $REV = `/usr/bin/svnversion -n ./`;\nmy $INFO = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{WRAPPER_NAME}/Contents/Info.plist\";\n\nmy $version = $REV;\n\n# (Match the last group of digits and optional letter M/S):\n\n# ugly yet functional (barely) regex by Daniel Jalkut:\n#$version =~ s/([\\d]*:)(\\d)+[M|S]*.*/$2/;\n\n# better yet still functional regex via Kevin \"Regex Nerd\" Ballard\n($version =~ m/\\d+[MS]*$/) && ($version = $&);\n\ndie \"$0: No Subversion revision found $version $REV\" unless $version;\n\nopen(FH, \"$INFO\") or die \"$0: $INFO: $!\";\nmy $info = join(\"\", <FH>);\nclose(FH);\n\n$info =~ s/([\\t ]+<key>CFBundleVersion<\\/key>\\n[\\t ]+<string>).*?(<\\/string>)/$1$version$2/;\n\nopen(FH, \">$INFO\") or die \"$0: $INFO: $!\";\nprint FH $info;\nclose(FH);";
 		};
 		C72C84FE098BE74300CEF565 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1532,7 +1529,6 @@
 				C7F8DE940BF0CDEE00A34F5D /* AMRemovableColumnsTableView.m in Sources */,
 				C7F8DE950BF0CDEE00A34F5D /* AMRemovableTableColumn.m in Sources */,
 				C7F8DF060BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */,
-				C784A1340CD8F07C005F7178 /* JKLibrary.xcdatamodeld in Sources */,
 				C76814070C05E66C00973566 /* JKManagedLibraryEntry.m in Sources */,
 				C76814240C05E6F200973566 /* FilteringDNDArrayController.m in Sources */,
 				C75846660C07268D00756ED8 /* JKLibraryEntry.m in Sources */,
@@ -1555,7 +1551,7 @@
 				C75AE3A40CBE82190054E51B /* JKSeparatorCell.m in Sources */,
 				C75AE3A60CBE82190054E51B /* JKSourceTableView.m in Sources */,
 				C75AE3A70CBE82190054E51B /* JKVariableCellColumn.m in Sources */,
-				C784A1440CD8F1BF005F7178 /* JKLibrary 2.xcmappingmodel in Sources */,
+				C7EF71380CD9408300A9F1EF /* JKLibrary.xcdatamodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1616,7 +1612,6 @@
 				C7F8DE900BF0CDEE00A34F5D /* AMRemovableColumnsTableView.m in Sources */,
 				C7F8DE910BF0CDEE00A34F5D /* AMRemovableTableColumn.m in Sources */,
 				C7F8DF040BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */,
-				C784A1350CD8F07C005F7178 /* JKLibrary.xcdatamodeld in Sources */,
 				C75846640C07268D00756ED8 /* JKLibraryEntry.m in Sources */,
 				C7696D720C2C1A26009A013E /* JKStatisticsPrintView.m in Sources */,
 				C709D00D0C465F3200C9C613 /* JKComboBoxCell.m in Sources */,
@@ -1636,7 +1631,6 @@
 				C75AE3990CBE82190054E51B /* JKSeparatorCell.m in Sources */,
 				C75AE39B0CBE82190054E51B /* JKSourceTableView.m in Sources */,
 				C75AE39C0CBE82190054E51B /* JKVariableCellColumn.m in Sources */,
-				C784A1430CD8F1BF005F7178 /* JKLibrary 2.xcmappingmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1907,7 +1901,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
 				OTHER_CFLAGS = "-Wformat=2";
 				PRODUCT_NAME = Peacock;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SYMROOT = build/Mac;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1990,20 +1984,6 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		C784A1330CD8F07C005F7178 /* JKLibrary.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */,
-				C784A1360CD8F07C005F7178 /* JKLibrary 2.xcdatamodel */,
-			);
-			currentVersion = C784A1360CD8F07C005F7178 /* JKLibrary 2.xcdatamodel */;
-			path = JKLibrary.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 }
