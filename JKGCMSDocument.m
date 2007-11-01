@@ -1015,7 +1015,8 @@ int const JKGCMSDocument_Version = 7;
             [aPeak addSearchResult:searchResult];
             [searchResult release];
         }
-        [progressIndicator incrementBy:1.0];
+        [progressIndicator performSelectorOnMainThread:@selector(incrementBy:) withObject:[NSNumber numberWithDouble:1.0] waitUntilDone:NO];
+//        [progressIndicator incrementBy:1.0];
     }
 
 //    _isBusy = NO;
@@ -1233,7 +1234,7 @@ int const JKGCMSDocument_Version = 7;
 
 - (void)renumberPeaks 
 {
-    NSArray *renumberedPeaks = [self peaks];
+    NSArray *renumberedPeaks = [[self peaks] sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"retentionIndex" ascending:YES] autorelease]]];
 	int i;
 	int peakCount = [renumberedPeaks count];
 

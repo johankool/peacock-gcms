@@ -288,15 +288,15 @@
 
 - (void)addSearchResult:(JKSearchResult *)searchResult {
 	if (![searchResults containsObject:searchResult]) {
-//        // Loop through searchResults and make sure we not already have a search result like this one
-//        NSEnumerator *searchResultsEnum = [searchResults objectEnumerator];
-//        JKSearchResult *aSearchResult;
-//
-//        while ((aSearchResult = [searchResultsEnum nextObject]) != nil) {
-//        	if ([[[aSearchResult libraryHit] name] isEqualToString:[[searchResult libraryHit] name]]) {
-//                return;
-//            }
-//        }
+        // Loop through searchResults and make sure we not already have a search result like this one
+        NSEnumerator *searchResultsEnum = [searchResults objectEnumerator];
+        JKSearchResult *aSearchResult;
+
+        while ((aSearchResult = [searchResultsEnum nextObject]) != nil) {
+        	if ([[aSearchResult libraryHit] isCompound:[[searchResult libraryHit] name]]) {
+                return;
+            }
+        }
         
         [self insertObject:searchResult inSearchResultsAtIndex:[searchResults count]];
 		NSSortDescriptor *sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"score" ascending:NO] autorelease];
@@ -310,10 +310,14 @@
 
 - (JKSearchResult *)addSearchResultForLibraryEntry:(JKLibraryEntry *)aLibraryEntry
 {
-    if ([[self document] modelString:[[self chromatogram] model] isEqualToString:[aLibraryEntry model]]) {        
+    if ([[[self chromatogram] model] isEqualToModelString:[aLibraryEntry model]] || [[aLibraryEntry model] isEqualToString:@""]) {
+//    if ([[self document] modelString:[[self chromatogram] model] isEqualToString:[aLibraryEntry model]]) {        
         JKSearchResult *searchResult = [[JKSearchResult alloc] init];
         [searchResult setPeak:self];
         [searchResult setLibraryHit:aLibraryEntry];
+        if ([[aLibraryEntry model] isEqualToString:@""]) {
+            [[searchResult libraryHit] setModel:[[self chromatogram] model]];
+        }
         [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedTo:aLibraryEntry]]];
         [self addSearchResult:searchResult];
         return [searchResult autorelease];
