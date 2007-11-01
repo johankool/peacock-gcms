@@ -229,10 +229,13 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 //    [self loadPlugins];
     
     [documentListTableView setDoubleAction:@selector(doubleClickAction:)];
+    
+    // We call load library with "None" even though it's not the default. This causes the detection of the available libraries, but doesn't load them. When the application needs it they will get loaded because the loaded configuration ("None") will be different from the selected one.
     libraryConfigurationLoaded = @"";
-    [self loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
-
+	[self loadLibraryForConfiguration:@"None"];
+    libraryConfigurationLoaded = @"";
 }
+
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
     if ([[[PKDocumentController sharedDocumentController] documents] count] > 0) {
         NSString *msgString;
@@ -455,6 +458,10 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 
 - (void)loadLibraryForConfiguration:(NSString *)configuration
 {
+    if ([libraryConfigurationLoaded isEqualToString:configuration]) {
+    	return;
+    }
+    
     JKLogDebug(@"configuration %@",configuration);
     [self willChangeValueForKey:@"library"];
     [self willChangeValueForKey:@"availableDictionaries"];
@@ -519,7 +526,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
                 loadedCount++;
             }
         }
-        if (loadedCount == 0) { 
+        if (loadedCount == 0 && ![configuration isEqualToString:@"None"]) { 
             NSRunAlertPanel(NSLocalizedString(@"No Libraries could be opened or created",@""),NSLocalizedString(@"This is not good. Identifying compounds isn't going to work.",@""),@"OK, I guess...",nil,nil);
         }        
      }
@@ -612,6 +619,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 
 }
 - (IBAction)editLibrary:(id)sender {
+    [self loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"libraryConfiguration"]];
     if (![[[NSDocumentController sharedDocumentController] documents] containsObject:[self library]]) {        
         [[NSDocumentController sharedDocumentController] addDocument:[self library]];
     }
