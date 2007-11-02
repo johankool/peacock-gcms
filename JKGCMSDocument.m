@@ -618,12 +618,17 @@ int const JKGCMSDocument_Version = 7;
 }
 
 - (JKChromatogram *)chromatogramForModel:(NSString *)model {
+    JKLogDebug(@"model %@", model);
     int     dummy, scan, dimid, varid_intensity_value, varid_mass_value, varid_scan_index, varid_point_count, scanCount; //varid_time_value
     float   mass, intensity;
     float	*times,	*intensities;
     unsigned int numberOfPoints, num_scan;
 	unsigned int i,j,k, mzValuesCount;
-
+    
+    if ([model isEqualToString:@""]) {
+        return nil;
+    }
+    
     if ([model isEqualToString:@"TIC"]) {
         return [self ticChromatogram];
     }
@@ -1528,6 +1533,16 @@ int const JKGCMSDocument_Version = 7;
     }        
     
 }
+
+- (void)resetSymbols {
+    NSEnumerator *peakEnumerator = [[self peaks] objectEnumerator];
+    JKPeakRecord *peak;
+
+    while ((peak = [peakEnumerator nextObject]) != nil) {
+    	[peak setSymbol:@""];
+    }
+}
+
 
 - (float)timeForScan:(int)scan 
 {

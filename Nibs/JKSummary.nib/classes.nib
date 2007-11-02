@@ -1,6 +1,7 @@
 {
     IBClasses = (
         {
+            ACTIONS = {setUniqueSymbols = id; }; 
             CLASS = JKSummaryController; 
             LANGUAGE = ObjC; 
             OUTLETS = {combinedPeaksController = NSArrayController; tableView = NSTableView; }; 
