@@ -619,7 +619,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 
 }
 - (IBAction)editLibrary:(id)sender {
-    [self loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"libraryConfiguration"]];
+//    [self loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"libraryConfiguration"]];
     if (![[[NSDocumentController sharedDocumentController] documents] containsObject:[self library]]) {        
         [[NSDocumentController sharedDocumentController] addDocument:[self library]];
     }

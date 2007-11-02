@@ -11,6 +11,7 @@
 #import "JKPeakRecord.h"
 #import "JKCombinedPeak.h"
 #import "JKRatio.h"
+#import "PKDocumentController.h"
 
 @implementation JKSummarizer
 - (id) init
@@ -143,6 +144,80 @@
     [inValue retain];
     [ratios release];
     ratios = inValue;
+}
+
+- (void)setUniqueSymbols 
+{
+    BOOL groupSymbols = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"groupSymbols"] intValue];
+    int j;
+    int compoundCount;
+    NSNumber *countForGroup;
+    JKCombinedPeak *compound;
+    NSMutableDictionary *uniqueDict = [NSMutableDictionary dictionary];
+    NSMutableArray *uniqueSymbolArray = [NSMutableArray array];
+//    NSMutableArray *peaks = [[statisticsWindowController combinedPeaks] mutableCopy];
+    
+    // Reset all peaks
+    [[[PKDocumentController sharedDocumentController] managedDocuments] makeObjectsPerformSelector:@selector(resetSymbols)];
+    
+    // Sort array on retention index
+    NSSortDescriptor *retentionIndexDescriptor =[[NSSortDescriptor alloc] initWithKey:@"averageRetentionIndex" 
+                                                                            ascending:YES];
+    NSArray *sortDescriptors=[NSArray arrayWithObjects:retentionIndexDescriptor,nil];
+    [[self combinedPeaks] sortUsingDescriptors:sortDescriptors];
+    [retentionIndexDescriptor release];
+    
+    compoundCount = [combinedPeaks count];
+    
+    if (groupSymbols) {
+        // Compound symbol
+        for (j=0; j < compoundCount; j++) {
+            compound = [combinedPeaks objectAtIndex:j];
+            // ensure symbol is set
+            if (![compound group] || [[compound group] isEqualToString:@""]) {
+                [compound setGroup:@"X"];
+            }
+//            if (([compound symbol]) && (![[compound symbol] isEqualToString:@""]) && ([uniqueSymbolArray indexOfObjectIdenticalTo:[compound symbol]] == NSNotFound)) {
+//                [compound setSymbol:[compound symbol]];
+//                [uniqueSymbolArray addObject:[compound symbol]];
+//                continue;
+//            }
+            // replace odd characters
+            // ensure symbol starts with letter
+            //        if ([[compound group] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location == 0) {
+            //            NSString *newGroup = [NSString stringWithFormat:@"X%@", [compound group]];
+            //            [compound setGroup:newGroup];
+            //        }
+            // get countForSymbol 
+            countForGroup = [uniqueDict valueForKey:[compound group]];
+            if (!countForGroup) {
+                countForGroup = [NSNumber numberWithInt:1];
+            } else if (countForGroup) {
+                countForGroup = [NSNumber numberWithInt:[countForGroup intValue]+1];
+            }
+            [uniqueDict setValue:countForGroup forKey:[compound group]];
+            if ([[[compound group] substringFromIndex:[[compound group] length]-1] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].length == 1) { // group ends with a number
+                if ([countForGroup intValue] == 1) {
+                    [compound setSymbol:[NSString stringWithFormat:@"%@", [compound group]]];              
+                } else {
+                    [compound setSymbol:[NSString stringWithFormat:@"%@-%d", [compound group], [countForGroup intValue]]];            
+                }
+            } else {
+                // must be unique (note that a few cases are missed here, e.g. when a group is named X (and gets count 11 and another X1 and gets count 1)
+                [compound setSymbol:[NSString stringWithFormat:@"%@%d", [compound group], [countForGroup intValue]]];            
+        }
+            [uniqueSymbolArray addObject:[compound symbol]];
+        }
+        
+    } else {
+        // Compound symbol
+        for (j=0; j < compoundCount; j++) {
+            compound = [combinedPeaks objectAtIndex:j];
+            [compound setSymbol:[NSString stringWithFormat:@"%d", j+1]];            
+        }
+    }
+    
+    
 }
 
 @end

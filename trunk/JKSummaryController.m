@@ -32,20 +32,23 @@
             [NSDictionary dictionaryWithObjectsAndKeys:@"model", @"key", NSLocalizedString(@"Model", @""), @"localized", [NSNumber numberWithInt:1], @"format", nil], 
             [NSDictionary dictionaryWithObjectsAndKeys:@"height", @"key", NSLocalizedString(@"Height", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
             [NSDictionary dictionaryWithObjectsAndKeys:@"score", @"key", NSLocalizedString(@"Score", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"flagged", @"key", NSLocalizedString(@"Flagged", @""), @"localized", [NSNumber numberWithInt:2], @"format", nil], 
             [NSDictionary dictionaryWithObjectsAndKeys:@"symbol", @"key", NSLocalizedString(@"Symbol", @""), @"localized", [NSNumber numberWithInt:1], @"format", nil], 
             [NSDictionary dictionaryWithObjectsAndKeys:@"deltaRetentionIndex", @"key", NSLocalizedString(@"Delta Retention Index", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"top", @"key", NSLocalizedString(@"Top Scan", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"start", @"key", NSLocalizedString(@"Start Scan", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"end", @"key", NSLocalizedString(@"End Scan", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"width", @"key", NSLocalizedString(@"Width", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"top", @"key", NSLocalizedString(@"Top Scan", @""), @"localized", [NSNumber numberWithInt:2], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"start", @"key", NSLocalizedString(@"Start Scan", @""), @"localized", [NSNumber numberWithInt:2], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"end", @"key", NSLocalizedString(@"End Scan", @""), @"localized", [NSNumber numberWithInt:2], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"width", @"key", NSLocalizedString(@"Width", @""), @"localized", [NSNumber numberWithInt:2], @"format", nil], 
             [NSDictionary dictionaryWithObjectsAndKeys:@"library", @"key", NSLocalizedString(@"Library", @""), @"localized", [NSNumber numberWithInt:1], @"format", nil], 
             [NSDictionary dictionaryWithObjectsAndKeys:@"baselineLeft", @"key", NSLocalizedString(@"Baseline Left", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
             [NSDictionary dictionaryWithObjectsAndKeys:@"baselineRight", @"key", NSLocalizedString(@"Baseline Right", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
-            [NSDictionary dictionaryWithObjectsAndKeys:@"peakID", @"key", NSLocalizedString(@"Peak Number", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"peakID", @"key", NSLocalizedString(@"Peak Number", @""), @"localized", [NSNumber numberWithInt:2], @"format", nil], 
             [NSDictionary dictionaryWithObjectsAndKeys:@"uuid", @"key", NSLocalizedString(@"Unique ID", @""), @"localized", [NSNumber numberWithInt:1], @"format", nil], 
             nil] retain];
         sortKeys = [[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"label", @"key", NSLocalizedString(@"Compound name", @""), @"localized", nil], 
             [NSDictionary dictionaryWithObjectsAndKeys:@"averageRetentionIndex", @"key", NSLocalizedString(@"Retention Index", @""), @"localized", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"symbol", @"key", NSLocalizedString(@"Symbol", @""), @"localized", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"group", @"key", NSLocalizedString(@"Group", @""), @"localized", nil], 
             [NSDictionary dictionaryWithObjectsAndKeys:@"averageSurface", @"key", NSLocalizedString(@"Surface", @""), @"localized", nil], 
             [NSDictionary dictionaryWithObjectsAndKeys:@"averageHeight", @"key", NSLocalizedString(@"Height", @""), @"localized", nil], 
             [NSDictionary dictionaryWithObjectsAndKeys:@"countOfPeaks", @"key", NSLocalizedString(@"Number of Peaks", @""), @"localized", nil], 
@@ -98,6 +101,14 @@
         [[tableColumn dataCell] setFormatter:formatter];
         [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
         break;
+    case 2:
+        formatter = [[[NSNumberFormatter alloc] init] autorelease];
+        [formatter setFormatterBehavior:NSNumberFormatterDecimalStyle];
+        [formatter setPositiveFormat:@"#0"];
+        [formatter setLocalizesFormat:YES]; 
+        [[tableColumn dataCell] setFormatter:formatter];
+        [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
+        break;
     case 1:
     default:
         [[tableColumn dataCell] setFormatter:nil];
@@ -123,6 +134,14 @@
                     formatter = [[[NSNumberFormatter alloc] init] autorelease];
                     [formatter setFormatterBehavior:NSNumberFormatterDecimalStyle];
                     [formatter setPositiveFormat:@"#0.0"];
+                    [formatter setLocalizesFormat:YES]; 
+                    [[tableColumn dataCell] setFormatter:formatter];
+                    [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
+                    break;
+                case 2:
+                    formatter = [[[NSNumberFormatter alloc] init] autorelease];
+                    [formatter setFormatterBehavior:NSNumberFormatterDecimalStyle];
+                    [formatter setPositiveFormat:@"#0"];
                     [formatter setLocalizesFormat:YES]; 
                     [[tableColumn dataCell] setFormatter:formatter];
                     [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
@@ -169,6 +188,9 @@
 	if (([sender clickedRow] == -1) && ([sender clickedColumn] == -1)) {
 		return;
 	} else if ([sender clickedColumn] == 0) {
+       [[NSApp delegate] editLibrary:self];
+        JKLogDebug(@"label = %@", [[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedColumn]] valueForKey:@"label"]);
+       [[[[[NSApp delegate] library] libraryWindowController] libraryController] setSelectedObjects:[NSArray arrayWithObject:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedColumn]] valueForKey:@"libraryHit"]]];
 		return;
     } else if ([sender clickedRow] == -1) {
         // A column was double clicked
@@ -195,9 +217,9 @@
             }
             [[[document mainWindowController] peakController] setSelectedObjects:[NSArray arrayWithObject:peak]];
         } else {
-            // Attempt to find the peak!
-            [document addChromatogramForModel:[[combinedPeak libraryEntry] model]];
-            JKChromatogram *chromatogram = [document chromatogramForModel:[[combinedPeak libraryEntry] model]];
+            // Attempt to find the peak!                
+            [document addChromatogramForModel:[combinedPeak model]];
+            JKChromatogram *chromatogram = [document chromatogramForModel:[combinedPeak model]];
             [chromatogram identifyPeaksWithForce:YES];
             [chromatogramsController setSelectedObjects:[NSArray arrayWithObject:chromatogram]];
             // Find peak closest to averageRetentionTime
@@ -255,4 +277,22 @@
     [self sortArrangedObjects:self];
 }
 
+- (IBAction)setUniqueSymbols:(id)sender
+{
+    [[(JKAppDelegate *)[NSApp delegate] summarizer] setUniqueSymbols];
+}
+
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+    JKCombinedPeak *combinedPeak = [[combinedPeaksController arrangedObjects] objectAtIndex:rowIndex];
+    if (![[aTableColumn identifier] isKindOfClass:[JKGCMSDocument class]]) {
+        [aCell setTextColor:[NSColor blackColor]];
+		return;
+   	}
+    JKPeakRecord *peak = [combinedPeak valueForKey:[[aTableColumn identifier] uuid]];
+    if ([peak flagged]) {
+        [aCell setTextColor:[NSColor redColor]];   
+    } else {
+        [aCell setTextColor:[NSColor blackColor]];
+    }
+}
 @end

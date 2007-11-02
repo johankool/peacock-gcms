@@ -281,6 +281,7 @@
                     [self setGroup:[[value libraryHit] group]];
                     [self setSymbol:[[value libraryHit] symbol]];
                 }
+                [self setModel:[value model]];
             }
         } else {
             [peaks removeObjectForKey:key];
