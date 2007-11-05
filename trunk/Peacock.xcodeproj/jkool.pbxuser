@@ -10,8 +10,8 @@
 		};
 	};
 	2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
-		activeArchitecture = ppc;
 		activeBuildConfigurationName = Debug;
+		activeBuildStyle = C73510900CDF3FDF0086677F /* Development */;
 		activeExecutable = C7EB17970898CF04007FC2ED /* Peacock-Mac */;
 		activeTarget = 8D15AC270486D014006FF6A4 /* Peacock-Mac */;
 		addToTargets = (
@@ -221,34 +221,34 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 215737154;
-			PBXWorkspaceStateSaveDate = 215737154;
+			PBXPerProjectTemplateStateSaveDate = 215957471;
+			PBXWorkspaceStateSaveDate = 215957471;
 		};
 		perUserProjectItems = {
-			C76A85310CDBFE010056CC28 /* PBXTextBookmark */ = C76A85310CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A85320CDBFE010056CC28 /* PBXTextBookmark */ = C76A85320CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A85330CDBFE010056CC28 /* PBXTextBookmark */ = C76A85330CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A85340CDBFE010056CC28 /* PBXTextBookmark */ = C76A85340CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A85350CDBFE010056CC28 /* PBXTextBookmark */ = C76A85350CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A85370CDBFE010056CC28 /* PBXTextBookmark */ = C76A85370CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A85380CDBFE010056CC28 /* PBXTextBookmark */ = C76A85380CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A85390CDBFE010056CC28 /* PBXTextBookmark */ = C76A85390CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A853A0CDBFE010056CC28 /* PBXTextBookmark */ = C76A853A0CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A853B0CDBFE010056CC28 /* PBXTextBookmark */ = C76A853B0CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A853C0CDBFE010056CC28 /* PBXTextBookmark */ = C76A853C0CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A853D0CDBFE010056CC28 /* PBXTextBookmark */ = C76A853D0CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A853E0CDBFE010056CC28 /* PBXTextBookmark */ = C76A853E0CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A853F0CDBFE010056CC28 /* PBXTextBookmark */ = C76A853F0CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A85400CDBFE010056CC28 /* PBXTextBookmark */ = C76A85400CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A85410CDBFE010056CC28 /* PBXTextBookmark */ = C76A85410CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A85420CDBFE010056CC28 /* PBXTextBookmark */ = C76A85420CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A85430CDBFE010056CC28 /* PBXTextBookmark */ = C76A85430CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A85440CDBFE010056CC28 /* PBXTextBookmark */ = C76A85440CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A85450CDBFE010056CC28 /* PBXTextBookmark */ = C76A85450CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A85460CDBFE010056CC28 /* PBXTextBookmark */ = C76A85460CDBFE010056CC28 /* PBXTextBookmark */;
-			C76A854F0CDF2B420056CC28 /* PBXTextBookmark */ = C76A854F0CDF2B420056CC28 /* PBXTextBookmark */;
-			C76A85500CDF2B420056CC28 /* PBXTextBookmark */ = C76A85500CDF2B420056CC28 /* PBXTextBookmark */;
-			C76A85520CDF2BB20056CC28 /* PBXTextBookmark */ = C76A85520CDF2BB20056CC28 /* PBXTextBookmark */;
+			C76A85310CDBFE010056CC28 = C76A85310CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A85320CDBFE010056CC28 = C76A85320CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A85330CDBFE010056CC28 = C76A85330CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A85340CDBFE010056CC28 = C76A85340CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A85350CDBFE010056CC28 = C76A85350CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A85370CDBFE010056CC28 = C76A85370CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A85380CDBFE010056CC28 = C76A85380CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A85390CDBFE010056CC28 = C76A85390CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A853A0CDBFE010056CC28 = C76A853A0CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A853B0CDBFE010056CC28 = C76A853B0CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A853C0CDBFE010056CC28 = C76A853C0CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A853D0CDBFE010056CC28 = C76A853D0CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A853E0CDBFE010056CC28 = C76A853E0CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A853F0CDBFE010056CC28 = C76A853F0CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A85400CDBFE010056CC28 = C76A85400CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A85410CDBFE010056CC28 = C76A85410CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A85420CDBFE010056CC28 = C76A85420CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A85430CDBFE010056CC28 = C76A85430CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A85440CDBFE010056CC28 = C76A85440CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A85450CDBFE010056CC28 = C76A85450CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A85460CDBFE010056CC28 = C76A85460CDBFE010056CC28 /* PBXTextBookmark */;
+			C76A854F0CDF2B420056CC28 = C76A854F0CDF2B420056CC28 /* PBXTextBookmark */;
+			C76A85500CDF2B420056CC28 = C76A85500CDF2B420056CC28 /* PBXTextBookmark */;
+			C76A85520CDF2BB20056CC28 = C76A85520CDF2BB20056CC28 /* PBXTextBookmark */;
 		};
 		sourceControlManager = C7EB17A40898CF22007FC2ED /* Source Control */;
 		userBuildSettings = {
@@ -372,14 +372,11 @@
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
-		breakpointStyle = 0;
 		continueAfterActions = 0;
-		countType = 0;
 		delayBeforeContinue = 0;
 		fileReference = C7EB17D50898CF2E007FC2ED /* JKLibrary.m */;
 		functionName = "-writeToURL:ofType:forSaveOperation:originalContentsURL:error:";
 		hitCount = 1;
-		ignoreCount = 0;
 		lineNumber = 57;
 		modificationTime = 215709718.43105;
 		state = 1;
@@ -1095,12 +1092,9 @@
 		isa = PBXSymbolicBreakpoint;
 		actions = (
 		);
-		breakpointStyle = 0;
 		continueAfterActions = 0;
-		countType = 0;
 		delayBeforeContinue = 0;
 		hitCount = 1;
-		ignoreCount = 0;
 		modificationTime = 215709718.726903;
 		state = 2;
 		symbolName = "-[_NSZombie forward::]";
@@ -1269,12 +1263,9 @@
 		isa = PBXSymbolicBreakpoint;
 		actions = (
 		);
-		breakpointStyle = 0;
 		continueAfterActions = 0;
-		countType = 0;
 		delayBeforeContinue = 2;
 		hitCount = 1;
-		ignoreCount = 0;
 		modificationTime = 215709718.726679;
 		state = 2;
 		symbolName = _NSKVODeallocateLog;
@@ -1378,12 +1369,12 @@
 	};
 	C7ADC91A0BA05609007D9134 /* Peacock-Windows */ = {
 		isa = PBXExecutable;
+		activeArgIndex = 2147483647;
 		activeArgIndices = (
 		);
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
-		breakpointsEnabled = 1;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
@@ -1591,18 +1582,16 @@
 		isa = PBXSymbolicBreakpoint;
 		actions = (
 		);
-		breakpointStyle = 0;
 		continueAfterActions = 0;
-		countType = 0;
 		delayBeforeContinue = 0;
 		hitCount = 1;
-		ignoreCount = 0;
 		modificationTime = 215709718.726269;
 		state = 2;
 		symbolName = "[NSException raise]";
 	};
 	C7EB17970898CF04007FC2ED /* Peacock-Mac */ = {
 		isa = PBXExecutable;
+		activeArgIndex = 2147483647;
 		activeArgIndices = (
 			NO,
 		);
@@ -1610,7 +1599,6 @@
 			"-NSBindingDebugLogLevel 1",
 		);
 		autoAttachOnCrash = 1;
-		breakpointsEnabled = 0;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
@@ -1922,13 +1910,10 @@
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
-		breakpointStyle = 0;
 		continueAfterActions = 0;
-		countType = 0;
 		delayBeforeContinue = 0;
 		fileReference = C7EF71870CD946C900A9F1EF /* asm -[NSDocumentController(NSInternal) _fixedFailureReasonFromError:]  0x9535d8d4 */;
 		hitCount = 1;
-		ignoreCount = 0;
 		lineNumber = 12;
 		modificationTime = 215709718.49141;
 		state = 1;
@@ -1943,13 +1928,10 @@
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
-		breakpointStyle = 0;
 		continueAfterActions = 0;
-		countType = 0;
 		delayBeforeContinue = 0;
 		fileReference = C7EF718A0CD946CB00A9F1EF /* asm -[NSDocumentController(NSInternal) _fixedFailureReasonFromError:]  0x9535d8d4 */;
 		hitCount = 1;
-		ignoreCount = 0;
 		lineNumber = 12;
 		modificationTime = 215709718.491619;
 		state = 1;
@@ -1958,12 +1940,9 @@
 		isa = PBXSymbolicBreakpoint;
 		actions = (
 		);
-		breakpointStyle = 0;
 		continueAfterActions = 0;
-		countType = 0;
 		delayBeforeContinue = 0;
 		hitCount = 1;
-		ignoreCount = 0;
 		modificationTime = 215709718.727113;
 		state = 1;
 		symbolName = "_fixedFailureReasonFromError:";
