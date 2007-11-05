@@ -399,23 +399,6 @@
 		};
 /* End PBXBuildRule section */
 
-/* Begin PBXBuildStyle section */
-		C704CC550CD9EDC7004DED7F /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-			};
-			name = Development;
-		};
-		C704CC560CD9EDC7004DED7F /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
-
 /* Begin PBXContainerItemProxy section */
 		C72C8532098BEAD500CEF565 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1313,15 +1296,11 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C7EB17A00898CF22007FC2ED /* Build configuration list for PBXProject "Peacock" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				C704CC550CD9EDC7004DED7F /* Development */,
-				C704CC560CD9EDC7004DED7F /* Deployment */,
-			);
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* Peacock */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* Peacock-Mac */,
 				C7ADC8880BA05609007D9134 /* Peacock-Windows */,

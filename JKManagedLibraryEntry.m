@@ -10,6 +10,7 @@
 
 #import "MolTypes.h"
 #import "CFragment.h"
+#import "jk_statistics.h"
 
 @implementation JKManagedLibraryEntry
 
@@ -941,6 +942,7 @@
 - (float *)masses {
     [self willAccessValueForKey:@"masses"];
     float *masses = [[self primitiveValueForKey:@"masses"] bytes];
+    NSSwapLittleFloatArrayToHost(masses, [self numberOfPoints]);
     [self didAccessValueForKey:@"masses"];
     return masses;
 }
@@ -948,6 +950,7 @@
 - (void)setMasses:(float *)newMasses
 {
     [self willChangeValueForKey:@"masses"];
+    NSSwapHostFloatArrayToLittle(newMasses, [self numberOfPoints]);
     [self setPrimitiveValue:[NSData dataWithBytes:newMasses length:[self numberOfPoints]*sizeof(float)] forKey:@"masses"];
     [self didChangeValueForKey:@"masses"];
 }
@@ -955,6 +958,7 @@
 - (float *)intensities {
     [self willAccessValueForKey:@"intensities"];
     float *intensities = [[self primitiveValueForKey:@"intensities"] bytes];
+    NSSwapLittleFloatArrayToHost(intensities, [self numberOfPoints]);
     [self didAccessValueForKey:@"intensities"];
     return intensities;
 }
@@ -962,6 +966,7 @@
 - (void)setIntensities:(float *)newIntensities
 {
     [self willChangeValueForKey:@"intensities"];
+    NSSwapHostFloatArrayToLittle(newIntensities, [self numberOfPoints]);
     [self setPrimitiveValue:[NSData dataWithBytes:newIntensities length:[self numberOfPoints]*sizeof(float)] forKey:@"intensities"];
     [self didChangeValueForKey:@"intensities"];
 }
