@@ -958,6 +958,7 @@
 - (float *)intensities {
     [self willAccessValueForKey:@"intensities"];
     float *intensities = [[self primitiveValueForKey:@"intensities"] bytes];
+    float *intensCopy = copy(intensities);
     NSSwapLittleFloatArrayToHost(intensities, [self numberOfPoints]);
     [self didAccessValueForKey:@"intensities"];
     return intensities;
