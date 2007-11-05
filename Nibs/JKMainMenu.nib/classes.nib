@@ -122,6 +122,7 @@
             SUPERCLASS = NSDocumentController; 
         }, 
         {
+            ACTIONS = {showRatios = id; showSummary = id; }; 
             CLASS = PKWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {documentTabView = NSTabView; documentTableView = NSTableView; }; 

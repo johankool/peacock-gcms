@@ -942,7 +942,7 @@
 - (float *)masses {
     [self willAccessValueForKey:@"masses"];
     float *masses = [[self primitiveValueForKey:@"masses"] bytes];
-    NSSwapLittleFloatArrayToHost(masses, [self numberOfPoints]);
+//    NSSwapLittleFloatArrayToHost(masses, [self numberOfPoints]);
     [self didAccessValueForKey:@"masses"];
     return masses;
 }
@@ -950,7 +950,7 @@
 - (void)setMasses:(float *)newMasses
 {
     [self willChangeValueForKey:@"masses"];
-    NSSwapHostFloatArrayToLittle(newMasses, [self numberOfPoints]);
+//    NSSwapHostFloatArrayToLittle(newMasses, [self numberOfPoints]);
     [self setPrimitiveValue:[NSData dataWithBytes:newMasses length:[self numberOfPoints]*sizeof(float)] forKey:@"masses"];
     [self didChangeValueForKey:@"masses"];
 }
@@ -958,8 +958,8 @@
 - (float *)intensities {
     [self willAccessValueForKey:@"intensities"];
     float *intensities = [[self primitiveValueForKey:@"intensities"] bytes];
-    float *intensCopy = copy(intensities);
-    NSSwapLittleFloatArrayToHost(intensities, [self numberOfPoints]);
+//    float *intensCopy = memcpy(intensities);
+//    NSSwapLittleFloatArrayToHost(intensities, [self numberOfPoints]);
     [self didAccessValueForKey:@"intensities"];
     return intensities;
 }
@@ -967,7 +967,7 @@
 - (void)setIntensities:(float *)newIntensities
 {
     [self willChangeValueForKey:@"intensities"];
-    NSSwapHostFloatArrayToLittle(newIntensities, [self numberOfPoints]);
+//    NSSwapHostFloatArrayToLittle(newIntensities, [self numberOfPoints]);
     [self setPrimitiveValue:[NSData dataWithBytes:newIntensities length:[self numberOfPoints]*sizeof(float)] forKey:@"intensities"];
     [self didChangeValueForKey:@"intensities"];
 }

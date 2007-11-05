@@ -59,6 +59,14 @@
 	}
 }
 
+- (IBAction)showSummary:(id)sender {
+    [documentTableView selectRow:0 byExtendingSelection:NO];
+}
+
+- (IBAction)showRatios:(id)sender {
+    [documentTableView selectRow:1 byExtendingSelection:NO];
+}
+
 //-(IBAction)printDocument:(id)sender {
 //    if ([[[documentTabView selectedTabViewItem] identifier] isKindOfClass:[JKGCMSDocument class]]) {
 //        [[[documentTabView selectedTabViewItem] identifier] printDocument:sender];
