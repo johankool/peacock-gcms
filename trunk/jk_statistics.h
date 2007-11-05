@@ -16,4 +16,6 @@ float jk_stats_float_max(float *data, int count);
 
 NSString *GetUUID(void);
 int intSort(id num1, id num2, void *context);
+void NSSwapHostFloatArrayToLittle(float *array, UInt32  count);
+void NSSwapLittleFloatArrayToHost(float *array, UInt32  count);
 

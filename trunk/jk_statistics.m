@@ -71,3 +71,26 @@ int intSort(id num1, id num2, void *context)
         return NSOrderedSame;
 }
 
+//static inline void NSSwapHostFloatArrayToBig(float *array, UInt32  count) {
+//    int i;
+//    
+//    for(i = 0; i < count; i++) {
+//        array[i] = NSSwapHostFloatToBig(array[i]);
+//    }
+//}
+
+void NSSwapHostFloatArrayToLittle(float *array, UInt32  count) {
+    int i;
+    
+    for(i = 0; i < count; i++) {
+        array[i] = NSConvertSwappedFloatToHost(NSSwapHostFloatToLittle(array[i]));
+    }
+}
+
+void NSSwapLittleFloatArrayToHost(float *array, UInt32  count) {
+    int i;
+    
+    for(i = 0; i < count; i++) {
+        array[i] = NSSwapLittleFloatToHost(NSConvertHostFloatToSwapped(array[i]));
+    }
+}
