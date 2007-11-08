@@ -79,4 +79,6 @@
   	}
 }
 
+@synthesize tableView;
+@synthesize ratiosController;
 @end

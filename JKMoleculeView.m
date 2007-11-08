@@ -632,4 +632,5 @@ floatAccessor(textHeight, setTextHeight)
     [self setNeedsDisplay:YES];    
 }
 
+@synthesize _isTargettedForDrop;
 @end

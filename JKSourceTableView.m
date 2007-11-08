@@ -112,4 +112,6 @@ http://joris.kluivers.nl
 	
 	[super reloadData];
 }
+@synthesize heightCache;
+@synthesize shouldCacheCellHeight;
 @end

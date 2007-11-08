@@ -9,7 +9,7 @@
 #import "JKStatisticsWindowController.h"
 
 #import "BDAlias.h"
-#import "ChromatogramGraphDataSerie.h"
+#import "PKChromatogramDataSeries.h"
 #import "Growl/GrowlApplicationBridge.h"
 #import "JKChromatogram.h"
 #import "JKCombinedPeak.h"
@@ -20,7 +20,7 @@
 #import "JKSearchResult.h"
 #import "JKSpectrum.h"
 // #import "JKStatisticsDocument.h"
-#import "MyGraphView.h"
+#import "PKGraphView.h"
 #import "NSEvent+ModifierKeys.h"
 #import "JKPanelController.h"
 
@@ -72,15 +72,14 @@
 - (void)windowDidLoad {
 	// Load Ratios file from application support folder
 	NSArray *paths;
-	unsigned int i;
 	BOOL foundFile = NO;
 	NSFileManager *mgr = [NSFileManager defaultManager];
 	NSString *destPath;
 	
 	paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSAllDomainsMask, YES);
 	
-	for (i = 0; i < [paths count]; i++) {
-		destPath = [[paths objectAtIndex:i] stringByAppendingPathComponent:@"Peacock/Ratios.plist"];
+	for (id loopItem in paths) {
+		destPath = [loopItem stringByAppendingPathComponent:@"Peacock/Ratios.plist"];
 		if ([mgr fileExistsAtPath:destPath]) {
 			[self setRatios:[NSKeyedUnarchiver unarchiveObjectWithFile:destPath]];
 			foundFile = YES;
@@ -336,7 +335,7 @@
     
     for (i = 0; i < [[chromatogramDataSeriesController arrangedObjects] count]; i++) {
         [[[chromatogramDataSeriesController arrangedObjects] objectAtIndex:i] setShouldDrawPeaks:NO];
-        [(ChromatogramGraphDataSerie *)[[chromatogramDataSeriesController arrangedObjects] objectAtIndex:i] setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:i%peakColorsArrayCount]]];
+        [(PKChromatogramDataSeries *)[[chromatogramDataSeriesController arrangedObjects] objectAtIndex:i] setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:i%peakColorsArrayCount]]];
     }
     [altGraphView showAll:self];
 
@@ -1396,7 +1395,7 @@
     JKChromatogram *chromatogram = [[document chromatograms] objectAtIndex:0]; // TIC only!!
 
 //    while ((chromatogram = [chromatogramEnum nextObject]) != nil) {
-        ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+        PKChromatogramDataSeries *cgds = [[[PKChromatogramDataSeries alloc] initWithChromatogram:chromatogram] autorelease];
         // sets title to "filename: code - description (model)"
         [cgds setSeriesTitle:[NSString stringWithFormat:@"%@: %@ - %@ (%@)", [document displayName], [[metadata objectAtIndex:0] valueForKey:[NSString stringWithFormat:@"file_%d",index]],[[metadata objectAtIndex:1] valueForKey:[NSString stringWithFormat:@"file_%d",index]],[chromatogram model]]];
         [cgds setFilterPredicate:[self filterPredicate]];
@@ -1815,15 +1814,15 @@
 {
     return printAccessoryView;
 }
-- (MyGraphView *)altGraphView
+- (PKGraphView *)altGraphView
 {
     return altGraphView;
 }
-- (MyGraphView *)loadingsGraphView
+- (PKGraphView *)loadingsGraphView
 {
     return loadingsGraphView;
 }
-- (MyGraphView *)scoresGraphView
+- (PKGraphView *)scoresGraphView
 {
     return scoresGraphView;
 }
@@ -2026,10 +2025,8 @@
         }
 		BOOL alreadyInFiles;
         NSArray *filesToOpen = [sheet filenames];
-        int i, count = [filesToOpen count];
-        for (i=0; i<count; i++) {
+        for (NSString *aFile in filesToOpen) {
 			alreadyInFiles = NO;
-            NSString *aFile = [filesToOpen objectAtIndex:i];
 			NSEnumerator *enumerator = [files objectEnumerator];
 			id anObject;
 			
@@ -2702,4 +2699,46 @@ idAccessor(maximumRetentionIndexDifference, setMaximumRetentionIndexDifference)
 boolAccessor(closeDocuments, setCloseDocuments)
 boolAccessor(calculateRatios, setCalculateRatios)
 
+@synthesize scoresDataSeriesController;
+@synthesize peaksController;
+@synthesize loadingsDataSeriesController;
+@synthesize chromatogramDataSeriesController;
+@synthesize optionsSheet;
+@synthesize summarizeOptionsSheet;
+@synthesize resultsTableScrollView;
+@synthesize metadataTable;
+@synthesize metadataTableScrollView;
+@synthesize ratiosEditor;
+@synthesize printAccessoryView;
+@synthesize performSanityCheck;
+@synthesize combinePeaks;
+@synthesize progressSheet;
+@synthesize scrollingViewProgrammatically;
+@synthesize combinedPeaksController;
+@synthesize unknownCount;
+@synthesize fileProgressIndicator;
+@synthesize scoresGraphView;
+@synthesize comparePeaks;
+@synthesize resultsTable;
+@synthesize ratiosTableScrollView;
+@synthesize ratiosValuesController;
+@synthesize doneButton;
+@synthesize runBatchButton;
+@synthesize fileStatusTextField;
+@synthesize splitView;
+@synthesize loadingsGraphView;
+@synthesize metadataController;
+@synthesize rerunNeeded;
+@synthesize sanityCheck;
+@synthesize tabView;
+@synthesize addButton;
+@synthesize ratiosTable;
+@synthesize altGraphView;
+@synthesize movingColumnsProgramatically;
+@synthesize comparisonScrollView;
+@synthesize searchOptionsButton;
+@synthesize stopButton;
+@synthesize detailStatusTextField;
+@synthesize ratiosController;
+@synthesize filesTableView;
 @end

@@ -39,4 +39,8 @@
 - (IBAction)toggleOption:(id)sender;
 
 
+@property (assign,getter=delegate,setter=setDelegate:) id delegate;
+@property (retain) NSTextField *headingField;
+@property (retain) NSMatrix *optionsMatrix;
+@property (retain) NSImageView *iconView;
 @end

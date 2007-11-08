@@ -22,4 +22,10 @@
 - (IBAction)showInFinder:(id)sender;
 - (IBAction)reloadLibrary:(id)sender;
 
+@property (retain) NSView *presetsPreferencesView;
+@property (retain) NSView *displayPreferencesView;
+@property (retain) NSView *searchTemplatesPreferencesView;
+@property (retain) NSView *generalPreferencesView;
+@property (retain) NSView *ratiosPreferencesView;
+@property (retain) NSView *processingPreferencesView;
 @end

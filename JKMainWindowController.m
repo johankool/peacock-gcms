@@ -9,7 +9,7 @@
 #import "JKMainWindowController.h"
 
 #import "BDAlias.h"
-#import "ChromatogramGraphDataSerie.h"
+#import "PKChromatogramDataSeries.h"
 #import "JKAppDelegate.h"
 #import "JKChromatogram.h"
 #import "JKGCMSDocument.h"
@@ -18,9 +18,9 @@
 #import "JKMoleculeView.h"
 #import "JKPeakRecord.h"
 #import "JKSpectrum.h"
-#import "MyGraphView.h"
+#import "PKGraphView.h"
 #import "RBSplitSubview.h"
-#import "SpectrumGraphDataSerie.h"
+#import "PKSpectrumDataSeries.h"
 #import "netcdf.h"
 #include <unistd.h>
 
@@ -696,7 +696,7 @@ static void *PeaksObservationContext = (void *)1103;
 
 - (void)showSpectrumForScan:(int)scan {
     if (scan > 0) {
-        SpectrumGraphDataSerie *sgds = [[[SpectrumGraphDataSerie alloc] initWithSpectrum:[[self document] spectrumForScan:scan]] autorelease];
+        PKSpectrumDataSeries *sgds = [[[PKSpectrumDataSeries alloc] initWithSpectrum:[[self document] spectrumForScan:scan]] autorelease];
         if (showNormalizedSpectra) {
             [sgds setNormalizeYData:YES];
         }
@@ -770,13 +770,13 @@ static void *PeaksObservationContext = (void *)1103;
         
         NSEnumerator *peakEnumerator = [[peakController selectedObjects] objectEnumerator];
         JKPeakRecord *peak;
-        SpectrumGraphDataSerie *sgds;
+        PKSpectrumDataSeries *sgds;
         
         while ((peak = [peakEnumerator nextObject]) != nil) {
             if (showCombinedSpectrum) {
-                sgds = [[[SpectrumGraphDataSerie alloc] initWithSpectrum:[peak combinedSpectrum]] autorelease];
+                sgds = [[[PKSpectrumDataSeries alloc] initWithSpectrum:[peak combinedSpectrum]] autorelease];
             } else {
-                sgds = [[[SpectrumGraphDataSerie alloc] initWithSpectrum:[peak spectrum]] autorelease];
+                sgds = [[[PKSpectrumDataSeries alloc] initWithSpectrum:[peak spectrum]] autorelease];
             }
             if (showNormalizedSpectra) {
                 [sgds setNormalizeYData:YES];
@@ -792,7 +792,7 @@ static void *PeaksObservationContext = (void *)1103;
             NSDictionary *searchResult;
             
             while ((searchResult = [searchResultEnumerator nextObject]) != nil) {
-                sgds = [[[SpectrumGraphDataSerie alloc] initWithSpectrum:[searchResult valueForKey:@"libraryHit"]] autorelease];
+                sgds = [[[PKSpectrumDataSeries alloc] initWithSpectrum:[searchResult valueForKey:@"libraryHit"]] autorelease];
                 [sgds setDrawUpsideDown:YES];
                 if (showNormalizedSpectra) {
                     [sgds setNormalizeYData:YES];
@@ -908,7 +908,7 @@ static void *PeaksObservationContext = (void *)1103;
                  (showTICTrace && !showSelectedChromatogramsOnly) ||
                  (showTICTrace && showSelectedChromatogramsOnly && (([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound) || [[chromatogram model] isEqualToString:@"TIC"])) ) {
                 
-                ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+                PKChromatogramDataSeries *cgds = [[[PKChromatogramDataSeries alloc] initWithChromatogram:chromatogram] autorelease];
                 [cgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatogramDataSeries count]%peakColorsArrayCount]]];
                 [cgds setAcceptableKeysForXValue:[NSArray arrayWithObjects:NSLocalizedString(@"Retention Index", @""), NSLocalizedString(@"Scan", @""), NSLocalizedString(@"Time", @""), nil]];
                 [cgds setAcceptableKeysForYValue:[NSArray arrayWithObjects:NSLocalizedString(@"Total Intensity", @""), nil]];                    
@@ -920,7 +920,7 @@ static void *PeaksObservationContext = (void *)1103;
                  (showTICTrace && !showSelectedChromatogramsOnly) ||
                  (showTICTrace && showSelectedChromatogramsOnly && (([[[chromatogramsController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound) || [[chromatogram model] isEqualToString:@"TIC"])) ) {
                 
-                ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+                PKChromatogramDataSeries *cgds = [[[PKChromatogramDataSeries alloc] initWithChromatogram:chromatogram] autorelease];
                 [cgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatogramDataSeries count]%peakColorsArrayCount]]];
                 [cgds setAcceptableKeysForXValue:[NSArray arrayWithObjects:NSLocalizedString(@"Retention Index", @""), NSLocalizedString(@"Scan", @""), NSLocalizedString(@"Time", @""), nil]];
                 [cgds setAcceptableKeysForYValue:[NSArray arrayWithObjects:NSLocalizedString(@"Total Intensity", @""), nil]];
@@ -932,7 +932,7 @@ static void *PeaksObservationContext = (void *)1103;
         //                    (!showTICTrace && showSelectedChromatogramsOnly && ([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound)) ||
         //                    (showTICTrace && !showSelectedChromatogramsOnly) ||
         //                    (showTICTrace && showSelectedChromatogramsOnly && (([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound) || [[chromatogram model] isEqualToString:@"TIC"]))) {
-        //                    ChromatogramGraphDataSerie *cgds = [[[ChromatogramGraphDataSerie alloc] initWithChromatogram:chromatogram] autorelease];
+        //                    PKChromatogramDataSeries *cgds = [[[PKChromatogramDataSeries alloc] initWithChromatogram:chromatogram] autorelease];
         //                    [cgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[chromatogramDataSeries count]%peakColorsArrayCount]]];
         //                    [chromatogramDataSeries addObject:cgds];                    
         //                }
@@ -1154,11 +1154,11 @@ static void *PeaksObservationContext = (void *)1103;
 #pragma mark -
 
 #pragma mark Accessors
-- (MyGraphView *)chromatogramView {
+- (PKGraphView *)chromatogramView {
     return chromatogramView;
 }
 
-- (MyGraphView *)spectrumView {
+- (PKGraphView *)spectrumView {
     return spectrumView;
 }
 
@@ -1360,10 +1360,9 @@ static void *PeaksObservationContext = (void *)1103;
             [unarchiver finishDecoding];
             [unarchiver release];
 
-            NSEnumerator *enumerator = [peaks objectEnumerator];
             JKPeakRecord *peak = nil;
 //            JKPeakRecord *newPeak = nil;
-            while ((peak = [enumerator nextObject]) != nil) {
+            for (peak in peaks) {
                 [[peak chromatogram] removeObjectFromPeaksAtIndex:[[[peak chromatogram] peaks] indexOfObject:peak]];
                 [chrom insertObject:peak inPeaksAtIndex:[chrom countOfPeaks]];
             }
@@ -1494,4 +1493,34 @@ intAccessor(showPeaks, setShowPeaks)
 idAccessor(printAccessoryView, setPrintAccessoryView)
 idAccessor(chromatogramDataSeries, setChromatogramDataSeries)
 
+@synthesize peakController;
+@synthesize moleculeSplitSubview;
+@synthesize peaksTable;
+@synthesize detailsTabView;
+@synthesize spectrumDataSeriesController;
+@synthesize chromatogramSelectionSheetButton;
+@synthesize moleculeView;
+@synthesize spectrumView;
+@synthesize mainWindowSplitView;
+@synthesize _lastDetailsSplitSubviewDimension;
+@synthesize chromatogramsTableSplitView;
+@synthesize chromatogramsTable;
+@synthesize chromatogramsController;
+@synthesize progressText;
+@synthesize resultsTable;
+@synthesize confirmLibraryHitButton;
+@synthesize chromatogramView;
+@synthesize searchResultsTabViewItemView;
+@synthesize progressBar;
+@synthesize hiddenColumnsPeaksTable;
+@synthesize chromatogramSelectionSheet;
+@synthesize searchResultsController;
+@synthesize discardLibraryHitButton;
+@synthesize detailsTabViewItemView;
+@synthesize chromatogramDataSeriesController;
+@synthesize detailsSplitSubview;
+@synthesize detailsTabViewItemScrollView;
+@synthesize identifyCompoundBox;
+@synthesize resultsTableScrollView;
+@synthesize progressSheet;
 @end

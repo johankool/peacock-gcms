@@ -7,7 +7,7 @@
 //
 
 @class JKPathPopUpButton;
-@class MyGraphView;
+@class PKGraphView;
 
 @interface JKPanelController : NSWindowController {
 	
@@ -33,7 +33,7 @@
     IBOutlet NSButton *axesLabelFontButton;
     
 	IBOutlet NSObjectController *inspectedDocumentController;
-    MyGraphView *inspectedGraphView;
+    PKGraphView *inspectedGraphView;
 	NSDocument *inspectedDocument;
     
 } 
@@ -56,4 +56,19 @@ idAccessor_h(inspectedDocument, setInspectedDocument)
 #pragma mark MENU VALIDATION
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem;
 
+@property (retain) NSTextField *yAxisTextField;
+@property (retain) NSButton *legendFontButton;
+@property (retain) NSView *viewPanelView;
+@property (retain,getter=infoTableView) NSTableView *infoTableView;
+@property (retain) NSTextField *titleTextField;
+@property (retain) NSView *infoPanelView;
+@property (retain) JKPathPopUpButton *libraryPopUpButton;
+@property (retain) NSView *naPanelView;
+@property (retain) NSTextField *xAxisTextField;
+@property (retain) NSButton *labelFontButton;
+@property (retain) NSView *processingPanelView;
+@property (retain) NSView *displayPanelView;
+@property (retain) NSTextField *subTitleTextField;
+@property (retain) NSButton *axesLabelFontButton;
+@property (retain) NSObjectController *inspectedDocumentController;
 @end

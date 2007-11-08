@@ -247,4 +247,6 @@
 {
     return NO;
 }
+@synthesize documentTabView;
+@synthesize documentTableView;
 @end

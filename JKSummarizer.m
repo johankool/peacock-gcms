@@ -35,10 +35,9 @@
     [ratios removeAllObjects];
  	NSArray *prefRatios = [[NSUserDefaults standardUserDefaults] valueForKey:@"ratios"];
     if (prefRatios) {
-        NSEnumerator *enumerator = [prefRatios objectEnumerator];
         NSDictionary *aRatio;
         
-        while ((aRatio = [enumerator nextObject])) {
+        for (aRatio in prefRatios) {
             NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[ratios count]];
             [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"ratios"];
             JKRatio *newRatio = [[JKRatio alloc] initWithString:@""];
@@ -100,10 +99,9 @@
 - (void)documentUnloaded:(NSNotification *)aNotification
 {
     NSString *key = [[aNotification object] uuid];
-    NSEnumerator *enumerator = [combinedPeaks objectEnumerator];
     JKCombinedPeak *combinedPeak;
     
-    while ((combinedPeak = [enumerator nextObject])) {
+    for (combinedPeak in combinedPeaks) {
         [combinedPeak setValue:nil forKey:key];
 //        if ([combinedPeak countOfPeaks] == 0) {
 //            [combinedPeaks removeObject:combinedPeak];
@@ -114,10 +112,9 @@
 
 - (JKCombinedPeak *)combinedPeakForLabel:(NSString *)label
 {
-    NSEnumerator *enumerator = [combinedPeaks objectEnumerator];
     JKCombinedPeak *combinedPeak;
     
-    while ((combinedPeak = [enumerator nextObject])) {
+    for (combinedPeak in combinedPeaks) {
         if ([combinedPeak isIdenticalToCompound:label]) {
             return combinedPeak;
         }       

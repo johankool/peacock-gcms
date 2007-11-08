@@ -26,4 +26,11 @@
 - (NSWindow *)window;
 - (NSArray *)managedDocuments;
 - (void)showDocument:(NSDocument *)document;
+@property (retain) NSTabView *documentTabView;
+@property (retain,getter=window) NSWindow *window;
+@property (retain) NSImage *playlistImage;
+@property (retain) NSTableView *documentTableView;
+@property (retain) NSCell *separatorCell;
+@property (retain) NSCell *defaultCell;
+@property (retain) NSImage *libraryImage;
 @end

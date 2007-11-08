@@ -215,4 +215,12 @@
         [tempWindow release];
     }
 }
+
+@synthesize libraryImage;
+@synthesize playlistImage;
+@synthesize window;
+@synthesize separatorCell;
+@synthesize documentTableView;
+@synthesize defaultCell;
+@synthesize documentTabView;
 @end

@@ -10,7 +10,7 @@
 
 @class JKSpectrum;
 @class JKGCMSDocument;
-@class ChromatogramGraphDataSerie;
+@class PKChromatogramDataSeries;
 @class JKPeakRecord;
 @class JKLibraryEntry;
 
@@ -118,5 +118,11 @@
 - (float)maxTotalIntensity;
 - (float)minTotalIntensity;
 
+@property (getter=baselinePointsScans) int *baselinePointsScans;
+@property (getter=baselinePointsCount) int baselinePointsCount;
+@property (getter=time) float *time;
+@property (getter=baselinePointsIntensities) float *baselinePointsIntensities;
+@property (getter=totalIntensity) float *totalIntensity;
+@property (getter=numberOfPoints) int numberOfPoints;
 @end
 

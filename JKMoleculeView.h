@@ -55,4 +55,6 @@ idAccessor_h(textColor, setTextColor)
 idAccessor_h(bondColor, setBondColor)
 idAccessor_h(font, setFont)
 boolAccessor_h(fitToView, setFitToView)
+@property (getter=fitToView,setter=setFitToView:) BOOL fitToView;
+@property BOOL _isTargettedForDrop;
 @end

@@ -161,4 +161,10 @@
     [[self window] center];
 }
 
+@synthesize searchTemplatesPreferencesView;
+@synthesize generalPreferencesView;
+@synthesize presetsPreferencesView;
+@synthesize displayPreferencesView;
+@synthesize ratiosPreferencesView;
+@synthesize processingPreferencesView;
 @end

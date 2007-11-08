@@ -80,4 +80,5 @@
     return self;
 }
 
+@synthesize spectrumType;
 @end

@@ -9,7 +9,7 @@
 #import "JKGCMSDocument.h"
 
 #import "BDAlias.h"
-#import "ChromatogramGraphDataSerie.h"
+#import "PKChromatogramDataSeries.h"
 #import "JKAppDelegate.h"
 #import "JKChromatogram.h"
 #import "JKDataModelProxy.h"
@@ -400,35 +400,33 @@ int const JKGCMSDocument_Version = 7;
 - (NSString *)exportTabDelimitedText {
 	NSMutableString *outStr = [[NSMutableString alloc] init]; 
 	NSArray *array = [[[self mainWindowController] peakController] arrangedObjects];
-	int i;
-	int count = [array count];
 	
 	[outStr appendString:NSLocalizedString(@"File\tID\tLabel\tScore\tIdentified\tConfirmed\tStart (scan)\tTop (scan)\tEnd (scan)\tHeight (normalized)\tSurface (normalized)\tHeight (abs.)\tSurface (abs.)\tBaseline Left\tBaseline Right\tName (Lib.)\tFormula (Lib.)\tCAS No. (Lib.)\tRetention Index (Lib.)\tComment (Lib.)\n",@"Top row of tab delimited text export.")];
-	for (i=0; i < count; i++) {
+	for (id loopItem in array) {
 		[outStr appendFormat:@"%@\t", [self displayName]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"peakID"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"label"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKeyPath:@"identifiedSearchResult.score"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"identified"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"confirmed"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"start"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"top"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"end"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKey:@"peakID"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKey:@"label"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKeyPath:@"identifiedSearchResult.score"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKey:@"identified"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKey:@"confirmed"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKey:@"start"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKey:@"top"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKey:@"end"]];
 //		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"startTime"]];
 //		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"topTime"]];
 //		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"endTime"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"normalizedHeight"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"normalizedSurface"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"height"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKey:@"normalizedHeight"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKey:@"normalizedSurface"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKey:@"height"]];
 //		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"width"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"surface"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"baselineLeft"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKey:@"baselineRight"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKeyPath:@"identifiedSearchResult.libraryHit.name"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKeyPath:@"identifiedSearchResult.libraryHit.formula"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKeyPath:@"identifiedSearchResult.libraryHit.CASNumber"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKeyPath:@"identifiedSearchResult.libraryHit.retentionIndex"]];
-		[outStr appendFormat:@"%@\t", [[array objectAtIndex:i] valueForKeyPath:@"identifiedSearchResult.libraryHit.comment"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKey:@"surface"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKey:@"baselineLeft"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKey:@"baselineRight"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKeyPath:@"identifiedSearchResult.libraryHit.name"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKeyPath:@"identifiedSearchResult.libraryHit.formula"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKeyPath:@"identifiedSearchResult.libraryHit.CASNumber"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKeyPath:@"identifiedSearchResult.libraryHit.retentionIndex"]];
+		[outStr appendFormat:@"%@\t", [loopItem valueForKeyPath:@"identifiedSearchResult.libraryHit.comment"]];
 		[outStr appendString:@"\n"];
 	}
 
@@ -480,13 +478,12 @@ int const JKGCMSDocument_Version = 7;
 	NSArray *content = [[NSFileManager defaultManager] directoryContentsAtPath:[[self fileName] stringByDeletingLastPathComponent]];
 	NSError *error = [[NSError alloc] init];
 	BOOL openNext = NO;
-	unsigned int i;
-	for (i=0; i < [content count]; i++) {
+	for (id loopItem in content) {
 		if (openNext) {
-			[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[[self fileName] stringByDeletingLastPathComponent] stringByAppendingPathComponent:[content objectAtIndex:i]]] display:YES error:&error];
+			[[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[[self fileName] stringByDeletingLastPathComponent] stringByAppendingPathComponent:loopItem]] display:YES error:&error];
 			break;
 		}
-		if ([[content objectAtIndex:i] isEqualToString:[[self fileName] lastPathComponent]]) {
+		if ([loopItem isEqualToString:[[self fileName] lastPathComponent]]) {
 			openNext = YES;
 		}
 	}
@@ -1185,10 +1182,9 @@ int const JKGCMSDocument_Version = 7;
     // remove peaks that have no search results
 	[progressIndicator setIndeterminate:YES];
     [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:NSLocalizedString(@"Cleaning Up",@"") waitUntilDone:NO];
-	NSEnumerator *newEnum = [newChromatograms objectEnumerator];
 	JKChromatogram *chrom;
 
-	while ((chrom = [newEnum nextObject]) != nil) {
+	for (chrom in newChromatograms) {
 		NSEnumerator *peakEnum = [[chrom peaks] objectEnumerator];
 		JKPeakRecord *peak;
 
@@ -1782,7 +1778,7 @@ boolAccessor(abortAction, setAbortAction)
     NSEnumerator *chromEnumerator = [chromatograms objectEnumerator];
     JKChromatogram *chromatogram;
     
-    while ((chromatogram = [chromEnumerator nextObject]) != nil) {
+    for (chromatogram in chromatograms) {
     	[chromatogram setContainer:nil];
     }
 
@@ -1790,9 +1786,8 @@ boolAccessor(abortAction, setAbortAction)
     [chromatograms release];
     chromatograms = inValue;
     
-    chromEnumerator = [chromatograms objectEnumerator];
 
-    while ((chromatogram = [chromEnumerator nextObject]) != nil) {
+    for (chromatogram in chromatograms) {
     	[chromatogram setContainer:self];
     }
  }
@@ -1897,9 +1892,8 @@ boolAccessor(abortAction, setAbortAction)
         [chromatogram setPeaks:nil];
     }
     
-	NSEnumerator *e = [array objectEnumerator];
 	JKPeakRecord *peak;
-	while ((peak = [e nextObject])) {
+	for (peak in array) {
         // Add the peak to the array
         chromEnum = [[self chromatograms] objectEnumerator];
          
@@ -1975,6 +1969,13 @@ boolAccessor(abortAction, setAbortAction)
 //    [super removeObserver:anObserver forKeyPath:keyPath];
 //}
 
+@synthesize _documentProxy;
+@synthesize _remainingString;
+@synthesize _isBusy;
+@synthesize peacockFileWrapper;
+@synthesize printView;
+@synthesize uuid;
+@synthesize _lastReturnedIndex;
 @end
 
 

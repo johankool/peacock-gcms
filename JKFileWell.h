@@ -34,4 +34,17 @@
 - (void)revealInFinder;
 - (void)browse;
 
+@property BOOL showIcon;
+@property BOOL acceptDrops;
+@property BOOL showLabel;
+@property BOOL acceptFiles;
+@property BOOL acceptFolders;
+@property (retain) NSMutableArray *icons;
+@property BOOL allowDrags;
+@property int iconSize;
+@property (retain) NSMutableArray *files;
+@property (retain) NSArray *acceptedFileExtensions;
+@property BOOL useAliases;
+@property BOOL allowMultipleFiles;
+@property BOOL allowEmptySelection;
 @end

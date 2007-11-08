@@ -199,9 +199,8 @@ static inline float fMAX(float a,float b) {
 - (NSString*)stringWithSavedState {
 	NSArray* subviews = [self subviews];
 	NSMutableString* result = [NSMutableString stringWithFormat:@"%d",[subviews count]];
-	NSEnumerator* enumerator = [subviews objectEnumerator];
 	RBSplitSubview* sub;
-	while ((sub = [enumerator nextObject])) {
+	for (sub in subviews) {
 		double size = [sub dimension];
 		if ([sub isCollapsed]) {
 			size = -size;

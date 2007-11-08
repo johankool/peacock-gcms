@@ -14,7 +14,7 @@
 #import "JKPeakRecord.h"
 #import "JKStatisticsWindowController.h"
 #import "JKGCMSDocument.h"
-#import "MyGraphDataSerie.h"
+#import "PKGraphDataSeries.h"
 #import "JKStatisticsPrintView.h"
 
 NSString *const JKStatisticsDocument_DocumentDeactivateNotification = @"JKStatisticsDocument_DocumentDeactivateNotification";
@@ -504,7 +504,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
 //                JKLogWarning(@"There might be a mismatch between loadings and metadata!");
 //            }
 //            
-            MyGraphDataSerie *loadingsDataSerie = [[MyGraphDataSerie alloc] init];
+            PKGraphDataSeries *loadingsDataSerie = [[PKGraphDataSeries alloc] init];
             [loadingsDataSerie setKeyForLabel:[keyArray objectAtIndex:0]];
             [loadingsDataSerie setAcceptableKeysForLabel:[NSArray arrayWithObject:[keyArray objectAtIndex:0]]];
             [loadingsDataSerie setKeyForXValue:[keyArray objectAtIndex:1]];
@@ -556,7 +556,7 @@ NSString *const JKStatisticsDocument_DocumentLoadedNotification     = @"JKStatis
                 JKLogWarning(@"There might be a mismatch between scores and metadata!");
             }
             
-            MyGraphDataSerie *scoresDataSerie = [[MyGraphDataSerie alloc] init];
+            PKGraphDataSeries *scoresDataSerie = [[PKGraphDataSeries alloc] init];
             [scoresDataSerie setKeyForLabel:[keyArray objectAtIndex:0]];
             [scoresDataSerie setAcceptableKeysForLabel:[NSArray arrayWithObjects:[keyArray objectAtIndex:0],@"Sample Code", @"Sample Description", @"Path", @"Filename",nil]];
             [scoresDataSerie setKeyForXValue:[keyArray objectAtIndex:1]];

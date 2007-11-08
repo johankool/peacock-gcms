@@ -29,4 +29,6 @@
 - (JKPeakRecord *)peak;
 - (void)setPeak:(JKPeakRecord *)aPeak;
 
+@property (assign,getter=peak,setter=setPeak:) JKPeakRecord *peak;
+@property int spectrumType;
 @end

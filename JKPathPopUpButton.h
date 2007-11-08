@@ -45,4 +45,5 @@
 - (void)setFileAliasContainer:(id)aFileAliasContainer;
 - (id)fileAliasKeyPath;
 - (void)setFileAliasKeyPath:(id)aFileAliasKeyPath;
+@property (retain) NSArray *fileTypes;
 @end

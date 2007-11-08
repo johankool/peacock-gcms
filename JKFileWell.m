@@ -140,7 +140,6 @@
 		return NSDragOperationNone;		
 	}
 	
-	int i;
 	BOOL isDirectory;
     NSPasteboard *pboard;
     NSDragOperation sourceDragMask;
@@ -149,9 +148,9 @@
 
     if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
  		NSArray *filesComingIn = [pboard propertyListForType:NSFilenamesPboardType];
-		for (i = 0; i < [filesComingIn count]; i++) {
+		for (id loopItem in filesComingIn) {
 			// Do we get a real file?
-			if ([[NSFileManager defaultManager] fileExistsAtPath:[filesComingIn objectAtIndex:i] isDirectory:&isDirectory]) {
+			if ([[NSFileManager defaultManager] fileExistsAtPath:loopItem isDirectory:&isDirectory]) {
 				// Is it a folder? Do we accept it?
 				if ((isDirectory && acceptFolders) || (!isDirectory && acceptFiles)) {
 					// Need to check if we accept this file extension
@@ -169,7 +168,6 @@
 		return NO;		
 	}
 
-	int i;
 	BOOL isDirectory;
     NSPasteboard *pboard;
     NSDragOperation sourceDragMask;
@@ -178,21 +176,21 @@
 
 	if ( [[pboard types] containsObject:NSFilenamesPboardType]  ) {
         NSArray *filesComingIn = [pboard propertyListForType:NSFilenamesPboardType];
-		for (i = 0; i < [filesComingIn count]; i++) {
+		for (id loopItem in filesComingIn) {
 			// Do we get a real file?
-			if ([[NSFileManager defaultManager] fileExistsAtPath:[filesComingIn objectAtIndex:i] isDirectory:&isDirectory]) {
+			if ([[NSFileManager defaultManager] fileExistsAtPath:loopItem isDirectory:&isDirectory]) {
 				// Is it a folder? Do we accept it?
 				if ((isDirectory && acceptFolders) || (!isDirectory && acceptFiles)) {
 					if (allowMultipleFiles) {
 						// Need to check if we accept this file extension 
 						// Need to check if we not already have a link to the file/folder
-						[files addObject:[filesComingIn objectAtIndex:i]];
-						[icons addObject:[[NSWorkspace sharedWorkspace] iconForFile:[filesComingIn objectAtIndex:i]]];
+						[files addObject:loopItem];
+						[icons addObject:[[NSWorkspace sharedWorkspace] iconForFile:loopItem]];
 					} else {
 						[files removeAllObjects];
 						[icons removeAllObjects];
-						[files insertObject:[filesComingIn objectAtIndex:i] atIndex:0];
-						[icons insertObject:[[NSWorkspace sharedWorkspace] iconForFile:[filesComingIn objectAtIndex:i]] atIndex:0];
+						[files insertObject:loopItem atIndex:0];
+						[icons insertObject:[[NSWorkspace sharedWorkspace] iconForFile:loopItem] atIndex:0];
 						// We accept only the first file we recognize, then get back.
 						return YES;
 					}
@@ -238,4 +236,17 @@
 	}
 	return;
 }
+@synthesize acceptFolders;
+@synthesize showIcon;
+@synthesize icons;
+@synthesize acceptDrops;
+@synthesize allowMultipleFiles;
+@synthesize files;
+@synthesize allowDrags;
+@synthesize iconSize;
+@synthesize showLabel;
+@synthesize useAliases;
+@synthesize allowEmptySelection;
+@synthesize acceptFiles;
+@synthesize acceptedFileExtensions;
 @end

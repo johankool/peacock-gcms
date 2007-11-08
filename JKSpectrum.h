@@ -13,7 +13,7 @@
 @class JKLibraryEntry;
 @class JKGCMSDocument;
 @class JKPeakRecord;
-@class SpectrumGraphDataSerie;
+@class PKSpectrumDataSeries;
 
 @interface JKSpectrum : JKModelObject <NSCoding, JKComparableProtocol, JKTargetObjectProtocol> {
 	JKPeakRecord *peak;
@@ -51,4 +51,8 @@
 - (void)setIntensities:(float *)inArray withCount:(int)inValue;
 - (float *)intensities;
 
+@property (getter=masses) float *masses;
+@property (assign,getter=peak,setter=setPeak:) JKPeakRecord *peak;
+@property (getter=numberOfPoints) int numberOfPoints;
+@property (getter=intensities) float *intensities;
 @end

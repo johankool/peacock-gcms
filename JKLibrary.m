@@ -56,7 +56,7 @@
 
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)absoluteOriginalContentsURL error:(NSError **)error 
 {
-    if ([typeName isEqualToString:@"Peacock Library"] || [typeName isEqualToString:@"nl.johankool.peacocklibrary"]) {
+    if ([typeName isEqualToString:@"Peacock Library"] || [typeName isEqualToString:@"nl.johankool.peacock.library"]) {
         if ([(JKAppDelegate *)[NSApp delegate] library] == self) {
 			if (error != NULL)
 				*error = [[[NSError alloc] initWithDomain:@"Peacock" code:1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Library cannot be relocated", NSLocalizedDescriptionKey, @"This library is a representation of the main library used throughout Peacock.", NSLocalizedFailureReasonErrorKey, @"Changes made to this library will automatically be saved on exiting Peacock. It is also possible to export this library as a JCAMP library.", NSLocalizedRecoverySuggestionErrorKey, nil]] autorelease];
@@ -83,7 +83,7 @@
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-	if ([typeName isEqualToString:@"Peacock Library"] || [typeName isEqualToString:@"nl.johankool.peacocklibrary"]) {
+	if ([typeName isEqualToString:@"Peacock Library"] || [typeName isEqualToString:@"nl.johankool.peacock.library"]) {
         return [super readFromURL:absoluteURL ofType:typeName error:outError];
     } else if ([typeName isEqualToString:@"JCAMP Library"] || [typeName isEqualToString:@"org.jcamp"]) {
         unsigned int usedEncoding;
@@ -169,12 +169,10 @@
 
 - (BOOL)exportJCAMPToFile:(NSString *)fileName {
 	NSMutableString *outStr = [[[NSMutableString alloc] init] autorelease]; 
-	int i;
     NSArray *libraryEntries = [self libraryEntries];
-	int count = [libraryEntries count];
 	
-	for (i=0; i < count; i++) {
-		[outStr appendString:[[libraryEntries objectAtIndex:i] jcampString]];
+	for (id loopItem in libraryEntries) {
+		[outStr appendString:[loopItem jcampString]];
 	}
 	
 	if ([outStr writeToFile:fileName atomically:NO encoding:NSASCIIStringEncoding error:nil]) {
@@ -389,10 +387,9 @@
 {
     // Get search template
     NSArray *searchTemplates = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"searchTemplates"];
-    NSEnumerator *enumerator = [searchTemplates objectEnumerator];
     NSDictionary *searchTemplateDict;
     
-    while ((searchTemplateDict = [enumerator nextObject]) != nil) {
+    for (searchTemplateDict in searchTemplates) {
     	if ([[searchTemplateDict valueForKey:@"name"] isEqualToString:searchTemplateName]) {
             break;
         }
@@ -413,10 +410,9 @@
 {    
     // Get search template
     NSArray *searchTemplates = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"searchTemplates"];
-    NSEnumerator *enumerator = [searchTemplates objectEnumerator];
     NSDictionary *searchTemplate;
 
-    while ((searchTemplate = [enumerator nextObject]) != nil) {
+    for (searchTemplate in searchTemplates) {
     	if ([[searchTemplate valueForKey:@"name"] isEqualToString:searchTemplateName]) {
             break;
         }
@@ -442,10 +438,11 @@
 {
 	NSManagedObjectContext *moc = [self managedObjectContext];
 //    NSAssert([[moc registeredObjects] count] > 0, @"No registeredObjects in managedObjectContext?!");
-//    JKLogDebug(@"%d registeredObjects in managedObjectContext?!",[[moc registeredObjects] count]);
+    JKLogDebug(@"%d registeredObjects in managedObjectContext?!",[[moc registeredObjects] count]);
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"JKManagedLibraryEntry" inManagedObjectContext:moc];
     NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
     [request setEntity:entityDescription];
+//    [request setReturnsObjectsAsFaults:NO];
     
     //    // Set example predicate and sort orderings...
     //    NSNumber *minimumSalary = ...;
@@ -524,4 +521,5 @@
 	return inError;
 }
 
+@synthesize libraryWindowController;
 @end

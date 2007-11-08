@@ -101,4 +101,5 @@
 
 }
 
+@synthesize testChromatogram;
 @end

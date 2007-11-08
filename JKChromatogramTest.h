@@ -16,4 +16,5 @@
     JKChromatogram *testChromatogram;
 }
 
+@property (retain) JKChromatogram *testChromatogram;
 @end

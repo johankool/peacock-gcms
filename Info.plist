@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
-		<dict> <!-- nl.johankool.peacock.library -->
-			<key>CFBundleTypeExtensions</key> <!-- deprecated key -->
+		<dict>
+			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>peacock-library</string>
 			</array>
@@ -25,15 +25,15 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>JKLibrary</string>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>SQLite</string>
-            <key>NSExportableTypes</key>
+			<key>NSExportableTypes</key>
 			<array>
 				<string>org.jcamp</string>
 			</array>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>SQLite</string>
 		</dict>
-		<dict> <!-- org.jcamp -->
-			<key>CFBundleTypeExtensions</key> <!-- deprecated key -->
+		<dict>
+			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>jdx</string>
 				<string>dx</string>
@@ -53,13 +53,13 @@
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>JKLibrary</string>
-            <key>NSExportableTypes</key>
+			<key>NSExportableTypes</key>
 			<array>
 				<string>nl.johankool.peacock.library</string>
 			</array>
 		</dict>
-		<dict> <!-- nl.johankool.peacock.data -->
-			<key>CFBundleTypeExtensions</key> <!-- deprecated key -->
+		<dict>
+			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>peacock</string>
 			</array>
@@ -83,7 +83,7 @@
 			</array>
 		</dict>
 		<dict>
-			<key>CFBundleTypeExtensions</key> <!-- deprecated key -->
+			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>cdf</string>
 				<string>nc</string>
@@ -110,7 +110,7 @@
 			</array>
 		</dict>
 		<dict>
-			<key>CFBundleTypeExtensions</key> <!-- deprecated key -->
+			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>txt</string>
 			</array>
@@ -178,14 +178,14 @@
 	<string>SCR-9841B93DF2</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
-		<dict> <!-- nl.johankool.peacock.data -->
-			<key>UTTypeDescription</key>
-			<string>Peacock File</string>
+		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>com.apple.package</string>
 				<string>public.content</string>
 			</array>
+			<key>UTTypeDescription</key>
+			<string>Peacock File</string>
 			<key>UTTypeIconFile</key>
 			<string>peacock_document</string>
 			<key>UTTypeIdentifier</key>
@@ -200,14 +200,14 @@
 				<string>application/x-peacock</string>
 			</dict>
 		</dict>
-        <dict> <!-- nl.johankool.peacock.library -->
-			<key>UTTypeDescription</key>
-			<string>Peacock Library</string>
+		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.data</string>
 				<string>public.content</string>
 			</array>
+			<key>UTTypeDescription</key>
+			<string>Peacock Library</string>
 			<key>UTTypeIconFile</key>
 			<string>peacock_library</string>
 			<key>UTTypeIdentifier</key>

@@ -33,4 +33,5 @@
 - (NSArray *)libraryEntries;
 - (JKLibraryWindowController *)libraryWindowController;
 
+@property (retain,getter=libraryWindowController) JKLibraryWindowController *libraryWindowController;
 @end
