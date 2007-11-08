@@ -118,4 +118,8 @@
 - (void)setIdentifiedSearchResult:(JKSearchResult *)inValue;
 - (JKSearchResult *)identifiedSearchResult;
 
+@property (retain) id _score;
+@property BOOL _needsUpdating;
+@property (retain) id _libraryHit;
+@property (retain,getter=uuid) NSString *uuid;
 @end

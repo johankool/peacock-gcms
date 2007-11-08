@@ -332,4 +332,9 @@
 {
     return NO;
 }
+@synthesize loadingsImage;
+@synthesize chromImage;
+@synthesize document;
+@synthesize scoresImage;
+@synthesize peakTable;
 @end

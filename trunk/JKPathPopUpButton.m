@@ -174,4 +174,5 @@
 //idAccessor(fileAliasContainer, setFileAliasContainer)
 //idAccessor(fileAliasKeyPath, setFileAliasKeyPath)
 
+@synthesize fileTypes;
 @end

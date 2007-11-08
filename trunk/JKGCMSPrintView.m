@@ -11,7 +11,7 @@
 #import "JKGCMSDocument.h"
 #import "JKPeakRecord.h"
 #import "JKMainWindowController.h"
-#import "MyGraphView.h"
+#import "PKGraphView.h"
 
 @implementation JKGCMSPrintView
 
@@ -178,7 +178,7 @@
     peakTable = [[NSAttributedString alloc] init];        
     
     // Drawing chromatogram
-    MyGraphView *chromView = [[document mainWindowController] chromatogramView];
+    PKGraphView *chromView = [[document mainWindowController] chromatogramView];
     NSRect chromRect = [self rectForChromatogram];
     NSRect oldRect = [chromView frame];
 //    BOOL shadow [chromView shouldDrawShadow];
@@ -309,4 +309,8 @@
 {
     return NO;
 }
+@synthesize chromImage;
+@synthesize spectrumImage;
+@synthesize peakTable;
+@synthesize document;
 @end

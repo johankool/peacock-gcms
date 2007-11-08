@@ -17,4 +17,6 @@
 
 - (void)addTableColumForDocument:(JKGCMSDocument *)document;
 
+@property (retain) NSTableView *tableView;
+@property (retain) NSArrayController *ratiosController;
 @end

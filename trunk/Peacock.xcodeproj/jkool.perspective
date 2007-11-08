@@ -519,8 +519,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -548,15 +546,19 @@
 							<array>
 								<string>2A37F4AAFDCFA73011CA2CEA</string>
 								<string>C77E686F0C3A9C860051B016</string>
+								<string>2A37F4B8FDCFA73011CA2CEA</string>
+								<string>C7EB17F90898CFBC007FC2ED</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>26</integer>
+									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {184, 869}}</string>
+							<string>{{0, 27}, {184, 869}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -589,7 +591,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>C739D3960CC0225900E2EC98</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>JKSummaryController.m</string>
+								<string>JKChromatogram.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -597,64 +599,30 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>C739D3970CC0225900E2EC98</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>JKSummaryController.m</string>
+										<string>JKChromatogram.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C7DC8EB00CDB922E00693973</string>
+										<string>C73FBCCD0CE0AFC000BE8647</string>
 										<key>history</key>
 										<array>
-											<string>C71254D90CDA09D800C79C1F</string>
-											<string>C71254E80CDA0B0D00C79C1F</string>
-											<string>C71254FC0CDA0E1300C79C1F</string>
-											<string>C71255050CDA0E1500C79C1F</string>
-											<string>C76677200CDB625E0053F36E</string>
-											<string>C76677210CDB625E0053F36E</string>
-											<string>C76677220CDB625E0053F36E</string>
-											<string>C7DC8DEC0CDB676700693973</string>
-											<string>C7DC8E040CDB6A9100693973</string>
-											<string>C7DC8E060CDB6A9100693973</string>
-											<string>C7DC8E1B0CDB6E5400693973</string>
-											<string>C7DC8E330CDB70EA00693973</string>
-											<string>C7DC8E480CDB715400693973</string>
-											<string>C7DC8E4A0CDB715400693973</string>
-											<string>C7DC8E6D0CDB729D00693973</string>
-											<string>C7DC8E6E0CDB729D00693973</string>
-											<string>C7DC8E820CDB7A4E00693973</string>
-											<string>C7DC8EA30CDB7C6F00693973</string>
-											<string>C7DC8EA40CDB7C6F00693973</string>
-										</array>
-										<key>nextStack</key>
-										<array>
-											<string>C7DC8EA50CDB7C6F00693973</string>
+											<string>C73511A50CDF85890086677F</string>
+											<string>C73511A60CDF85890086677F</string>
+											<string>C73511A70CDF85890086677F</string>
+											<string>C73511A80CDF85890086677F</string>
+											<string>C73511A90CDF85890086677F</string>
+											<string>C73511AA0CDF85890086677F</string>
+											<string>C73FBCC80CE06B8B00BE8647</string>
 										</array>
 										<key>prevStack</key>
 										<array>
-											<string>C71254CA0CDA078A00C79C1F</string>
-											<string>C71254DB0CDA09D800C79C1F</string>
-											<string>C71254DC0CDA09D800C79C1F</string>
-											<string>C71254DD0CDA09D800C79C1F</string>
-											<string>C71255000CDA0E1300C79C1F</string>
-											<string>C71255020CDA0E1300C79C1F</string>
-											<string>C76677260CDB625E0053F36E</string>
-											<string>C76677270CDB625E0053F36E</string>
-											<string>C76677280CDB625E0053F36E</string>
-											<string>C7DC8DC50CDB652400693973</string>
-											<string>C7DC8DD80CDB661600693973</string>
-											<string>C7DC8DEF0CDB676700693973</string>
-											<string>C7DC8DFE0CDB69A900693973</string>
-											<string>C7DC8E1E0CDB6E5400693973</string>
-											<string>C7DC8E1F0CDB6E5400693973</string>
-											<string>C7DC8E200CDB6E5400693973</string>
-											<string>C7DC8E370CDB70EA00693973</string>
-											<string>C7DC8E380CDB70EA00693973</string>
-											<string>C7DC8E390CDB70EA00693973</string>
-											<string>C7DC8E4C0CDB715400693973</string>
-											<string>C7DC8E4E0CDB715400693973</string>
-											<string>C7DC8E520CDB71A800693973</string>
-											<string>C7DC8E700CDB729D00693973</string>
-											<string>C7DC8E710CDB729D00693973</string>
-											<string>C7DC8E790CDB782500693973</string>
+											<string>C73511AC0CDF85890086677F</string>
+											<string>C73511AD0CDF85890086677F</string>
+											<string>C73511AE0CDF85890086677F</string>
+											<string>C73511B00CDF85890086677F</string>
+											<string>C73511B10CDF85890086677F</string>
+											<string>C73511B60CDF85890086677F</string>
+											<string>C73511B80CDF85890086677F</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -779,14 +747,14 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>C7DC8DCE0CDB652600693973</string>
+				<string>C73FBCC30CE06B6F00BE8647</string>
 				<string>1CA23EE50692099D00951B8B</string>
-				<string>C7DC8DCF0CDB652600693973</string>
+				<string>C73FBCC40CE06B6F00BE8647</string>
 				<string>C739D3960CC0225900E2EC98</string>
-				<string>C7DC8DD00CDB652600693973</string>
+				<string>C73FBCC50CE06B6F00BE8647</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 				<string>1CA23EE80692099D00951B8B</string>
-				<string>C7DC8DD10CDB652600693973</string>
+				<string>C73FBCC60CE06B6F00BE8647</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.buildAndRun</string>
@@ -949,7 +917,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>215716398.63841999</real>
+	<real>216051648.38639101</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
@@ -964,9 +932,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>C7DC8E8A0CDB7A5400693973</string>
-		<string>C7DC8E8B0CDB7A5400693973</string>
-		<string>C7DC8E640CDB71EB00693973</string>
 		<string>/Users/jkool/Developer/Peacock/trunk/Peacock.xcodeproj</string>
 	</array>
 	<key>WindowString</key>

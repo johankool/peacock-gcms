@@ -467,10 +467,9 @@
 - (BOOL)isCompound:(NSString *)compoundString
 {
     NSArray *synonymsArray = [self synonymsArray];
-    NSEnumerator *synonymsEnumerator = [synonymsArray objectEnumerator];
     NSString *synonym;
     
-    while ((synonym = [synonymsEnumerator nextObject]) != nil) {
+    for (synonym in synonymsArray) {
         if ([synonym isEqualToString:compoundString]) {
             return YES;
         }

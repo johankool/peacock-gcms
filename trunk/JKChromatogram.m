@@ -8,7 +8,7 @@
 
 #import "JKChromatogram.h"
 
-#import "ChromatogramGraphDataSerie.h"
+#import "PKChromatogramDataSeries.h"
 #import "JKGCMSDocument.h"
 #import "JKPeakRecord.h"
 #import "JKSpectrum.h"
@@ -501,8 +501,8 @@
 	NSArray *mzValuesMin = nil;
     NSNumber *minimumScannedMassRange = [[self document] minimumScannedMassRange];
     NSNumber *maximumScannedMassRange = [[self document] maximumScannedMassRange];
-	for (i = 0; i < [mzValuesPlus count]; i++) {
-		mzValuesMin = [[mzValuesPlus objectAtIndex:i] componentsSeparatedByString:@"-"];
+	for (id loopItem in mzValuesPlus) {
+		mzValuesMin = [loopItem componentsSeparatedByString:@"-"];
 		if ([mzValuesMin count] > 1) {
 			if ([[mzValuesMin objectAtIndex:0] intValue] < [[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]) {
 				for (j = (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j <= (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j++) {
@@ -596,9 +596,8 @@
         int version = [coder decodeIntForKey:@"version"];
         model = [[coder decodeObjectForKey:@"model"] retain];
         peaks = [[coder decodeObjectForKey:@"peaks"] retain];
-        NSEnumerator *peakEnum = [peaks objectEnumerator];
         JKPeakRecord *peak;
-        while ((peak = [peakEnum nextObject]) != nil) {
+        for (peak in peaks) {
 //            // Remove duplicate peaks
 //            int firstIndex = [peaks indexOfObject:peak];
 //            int count = [peaks count];
@@ -767,16 +766,14 @@
         [inValue retain];
         [peaks release];
    
-        peakEnum = [peaks objectEnumerator];
-        while ((peak = [peakEnum nextObject]) != nil) {
+        for (peak in peaks) {
             [peak setContainer:nil];
         }
         
         peaks = inValue;
     }
     
-    peakEnum = [peaks objectEnumerator];        
-    while ((peak = [peakEnum nextObject]) != nil) {
+    for (peak in peaks) {
     	[peak setContainer:self];
     }
     [[self container] didChangeValueForKey:@"peaks"];
@@ -892,5 +889,11 @@
 
 
 
+@synthesize numberOfPoints;
+@synthesize baselinePointsCount;
+@synthesize time;
+@synthesize baselinePointsIntensities;
+@synthesize totalIntensity;
+@synthesize baselinePointsScans;
 @end
 

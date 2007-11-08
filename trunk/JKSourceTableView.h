@@ -35,4 +35,6 @@ http://joris.kluivers.nl
 	BOOL shouldCacheCellHeight;
 	NSMutableDictionary *heightCache;
 }
+@property (retain) NSMutableDictionary *heightCache;
+@property BOOL shouldCacheCellHeight;
 @end

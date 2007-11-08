@@ -295,4 +295,9 @@
         [aCell setTextColor:[NSColor blackColor]];
     }
 }
+@synthesize sortDirection;
+@synthesize combinedPeaksController;
+@synthesize sortKeys;
+@synthesize keys;
+@synthesize tableView;
 @end

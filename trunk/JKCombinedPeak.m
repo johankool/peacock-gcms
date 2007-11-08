@@ -216,10 +216,9 @@
 - (BOOL)isValidDocumentKey:(NSString *)aKey
 {
     NSArray *documents = [[NSDocumentController sharedDocumentController] documents];
-    NSEnumerator *enumerator = [documents objectEnumerator];
     NSDocument *aDocument;
     
-    while ((aDocument = [enumerator nextObject])) {
+    for (aDocument in documents) {
         if ([aDocument isKindOfClass:[JKGCMSDocument class]]) {
             if ([[(JKGCMSDocument *)aDocument uuid] isEqualToString:aKey])
                 return YES;

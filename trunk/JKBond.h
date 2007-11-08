@@ -31,4 +31,9 @@ intAccessor_h(bondTopology,setBondTopology)
 intAccessor_h(reactingCenterStatus,setReactingCenterStatus)
 
 
+@property (getter=bondKind,setter=setBondKind:) int bondKind;
+@property (getter=notUsed,setter=setNotUsed:) int notUsed;
+@property (getter=reactingCenterStatus,setter=setReactingCenterStatus:) int reactingCenterStatus;
+@property (getter=bondTopology,setter=setBondTopology:) int bondTopology;
+@property (getter=bondStereo,setter=setBondStereo:) int bondStereo;
 @end

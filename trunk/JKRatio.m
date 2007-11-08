@@ -37,10 +37,9 @@
 - (BOOL)isValidDocumentKey:(NSString *)aKey
 {
     NSArray *documents = [[NSDocumentController sharedDocumentController] documents];
-    NSEnumerator *enumerator = [documents objectEnumerator];
     NSDocument *aDocument;
     
-    while ((aDocument = [enumerator nextObject])) {
+    for (aDocument in documents) {
         if ([aDocument isKindOfClass:[JKGCMSDocument class]]) {
             if ([[(JKGCMSDocument *)aDocument uuid] isEqualToString:aKey])
                 return YES;
@@ -162,10 +161,8 @@
 	NSString *string2;
 	NSRange multiplierRange;
 
-	unsigned int i;
-	for (i = 0; i < [array1 count]; i++) {
+	for (string2 in array1) {
 		NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
-		string2 = [array1 objectAtIndex:i];
 		multiplierRange = [string2 rangeOfString:@"*"];
 		if (multiplierRange.location == NSNotFound) {
 			[mutDict setValue:@"1.0" forKey:@"multiplier"];

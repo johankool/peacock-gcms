@@ -7,14 +7,14 @@
 //
 
 @class BDAlias;
-@class ChromatogramGraphDataSerie;
+@class PKChromatogramDataSeries;
 @class JKChromatogram;
 @class JKLibrarySearch;
 @class JKMainWindowController;
 @class JKPeakRecord;
 @class JKGCMSPrintView;
 @class JKSpectrum;
-@class SpectrumGraphDataSerie;
+@class PKSpectrumDataSeries;
 @class JKLibraryEntry;
 
 extern NSString *const JKGCMSDocument_DocumentDeactivateNotification;
@@ -250,4 +250,14 @@ idAccessor_h(minimumScannedMassRange, setMinimumScannedMassRange)
 idAccessor_h(maximumScannedMassRange, setMaximumScannedMassRange)
 idAccessor_h(maximumRetentionIndexDifference, setMaximumRetentionIndexDifference)
 
+@property (retain) NSDictionary *_documentProxy;
+@property (getter=abortAction,setter=setAbortAction:) BOOL abortAction;
+@property (getter=hasSpectra,setter=setHasSpectra:) BOOL hasSpectra;
+@property int _lastReturnedIndex;
+@property (retain,getter=uuid) NSString *uuid;
+@property (getter=isBusy) BOOL _isBusy;
+@property (getter=ncid,setter=setNcid:) int ncid;
+@property (retain) JKGCMSPrintView *printView;
+@property (retain) NSFileWrapper *peacockFileWrapper;
+@property (retain) NSString *_remainingString;
 @end

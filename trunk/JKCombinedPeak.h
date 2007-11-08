@@ -71,4 +71,7 @@
 - (void)setPeaks:(NSMutableDictionary *)inValue;
 - (int)countOfPeaks;
 
+@property (getter=unknownCompound,setter=setUnknownCompound:) BOOL unknownCompound;
+@property (getter=index,setter=setIndex:) int index;
+@property (assign,getter=document,setter=setDocument:) JKStatisticsDocument *document;
 @end

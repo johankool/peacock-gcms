@@ -12,7 +12,7 @@
 #import "jk_statistics.h"
 #import "JKGCMSDocument.h"
 #import "JKPeakRecord.h"
-#import "SpectrumGraphDataSerie.h"
+#import "PKSpectrumDataSeries.h"
 #import "NSCoder+CArrayEncoding.h"
 
 @implementation JKSpectrum
@@ -592,4 +592,7 @@
     return self;
 }
 
+@synthesize masses;
+@synthesize intensities;
+@synthesize numberOfPoints;
 @end

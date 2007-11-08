@@ -6,14 +6,14 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
-@class MyGraphView;
+@class PKGraphView;
 @class JKLibraryEntry;
 @class JKMoleculeView;
 
 @interface JKLibraryWindowController : NSWindowController {
 	IBOutlet NSArrayController *libraryController;
 	IBOutlet NSArrayController *spectrumViewDataseriesController;
-	IBOutlet MyGraphView *spectrumView;
+	IBOutlet PKGraphView *spectrumView;
 	IBOutlet NSTableView *tableView;
 	IBOutlet JKMoleculeView *moleculeView;
     IBOutlet NSTextField *casNumberField;
@@ -31,4 +31,12 @@
 #pragma mark ACCESSORS
 - (NSArrayController *)libraryController;
 
+@property (retain) PKGraphView *spectrumView;
+@property (retain) NSTableView *tableView;
+@property BOOL showNormalizedSpectra;
+@property (retain,getter=libraryController) NSArrayController *libraryController;
+@property (retain) NSWindow *addCasNumberSheet;
+@property (retain) JKMoleculeView *moleculeView;
+@property (retain) NSTextField *casNumberField;
+@property (retain) NSArrayController *spectrumViewDataseriesController;
 @end

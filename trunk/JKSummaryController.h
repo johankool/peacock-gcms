@@ -27,4 +27,10 @@
 - (BOOL)sortDirection;
 - (NSString *)sortKey;
 
+@property (getter=indexOfKeyForValue,setter=setIndexOfKeyForValue:) int indexOfKeyForValue;
+@property (retain) NSArray *sortKeys;
+@property (retain) NSTableView *tableView;
+@property (getter=sortDirection) BOOL sortDirection;
+@property (retain) NSArrayController *combinedPeaksController;
+@property (retain) NSArray *keys;
 @end

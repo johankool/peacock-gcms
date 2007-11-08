@@ -74,4 +74,16 @@
 
 - (void)printStackTrace:(NSException *)e;
 
+@property (retain) NSWindowController *preferencesWindowController;
+@property (retain) JKBatchProcessWindowController *batchProcessWindowController;
+@property (retain) NSTableView *documentListTableView;
+@property (retain,getter=summarizer) JKSummarizer *summarizer;
+@property (retain) NSString *libraryConfigurationLoaded;
+@property (retain) NSMenu *showPresetMenu;
+@property (retain) NSPanel *documentListPanel;
+@property (retain,getter=library) JKLibrary *library;
+@property (retain) NSMenu *removeChromatogramMenu;
+@property (retain) MWController *mwWindowController;
+@property (retain) NSWindow *welcomeWindow;
+@property (retain) NSMenu *viewColumnsMenu;
 @end

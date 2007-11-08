@@ -47,4 +47,16 @@ intAccessor_h(atomAtomMappingNumber, setAtomAtomMappingNumber)
 intAccessor_h(inversionRetentionFlag, setInversionRetentionFlag)
 intAccessor_h(exactChangeFlag, setExactChangeFlag)
 
+@property (getter=notUsed1,setter=setNotUsed1:) int notUsed1;
+@property (getter=atomStereoParity,setter=setAtomStereoParity:) int atomStereoParity;
+@property (getter=inversionRetentionFlag,setter=setInversionRetentionFlag:) int inversionRetentionFlag;
+@property (getter=notUsed2,setter=setNotUsed2:) int notUsed2;
+@property (getter=valence,setter=setValence:) int valence;
+@property (getter=charge,setter=setCharge:) int charge;
+@property (getter=atomAtomMappingNumber,setter=setAtomAtomMappingNumber:) int atomAtomMappingNumber;
+@property (getter=x,setter=setX:) float x;
+@property (getter=hydrogenCount,setter=setHydrogenCount:) int hydrogenCount;
+@property (getter=massDifference,setter=setMassDifference:) int massDifference;
+@property (getter=z,setter=setZ:) float z;
+@property (getter=y,setter=setY:) float y;
 @end

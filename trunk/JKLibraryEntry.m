@@ -9,7 +9,7 @@
 #import "JKLibraryEntry.h"
 
 #import "JKLibrary.h"
-#import "SpectrumGraphDataSerie.h"
+#import "PKSpectrumDataSeries.h"
 #import "jk_statistics.h"
 #include "CFragment.h"
 #include "MolTypes.h"
@@ -613,10 +613,9 @@ idAccessor(library, setLibrary)
 - (BOOL)isCompound:(NSString *)compoundString
 {
     NSArray *synonymsArray = [self synonymsArray];
-    NSEnumerator *synonymsEnumerator = [synonymsArray objectEnumerator];
     NSString *synonym;
     
-    while ((synonym = [synonymsEnumerator nextObject]) != nil) {
+    for (synonym in synonymsArray) {
         if ([synonym isEqualToString:compoundString]) {
             return YES;
         }

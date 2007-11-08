@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class JKGCMSDocument;
-@class MyGraphView;
+@class PKGraphView;
 @class JKRatio;
 @class JKCombinedPeak;
 
@@ -84,11 +84,11 @@
     
     IBOutlet NSArrayController *chromatogramDataSeriesController;
     IBOutlet NSArrayController *peaksController;
-    IBOutlet MyGraphView *altGraphView;
+    IBOutlet PKGraphView *altGraphView;
     
-    IBOutlet MyGraphView *loadingsGraphView;
+    IBOutlet PKGraphView *loadingsGraphView;
     IBOutlet NSArrayController *loadingsDataSeriesController;
-    IBOutlet MyGraphView *scoresGraphView;
+    IBOutlet PKGraphView *scoresGraphView;
     IBOutlet NSArrayController *scoresDataSeriesController;
     
     IBOutlet NSView *printAccessoryView;
@@ -123,9 +123,9 @@
 
 #pragma mark IBOutlets
 - (NSView *)printAccessoryView;
-- (MyGraphView *)altGraphView;
-- (MyGraphView *)loadingsGraphView;
-- (MyGraphView *)scoresGraphView;
+- (PKGraphView *)altGraphView;
+- (PKGraphView *)loadingsGraphView;
+- (PKGraphView *)scoresGraphView;
 #pragma mark -
 
 #pragma mark CALCULATED ACCESSORS
@@ -228,4 +228,55 @@ idAccessor_h(maximumRetentionIndexDifference, setMaximumRetentionIndexDifference
 boolAccessor_h(closeDocuments, setCloseDocuments)
 boolAccessor_h(calculateRatios, setCalculateRatios)
 
+@property BOOL comparePeaks;
+@property BOOL sanityCheck;
+@property (retain,getter=scoresGraphView) PKGraphView *scoresGraphView;
+@property (retain) NSProgressIndicator *fileProgressIndicator;
+@property int unknownCount;
+@property (retain) NSTabView *tabView;
+@property (retain) NSArrayController *combinedPeaksController;
+@property BOOL scrollingViewProgrammatically;
+@property (retain) NSWindow *progressSheet;
+@property (getter=scoreBasis,setter=setScoreBasis:) int scoreBasis;
+@property BOOL combinePeaks;
+@property (retain) NSButton *addButton;
+@property (getter=setPeakSymbolToNumber,setter=setSetPeakSymbolToNumber:) BOOL setPeakSymbolToNumber;
+@property (getter=columnSorting,setter=setColumnSorting:) int columnSorting;
+@property BOOL performSanityCheck;
+@property (retain,getter=printAccessoryView) NSView *printAccessoryView;
+@property (getter=abortAction,setter=setAbortAction:) BOOL abortAction;
+@property (retain) NSWindow *ratiosEditor;
+@property (getter=valueToUse,setter=setValueToUse:) int valueToUse;
+@property BOOL movingColumnsProgramatically;
+@property (getter=penalizeForRetentionIndex,setter=setPenalizeForRetentionIndex:) BOOL penalizeForRetentionIndex;
+@property (retain) NSTableView *ratiosTable;
+@property BOOL rerunNeeded;
+@property (retain) NSTableView *resultsTable;
+@property (retain) NSArrayController *peaksController;
+@property (retain) id splitView;
+@property (retain,getter=loadingsGraphView) PKGraphView *loadingsGraphView;
+@property (retain) NSTextField *fileStatusTextField;
+@property (retain) NSArrayController *metadataController;
+@property (retain) NSButton *runBatchButton;
+@property (retain) NSButton *doneButton;
+@property (retain) NSArrayController *ratiosValuesController;
+@property (retain) NSScrollView *ratiosTableScrollView;
+@property (retain,getter=altGraphView) PKGraphView *altGraphView;
+@property (retain) NSScrollView *metadataTableScrollView;
+@property (getter=calculateRatios,setter=setCalculateRatios:) BOOL calculateRatios;
+@property (retain) NSButton *stopButton;
+@property (retain) NSButton *searchOptionsButton;
+@property (retain) NSScrollView *comparisonScrollView;
+@property (retain) NSTableView *metadataTable;
+@property (retain) NSScrollView *resultsTableScrollView;
+@property (retain) NSWindow *summarizeOptionsSheet;
+@property (getter=peaksToUse,setter=setPeaksToUse:) int peaksToUse;
+@property (retain) NSWindow *optionsSheet;
+@property (retain) NSArrayController *chromatogramDataSeriesController;
+@property (retain) NSTextField *detailStatusTextField;
+@property (retain) NSArrayController *ratiosController;
+@property (retain) NSArrayController *loadingsDataSeriesController;
+@property (retain) NSTableView *filesTableView;
+@property (retain) NSArrayController *scoresDataSeriesController;
+@property (getter=closeDocuments,setter=setCloseDocuments:) BOOL closeDocuments;
 @end

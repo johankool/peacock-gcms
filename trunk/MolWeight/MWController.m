@@ -93,4 +93,11 @@
 	}
 }
 
+@synthesize panelWindow;
+@synthesize lowerCase;
+@synthesize weight;
+@synthesize status;
+@synthesize statusIcon;
+@synthesize contents;
+@synthesize formula;
 @end

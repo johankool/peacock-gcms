@@ -12,8 +12,8 @@
 #import "JKManagedLibraryEntry.h"
 #import "JKMoleculeModel.h"
 #import "JKMoleculeView.h"
-#import "MyGraphView.h"
-#import "SpectrumGraphDataSerie.h"
+#import "PKGraphView.h"
+#import "PKSpectrumDataSeries.h"
 
 
 @implementation JKLibraryWindowController
@@ -68,10 +68,10 @@
         
         NSEnumerator *libraryEntryEnumerator = [[libraryController selectedObjects] objectEnumerator];
         JKManagedLibraryEntry *libraryEntry;
-        SpectrumGraphDataSerie *sgds;
+        PKSpectrumDataSeries *sgds;
         
         while ((libraryEntry = [libraryEntryEnumerator nextObject]) != nil) {
-            sgds = [[[SpectrumGraphDataSerie alloc] initWithSpectrum:libraryEntry] autorelease];
+            sgds = [[[PKSpectrumDataSeries alloc] initWithSpectrum:libraryEntry] autorelease];
             if (showNormalizedSpectra) {
                 [sgds setNormalizeYData:YES];
             }
@@ -174,4 +174,12 @@
 - (NSArrayController *)libraryController {
 	return libraryController;
 }
+@synthesize addCasNumberSheet;
+@synthesize showNormalizedSpectra;
+@synthesize casNumberField;
+@synthesize spectrumViewDataseriesController;
+@synthesize spectrumView;
+@synthesize libraryController;
+@synthesize moleculeView;
+@synthesize tableView;
 @end

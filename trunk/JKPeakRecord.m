@@ -289,10 +289,9 @@
 - (void)addSearchResult:(JKSearchResult *)searchResult {
 	if (![searchResults containsObject:searchResult]) {
         // Loop through searchResults and make sure we not already have a search result like this one
-        NSEnumerator *searchResultsEnum = [searchResults objectEnumerator];
         JKSearchResult *aSearchResult;
 
-        while ((aSearchResult = [searchResultsEnum nextObject]) != nil) {
+        for (aSearchResult in searchResults) {
         	if ([[aSearchResult libraryHit] isCompound:[[searchResult libraryHit] name]]) {
                 return;
             }
@@ -954,4 +953,8 @@
     return YES;
 } // end searchResults
 
+@synthesize _libraryHit;
+@synthesize _score;
+@synthesize _needsUpdating;
+@synthesize uuid;
 @end

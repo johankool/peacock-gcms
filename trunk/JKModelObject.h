@@ -26,4 +26,5 @@
 - (id) container;
 - (void) setContainer:(id)aContainer;
 
+@property (assign,getter=container,setter=setContainer:) id container;
 @end
