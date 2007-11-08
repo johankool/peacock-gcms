@@ -306,7 +306,7 @@
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 920}, {237, 856}}</string>
+							<string>{{0, 0}, {237, 856}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -351,7 +351,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C7C7D0EF0CE3637E007802F0</string>
+										<string>C767197F0CE363F600BE6C42</string>
 										<key>history</key>
 										<array>
 											<string>C7F3EE720CE1F863008F7BBC</string>
@@ -401,7 +401,7 @@
 											<string>C7F3F0320CE2321B008F7BBC</string>
 											<string>C7F3F0480CE235B5008F7BBC</string>
 											<string>C7C7D0ED0CE3637E007802F0</string>
-											<string>C7F3EE950CE1FA4C008F7BBC</string>
+											<string>C7C7D0EF0CE3637E007802F0</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -453,7 +453,6 @@
 											<string>C7F3F0070CE2233C008F7BBC</string>
 											<string>C7F3F01E0CE23135008F7BBC</string>
 											<string>C7F3F0340CE2321B008F7BBC</string>
-											<string>C7C7D0EE0CE3637E007802F0</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -492,7 +491,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1119, 224}}</string>
+										<string>{{10, 27}, {1119, 429}}</string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -522,7 +521,7 @@
 										<dict>
 											<key>PBXCVSModuleTreeModuleColumnWidthsKey</key>
 											<array>
-												<real>519</real>
+												<real>551</real>
 												<real>56</real>
 												<real>63</real>
 												<real>60</real>
@@ -544,7 +543,7 @@
 										<key>PBXProjectModuleLabel</key>
 										<string>SCM Results</string>
 										<key>SCMActivityViewerShowingDefaultKey</key>
-										<string>{{0, 352}, {1119, 77}}</string>
+										<string>{{0, 349}, {1119, 80}}</string>
 									</dict>
 									<key>GeometryConfiguration</key>
 									<dict>
@@ -599,11 +598,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>C7C7D0E80CE36184007802F0</string>
+				<string>C76719800CE363F600BE6C42</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>C7C7D0E90CE36184007802F0</string>
+				<string>C76719810CE363F600BE6C42</string>
 				<string>C7C7EA090CC8E2A0007B5619</string>
-				<string>C7C7D0EA0CE36184007802F0</string>
+				<string>C76719820CE363F600BE6C42</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -773,7 +772,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>216228734.53457099</real>
+	<real>216228854.07224101</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
