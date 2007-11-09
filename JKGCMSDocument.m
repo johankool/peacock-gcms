@@ -501,18 +501,26 @@ int const JKGCMSDocument_Version = 7;
 
 	switch (metadataChoosen) {
 	case 1: // samplecode
-		return [[metadata valueForKey:@"sampleCode"] caseInsensitiveCompare:[[otherDocument metadata] valueForKey:@"sampleCode"]];
+		return [[self sampleCode] caseInsensitiveCompare:[otherDocument sampleCode]];
 		break;
 	case 2: // sampleDescription
-		return [[metadata valueForKey:@"sampleDescription"] caseInsensitiveCompare:[[otherDocument metadata] valueForKey:@"sampleDescription"]];
+		return [[self sampleDescription] caseInsensitiveCompare:[otherDocument sampleDescription]];
 		break;
 	default:
-		return [[metadata valueForKey:@"sampleCode"] caseInsensitiveCompare:[[otherDocument metadata] valueForKey:@"sampleCode"]];
+		return [[self sampleCode] caseInsensitiveCompare:[otherDocument sampleCode]];
 		break;
 	}
 		
 }
 #pragma mark -
+
+- (NSString *)sampleCode {
+    return [metadata valueForKey:@"sampleCode"];
+}
+
+- (NSString *)sampleDescription {
+    return [metadata valueForKey:@"sampleDescription"];
+}
 
 #pragma mark Printing
 - (BOOL)shouldChangePrintInfo:(NSPrintInfo *)newPrintInfo {

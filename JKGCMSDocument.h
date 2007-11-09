@@ -182,6 +182,8 @@ typedef enum {
 - (void)removePeaksAtTopScan:(int)topScan notBeing:(JKPeakRecord *)originatingPeak;
 #pragma mark -
 
+- (NSString *)sampleCode;
+- (NSString *)sampleDescription;
 
 #pragma mark ACCESSORS
 - (JKMainWindowController *)mainWindowController;

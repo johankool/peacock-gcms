@@ -65,6 +65,105 @@
     [combinedPeaksController bind:@"contentArray" toObject:[(JKAppDelegate *)[NSApp delegate] summarizer] withKeyPath:@"combinedPeaks" options:nil];
 }
 
+
+- (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
+    if ([typeName isEqualToString:@"public.text"]) {
+        NSMutableString *outString = [[NSMutableString alloc] init];
+        JKGCMSDocument* document;
+        
+        // File name
+        [outString appendString:@"Filename"];
+        for (document in [[PKDocumentController sharedDocumentController] managedDocuments]) {
+            [outString appendFormat:@"\t%@", [document displayName]];
+        }
+        [outString appendString:@"\n"];
+        
+        // Sample code
+        [outString appendString:@"Code"];
+        for (document in [[PKDocumentController sharedDocumentController] managedDocuments]) {
+            [outString appendFormat:@"\t%@", [document sampleCode]];
+        }
+        [outString appendString:@"\n"];
+ 
+        // Sample description
+        [outString appendString:@"Description"];
+        for (document in [[PKDocumentController sharedDocumentController] managedDocuments]) {
+            [outString appendFormat:@"\t%@", [document sampleDescription]];
+        }
+        [outString appendString:@"\n"];
+        
+        // Values
+        JKCombinedPeak *combinedPeak;
+        NSString *keyForValue = [self keyForValue];
+        NSString *format;
+        switch ([self formatForValue]) {
+            case 0:
+                format = @"\t%@";
+                break;
+            case 1:
+                format = @"\t%@";
+                break;
+            default:
+                format = @"\t%@";
+                break;
+        }
+        id value;
+        for (combinedPeak in [combinedPeaksController arrangedObjects]) {
+            [outString appendFormat:@"%@ [%@]", [combinedPeak label], [combinedPeak symbol]];
+            for (document in [[PKDocumentController sharedDocumentController] managedDocuments]) {
+                value = [[combinedPeak valueForKey:[document uuid]] valueForKey:keyForValue];
+                if (value) {
+                    [outString appendFormat:format, [[combinedPeak valueForKey:[document uuid]] valueForKey:keyForValue]];
+                } else {
+                    [outString appendString:@"\t"];
+                }
+             }
+            [outString appendString:@"\n"];
+        }
+        
+        return [outString writeToURL:absoluteURL atomically:YES encoding:NSUTF8StringEncoding error:outError];
+    }
+    
+    if (outError != NULL)
+        *outError = [[[NSError alloc] initWithDomain:NSCocoaErrorDomain
+                                                code:NSFileWriteUnknownError userInfo:nil] autorelease];
+    
+    return NO;
+}
+
+- (IBAction)export:(id)sender {
+    NSSavePanel *sp = [NSSavePanel savePanel];
+    [sp setMessage:NSLocalizedString(@"Choose a location for exporting the current summary.", @"")];
+    NSArray *docs = [[PKDocumentController sharedDocumentController] managedDocuments];
+    NSString *fileName;
+    NSString *firstDoc;
+    NSString *lastDoc;
+    if ([docs count] == 0) {
+        NSBeep();
+        return;
+    } else if ([docs count] == 1) {
+        firstDoc = [[docs objectAtIndex:0] displayName];
+         
+        fileName = [NSString stringWithFormat:NSLocalizedString(@"Exported Summary (by %@) for %@.txt", @""), [[keys objectAtIndex:indexOfKeyForValue] valueForKey:@"localized"], firstDoc];        
+    } else {
+        firstDoc = [[docs objectAtIndex:0] displayName];
+        lastDoc = [[docs lastObject] displayName];
+        
+        fileName = [NSString stringWithFormat:NSLocalizedString(@"Exported Summary (by %@) for %@ to %@.txt", @""), [[keys objectAtIndex:indexOfKeyForValue] valueForKey:@"localized"], firstDoc, lastDoc];
+    }
+    
+    [sp beginSheetForDirectory:nil file:fileName modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
+    if (returnCode == NSOKButton) {
+        NSError *error = [[[NSError alloc] init] autorelease];
+        if (![self writeToURL:[sheet URL] ofType:@"public.text" error:&error]) {
+            [self presentError:error];
+        }
+     }
+}
+
 - (void)documentLoaded:(NSNotification *)aNotification
 {
     id document = [aNotification object];
