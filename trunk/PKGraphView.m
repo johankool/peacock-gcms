@@ -177,6 +177,125 @@ static int   kPaddingLabels             = 4;
 }
 #pragma mark -
 
+- (NSDictionary *)settings {
+    NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
+//    [mutDict setValue:[NSNumber valueWithPoint:[self origin]] forKey:@"origin"];
+    [mutDict setValue:[self pixelsPerXUnit] forKey:@"pixelsPerXUnit"];
+    [mutDict setValue:[self pixelsPerYUnit] forKey:@"pixelsPerYUnit"];
+    [mutDict setValue:[self minimumPixelsPerMajorGridLine] forKey:@"minimumPixelsPerMajorGridLine"];
+    [mutDict setValue:[self minimumPixelsPerXUnit] forKey:@"minimumPixelsPerXUnit"];
+    [mutDict setValue:[self minimumPixelsPerYUnit] forKey:@"minimumPixelsPerYUnit"];
+//    [mutDict setValue:[NSNumber valueWithRect:[self plottingArea]] forKey:@"plottingArea"];
+//    [mutDict setValue:[NSNumber valueWithRect:[self legendArea]] forKey:@"legendArea"];
+    [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self xAxisLabelString]] forKey:@"xAxisLabelString"];
+    [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self yAxisLabelString]] forKey:@"yAxisLabelString"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawAxes] forKey:@"shouldDrawAxes"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawAxesHorizontal] forKey:@"shouldDrawAxesHorizontal"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawAxesVertical] forKey:@"shouldDrawAxesVertical"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawFrame] forKey:@"shouldDrawFrame"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawFrameLeft] forKey:@"shouldDrawFrameLeft"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawFrameBottom] forKey:@"shouldDrawFrameBottom"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawMajorTickMarks] forKey:@"shouldDrawMajorTickMarks"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawMajorTickMarksHorizontal] forKey:@"shouldDrawMajorTickMarksHorizontal"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawMinorTickMarksHorizontal] forKey:@"shouldDrawMinorTickMarksHorizontal"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawMajorTickMarksVertical] forKey:@"shouldDrawMajorTickMarksVertical"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawMinorTickMarksVertical] forKey:@"shouldDrawMinorTickMarksVertical"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawGrid] forKey:@"shouldDrawGrid"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawLabels] forKey:@"shouldDrawLabels"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawLegend] forKey:@"shouldDrawLegend"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawLabelsOnFrame] forKey:@"shouldDrawLabelsOnFrame"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawLabelsOnFrameLeft] forKey:@"shouldDrawLabelsOnFrameLeft"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawLabelsOnFrameBottom] forKey:@"shouldDrawLabelsOnFrameBottom"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawShadow] forKey:@"shouldDrawShadow"];
+    [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self backColor]] forKey:@"backColor"];
+    [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self plottingAreaColor]] forKey:@"plottingAreaColor"];
+    [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self axesColor]] forKey:@"axesColor"];
+    [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self frameColor]] forKey:@"frameColor"];
+    [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self gridColor]] forKey:@"gridColor"];
+    [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self labelsColor]] forKey:@"labelsColor"];
+    [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self labelsOnFrameColor]] forKey:@"labelsOnFrameColor"];
+    [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self legendAreaColor]] forKey:@"legendAreaColor"];
+    [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self legendFrameColor]] forKey:@"legendFrameColor"];
+    [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self baselineColor]] forKey:@"baselineColor"];
+    [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self labelFont]] forKey:@"labelFont"];
+    [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self legendFont]] forKey:@"legendFont"];
+    [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self axesLabelFont]] forKey:@"axesLabelFont"];
+    [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self axesLabelFont]] forKey:@"baselineColor"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawBaseline] forKey:@"shouldDrawBaseline"];
+    [mutDict setValue:[NSNumber numberWithBool:shouldDrawPeaks] forKey:@"shouldDrawPeaks"];
+    [mutDict setValue:[NSNumber numberWithInt:drawingMode] forKey:@"drawingMode"];
+    [mutDict autorelease];
+    JKLogDebug(@"%@", [mutDict description]);
+    return mutDict;
+}
+
+- (void)setSettings:(NSDictionary *)settings {
+//    [self setOrigin:[[settings valueForKey:@"origin"] pointValue]];
+    [self setPixelsPerXUnit:[settings valueForKey:@"pixelsPerXUnit"]];
+    [self setPixelsPerYUnit:[settings valueForKey:@"pixelsPerYUnit"]];
+    [self setMinimumPixelsPerMajorGridLine:[settings valueForKey:@"minimumPixelsPerMajorGridLine"]];
+    [self setMinimumPixelsPerXUnit:[settings valueForKey:@"minimumPixelsPerXUnit"]];
+    [self setMinimumPixelsPerYUnit:[settings valueForKey:@"minimumPixelsPerYUnit"]];
+//    [self setPlottingArea:[[settings valueForKey:@"plottingArea"] rectValue]];
+//    [self setLegendArea:[[settings valueForKey:@"legendArea"] rectValue]];
+    [self setXAxisLabelString:(NSAttributedString *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"xAxisLabelString"]]];
+    [self setYAxisLabelString:(NSAttributedString *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"yAxisLabelString"]]];
+    [self setShouldDrawAxes:[[settings valueForKey:@"shouldDrawAxes"] boolValue]];
+    [self setShouldDrawAxesHorizontal:[[settings valueForKey:@"shouldDrawAxesHorizontal"] boolValue]];
+    [self setShouldDrawAxesVertical:[[settings valueForKey:@"shouldDrawAxesVertical"] boolValue]];
+    [self setShouldDrawFrame:[[settings valueForKey:@"shouldDrawFrame"] boolValue]];
+    [self setShouldDrawFrameLeft:[[settings valueForKey:@"shouldDrawFrameLeft"] boolValue]];
+    [self setShouldDrawFrameBottom:[[settings valueForKey:@"shouldDrawFrameBottom"] boolValue]];
+    [self setShouldDrawMajorTickMarks:[[settings valueForKey:@"shouldDrawMajorTickMarks"] boolValue]];
+    [self setShouldDrawMajorTickMarksHorizontal:[[settings valueForKey:@"shouldDrawMajorTickMarksHorizontal"] boolValue]];
+    [self setShouldDrawMinorTickMarksHorizontal:[[settings valueForKey:@"shouldDrawMinorTickMarksHorizontal"] boolValue]];
+    [self setShouldDrawMajorTickMarksVertical:[[settings valueForKey:@"shouldDrawMajorTickMarksVertical"] boolValue]];
+    [self setShouldDrawMinorTickMarksVertical:[[settings valueForKey:@"shouldDrawMinorTickMarksVertical"] boolValue]];
+    [self setShouldDrawGrid:[[settings valueForKey:@"shouldDrawGrid"] boolValue]];
+    [self setShouldDrawLabels:[[settings valueForKey:@"shouldDrawLabels"] boolValue]];
+    [self setShouldDrawLegend:[[settings valueForKey:@"shouldDrawLegend"] boolValue]];
+    [self setShouldDrawLabelsOnFrame:[[settings valueForKey:@"shouldDrawLabelsOnFrame"] boolValue]];
+    [self setShouldDrawLabelsOnFrameLeft:[[settings valueForKey:@"shouldDrawLabelsOnFrameLeft"] boolValue]];
+    [self setShouldDrawLabelsOnFrameBottom:[[settings valueForKey:@"shouldDrawLabelsOnFrameBottom"] boolValue]];
+    [self setShouldDrawShadow:[[settings valueForKey:@"shouldDrawShadow"] boolValue]];
+    [self setBackColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"backColor"]]];
+    [self setPlottingAreaColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"plottingAreaColor"]]];
+    [self setAxesColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"axesColor"]]];
+    [self setFrameColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"frameColor"]]];
+    [self setGridColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"gridColor"]]];
+    [self setLabelsColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"labelsColor"]]];
+    [self setLabelsOnFrameColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"labelsOnFrameColor"]]];
+    [self setLegendAreaColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"legendAreaColor"]]];
+    [self setLegendFrameColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"legendFrameColor"]]];
+    [self setBaselineColor:(NSColor *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"baselineColor"]]];
+    [self setLabelFont:(NSFont *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"labelFont"]]];
+    [self setLegendFont:(NSFont *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"legendFont"]]];
+    [self setAxesLabelFont:(NSFont *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"axesLabelFont"]]];
+    [self setAxesLabelFont:(NSFont *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"baselineColor"]]];
+    [self setShouldDrawBaseline:[[settings valueForKey:@"shouldDrawBaseline"] boolValue]];
+    [self setShouldDrawPeaks:[[settings valueForKey:@"shouldDrawPeaks"] boolValue]];
+    [self setDrawingMode:[[settings valueForKey:@"drawingMode"] intValue]];
+}
+
+- (IBAction)saveSettings:(id)sender {
+    NSSavePanel *sp = [NSSavePanel savePanel];
+    [sp setMessage:NSLocalizedString(@"Choose a location for exporting the current summary.", @"")];
+    if ([sp runModal] == NSFileHandlingPanelOKButton) {
+        if (![[self settings] writeToURL:[sp URL] atomically:YES]) {
+            NSBeep();
+        }
+    }
+}
+
+- (IBAction)restoreSettings:(id)sender {
+    NSOpenPanel *op = [NSOpenPanel openPanel];
+    [op setMessage:NSLocalizedString(@"Choose a location for exporting the current summary.", @"")];
+    if ([op runModal] == NSFileHandlingPanelOKButton) {
+        [self setSettings:[NSDictionary dictionaryWithContentsOfURL:[op URL]]];
+    }
+}
+
+
 #pragma mark Drawing Routines
 - (void)drawRect:(NSRect)rect {
  	[self calculateCoordinateConversions];

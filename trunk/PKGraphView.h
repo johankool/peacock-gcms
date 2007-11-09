@@ -124,6 +124,11 @@ typedef enum {
     float _lowestYOriginLabelsXAxis;
 }
 
+- (NSDictionary *)settings;
+- (void)setSettings:(NSDictionary *)settings;
+- (IBAction)saveSettings:(id)sender;
+- (IBAction)restoreSettings:(id)sender;
+
 #pragma mark DRAWING ROUTINES
 - (void)drawGrid;
 - (void)drawMajorTickMarks;

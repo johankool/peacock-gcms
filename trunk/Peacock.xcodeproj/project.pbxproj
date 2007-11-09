@@ -536,7 +536,6 @@
 		C7834D3C0941ED5C005431CD /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		C7834D430941ED7A005431CD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		C7834D490941EDAF005431CD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
-		C7858FE90951E9990083EC22 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/JKStatisticalAnalysis.nib; sourceTree = "<group>"; };
 		C785905409541F250083EC22 /* JKStatisticsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKStatisticsWindowController.h; sourceTree = "<group>"; };
 		C785905509541F250083EC22 /* JKStatisticsWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKStatisticsWindowController.m; sourceTree = "<group>"; };
 		C78599A009CDBBAD00351C87 /* JKStatisticsDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKStatisticsDocument.h; sourceTree = "<group>"; };
@@ -640,9 +639,7 @@
 		C7EB17FA0898CFBC007FC2ED /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/JKLibrary.nib; sourceTree = "<group>"; };
 		C7EB17FB0898CFBD007FC2ED /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/JKGCMSDocument.nib; sourceTree = "<group>"; };
 		C7EB17FC0898CFBD007FC2ED /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/JKMainMenu.nib; sourceTree = "<group>"; };
-		C7EB17FD0898CFBD007FC2ED /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/JKMolWeight.nib; sourceTree = "<group>"; };
 		C7EB17FE0898CFBD007FC2ED /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/JKPanel.nib; sourceTree = "<group>"; };
-		C7EB17FF0898CFBD007FC2ED /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/JKPeakIdentification.nib; sourceTree = "<group>"; };
 		C7EB18010898CFBD007FC2ED /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/JKPreferences.nib; sourceTree = "<group>"; };
 		C7EB18060898CFBD007FC2ED /* Parseable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Parseable.h; sourceTree = "<group>"; };
 		C7EB180A0898CFBD007FC2ED /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/License.rtf; sourceTree = "<group>"; };
@@ -1057,11 +1054,8 @@
 				C7F3EEBD0CE211D6008F7BBC /* JKLibrary.nib */,
 				C7F3EEC00CE211D6008F7BBC /* JKGCMSDocument.nib */,
 				C7F3EEC30CE211D6008F7BBC /* JKMainMenu.nib */,
-				C7F3EEC60CE211D6008F7BBC /* JKMolWeight.nib */,
 				C7F3EEC70CE211D6008F7BBC /* JKPanel.nib */,
-				C7F3EECA0CE211D6008F7BBC /* JKPeakIdentification.nib */,
 				C7F3EECB0CE211D7008F7BBC /* JKPreferences.nib */,
-				C7F3EECE0CE211D7008F7BBC /* JKStatisticalAnalysis.nib */,
 			);
 			path = Nibs;
 			sourceTree = "<group>";
@@ -1739,14 +1733,6 @@
 			name = JKMainMenu.nib;
 			sourceTree = "<group>";
 		};
-		C7F3EEC60CE211D6008F7BBC /* JKMolWeight.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C7EB17FD0898CFBD007FC2ED /* English */,
-			);
-			name = JKMolWeight.nib;
-			sourceTree = "<group>";
-		};
 		C7F3EEC70CE211D6008F7BBC /* JKPanel.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1755,28 +1741,12 @@
 			name = JKPanel.nib;
 			sourceTree = "<group>";
 		};
-		C7F3EECA0CE211D6008F7BBC /* JKPeakIdentification.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C7EB17FF0898CFBD007FC2ED /* English */,
-			);
-			name = JKPeakIdentification.nib;
-			sourceTree = "<group>";
-		};
 		C7F3EECB0CE211D7008F7BBC /* JKPreferences.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				C7EB18010898CFBD007FC2ED /* English */,
 			);
 			name = JKPreferences.nib;
-			sourceTree = "<group>";
-		};
-		C7F3EECE0CE211D7008F7BBC /* JKStatisticalAnalysis.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C7858FE90951E9990083EC22 /* English */,
-			);
-			name = JKStatisticalAnalysis.nib;
 			sourceTree = "<group>";
 		};
 		C7F3EED10CE211EA008F7BBC /* License.rtf */ = {

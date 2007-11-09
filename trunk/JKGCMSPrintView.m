@@ -222,9 +222,9 @@
     
     // Collecting the peak table only once makes sense too...
     
-    NSEnumerator *peakEnum = [[[document peaks] filteredArrayUsingPredicate:[[document mainWindowController] predicateForPeakTypeShow]] objectEnumerator];
-    JKPeakRecord *peak;
+ //   NSEnumerator *peakEnum = [[[document peaks] filteredArrayUsingPredicate:[[document mainWindowController] predicateForPeakTypeShow]] objectEnumerator];
     NSMutableString *string = [NSMutableString string];
+
     [string setString:@"<html><head><title>No title</title></head><body><table style=\"font-size: 9px; font-family: Helvetica, sans-serif;\" cellpadding=1 cellspacing=0 >"];
     [string appendFormat:@"<caption>Peak List for document \"%@\"</caption>", [document displayName]];
     [string appendString:@"<col />"];
@@ -248,7 +248,7 @@
     [string appendString:@"</tr>"];
     [string appendString:@"</thead><tbody>"];
     
-    while ((peak = [peakEnum nextObject]) != nil) {
+    for (JKPeakRecord *peak in [document peaks])  {
         [string appendString:@"<tr>"];
         [string appendFormat:@"<td align=\"right\">%d.</td>", [peak peakID]];
         [string appendFormat:@"<td>%@</td>", [peak label]];
@@ -260,6 +260,7 @@
         [string appendFormat:@"<td align=\"center\">%g</td>", [peak retentionIndex]];
         [string appendString:@"</tr>"];
     }
+    
     [string appendString:@"</tbody></table></body></html>"];
     peakTable = [[NSAttributedString alloc] initWithHTML:[string dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:nil];
   
