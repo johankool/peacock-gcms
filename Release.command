@@ -3,6 +3,27 @@ cd "`dirname \"$0\"`"
 
 echo "Peacock Release Note Generator"
 
+# Check status
+echo
+echo "Checking status working directory"
+svn status
+echo
+read -p "Press enter key to continue when done..."
+
+# Update to latest build
+echo
+echo "Updating working directory"
+svn update
+echo
+read -p "Press enter key to continue when done..."
+
+# Check status
+echo
+echo "Checking status working directory"
+svn status
+echo
+read -p "Press enter key to continue when done..."
+
 # Get some info
 echo
 SUBVERSIONVERSION=`svn info -r HEAD | grep "Revision" | sed 's/Revision: //'`
@@ -31,6 +52,13 @@ SUBVERSIONVERSION=`svn info -r HEAD | grep "Revision" | sed 's/Revision: //'`
 echo "Commited Credits.rtf changes to SVN"
 echo "Current SVN version = $SUBVERSIONVERSION"
 
+# Check status
+echo
+echo "Checking status working directory"
+svn status
+echo
+read -p "Press enter key to continue when done..."
+
 # Build Release
 echo
 echo "Build Release version of Peacock"
@@ -39,7 +67,7 @@ xcodebuild -configuration Release | grep "warning"|"error"
 # Create DMG file
 echo
 echo "Launching DMG Packager"
-open -a /Applications/More\ Utilities/DMG\ Packager.app
+open -a ~/Applications/DMG\ Packager.app
 echo
 echo "Next click 'Package DMG'"
 echo
