@@ -83,7 +83,7 @@
             score = [[coder decodeObjectForKey:@"score"] retain]; 
             libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain]; 
             peak = [coder decodeObjectForKey:@"peak"]; 
-            libraryHitURI = nil;
+//            libraryHitURI = nil;
 //         } else {
 //            score = [[coder decodeObjectForKey:@"score"] retain]; 
 //            libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain]; 
