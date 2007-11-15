@@ -304,12 +304,9 @@
         endScan++;
     }
     
-    NSEnumerator *peakEnum = [[self peaks] objectEnumerator];
-    JKPeakRecord *somePeak;
-
-    while ((somePeak = [peakEnum nextObject]) != nil) {
-    	if (([somePeak start] == startScan) && ([somePeak end] == endScan)) {
-            return somePeak;
+	for (JKPeakRecord *peak in [self peaks]) {
+    	if (([peak start] == startScan) && ([peak end] == endScan)) {
+            return peak;
         }
     }
     JKPeakRecord *newPeak = [[JKPeakRecord alloc] init];
@@ -446,10 +443,7 @@
 - (float)highestPeakHeight {
     highestPeakHeight = 0.0f;
     
-    NSEnumerator *peakEnumerator = [[self peaks] objectEnumerator];
-    JKPeakRecord *peak;
-
-    while ((peak = [peakEnumerator nextObject]) != nil) {
+	for (JKPeakRecord *peak in [self peaks]) {
     	if ([[peak height] floatValue] > highestPeakHeight) {
             highestPeakHeight = [[peak height] floatValue];
         }
@@ -460,11 +454,8 @@
 
 - (float)largestPeakSurface {
     largestPeakSurface = 0.0f;
-    
-    NSEnumerator *peakEnumerator = [[self peaks] objectEnumerator];
-    JKPeakRecord *peak;
-    
-    while ((peak = [peakEnumerator nextObject]) != nil) {
+     
+    for (JKPeakRecord *peak in [self peaks]) {
     	if ([[peak surface] floatValue] > largestPeakSurface) {
             largestPeakSurface = [[peak surface] floatValue];
         }
@@ -475,10 +466,8 @@
 
 - (void)removeUnidentifiedPeaks
 {    
-    NSEnumerator *peakEnum = [[self peaks] objectEnumerator];
-    JKPeakRecord *peak;
     NSMutableArray *peaksToSave = [NSMutableArray array];
-    while ((peak = [peakEnum nextObject]) != nil) {
+	for (JKPeakRecord *peak in [self peaks]) {
     	if ((([peak identified]) | ([[peak searchResults] count] > 0  | ([peak flagged]))) | (![[peak label] isEqualToString:@""])) {
             [peaksToSave addObject:peak];
         }
@@ -601,12 +590,12 @@
 //            // Remove duplicate peaks
 //            int firstIndex = [peaks indexOfObject:peak];
 //            int count = [peaks count];
-//            if (firstIndex == count) {
+//            if (firstIndex >= count-1) {
 //                break;
 //            }
 //            while ([peaks indexOfObject:peak inRange:NSMakeRange(firstIndex+1,count-firstIndex-1)] != NSNotFound) {
 //                count = [peaks count];
-//                if (firstIndex == count) {
+//                if (firstIndex >= count-1) {
 //                    break;
 //                }                
 //                [peaks removeObjectAtIndex:[peaks indexOfObject:peak inRange:NSMakeRange(firstIndex+1,count-firstIndex-1)]];
@@ -760,7 +749,6 @@
 
 - (void)setPeaks:(NSMutableArray *)inValue {
     [[self container] willChangeValueForKey:@"peaks"];
-    NSEnumerator *peakEnum;
     JKPeakRecord *peak;
     if (inValue != peaks) {
         [inValue retain];

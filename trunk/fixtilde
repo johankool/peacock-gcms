@@ -1,0 +1,8 @@
+#! /bin/bash 
+echo Fixing Subversion tilde status for $1
+mv $1 $1.mine 
+svn update $1
+mv $1/.svn $1.mine/
+rm -r $1
+mv $1.mine $1
+echo Done

@@ -179,14 +179,14 @@ static int   kPaddingLabels             = 4;
 
 - (NSDictionary *)settings {
     NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
-//    [mutDict setValue:[NSNumber valueWithPoint:[self origin]] forKey:@"origin"];
+    [mutDict setValue:NSStringFromPoint([self origin]) forKey:@"origin"];
     [mutDict setValue:[self pixelsPerXUnit] forKey:@"pixelsPerXUnit"];
     [mutDict setValue:[self pixelsPerYUnit] forKey:@"pixelsPerYUnit"];
     [mutDict setValue:[self minimumPixelsPerMajorGridLine] forKey:@"minimumPixelsPerMajorGridLine"];
     [mutDict setValue:[self minimumPixelsPerXUnit] forKey:@"minimumPixelsPerXUnit"];
     [mutDict setValue:[self minimumPixelsPerYUnit] forKey:@"minimumPixelsPerYUnit"];
-//    [mutDict setValue:[NSNumber valueWithRect:[self plottingArea]] forKey:@"plottingArea"];
-//    [mutDict setValue:[NSNumber valueWithRect:[self legendArea]] forKey:@"legendArea"];
+    [mutDict setValue:NSStringFromRect([self plottingArea]) forKey:@"plottingArea"];
+    [mutDict setValue:NSStringFromRect([self legendArea]) forKey:@"legendArea"];
     [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self xAxisLabelString]] forKey:@"xAxisLabelString"];
     [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self yAxisLabelString]] forKey:@"yAxisLabelString"];
     [mutDict setValue:[NSNumber numberWithBool:shouldDrawAxes] forKey:@"shouldDrawAxes"];
@@ -230,14 +230,14 @@ static int   kPaddingLabels             = 4;
 }
 
 - (void)setSettings:(NSDictionary *)settings {
-//    [self setOrigin:[[settings valueForKey:@"origin"] pointValue]];
+    [self setOrigin:NSPointFromString([settings valueForKey:@"origin"])];
     [self setPixelsPerXUnit:[settings valueForKey:@"pixelsPerXUnit"]];
     [self setPixelsPerYUnit:[settings valueForKey:@"pixelsPerYUnit"]];
     [self setMinimumPixelsPerMajorGridLine:[settings valueForKey:@"minimumPixelsPerMajorGridLine"]];
     [self setMinimumPixelsPerXUnit:[settings valueForKey:@"minimumPixelsPerXUnit"]];
     [self setMinimumPixelsPerYUnit:[settings valueForKey:@"minimumPixelsPerYUnit"]];
-//    [self setPlottingArea:[[settings valueForKey:@"plottingArea"] rectValue]];
-//    [self setLegendArea:[[settings valueForKey:@"legendArea"] rectValue]];
+    [self setPlottingArea:NSRectFromString([settings valueForKey:@"plottingArea"])];
+    [self setLegendArea:NSRectFromString([settings valueForKey:@"legendArea"])];
     [self setXAxisLabelString:(NSAttributedString *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"xAxisLabelString"]]];
     [self setYAxisLabelString:(NSAttributedString *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"yAxisLabelString"]]];
     [self setShouldDrawAxes:[[settings valueForKey:@"shouldDrawAxes"] boolValue]];
@@ -279,7 +279,7 @@ static int   kPaddingLabels             = 4;
 
 - (IBAction)saveSettings:(id)sender {
     NSSavePanel *sp = [NSSavePanel savePanel];
-    [sp setMessage:NSLocalizedString(@"Choose a location for exporting the current summary.", @"")];
+    [sp setMessage:NSLocalizedString(@"Choose a location for saving the current settings.", @"")];
     if ([sp runModal] == NSFileHandlingPanelOKButton) {
         if (![[self settings] writeToURL:[sp URL] atomically:YES]) {
             NSBeep();
@@ -289,7 +289,7 @@ static int   kPaddingLabels             = 4;
 
 - (IBAction)restoreSettings:(id)sender {
     NSOpenPanel *op = [NSOpenPanel openPanel];
-    [op setMessage:NSLocalizedString(@"Choose a location for exporting the current summary.", @"")];
+    [op setMessage:NSLocalizedString(@"Choose a file containing settings.", @"")];
     if ([op runModal] == NSFileHandlingPanelOKButton) {
         [self setSettings:[NSDictionary dictionaryWithContentsOfURL:[op URL]]];
     }
@@ -360,8 +360,7 @@ static int   kPaddingLabels             = 4;
         //NSAssert([[self dataSeries] count] >= 1, @"No dataSeries to draw.");
         int dataSeriesCount;
         int i;
-        NSEnumerator *enumerator;
-         id object;
+        id object;
         switch (drawingMode) {
         case JKStackedDrawingMode:
             dataSeriesCount = [[self dataSeries] count];
@@ -380,9 +379,7 @@ static int   kPaddingLabels             = 4;
             break;
         case JKNormalDrawingMode:
         default:
-            enumerator = [[self dataSeries] objectEnumerator];
-            while ((object = [enumerator nextObject])) {
-                // do something with object...
+             for (object in [self dataSeries]) {
                 if ([object respondsToSelector:@selector(plotDataWithTransform:inView:)]) {
                     [object plotDataWithTransform:[self transformGraphToScreen] inView:self];
                 }

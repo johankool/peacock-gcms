@@ -11,6 +11,13 @@
 #import "JKGCMSDocument.h"
 #import "JKSummarizer.h"
 #import "JKAppDelegate.h"
+#import "GCMathParser.h"
+#import "JKCombinedPeak.h"
+
+@interface JKRatio (Private)
+- (NSString *)expression;
+- (void)setExpression:(NSString *)inValue;    
+@end
 
 @implementation JKRatio
 
@@ -23,15 +30,99 @@
 	if (self != nil) {
         formula = [string retain];
         name = [@"" retain];
-        valueType = [@"surface" retain];
+        valueType = [@"normalizedSurface2" retain]; // Normalized by the total surface of confirmed peaks
+        
+        _parser = [[GCMathParser alloc] init];
+        _varKeys = [[NSMutableDictionary alloc] init];
+        _expression = [[NSString alloc] init];
+        _cachedResults = [[NSMutableDictionary alloc] init];
     }
 	return self;
 }
+
 - (void) dealloc {
     [formula release];
     [name release];
     [valueType release];
+    [_parser release];
+    [_varKeys release];
+    [_expression release];
+    [_cachedResults release];
 	[super dealloc];
+}
+
+- (void)reset {
+    [_cachedResults removeAllObjects];
+}
+- (void)detectVariables {
+    [self reset];
+    if (![self formula])
+        return;
+    NSMutableString *formulaString = [NSMutableString stringWithString:[self formula]];
+    if ([formulaString hasSuffix:@"%"]) {
+        [formulaString deleteCharactersInRange:NSMakeRange([formulaString length]-1, 1)];
+    }
+    NSRange range1, range2, compoundRange, compoundRangePlus;
+    NSString *compoundName;
+    NSString *varName;
+    int index, length, varCount;
+    
+    [_varKeys removeAllObjects];
+    varCount = 0;
+    index = 0;
+    while (index < [formulaString length]) {
+        length = [formulaString length];
+        range1 = [formulaString rangeOfString:@"[" options:0 range:NSMakeRange(index, length-index)];
+        if (range1.location != NSNotFound) {
+            range2 = [formulaString rangeOfString:@"]" options:0 range:NSMakeRange(range1.location, length-range1.location)];
+            if (range2.location != NSNotFound) {
+                varCount++;
+                compoundRange = NSMakeRange(range1.location+1, range2.location - range1.location-1);
+                compoundRangePlus = NSMakeRange(range1.location, range2.location - range1.location+1); // includes brackets
+                compoundName = [formulaString substringWithRange:compoundRange];
+                varName = [NSString stringWithFormat:@"v%d", varCount];
+                [_varKeys setObject:compoundName forKey:varName];
+                [formulaString replaceCharactersInRange:compoundRangePlus withString:varName];
+                index = range1.location + [varName length];
+            } else {
+                index = [formulaString length];
+            } 
+        } else {
+            index = [formulaString length];
+        }     
+    }
+    
+    [self setExpression:formulaString];
+ }
+
+
+
+- (double)calculateRatioForKey:(NSString *)key inCombinedPeaksArray:(NSArray *)combinedPeaks {
+    
+    // Set variables
+    for (NSString *varKey in [_varKeys allKeys]) {
+        NSString *compoundName = [_varKeys objectForKey:varKey];
+        
+        // Set to 0 as default value
+        [_parser evaluate:[NSString stringWithFormat:@"%@=0", varKey]];
+        //[_parser setSymbolValue:0.0 forKey:key]; // This doesn't seem to be working properly, the above alternative does, but is supposed to be slower
+        
+		// Find concentration in combinedPeaksArray
+		for (JKCombinedPeak *combinedPeak in combinedPeaks) {
+            if ([combinedPeak isCompound:compoundName]) {
+				NSString *keyPath =[NSString stringWithFormat:@"%@.%@", key, valueType];
+                if ([combinedPeak valueForKeyPath:key] != nil) {
+                    [_parser evaluate:[NSString stringWithFormat:@"%@=%g", varKey,[[combinedPeak valueForKeyPath:keyPath] doubleValue]]];
+                    //[_parser setSymbolValue:[[combinedPeak valueForKeyPath:keyPath] doubleValue] forKey:key];
+                    //JKLogDebug(@"symbol %@ [%@] = %g (%g)", compoundName, varKey, [[combinedPeak valueForKeyPath:keyPath] doubleValue], [_parser symbolValueForKey:varKey]);
+                }
+			} 
+		}
+	}
+
+    double result = [_parser evaluate:_expression];
+    //JKLogDebug(@"%@ = %g ",_expression,result);
+    return result;
 }
 
 - (BOOL)isValidDocumentKey:(NSString *)aKey
@@ -49,201 +140,57 @@
     return NO;
 }
 
-
 - (id)valueForUndefinedKey:(NSString *)key {
-    // Peaks can be accessed using key in the format "file_nn"
-    //    if ([key hasPrefix:@"file_"]) {
-    JKLogEnteringMethod();
-
     if ([self isValidDocumentKey:key]) {
-        return [NSNumber numberWithFloat:[self calculateRatioForKey:key inCombinedPeaksArray:[[(JKAppDelegate *)[NSApp delegate] summarizer] combinedPeaks]]];
+        if (![_cachedResults objectForKey:key]) {
+            [_cachedResults setObject:[NSNumber numberWithDouble:[self calculateRatioForKey:key inCombinedPeaksArray:[[(JKAppDelegate *)[NSApp delegate] summarizer] combinedPeaks]]] forKey:key];
+        } 
+        return [_cachedResults objectForKey:key];
     } else {
         return [super valueForUndefinedKey:key];
     }
 }
 
 
-- (float)calculateRatioForKey:(NSString *)key inCombinedPeaksArray:(NSArray *)combinedPeaks {	
-	JKLogEnteringMethod();
-    unsigned int i,j;
-	float nominator = 0.0;
-	float denominator = 0.0;
-	float multiplier = 1.0;
-	float concentration = 0.0;
-	BOOL knownCombinedPeak = NO;
-	int knownCombinedPeakIndex = 0;
-	NSString *nominatorComponent;
-	NSString *denominatorComponent;
-	NSString *combinedPeakName;
-	NSString *keyPath;
-	unsigned int combinedPeaksCount = [combinedPeaks count];
-	
-	for (i = 0; i < [[self nominatorArray] count]; i++) {
-		concentration = 0.0;
-		knownCombinedPeak = NO;
-		multiplier = [[[[self nominatorArray] objectAtIndex:i] valueForKey:@"multiplier"] floatValue];
-		nominatorComponent = [[[[self nominatorArray] objectAtIndex:i] valueForKey:@"component"] lowercaseString];
-		
-		// Find concentration in combinedPeaksArray
-		for (j = 0; j < combinedPeaksCount; j++) {
-			combinedPeakName = [[[combinedPeaks objectAtIndex:j] valueForKey:@"label"] lowercaseString];
-			
-			if ([nominatorComponent isEqualToString:combinedPeakName]) {
-				knownCombinedPeak = YES;
-				knownCombinedPeakIndex = j;
-			} 
-		}
-		if (knownCombinedPeak) {
-			keyPath =[NSString stringWithFormat:@"%@.%@", key, valueType];
-			if ([[combinedPeaks objectAtIndex:knownCombinedPeakIndex] valueForKeyPath:key] != nil) {
-				concentration = [[[combinedPeaks objectAtIndex:knownCombinedPeakIndex] valueForKeyPath:keyPath] floatValue];
-				nominator = nominator + (multiplier * concentration);
-			}
-		}
-	}
-	
-	for (i = 0; i < [[self denominatorArray] count]; i++) {
-		concentration = 0.0;
-		knownCombinedPeak = NO;
-		multiplier = [[[[self denominatorArray] objectAtIndex:i] valueForKey:@"multiplier"] floatValue];
-		denominatorComponent = [[[self denominatorArray] objectAtIndex:i] valueForKey:@"component"];
-		
-		// Find concentration in combinedPeaksArray
-		for (j = 0; j < combinedPeaksCount; j++) {
-			combinedPeakName = [[combinedPeaks objectAtIndex:j] valueForKey:@"label"];
-			
-			if ([denominatorComponent isEqualToString:combinedPeakName]) {
-				knownCombinedPeak = YES;
-				knownCombinedPeakIndex = j;
-			} 
-		}
-		if (knownCombinedPeak) {
-			keyPath =[NSString stringWithFormat:@"%@.%@", key, valueType];
-			if ([[combinedPeaks objectAtIndex:knownCombinedPeakIndex] valueForKeyPath:key] != nil) {
-				concentration = [[[combinedPeaks objectAtIndex:knownCombinedPeakIndex] valueForKeyPath:keyPath] floatValue];
-				denominator = denominator + (multiplier * concentration);
-			}
-		}
-	}
-    JKLogDebug(@"%g",nominator/denominator);
-	return nominator/denominator;
-}
-
-- (NSString *)getNominator {
-	if ([formula length] == 0){
-		JKLogDebug(@"Oops! %@", name);		
-	}
-	NSRange dividerRange;
-	dividerRange = [formula rangeOfString:@") / ("];
-	if(dividerRange.location+2 > [formula length]) {
-		JKLogDebug(@"Yikes! %@", formula);
-	}
-	return [[formula substringToIndex:dividerRange.location+2] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"() "]];
-}
-
-- (NSString *)getDenominator {
-	if ([formula length] == 0){
-		JKLogDebug(@"Oops! %@", name);		
-	}
-	
-	NSRange dividerRange;
-	dividerRange = [formula rangeOfString:@") / ("];
-	if(dividerRange.location+2+1 > [formula length]) {
-		JKLogDebug(@"Yikes! %@", formula);
-	}
-	return [[formula substringFromIndex:dividerRange.location+1+2] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"() *100%"]];
-}
-
-- (NSArray *)compoundsInString:(NSString *)string {
-	NSArray *array1;// = [[NSArray alloc] init];
-	NSMutableArray *array2= [[NSMutableArray alloc] init];
-	array1 = [string componentsSeparatedByString:@"+"];
-	NSString *string2;
-	NSRange multiplierRange;
-
-	for (string2 in array1) {
-		NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
-		multiplierRange = [string2 rangeOfString:@"*"];
-		if (multiplierRange.location == NSNotFound) {
-			[mutDict setValue:@"1.0" forKey:@"multiplier"];
-			multiplierRange.location = -1;
-		} else {
-			[mutDict setValue:[[string2 substringToIndex:multiplierRange.location] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]] forKey:@"multiplier"];
-		}
-		
-		string2 = [[string2 substringFromIndex:multiplierRange.location+1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" []"]];
-		[mutDict setValue:string2 forKey:@"component"];
-		[array2 addObject:mutDict];
-		[mutDict release];
-	}
-	
-//	[array1 release];
-	[array2 autorelease];
-	return array2;
-}
-
 - (void)setFormula:(NSString *)inValue {
-	if (inValue != formula) {
-		NSRange dividerRange;
-		dividerRange = [inValue rangeOfString:@"/"];
-		if(dividerRange.location == NSNotFound) {
-			inValue = [inValue stringByAppendingString:@" / ( 1 ) * 100%"];
-			dividerRange = [inValue rangeOfString:@"/"];
-		}
-		
-		NSArray *nominatorArrayLocal = [self compoundsInString:[[inValue substringToIndex:dividerRange.location] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" () "]]];
-		NSArray *denominatorArrayLocal = [self compoundsInString:[[inValue substringFromIndex:dividerRange.location+1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" () *100%"]]];
-		
-		NSString *outString = @"( ";
-		unsigned int i;
-		if ([nominatorArrayLocal count] == 0) {
-			outString = [outString stringByAppendingString:@"1"];
-		} else {			
-			for (i = 0; i < [nominatorArrayLocal count]; i++) {
-				if ([[[nominatorArrayLocal objectAtIndex:i] valueForKey:@"multiplier"] floatValue] == 1.0) {
-					outString = [outString stringByAppendingFormat:@"[%@]", [[nominatorArrayLocal objectAtIndex:i] valueForKey:@"component"]];
-				} else {
-					outString = [outString stringByAppendingFormat:@"%.1f * [%@]", [[[nominatorArrayLocal objectAtIndex:i] valueForKey:@"multiplier"] floatValue], [[nominatorArrayLocal objectAtIndex:i] valueForKey:@"component"]];
-				}
-				if (i < [nominatorArrayLocal count]-1)
-					outString = [outString stringByAppendingString:@" + "];
-			}
-		}
-		outString = [outString stringByAppendingString:@" ) / ( "];
-		if ([denominatorArrayLocal count] == 0) {
-			outString = [outString stringByAppendingString:@"1"];
-		} else {
-			for (i = 0; i < [denominatorArrayLocal count]; i++) {
-				if ([[[denominatorArrayLocal objectAtIndex:i] valueForKey:@"multiplier"] floatValue] == 1.0) {
-					outString = [outString stringByAppendingFormat:@"[%@]", [[denominatorArrayLocal objectAtIndex:i] valueForKey:@"component"]];
-				} else {
-					outString = [outString stringByAppendingFormat:@"%.1f * [%@]", [[[denominatorArrayLocal objectAtIndex:i] valueForKey:@"multiplier"] floatValue], [[denominatorArrayLocal objectAtIndex:i] valueForKey:@"component"]];
-				}
-				if (i < [denominatorArrayLocal count]-1)
-					outString = [outString stringByAppendingString:@" + "];
-			}			
-		}
-
-		outString = [outString stringByAppendingString:@" ) * 100%"];
-		[formula release];
-		[outString retain];
-		formula = outString;
-//        JKLogDebug(formula);
-		[self didChangeValueForKey:@"formula"];
-	}
-		
-
+	[inValue retain];
+	[formula release];
+	formula = inValue;
+    [self detectVariables];
 }
+
 - (NSString *)formula {
 	return formula;
 }
 
-- (NSArray *)nominatorArray {
-	return [self compoundsInString:[self getNominator]];
+- (void)setExpression:(NSString *)inValue {
+	[inValue retain];
+	[_expression release];
+	_expression = inValue;
 }
 
-- (NSArray *)denominatorArray {
-	return [self compoundsInString:[self getDenominator]];
+- (NSString *)expression {
+	return _expression;
+}
+
+- (NSString *)name {
+	return name;
+}
+
+- (void)setName:(NSString *)inValue {
+	[inValue retain];
+	[name release];
+	name = inValue;
+}
+
+- (NSString *)valueType {
+	return valueType;
+}
+
+- (void)setValueType:(NSString *)inValue {
+	[inValue retain];
+	[valueType release];
+	valueType = inValue;
 }
 
 #pragma mark Encoding
@@ -269,28 +216,15 @@
         } else {
             valueType = [@"surface" retain];
         }
+        
+        _parser = [[GCMathParser alloc] init];
+        _varKeys = [[NSMutableDictionary alloc] init];
+        _expression = [[NSString alloc] init];
+        _cachedResults = [[NSMutableDictionary alloc] init];
+        [self detectVariables];
     } 
     return self;
 }
 
-- (NSString *)name {
-	return name;
-}
-
-- (void)setName:(NSString *)inValue {
-	[inValue retain];
-	[name release];
-	name = inValue;
-}
-
-- (NSString *)valueType {
-	return valueType;
-}
-
-- (void)setValueType:(NSString *)inValue {
-	[inValue retain];
-	[valueType release];
-	valueType = inValue;
-}
 
 @end

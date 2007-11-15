@@ -66,11 +66,9 @@
         [spectrumViewDataseriesController removeObjects:[spectrumViewDataseriesController arrangedObjects]];
         NSMutableArray *spectrumArray = [NSMutableArray array];
         
-        NSEnumerator *libraryEntryEnumerator = [[libraryController selectedObjects] objectEnumerator];
-        JKManagedLibraryEntry *libraryEntry;
         PKSpectrumDataSeries *sgds;
         
-        while ((libraryEntry = [libraryEntryEnumerator nextObject]) != nil) {
+        for (JKManagedLibraryEntry *libraryEntry in [libraryController selectedObjects]) {
             sgds = [[[PKSpectrumDataSeries alloc] initWithSpectrum:libraryEntry] autorelease];
             if (showNormalizedSpectra) {
                 [sgds setNormalizeYData:YES];

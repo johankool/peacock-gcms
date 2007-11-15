@@ -174,6 +174,7 @@ typedef enum {
 - (BOOL)addChromatogramForModel:(NSString *)modelString;
 
 - (int)nextPeakID;
+- (float)confirmedPeaksSurface;
 
 #pragma mark Doublures management
 - (BOOL)hasPeakConfirmedAs:(JKLibraryEntry *)libraryHit notBeing:(JKPeakRecord *)originatingPeak;

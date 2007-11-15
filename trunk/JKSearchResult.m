@@ -17,16 +17,16 @@
 - (id)init {
     self = [super init];
     if (self != nil) {
-        score = [[NSNumber alloc] init];
-        libraryHit = [[JKLibraryEntry alloc] init];
+ //       score = [[NSNumber alloc] init];
+       libraryHit = nil;
         spectrumType = 0;
     }
     return self;
 }
 
 - (void)dealloc {
-    [score release];
-    [libraryHit release];
+//    [score release];
+//    [libraryHit release];
     [super dealloc];
 }
 
@@ -35,28 +35,28 @@
     return [NSNumber numberWithFloat:[[peak retentionIndex] floatValue] - [[libraryHit retentionIndex] floatValue]];
 }
 
-- (NSNumber *)score {
-	return score;
-}
-- (void)setScore:(NSNumber *)aScore {
-	[score autorelease];
-	score = [aScore retain];
-}
-
+//- (NSNumber *)score {
+//	return score;
+//}
+//- (void)setScore:(NSNumber *)aScore {
+//	[score autorelease];
+//	score = [aScore retain];
+//}
+//
 - (JKLibraryEntry *)libraryHit {
 	return libraryHit;
 }
-- (void)setLibraryHit:(JKLibraryEntry *)aLibraryHit {
-	[libraryHit autorelease];
-	libraryHit = [aLibraryHit retain];
-}
-
-- (JKPeakRecord *)peak {
-	return peak;
-}
-- (void)setPeak:(JKPeakRecord *)aPeak {
-	peak = aPeak;
-}
+//- (void)setLibraryHit:(JKLibraryEntry *)aLibraryHit {
+//	[libraryHit autorelease];
+//	libraryHit = [aLibraryHit retain];
+//}
+//
+//- (JKPeakRecord *)peak {
+//	return peak;
+//}
+//- (void)setPeak:(JKPeakRecord *)aPeak {
+//	peak = aPeak;
+//}
 
 
 #pragma mark Encoding
@@ -67,18 +67,47 @@
 		[coder encodeObject:score forKey:@"score"]; 
 		[coder encodeObject:libraryHit forKey:@"libraryHit"]; 
 		[coder encodeConditionalObject:peak forKey:@"peak"];         
+//        [coder encodeInt:2 forKey:@"version"];
+//		[coder encodeObject:score forKey:@"score"]; 
+//		[coder encodeObject:libraryHit forKey:@"libraryHit"]; 
+//		[coder encodeObject:libraryHitURI forKey:@"libraryHitURI"]; 
+//		[coder encodeConditionalObject:peak forKey:@"peak"];         
     } 
     return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
     if ([coder allowsKeyedCoding]) {
-		score = [[coder decodeObjectForKey:@"score"] retain]; 
-		libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain]; 
-		peak = [coder decodeObjectForKey:@"peak"];
+        int version = [coder decodeIntForKey:@"version"];
+        if (version < 2) {
+            score = [[coder decodeObjectForKey:@"score"] retain]; 
+            libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain]; 
+            peak = [coder decodeObjectForKey:@"peak"]; 
+            libraryHitURI = nil;
+//         } else {
+//            score = [[coder decodeObjectForKey:@"score"] retain]; 
+//            libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain]; 
+//            peak = [coder decodeObjectForKey:@"peak"];
+//            libraryHitURI = [[coder decodeObjectForKey:@"libraryHitURI"] retain];
+        }
+//        if (libraryHitURI) {
+//            NSManagedObjectContext *moc = [[[NSApp delegate] library] managedObjectContext];
+//            NSManagedObjectID *mid = [[moc persistentStoreCoordinator] managedObjectIDForURIRepresentation:libraryHitURI];
+//            if (mid) {
+//                libraryHit = [moc objectRegisteredForID:mid];
+//                if (libraryHit) {
+//                    [self setLibraryHit:libraryHit];
+//                }
+//            }            
+//        } else {
+//            // Try to find it?
+//
+//        }
     } 
     return self;
 }
-
+@synthesize score;
+@synthesize libraryHit;
+@synthesize peak;
 @synthesize spectrumType;
 @end

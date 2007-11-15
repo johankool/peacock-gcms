@@ -300,14 +300,11 @@ int const JKGCMSDocument_Version = 7;
             [self insertObject:ticChromatogram inChromatogramsAtIndex:0];
         }
         
-        NSEnumerator *chromEnum = [[self chromatograms] objectEnumerator];
-        JKChromatogram *chromatogram = nil;
-        
-        while ((chromatogram = [chromEnum nextObject]) != nil) {
-            if (![[chromatogram model] isEqualToString:@"TIC"] && [chromatogram countOfPeaks] == 0) {
-                [self removeObjectFromChromatogramsAtIndex:[[self chromatograms] indexOfObject:chromatogram]];
-            }
-        }
+//        for (JKChromatogram *chromatogram in [self chromatograms]) {
+//            if (![[chromatogram model] isEqualToString:@"TIC"] && [chromatogram countOfPeaks] == 0) {
+//                [self removeObjectFromChromatogramsAtIndex:[[self chromatograms] indexOfObject:chromatogram]];
+//            }
+//        }
         
         [chromatograms sortUsingSelector:@selector(sortOrderComparedTo:)];
   		return result;	
@@ -556,10 +553,7 @@ int const JKGCMSDocument_Version = 7;
 #pragma mark Model
 - (JKChromatogram *)ticChromatogram {
     // Check if such a chromatogram is already available
-    NSEnumerator *chromEnum = [[self chromatograms] objectEnumerator];
-    JKChromatogram *chromatogram = nil;
-    
-    while ((chromatogram = [chromEnum nextObject]) != nil) {
+    for (JKChromatogram *chromatogram in [self chromatograms]) {
         if ([[chromatogram model] isEqualToString:@"TIC"]) {
             return chromatogram;
         }
@@ -610,7 +604,7 @@ int const JKGCMSDocument_Version = 7;
 	dummy = nc_get_var_float(ncid, varid_totintens, totalIntensity);
 	if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting totintens variables failed.\nNetCDF error: %d",@""), dummy];
 	
-    chromatogram = [[JKChromatogram alloc] initWithModel:@"TIC"];
+    JKChromatogram *chromatogram = [[JKChromatogram alloc] initWithModel:@"TIC"];
     int i;
     for (i=0; i<numberOfPoints; i++) {
         time[i] = time[i]/60.0f;
@@ -696,10 +690,7 @@ int const JKGCMSDocument_Version = 7;
     //JKLogDebug(@"%@ %@",mzValuesString,[mzValues description]);
     
     // Check if such a chromatogram is already available
-    NSEnumerator *chromEnum = [[self chromatograms] objectEnumerator];
-    JKChromatogram *chromatogram = nil;
-
-    while ((chromatogram = [chromEnum nextObject]) != nil) {
+    for (JKChromatogram *chromatogram in [self chromatograms]) {
         if ([self modelString:[chromatogram model] isEqualToString:mzValuesString]) {
             return chromatogram;
         }
@@ -772,7 +763,7 @@ int const JKGCMSDocument_Version = 7;
 		}
 	}
     
-	chromatogram = nil;
+	JKChromatogram *chromatogram = nil;
 	
     //create a chromatogram object
     chromatogram = [[JKChromatogram alloc] initWithModel:mzValuesString];
@@ -1014,18 +1005,17 @@ int const JKGCMSDocument_Version = 7;
         JKLogError(@"spectrumToUse has unexpected value.");
     }
     
-    for (j = 0; j < entriesCount; j++) {
-        libraryEntry = [libraryEntries objectAtIndex:j];
+    for (libraryEntry in libraryEntries) {
         score = [peakSpectrum scoreComparedTo:libraryEntry];                    
         if (score >= minimumScoreSearchResultsF) {
             JKSearchResult *searchResult = [[JKSearchResult alloc] init];
             [searchResult setScore:[NSNumber numberWithFloat:score]];
-            [searchResult setLibraryHit:[JKLibraryEntry libraryEntryWithJCAMPString:[[libraryEntries objectAtIndex:j] jcampString]]];
+            [searchResult setLibraryHit:[JKLibraryEntry libraryEntryWithJCAMPString:[libraryEntry jcampString]]];
             [searchResult setPeak:aPeak];
             [aPeak addSearchResult:searchResult];
             [searchResult release];
         }
-        [progressIndicator performSelectorOnMainThread:@selector(incrementBy:) withObject:[NSNumber numberWithDouble:1.0] waitUntilDone:NO];
+//        [progressIndicator performSelectorOnMainThread:@selector(incrementBy:) withObject:[NSNumber numberWithDouble:1.0] waitUntilDone:NO];
 //        [progressIndicator incrementBy:1.0];
     }
 
@@ -1193,10 +1183,7 @@ int const JKGCMSDocument_Version = 7;
 	JKChromatogram *chrom;
 
 	for (chrom in newChromatograms) {
-		NSEnumerator *peakEnum = [[chrom peaks] objectEnumerator];
-		JKPeakRecord *peak;
-
-		while ((peak = [peakEnum nextObject]) != nil) {
+		for (JKPeakRecord *peak in [chrom peaks]) {
 			if (([peak countOfSearchResults] == 0) && ([peak identified] == NO) && ([peak confirmed] == NO)) {
                 [[chrom peaks] removeObject:peak];
             }
@@ -1257,11 +1244,8 @@ int const JKGCMSDocument_Version = 7;
 }
 
 - (void)removeUnidentifiedPeaks {
-    NSEnumerator *chromEnum = [[self chromatograms] objectEnumerator];
-    JKChromatogram *chrom;
-
-    while ((chrom = [chromEnum nextObject]) != nil) {
-    	[chrom removeUnidentifiedPeaks];
+    for (JKChromatogram *chromatogram in [self chromatograms]) {
+    	[chromatogram removeUnidentifiedPeaks];
     }
     [[self undoManager] setActionName:NSLocalizedString(@"Remove Unidentified Peaks",@"")];
 }
@@ -1349,10 +1333,7 @@ int const JKGCMSDocument_Version = 7;
 #pragma mark Doublures management
 - (BOOL)hasPeakConfirmedAs:(JKLibraryEntry *)libraryHit notBeing:(JKPeakRecord *)originatingPeak 
 {
-    NSEnumerator *peakEnum = [[self peaks] objectEnumerator];
-    JKPeakRecord *peak;
-    
-    while ((peak = [peakEnum nextObject]) != nil) {
+	for (JKPeakRecord *peak in [self peaks]) {
         if ([peak confirmed]) {
             if (peak != originatingPeak) {
                 if ([peak libraryHit]) {
@@ -1367,10 +1348,7 @@ int const JKGCMSDocument_Version = 7;
 }
 - (BOOL)hasPeakAtTopScan:(int)topScan notBeing:(JKPeakRecord *)originatingPeak
 {
-    NSEnumerator *peakEnum = [[self peaks] objectEnumerator];
-    JKPeakRecord *peak;
-    
-    while ((peak = [peakEnum nextObject]) != nil) {
+	for (JKPeakRecord *peak in [self peaks]) {
         if (peak != originatingPeak) {
             if ([peak top] == topScan) {
                 return YES;
@@ -1381,10 +1359,7 @@ int const JKGCMSDocument_Version = 7;
 }
 - (void)unconfirmPeaksConfirmedAs:(JKLibraryEntry *)libraryHit notBeing:(JKPeakRecord *)originatingPeak
 {
-    NSEnumerator *peakEnum = [[self peaks] objectEnumerator];
-    JKPeakRecord *peak;
-    
-    while ((peak = [peakEnum nextObject]) != nil) {
+	for (JKPeakRecord *peak in [self peaks]) {
         if ([peak confirmed]|[peak identified]) {
             if (peak != originatingPeak) {
                 if ([peak libraryHit]) {
@@ -1399,15 +1374,10 @@ int const JKGCMSDocument_Version = 7;
 }
 - (void)removePeaksAtTopScan:(int)topScan notBeing:(JKPeakRecord *)originatingPeak
 {
-    NSEnumerator *chromEnum = [[self chromatograms] objectEnumerator];
-    JKChromatogram *chromatogram;
-
-    while ((chromatogram = [chromEnum nextObject]) != nil) {
-        NSEnumerator *peakEnum = [[chromatogram peaks] objectEnumerator];
-        JKPeakRecord *peak;
+    for (JKChromatogram *chromatogram in [self chromatograms]) {
         int index;
         
-        while ((peak = [peakEnum nextObject]) != nil) {
+        for (JKPeakRecord *peak in [chromatogram peaks]) {
             if (peak != originatingPeak) {
                 if ([peak top] == topScan) {
                     index = [[chromatogram peaks] indexOfObject:peak];
@@ -1451,13 +1421,10 @@ int const JKGCMSDocument_Version = 7;
 	int peaksCount;
 	int maximumIndex;
 	float score, maximumScore;	
-	NSEnumerator *enumerator = [[originatingPeak searchResults] objectEnumerator];
-	id searchResult;
-	
 	peaksCount = [[self peaks] count];
 	
 	float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];
-	while ((searchResult = [enumerator nextObject])) {
+	for (JKSearchResult *searchResult in [originatingPeak searchResults]) {
 		maximumScore = 0.0;
 		maximumIndex = -1;
 		for (k = 0; k < peaksCount; k++) {
@@ -1483,11 +1450,10 @@ int const JKGCMSDocument_Version = 7;
 - (void)updateLibraryHits {
     BOOL flaggedPeak =  NO;
     BOOL peakConfirmed =  NO;
-    NSEnumerator *peakEnumerator = [[self peaks] objectEnumerator];
-    JKPeakRecord *peak = nil;
+
     JKLibraryEntry *anEntry = nil;
 
-    while ((peak = [peakEnumerator nextObject]) != nil) {
+    for (JKPeakRecord *peak in [self peaks]) {
     	if ([peak confirmed] || [peak identified]) {
             peakConfirmed = [peak confirmed];
             // Check if libraryHit present
@@ -1516,10 +1482,7 @@ int const JKGCMSDocument_Version = 7;
                 [peak confirm];
             }
         } else {
-             NSEnumerator *searchResultsEnumerator = [[peak searchResults] objectEnumerator];
-             JKSearchResult *searchResult;
-
-             while ((searchResult = [searchResultsEnumerator nextObject]) != nil) {
+              for (JKSearchResult *searchResult in [peak searchResults]) {
                  anEntry = [[NSApp delegate] libraryEntryForName:[[searchResult libraryHit] name]];
                  // Assign if found
                  if (anEntry) {
@@ -1539,10 +1502,7 @@ int const JKGCMSDocument_Version = 7;
 }
 
 - (void)resetSymbols {
-    NSEnumerator *peakEnumerator = [[self peaks] objectEnumerator];
-    JKPeakRecord *peak;
-
-    while ((peak = [peakEnumerator nextObject]) != nil) {
+    for (JKPeakRecord *peak in [self peaks]) {
     	[peak setSymbol:@""];
     }
 }
@@ -1602,6 +1562,19 @@ int const JKGCMSDocument_Version = 7;
     _lastReturnedIndex++;
     return _lastReturnedIndex;
 }
+
+- (float)confirmedPeaksSurface {
+    float totalPeakSurface = 0.0f;
+    
+    for (JKPeakRecord *peak in [self peaks]) {
+    	if ([peak confirmed]) {
+            totalPeakSurface += [[peak surface] floatValue];
+        }
+    }
+    
+    return totalPeakSurface;
+}
+
 #pragma mark -
 
 #pragma mark Key Value Observing
@@ -1783,10 +1756,7 @@ boolAccessor(abortAction, setAbortAction)
 }
 
 - (void)setChromatograms:(NSMutableArray *)inValue {
-    NSEnumerator *chromEnumerator = [chromatograms objectEnumerator];
-    JKChromatogram *chromatogram;
-    
-    for (chromatogram in chromatograms) {
+    for (JKChromatogram *chromatogram in [self chromatograms]) {
     	[chromatogram setContainer:nil];
     }
 
@@ -1795,7 +1765,7 @@ boolAccessor(abortAction, setAbortAction)
     chromatograms = inValue;
     
 
-    for (chromatogram in chromatograms) {
+    for (JKChromatogram *chromatogram in [self chromatograms]) {
     	[chromatogram setContainer:self];
     }
  }
@@ -1871,10 +1841,7 @@ boolAccessor(abortAction, setAbortAction)
 // these method was constructed.
 - (NSMutableArray *)peaks{
     NSMutableArray *array = [NSMutableArray arrayWithCapacity:256];
-    NSEnumerator *chromEnum = [[self chromatograms] objectEnumerator];
-    JKChromatogram *chromatogram;
-
-    while ((chromatogram = [chromEnum nextObject]) != nil) {
+    for (JKChromatogram *chromatogram in [self chromatograms]) {
 //        if (![[chromatogram model] isEqualToString:@"TIC"])
             [array addObjectsFromArray:[chromatogram peaks]];
     }
@@ -1893,19 +1860,15 @@ boolAccessor(abortAction, setAbortAction)
 	if (![undo isUndoing]) {
 		[undo setActionName:NSLocalizedString(@"Set Peaks",@"")];
 	}
-    NSEnumerator *chromEnum = [[self chromatograms] objectEnumerator];
-    JKChromatogram *chromatogram;
-    
-    while ((chromatogram = [chromEnum nextObject]) != nil) {
+
+    for (JKChromatogram *chromatogram in [self chromatograms]) {
         [chromatogram setPeaks:nil];
     }
     
 	JKPeakRecord *peak;
 	for (peak in array) {
         // Add the peak to the array
-        chromEnum = [[self chromatograms] objectEnumerator];
-         
-        while ((chromatogram = [chromEnum nextObject]) != nil) {
+        for (JKChromatogram *chromatogram in [self chromatograms]) {
             if (chromatogram == [peak chromatogram]) {
                 if (![[chromatogram peaks] containsObject:peak]) {
                     [chromatogram insertObject:peak inPeaksAtIndex:[[chromatogram peaks] count]];
@@ -1919,10 +1882,7 @@ boolAccessor(abortAction, setAbortAction)
 
 - (void)insertObject:(JKPeakRecord *)peak inPeaksAtIndex:(int)index{	
 	// Add the peak to the array
-    NSEnumerator *chromEnum = [[self chromatograms] objectEnumerator];
-    JKChromatogram *chromatogram;
-    
-    while ((chromatogram = [chromEnum nextObject]) != nil) {
+    for (JKChromatogram *chromatogram in [self chromatograms]) {
         if (chromatogram == [peak chromatogram]) {
             // Add the inverse action to the undo stack
             NSUndoManager *undo = [self undoManager];
@@ -1944,10 +1904,7 @@ boolAccessor(abortAction, setAbortAction)
 	JKPeakRecord *peak = [[self peaks] objectAtIndex:index];
 	
 	// Remove the peak from the array
-    NSEnumerator *chromEnum = [[self chromatograms] objectEnumerator];
-    JKChromatogram *chromatogram;
-    
-    while ((chromatogram = [chromEnum nextObject]) != nil) {
+    for (JKChromatogram *chromatogram in [self chromatograms]) {
         if ([[chromatogram peaks] containsObject:peak]) {
             // Add the inverse action to the undo stack
             NSUndoManager *undo = [self undoManager];

@@ -8,28 +8,27 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class GCMathParser;
 
 @interface JKRatio : NSObject <NSCoding> {
 	NSString *name;
 	NSString *formula;
     NSString *valueType;
     
-	NSArray *nominatorArray;
-	NSArray *denominatorArray;
+    GCMathParser *_parser;
+    NSMutableDictionary *_varKeys;
+    NSString *_expression;
+    NSMutableDictionary *_cachedResults;
 }
 
 - (id)initWithString:(NSString *)string; //Designated initializer
+- (void)reset;
+- (double)calculateRatioForKey:(NSString *)key inCombinedPeaksArray:(NSArray *)combinedPeaks;
 
-- (float)calculateRatioForKey:(NSString *)key inCombinedPeaksArray:(NSArray *)combinedPeaks;
-
-- (NSString *)getNominator;
-- (NSString *)getDenominator;
-- (NSArray *)compoundsInString:(NSString *)string;
-- (NSArray *)nominatorArray;
-- (NSArray *)denominatorArray;
 - (NSString *)formula;
 - (void)setFormula:(NSString *)inValue;
 - (NSString *)name;
 - (void)setName:(NSString *)inValue;
-
+- (NSString *)valueType;
+- (void)setValueType:(NSString *)inValue;
 @end

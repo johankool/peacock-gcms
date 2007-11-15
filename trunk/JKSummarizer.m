@@ -24,7 +24,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didUnconfirmPeak:) name:@"JKDidUnconfirmPeak" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentLoaded:) name:@"JKGCMSDocument_DocumentLoadedNotification" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentUnloaded:) name:@"JKGCMSDocument_DocumentUnloadedNotification" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupRatios) name:NSUserDefaultsDidChangeNotification object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupRatios) name:NSUserDefaultsDidChangeNotification object:nil];
 		[self setupRatios];
     }
     return self;
@@ -34,6 +34,24 @@
 {
     [ratios removeAllObjects];
  	NSArray *prefRatios = [[NSUserDefaults standardUserDefaults] valueForKey:@"ratios"];
+    NSString *ratioType;
+    int tag = [[[NSUserDefaults standardUserDefaults] valueForKey:@"ratiosValueType"] intValue];
+    switch (tag) {
+        case 0:
+            ratioType = @"surface";
+            break;
+        case 1:
+            ratioType = @"normalizedSurface";
+            break;
+        case 2:
+            ratioType = @"normalizedSurface2";
+            break;
+        case 3:
+            ratioType = @"height";
+            break;
+        default:
+            break;
+    }
     if (prefRatios) {
         NSDictionary *aRatio;
         
@@ -43,6 +61,7 @@
             JKRatio *newRatio = [[JKRatio alloc] initWithString:@""];
             [newRatio setFormula:[aRatio valueForKey:@"formula"]];
             [newRatio setName:[aRatio valueForKey:@"label"]];
+            [newRatio setValueType:ratioType];
             [ratios addObject:newRatio];
             [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"ratios"];
         }
@@ -77,10 +96,7 @@
 - (void)documentLoaded:(NSNotification *)aNotification
 {
     JKGCMSDocument *document = [aNotification object];
-    NSEnumerator *enumerator = [[document peaks] objectEnumerator];
-    JKPeakRecord *peak;
-
-    while ((peak = [enumerator nextObject])) {
+  	for (JKPeakRecord *peak in [document peaks]) {
         if ([peak confirmed]) {
             JKCombinedPeak *combinedPeak = [self combinedPeakForLabel:[peak label]];
             if (!combinedPeak) {
@@ -114,8 +130,8 @@
 {
     JKCombinedPeak *combinedPeak;
     
-    for (combinedPeak in combinedPeaks) {
-        if ([combinedPeak isIdenticalToCompound:label]) {
+    for (combinedPeak in [self combinedPeaks]) {
+        if ([combinedPeak isCompound:label]) {
             return combinedPeak;
         }       
     }    
@@ -161,24 +177,24 @@
     NSSortDescriptor *retentionIndexDescriptor =[[NSSortDescriptor alloc] initWithKey:@"averageRetentionIndex" 
                                                                             ascending:YES];
     NSArray *sortDescriptors=[NSArray arrayWithObjects:retentionIndexDescriptor,nil];
-    [[self combinedPeaks] sortUsingDescriptors:sortDescriptors];
+    NSArray *sortedCombinedPeaks = [[self combinedPeaks] sortedArrayUsingDescriptors:sortDescriptors];
     [retentionIndexDescriptor release];
     
-    compoundCount = [combinedPeaks count];
+    compoundCount = [sortedCombinedPeaks count];
     
     if (groupSymbols) {
         // Compound symbol
         for (j=0; j < compoundCount; j++) {
-            compound = [combinedPeaks objectAtIndex:j];
+            compound = [sortedCombinedPeaks objectAtIndex:j];
             // ensure symbol is set
             if (![compound group] || [[compound group] isEqualToString:@""]) {
                 [compound setGroup:@"X"];
             }
-//            if (([compound symbol]) && (![[compound symbol] isEqualToString:@""]) && ([uniqueSymbolArray indexOfObjectIdenticalTo:[compound symbol]] == NSNotFound)) {
-//                [compound setSymbol:[compound symbol]];
-//                [uniqueSymbolArray addObject:[compound symbol]];
-//                continue;
-//            }
+            if (([compound symbol]) && (![[compound symbol] isEqualToString:@""]) && ([uniqueSymbolArray indexOfObjectIdenticalTo:[compound symbol]] == NSNotFound)) {
+                [compound setSymbol:[compound symbol]];
+                [uniqueSymbolArray addObject:[compound symbol]];
+                continue;
+            }
             // replace odd characters
             // ensure symbol starts with letter
             //        if ([[compound group] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location == 0) {
@@ -202,14 +218,14 @@
             } else {
                 // must be unique (note that a few cases are missed here, e.g. when a group is named X (and gets count 11 and another X1 and gets count 1)
                 [compound setSymbol:[NSString stringWithFormat:@"%@%d", [compound group], [countForGroup intValue]]];            
-        }
+            }
             [uniqueSymbolArray addObject:[compound symbol]];
         }
         
     } else {
         // Compound symbol
         for (j=0; j < compoundCount; j++) {
-            compound = [combinedPeaks objectAtIndex:j];
+            compound = [sortedCombinedPeaks objectAtIndex:j];
             [compound setSymbol:[NSString stringWithFormat:@"%d", j+1]];            
         }
     }

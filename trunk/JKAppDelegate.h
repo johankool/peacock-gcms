@@ -61,8 +61,8 @@
 - (JKLibraryEntry *)libraryEntryForName:(NSString *)compoundString;
 
 - (NSArray *)autocompleteEntries;
-- (void)setAutocompleteEntries:(NSArray *)aAutocompleteEntries;
-- (NSArray *)autocompleteEntriesForModel:(NSString *)model;
+//- (void)setAutocompleteEntries:(NSArray *)aAutocompleteEntries;
+//- (NSArray *)autocompleteEntriesForModel:(NSString *)model;
 
 - (JKSummaryController *)summaryController;
 - (JKSummarizer *)summarizer;

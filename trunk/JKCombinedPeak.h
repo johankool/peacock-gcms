@@ -39,7 +39,7 @@
 - (BOOL)isValidDocumentKey:(NSString *)aKey;
 - (void)addConfirmedPeak:(JKPeakRecord *)aPeak;
 - (void)removeUnconfirmedPeak:(JKPeakRecord *)aPeak;
-- (BOOL)isIdenticalToCompound:(NSString *)aString;
+- (BOOL)isCompound:(NSString *)aString;
 
 #pragma mark SPECIAL ACCESSORS
 - (id)valueForUndefinedKey:(NSString *)key;

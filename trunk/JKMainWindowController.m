@@ -78,7 +78,7 @@ static void *PeaksObservationContext = (void *)1103;
 }
 
 - (void)windowDidLoad {
-    JKLogEnteringMethod();
+//    JKLogEnteringMethod();
     
 	// Setup the toolbar after the document nib has been loaded 
     [self setupToolbar];	
@@ -161,8 +161,10 @@ static void *PeaksObservationContext = (void *)1103;
     NSTabViewItem *searchResultsTabViewItem = [[NSTabViewItem alloc] initWithIdentifier:@"searchResults"];
     [searchResultsTabViewItem setView:searchResultsTabViewItemView];
     [detailsTabView addTabViewItem:searchResultsTabViewItem];
-    [moleculeSplitSubview setHidden:YES];
-    [detailsSplitSubview setHidden:YES];
+
+// Commented out because already hidden by default and relative expensive in this method    
+//    [moleculeSplitSubview setHidden:YES];
+//    [detailsSplitSubview setHidden:YES];
     [[detailsTabViewItemScrollView contentView] scrollToPoint:NSMakePoint(0.0f,1000.0f)];
     _lastDetailsSplitSubviewDimension = [detailsSplitSubview dimension];
     
@@ -471,10 +473,7 @@ static void *PeaksObservationContext = (void *)1103;
 }
 
 - (IBAction)confirm:(id)sender {
-	NSEnumerator *enumerator = [[peakController selectedObjects] objectEnumerator];
-	id peak;
-	
-	while ((peak = [enumerator nextObject])) {
+	for (JKPeakRecord *peak in [peakController selectedObjects]) {
 		if ([peak identified]) {
 			[peak confirm];
 		} else if ([[searchResultsController selectedObjects] count] == 1) {
@@ -522,13 +521,8 @@ static void *PeaksObservationContext = (void *)1103;
 //}
 
 - (IBAction)discard:(id)sender {
-	NSEnumerator *enumerator = [[peakController selectedObjects] objectEnumerator];
-	id peak;
-	
-	while ((peak = [enumerator nextObject])) {
-//		if ([peak identified]) {
-			[peak discard];
-//		} 
+	for (JKPeakRecord *peak in [peakController selectedObjects]) {
+        [peak discard];
 	}
 }
 
@@ -768,11 +762,9 @@ static void *PeaksObservationContext = (void *)1103;
         NSArray *peakColorsArray = [peakColors allKeys];
         int peakColorsArrayCount = [peakColorsArray count];
         
-        NSEnumerator *peakEnumerator = [[peakController selectedObjects] objectEnumerator];
-        JKPeakRecord *peak;
         PKSpectrumDataSeries *sgds;
         
-        while ((peak = [peakEnumerator nextObject]) != nil) {
+        for (JKPeakRecord *peak in [peakController selectedObjects]) {
             if (showCombinedSpectrum) {
                 sgds = [[[PKSpectrumDataSeries alloc] initWithSpectrum:[peak combinedSpectrum]] autorelease];
             } else {
@@ -788,10 +780,7 @@ static void *PeaksObservationContext = (void *)1103;
         }
         
         if (showLibraryHit) {
-            NSEnumerator *searchResultEnumerator = [[searchResultsController selectedObjects] objectEnumerator];
-            NSDictionary *searchResult;
-            
-            while ((searchResult = [searchResultEnumerator nextObject]) != nil) {
+            for (JKSearchResult *searchResult in [searchResultsController selectedObjects]) {
                 sgds = [[[PKSpectrumDataSeries alloc] initWithSpectrum:[searchResult valueForKey:@"libraryHit"]] autorelease];
                 [sgds setDrawUpsideDown:YES];
                 if (showNormalizedSpectra) {
@@ -898,10 +887,8 @@ static void *PeaksObservationContext = (void *)1103;
     int prevCount = [chromatogramDataSeries count];
     
     [chromatogramDataSeries removeAllObjects];
-    NSEnumerator *chromatogramEnumerator = [[[self document] chromatograms] objectEnumerator];
-    JKChromatogram *chromatogram;
     
-    while ((chromatogram = [chromatogramEnumerator nextObject]) != nil) {
+    for (JKChromatogram *chromatogram in [[self document] chromatograms]) {
         if ([chromatogramsTableSplitView isCollapsed]) {
             if ( (!showTICTrace && !showSelectedChromatogramsOnly && ![[chromatogram model] isEqualToString:@"TIC"]) || 
                  (!showTICTrace && showSelectedChromatogramsOnly && ([[[peakController selectedObjects] valueForKey:@"model"] indexOfObjectIdenticalTo:[chromatogram model]] != NSNotFound)) ||
@@ -974,9 +961,7 @@ static void *PeaksObservationContext = (void *)1103;
     if (subview == chromatogramsTableSplitView) {
         if ([[peakController selectedObjects] count] > 0) {
             NSMutableArray *chromsToSelect = [NSMutableArray array];
-            NSEnumerator *peakEnum = [[peakController selectedObjects] objectEnumerator];
-            JKPeakRecord *peak;
-            while ((peak = [peakEnum nextObject]) != nil) {
+            for (JKPeakRecord *peak in [peakController selectedObjects]) {
                 [chromsToSelect addObject:[[self document] chromatogramForModel:[peak model]]];
             }
             [chromatogramsController setSelectedObjects:chromsToSelect];            
@@ -1433,15 +1418,14 @@ static void *PeaksObservationContext = (void *)1103;
 
 #pragma mark Data source for pulldown menu label 
 - (NSString *)comboBoxCell:(NSComboBoxCell *)aComboBoxCell completedString:(NSString *)uncompletedString {
-    NSEnumerator *entriesEnumerator;
-    if ([[[self chromatogramsController] selectedObjects] count] == 1) {
-        entriesEnumerator = [[[NSApp delegate] autocompleteEntriesForModel:[[[[self chromatogramsController] selectedObjects] objectAtIndex:0] model]] objectEnumerator];
-    } else {
-        entriesEnumerator = [[[NSApp delegate] autocompleteEntries] objectEnumerator];
-    }
-    NSString *entry;
+//    NSEnumerator *entriesEnumerator;
+//    if ([[[self chromatogramsController] selectedObjects] count] == 1) {
+//        entriesEnumerator = [[[NSApp delegate] autocompleteEntriesForModel:[[[[self chromatogramsController] selectedObjects] objectAtIndex:0] model]] objectEnumerator];
+//    } else {
+//        entriesEnumerator = [[[NSApp delegate] autocompleteEntries] objectEnumerator];
+//    }
 
-    while ((entry = [entriesEnumerator nextObject]) != nil) {
+    for (NSString *entry in [[NSApp delegate] autocompleteEntries]) {
     	if ([entry hasPrefix:uncompletedString]) {
             return entry;
         }
@@ -1451,11 +1435,11 @@ static void *PeaksObservationContext = (void *)1103;
 - (unsigned int)comboBoxCell:(NSComboBoxCell *)aComboBoxCell indexOfItemWithStringValue:(NSString *)aString {
     int i, count;
     NSArray *autocompleteArray;
-    if ([[[self chromatogramsController] selectedObjects] count] == 1) {
-        autocompleteArray = [[NSApp delegate] autocompleteEntriesForModel:[[[[self chromatogramsController] selectedObjects] objectAtIndex:0] model]];
-    } else {
+//    if ([[[self chromatogramsController] selectedObjects] count] == 1) {
+//        autocompleteArray = [[NSApp delegate] autocompleteEntriesForModel:[[[[self chromatogramsController] selectedObjects] objectAtIndex:0] model]];
+//    } else {
         autocompleteArray = [[NSApp delegate] autocompleteEntries];
-    }
+//    }
     count = [autocompleteArray count];
     for (i = 0; i < count; i++) {
         if ([[autocompleteArray objectAtIndex:i] isEqualToString:aString]) {
@@ -1466,18 +1450,18 @@ static void *PeaksObservationContext = (void *)1103;
     
 }
 - (id)comboBoxCell:(NSComboBoxCell *)aComboBoxCell objectValueForItemAtIndex:(int)index {
-    if ([[[self chromatogramsController] selectedObjects] count] == 1) {
-        return [[[NSApp delegate] autocompleteEntriesForModel:[[[[self chromatogramsController] selectedObjects] objectAtIndex:0] model]] objectAtIndex:index];
-    } else {
+//    if ([[[self chromatogramsController] selectedObjects] count] == 1) {
+//        return [[[NSApp delegate] autocompleteEntriesForModel:[[[[self chromatogramsController] selectedObjects] objectAtIndex:0] model]] objectAtIndex:index];
+//    } else {
         return [[[NSApp delegate] autocompleteEntries] objectAtIndex:index];
-    }
+//    }
 }
 - (int)numberOfItemsInComboBoxCell:(NSComboBoxCell *)aComboBoxCell {
-    if ([[[self chromatogramsController] selectedObjects] count] == 1) {
-        return [[[NSApp delegate] autocompleteEntriesForModel:[[[[self chromatogramsController] selectedObjects] objectAtIndex:0] model]] count];
-   } else {
+//    if ([[[self chromatogramsController] selectedObjects] count] == 1) {
+//        return [[[NSApp delegate] autocompleteEntriesForModel:[[[[self chromatogramsController] selectedObjects] objectAtIndex:0] model]] count];
+//   } else {
         return [[[NSApp delegate] autocompleteEntries] count];
-    }
+ //   }
 }
 #pragma mark -
 
