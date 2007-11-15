@@ -1976,7 +1976,6 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
 				OTHER_CFLAGS = "-Wformat=2";
 				PRODUCT_NAME = Peacock;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SYMROOT = build/Mac;
 				WRAPPER_EXTENSION = app;
 			};

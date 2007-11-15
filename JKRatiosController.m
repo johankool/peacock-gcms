@@ -60,7 +60,6 @@
         // Values
         JKRatio *ratio;
         NSString *format = @"\t%@";
-        id value;
         for (ratio in [ratiosController arrangedObjects]) {
             [outString appendFormat:@"%@", [ratio name]];
             for (document in [[PKDocumentController sharedDocumentController] managedDocuments]) {
