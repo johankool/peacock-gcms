@@ -965,8 +965,7 @@ int const JKGCMSDocument_Version = 7;
 //    _isBusy = YES;
 	NSArray *libraryEntries = nil;
     JKLibraryEntry *libraryEntry = nil;
-	int j;
-	int entriesCount;
+//	int entriesCount;
 	float score;	
     float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];
 
@@ -991,10 +990,10 @@ int const JKGCMSDocument_Version = 7;
     if (!libraryEntries) {
         return NO;
     }
-    entriesCount = [libraryEntries count];
-	
-    [progressIndicator setIndeterminate:NO];
-	[progressIndicator setMaxValue:entriesCount*1.0];
+//    entriesCount = [libraryEntries count];
+//	
+//    [progressIndicator setIndeterminate:NO];
+//	[progressIndicator setMaxValue:entriesCount*1.0];
     [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:NSLocalizedString(@"Comparing Library Entries",@"") waitUntilDone:NO];
 	JKSpectrum *peakSpectrum = nil;
     if (spectrumToUse == JKSpectrumSearchSpectrum) {

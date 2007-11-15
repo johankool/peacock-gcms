@@ -478,7 +478,7 @@
 
 #pragma mark Sorting
 - (NSArray *)mzValues {
-    int i,j;
+    int j;
     
     if (![self model] || [[self model] isEqualToString:@""]) {
         return nil;
