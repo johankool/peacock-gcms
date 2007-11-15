@@ -530,17 +530,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
             NSRunAlertPanel(NSLocalizedString(@"No Libraries could be opened or created",@""),NSLocalizedString(@"This is not good. Identifying compounds isn't going to work.",@""),@"OK, I guess...",nil,nil);
         }        
      }
-    // Get all synonyms for autocomplete in label fields
-    NSMutableArray *aNewAutocompleteEntries = [NSMutableArray array];
-    NSEnumerator *entriesEnumerator = [[library libraryEntries] objectEnumerator];
-    JKManagedLibraryEntry *managedLibEntry;
-
-    while ((managedLibEntry = [entriesEnumerator nextObject]) != nil) {
-    	[aNewAutocompleteEntries addObjectsFromArray:[managedLibEntry synonymsArray]];
-    }
-    [aNewAutocompleteEntries sortUsingSelector:@selector(compare:)];
-    [self setAutocompleteEntries:aNewAutocompleteEntries];
-//    JKLogDebug([aNewAutocompleteEntries description]);
+    
     // Store configuration
     [libraryConfigurationLoaded release];
     [configuration retain];
@@ -566,6 +556,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 
 - (JKLibrary *)library
 {
+//    [self loadLibraryForConfiguration:libraryConfigurationLoaded];
     return library;
 }
 
@@ -632,11 +623,9 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 
 - (JKLibraryEntry *)libraryEntryForName:(NSString *)compoundString {
     int result = 0;
-    NSEnumerator *libraryEntriesEnumerator = [[library libraryEntries] objectEnumerator];
-    JKManagedLibraryEntry *managedLibEntry;
     JKManagedLibraryEntry *foundLibEntry;
 
-    while ((managedLibEntry = [libraryEntriesEnumerator nextObject]) != nil) {
+    for (JKManagedLibraryEntry *managedLibEntry in [library libraryEntries]) {
     	if ([managedLibEntry isCompound:compoundString]) {
             foundLibEntry = managedLibEntry;
             result++;
@@ -653,25 +642,24 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     }
 }
 - (NSArray *)autocompleteEntries {
-	return autocompleteEntries;
+    return [[summarizer combinedPeaks] valueForKey:@"label"];
+//	return autocompleteEntries;
 }
-- (void)setAutocompleteEntries:(NSArray *)aAutocompleteEntries {
-	if (aAutocompleteEntries != autocompleteEntries) {
-		[autocompleteEntries autorelease];
-		autocompleteEntries = [aAutocompleteEntries retain];
-	}
-}
-- (NSArray *)autocompleteEntriesForModel:(NSString *)model {
-    // Get all synonyms for autocomplete in label fields
-    NSMutableArray *aNewAutocompleteEntries = [NSMutableArray array];
-    NSEnumerator *entriesEnumerator = [[library libraryEntriesWithPredicate:[NSPredicate predicateWithFormat:@"model == %@", model]] objectEnumerator];
-    JKManagedLibraryEntry *managedLibEntry;
-    while ((managedLibEntry = [entriesEnumerator nextObject]) != nil) {
-    	[aNewAutocompleteEntries addObjectsFromArray:[managedLibEntry synonymsArray]];
-    }
-    [aNewAutocompleteEntries sortUsingSelector:@selector(compare:)];
-    return aNewAutocompleteEntries;
-}
+//- (void)setAutocompleteEntries:(NSArray *)aAutocompleteEntries {
+//	if (aAutocompleteEntries != autocompleteEntries) {
+//		[autocompleteEntries autorelease];
+//		autocompleteEntries = [aAutocompleteEntries retain];
+//	}
+//}
+//- (NSArray *)autocompleteEntriesForModel:(NSString *)model {
+//    // Get all synonyms for autocomplete in label fields
+//    NSMutableArray *aNewAutocompleteEntries = [NSMutableArray array];
+//    for (JKManagedLibraryEntry *managedLibEntry in [library libraryEntriesWithPredicate:[NSPredicate predicateWithFormat:@"model == %@", model]]) {
+//    	[aNewAutocompleteEntries addObjectsFromArray:[managedLibEntry synonymsArray]];
+//    }
+//    [aNewAutocompleteEntries sortUsingSelector:@selector(compare:)];
+//    return aNewAutocompleteEntries;
+//}
 #pragma mark -
 
 #pragma mark Plugins

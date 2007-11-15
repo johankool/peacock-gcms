@@ -16,19 +16,22 @@
     JKLibraryEntry *libraryHit;
     JKPeakRecord *peak;
     int spectrumType; // 0 = spectrum; 1 = combinedSpectrum
+//    NSURL *libraryHitURI;
 }
 
 - (NSNumber *)deltaRetentionIndex;
 
-- (NSNumber *)score;
-- (void)setScore:(NSNumber *)inValue;
+//- (NSNumber *)score;
+//- (void)setScore:(NSNumber *)inValue;
+//
+//- (JKLibraryEntry *)libraryHit;
+//- (void)setLibraryHit:(JKLibraryEntry *)libraryHit;
+//
+//- (JKPeakRecord *)peak;
+//- (void)setPeak:(JKPeakRecord *)aPeak;
 
-- (JKLibraryEntry *)libraryHit;
-- (void)setLibraryHit:(JKLibraryEntry *)libraryHit;
-
-- (JKPeakRecord *)peak;
-- (void)setPeak:(JKPeakRecord *)aPeak;
-
-@property (assign,getter=peak,setter=setPeak:) JKPeakRecord *peak;
+@property (copy) NSNumber *score;
+@property (retain) JKLibraryEntry *libraryHit;
+@property (retain) JKPeakRecord *peak;
 @property int spectrumType;
 @end

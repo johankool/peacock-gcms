@@ -378,12 +378,10 @@ static void *PropertyObservationContext = (void *)1093;
     
 	// Draw seleced peak!
 	NSMutableArray *selectedPeaks = [NSMutableArray array];
-    NSEnumerator *enumerator = [[self peaks] objectEnumerator];
-    JKPeakRecord *aPeak;
-    
-    while ((aPeak = [enumerator nextObject]) != nil) {
-    	if ([[[view peaksContainer] selectedObjects] containsObject:aPeak]) {
-            [selectedPeaks addObject:aPeak];
+     
+    for (JKPeakRecord *peak in [self peaks]) {
+    	if ([[[view peaksContainer] selectedObjects] containsObject:peak]) {
+            [selectedPeaks addObject:peak];
         } 
     }
 	count = [selectedPeaks count];

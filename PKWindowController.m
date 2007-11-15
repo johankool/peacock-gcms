@@ -30,32 +30,43 @@
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {
     if ([[tabViewItem identifier] isKindOfClass:[JKGCMSDocument class]]) {
+        for (NSTabViewItem *anyTabViewItem in [tabView tabViewItems]) {
+            if ([[anyTabViewItem identifier] isKindOfClass:[JKGCMSDocument class]])
+                [[[anyTabViewItem identifier] mainWindowController] setWindow:nil];
+        }
         [[tabViewItem identifier] addWindowController:self];
         [[self window] setTitle:[[[tabViewItem identifier] mainWindowController] windowTitleForDocumentDisplayName:[[tabViewItem identifier] displayName]]];
-//        [[self window] setTitleWithRepresentedFilename:[[tabViewItem identifier] fileName]];
-//        [[self window] setNextResponder:[[tabViewItem identifier] mainWindowController]];
+        [[self window] setNextResponder:(NSResponder *)[[tabViewItem identifier] mainWindowController]];
         [[[tabViewItem identifier] mainWindowController] setWindow:[self window]];
      } else if ([[tabViewItem identifier] isEqualToString:@"summary"]) {
-        [[self document] removeWindowController:self];
+         for (NSTabViewItem *anyTabViewItem in [tabView tabViewItems]) {
+             if ([[anyTabViewItem identifier] isKindOfClass:[JKGCMSDocument class]])
+                 [[[anyTabViewItem identifier] mainWindowController] setWindow:nil];
+             [[self document] removeWindowController:self];
+         }
         [[self window] setTitleWithRepresentedFilename:@""];
         [[self window] setTitle:@"Summary"];
         [[self document] removeWindowController:self];
-//        [[self window] setDelegate:self];
-//        [[self window] setNextResponder:(NSResponder *)[(JKAppDelegate *)[NSApp delegate] summaryController]];
+        [[self window] setNextResponder:(NSResponder *)[(JKAppDelegate *)[NSApp delegate] summaryController]];
     } else if ([[tabViewItem identifier] isEqualToString:@"ratios"]) {
-        [[self document] removeWindowController:self];
+        for (NSTabViewItem *anyTabViewItem in [tabView tabViewItems]) {
+            if ([[anyTabViewItem identifier] isKindOfClass:[JKGCMSDocument class]])
+                [[[anyTabViewItem identifier] mainWindowController] setWindow:nil];
+        }
+            [[self document] removeWindowController:self];
         [[self window] setTitleWithRepresentedFilename:@""];
         [[self window] setTitle:@"Ratios"];
         [[self document] removeWindowController:self];
-//        [[self window] setDelegate:self];
-//       [[self window] setNextResponder:(NSResponder *)[(JKAppDelegate *)[NSApp delegate] ratiosController]];
+        [[self window] setNextResponder:(NSResponder *)[(JKAppDelegate *)[NSApp delegate] ratiosController]];
 	} else if ([[tabViewItem identifier] isEqualToString:@"multiple"]) {
-        [[self document] removeWindowController:self];
+        for (NSTabViewItem *anyTabViewItem in [tabView tabViewItems]) {
+            if ([[anyTabViewItem identifier] isKindOfClass:[JKGCMSDocument class]])
+                [[[anyTabViewItem identifier] mainWindowController] setWindow:nil];
+        }
+            [[self document] removeWindowController:self];
         [[self window] setTitleWithRepresentedFilename:@""];
         [[self window] setTitle:@"Multiple Items Selected"];
         [[self document] removeWindowController:self];
-//        [[self window] setNextResponder:nil];
-//        [[self window] setDelegate:self];
 	}
 }
 

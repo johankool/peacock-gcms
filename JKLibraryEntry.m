@@ -614,9 +614,10 @@ idAccessor(library, setLibrary)
 {
     NSArray *synonymsArray = [self synonymsArray];
     NSString *synonym;
+    compoundString = [compoundString lowercaseString];
     
     for (synonym in synonymsArray) {
-        if ([synonym isEqualToString:compoundString]) {
+        if ([[synonym lowercaseString] isEqualToString:compoundString]) {
             return YES;
         }
     }

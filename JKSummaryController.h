@@ -26,6 +26,7 @@
 - (int)formatForValue;
 - (BOOL)sortDirection;
 - (NSString *)sortKey;
+- (IBAction)export:(id)sender;
 
 @property (getter=indexOfKeyForValue,setter=setIndexOfKeyForValue:) int indexOfKeyForValue;
 @property (retain) NSArray *sortKeys;

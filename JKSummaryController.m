@@ -27,7 +27,9 @@
         indexOfSortKey = 0;
         sortDirection = YES;
         keys = [[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"topTime", @"key", NSLocalizedString(@"Top Time", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
-            						     [NSDictionary dictionaryWithObjectsAndKeys:@"surface", @"key", NSLocalizedString(@"Surface", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"surface", @"key", NSLocalizedString(@"Surface", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"normalizedSurface", @"key", NSLocalizedString(@"Normalized Surface (largest peak)", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
+            [NSDictionary dictionaryWithObjectsAndKeys:@"normalizedSurface2", @"key", NSLocalizedString(@"Normalized Surface (confirmed peaks)", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
             [NSDictionary dictionaryWithObjectsAndKeys:@"retentionIndex", @"key", NSLocalizedString(@"Retention Index", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
             [NSDictionary dictionaryWithObjectsAndKeys:@"model", @"key", NSLocalizedString(@"Model", @""), @"localized", [NSNumber numberWithInt:1], @"format", nil], 
             [NSDictionary dictionaryWithObjectsAndKeys:@"height", @"key", NSLocalizedString(@"Height", @""), @"localized", [NSNumber numberWithInt:0], @"format", nil], 
@@ -221,9 +223,7 @@
 
 - (void)updateTableColumnBindings
 {
-    NSEnumerator *enumerator = [[tableView tableColumns] objectEnumerator];
-    NSTableColumn *tableColumn;
-    while ((tableColumn = [enumerator nextObject])) {
+    for (NSTableColumn *tableColumn in [tableView tableColumns]) {
         if ([[tableColumn identifier] isKindOfClass:[JKGCMSDocument class]]) {
             NSString *keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.%@",[[tableColumn identifier] uuid],[self keyForValue]];
             [tableColumn bind:@"value" toObject:combinedPeaksController withKeyPath:keyPath options:nil];
@@ -287,9 +287,9 @@
 	if (([sender clickedRow] == -1) && ([sender clickedColumn] == -1)) {
 		return;
 	} else if ([sender clickedColumn] == 0) {
-       [[NSApp delegate] editLibrary:self];
+       [(JKAppDelegate *)[NSApp delegate] editLibrary:self];
         JKLogDebug(@"label = %@", [[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedColumn]] valueForKey:@"label"]);
-       [[[[[NSApp delegate] library] libraryWindowController] libraryController] setSelectedObjects:[NSArray arrayWithObject:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedColumn]] valueForKey:@"libraryHit"]]];
+       [[[[(JKAppDelegate *)[NSApp delegate] library] libraryWindowController] libraryController] setSelectedObjects:[NSArray arrayWithObject:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedColumn]] valueForKey:@"libraryHit"]]];
 		return;
     } else if ([sender clickedRow] == -1) {
         // A column was double clicked

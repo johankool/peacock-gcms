@@ -142,7 +142,7 @@
 
 - (void) awakeFromNib {
 	// don't forget this super call
-    // [super awakeFromNib] // causes crash??!
+//    [super awakeFromNib]; // causes crash??!
 	separatorCell = [[JKSeparatorCell alloc] init];
 	defaultCell = [[JKImageTextCell alloc] initTextCell:@"Default title"];
 	
@@ -194,7 +194,6 @@
     	[[NSApp mainWindow] performSelector:@selector(performClose:) withObject:self];
     } else {
         if ([documentTableView selectedRow] > [self numberOfSummaries]) {
-#warning [BUG] On quitting with multiple edited docs this goes awry when the user selects "Review changes"
             JKGCMSDocument *doc = [[documentTabView selectedTabViewItem] identifier];
             [doc canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
          } else {

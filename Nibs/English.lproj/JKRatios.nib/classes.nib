@@ -39,6 +39,13 @@
 			<string>ObjC</string>
 		</dict>
 		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>export</key>
+				<string>id</string>
+				<key>reset</key>
+				<string>id</string>
+			</dict>
 			<key>CLASS</key>
 			<string>JKRatiosController</string>
 			<key>LANGUAGE</key>

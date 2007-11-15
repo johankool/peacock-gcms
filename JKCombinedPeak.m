@@ -10,7 +10,6 @@
 
 #import "JKPeakRecord.h"
 #import "JKSpectrum.h"
-// #import "JKStatisticsDocument.h"
 #import "JKLibraryEntry.h"
 #import "JKGCMSDocument.h"
 
@@ -21,6 +20,7 @@
 	if ((self = [super init]) != nil) {
 		peaks = [[NSMutableDictionary alloc] init];
         index = -1;
+        label = @"Combined Peak";
 	}
 	return self;
 }
@@ -102,10 +102,7 @@
 
 #pragma mark ACTIONS
 - (void)confirm {
-    JKPeakRecord *peak = nil;
-	NSEnumerator *peaksEnumerator = [[self peaks] objectEnumerator];
-    
-    while ((peak = [peaksEnumerator nextObject])) {
+	for (JKPeakRecord *peak in [[self peaks] allValues]) {
         if ([peak identified] | [peak confirmed]) {
             [peak confirm];
         } else if ([[peak searchResults] count] > 0) {
@@ -120,10 +117,7 @@
 #pragma mark CALCULATED ACCESSORS
 - (NSNumber *)certainty {
     int count = 0;
-    NSEnumerator *peakEnum = [peaks objectEnumerator];
-    JKPeakRecord *peak;
-
-    while ((peak = [peakEnum nextObject]) != nil) {
+	for (JKPeakRecord *peak in [[self peaks] allValues]) {
     	if ([peak confirmed]) {
             count++;
         }
@@ -132,11 +126,8 @@
     return [NSNumber numberWithFloat:count*1.0f/[self countOfPeaks]];
 }
 - (NSNumber *)averageRetentionIndex {
-    JKPeakRecord *peak = nil;
-	NSEnumerator *peaksEnumerator = [[self peaks] objectEnumerator];
-	float sum = 0.0f;
-    
-    while ((peak = [peaksEnumerator nextObject])) {
+  	float sum = 0.0f;
+	for (JKPeakRecord *peak in [[self peaks] allValues]) {
         sum = sum + [[peak retentionIndex] floatValue];
     }
     
@@ -145,11 +136,8 @@
     
  }
 - (NSNumber *)averageSurface {
-  	JKPeakRecord *peak = nil;
-	NSEnumerator *peaksEnumerator = [[self peaks] objectEnumerator];
 	float sum = 0.0f;
-    
-    while ((peak = [peaksEnumerator nextObject])) {
+	for (JKPeakRecord *peak in [[self peaks] allValues]) {
         sum = sum + [[peak surface] floatValue];
     }
     
@@ -158,11 +146,8 @@
 }
 
 - (NSNumber *)averageHeight {
-  	JKPeakRecord *peak = nil;
-	NSEnumerator *peaksEnumerator = [[self peaks] objectEnumerator];
-	float sum = 0.0f;
-    
-    while ((peak = [peaksEnumerator nextObject])) {
+ 	float sum = 0.0f;
+	for (JKPeakRecord *peak in [[self peaks] allValues]) {
         sum = sum + [[peak height] floatValue];
     }
     
@@ -171,12 +156,9 @@
 }
 
 - (NSNumber *)standardDeviationRetentionIndex {
-	JKPeakRecord *peak = nil;
-	NSEnumerator *peaksEnumerator = [[self peaks] objectEnumerator];
 	float sum = 0.0f;
-    float average = [[self averageRetentionIndex] floatValue];
-    
-    while ((peak = [peaksEnumerator nextObject])) {
+    float average = [[self averageRetentionIndex] floatValue];    
+	for (JKPeakRecord *peak in [[self peaks] allValues]) {
         sum = sum + powf(([[peak retentionIndex] floatValue] - average),2);
     }
     
@@ -185,12 +167,9 @@
 }
 
 - (NSNumber *)standardDeviationSurface {
-  	JKPeakRecord *peak = nil;
-	NSEnumerator *peaksEnumerator = [[self peaks] objectEnumerator];
 	float sum = 0.0f;
     float average = [[self averageSurface] floatValue];
-    
-    while ((peak = [peaksEnumerator nextObject])) {
+ 	for (JKPeakRecord *peak in [[self peaks] allValues]) {
         sum = sum + powf(([[peak surface] floatValue] - average),2);
     }
     
@@ -198,12 +177,9 @@
     return [NSNumber numberWithFloat:sqrtf(sum/([self countOfPeaks]-1))];		
 }
 - (NSNumber *)standardDeviationHeight {
-   	JKPeakRecord *peak = nil;
-	NSEnumerator *peaksEnumerator = [[self peaks] objectEnumerator];
-	float sum = 0.0f;
+ 	float sum = 0.0f;
     float average = [[self averageHeight] floatValue];
-    
-    while ((peak = [peaksEnumerator nextObject])) {
+ 	for (JKPeakRecord *peak in [[self peaks] allValues]) {
         sum = sum + powf(([[peak height] floatValue] - average),2);
     }
     
@@ -243,10 +219,27 @@
     [self setValue:nil forKey:documentKey];
 }
 
-- (BOOL)isIdenticalToCompound:(NSString *)aString
+- (BOOL)isCompound:(NSString *)compoundString
 {
-    return [[self label] isEqualToString:aString];
-}
+    compoundString = [compoundString lowercaseString];
+    
+    if ([[[self label] lowercaseString] isEqualToString:compoundString]) {
+        return YES;
+    }
+    
+    if ([self libraryEntry]) {
+        NSArray *synonymsArray = [[self libraryEntry] synonymsArray];
+        NSString *synonym;
+        
+        for (synonym in synonymsArray) {
+            if ([[synonym lowercaseString] isEqualToString:compoundString]) {
+                return YES;
+            }
+        }        
+    }
+    
+    return NO;    
+ }
 
 - (id)valueForUndefinedKey:(NSString *)key {
     // Peaks can be accessed using key in the format "file_nn"
@@ -313,9 +306,7 @@
         // Set label also for all peaks
         if (aLabel) {
             if (!([aLabel isEqualToString:@""] || [aLabel hasPrefix:NSLocalizedString(@"Unknown compound",@"")])) {
-                NSEnumerator *peakEnum = [peaks objectEnumerator];
-                JKPeakRecord *peak;
-                while ((peak = [peakEnum nextObject])) {
+                for (JKPeakRecord *peak in [[self peaks] allValues]) {
                     [peak setLabel:label];
                 }            
             }            
@@ -336,9 +327,7 @@
         symbol = [aSymbol retain];
         
         // Set symbol also for all peaks
-        NSEnumerator *peakEnum = [peaks objectEnumerator];
-        JKPeakRecord *peak;
-        while ((peak = [peakEnum nextObject])) {
+        for (JKPeakRecord *peak in [[self peaks] allValues]) {
             [peak setSymbol:symbol];
         }
     }
@@ -380,9 +369,7 @@
        group = [aGroup retain];
        
         // Set group also for all peaks' libraryhits
-        NSEnumerator *peakEnum = [peaks objectEnumerator];
-        JKPeakRecord *peak;
-        while ((peak = [peakEnum nextObject])) {
+        for (JKPeakRecord *peak in [[self peaks] allValues]) {
             [[peak libraryHit] setGroup:group];
         }
         [[self libraryEntry] setGroup:group];

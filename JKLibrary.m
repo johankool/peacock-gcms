@@ -438,7 +438,7 @@
 {
 	NSManagedObjectContext *moc = [self managedObjectContext];
 //    NSAssert([[moc registeredObjects] count] > 0, @"No registeredObjects in managedObjectContext?!");
-    JKLogDebug(@"%d registeredObjects in managedObjectContext?!",[[moc registeredObjects] count]);
+//    JKLogDebug(@"%d registeredObjects in managedObjectContext?!",[[moc registeredObjects] count]); // EXPENSIVE LOG!!
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"JKManagedLibraryEntry" inManagedObjectContext:moc];
     NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
     [request setEntity:entityDescription];

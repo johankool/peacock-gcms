@@ -17,6 +17,7 @@
 #import "JKSpectrum.h"
 #import "jk_statistics.h"
 #import "JKAppDelegate.h"
+#import "NSString+ModelCompare.h"
 
 @implementation JKPeakRecord
 
@@ -70,6 +71,7 @@
         flagged = NO;
         uuid = GetUUID();
         [uuid retain];
+        identifiedSearchResult = nil;
     }
     return self;	
 }
@@ -135,7 +137,7 @@
         start = [coder decodeIntForKey:@"start"];
         end = [coder decodeIntForKey:@"end"];
         searchResults = [[coder decodeObjectForKey:@"searchResults"] retain];
-        identifiedSearchResult = [coder decodeObjectForKey:@"identifiedSearchResult"];
+        identifiedSearchResult = [[coder decodeObjectForKey:@"identifiedSearchResult"] retain];
         baselineLeft = [[coder decodeObjectForKey:@"baselineLeft"] retain];
         baselineRight = [[coder decodeObjectForKey:@"baselineRight"] retain];
         uuid = [[coder decodeObjectForKey:@"uuid"] retain];
@@ -292,7 +294,7 @@
         JKSearchResult *aSearchResult;
 
         for (aSearchResult in searchResults) {
-        	if ([[aSearchResult libraryHit] isCompound:[[searchResult libraryHit] name]]) {
+        	if ([self isCompound:[[aSearchResult libraryHit] name]]) {
                 return;
             }
         }
@@ -323,6 +325,29 @@
     }   
     return nil;
 }
+
+- (BOOL)isCompound:(NSString *)compoundString
+{
+    compoundString = [compoundString lowercaseString];
+    
+    if ([[[self label] lowercaseString] isEqualToString:compoundString]) {
+        return YES;
+    }
+    
+    if ([self confirmed] && [self libraryHit]) {
+        NSArray *synonymsArray = [[self libraryHit] synonymsArray];
+        NSString *synonym;
+        
+        for (synonym in synonymsArray) {
+            if ([[synonym lowercaseString] isEqualToString:compoundString]) {
+                return YES;
+            }
+        }        
+    }
+    
+    return NO;    
+}
+
 #pragma mark -
 
 #pragma mark JKTargetObjectProtocol
@@ -442,9 +467,14 @@
 - (NSNumber *)normalizedSurface {
     float surface = [[self surface] floatValue];
     float largestPeakSurface = [[self chromatogram] largestPeakSurface];
-    return [NSNumber numberWithFloat:surface/largestPeakSurface];
+    return [NSNumber numberWithFloat:100.0f*surface/largestPeakSurface];
 }
 
+- (NSNumber *)normalizedSurface2 {
+    float surface = [[self surface] floatValue];
+    float totalPeakSurface = [[self document] confirmedPeaksSurface];
+    return [NSNumber numberWithFloat:100.0f*surface/totalPeakSurface];
+}
 
 - (NSNumber *)height {
     int top = [self top];
@@ -504,6 +534,8 @@
 }
 
 - (JKLibraryEntry *)libraryHit {
+    if (!identifiedSearchResult)
+        return nil;
 	return [identifiedSearchResult libraryHit];
 }
 
@@ -585,6 +617,27 @@
 
 - (NSString *)label {
     return label;
+}
+
+-(BOOL)validateLabel:(id *)ioValue error:(NSError **)outError
+{
+    if (*ioValue == nil) {
+        return YES;
+    }
+    // enforce no use of characters "[];"
+    if ([*ioValue rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"[];"]].location != NSNotFound) {
+        NSString *errorString = NSLocalizedString(@"A peak label may not contain the characters '[', ']' and ';'.", @"validation: []; error");
+        NSDictionary *userInfoDict =
+        [NSDictionary dictionaryWithObject:errorString
+                                    forKey:NSLocalizedDescriptionKey];
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                     code:1
+                                                 userInfo:userInfoDict] autorelease];
+        *outError = error;
+        return NO;
+    }
+
+    return YES;
 }
 
 - (void)setSymbol:(NSString *)inValue {

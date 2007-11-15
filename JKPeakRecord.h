@@ -46,6 +46,7 @@
 - (JKSearchResult *)addSearchResultForLibraryEntry:(JKLibraryEntry *)aLibraryEntry;
 - (void)addSearchResult:(JKSearchResult *)searchResult;
 - (JKLibraryEntry *)libraryEntryRepresentation;
+- (BOOL)isCompound:(NSString *)compoundString;
 
 #pragma mark CALCULATED ACCESSORS
 

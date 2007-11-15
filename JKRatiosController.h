@@ -14,6 +14,8 @@
     IBOutlet NSTableView *tableView;
     IBOutlet NSArrayController *ratiosController;
 }
+- (IBAction)export:(id)sender;
+- (IBAction)reset:(id)sender;
 
 - (void)addTableColumForDocument:(JKGCMSDocument *)document;
 
