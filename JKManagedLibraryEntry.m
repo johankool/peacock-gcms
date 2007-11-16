@@ -941,6 +941,8 @@
 
 - (float *)masses {
     [self willAccessValueForKey:@"masses"];
+/*###944 [cc] warning: initialization discards qualifiers from pointer target type%%%*/
+/*###944 [cc] warning: initialization discards qualifiers from pointer target type%%%*/
     float *masses = [[self primitiveValueForKey:@"masses"] bytes];
 //    NSSwapLittleFloatArrayToHost(masses, [self numberOfPoints]);
     [self didAccessValueForKey:@"masses"];
@@ -957,6 +959,8 @@
 
 - (float *)intensities {
     [self willAccessValueForKey:@"intensities"];
+/*###960 [cc] warning: initialization discards qualifiers from pointer target type%%%*/
+/*###960 [cc] warning: initialization discards qualifiers from pointer target type%%%*/
     float *intensities = [[self primitiveValueForKey:@"intensities"] bytes];
 //    float *intensCopy = memcpy(intensities);
 //    NSSwapLittleFloatArrayToHost(intensities, [self numberOfPoints]);
