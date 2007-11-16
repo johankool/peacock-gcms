@@ -88,6 +88,26 @@
 		C7490D600CAC0B29005DCA39 /* PKGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D4A0CAC0B28005DCA39 /* PKGraphView.m */; };
 		C7490D610CAC0B29005DCA39 /* NSString+ModelCompare.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D4B0CAC0B28005DCA39 /* NSString+ModelCompare.h */; };
 		C7490D620CAC0B29005DCA39 /* NSString+ModelCompare.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D4C0CAC0B28005DCA39 /* NSString+ModelCompare.m */; };
+		C74A27F40CEE4D4500FFB61F /* JKLibraryPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27F20CEE4D4500FFB61F /* JKLibraryPanel.xib */; };
+		C74A27F50CEE4D4500FFB61F /* JKLibraryPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27F20CEE4D4500FFB61F /* JKLibraryPanel.xib */; };
+		C74A28090CEE4E4D00FFB61F /* DisplayOptions.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27F70CEE4E4D00FFB61F /* DisplayOptions.xib */; };
+		C74A280A0CEE4E4D00FFB61F /* JKBatchProcess.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27F90CEE4E4D00FFB61F /* JKBatchProcess.xib */; };
+		C74A280B0CEE4E4D00FFB61F /* JKGCMSDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27FB0CEE4E4D00FFB61F /* JKGCMSDocument.xib */; };
+		C74A280C0CEE4E4D00FFB61F /* JKLibrary.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27FD0CEE4E4D00FFB61F /* JKLibrary.xib */; };
+		C74A280D0CEE4E4D00FFB61F /* JKMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27FF0CEE4E4D00FFB61F /* JKMainMenu.xib */; };
+		C74A280E0CEE4E4D00FFB61F /* JKPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A28010CEE4E4D00FFB61F /* JKPanel.xib */; };
+		C74A280F0CEE4E4D00FFB61F /* JKPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A28030CEE4E4D00FFB61F /* JKPreferences.xib */; };
+		C74A28100CEE4E4D00FFB61F /* JKRatios.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A28050CEE4E4D00FFB61F /* JKRatios.xib */; };
+		C74A28110CEE4E4D00FFB61F /* JKSummary.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A28070CEE4E4D00FFB61F /* JKSummary.xib */; };
+		C74A28120CEE4E4D00FFB61F /* DisplayOptions.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27F70CEE4E4D00FFB61F /* DisplayOptions.xib */; };
+		C74A28130CEE4E4D00FFB61F /* JKBatchProcess.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27F90CEE4E4D00FFB61F /* JKBatchProcess.xib */; };
+		C74A28140CEE4E4D00FFB61F /* JKGCMSDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27FB0CEE4E4D00FFB61F /* JKGCMSDocument.xib */; };
+		C74A28150CEE4E4D00FFB61F /* JKLibrary.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27FD0CEE4E4D00FFB61F /* JKLibrary.xib */; };
+		C74A28160CEE4E4D00FFB61F /* JKMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27FF0CEE4E4D00FFB61F /* JKMainMenu.xib */; };
+		C74A28170CEE4E4D00FFB61F /* JKPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A28010CEE4E4D00FFB61F /* JKPanel.xib */; };
+		C74A28180CEE4E4D00FFB61F /* JKPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A28030CEE4E4D00FFB61F /* JKPreferences.xib */; };
+		C74A28190CEE4E4D00FFB61F /* JKRatios.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A28050CEE4E4D00FFB61F /* JKRatios.xib */; };
+		C74A281A0CEE4E4D00FFB61F /* JKSummary.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A28070CEE4E4D00FFB61F /* JKSummary.xib */; };
 		C75846140C071ACC00756ED8 /* JKComparableProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846130C071ACC00756ED8 /* JKComparableProtocol.h */; };
 		C75846630C07268D00756ED8 /* JKLibraryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846610C07268D00756ED8 /* JKLibraryEntry.h */; };
 		C75846640C07268D00756ED8 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C75846620C07268D00756ED8 /* JKLibraryEntry.m */; };
@@ -340,24 +360,6 @@
 		C7F0D0560B11D9030046F994 /* MWController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D0550B11D9030046F994 /* MWController.h */; };
 		C7F0D3B30B1497D40046F994 /* NSTableView+Copying.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */; };
 		C7F0D3B40B1497D40046F994 /* NSTableView+Copying.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */; };
-		C7F3EEB20CE211D5008F7BBC /* JKRatios.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EEB10CE211D5008F7BBC /* JKRatios.nib */; };
-		C7F3EEB30CE211D5008F7BBC /* JKRatios.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EEB10CE211D5008F7BBC /* JKRatios.nib */; };
-		C7F3EEB50CE211D5008F7BBC /* JKSummary.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EEB40CE211D5008F7BBC /* JKSummary.nib */; };
-		C7F3EEB60CE211D5008F7BBC /* JKSummary.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EEB40CE211D5008F7BBC /* JKSummary.nib */; };
-		C7F3EEB80CE211D6008F7BBC /* DisplayOptions.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EEB70CE211D6008F7BBC /* DisplayOptions.nib */; };
-		C7F3EEB90CE211D6008F7BBC /* DisplayOptions.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EEB70CE211D6008F7BBC /* DisplayOptions.nib */; };
-		C7F3EEBB0CE211D6008F7BBC /* JKBatchProcess.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EEBA0CE211D6008F7BBC /* JKBatchProcess.nib */; };
-		C7F3EEBC0CE211D6008F7BBC /* JKBatchProcess.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EEBA0CE211D6008F7BBC /* JKBatchProcess.nib */; };
-		C7F3EEBE0CE211D6008F7BBC /* JKLibrary.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EEBD0CE211D6008F7BBC /* JKLibrary.nib */; };
-		C7F3EEBF0CE211D6008F7BBC /* JKLibrary.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EEBD0CE211D6008F7BBC /* JKLibrary.nib */; };
-		C7F3EEC10CE211D6008F7BBC /* JKGCMSDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EEC00CE211D6008F7BBC /* JKGCMSDocument.nib */; };
-		C7F3EEC20CE211D6008F7BBC /* JKGCMSDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EEC00CE211D6008F7BBC /* JKGCMSDocument.nib */; };
-		C7F3EEC40CE211D6008F7BBC /* JKMainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EEC30CE211D6008F7BBC /* JKMainMenu.nib */; };
-		C7F3EEC50CE211D6008F7BBC /* JKMainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EEC30CE211D6008F7BBC /* JKMainMenu.nib */; };
-		C7F3EEC80CE211D6008F7BBC /* JKPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EEC70CE211D6008F7BBC /* JKPanel.nib */; };
-		C7F3EEC90CE211D6008F7BBC /* JKPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EEC70CE211D6008F7BBC /* JKPanel.nib */; };
-		C7F3EECC0CE211D7008F7BBC /* JKPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EECB0CE211D7008F7BBC /* JKPreferences.nib */; };
-		C7F3EECD0CE211D7008F7BBC /* JKPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EECB0CE211D7008F7BBC /* JKPreferences.nib */; };
 		C7F8DE150BF0A4B500A34F5D /* flagged_header.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DE130BF0A4B500A34F5D /* flagged_header.tiff */; };
 		C7F8DE160BF0A4B500A34F5D /* flagged.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DE140BF0A4B500A34F5D /* flagged.tiff */; };
 		C7F8DE170BF0A4B500A34F5D /* flagged_header.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DE130BF0A4B500A34F5D /* flagged_header.tiff */; };
@@ -475,7 +477,6 @@
 		C73533D10B7A703C00F7634B /* JKChromatogramTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKChromatogramTest.m; sourceTree = "<group>"; };
 		C73B27CC0CAD9EF600C09AAE /* JKSummarizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSummarizer.h; sourceTree = "<group>"; };
 		C73B27CD0CAD9EF600C09AAE /* JKSummarizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSummarizer.m; sourceTree = SOURCE_ROOT; };
-		C73B27D30CB1221E00C09AAE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/JKSummary.nib; sourceTree = "<group>"; };
 		C73B27D60CB1224100C09AAE /* JKSummaryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSummaryController.h; sourceTree = "<group>"; };
 		C73B27D70CB1224100C09AAE /* JKSummaryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSummaryController.m; sourceTree = "<group>"; };
 		C74378900CCCA5AF002DF365 /* BannerBackground.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = BannerBackground.tif; sourceTree = "<group>"; };
@@ -491,6 +492,16 @@
 		C7490D4B0CAC0B28005DCA39 /* NSString+ModelCompare.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSString+ModelCompare.h"; sourceTree = "<group>"; };
 		C7490D4C0CAC0B28005DCA39 /* NSString+ModelCompare.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSString+ModelCompare.m"; sourceTree = "<group>"; };
 		C7490D710CAC0CA4005DCA39 /* jk_statistics.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = jk_statistics.c; sourceTree = "<group>"; };
+		C74A27F30CEE4D4500FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKLibraryPanel.xib; sourceTree = "<absolute>"; };
+		C74A27F80CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/DisplayOptions.xib; sourceTree = "<absolute>"; };
+		C74A27FA0CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKBatchProcess.xib; sourceTree = "<absolute>"; };
+		C74A27FC0CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKGCMSDocument.xib; sourceTree = "<absolute>"; };
+		C74A27FE0CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKLibrary.xib; sourceTree = "<absolute>"; };
+		C74A28000CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKMainMenu.xib; sourceTree = "<absolute>"; };
+		C74A28020CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKPanel.xib; sourceTree = "<absolute>"; };
+		C74A28040CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKPreferences.xib; sourceTree = "<absolute>"; };
+		C74A28060CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKRatios.xib; sourceTree = "<absolute>"; };
+		C74A28080CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKSummary.xib; sourceTree = "<absolute>"; };
 		C75846130C071ACC00756ED8 /* JKComparableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKComparableProtocol.h; sourceTree = "<group>"; };
 		C75846610C07268D00756ED8 /* JKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKLibraryEntry.h; sourceTree = "<group>"; };
 		C75846620C07268D00756ED8 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = "<group>"; };
@@ -505,7 +516,6 @@
 		C75AE3930CBE82190054E51B /* JKSourceTableView_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKSourceTableView_Prefix.pch; sourceTree = "<group>"; };
 		C765B8AA0C23237A00C4F153 /* factoranalysis.R */ = {isa = PBXFileReference; explicitFileType = text.script; fileEncoding = 7; path = factoranalysis.R; sourceTree = "<group>"; };
 		C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = JKLibrary.xcdatamodel; sourceTree = "<group>"; };
-		C7713B35095029C200653D2A /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/JKBatchProcess.nib; sourceTree = "<group>"; };
 		C7713B410950368F00653D2A /* JKBatchProcessWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKBatchProcessWindowController.h; sourceTree = "<group>"; };
 		C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKBatchProcessWindowController.m; sourceTree = "<group>"; };
 		C773669408E02D87002B72F1 /* PKChromatogramDataSeries.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PKChromatogramDataSeries.h; sourceTree = "<group>"; };
@@ -587,7 +597,6 @@
 		C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FontNameToDisplayNameTransformer.h; sourceTree = "<group>"; };
 		C7BF0DC70CBE5D15003BEC49 /* JKRatiosController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKRatiosController.h; sourceTree = "<group>"; };
 		C7BF0DC80CBE5D15003BEC49 /* JKRatiosController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKRatiosController.m; sourceTree = "<group>"; };
-		C7BF0DD10CBE6081003BEC49 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/JKRatios.nib; sourceTree = "<group>"; };
 		C7C21FC50A5060E2006E82FD /* Peacock.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = Peacock.sdef; sourceTree = "<group>"; };
 		C7C220610BEB831000510B5B /* BooleanToStringTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooleanToStringTransformer.h; sourceTree = "<group>"; };
 		C7C220620BEB831000510B5B /* BooleanToStringTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooleanToStringTransformer.m; sourceTree = "<group>"; };
@@ -632,11 +641,6 @@
 		C7EB17F40898CFBC007FC2ED /* MWController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MWController.m; path = MolWeight/MWController.m; sourceTree = "<group>"; };
 		C7EB17F50898CFBC007FC2ED /* PKGraphDataSeries.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PKGraphDataSeries.h; sourceTree = "<group>"; };
 		C7EB17F60898CFBC007FC2ED /* PKGraphDataSeries.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PKGraphDataSeries.m; sourceTree = "<group>"; };
-		C7EB17FA0898CFBC007FC2ED /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/JKLibrary.nib; sourceTree = "<group>"; };
-		C7EB17FB0898CFBD007FC2ED /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/JKGCMSDocument.nib; sourceTree = "<group>"; };
-		C7EB17FC0898CFBD007FC2ED /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/JKMainMenu.nib; sourceTree = "<group>"; };
-		C7EB17FE0898CFBD007FC2ED /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/JKPanel.nib; sourceTree = "<group>"; };
-		C7EB18010898CFBD007FC2ED /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/JKPreferences.nib; sourceTree = "<group>"; };
 		C7EB18060898CFBD007FC2ED /* Parseable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Parseable.h; sourceTree = "<group>"; };
 		C7EB180A0898CFBD007FC2ED /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/License.rtf; sourceTree = "<group>"; };
 		C7EB180D0898CFBD007FC2ED /* periodic.table */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = periodic.table; sourceTree = "<group>"; };
@@ -652,7 +656,6 @@
 		C7F8DE8D0BF0CDED00A34F5D /* AMRemovableTableColumn.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AMRemovableTableColumn.m; sourceTree = "<group>"; };
 		C7F8DE8E0BF0CDED00A34F5D /* AMRemovableColumnsTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AMRemovableColumnsTableView.h; sourceTree = "<group>"; };
 		C7F8DEA30BF0CE1A00A34F5D /* table.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = table.png; sourceTree = "<group>"; };
-		C7F8DEA70BF0D00700A34F5D /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/DisplayOptions.nib; sourceTree = "<group>"; };
 		C7F8DF020BF0D40F00A34F5D /* DisplayOptionsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DisplayOptionsWindowController.m; sourceTree = "<group>"; };
 		C7F8DF030BF0D40F00A34F5D /* DisplayOptionsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DisplayOptionsWindowController.h; sourceTree = "<group>"; };
 		C7FBE1E30AB6F1A4000E7EF2 /* presets.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = presets.png; sourceTree = "<group>"; };
@@ -1056,15 +1059,16 @@
 		C7EB17F90898CFBC007FC2ED /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
-				C7F3EEB10CE211D5008F7BBC /* JKRatios.nib */,
-				C7F3EEB40CE211D5008F7BBC /* JKSummary.nib */,
-				C7F3EEB70CE211D6008F7BBC /* DisplayOptions.nib */,
-				C7F3EEBA0CE211D6008F7BBC /* JKBatchProcess.nib */,
-				C7F3EEBD0CE211D6008F7BBC /* JKLibrary.nib */,
-				C7F3EEC00CE211D6008F7BBC /* JKGCMSDocument.nib */,
-				C7F3EEC30CE211D6008F7BBC /* JKMainMenu.nib */,
-				C7F3EEC70CE211D6008F7BBC /* JKPanel.nib */,
-				C7F3EECB0CE211D7008F7BBC /* JKPreferences.nib */,
+				C74A27F70CEE4E4D00FFB61F /* DisplayOptions.xib */,
+				C74A27F90CEE4E4D00FFB61F /* JKBatchProcess.xib */,
+				C74A27FB0CEE4E4D00FFB61F /* JKGCMSDocument.xib */,
+				C74A27FD0CEE4E4D00FFB61F /* JKLibrary.xib */,
+				C74A27FF0CEE4E4D00FFB61F /* JKMainMenu.xib */,
+				C74A28010CEE4E4D00FFB61F /* JKPanel.xib */,
+				C74A28030CEE4E4D00FFB61F /* JKPreferences.xib */,
+				C74A28050CEE4E4D00FFB61F /* JKRatios.xib */,
+				C74A28070CEE4E4D00FFB61F /* JKSummary.xib */,
+				C74A27F20CEE4D4500FFB61F /* JKLibraryPanel.xib */,
 			);
 			path = Nibs;
 			sourceTree = "<group>";
@@ -1311,13 +1315,7 @@
 			files = (
 				C70DC01A095B205500C2B386 /* Credits.rtf in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
-				C7F3EEBE0CE211D6008F7BBC /* JKLibrary.nib in Resources */,
-				C7F3EEC10CE211D6008F7BBC /* JKGCMSDocument.nib in Resources */,
-				C7F3EEC40CE211D6008F7BBC /* JKMainMenu.nib in Resources */,
-				C7F3EEC80CE211D6008F7BBC /* JKPanel.nib in Resources */,
-				C7F3EECC0CE211D7008F7BBC /* JKPreferences.nib in Resources */,
 				C7EB182B0898CFBD007FC2ED /* periodic.table in Resources */,
-				C7F3EEBB0CE211D6008F7BBC /* JKBatchProcess.nib in Resources */,
 				C70DC017095B201200C2B386 /* Localizable.strings in Resources */,
 				C77C585A09801145002E7796 /* Peacock Help in Resources */,
 				C7A7BB370A9DE5D3005E3778 /* library_document.icns in Resources */,
@@ -1350,13 +1348,20 @@
 				C7F8DE170BF0A4B500A34F5D /* flagged_header.tiff in Resources */,
 				C7F8DE180BF0A4B500A34F5D /* flagged.tiff in Resources */,
 				C7F8DEA50BF0CE1A00A34F5D /* table.png in Resources */,
-				C7F3EEB80CE211D6008F7BBC /* DisplayOptions.nib in Resources */,
 				C77E32B90C0F2CBB00B8A64A /* libraries.png in Resources */,
 				C765B8AC0C23237B00C4F153 /* factoranalysis.R in Resources */,
-				C7F3EEB50CE211D5008F7BBC /* JKSummary.nib in Resources */,
-				C7F3EEB20CE211D5008F7BBC /* JKRatios.nib in Resources */,
 				C74378920CCCA5AF002DF365 /* BannerBackground.tif in Resources */,
 				C7BB96C70CE89D82003049F9 /* ratios.pdf in Resources */,
+				C74A27F50CEE4D4500FFB61F /* JKLibraryPanel.xib in Resources */,
+				C74A28120CEE4E4D00FFB61F /* DisplayOptions.xib in Resources */,
+				C74A28130CEE4E4D00FFB61F /* JKBatchProcess.xib in Resources */,
+				C74A28140CEE4E4D00FFB61F /* JKGCMSDocument.xib in Resources */,
+				C74A28150CEE4E4D00FFB61F /* JKLibrary.xib in Resources */,
+				C74A28160CEE4E4D00FFB61F /* JKMainMenu.xib in Resources */,
+				C74A28170CEE4E4D00FFB61F /* JKPanel.xib in Resources */,
+				C74A28180CEE4E4D00FFB61F /* JKPreferences.xib in Resources */,
+				C74A28190CEE4E4D00FFB61F /* JKRatios.xib in Resources */,
+				C74A281A0CEE4E4D00FFB61F /* JKSummary.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1373,13 +1378,7 @@
 			files = (
 				C7ADC88A0BA05609007D9134 /* Credits.rtf in Resources */,
 				C7ADC88B0BA05609007D9134 /* InfoPlist.strings in Resources */,
-				C7F3EEBF0CE211D6008F7BBC /* JKLibrary.nib in Resources */,
-				C7F3EEC20CE211D6008F7BBC /* JKGCMSDocument.nib in Resources */,
-				C7F3EEC50CE211D6008F7BBC /* JKMainMenu.nib in Resources */,
-				C7F3EEC90CE211D6008F7BBC /* JKPanel.nib in Resources */,
-				C7F3EECD0CE211D7008F7BBC /* JKPreferences.nib in Resources */,
 				C7ADC8910BA05609007D9134 /* periodic.table in Resources */,
-				C7F3EEBC0CE211D6008F7BBC /* JKBatchProcess.nib in Resources */,
 				C7ADC8940BA05609007D9134 /* Localizable.strings in Resources */,
 				C7ADC8950BA05609007D9134 /* Peacock Help in Resources */,
 				C7ADC8960BA05609007D9134 /* Peacock.sdef in Resources */,
@@ -1414,14 +1413,21 @@
 				C7F8DE150BF0A4B500A34F5D /* flagged_header.tiff in Resources */,
 				C7F8DE160BF0A4B500A34F5D /* flagged.tiff in Resources */,
 				C7F8DEA40BF0CE1A00A34F5D /* table.png in Resources */,
-				C7F3EEB90CE211D6008F7BBC /* DisplayOptions.nib in Resources */,
 				C77E2FBF0C0EF20C00B8A64A /* plus.png in Resources */,
 				C77E2FC20C0EF21700B8A64A /* minus.png in Resources */,
 				C77E32BA0C0F2CBB00B8A64A /* libraries.png in Resources */,
-				C7F3EEB60CE211D5008F7BBC /* JKSummary.nib in Resources */,
-				C7F3EEB30CE211D5008F7BBC /* JKRatios.nib in Resources */,
 				C74378910CCCA5AF002DF365 /* BannerBackground.tif in Resources */,
 				C7BB96C60CE89D82003049F9 /* ratios.pdf in Resources */,
+				C74A27F40CEE4D4500FFB61F /* JKLibraryPanel.xib in Resources */,
+				C74A28090CEE4E4D00FFB61F /* DisplayOptions.xib in Resources */,
+				C74A280A0CEE4E4D00FFB61F /* JKBatchProcess.xib in Resources */,
+				C74A280B0CEE4E4D00FFB61F /* JKGCMSDocument.xib in Resources */,
+				C74A280C0CEE4E4D00FFB61F /* JKLibrary.xib in Resources */,
+				C74A280D0CEE4E4D00FFB61F /* JKMainMenu.xib in Resources */,
+				C74A280E0CEE4E4D00FFB61F /* JKPanel.xib in Resources */,
+				C74A280F0CEE4E4D00FFB61F /* JKPreferences.xib in Resources */,
+				C74A28100CEE4E4D00FFB61F /* JKRatios.xib in Resources */,
+				C74A28110CEE4E4D00FFB61F /* JKSummary.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1665,6 +1671,86 @@
 			name = Credits.rtf;
 			sourceTree = "<group>";
 		};
+		C74A27F20CEE4D4500FFB61F /* JKLibraryPanel.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C74A27F30CEE4D4500FFB61F /* English */,
+			);
+			name = JKLibraryPanel.xib;
+			sourceTree = "<group>";
+		};
+		C74A27F70CEE4E4D00FFB61F /* DisplayOptions.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C74A27F80CEE4E4D00FFB61F /* English */,
+			);
+			name = DisplayOptions.xib;
+			sourceTree = "<group>";
+		};
+		C74A27F90CEE4E4D00FFB61F /* JKBatchProcess.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C74A27FA0CEE4E4D00FFB61F /* English */,
+			);
+			name = JKBatchProcess.xib;
+			sourceTree = "<group>";
+		};
+		C74A27FB0CEE4E4D00FFB61F /* JKGCMSDocument.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C74A27FC0CEE4E4D00FFB61F /* English */,
+			);
+			name = JKGCMSDocument.xib;
+			sourceTree = "<group>";
+		};
+		C74A27FD0CEE4E4D00FFB61F /* JKLibrary.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C74A27FE0CEE4E4D00FFB61F /* English */,
+			);
+			name = JKLibrary.xib;
+			sourceTree = "<group>";
+		};
+		C74A27FF0CEE4E4D00FFB61F /* JKMainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C74A28000CEE4E4D00FFB61F /* English */,
+			);
+			name = JKMainMenu.xib;
+			sourceTree = "<group>";
+		};
+		C74A28010CEE4E4D00FFB61F /* JKPanel.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C74A28020CEE4E4D00FFB61F /* English */,
+			);
+			name = JKPanel.xib;
+			sourceTree = "<group>";
+		};
+		C74A28030CEE4E4D00FFB61F /* JKPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C74A28040CEE4E4D00FFB61F /* English */,
+			);
+			name = JKPreferences.xib;
+			sourceTree = "<group>";
+		};
+		C74A28050CEE4E4D00FFB61F /* JKRatios.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C74A28060CEE4E4D00FFB61F /* English */,
+			);
+			name = JKRatios.xib;
+			sourceTree = "<group>";
+		};
+		C74A28070CEE4E4D00FFB61F /* JKSummary.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C74A28080CEE4E4D00FFB61F /* English */,
+			);
+			name = JKSummary.xib;
+			sourceTree = "<group>";
+		};
 		C77C582F09800FAD002E7796 /* Peacock Help */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1672,78 +1758,6 @@
 			);
 			name = "Peacock Help";
 			path = ..;
-			sourceTree = "<group>";
-		};
-		C7F3EEB10CE211D5008F7BBC /* JKRatios.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C7BF0DD10CBE6081003BEC49 /* English */,
-			);
-			name = JKRatios.nib;
-			sourceTree = "<group>";
-		};
-		C7F3EEB40CE211D5008F7BBC /* JKSummary.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C73B27D30CB1221E00C09AAE /* English */,
-			);
-			name = JKSummary.nib;
-			sourceTree = "<group>";
-		};
-		C7F3EEB70CE211D6008F7BBC /* DisplayOptions.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C7F8DEA70BF0D00700A34F5D /* English */,
-			);
-			name = DisplayOptions.nib;
-			sourceTree = "<group>";
-		};
-		C7F3EEBA0CE211D6008F7BBC /* JKBatchProcess.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C7713B35095029C200653D2A /* English */,
-			);
-			name = JKBatchProcess.nib;
-			sourceTree = "<group>";
-		};
-		C7F3EEBD0CE211D6008F7BBC /* JKLibrary.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C7EB17FA0898CFBC007FC2ED /* English */,
-			);
-			name = JKLibrary.nib;
-			sourceTree = "<group>";
-		};
-		C7F3EEC00CE211D6008F7BBC /* JKGCMSDocument.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C7EB17FB0898CFBD007FC2ED /* English */,
-			);
-			name = JKGCMSDocument.nib;
-			sourceTree = "<group>";
-		};
-		C7F3EEC30CE211D6008F7BBC /* JKMainMenu.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C7EB17FC0898CFBD007FC2ED /* English */,
-			);
-			name = JKMainMenu.nib;
-			sourceTree = "<group>";
-		};
-		C7F3EEC70CE211D6008F7BBC /* JKPanel.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C7EB17FE0898CFBD007FC2ED /* English */,
-			);
-			name = JKPanel.nib;
-			sourceTree = "<group>";
-		};
-		C7F3EECB0CE211D7008F7BBC /* JKPreferences.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C7EB18010898CFBD007FC2ED /* English */,
-			);
-			name = JKPreferences.nib;
 			sourceTree = "<group>";
 		};
 		C7F3EED10CE211EA008F7BBC /* License.rtf */ = {
