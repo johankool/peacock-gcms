@@ -58,7 +58,7 @@
 - (void)loadLibraryForConfiguration:(NSString *)configuration;
 - (BOOL)shouldLoadLibrary:(NSString *)fileName forConfiguration:(NSString *)configuration;
 - (JKManagedLibraryEntry *)addLibraryEntryBasedOnPeak:(JKPeakRecord *)aPeak;
-- (JKLibraryEntry *)libraryEntryForName:(NSString *)compoundString;
+- (JKManagedLibraryEntry *)libraryEntryForName:(NSString *)compoundString;
 
 - (NSArray *)autocompleteEntries;
 //- (void)setAutocompleteEntries:(NSArray *)aAutocompleteEntries;

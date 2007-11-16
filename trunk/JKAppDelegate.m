@@ -230,10 +230,11 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     
     [documentListTableView setDoubleAction:@selector(doubleClickAction:)];
     
-    // We call load library with "None" even though it's not the default. This causes the detection of the available libraries, but doesn't load them. When the application needs it they will get loaded because the loaded configuration ("None") will be different from the selected one.
-    libraryConfigurationLoaded = @"";
-	[self loadLibraryForConfiguration:@"None"];
-    libraryConfigurationLoaded = @"";
+//    // We call load library with "None" even though it's not the default. This causes the detection of the available libraries, but doesn't load them. When the application needs it they will get loaded because the loaded configuration ("None") will be different from the selected one.
+//    libraryConfigurationLoaded = @"";
+//	[self loadLibraryForConfiguration:@"None"];
+//    libraryConfigurationLoaded = @"";
+    [self loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"libraryConfiguration"]];
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
@@ -617,29 +618,32 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     if ([[[self library] windowControllers] count] == 0) {
         [[self library] makeWindowControllers];
     }
-    [[self library] setFileName:NSLocalizedString(@"Library",@"")];
+    [[self library] setFileName:NSLocalizedString(@"Peacock Library",@"")];
     [[self library] showWindows];
 }
 
-- (JKLibraryEntry *)libraryEntryForName:(NSString *)compoundString {
-    int result = 0;
+- (JKManagedLibraryEntry *)libraryEntryForName:(NSString *)compoundString {
+//    int result = 0;
     JKManagedLibraryEntry *foundLibEntry;
 
     for (JKManagedLibraryEntry *managedLibEntry in [library libraryEntries]) {
     	if ([managedLibEntry isCompound:compoundString]) {
-            foundLibEntry = managedLibEntry;
-            result++;
+            return managedLibEntry;
+//            foundLibEntry = managedLibEntry;
+//            result++;
         }
     }
-
-    if (result > 1) {
-        NSRunAlertPanel(NSLocalizedString(@"Duplicate Entry in Library",@""),[NSString stringWithFormat:NSLocalizedString(@"The compound '%@' is listed more than once in the library.",@""),compoundString], NSLocalizedString(@"OK", @""), nil, nil);
-        return nil;
-    } else if (result == 1) {
-        return [JKLibraryEntry libraryEntryWithJCAMPString:[foundLibEntry jcampString]];
-    } else {
-        return nil;
-    }
+    return nil;
+    
+//    if (result > 1) {
+////        NSRunAlertPanel(NSLocalizedString(@"Duplicate Entry in Library",@""),[NSString stringWithFormat:NSLocalizedString(@"The compound '%@' is listed more than once in the library.",@""),compoundString], NSLocalizedString(@"OK", @""), nil, nil);
+//        JKLogWarning(@"Duplicate Entry in Library: The compound '%@' is listed more than once in the library.", compoundString);
+//        return foundLibEntry;
+//    } else if (result == 1) {
+//        return foundLibEntry; //[JKLibraryEntry libraryEntryWithJCAMPString:[foundLibEntry jcampString]];
+//    } else {
+//        return nil;
+//    }
 }
 - (NSArray *)autocompleteEntries {
     return [[summarizer combinedPeaks] valueForKey:@"label"];

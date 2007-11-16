@@ -10,13 +10,12 @@
 
 @class JKSpectrum;
 @class JKPeakRecord;
-@class JKStatisticsDocument;
 @class JKLibraryEntry;
 
-@interface JKCombinedPeak : NSObject <NSCoding> {
+@interface JKCombinedPeak : NSObject {
     NSString *label;
     NSString *symbol;
-    int index;
+//    int index;
     NSNumber *retentionIndex;
     NSString *model;
     NSString *group;
@@ -24,7 +23,6 @@
     JKLibraryEntry *libraryEntry;
     NSMutableDictionary *peaks;
     BOOL unknownCompound;
-    JKStatisticsDocument *document;
 }
 
 #pragma mark CALCULATED ACCESSORS
@@ -39,6 +37,8 @@
 - (BOOL)isValidDocumentKey:(NSString *)aKey;
 - (void)addConfirmedPeak:(JKPeakRecord *)aPeak;
 - (void)removeUnconfirmedPeak:(JKPeakRecord *)aPeak;
+
+- (BOOL)isCombinedPeakForPeak:(JKPeakRecord *)aPeak;
 - (BOOL)isCompound:(NSString *)aString;
 
 #pragma mark SPECIAL ACCESSORS
@@ -46,8 +46,6 @@
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key;
     
 #pragma mark ACCESSORS
-- (JKStatisticsDocument *)document;
-- (void)setDocument:(JKStatisticsDocument *)document;
 - (NSString *)label;
 - (void)setLabel:(NSString *)label;      
 - (NSString *)symbol;
@@ -58,8 +56,8 @@
 - (void)setRetentionIndex:(NSNumber *)retentionIndex;
 - (NSString *)model;
 - (void)setModel:(NSString *)model;
-- (JKSpectrum *)spectrum;
-- (void)setSpectrum:(JKSpectrum *)spectrum;
+//- (JKSpectrum *)spectrum;
+//- (void)setSpectrum:(JKSpectrum *)spectrum;
 - (JKLibraryEntry *)libraryEntry;
 - (void)setLibraryEntry:(JKLibraryEntry *)libraryEntry;
 - (BOOL)unknownCompound;
@@ -73,5 +71,4 @@
 
 @property (getter=unknownCompound,setter=setUnknownCompound:) BOOL unknownCompound;
 @property (getter=index,setter=setIndex:) int index;
-@property (assign,getter=document,setter=setDocument:) JKStatisticsDocument *document;
 @end

@@ -215,14 +215,6 @@
 			<string>ObjC</string>
 		</dict>
 		<dict>
-			<key>CLASS</key>
-			<string>JKSourceTableView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSTableView</string>
-		</dict>
-		<dict>
 			<key>ACTIONS</key>
 			<dict>
 				<key>checkForUpdates</key>
@@ -291,14 +283,6 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSApplication</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>JKVariableCellColumn</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSTableColumn</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>

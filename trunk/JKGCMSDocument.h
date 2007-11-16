@@ -137,7 +137,7 @@ typedef enum {
 - (BOOL)modelString:(NSString *)stringA isEqualToString:(NSString *)stringB;
 //int intSort(id num1, id num2, void *context);
 
-- (void)updateLibraryHits;
+//- (void)updateLibraryHits;
 
 /*! 
     @functiongroup Model

@@ -8,70 +8,97 @@
 
 #import "JKSearchResult.h"
 
+#import "JKAppDelegate.h"
 #import "JKLibraryEntry.h"
 #import "JKPeakRecord.h"
 #import "JKLibrary.h"
+#import "JKManagedLibraryEntry.h"
 
 @implementation JKSearchResult
 
 - (id)init {
     self = [super init];
     if (self != nil) {
- //       score = [[NSNumber alloc] init];
-       libraryHit = nil;
-        spectrumType = 0;
+        _libraryHit = nil;
+//        spectrumType = 0;
+        jcampString = [@"" retain];
     }
     return self;
 }
 
 - (void)dealloc {
-//    [score release];
-//    [libraryHit release];
+    [jcampString release];
+    [_libraryHit release];
     [super dealloc];
 }
 
 
 - (NSNumber *)deltaRetentionIndex {
-    return [NSNumber numberWithFloat:[[peak retentionIndex] floatValue] - [[libraryHit retentionIndex] floatValue]];
+    return [NSNumber numberWithFloat:[[peak retentionIndex] floatValue] - [[[self libraryHit] retentionIndex] floatValue]];
 }
 
-//- (NSNumber *)score {
-//	return score;
-//}
-//- (void)setScore:(NSNumber *)aScore {
-//	[score autorelease];
-//	score = [aScore retain];
-//}
-//
-- (JKLibraryEntry *)libraryHit {
-	return libraryHit;
+- (id)libraryHit {
+    if (_libraryHit) {
+        return _libraryHit;
+    }
+    
+    if (libraryHitURI) {
+        NSManagedObjectContext *moc = [[[NSApp delegate] library] managedObjectContext];
+        NSManagedObjectID *mid = [[moc persistentStoreCoordinator] managedObjectIDForURIRepresentation:libraryHitURI];
+        if (mid) {
+            _libraryHit = [[moc objectWithID:mid] retain];
+            if (_libraryHit) {
+                [_libraryHit willAccessValueForKey:nil];
+                return _libraryHit;
+            }
+            JKLogDebug(@"Library entry for '%@' not found in current libraries.", [libraryHitURI description]);
+        }
+     } 
+    
+    if (jcampString) {
+        // The library entry was not found, fall back on the jcamp string representation
+        _libraryHit = [[JKLibraryEntry alloc] initWithJCAMPString:jcampString];
+        JKLogDebug(@"Library entry for '%@' not found. Falling back to using JCAMP.", [_libraryHit name]);
+        return _libraryHit;
+    }
+
+	return nil;
 }
-//- (void)setLibraryHit:(JKLibraryEntry *)aLibraryHit {
-//	[libraryHit autorelease];
-//	libraryHit = [aLibraryHit retain];
-//}
-//
-//- (JKPeakRecord *)peak {
-//	return peak;
-//}
-//- (void)setPeak:(JKPeakRecord *)aPeak {
-//	peak = aPeak;
-//}
+
+- (void)setLibraryHit:(id)aLibraryHit {
+    if (_libraryHit != aLibraryHit) {
+        if ([aLibraryHit isKindOfClass:[JKManagedLibraryEntry class]]) {
+            if (![[aLibraryHit objectID] isTemporaryID]) {
+                [libraryHitURI autorelease];
+                libraryHitURI = [[[aLibraryHit objectID] URIRepresentation] retain];
+            }
+        }
+        if (jcampString)
+            [jcampString autorelease];
+        jcampString = [[aLibraryHit jcampString] retain];
+        if (_libraryHit)
+            [_libraryHit autorelease];
+        _libraryHit = [aLibraryHit retain];
+    }
+}
 
 
 #pragma mark Encoding
 
 - (void)encodeWithCoder:(NSCoder *)coder {
     if ([coder allowsKeyedCoding]) {
-        [coder encodeInt:1 forKey:@"version"];
+        [coder encodeInt:2 forKey:@"version"];
 		[coder encodeObject:score forKey:@"score"]; 
-		[coder encodeObject:libraryHit forKey:@"libraryHit"]; 
-		[coder encodeConditionalObject:peak forKey:@"peak"];         
-//        [coder encodeInt:2 forKey:@"version"];
-//		[coder encodeObject:score forKey:@"score"]; 
-//		[coder encodeObject:libraryHit forKey:@"libraryHit"]; 
-//		[coder encodeObject:libraryHitURI forKey:@"libraryHitURI"]; 
-//		[coder encodeConditionalObject:peak forKey:@"peak"];         
+		[coder encodeObject:[[self libraryHit] jcampString] forKey:@"jcampString"]; 
+        // If the library entry has gained a permanentID in between the assignment, we want to get it and use it.
+        if (!libraryHitURI && [_libraryHit isKindOfClass:[JKManagedLibraryEntry class]]) {
+            if (![[_libraryHit objectID] isTemporaryID]) {
+                [libraryHitURI autorelease];
+                libraryHitURI = [[[_libraryHit objectID] URIRepresentation] retain];
+            }            
+        }
+		[coder encodeObject:libraryHitURI forKey:@"libraryHitURI"]; 
+		[coder encodeObject:peak forKey:@"peak"];         
     } 
     return;
 }
@@ -81,33 +108,26 @@
         int version = [coder decodeIntForKey:@"version"];
         if (version < 2) {
             score = [[coder decodeObjectForKey:@"score"] retain]; 
-            libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain]; 
-            peak = [coder decodeObjectForKey:@"peak"]; 
-//            libraryHitURI = nil;
-//         } else {
-//            score = [[coder decodeObjectForKey:@"score"] retain]; 
-//            libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain]; 
-//            peak = [coder decodeObjectForKey:@"peak"];
-//            libraryHitURI = [[coder decodeObjectForKey:@"libraryHitURI"] retain];
+            peak = [[coder decodeObjectForKey:@"peak"] retain]; 
+            // See if we can find the library entry in the current library and get hold of the URI
+            JKLibraryEntry *someLibraryHit = [coder decodeObjectForKey:@"libraryHit"]; 
+            id matchedLibraryHit = [(JKAppDelegate *)[NSApp delegate] libraryEntryForName:[someLibraryHit name]];
+            if (matchedLibraryHit) {
+                [self setLibraryHit:matchedLibraryHit];
+            } else {
+                jcampString = [[someLibraryHit jcampString] retain];
+            }
+         } else {
+            score = [[coder decodeObjectForKey:@"score"] retain]; 
+            jcampString = [[coder decodeObjectForKey:@"jcampString"] retain]; 
+            peak = [[coder decodeObjectForKey:@"peak"] retain];
+            libraryHitURI = [[coder decodeObjectForKey:@"libraryHitURI"] retain];
         }
-//        if (libraryHitURI) {
-//            NSManagedObjectContext *moc = [[[NSApp delegate] library] managedObjectContext];
-//            NSManagedObjectID *mid = [[moc persistentStoreCoordinator] managedObjectIDForURIRepresentation:libraryHitURI];
-//            if (mid) {
-//                libraryHit = [moc objectRegisteredForID:mid];
-//                if (libraryHit) {
-//                    [self setLibraryHit:libraryHit];
-//                }
-//            }            
-//        } else {
-//            // Try to find it?
-//
-//        }
     } 
     return self;
 }
 @synthesize score;
-@synthesize libraryHit;
 @synthesize peak;
-@synthesize spectrumType;
+             
+//@synthesize spectrumType;
 @end

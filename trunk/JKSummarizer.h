@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class JKCombinedPeak;
+@class JKPeakRecord;
 
 @interface JKSummarizer : NSObject {
     NSMutableArray *combinedPeaks;
@@ -19,7 +20,7 @@
 
 - (void)didConfirmPeak:(NSNotification *)aNotification;
 - (void)didUnconfirmPeak:(NSNotification *)aNotification;
-- (JKCombinedPeak *)combinedPeakForLabel:(NSString *)label;
+- (JKCombinedPeak *)combinedPeakForPeak:(JKPeakRecord *)peak;
 - (NSMutableArray *)combinedPeaks;
 
 @end
