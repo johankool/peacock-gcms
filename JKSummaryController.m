@@ -17,6 +17,8 @@
 #import "JKPeakRecord.h"
 #import "PKDocumentController.h"
 
+#define JKLibraryEntryTableViewDataType @"JKLibraryEntryTableViewDataType"
+
 @implementation JKSummaryController
 - (id)init {
     self = [super initWithWindowNibName:@"JKSummary"];
@@ -62,6 +64,10 @@
 
 - (void)windowDidLoad
 {
+    // Drag and drop
+	[tableView registerForDraggedTypes:[NSArray arrayWithObjects:JKLibraryEntryTableViewDataType, nil]];
+	[tableView setDataSource:self];
+    
     [tableView setTarget:self];
     [tableView setDoubleAction:@selector(doubleClickAction:)];
     [combinedPeaksController bind:@"contentArray" toObject:[(JKAppDelegate *)[NSApp delegate] summarizer] withKeyPath:@"combinedPeaks" options:nil];
@@ -394,6 +400,37 @@
         [aCell setTextColor:[NSColor blackColor]];
     }
 }
+
+- (BOOL)tableView:(NSTableView *)tv acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation{
+	
+    if (tv == tableView) {
+        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKLibraryEntryTableViewDataType]]) {
+ //           // Add the library entry to the peak
+//            JKCombinedPeak *peak = [[combinedPeaksController arrangedObjects] objectAtIndex:row];
+//            
+//            NSData *data = [[info draggingPasteboard] dataForType:JKLibraryEntryTableViewDataType];
+//            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+//            JKManagedLibraryEntry *libEntry = [unarchiver decodeObjectForKey:JKLibraryEntryTableViewDataType];
+//            [unarchiver finishDecoding];
+//            [unarchiver release];
+//            
+//            [peak setLibraryEntry:libEntry];
+            return YES;
+  		}	
+    }
+    return NO;    
+}
+
+- (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op {
+    if (tv == tableView) {
+        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKLibraryEntryTableViewDataType]]) {
+			[tv setDropRow:row dropOperation:NSTableViewDropOn];
+			return NSDragOperationMove;
+		}	
+	} 
+    return NSDragOperationNone;    
+}
+
 @synthesize sortDirection;
 @synthesize combinedPeaksController;
 @synthesize sortKeys;

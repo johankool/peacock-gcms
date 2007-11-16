@@ -13,25 +13,23 @@
 
 @interface JKSearchResult : NSObject <NSCoding> {
     NSNumber *score;
-    JKLibraryEntry *libraryHit;
     JKPeakRecord *peak;
-    int spectrumType; // 0 = spectrum; 1 = combinedSpectrum
-//    NSURL *libraryHitURI;
+//    JKSearchSpectra spectrumType; // 0 = spectrum; 1 = combinedSpectrum
+    NSString *jcampString;
+    NSURL *libraryHitURI;
+
+    id _libraryHit;
 }
 
 - (NSNumber *)deltaRetentionIndex;
 
-//- (NSNumber *)score;
-//- (void)setScore:(NSNumber *)inValue;
-//
-//- (JKLibraryEntry *)libraryHit;
-//- (void)setLibraryHit:(JKLibraryEntry *)libraryHit;
-//
-//- (JKPeakRecord *)peak;
-//- (void)setPeak:(JKPeakRecord *)aPeak;
+- (id)libraryHit;
+- (void)setLibraryHit:(id)libraryHit;
+
 
 @property (copy) NSNumber *score;
-@property (retain) JKLibraryEntry *libraryHit;
+//@property (copy) NSString *jcampString;
 @property (retain) JKPeakRecord *peak;
-@property int spectrumType;
+//@property JKSearchSpectra spectrumType;
+
 @end

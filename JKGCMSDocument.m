@@ -486,9 +486,9 @@ int const JKGCMSDocument_Version = 7;
 	}
 	[error release];
 }
-- (IBAction)updateLibraryHits:(id)sender {
-    [self updateLibraryHits];
-}
+//- (IBAction)updateLibraryHits:(id)sender {
+//    [self updateLibraryHits];
+//}
 #pragma mark -
 
 #pragma mark Sorting Documents
@@ -920,23 +920,14 @@ int const JKGCMSDocument_Version = 7;
                 JKLogError(@"spectrumToUse has unexpected value.");
             }
             
-            for (j = 0; j < entriesCount; j++) {
-                libraryEntry = [libraryEntries objectAtIndex:j];
-//                libraryEntryModel = [libraryEntry model];
-//                if ([libraryEntryModel isEqualToString:[chromatogramToSearch model]]) {
-//                    chromatogramToSearch = [someChromatograms objectAtIndex:l];
-//                } else if ([libraryEntryModel isEqualToString:@""] && [[chromatogramToSearch model] isEqualToString:@"TIC"]) {
-//                    // Search through TIC by default
-//
-//                } else {
-//                    continue;
-//                }
+            for (libraryEntry in libraryEntries) {
                 score = [peakSpectrum scoreComparedTo:libraryEntry];                    
                 if (score >= minimumScoreSearchResultsF) {
                     JKSearchResult *searchResult = [[JKSearchResult alloc] init];
                     [searchResult setScore:[NSNumber numberWithFloat:score]];
-                    [searchResult setLibraryHit:[JKLibraryEntry libraryEntryWithJCAMPString:[[libraryEntries objectAtIndex:j] jcampString]]];
+                    [searchResult setLibraryHit:libraryEntry];
                     [searchResult setPeak:peak];
+//                    [searchResult setType:spectrumToUse];
                     [peak addSearchResult:searchResult];
                     [searchResult release];
                 }
@@ -1009,8 +1000,9 @@ int const JKGCMSDocument_Version = 7;
         if (score >= minimumScoreSearchResultsF) {
             JKSearchResult *searchResult = [[JKSearchResult alloc] init];
             [searchResult setScore:[NSNumber numberWithFloat:score]];
-            [searchResult setLibraryHit:[JKLibraryEntry libraryEntryWithJCAMPString:[libraryEntry jcampString]]];
+            [searchResult setLibraryHit:libraryEntry];
             [searchResult setPeak:aPeak];
+//            [searchResult setType:spectrumToUse];
             [aPeak addSearchResult:searchResult];
             [searchResult release];
         }
@@ -1162,8 +1154,9 @@ int const JKGCMSDocument_Version = 7;
             JKLogDebug(@"Found match for %@",[libraryEntry name]);
 			JKSearchResult *searchResult = [[JKSearchResult alloc] init];
 			[searchResult setScore:[NSNumber numberWithFloat:maximumScore]];
-            [searchResult setLibraryHit:[JKLibraryEntry libraryEntryWithJCAMPString:[libraryEntry jcampString]]];
+            [searchResult setLibraryHit:libraryEntry];
             [searchResult setPeak:[[chromatogramToSearch peaks] objectAtIndex:maximumIndex]];
+//            [searchResult setType:JKSpectrumSearchSpectrum];
 			[[[chromatogramToSearch peaks] objectAtIndex:maximumIndex] addSearchResult:searchResult];
 			[searchResult release];
 		} 
@@ -1446,59 +1439,59 @@ int const JKGCMSDocument_Version = 7;
 #pragma mark -
 
 #pragma mark Helper Actions
-- (void)updateLibraryHits {
-    BOOL flaggedPeak =  NO;
-    BOOL peakConfirmed =  NO;
-
-    JKLibraryEntry *anEntry = nil;
-
-    for (JKPeakRecord *peak in [self peaks]) {
-    	if ([peak confirmed] || [peak identified]) {
-            peakConfirmed = [peak confirmed];
-            // Check if libraryHit present
-            if (![peak libraryHit]) {
-                // If not, try to find libraryHit for peak label
-                anEntry = [[NSApp delegate] libraryEntryForName:[peak label]];
-                // Assign if found
-                if (anEntry) {
-                    [peak identifyAsLibraryEntry:anEntry];
-                }
-            } else {
-                // Check if peak label is equal to libraryHit name
-                if (![[peak libraryHit] isCompound:[peak label]]) {
-                    // If not, flag peak
-                    [peak setFlagged:YES];
-                    flaggedPeak = YES;
-                } else {
-                    anEntry = [[NSApp delegate] libraryEntryForName:[peak label]];
-                    // Assign if found
-                    if (anEntry) {
-                        [peak identifyAsLibraryEntry:anEntry];
-                    }                    
-                }
-            }            
-            if (peakConfirmed) {
-                [peak confirm];
-            }
-        } else {
-              for (JKSearchResult *searchResult in [peak searchResults]) {
-                 anEntry = [[NSApp delegate] libraryEntryForName:[[searchResult libraryHit] name]];
-                 // Assign if found
-                 if (anEntry) {
-                     [searchResult setLibraryHit:anEntry];
-                 }
-             }
-        }
-
-    }
-    if (flaggedPeak) {
-        NSRunAlertPanel(NSLocalizedString(@"Manual Check Required", @""), NSLocalizedString(@"One or more peaks were encountered with differing labels for the peak and the library entry. These peaks have been flagged. Please check manually which identification you expected.", @""), NSLocalizedString(@"OK", @""), nil, nil);
-    }
-    if (![[self undoManager] isUndoing]) {
-        [[self undoManager] setActionName:NSLocalizedString(@"Update Library Hits",@"Update Library Hits")];
-    }        
-    
-}
+//- (void)updateLibraryHits {
+//    BOOL flaggedPeak =  NO;
+//    BOOL peakConfirmed =  NO;
+//
+//    JKLibraryEntry *anEntry = nil;
+//
+//    for (JKPeakRecord *peak in [self peaks]) {
+//    	if ([peak confirmed] || [peak identified]) {
+//            peakConfirmed = [peak confirmed];
+//            // Check if libraryHit present
+//            if (![peak libraryHit]) {
+//                // If not, try to find libraryHit for peak label
+//                anEntry = [[NSApp delegate] libraryEntryForName:[peak label]];
+//                // Assign if found
+//                if (anEntry) {
+//                    [peak identifyAsLibraryEntry:anEntry];
+//                }
+//            } else {
+//                // Check if peak label is equal to libraryHit name
+//                if (![[peak libraryHit] isCompound:[peak label]]) {
+//                    // If not, flag peak
+//                    [peak setFlagged:YES];
+//                    flaggedPeak = YES;
+//                } else {
+//                    anEntry = [[NSApp delegate] libraryEntryForName:[peak label]];
+//                    // Assign if found
+//                    if (anEntry) {
+//                        [peak identifyAsLibraryEntry:anEntry];
+//                    }                    
+//                }
+//            }            
+//            if (peakConfirmed) {
+//                [peak confirm];
+//            }
+//        } else {
+//              for (JKSearchResult *searchResult in [peak searchResults]) {
+//                 anEntry = [[NSApp delegate] libraryEntryForName:[[searchResult libraryHit] name]];
+//                 // Assign if found
+//                 if (anEntry) {
+//                     [searchResult setLibraryHit:anEntry];
+//                 }
+//             }
+//        }
+//
+//    }
+//    if (flaggedPeak) {
+//        NSRunAlertPanel(NSLocalizedString(@"Manual Check Required", @""), NSLocalizedString(@"One or more peaks were encountered with differing labels for the peak and the library entry. These peaks have been flagged. Please check manually which identification you expected.", @""), NSLocalizedString(@"OK", @""), nil, nil);
+//    }
+//    if (![[self undoManager] isUndoing]) {
+//        [[self undoManager] setActionName:NSLocalizedString(@"Update Library Hits",@"Update Library Hits")];
+//    }        
+//    
+//}
 
 - (void)resetSymbols {
     for (JKPeakRecord *peak in [self peaks]) {

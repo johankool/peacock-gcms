@@ -71,7 +71,7 @@
 - (void)didConfirmPeak:(NSNotification *)aNotification
 {
     JKPeakRecord *peak = [aNotification object];
-    JKCombinedPeak *combinedPeak = [self combinedPeakForLabel:[peak label]];
+    JKCombinedPeak *combinedPeak = [self combinedPeakForPeak:peak];
     if (!combinedPeak) {
         combinedPeak = [[JKCombinedPeak alloc] init];
         NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks count]];
@@ -86,7 +86,7 @@
 - (void)didUnconfirmPeak:(NSNotification *)aNotification
 {
     JKPeakRecord *peak = [aNotification object];
-    JKCombinedPeak *combinedPeak = [self combinedPeakForLabel:[peak label]];
+    JKCombinedPeak *combinedPeak = [self combinedPeakForPeak:peak];
     [combinedPeak removeUnconfirmedPeak:peak];
 //    if ([combinedPeak countOfPeaks] == 0) {
 //        [combinedPeaks removeObject:combinedPeak];
@@ -98,7 +98,7 @@
     JKGCMSDocument *document = [aNotification object];
   	for (JKPeakRecord *peak in [document peaks]) {
         if ([peak confirmed]) {
-            JKCombinedPeak *combinedPeak = [self combinedPeakForLabel:[peak label]];
+            JKCombinedPeak *combinedPeak = [self combinedPeakForPeak:peak];
             if (!combinedPeak) {
                 combinedPeak = [[JKCombinedPeak alloc] init];
                 NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks count]];
@@ -126,16 +126,24 @@
 }
 
 
-- (JKCombinedPeak *)combinedPeakForLabel:(NSString *)label
+- (JKCombinedPeak *)combinedPeakForPeak:(JKPeakRecord *)peak
 {
     JKCombinedPeak *combinedPeak;
     
+    // Check using library hit
     for (combinedPeak in [self combinedPeaks]) {
-        if ([combinedPeak isCompound:label]) {
+        if ([combinedPeak isCombinedPeakForPeak:peak]) {
+            return combinedPeak;
+        }       
+    }   
+    
+    // Check using peak label
+    for (combinedPeak in [self combinedPeaks]) {
+        if ([combinedPeak isCompound:[peak label]]) {
             return combinedPeak;
         }       
     }    
-
+    
     return nil;
 }
 
@@ -187,14 +195,15 @@
         for (j=0; j < compoundCount; j++) {
             compound = [sortedCombinedPeaks objectAtIndex:j];
             // ensure symbol is set
+            if (([[compound libraryEntry] symbol]) && (![[[compound libraryEntry] symbol] isEqualToString:@""]) && ([uniqueSymbolArray indexOfObjectIdenticalTo:[[compound libraryEntry] symbol]] == NSNotFound)) {
+                [compound setSymbol:[[compound libraryEntry] symbol]];
+                [uniqueSymbolArray addObject:[[compound libraryEntry] symbol]];
+                continue;
+            }
             if (![compound group] || [[compound group] isEqualToString:@""]) {
                 [compound setGroup:@"X"];
             }
-            if (([compound symbol]) && (![[compound symbol] isEqualToString:@""]) && ([uniqueSymbolArray indexOfObjectIdenticalTo:[compound symbol]] == NSNotFound)) {
-                [compound setSymbol:[compound symbol]];
-                [uniqueSymbolArray addObject:[compound symbol]];
-                continue;
-            }
+            
             // replace odd characters
             // ensure symbol starts with letter
             //        if ([[compound group] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location == 0) {
