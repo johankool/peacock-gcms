@@ -13,6 +13,7 @@
 @class JKBatchProcessWindowController;
 @class JKLibrary;
 @class JKLibraryEntry;
+@class JKLibraryPanelController;
 @class JKManagedLibraryEntry;
 @class JKPeakRecord;
 @class JKSummaryController;
@@ -36,6 +37,7 @@
     NSMutableArray *availableDictionaries;
     NSString *libraryConfigurationLoaded;
     NSArray *autocompleteEntries;
+    JKLibraryPanelController *libraryPanelController;
     
     JKSummaryController *summaryController;
     JKRatiosController *ratiosController;

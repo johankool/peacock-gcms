@@ -166,6 +166,9 @@
             // Continue
         } else if (answer == NSCancelButton) {
             // Cancel
+            [self setConfirmed:NO];
+            [self setIdentified:NO];
+            [self setIdentifiedSearchResult:nil];
             return NO;
 //        } else {
 //            // Move peak to chromatogram of the model in the libraryentry
@@ -311,19 +314,19 @@
 
 - (JKSearchResult *)addSearchResultForLibraryEntry:(JKLibraryEntry *)aLibraryEntry
 {
-    if ([[[self chromatogram] model] isEqualToModelString:[aLibraryEntry model]] || [[aLibraryEntry model] isEqualToString:@""]) {
+ //   if ([[[self chromatogram] model] isEqualToModelString:[aLibraryEntry model]] || [[aLibraryEntry model] isEqualToString:@""]) {
 //    if ([[self document] modelString:[[self chromatogram] model] isEqualToString:[aLibraryEntry model]]) {        
         JKSearchResult *searchResult = [[JKSearchResult alloc] init];
         [searchResult setPeak:self];
         [searchResult setLibraryHit:aLibraryEntry];
-        if ([[aLibraryEntry model] isEqualToString:@""]) {
-            [[searchResult libraryHit] setModel:[[self chromatogram] model]];
-        }
+//        if ([[aLibraryEntry model] isEqualToString:@""]) {
+//            [[searchResult libraryHit] setModel:[[self chromatogram] model]];
+//        }
         [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedTo:aLibraryEntry]]];
         [self addSearchResult:searchResult];
         return [searchResult autorelease];
-    }   
-    return nil;
+//    }   
+//    return nil;
 }
 
 - (BOOL)isCompound:(NSString *)compoundString

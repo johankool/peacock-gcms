@@ -31,16 +31,17 @@
 
 #pragma mark ACTIONS
 - (void)confirm {
-	for (JKPeakRecord *peak in [[self peaks] allValues]) {
-        if ([peak identified] | [peak confirmed]) {
-            [peak confirm];
-        } else if ([[peak searchResults] count] > 0) {
-            [peak identifyAs:[[peak searchResults] objectAtIndex:0]];
-            [peak confirm];
-        } else {
-            JKLogWarning(@"Could not confirm peak %d in document '%@', no search result available.", [peak peakID], [[peak document] displayName]);
-        }
-    }
+//	for (JKPeakRecord *peak in [[self peaks] allValues]) {
+//        [peak confirm]
+//        if ([peak identified] | [peak confirmed]) {
+//            [peak confirm];
+//        } else if ([[peak searchResults] count] > 0) {
+//            [peak identifyAs:[[peak searchResults] objectAtIndex:0]];
+//            [peak confirm];
+//        } else {
+//            JKLogWarning(@"Could not confirm peak %d in document '%@', no search result available.", [peak peakID], [[peak document] displayName]);
+//        }
+//    }
 }
 
 #pragma mark CALCULATED ACCESSORS
@@ -298,6 +299,17 @@
     if (libraryEntry != aLibraryEntry) {
         [libraryEntry autorelease];
         libraryEntry = [aLibraryEntry retain];
+        
+        // Set label also for all peaks
+        if (libraryEntry) {
+            for (JKPeakRecord *peak in [[self peaks] allValues]) {
+                if (libraryEntry != [peak libraryHit]) {
+                    [peak identifyAsLibraryEntry:libraryEntry];
+                }
+            }            
+        }            
+        
+        
         if ([libraryEntry group]) {
             [self setGroup:[libraryEntry group]];
         }

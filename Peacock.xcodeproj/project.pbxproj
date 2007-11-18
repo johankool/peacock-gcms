@@ -108,6 +108,10 @@
 		C74A28180CEE4E4D00FFB61F /* JKPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A28030CEE4E4D00FFB61F /* JKPreferences.xib */; };
 		C74A28190CEE4E4D00FFB61F /* JKRatios.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A28050CEE4E4D00FFB61F /* JKRatios.xib */; };
 		C74A281A0CEE4E4D00FFB61F /* JKSummary.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A28070CEE4E4D00FFB61F /* JKSummary.xib */; };
+		C74A28250CEE51C100FFB61F /* JKLibraryPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = C74A28230CEE51C100FFB61F /* JKLibraryPanelController.h */; };
+		C74A28260CEE51C100FFB61F /* JKLibraryPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = C74A28240CEE51C100FFB61F /* JKLibraryPanelController.m */; };
+		C74A28270CEE51C100FFB61F /* JKLibraryPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = C74A28230CEE51C100FFB61F /* JKLibraryPanelController.h */; };
+		C74A28280CEE51C100FFB61F /* JKLibraryPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = C74A28240CEE51C100FFB61F /* JKLibraryPanelController.m */; };
 		C75846140C071ACC00756ED8 /* JKComparableProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846130C071ACC00756ED8 /* JKComparableProtocol.h */; };
 		C75846630C07268D00756ED8 /* JKLibraryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846610C07268D00756ED8 /* JKLibraryEntry.h */; };
 		C75846640C07268D00756ED8 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C75846620C07268D00756ED8 /* JKLibraryEntry.m */; };
@@ -502,6 +506,8 @@
 		C74A28040CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKPreferences.xib; sourceTree = "<absolute>"; };
 		C74A28060CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKRatios.xib; sourceTree = "<absolute>"; };
 		C74A28080CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKSummary.xib; sourceTree = "<absolute>"; };
+		C74A28230CEE51C100FFB61F /* JKLibraryPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JKLibraryPanelController.h; path = /Users/jkool/Developer/Peacock/trunk/JKLibraryPanelController.h; sourceTree = "<absolute>"; };
+		C74A28240CEE51C100FFB61F /* JKLibraryPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JKLibraryPanelController.m; path = /Users/jkool/Developer/Peacock/trunk/JKLibraryPanelController.m; sourceTree = "<absolute>"; };
 		C75846130C071ACC00756ED8 /* JKComparableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKComparableProtocol.h; sourceTree = "<group>"; };
 		C75846610C07268D00756ED8 /* JKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKLibraryEntry.h; sourceTree = "<group>"; };
 		C75846620C07268D00756ED8 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = "<group>"; };
@@ -902,6 +908,8 @@
 				C75846620C07268D00756ED8 /* JKLibraryEntry.m */,
 				C7EB17D80898CF2E007FC2ED /* JKLibraryWindowController.h */,
 				C7EB17D90898CF2E007FC2ED /* JKLibraryWindowController.m */,
+				C74A28230CEE51C100FFB61F /* JKLibraryPanelController.h */,
+				C74A28240CEE51C100FFB61F /* JKLibraryPanelController.m */,
 				C7EB17DC0898CF2E007FC2ED /* JKMainWindowController.h */,
 				C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */,
 				C7F5E8F308EAA98600AC1068 /* JKManagedLibraryEntry.h */,
@@ -1166,6 +1174,7 @@
 				C75AE39E0CBE82190054E51B /* JKSourceTableView_Prefix.pch in Headers */,
 				C78FB8010CE9B73400466731 /* GCMathParser.h in Headers */,
 				C78FB8040CE9B73400466731 /* ZExpParser.h in Headers */,
+				C74A28270CEE51C100FFB61F /* JKLibraryPanelController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1217,6 +1226,7 @@
 				C75AE3A90CBE82190054E51B /* JKSourceTableView_Prefix.pch in Headers */,
 				C78FB8060CE9B73400466731 /* GCMathParser.h in Headers */,
 				C78FB8090CE9B73400466731 /* ZExpParser.h in Headers */,
+				C74A28250CEE51C100FFB61F /* JKLibraryPanelController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1547,6 +1557,7 @@
 				C7EF71380CD9408300A9F1EF /* JKLibrary.xcdatamodel in Sources */,
 				C78FB8070CE9B73400466731 /* GCMathParser.m in Sources */,
 				C78FB80A0CE9B73400466731 /* ZExpParser.mm in Sources */,
+				C74A28260CEE51C100FFB61F /* JKLibraryPanelController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1622,6 +1633,7 @@
 				C75AE39C0CBE82190054E51B /* JKVariableCellColumn.m in Sources */,
 				C78FB8020CE9B73400466731 /* GCMathParser.m in Sources */,
 				C78FB8050CE9B73400466731 /* ZExpParser.mm in Sources */,
+				C74A28280CEE51C100FFB61F /* JKLibraryPanelController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
