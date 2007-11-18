@@ -16,6 +16,7 @@
 #import "BooleanToStringTransformer.h"
 #import "JKLibrary.h"
 #import "JKLibraryEntry.h"
+#import "JKLibraryPanelController.h"
 #import "JKManagedLibraryEntry.h"
 #import "JKPeakRecord.h"
 #import "JKSummaryController.h"
@@ -235,6 +236,12 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 //	[self loadLibraryForConfiguration:@"None"];
 //    libraryConfigurationLoaded = @"";
     [self loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"libraryConfiguration"]];
+    
+    if (!libraryPanelController) {
+        libraryPanelController = [[JKLibraryPanelController alloc] init];
+    }
+    [libraryPanelController showWindow:self];
+    
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {

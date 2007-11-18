@@ -1,25 +1,21 @@
 //
-//  This file is part of the application with the working name:
+//  JKLibraryPanelController.m
 //  Peacock
 //
-//  Created by Johan Kool.
-//  Copyright 2003-2007 Johan Kool. All rights reserved.
+//  Created by Johan Kool on 16-11-07.
+//  Copyright 2007 Johan Kool. All rights reserved.
 //
 
-#import "JKLibraryWindowController.h"
+#import "JKLibraryPanelController.h"
 
 #import "JKLibrary.h"
 #import "JKManagedLibraryEntry.h"
-#import "JKMoleculeModel.h"
-#import "JKMoleculeView.h"
 #import "PKGraphView.h"
 #import "PKSpectrumDataSeries.h"
 
-
-@implementation JKLibraryWindowController
-
+@implementation JKLibraryPanelController
 - (id)init {
-	self = [super initWithWindowNibName:@"JKLibrary"];
+	self = [super initWithWindowNibName:@"JKLibraryPanel"];
     if (self != nil) {
         [self setShouldCloseDocument:YES];
     }
@@ -43,11 +39,12 @@
 	[spectrumView bind:@"dataSeries" toObject:spectrumViewDataseriesController withKeyPath:@"arrangedObjects" options:nil];
 	
 	[libraryController addObserver:self forKeyPath:@"selection" options:0 context:nil];
-
-    [moleculeView bind:@"moleculeString" toObject: libraryController
-		   withKeyPath:@"selection.molString" options:nil];
     
-//    [tableView registerForDraggedTypes:[NSArray arrayWithObjects:@"JKLibraryEntryTableViewDataType", nil]]; 
+//    [moleculeView bind:@"moleculeString" toObject: libraryController
+//		   withKeyPath:@"selection.molString" options:nil];
+    [tableView setDelegate:self];
+
+    [tableView registerForDraggedTypes:[NSArray arrayWithObjects:@"JKLibraryEntryTableViewDataType", nil]]; 
 }
 
 - (void) dealloc {
@@ -60,9 +57,9 @@
 						change:(NSDictionary *)change
 					   context:(void *)context {
 	if ([[[self libraryController] selectedObjects] count] > 0) {
-//		[moleculeView setModel:[[JKMoleculeModel alloc] initWithMoleculeString:[[[[self libraryController] selectedObjects] objectAtIndex:0] valueForKey:@"molString"]]];
-        [moleculeView setNeedsDisplay:YES];
-      
+        //		[moleculeView setModel:[[JKMoleculeModel alloc] initWithMoleculeString:[[[[self libraryController] selectedObjects] objectAtIndex:0] valueForKey:@"molString"]]];
+//        [moleculeView setNeedsDisplay:YES];
+        
         [spectrumViewDataseriesController removeObjects:[spectrumViewDataseriesController arrangedObjects]];
         NSMutableArray *spectrumArray = [NSMutableArray array];
         
@@ -78,55 +75,20 @@
         
         [spectrumViewDataseriesController setContent:spectrumArray];
         
-         // spectrumView resizes to show all data
+        // spectrumView resizes to show all data
         [spectrumView showAll:self];
         [spectrumView setNeedsDisplay:YES];
- 	} else if (object == moleculeView) {
-      //  [[[[self libraryController] selectedObjects] objectAtIndex:0] setMolString:[[moleculeView model] molString]];
-	} else {
-//		[moleculeView setModel:nil];
-        [moleculeView setNeedsDisplay:YES];
+// 	} else if (object == moleculeView) {
+        //  [[[[self libraryController] selectedObjects] objectAtIndex:0] setMolString:[[moleculeView model] molString]];
+//	} else {
+//        //		[moleculeView setModel:nil];
+//        [moleculeView setNeedsDisplay:YES];
 	}
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification {
     [spectrumViewDataseriesController setContent:nil];
 }
-
-#pragma mark IBACTIONS
-- (IBAction)showAddCasNumber:(id)sender {
-    [NSApp beginSheet: addCasNumberSheet
-	   modalForWindow: [self window]
-		modalDelegate: self
-	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
-		  contextInfo: nil];
-}
-
-- (IBAction)addCasNumber:(id)sender {
-    JKLogDebug([casNumberField stringValue]);
-    NSString *string = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",[casNumberField stringValue],[casNumberField stringValue]]]];
-    JKLogDebug(string);
-    if (string) {
-        JKManagedLibraryEntry *libEntry = [NSEntityDescription insertNewObjectForEntityForName:@"JKManagedLibraryEntry" inManagedObjectContext:[[self document] managedObjectContext]];
-        [libEntry setJCAMPString:string];
-        [libEntry setMolString:[NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[casNumberField stringValue],[casNumberField stringValue]]]]];        
-    } else {
-        NSBeep();
-    }
-    [NSApp endSheet:addCasNumberSheet];
-}
-
-- (IBAction)cancelCasNumber:(id)sender {
-    [NSApp endSheet:addCasNumberSheet];
-}
-
-#pragma mark UNDO MANAGEMENT
-
-- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window { 
-    return [[self document] undoManager];
-}
-#pragma mark -
-
 #pragma mark Drag-'n-drop
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard
 {
@@ -148,30 +110,13 @@
 }
 #pragma mark -
 
-#pragma mark SHEETS
-- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    [sheet orderOut:self];
+- (JKLibrary *)library {
+    [[NSApp delegate] library];
 }
 
-- (void)windowWillBeginSheet:(NSNotification *)notification {
-	return;
-}
-
-- (void)windowDidEndSheet:(NSNotification *)notification {
-	return;
-}
-
-#pragma mark ACCESSORS
-
-- (NSArrayController *)libraryController {
-	return libraryController;
-}
-@synthesize addCasNumberSheet;
-@synthesize showNormalizedSpectra;
-@synthesize casNumberField;
 @synthesize spectrumViewDataseriesController;
 @synthesize spectrumView;
 @synthesize libraryController;
-@synthesize moleculeView;
 @synthesize tableView;
+@synthesize showNormalizedSpectra;
 @end

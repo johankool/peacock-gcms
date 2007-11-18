@@ -148,8 +148,8 @@ static void *PeaksObservationContext = (void *)1103;
 	[resultsTable setDoubleAction:@selector(resultDoubleClicked:)];
 	
 	// Drag and drop
-	[peaksTable registerForDraggedTypes:[NSArray arrayWithObjects:JKLibraryEntryTableViewDataType, nil]];
-	[resultsTable registerForDraggedTypes:[NSArray arrayWithObjects:JKLibraryEntryTableViewDataType, nil]];
+	[peaksTable registerForDraggedTypes:[NSArray arrayWithObjects:@"JKManagedLibraryEntryURIType", nil]];
+	[resultsTable registerForDraggedTypes:[NSArray arrayWithObjects:@"JKManagedLibraryEntryURIType", nil]];
 	[chromatogramsTable registerForDraggedTypes:[NSArray arrayWithObjects:JKPeakRecordTableViewDataType, nil]];
 	[peaksTable setDataSource:self];
 	[resultsTable setDataSource:self];
@@ -1354,17 +1354,17 @@ static void *PeaksObservationContext = (void *)1103;
             return YES;
         }
     } else if (tv == peaksTable) {
-        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKLibraryEntryTableViewDataType]]) {
+        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObjects:@"JKManagedLibraryEntryURIType", nil]]) { //JKLibraryEntryTableViewDataType
+            
             // Add the library entry to the peak
             JKPeakRecord *peak = [[peakController arrangedObjects] objectAtIndex:row];
             
-            NSData *data = [[info draggingPasteboard] dataForType:JKLibraryEntryTableViewDataType];
-            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-            [unarchiver setClass:[JKLibraryEntry class] forClassName:@"JKManagedLibraryEntry"];
-            JKLibraryEntry *libEntry = [unarchiver decodeObjectForKey:JKLibraryEntryTableViewDataType];
-            [unarchiver finishDecoding];
-            [unarchiver release];
-            if ([peak identifyAsLibraryEntry:libEntry]) {
+            NSString *stringURI = [[info draggingPasteboard] stringForType:@"JKManagedLibraryEntryURIType"];
+            NSURL *libraryHitURI = [NSURL URLWithString:stringURI];
+            JKManagedLibraryEntry *libEntry = [[NSApp delegate] library];
+            NSManagedObjectContext *moc = [[[NSApp delegate] library] managedObjectContext];
+            NSManagedObjectID *mid = [[moc persistentStoreCoordinator] managedObjectIDForURIRepresentation:libraryHitURI];
+            if ([peak identifyAsLibraryEntry:[moc objectWithID:mid]]) {
                 [peak confirm];
                 return YES;
             } else {
@@ -1372,25 +1372,22 @@ static void *PeaksObservationContext = (void *)1103;
             }
 		}	
 	} else if (tv == resultsTable) {
-        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKLibraryEntryTableViewDataType]]) {
-            // Add the library entry to the peak
-            if ([[peakController selectedObjects] count] != 1) {
-                return NO;
-            }
-            JKPeakRecord *peak = [[peakController selectedObjects] objectAtIndex:0];
+        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObjects:@"JKManagedLibraryEntryURIType", nil]]) { //JKLibraryEntryTableViewDataType
             
-            NSData *data = [[info draggingPasteboard] dataForType:JKLibraryEntryTableViewDataType];
-            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-            [unarchiver setClass:[JKLibraryEntry class] forClassName:@"JKManagedLibraryEntry"];
-            JKLibraryEntry *libEntry = [unarchiver decodeObjectForKey:JKLibraryEntryTableViewDataType];
-            [unarchiver finishDecoding];
-            [unarchiver release];
-            if ([peak addSearchResultForLibraryEntry:libEntry]) {
+            // Add the library entry to the peak
+            JKPeakRecord *peak = [[peakController arrangedObjects] objectAtIndex:row];
+            
+            NSString *stringURI = [[info draggingPasteboard] stringForType:@"JKManagedLibraryEntryURIType"];
+            NSURL *libraryHitURI = [NSURL URLWithString:stringURI];
+            JKManagedLibraryEntry *libEntry = [[NSApp delegate] library];
+            NSManagedObjectContext *moc = [[[NSApp delegate] library] managedObjectContext];
+            NSManagedObjectID *mid = [[moc persistentStoreCoordinator] managedObjectIDForURIRepresentation:libraryHitURI];
+            if ([peak addSearchResultForLibraryEntry:[moc objectWithID:mid]]) {
                 return YES;
             } else {
                 return NO;
             }
-  		}	
+		}	
     }
     return NO;    
 }
@@ -1402,12 +1399,12 @@ static void *PeaksObservationContext = (void *)1103;
 			return NSDragOperationMove;
         }
     } else if (tv == peaksTable) {
-        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKLibraryEntryTableViewDataType]]) {
+        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:@"JKManagedLibraryEntryURIType"]]) {
 			[tv setDropRow:row dropOperation:NSTableViewDropOn];
 			return NSDragOperationMove;
 		}	
 	} else 	if (tv == resultsTable) {
-        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKLibraryEntryTableViewDataType]]) {
+        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:@"JKManagedLibraryEntryURIType"]]) {
 			[tv setDropRow:row dropOperation:NSTableViewDropAbove];
 			return NSDragOperationMove;
 		}

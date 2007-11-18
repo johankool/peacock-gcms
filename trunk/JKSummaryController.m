@@ -65,8 +65,9 @@
 - (void)windowDidLoad
 {
     // Drag and drop
-	[tableView registerForDraggedTypes:[NSArray arrayWithObjects:JKLibraryEntryTableViewDataType, nil]];
+	[tableView registerForDraggedTypes:[NSArray arrayWithObjects:@"JKManagedLibraryEntryURIType", nil]];
 	[tableView setDataSource:self];
+	[tableView setDelegate:self];
     
     [tableView setTarget:self];
     [tableView setDoubleAction:@selector(doubleClickAction:)];
@@ -418,17 +419,16 @@
 - (BOOL)tableView:(NSTableView *)tv acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation{
 	
     if (tv == tableView) {
-        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKLibraryEntryTableViewDataType]]) {
- //           // Add the library entry to the peak
-//            JKCombinedPeak *peak = [[combinedPeaksController arrangedObjects] objectAtIndex:row];
-//            
-//            NSData *data = [[info draggingPasteboard] dataForType:JKLibraryEntryTableViewDataType];
-//            NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-//            JKManagedLibraryEntry *libEntry = [unarchiver decodeObjectForKey:JKLibraryEntryTableViewDataType];
-//            [unarchiver finishDecoding];
-//            [unarchiver release];
-//            
-//            [peak setLibraryEntry:libEntry];
+        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:@"JKManagedLibraryEntryURIType"]]) {
+            // Add the library entry to the peak
+            JKCombinedPeak *combinedPeak = [[combinedPeaksController arrangedObjects] objectAtIndex:row];
+            
+            NSString *stringURI = [[info draggingPasteboard] stringForType:@"JKManagedLibraryEntryURIType"];
+            NSURL *libraryHitURI = [NSURL URLWithString:stringURI];
+            JKManagedLibraryEntry *libEntry = [[NSApp delegate] library];
+            NSManagedObjectContext *moc = [[[NSApp delegate] library] managedObjectContext];
+            NSManagedObjectID *mid = [[moc persistentStoreCoordinator] managedObjectIDForURIRepresentation:libraryHitURI];
+            [combinedPeak setLibraryEntry:[moc objectWithID:mid]];
             return YES;
   		}	
     }
@@ -437,10 +437,10 @@
 
 - (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op {
     if (tv == tableView) {
-        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKLibraryEntryTableViewDataType]]) {
+        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:@"JKManagedLibraryEntryURIType"]]) {
 			[tv setDropRow:row dropOperation:NSTableViewDropOn];
 			return NSDragOperationMove;
-		}	
+		}
 	} 
     return NSDragOperationNone;    
 }
