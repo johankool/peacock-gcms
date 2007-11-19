@@ -12,6 +12,7 @@
 @class JKChromatogram;
 @class JKGCMSDocument;
 @class JKLibraryEntry;
+@class JKManagedLibraryEntry;
 @class JKSearchResult;
 @class JKSpectrum;
 
@@ -41,10 +42,9 @@
 
 - (BOOL)confirm;
 - (void)discard;
-- (BOOL)identifyAs:(JKSearchResult *)searchResult;
-- (BOOL)identifyAsLibraryEntry:(JKLibraryEntry *)aLibraryEntry;
-- (JKSearchResult *)addSearchResultForLibraryEntry:(JKLibraryEntry *)aLibraryEntry;
-- (void)addSearchResult:(JKSearchResult *)searchResult;
+- (BOOL)identifyAsSearchResult:(JKSearchResult *)searchResult;
+- (JKSearchResult *)addSearchResultForLibraryEntry:(JKManagedLibraryEntry *)aLibraryEntry;
+- (JKSearchResult *)addSearchResult:(JKSearchResult *)searchResult;
 - (JKLibraryEntry *)libraryEntryRepresentation;
 - (BOOL)isCompound:(NSString *)compoundString;
 

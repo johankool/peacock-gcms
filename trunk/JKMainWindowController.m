@@ -477,7 +477,7 @@ static void *PeaksObservationContext = (void *)1103;
 		if ([peak identified]) {
 			[peak confirm];
 		} else if ([[searchResultsController selectedObjects] count] == 1) {
-			[peak identifyAs:[[searchResultsController selectedObjects] objectAtIndex:0]];
+			[peak identifyAsSearchResult:[[searchResultsController selectedObjects] objectAtIndex:0]];
 			[peak confirm];
 		} else {
             [peak confirm];
@@ -663,7 +663,7 @@ static void *PeaksObservationContext = (void *)1103;
 
 - (IBAction)resultDoubleClicked:(id)sender{
 	JKPeakRecord *selectedPeak = [[peakController selectedObjects] objectAtIndex:0];
-	[selectedPeak identifyAs:[[searchResultsController selectedObjects] objectAtIndex:0]];
+	[selectedPeak identifyAsSearchResult:[[searchResultsController selectedObjects] objectAtIndex:0]];
 	[selectedPeak confirm];
 }
 
@@ -1361,32 +1361,26 @@ static void *PeaksObservationContext = (void *)1103;
             
             NSString *stringURI = [[info draggingPasteboard] stringForType:@"JKManagedLibraryEntryURIType"];
             NSURL *libraryHitURI = [NSURL URLWithString:stringURI];
-            JKManagedLibraryEntry *libEntry = [[NSApp delegate] library];
             NSManagedObjectContext *moc = [[[NSApp delegate] library] managedObjectContext];
             NSManagedObjectID *mid = [[moc persistentStoreCoordinator] managedObjectIDForURIRepresentation:libraryHitURI];
-            if ([peak identifyAsLibraryEntry:[moc objectWithID:mid]]) {
-                [peak confirm];
-                return YES;
-            } else {
-                return NO;
-            }
+            JKSearchResult *searchResult = [peak addSearchResultForLibraryEntry:(JKManagedLibraryEntry *)[moc objectWithID:mid]];
+            [peak identifyAsSearchResult:searchResult];
+            return YES;
 		}	
 	} else if (tv == resultsTable) {
         if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObjects:@"JKManagedLibraryEntryURIType", nil]]) { //JKLibraryEntryTableViewDataType
             
-            // Add the library entry to the peak
-            JKPeakRecord *peak = [[peakController arrangedObjects] objectAtIndex:row];
-            
             NSString *stringURI = [[info draggingPasteboard] stringForType:@"JKManagedLibraryEntryURIType"];
             NSURL *libraryHitURI = [NSURL URLWithString:stringURI];
-            JKManagedLibraryEntry *libEntry = [[NSApp delegate] library];
             NSManagedObjectContext *moc = [[[NSApp delegate] library] managedObjectContext];
             NSManagedObjectID *mid = [[moc persistentStoreCoordinator] managedObjectIDForURIRepresentation:libraryHitURI];
-            if ([peak addSearchResultForLibraryEntry:[moc objectWithID:mid]]) {
-                return YES;
-            } else {
-                return NO;
+            JKManagedLibraryEntry *managedLibraryEntry = [moc objectWithID:mid];
+            
+            // Add the library entry to the peak
+            for (JKPeakRecord *peak in [peakController selectedObjects])  {
+                [peak addSearchResultForLibraryEntry:managedLibraryEntry];
             }
+            return YES;
 		}	
     }
     return NO;    
@@ -1400,12 +1394,14 @@ static void *PeaksObservationContext = (void *)1103;
         }
     } else if (tv == peaksTable) {
         if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:@"JKManagedLibraryEntryURIType"]]) {
-			[tv setDropRow:row dropOperation:NSTableViewDropOn];
-			return NSDragOperationMove;
+            if (row < [[peakController arrangedObjects] count]) {
+                [tv setDropRow:row dropOperation:NSTableViewDropOn];
+                return NSDragOperationMove;
+            }
 		}	
 	} else 	if (tv == resultsTable) {
         if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:@"JKManagedLibraryEntryURIType"]]) {
-			[tv setDropRow:row dropOperation:NSTableViewDropAbove];
+			[tv setDropRow:-1 dropOperation:NSTableViewDropOn];
 			return NSDragOperationMove;
 		}
     }

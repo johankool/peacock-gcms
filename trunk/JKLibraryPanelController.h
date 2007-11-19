@@ -19,6 +19,9 @@
     BOOL showNormalizedSpectra;
 }
 
+#pragma mark INITIALIZATION
++ (JKLibraryPanelController *) sharedController;
+- (IBAction)showInspector:(id)sender;
 - (JKLibrary *)library;
 
 @property (retain) PKGraphView *spectrumView;

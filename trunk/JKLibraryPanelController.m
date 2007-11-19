@@ -13,7 +13,20 @@
 #import "PKGraphView.h"
 #import "PKSpectrumDataSeries.h"
 
+static JKLibraryPanelController *theSharedController;
+
 @implementation JKLibraryPanelController
+
++ (JKLibraryPanelController *) sharedController {
+    if (theSharedController == nil) {
+		
+        theSharedController = [[JKLibraryPanelController alloc] initWithWindowNibName: @"JKLibraryPanel"];
+    }
+	
+    return (theSharedController);
+	
+} 
+
 - (id)init {
 	self = [super initWithWindowNibName:@"JKLibraryPanel"];
     if (self != nil) {
@@ -50,6 +63,15 @@
 - (void) dealloc {
     [[self libraryController] removeObserver:self forKeyPath:@"selection"];
     [super dealloc];
+}
+
+
+- (IBAction)showInspector:(id)sender {
+	if (![[self window] isVisible]) {
+        [[self window] orderFront:self];
+    } else {
+        [[self window] orderOut:self];
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath

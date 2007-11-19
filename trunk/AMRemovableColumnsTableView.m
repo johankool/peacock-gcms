@@ -306,7 +306,7 @@ static BOOL AMRemovableColumnsTableView_readPersistentTableColumnsIsPublic = NO;
 	for (column in allColumns) {
 		option = [NSMutableDictionary dictionaryWithCapacity:3];
 		[option setObject:[column identifier] forKey:@"identifier"];
-		[option setObject:[NSNumber numberWithBool:[visibleColumns containsObject:column]] forKey:@"selected"];
+		[option setObject:[NSNumber numberWithBool:![column isHidden]] forKey:@"selected"];
 		[option setObject:[NSNumber numberWithBool:![obligatoryColumns containsObject:column]] forKey:@"enabled"];
 		NSString *title = [[column headerCell] stringValue];
 		[option setObject:title forKey:@"title"];
