@@ -21,22 +21,12 @@
 
 @implementation JKPeakRecord
 
-//NSString *GetUUID(void) {
-//    CFUUIDRef theUUID = CFUUIDCreate(NULL);
-//    CFStringRef string = CFUUIDCreateString(NULL, theUUID);
-//    CFRelease(theUUID);
-//    return [(NSString *)string autorelease];
-//}
-
 # pragma mark Initialization & deallocation
 + (void)initialize{
 	[self setKeys:[NSArray arrayWithObjects:@"identifiedSearchResult",nil] triggerChangeNotificationsForDependentKey:@"libraryHit"];
 	[self setKeys:[NSArray arrayWithObjects:@"identifiedSearchResult",nil] triggerChangeNotificationsForDependentKey:@"library"];
 	[self setKeys:[NSArray arrayWithObjects:@"identifiedSearchResult",nil] triggerChangeNotificationsForDependentKey:@"deltaRetentionIndex"];
 	[self setKeys:[NSArray arrayWithObjects:@"identifiedSearchResult",nil] triggerChangeNotificationsForDependentKey:@"score"];
-//	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"library"];
-//	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"deltaRetentionIndex"];
-//	[self setKeys:[NSArray arrayWithObjects:@"libraryHit",nil] triggerChangeNotificationsForDependentKey:@"score"];
     NSArray *startEndArray = [NSArray arrayWithObjects:@"start", @"end", @"baselineLeft", @"baselineRight", nil];
 	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"startTime"];
 	[self setKeys:startEndArray triggerChangeNotificationsForDependentKey:@"endTime"];
@@ -160,15 +150,19 @@
 - (BOOL)confirm {
     BOOL result;
     int answer;
+    
+    if (![self identified]) {	
+        NSBeep();
+        JKLogWarning(@"Can not confirm a peak that is not identified.");
+        return NO;
+    }
+    
     if (![[self document] modelString:[[self chromatogram] model] isEqualToString:[[identifiedSearchResult libraryHit] model]] && ![[[identifiedSearchResult libraryHit] model] isEqualToString:@""] && identifiedSearchResult) {   
-        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Model mismatch occurred",@""), NSLocalizedString(@"The model of the peak is different from the library entry. Are you sure you want to assign this library entry to this peak?",@""), NSLocalizedString(@"Assign",@""), NSLocalizedString(@"Cancel",@""),nil);//NSLocalizedString(@"Move Peak to Model",@""));
+        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Model mismatch occurred",@""), NSLocalizedString(@"The model of the peak is different from the library entry. Are you sure you want to assign this library entry to this peak?",@""), NSLocalizedString(@"Assign",@""), NSLocalizedString(@"Cancel",@""),nil); // NSLocalizedString(@"Move Peak to Model",@"")
         if (answer == NSOKButton) {
             // Continue
         } else if (answer == NSCancelButton) {
             // Cancel
-            [self setConfirmed:NO];
-            [self setIdentified:NO];
-            [self setIdentifiedSearchResult:nil];
             return NO;
 //        } else {
 //            // Move peak to chromatogram of the model in the libraryentry
@@ -217,35 +211,39 @@
             [[self undoManager] setActionName:NSLocalizedString(@"Confirm Library Hit",@"Confirm Library Hit")];
         }
 		return YES;		
-    } else if ([searchResults count] > 0) {
-        result = [self identifyAs:[searchResults objectAtIndex:0]];
-        if (result) {
-            [self setConfirmed:YES];
-            [self setSearchResults:[NSMutableArray arrayWithObject:identifiedSearchResult]];
-            if (![[self undoManager] isUndoing]) {
-                [[self undoManager] setActionName:NSLocalizedString(@"Confirm Library Hit",@"Confirm Library Hit")];
-            }                
-        }
-        return result;
-	} else {
-        // Allow this to mark a peak as confirmed with having the proper library entry
-        JKManagedLibraryEntry *managedLibEntry = [(JKAppDelegate *)[NSApp delegate] addLibraryEntryBasedOnPeak:self];
-        if (managedLibEntry) {
-            result = [self identifyAsLibraryEntry:[JKLibraryEntry libraryEntryWithJCAMPString:[managedLibEntry jcampString]]];
-            if (result) {
-                [self setConfirmed:YES]; 
-                [self setSearchResults:[NSMutableArray arrayWithObject:identifiedSearchResult]];
-            }
-        } else {
-            [self setConfirmed:YES];
-            result = YES;
-        }
-        
-        if (![[self undoManager] isUndoing]) {
-            [[self undoManager] setActionName:NSLocalizedString(@"Confirm Library Hit",@"Confirm Library Hit")];
-        }        
-        return result;
-	}
+    }
+    
+    return NO;
+    
+//    else if ([searchResults count] > 0) {
+//        result = [self identifyAsSearchResult:[searchResults objectAtIndex:0]];
+//        if (result) {
+//            [self setConfirmed:YES];
+//            [self setSearchResults:[NSMutableArray arrayWithObject:identifiedSearchResult]];
+//            if (![[self undoManager] isUndoing]) {
+//                [[self undoManager] setActionName:NSLocalizedString(@"Confirm Library Hit",@"Confirm Library Hit")];
+//            }                
+//        }
+//        return result;
+//	} else {
+//        // Allow this to mark a peak as confirmed with having the proper library entry
+//        JKManagedLibraryEntry *managedLibEntry = [(JKAppDelegate *)[NSApp delegate] addLibraryEntryBasedOnPeak:self];
+//        if (managedLibEntry) {
+//            result = [self identifyAsLibraryEntry:[JKLibraryEntry libraryEntryWithJCAMPString:[managedLibEntry jcampString]]];
+//            if (result) {
+//                [self setConfirmed:YES]; 
+//                [self setSearchResults:[NSMutableArray arrayWithObject:identifiedSearchResult]];
+//            }
+//        } else {
+//            [self setConfirmed:YES];
+//            result = YES;
+//        }
+//        
+//        if (![[self undoManager] isUndoing]) {
+//            [[self undoManager] setActionName:NSLocalizedString(@"Confirm Library Hit",@"Confirm Library Hit")];
+//        }        
+//        return result;
+//	}
 }
 
 - (void)discard {
@@ -259,74 +257,56 @@
     }    
 }
 
-- (BOOL)identifyAs:(JKSearchResult *)searchResult {
-    if (searchResult != identifiedSearchResult) {
-        [self setIdentifiedSearchResult:searchResult];
-        [self addSearchResult:searchResult];
-        // Initial default settings after identification, but can be customized by user later on
-        [self setLabel:[[searchResult libraryHit] name]];
-        [self setSymbol:[[searchResult libraryHit] symbol]];
-        [self setIdentified:YES];
-        [self setConfirmed:NO];
-        
-        if (![[self undoManager] isUndoing]) {
-            [[self undoManager] setActionName:NSLocalizedString(@"Identify as Library Hit",@"Identify as Library Hit")];
-        }        
-    }
-    return YES;
-}
-
-- (BOOL)identifyAsLibraryEntry:(JKLibraryEntry *)aLibraryEntry
-{
-    JKSearchResult *searchResult = [self addSearchResultForLibraryEntry:aLibraryEntry];
-    if (searchResult) {
-        [self identifyAs:searchResult];
-        
-        if (![[self undoManager] isUndoing]) {
-            [[self undoManager] setActionName:NSLocalizedString(@"Identify as Library Hit",@"Identify as Library Hit")];
-        }        
-        
-        return YES;        
-    }
-    return NO;
-}
-
-- (void)addSearchResult:(JKSearchResult *)searchResult {
+- (JKSearchResult *)addSearchResult:(JKSearchResult *)searchResult {
 	if (![searchResults containsObject:searchResult]) {
         // Loop through searchResults and make sure we not already have a search result like this one
         JKSearchResult *aSearchResult;
-
+        BOOL foundMatch = NO;
+        
         for (aSearchResult in searchResults) {
-        	if ([self isCompound:[[aSearchResult libraryHit] name]]) {
-                return;
+        	if ([[searchResult libraryHit] isCompound:[[aSearchResult libraryHit] name]]) {
+                foundMatch = YES;
+                searchResult = aSearchResult;
             }
         }
-        
-        [self insertObject:searchResult inSearchResultsAtIndex:[searchResults count]];
-		NSSortDescriptor *sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"score" ascending:NO] autorelease];
-		[searchResults sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-		
-		if ((searchResult == [searchResults objectAtIndex:0]) && ([[searchResult score] floatValue] >= [[[self document] markAsIdentifiedThreshold] floatValue])) {
-			[self identifyAs:searchResult];
-		}
-	}	
+        if (!foundMatch)
+            [self insertObject:searchResult inSearchResultsAtIndex:[searchResults count]];
+    }
+    
+    NSSortDescriptor *sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"score" ascending:NO] autorelease];
+    [searchResults sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    
+    if ((searchResult == [searchResults objectAtIndex:0]) && ([[searchResult score] floatValue] >= [[[self document] markAsIdentifiedThreshold] floatValue])) {
+        [self identifyAsSearchResult:searchResult];
+    }
+	
+    return searchResult;
 }
 
-- (JKSearchResult *)addSearchResultForLibraryEntry:(JKLibraryEntry *)aLibraryEntry
+- (JKSearchResult *)addSearchResultForLibraryEntry:(JKManagedLibraryEntry *)aLibraryEntry
 {
- //   if ([[[self chromatogram] model] isEqualToModelString:[aLibraryEntry model]] || [[aLibraryEntry model] isEqualToString:@""]) {
-//    if ([[self document] modelString:[[self chromatogram] model] isEqualToString:[aLibraryEntry model]]) {        
-        JKSearchResult *searchResult = [[JKSearchResult alloc] init];
-        [searchResult setPeak:self];
-        [searchResult setLibraryHit:aLibraryEntry];
-//        if ([[aLibraryEntry model] isEqualToString:@""]) {
-//            [[searchResult libraryHit] setModel:[[self chromatogram] model]];
-//        }
-        [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedTo:aLibraryEntry]]];
-        [self addSearchResult:searchResult];
-        return [searchResult autorelease];
-//    }   
-//    return nil;
+    JKSearchResult *searchResult = [[JKSearchResult alloc] init];
+    [searchResult setPeak:self];
+    [searchResult setLibraryHit:aLibraryEntry];
+    [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedTo:aLibraryEntry]]];
+    return [self addSearchResult:searchResult];
+}
+
+- (BOOL)identifyAsSearchResult:(JKSearchResult *)searchResult {
+    [self setConfirmed:NO];
+
+    [self setIdentifiedSearchResult:searchResult];
+    
+     // Initial default settings after identification, but can be customized by user later on
+    [self setLabel:[[searchResult libraryHit] name]];
+    [self setSymbol:[[searchResult libraryHit] symbol]];
+    [self setIdentified:YES];
+        
+    if (![[self undoManager] isUndoing]) {
+        [[self undoManager] setActionName:NSLocalizedString(@"Identify as Library Hit",@"Identify as Library Hit")];
+    }        
+    
+    return YES;
 }
 
 - (BOOL)isCompound:(NSString *)compoundString
@@ -612,9 +592,9 @@
         [label autorelease];
         label = inValue;   
         
-        if (!identifiedSearchResult) {
-            [self identifyAsLibraryEntry:[[NSApp delegate] libraryEntryForName:label]];
-        }
+//        if (!identifiedSearchResult) {
+//            [self identifyAsLibraryEntry:[[NSApp delegate] libraryEntryForName:label]];
+//        }
     }
 }
 

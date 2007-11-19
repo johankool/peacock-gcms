@@ -25,6 +25,7 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+		C70021320CF1CF8200EC976C /* Peacock Test Files in Resources */ = {isa = PBXBuildFile; fileRef = C747ED320ABF43C6001F98AF /* Peacock Test Files */; };
 		C708E90C0B9D953A0085872E /* JKCombinedPeak.h in Headers */ = {isa = PBXBuildFile; fileRef = C708E90A0B9D953A0085872E /* JKCombinedPeak.h */; };
 		C708E90D0B9D953A0085872E /* JKCombinedPeak.m in Sources */ = {isa = PBXBuildFile; fileRef = C708E90B0B9D953A0085872E /* JKCombinedPeak.m */; };
 		C709D00A0C465F3200C9C613 /* JKComboBoxCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C709D0080C465F3200C9C613 /* JKComboBoxCell.h */; };
@@ -136,7 +137,6 @@
 		C75AE3A80CBE82190054E51B /* JKVariableCellColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = C75AE3920CBE82190054E51B /* JKVariableCellColumn.h */; };
 		C75AE3A90CBE82190054E51B /* JKSourceTableView_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = C75AE3930CBE82190054E51B /* JKSourceTableView_Prefix.pch */; };
 		C765B8AB0C23237B00C4F153 /* factoranalysis.R in CopyFiles */ = {isa = PBXBuildFile; fileRef = C765B8AA0C23237A00C4F153 /* factoranalysis.R */; };
-		C765B8AC0C23237B00C4F153 /* factoranalysis.R in Resources */ = {isa = PBXBuildFile; fileRef = C765B8AA0C23237A00C4F153 /* factoranalysis.R */; };
 		C76814070C05E66C00973566 /* JKManagedLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */; };
 		C76814240C05E6F200973566 /* FilteringDNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */; };
 		C7713B430950368F00653D2A /* JKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */; };
@@ -1323,6 +1323,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C70021320CF1CF8200EC976C /* Peacock Test Files in Resources */,
 				C70DC01A095B205500C2B386 /* Credits.rtf in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
 				C7EB182B0898CFBD007FC2ED /* periodic.table in Resources */,
@@ -1359,7 +1360,6 @@
 				C7F8DE180BF0A4B500A34F5D /* flagged.tiff in Resources */,
 				C7F8DEA50BF0CE1A00A34F5D /* table.png in Resources */,
 				C77E32B90C0F2CBB00B8A64A /* libraries.png in Resources */,
-				C765B8AC0C23237B00C4F153 /* factoranalysis.R in Resources */,
 				C74378920CCCA5AF002DF365 /* BannerBackground.tif in Resources */,
 				C7BB96C70CE89D82003049F9 /* ratios.pdf in Resources */,
 				C74A27F50CEE4D4500FFB61F /* JKLibraryPanel.xib in Resources */,

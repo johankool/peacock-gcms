@@ -300,11 +300,13 @@
         [libraryEntry autorelease];
         libraryEntry = [aLibraryEntry retain];
         
-        // Set label also for all peaks
+        // Set libraryEntry also for all peaks
         if (libraryEntry) {
             for (JKPeakRecord *peak in [[self peaks] allValues]) {
                 if (libraryEntry != [peak libraryHit]) {
-                    [peak identifyAsLibraryEntry:libraryEntry];
+                    JKSearchResult *searchResult = [peak addSearchResultForLibraryEntry:libraryEntry];
+                    [peak identifyAsSearchResult:searchResult];
+                    [peak setConfirmed:YES];
                 }
             }            
         }            

@@ -250,7 +250,7 @@
 				<string>chemical/x-jcamp-dx</string>
 			</dict>
 		</dict>
-		<dict>
+<!--		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.data</string>
@@ -274,7 +274,7 @@
 				<key>public.mime-type</key>
 				<string>application/x-netcdf</string>
 			</dict>
-		</dict>
+		</dict> -->
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>

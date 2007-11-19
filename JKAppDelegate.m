@@ -43,7 +43,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 	[defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"SUCheckAtStartup"];
 	[defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"showInspectorOnLaunch"];
 	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"showMassCalculatorOnLaunch"];
-	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"showDocumentListOnLaunch"];
+	[defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"showLibraryPanelOnLaunch"];
 	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"autoSave"];
 	[defaultValues setValue:[NSNumber numberWithInt:10] forKey:@"autoSaveDelay"]; 
 	
@@ -237,11 +237,9 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 //    libraryConfigurationLoaded = @"";
     [self loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"libraryConfiguration"]];
     
-    if (!libraryPanelController) {
-        libraryPanelController = [[JKLibraryPanelController alloc] init];
-    }
-    [libraryPanelController showWindow:self];
-    
+    if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"showLibraryPanelOnLaunch"] boolValue] == YES) {
+        [[JKLibraryPanelController sharedController] showInspector:self];
+    }    
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
@@ -282,6 +280,10 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 
 - (IBAction)showInspector:(id)sender {
     [[JKPanelController sharedController] showInspector:self];
+}
+
+- (IBAction)showLibraryPanel:(id)sender {
+    [[JKLibraryPanelController sharedController] showInspector:self];
 }
 
 - (IBAction)showReadMe:(id)sender {
@@ -385,11 +387,11 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 			[anItem setTitle:NSLocalizedString(@"Show Inspector",@"Menutitle when inspector is not visible")];
 		}			
 		return YES;
-    } else if ([anItem action] == @selector(showDocumentList:)) {
-		if ([documentListPanel isVisible] == YES) {
-			[anItem setTitle:NSLocalizedString(@"Hide Document List",@"Menutitle when Document List is visible")];
+    } else if ([anItem action] == @selector(showLibraryPanel:)) {
+		if ([[[JKLibraryPanelController sharedController] window] isVisible] == YES) {
+			[anItem setTitle:NSLocalizedString(@"Hide Library Panel",@"Menutitle when Library Panel is visible")];
 		} else {
-			[anItem setTitle:NSLocalizedString(@"Show Document List",@"Menutitle when Document List is not visible")];
+			[anItem setTitle:NSLocalizedString(@"Show Library Panel",@"Menutitle when Library Panel is not visible")];
 		}			
 		return YES;
 	} else if ([self respondsToSelector:[anItem action]]) {
