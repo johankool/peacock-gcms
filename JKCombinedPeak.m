@@ -304,7 +304,7 @@
         if (libraryEntry) {
             for (JKPeakRecord *peak in [[self peaks] allValues]) {
                 if (libraryEntry != [peak libraryHit]) {
-                    JKSearchResult *searchResult = [peak addSearchResultForLibraryEntry:libraryEntry];
+                    JKSearchResult *searchResult = [peak addSearchResultForLibraryEntry:(JKManagedLibraryEntry *)libraryEntry];
                     [peak identifyAsSearchResult:searchResult];
                     [peak setConfirmed:YES];
                 }

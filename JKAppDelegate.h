@@ -62,6 +62,7 @@
 - (JKManagedLibraryEntry *)addLibraryEntryBasedOnPeak:(JKPeakRecord *)aPeak;
 - (JKManagedLibraryEntry *)libraryEntryForName:(NSString *)compoundString;
 
+- (IBAction)editLibrary:(id)sender;
 - (NSArray *)autocompleteEntries;
 //- (void)setAutocompleteEntries:(NSArray *)aAutocompleteEntries;
 //- (NSArray *)autocompleteEntriesForModel:(NSString *)model;

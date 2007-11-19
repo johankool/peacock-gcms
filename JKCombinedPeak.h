@@ -50,12 +50,12 @@
 - (void)setLabel:(NSString *)label;      
 - (NSString *)symbol;
 - (void)setSymbol:(NSString *)symbol;
-- (NSNumber *)retentionIndex;
+//- (NSNumber *)retentionIndex;
 - (NSString *)group;
 - (void)setGroup:(NSString *)group;
-- (void)setRetentionIndex:(NSNumber *)retentionIndex;
-- (NSString *)model;
-- (void)setModel:(NSString *)model;
+//- (void)setRetentionIndex:(NSNumber *)retentionIndex;
+//- (NSString *)model;
+//- (void)setModel:(NSString *)model;
 //- (JKSpectrum *)spectrum;
 //- (void)setSpectrum:(JKSpectrum *)spectrum;
 - (JKLibraryEntry *)libraryEntry;
