@@ -6,7 +6,6 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
-@class JKPathPopUpButton;
 @class PKGraphView;
 
 @interface JKPanelController : NSWindowController {
@@ -21,7 +20,7 @@
     IBOutlet NSTableView *infoTableView;
 
 	// Processing Panel
-	IBOutlet JKPathPopUpButton *libraryPopUpButton;
+	IBOutlet NSPopUpButton *libraryPopUpButton;
 	
     // Display Panel
 	IBOutlet NSTextField *titleTextField;
@@ -62,7 +61,7 @@ idAccessor_h(inspectedDocument, setInspectedDocument)
 @property (retain,getter=infoTableView) NSTableView *infoTableView;
 @property (retain) NSTextField *titleTextField;
 @property (retain) NSView *infoPanelView;
-@property (retain) JKPathPopUpButton *libraryPopUpButton;
+@property (retain) NSPopUpButton *libraryPopUpButton;
 @property (retain) NSView *naPanelView;
 @property (retain) NSTextField *xAxisTextField;
 @property (retain) NSButton *labelFontButton;

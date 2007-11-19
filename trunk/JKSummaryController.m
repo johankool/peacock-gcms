@@ -13,9 +13,11 @@
 #import "JKCombinedPeak.h"
 #import "JKGCMSDocument.h"
 #import "JKMainWindowController.h"
+#import "JKLibraryWindowController.h"
 #import "JKSummarizer.h"
 #import "JKPeakRecord.h"
 #import "PKDocumentController.h"
+#import "JKLibrary.h"
 
 #define JKLibraryEntryTableViewDataType @"JKLibraryEntryTableViewDataType"
 
@@ -335,9 +337,11 @@
             }
             [[[document mainWindowController] peakController] setSelectedObjects:[NSArray arrayWithObject:peak]];
         } else {
-            // Attempt to find the peak!                
-            [document addChromatogramForModel:[combinedPeak model]];
-            JKChromatogram *chromatogram = [document chromatogramForModel:[combinedPeak model]];
+            // Attempt to find the peak!       
+#warning Should check if there is an identified peak with this libraryHit first
+            
+            [document addChromatogramForModel:[[combinedPeak libraryEntry] model]];
+            JKChromatogram *chromatogram = [document chromatogramForModel:[[combinedPeak libraryEntry] model]];
             [chromatogram identifyPeaksWithForce:YES];
             [chromatogramsController setSelectedObjects:[NSArray arrayWithObject:chromatogram]];
             // Find peak closest to averageRetentionTime
@@ -353,7 +357,7 @@
                           iout = i;
                       }
                 }
-                [(JKPeakRecord *)[[chromatogram peaks] objectAtIndex:iout] addSearchResultForLibraryEntry:[combinedPeak libraryEntry]];
+                [(JKPeakRecord *)[[chromatogram peaks] objectAtIndex:iout] addSearchResultForLibraryEntry:(JKManagedLibraryEntry *)[combinedPeak libraryEntry]];
                 [[[document mainWindowController] peakController] setSelectedObjects:[NSArray arrayWithObject:[[chromatogram peaks] objectAtIndex:iout]]];
             } else {
                 JKLogError(@"No peak found in chromatogram. Check baseline and peak detection settings.");
@@ -425,7 +429,6 @@
             
             NSString *stringURI = [[info draggingPasteboard] stringForType:@"JKManagedLibraryEntryURIType"];
             NSURL *libraryHitURI = [NSURL URLWithString:stringURI];
-            JKManagedLibraryEntry *libEntry = [[NSApp delegate] library];
             NSManagedObjectContext *moc = [[[NSApp delegate] library] managedObjectContext];
             NSManagedObjectID *mid = [[moc persistentStoreCoordinator] managedObjectIDForURIRepresentation:libraryHitURI];
             [combinedPeak setLibraryEntry:[moc objectWithID:mid]];

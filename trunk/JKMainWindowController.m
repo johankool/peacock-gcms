@@ -1374,7 +1374,7 @@ static void *PeaksObservationContext = (void *)1103;
             NSURL *libraryHitURI = [NSURL URLWithString:stringURI];
             NSManagedObjectContext *moc = [[[NSApp delegate] library] managedObjectContext];
             NSManagedObjectID *mid = [[moc persistentStoreCoordinator] managedObjectIDForURIRepresentation:libraryHitURI];
-            JKManagedLibraryEntry *managedLibraryEntry = [moc objectWithID:mid];
+            JKManagedLibraryEntry *managedLibraryEntry = (JKManagedLibraryEntry *)[moc objectWithID:mid];
             
             // Add the library entry to the peak
             for (JKPeakRecord *peak in [peakController selectedObjects])  {

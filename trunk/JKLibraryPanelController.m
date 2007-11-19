@@ -133,7 +133,7 @@ static JKLibraryPanelController *theSharedController;
 #pragma mark -
 
 - (JKLibrary *)library {
-    [[NSApp delegate] library];
+    return [[NSApp delegate] library];
 }
 
 @synthesize spectrumViewDataseriesController;

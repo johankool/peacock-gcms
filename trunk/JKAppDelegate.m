@@ -633,7 +633,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 
 - (JKManagedLibraryEntry *)libraryEntryForName:(NSString *)compoundString {
 //    int result = 0;
-    JKManagedLibraryEntry *foundLibEntry;
+//    JKManagedLibraryEntry *foundLibEntry;
 
     for (JKManagedLibraryEntry *managedLibEntry in [library libraryEntries]) {
     	if ([managedLibEntry isCompound:compoundString]) {

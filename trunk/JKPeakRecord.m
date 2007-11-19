@@ -148,7 +148,7 @@
 
 #pragma mark Actions
 - (BOOL)confirm {
-    BOOL result;
+//    BOOL result;
     int answer;
     
     if (![self identified]) {	

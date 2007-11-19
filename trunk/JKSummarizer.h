@@ -22,5 +22,5 @@
 - (void)didUnconfirmPeak:(NSNotification *)aNotification;
 - (JKCombinedPeak *)combinedPeakForPeak:(JKPeakRecord *)peak;
 - (NSMutableArray *)combinedPeaks;
-
+- (void)setUniqueSymbols;
 @end

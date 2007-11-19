@@ -298,7 +298,7 @@ static BOOL AMRemovableColumnsTableView_readPersistentTableColumnsIsPublic = NO;
 	[controller setIcon:[NSImage imageNamed:@"table"]];
 	[controller setHeading:NSLocalizedString([self autosaveName],@"")];
 	NSSet *allColumns = [self allTableColumns];
-	NSSet *visibleColumns = [self visibleTableColumns];
+//	NSSet *visibleColumns = [self visibleTableColumns];
 	NSSet *obligatoryColumns = [self obligatoryTableColumns];
 	NSMutableArray *options = [NSMutableArray array];
 	NSMutableDictionary *option = nil;
