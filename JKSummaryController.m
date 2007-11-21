@@ -18,6 +18,7 @@
 #import "JKPeakRecord.h"
 #import "PKDocumentController.h"
 #import "JKLibrary.h"
+//#import "JKSynchroScrollView.h"
 
 #define JKLibraryEntryTableViewDataType @"JKLibraryEntryTableViewDataType"
 
@@ -66,6 +67,7 @@
 
 - (void)windowDidLoad
 {
+ //   [tableScrollView setSynchronizedScrollView1:compoundScrollView];
     // Drag and drop
 	[tableView registerForDraggedTypes:[NSArray arrayWithObjects:@"JKManagedLibraryEntryURIType", nil]];
 	[tableView setDataSource:self];

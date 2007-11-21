@@ -10,6 +10,15 @@
 
 
 @implementation JKSynchroScrollView
+- (id) init
+{
+    self = [super init];
+    if (self != nil) {
+        synchronizeHorizontally = NO;
+        synchronizeVertically = YES;
+    }
+    return self;
+}
 
 - (void)setSynchronizedScrollView1:(NSScrollView*)scrollview{
     NSView *synchronizedContentView;
@@ -75,7 +84,10 @@
 	
     // scrolling is synchronized in the HORIZONTAL plane
     // so only modify the x component of the offset
-    newOffset.x = changedBoundsOrigin.x;
+    if (synchronizeVertically)
+        newOffset.y = changedBoundsOrigin.y;
+    if (synchronizeHorizontally)
+        newOffset.x = changedBoundsOrigin.x;
 	
     // If our synced position is different from our current
     // position, reposition our content view.
@@ -116,5 +128,8 @@
 		synchronizedScrollView2=nil;
     }
 }
+
+@synthesize synchronizeHorizontally;
+@synthesize synchronizeVertically;
 
 @end

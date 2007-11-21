@@ -25,7 +25,7 @@
 #import "JKPreferencesWindowController.h"
 #import "JKBatchProcessWindowController.h"
 #import "PKDocumentController.h"
-
+#import "PKGraphicalController.h"
 #import <ExceptionHandling/NSExceptionHandler.h>
 
 // Name of the application support folder
@@ -78,7 +78,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 
     // Default ratios
     [defaultValues setObject:[NSArray arrayWithObjects:
-        [NSDictionary dictionaryWithObjectsAndKeys:@"Test",@"label",@"[a]/[b]*100%%",@"formula",nil],
+        [NSDictionary dictionaryWithObjectsAndKeys:@"Example Ratio",@"label",@"[Compound A]/[Compound B]*100%",@"formula",nil],
          nil] forKey:@"ratios"];
     
 	// Default summary settings
@@ -340,6 +340,13 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
         ratiosController = [[JKRatiosController alloc] init];
     }
     return ratiosController;
+}
+
+- (PKGraphicalController *)graphicalController {
+    if (!graphicalController) {
+        graphicalController = [[PKGraphicalController alloc] init];
+    }
+    return graphicalController;
 }
 
 - (IBAction)openTestFile:(id)sender {

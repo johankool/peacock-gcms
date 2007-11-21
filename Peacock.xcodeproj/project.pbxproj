@@ -177,6 +177,12 @@
 		C799B0AA0ACAB30D00D4FCA4 /* Identify Compounds.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A70ACAB30D00D4FCA4 /* Identify Compounds.tiff */; };
 		C799B0AB0ACAB30D00D4FCA4 /* Identify Peaks.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A80ACAB30D00D4FCA4 /* Identify Peaks.tiff */; };
 		C799B0AC0ACAB30D00D4FCA4 /* Identify Baseline.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A90ACAB30D00D4FCA4 /* Identify Baseline.tiff */; };
+		C79CE6290CF3569200C2D872 /* PKGraphical.xib in Resources */ = {isa = PBXBuildFile; fileRef = C79CE6280CF3569200C2D872 /* PKGraphical.xib */; };
+		C79CE62A0CF3569200C2D872 /* PKGraphical.xib in Resources */ = {isa = PBXBuildFile; fileRef = C79CE6280CF3569200C2D872 /* PKGraphical.xib */; };
+		C79CE62E0CF356CD00C2D872 /* PKGraphicalController.h in Headers */ = {isa = PBXBuildFile; fileRef = C79CE62C0CF356CD00C2D872 /* PKGraphicalController.h */; };
+		C79CE62F0CF356CD00C2D872 /* PKGraphicalController.m in Sources */ = {isa = PBXBuildFile; fileRef = C79CE62D0CF356CD00C2D872 /* PKGraphicalController.m */; };
+		C79CE6300CF356CD00C2D872 /* PKGraphicalController.h in Headers */ = {isa = PBXBuildFile; fileRef = C79CE62C0CF356CD00C2D872 /* PKGraphicalController.h */; };
+		C79CE6310CF356CD00C2D872 /* PKGraphicalController.m in Sources */ = {isa = PBXBuildFile; fileRef = C79CE62D0CF356CD00C2D872 /* PKGraphicalController.m */; };
 		C7A7BB370A9DE5D3005E3778 /* library_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB2D0A9DE5D3005E3778 /* library_document.icns */; };
 		C7A7BB380A9DE5D3005E3778 /* atlas_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB2E0A9DE5D3005E3778 /* atlas_document.icns */; };
 		C7A7BB3A0A9DE5D3005E3778 /* peacock_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB300A9DE5D3005E3778 /* peacock_document.icns */; };
@@ -554,6 +560,8 @@
 		C78FB8000CE9B73400466731 /* ZExpParser.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ZExpParser.mm; path = /Users/jkool/Developer/Peacock/trunk/GCExpressionParser/ZExpParser.mm; sourceTree = "<absolute>"; };
 		C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSEvent+ModifierKeys.h"; sourceTree = "<group>"; };
 		C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSEvent+ModifierKeys.m"; sourceTree = "<group>"; };
+		C795D9370CF4831D006CF960 /* JKSynchroScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JKSynchroScrollView.m; path = /Users/jkool/Developer/Peacock/trunk/JKSynchroScrollView.m; sourceTree = "<absolute>"; };
+		C795D9380CF4831D006CF960 /* JKSynchroScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JKSynchroScrollView.h; path = /Users/jkool/Developer/Peacock/trunk/JKSynchroScrollView.h; sourceTree = "<absolute>"; };
 		C79618900C0C75BC00D79FAC /* JKTargetObjectProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKTargetObjectProtocol.h; sourceTree = "<group>"; };
 		C798C9E808E17B5400C6C7D1 /* DeleteTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteTableView.h; sourceTree = "<group>"; };
 		C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteTableView.m; sourceTree = "<group>"; };
@@ -565,6 +573,9 @@
 		C79A6151094DBE3A00C0887E /* RBSplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RBSplitView.h; sourceTree = "<group>"; };
 		C79A6152094DBE3A00C0887E /* RBSplitView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RBSplitView.m; sourceTree = "<group>"; };
 		C79A6153094DBE3A00C0887E /* RBSplitViewPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RBSplitViewPrivateDefines.h; sourceTree = "<group>"; };
+		C79CE6240CF3568A00C2D872 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PKGraphical.xib; sourceTree = "<group>"; };
+		C79CE62C0CF356CD00C2D872 /* PKGraphicalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKGraphicalController.h; path = /Users/jkool/Developer/Peacock/trunk/PKGraphicalController.h; sourceTree = "<absolute>"; };
+		C79CE62D0CF356CD00C2D872 /* PKGraphicalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKGraphicalController.m; path = /Users/jkool/Developer/Peacock/trunk/PKGraphicalController.m; sourceTree = "<absolute>"; };
 		C7A7BB2D0A9DE5D3005E3778 /* library_document.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = library_document.icns; sourceTree = "<group>"; };
 		C7A7BB2E0A9DE5D3005E3778 /* atlas_document.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = atlas_document.icns; sourceTree = "<group>"; };
 		C7A7BB300A9DE5D3005E3778 /* peacock_document.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = peacock_document.icns; sourceTree = "<group>"; };
@@ -953,6 +964,10 @@
 				C773669708E02D87002B72F1 /* PKSpectrumDataSeries.m */,
 				C7BC19A90CBBE2D20037FBA7 /* PKWindowController.h */,
 				C7BC19AA0CBBE2D20037FBA7 /* PKWindowController.m */,
+				C79CE62C0CF356CD00C2D872 /* PKGraphicalController.h */,
+				C79CE62D0CF356CD00C2D872 /* PKGraphicalController.m */,
+				C795D9380CF4831D006CF960 /* JKSynchroScrollView.h */,
+				C795D9370CF4831D006CF960 /* JKSynchroScrollView.m */,
 				C7F3EE910CE1F9CA008F7BBC /* Deprecated */,
 			);
 			name = Classes;
@@ -1067,6 +1082,7 @@
 		C7EB17F90898CFBC007FC2ED /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
+				C79CE6280CF3569200C2D872 /* PKGraphical.xib */,
 				C74A27F70CEE4E4D00FFB61F /* DisplayOptions.xib */,
 				C74A27F90CEE4E4D00FFB61F /* JKBatchProcess.xib */,
 				C74A27FB0CEE4E4D00FFB61F /* JKGCMSDocument.xib */,
@@ -1175,6 +1191,7 @@
 				C78FB8010CE9B73400466731 /* GCMathParser.h in Headers */,
 				C78FB8040CE9B73400466731 /* ZExpParser.h in Headers */,
 				C74A28270CEE51C100FFB61F /* JKLibraryPanelController.h in Headers */,
+				C79CE6300CF356CD00C2D872 /* PKGraphicalController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1227,6 +1244,7 @@
 				C78FB8060CE9B73400466731 /* GCMathParser.h in Headers */,
 				C78FB8090CE9B73400466731 /* ZExpParser.h in Headers */,
 				C74A28250CEE51C100FFB61F /* JKLibraryPanelController.h in Headers */,
+				C79CE62E0CF356CD00C2D872 /* PKGraphicalController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1372,6 +1390,7 @@
 				C74A28180CEE4E4D00FFB61F /* JKPreferences.xib in Resources */,
 				C74A28190CEE4E4D00FFB61F /* JKRatios.xib in Resources */,
 				C74A281A0CEE4E4D00FFB61F /* JKSummary.xib in Resources */,
+				C79CE6290CF3569200C2D872 /* PKGraphical.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1438,6 +1457,7 @@
 				C74A280F0CEE4E4D00FFB61F /* JKPreferences.xib in Resources */,
 				C74A28100CEE4E4D00FFB61F /* JKRatios.xib in Resources */,
 				C74A28110CEE4E4D00FFB61F /* JKSummary.xib in Resources */,
+				C79CE62A0CF3569200C2D872 /* PKGraphical.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1558,6 +1578,7 @@
 				C78FB8070CE9B73400466731 /* GCMathParser.m in Sources */,
 				C78FB80A0CE9B73400466731 /* ZExpParser.mm in Sources */,
 				C74A28260CEE51C100FFB61F /* JKLibraryPanelController.m in Sources */,
+				C79CE62F0CF356CD00C2D872 /* PKGraphicalController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1634,6 +1655,7 @@
 				C78FB8020CE9B73400466731 /* GCMathParser.m in Sources */,
 				C78FB8050CE9B73400466731 /* ZExpParser.mm in Sources */,
 				C74A28280CEE51C100FFB61F /* JKLibraryPanelController.m in Sources */,
+				C79CE6310CF356CD00C2D872 /* PKGraphicalController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1770,6 +1792,14 @@
 			);
 			name = "Peacock Help";
 			path = ..;
+			sourceTree = "<group>";
+		};
+		C79CE6280CF3569200C2D872 /* PKGraphical.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C79CE6240CF3568A00C2D872 /* English */,
+			);
+			name = PKGraphical.xib;
 			sourceTree = "<group>";
 		};
 		C7F3EED10CE211EA008F7BBC /* License.rtf */ = {

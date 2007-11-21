@@ -221,24 +221,25 @@
     float maximumIntensity;
     [self willChangeValueForKey:@"peaks"];
     
-    if (!forced) {
-        if ([[self peaks] count] > 0) {
-            answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete current peaks?",@""),NSLocalizedString(@"Peaks that are already identified could cause doublures. It's recommended to delete the current peaks.",@""),NSLocalizedString(@"Delete",@""),NSLocalizedString(@"Cancel",@""),NSLocalizedString(@"Keep",@""));
-            if (answer == NSOKButton) {
-                // Delete contents!
-                [[self peaks] removeAllObjects];
-             } else if (answer == NSCancelButton) {
-                return;
-            } else {
-
-            }
-        }        
-    }
+//    if (!forced) {
+//        if ([[self peaks] count] > 0) {
+//            answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete current peaks?",@""),NSLocalizedString(@"Peaks that are already identified could cause doublures. It's recommended to delete the current peaks.",@""),NSLocalizedString(@"Delete",@""),NSLocalizedString(@"Cancel",@""),NSLocalizedString(@"Keep",@""));
+//            if (answer == NSOKButton) {
+//                // Delete contents!
+//                [[self peaks] removeAllObjects];
+//             } else if (answer == NSCancelButton) {
+//                return;
+//            } else {
+//
+//            }
+//        }        
+//    }
     
     // Baseline check
     if (baselinePointsCount <= 0) {
-        answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Baseline Set",@""),NSLocalizedString(@"No baseline have yet been identified in the chromatogram. Use the 'Identify Baseline' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
-        return;
+        [self obtainBaseline];
+//        answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Baseline Set",@""),NSLocalizedString(@"No baseline have yet been identified in the chromatogram. Use the 'Identify Baseline' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+//        return;
     }
     
     // Some initial settings
@@ -292,8 +293,9 @@
 - (JKPeakRecord *)peakFromScan:(int)startScan toScan:(int)endScan {
     // Baseline check
     if (baselinePointsCount <= 0) {
-       NSRunInformationalAlertPanel(NSLocalizedString(@"No Baseline Set",@""),NSLocalizedString(@"No baseline have yet been identified in the chromatogram. Use the 'Identify Baseline' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
-        return nil;
+        [self obtainBaseline];
+//       NSRunInformationalAlertPanel(NSLocalizedString(@"No Baseline Set",@""),NSLocalizedString(@"No baseline have yet been identified in the chromatogram. Use the 'Identify Baseline' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+//        return nil;
     }
     if (startScan > endScan) {
         int temp = startScan;

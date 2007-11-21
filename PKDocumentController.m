@@ -16,18 +16,20 @@
     self = [super init];
     if (self != nil) {
         managedDocuments = [[NSMutableArray alloc] init];
-        separatorCell = [[JKSeparatorCell alloc] init];
-        defaultCell = [[JKImageTextCell alloc] initTextCell:@"Default title"];
-        
-        libraryImage = [NSImage imageNamed:@"Library"];
-        playlistImage = [NSImage imageNamed:@"Playlist"];
-        
-    }
+        _specials = [[NSArray alloc] initWithObjects:@"Summary", @"Ratios", @"Graphical", nil];
+   }
     return self;
+}
+
+- (void)awakeFromNib {
+    [documentTableView expandItem:managedDocuments];
+    [documentTableView expandItem:_specials];
+    [documentTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[documentTableView rowForItem:[_specials objectAtIndex:0]]] byExtendingSelection:NO];
 }
 
 - (void)dealloc
 {
+    [_specials release];
     [managedDocuments release];
     [super dealloc];
 }
@@ -42,8 +44,8 @@
         [documentTabView addTabViewItem:newTabViewItem];
         [documentTabView selectTabViewItemWithIdentifier:document];
         [managedDocuments addObject:document];
-        [documentTableView reloadData];
-        [documentTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[managedDocuments indexOfObject:document]+[self numberOfSummaries]+1] byExtendingSelection:NO];
+        [documentTableView reloadItem:managedDocuments reloadChildren:YES];
+        [documentTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[documentTableView rowForItem:document]] byExtendingSelection:NO];
      }
     [super addDocument:document];
 }
@@ -53,7 +55,7 @@
     if ([document isKindOfClass:[JKGCMSDocument class]]) {
         [managedDocuments removeObject:document];
         [documentTabView removeTabViewItem:[documentTabView tabViewItemAtIndex:[documentTabView indexOfTabViewItemWithIdentifier:document]]];
-        [documentTableView reloadData];
+        [documentTableView reloadItem:managedDocuments reloadChildren:YES];
     }
 	[super removeDocument:document];
 }
@@ -61,121 +63,159 @@
 - (void)showDocument:(NSDocument *)document
 {
     if ([document isKindOfClass:[JKGCMSDocument class]]) {
-        [documentTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[managedDocuments indexOfObject:document]+[self numberOfSummaries]+1] byExtendingSelection:NO];
+        [documentTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[documentTableView rowForItem:document]] byExtendingSelection:NO];
     }    
 }
 
-- (int)numberOfSummaries
-{
-    return 2;
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
+    if (!item) {
+        return 2;
+    }
+    if (item == _specials) {
+        return [_specials count];
+    }
+    
+    if (item == managedDocuments) {
+        return [managedDocuments count];
+    }
+    
+    return 0;
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView {
-    return [managedDocuments count] + [self numberOfSummaries] + 1;
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
+    if (item == _specials) {
+        return YES;
+    }
+    
+    if (item == managedDocuments) {
+        return YES;
+    }
+    
+    return NO;
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
-{
-    if ([[aTableColumn identifier] isEqualToString:@"name"]) {
-        if (rowIndex < [self numberOfSummaries]+1) {
-            switch (rowIndex) {
-            case 0:
-                return @"Summary";
-                break;
-            case 1:
-                return @"Ratios";
-                break;
-            case 2:
-                return @"";
-                break;
-            default:
-                break;
-            }
+//- (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item {
+//    if (item == _specials) {
+//        return NO;
+//    }
+//        
+//    return YES;    
+//}
+//
+//- (void)outlineView:(NSOutlineView *)theOutlineView willDisplayOutlineCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+//     if (item == _specials) {
+//        [cell setTransparent:YES];
+//     } else {
+//         [cell setTransparent:NO];
+//     }
+//} 
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item {
+    if (item == _specials) {
+        return YES;
+    }
+    
+    if (item == managedDocuments) {
+        return YES;
+    }
+
+    return NO;
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item {
+    if (item == _specials) {
+        return NO;
+    }
+    
+    if (item == managedDocuments) {
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
+    if (item == _specials) {
+        return [_specials objectAtIndex:index];
+    }
+    
+    if (item == managedDocuments) {
+        return [managedDocuments objectAtIndex:index];
+    }
+    
+    if (!item) {
+        if (index == 0) {
+            return _specials;
+        } else if (index == 1) {
+            return managedDocuments;
         }
-        return [[managedDocuments objectAtIndex:rowIndex-[self numberOfSummaries]-1] displayName];
+    }
+    return nil;    
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
+{
+    if ([[tableColumn identifier] isEqualToString:@"name"]) {
+        if (item == _specials) {
+            return NSLocalizedString(@"OVERVIEW", @"");
+        }
+        
+        if (item == managedDocuments) {
+            return NSLocalizedString(@"MEASUREMENTS", @"");
+        }
+        
+        if ([item isKindOfClass:[NSString class]]) {
+            return item;
+        }
+        return [item displayName];
     } else  {
-        if (rowIndex < [self numberOfSummaries]+1) {
+         if ([item isKindOfClass:[JKGCMSDocument class]]) {
+             return [item valueForKey:[tableColumn identifier]];  
+        } else {
             return @"";
         }
-        return [[[managedDocuments objectAtIndex:rowIndex-[self numberOfSummaries]-1] metadata] valueForKey:[aTableColumn identifier]];        
     }
 }
 
-- (NSString *)tableView:(NSTableView *)aTableView toolTipForCell:(NSCell *)aCell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)aTableColumn row:(int)row mouseLocation:(NSPoint)mouseLocation
-{
-    if (row < [self numberOfSummaries]+1) {
-        switch (row) {
-            case 0:
-                return @"Overview of all peaks in the open documents in tabular format.";
-                break;
-            case 1:
-                return @"Overview of ratios.";
-                break;
-            default:
-                break;
-        }
+- (NSString *)outlineView:(NSOutlineView *)ov toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tc item:(id)item mouseLocation:(NSPoint)mouseLocation {
+    if (item == [_specials objectAtIndex:0]) {
+         return NSLocalizedString(@"Overview of all peaks in the open documents in tabular format.", @"");
     }
-    return [[managedDocuments objectAtIndex:row-[self numberOfSummaries]-1] fileName];  
+    
+    if (item == [_specials objectAtIndex:1]) {
+         return NSLocalizedString(@"Overview of ratios.", @"");
+    }
+    
+    if ([item isKindOfClass:[JKGCMSDocument class]]) {
+        return [item fileName];  
+    }
+    
+    return nil;
 }
 
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+- (void)outlineViewSelectionDidChange:(NSNotification *)aNotification
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:NSWindowDidResignMainNotification object:window];
     if ([documentTableView numberOfSelectedRows] > 1) {
         [documentTabView selectTabViewItemWithIdentifier:@"multiple"];
-    } else if ([documentTableView selectedRow] < [self numberOfSummaries]) {
-        switch ([documentTableView selectedRow]) {
-            case 0:
-                [documentTabView selectTabViewItemWithIdentifier:@"summary"];
-                break;
-            case 1:
-                [documentTabView selectTabViewItemWithIdentifier:@"ratios"];
-                break;
-            default:
-                break;
-        }     
-    } else {
-        [documentTabView selectTabViewItemWithIdentifier:[managedDocuments objectAtIndex:[documentTableView selectedRow]-[self numberOfSummaries]-1]];     
+    } 
+    id item = [documentTableView itemAtRow:[documentTableView selectedRow]];
+    if ([item isKindOfClass:[NSString class]]) {
+        [documentTabView selectTabViewItemWithIdentifier:[item lowercaseString]];
+    } else if ([item isKindOfClass:[JKGCMSDocument class]]){
+        [documentTabView selectTabViewItemWithIdentifier:item];     
         [[NSNotificationCenter defaultCenter] postNotificationName:NSWindowDidBecomeMainNotification object:window];
     }
 }
 
-- (void) awakeFromNib {
-	// don't forget this super call
-//    [super awakeFromNib]; // causes crash??!
-	separatorCell = [[JKSeparatorCell alloc] init];
-	defaultCell = [[JKImageTextCell alloc] initTextCell:@"Default title"];
-	
-	libraryImage = [NSImage imageNamed:@"table"];
-	playlistImage = [NSImage imageNamed:@"peacock_document"];
-
+- (IBAction)showSummary:(id)sender {
+    [documentTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[documentTableView rowForItem:[_specials objectAtIndex:0]]] byExtendingSelection:NO];
 }
 
-- (float) heightFor:(NSTableView *)tableView row:(int)row {
-	if (row == [self numberOfSummaries]) { // separator
-		return JK_SEPARATOR_CELL_HEIGHT;
-	}
-	
-	return [tableView rowHeight];
+- (IBAction)showRatios:(id)sender {
+    [documentTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[documentTableView rowForItem:[_specials objectAtIndex:1]]] byExtendingSelection:NO];
 }
 
-- (BOOL) tableView:(NSTableView *)tableView shouldSelectRow:(int)row {
-	return row != [self numberOfSummaries];
-}
-
-- (id) tableColumn:(NSTableColumn *)column inTableView:(NSTableView *)tableView dataCellForRow:(int)row {
-	if (row < [self numberOfSummaries]) {
-		[defaultCell setImage:libraryImage];
-	} else {
-		[defaultCell setImage:playlistImage];
-	}
-	
-	if (row == [self numberOfSummaries]) { // separator
-		return separatorCell;
-	}
-	
-	return defaultCell;
-}
 
 - (NSWindow *)window
 {
@@ -193,33 +233,48 @@
     if (![[self window] isMainWindow]) {
     	[[NSApp mainWindow] performSelector:@selector(performClose:) withObject:self];
     } else {
-        if ([documentTableView selectedRow] > [self numberOfSummaries]) {
+        if ([[[documentTabView selectedTabViewItem] identifier] isKindOfClass:[NSString class]]) {
+            [NSApp terminate:self];
+         } else {
             JKGCMSDocument *doc = [[documentTabView selectedTabViewItem] identifier];
             [doc canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
-         } else {
-             [NSApp terminate:self];
          }
     }
 }
 
 - (void)document:(JKGCMSDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo {
     if (shouldClose) {
-        [documentTableView selectRow:0 byExtendingSelection:NO];
+        int index = [managedDocuments indexOfObject:doc] - 1;
         [managedDocuments removeObject:doc];
-        [documentTableView reloadData];
-        NSWindow *tempWindow = [[NSWindow alloc] init];
-        [[doc mainWindowController] setWindow:tempWindow];
-        [[doc mainWindowController] setShouldCloseDocument:YES];
-        [tempWindow close];
-        [tempWindow release];
+
+        [[doc mainWindowController] setWindow:nil];
+        [doc close];
+        
+        [[self window] makeKeyAndOrderFront:self];
+//        NSWindow *tempWindow = [[NSWindow alloc] init];
+//        [[doc mainWindowController] setShouldCloseDocument:YES];
+//        [doc close];
+//        [tempWindow release];
+          
+        [documentTableView reloadItem:managedDocuments reloadChildren:YES];
+
+        if (index >= [managedDocuments count]) {
+            index = [managedDocuments count]-1;
+        }
+        
+        if (index < 0 && [managedDocuments count] > 0) {
+            index = 0;
+        } 
+        
+        if ([managedDocuments count] == 0) {
+            [documentTableView selectRow:[documentTableView rowForItem:[_specials objectAtIndex:0]] byExtendingSelection:NO];
+        } else {
+            [documentTableView selectRow:[documentTableView rowForItem:[managedDocuments objectAtIndex:index]] byExtendingSelection:NO];
+        }
     }
 }
 
-@synthesize libraryImage;
-@synthesize playlistImage;
 @synthesize window;
-@synthesize separatorCell;
 @synthesize documentTableView;
-@synthesize defaultCell;
 @synthesize documentTabView;
 @end

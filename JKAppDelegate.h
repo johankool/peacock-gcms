@@ -19,6 +19,7 @@
 @class JKSummaryController;
 @class JKSummarizer;
 @class JKRatiosController;
+@class PKGraphicalController;
 
 #import <Growl/GrowlApplicationBridge.h>
 
@@ -41,6 +42,7 @@
     
     JKSummaryController *summaryController;
     JKRatiosController *ratiosController;
+    PKGraphicalController *graphicalController;
     JKSummarizer *summarizer;
 }
 
@@ -70,6 +72,7 @@
 - (JKSummaryController *)summaryController;
 - (JKSummarizer *)summarizer;
 - (JKRatiosController *)ratiosController;
+- (PKGraphicalController *)graphicalController;
 
 #pragma mark GROWL SUPPORT
 - (NSDictionary *)registrationDictionaryForGrowl;

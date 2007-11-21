@@ -10,9 +10,13 @@
 
 @class JKGCMSDocument;
 @class JKSummarizer;
+@class JKSynchroScrollView;
 
 @interface JKSummaryController : NSWindowController {
     IBOutlet NSTableView *tableView;
+ //   IBOutlet NSTableView *compoundTableView;
+//    IBOutlet JKSynchroScrollView *tableScrollView;
+//    IBOutlet JKSynchroScrollView *compoundScrollView;
     IBOutlet NSArrayController *combinedPeaksController;
     int indexOfKeyForValue;
     NSArray *keys;
