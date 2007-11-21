@@ -12,7 +12,8 @@
 @interface JKSynchroScrollView : NSScrollView {
     NSScrollView* synchronizedScrollView1; // not retained
     NSScrollView* synchronizedScrollView2; // not retained
-
+    BOOL synchronizeHorizontally;
+    BOOL synchronizeVertically;
 }
 
 - (void)setSynchronizedScrollView1:(NSScrollView*)scrollview;
@@ -20,5 +21,8 @@
 - (void)stopSynchronizingWithView1;
 - (void)stopSynchronizingWithView2;
 - (void)synchronizedViewContentBoundsDidChange:(NSNotification *)notification;
+
+@property BOOL synchronizeHorizontally;
+@property BOOL synchronizeVertically;
 
 @end

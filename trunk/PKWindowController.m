@@ -20,6 +20,8 @@
     [[(JKAppDelegate *)[NSApp delegate] summaryController] setWindow:[self window]];
     [[documentTabView tabViewItemAtIndex:1] setView:[[[(JKAppDelegate *)[NSApp delegate] ratiosController] window] contentView]];
     [[(JKAppDelegate *)[NSApp delegate] ratiosController] setWindow:[self window]];
+    [[documentTabView tabViewItemAtIndex:3] setView:[[[(JKAppDelegate *)[NSApp delegate] graphicalController] window] contentView]];
+    [[(JKAppDelegate *)[NSApp delegate] graphicalController] setWindow:[self window]];
     [self setupToolbar];
     [[self window] setDelegate:self];
     NSButton *closeButton = [[self window] standardWindowButton:NSWindowCloseButton];
@@ -58,6 +60,16 @@
         [[self window] setTitle:@"Ratios"];
         [[self document] removeWindowController:self];
         [[self window] setNextResponder:(NSResponder *)[(JKAppDelegate *)[NSApp delegate] ratiosController]];
+    } else if ([[tabViewItem identifier] isEqualToString:@"graphical"]) {
+        for (NSTabViewItem *anyTabViewItem in [tabView tabViewItems]) {
+            if ([[anyTabViewItem identifier] isKindOfClass:[JKGCMSDocument class]])
+                [[[anyTabViewItem identifier] mainWindowController] setWindow:nil];
+        }
+        [[self document] removeWindowController:self];
+        [[self window] setTitleWithRepresentedFilename:@""];
+        [[self window] setTitle:@"Graphical"];
+        [[self document] removeWindowController:self];
+        [[self window] setNextResponder:(NSResponder *)[(JKAppDelegate *)[NSApp delegate] graphicalController]];
 	} else if ([[tabViewItem identifier] isEqualToString:@"multiple"]) {
         for (NSTabViewItem *anyTabViewItem in [tabView tabViewItems]) {
             if ([[anyTabViewItem identifier] isKindOfClass:[JKGCMSDocument class]])
@@ -70,13 +82,6 @@
 	}
 }
 
-- (IBAction)showSummary:(id)sender {
-    [documentTableView selectRow:0 byExtendingSelection:NO];
-}
-
-- (IBAction)showRatios:(id)sender {
-    [documentTableView selectRow:1 byExtendingSelection:NO];
-}
 
 //-(IBAction)printDocument:(id)sender {
 //    if ([[[documentTabView selectedTabViewItem] identifier] isKindOfClass:[JKGCMSDocument class]]) {

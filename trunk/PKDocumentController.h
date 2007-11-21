@@ -12,25 +12,19 @@
 @interface PKDocumentController : NSDocumentController {
     IBOutlet NSWindow *window;
 	IBOutlet NSTabView *documentTabView;
-    IBOutlet NSTableView *documentTableView;
+    IBOutlet NSOutlineView *documentTableView;
     NSMutableArray *managedDocuments;
-    
-    NSCell *separatorCell;
-	NSCell *defaultCell;
-	
-	NSImage *libraryImage;
-	NSImage *playlistImage;
-    
+    NSArray *_specials;
 }
-- (int)numberOfSummaries;
+
 - (NSWindow *)window;
 - (NSArray *)managedDocuments;
 - (void)showDocument:(NSDocument *)document;
+
+- (IBAction)showSummary:(id)sender;
+- (IBAction)showRatios:(id)sender;
+
 @property (retain) NSTabView *documentTabView;
 @property (retain,getter=window) NSWindow *window;
-@property (retain) NSImage *playlistImage;
 @property (retain) NSTableView *documentTableView;
-@property (retain) NSCell *separatorCell;
-@property (retain) NSCell *defaultCell;
-@property (retain) NSImage *libraryImage;
 @end

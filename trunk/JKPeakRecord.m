@@ -264,7 +264,11 @@
         BOOL foundMatch = NO;
         
         for (aSearchResult in searchResults) {
-        	if ([[searchResult libraryHit] isCompound:[[aSearchResult libraryHit] name]]) {
+//        	if ([[searchResult libraryHit] isCompound:[[aSearchResult libraryHit] name]]) {
+//                foundMatch = YES;
+//                searchResult = aSearchResult;
+//            }
+        	if ([searchResult libraryHit] == [aSearchResult libraryHit]) {
                 foundMatch = YES;
                 searchResult = aSearchResult;
             }
