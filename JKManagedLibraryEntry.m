@@ -399,7 +399,7 @@
     } else {
         [outStr appendFormat:@"##TITLE= %@\r\n", [self name]];	        
     }
-	[outStr appendString:@"##JCAMP-DX= 4.24 $$ Peacock 0.24\r\n"];	
+	[outStr appendString:@"##JCAMP-DX= 4.24 $$ Peacock 0.25\r\n"];	
 	[outStr appendString:@"##DATA TYPE= MASS SPECTRUM\r\n"];	
 	[outStr appendString:@"##DATA CLASS= PEAK TABLE\r\n"];	
 	if ([[self origin] isNotEqualTo:@""]) {
@@ -554,16 +554,18 @@
     }
     return @"";
 }
-//- (void)setLibrary:(NSString *)aLibrary
-//{
-//    
-//    id persistentStore = [[self objectID] persistentStore]; 
-//    if (persistentStore) {
-//        NSURL *url = [[[self managedObjectContext] persistentStoreCoordinator] URLForPersistentStore:persistentStore];
-//        return [[[url path] lastPathComponent] stringByDeletingPathExtension]; 
-//    }
-//    return @"";
-//}
+- (void)setLibrary:(NSString *)aLibrary
+{
+    if ([[self objectID] isTemporaryID]) {
+        for (id persistentStore in [[[self managedObjectContext] persistentStoreCoordinator] persistentStores]) {
+            NSURL *url = [[[self managedObjectContext] persistentStoreCoordinator] URLForPersistentStore:persistentStore];
+            if ([[[[url path] lastPathComponent] stringByDeletingPathExtension] isEqualToString:aLibrary]) {
+                [[self managedObjectContext] assignObject:self toPersistentStore:persistentStore];
+                //Can't reassign an object to a different store once it has been saved. :-(
+            }
+        }        
+    }
+}
 #pragma mark -
 
 //
@@ -941,10 +943,27 @@
 
 - (float *)masses {
     [self willAccessValueForKey:@"masses"];
-/*###944 [cc] warning: initialization discards qualifiers from pointer target type%%%*/
-/*###944 [cc] warning: initialization discards qualifiers from pointer target type%%%*/
-    float *masses = [[self primitiveValueForKey:@"masses"] bytes];
-//    NSSwapLittleFloatArrayToHost(masses, [self numberOfPoints]);
+
+   float *masses = [[self primitiveValueForKey:@"masses"] bytes];
+
+#warning [BUG] Floats not swapped if necessary (see comment below)
+    // The library file format currently differs on PPC and Intel machines.
+    // Storing this data should probably be better done by archiving and storing the data.
+    // Should consider to use one archive only to hold both masses and intensities.
+    // Use - (void)awakeFromFetch to unarchive.
+    // Use - (void)willSave (?) to archive.
+    
+//    NSData *data;
+//    NSKeyedUnarchiver *unarchiver;
+//    
+//    data = [self primitiveValueForKey:@"masses"];
+//    unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+//    // Customize unarchiver here
+//    masses = [unarchiver decodeFloatArrayForKey:@"masses" returnedCount:&numberOfPoints];
+//    masses = [unarchiver 
+//    [unarchiver finishDecoding];
+//    [unarchiver release];
+    
     [self didAccessValueForKey:@"masses"];
     return masses;
 }
@@ -952,18 +971,26 @@
 - (void)setMasses:(float *)newMasses
 {
     [self willChangeValueForKey:@"masses"];
-//    NSSwapHostFloatArrayToLittle(newMasses, [self numberOfPoints]);
+
+//    NSMutableData *data;
+//    NSKeyedArchiver *archiver;
+//    
+//    data = [NSMutableData data];
+//    archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+//    [archiver encodeFloatArray:masses withCount:numberOfPoints forKey:@"masses"];
+//    [archiver finishEncoding];
+//    [archiver release];
+//    
+//    [archiver encodeFloatArray:masses withCount:numberOfPoints forKey:@"masses"];
+//    [self setPrimitiveValue:data forKey:@"masses"];
+
     [self setPrimitiveValue:[NSData dataWithBytes:newMasses length:[self numberOfPoints]*sizeof(float)] forKey:@"masses"];
     [self didChangeValueForKey:@"masses"];
 }
 
 - (float *)intensities {
     [self willAccessValueForKey:@"intensities"];
-/*###960 [cc] warning: initialization discards qualifiers from pointer target type%%%*/
-/*###960 [cc] warning: initialization discards qualifiers from pointer target type%%%*/
     float *intensities = [[self primitiveValueForKey:@"intensities"] bytes];
-//    float *intensCopy = memcpy(intensities);
-//    NSSwapLittleFloatArrayToHost(intensities, [self numberOfPoints]);
     [self didAccessValueForKey:@"intensities"];
     return intensities;
 }
@@ -971,7 +998,6 @@
 - (void)setIntensities:(float *)newIntensities
 {
     [self willChangeValueForKey:@"intensities"];
-//    NSSwapHostFloatArrayToLittle(newIntensities, [self numberOfPoints]);
     [self setPrimitiveValue:[NSData dataWithBytes:newIntensities length:[self numberOfPoints]*sizeof(float)] forKey:@"intensities"];
     [self didChangeValueForKey:@"intensities"];
 }
@@ -1006,8 +1032,6 @@
     }
     [self setNumberOfPoints:numberOfPoints];
     
-//    masses = (float *) realloc(masses, numberOfPoints*sizeof(float));
-//    intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
     float newMasses[numberOfPoints];
     float newIntensities[numberOfPoints];
 	for (j=0; j < numberOfPoints; j++){
@@ -1022,9 +1046,6 @@
     [self setNumberOfPoints:numberOfPoints];
     [self setMasses:newMasses];
     [self setIntensities:newIntensities];
-//    [self setValue:[NSData dataWithBytes:newMasses length:numberOfPoints*sizeof(float)] forKey:@"masses"];
-//    [self setValue:[NSData dataWithBytes:newIntensities length:numberOfPoints*sizeof(float)] forKey:@"intensities"];
-    
 }
 #pragma mark -
 
@@ -1050,15 +1071,5 @@
      } 
     return self;
 }
-#pragma mark -
-
-//#pragma mark Debugging
-//- (id)valueForUndefinedKey:(NSString *)key {
-//    JKLogDebug(@"%@ %@",[self description], key);
-//    return key;
-//}
-//- (void)setValue:(id)value forUndefinedKey:(NSString *)key {
-//    JKLogDebug(@"%@ %@ %@",[self description], key, value);
-//}
 
 @end

@@ -216,13 +216,14 @@
 
 - (void)identifyPeaksWithForce:(BOOL)forced
 {
-	int i, j, answer;
+	int i, j; 
 	int start, end, top;
     float maximumIntensity;
     [self willChangeValueForKey:@"peaks"];
     
 //    if (!forced) {
 //        if ([[self peaks] count] > 0) {
+//          int answer;
 //            answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete current peaks?",@""),NSLocalizedString(@"Peaks that are already identified could cause doublures. It's recommended to delete the current peaks.",@""),NSLocalizedString(@"Delete",@""),NSLocalizedString(@"Cancel",@""),NSLocalizedString(@"Keep",@""));
 //            if (answer == NSOKButton) {
 //                // Delete contents!

@@ -28,6 +28,7 @@
 
 #pragma mark Calculated Accessors
 - (NSString *)library;
+- (void)setLibrary:(NSString *)aLibrary;
 - (NSString *)peakTable;
 - (void)setPeakTable:(NSString *)inString;
 #pragma mark -

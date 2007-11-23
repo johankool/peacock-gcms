@@ -43,6 +43,7 @@
     }
     
     if (libraryHitURI) {
+        @try {
         NSManagedObjectContext *moc = [[[NSApp delegate] library] managedObjectContext];
         NSManagedObjectID *mid = [[moc persistentStoreCoordinator] managedObjectIDForURIRepresentation:libraryHitURI];
         if (mid) {
@@ -53,7 +54,19 @@
             }
             JKLogDebug(@"Library entry for '%@' not found in current libraries.", [libraryHitURI description]);
         }
-     } 
+        }
+        @catch ( NSException *e ) {
+            libraryHitURI = nil;
+            JKLogDebug(@"Catched exception.");
+            NSMutableDictionary *errorDict = [NSMutableDictionary dictionary];
+            [errorDict setObject:[e reason] forKey:NSLocalizedDescriptionKey];
+            NSError *error = [NSError errorWithDomain:@"Peacock" code:1 userInfo:errorDict];
+            [[[self peak] document] presentError:error];
+        }
+        
+        @finally {
+         }
+    } 
     
     if (jcampString) {
         // The library entry was not found, fall back on the jcamp string representation

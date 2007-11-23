@@ -79,18 +79,19 @@ int intSort(id num1, id num2, void *context)
 //    }
 //}
 
-void NSSwapHostFloatArrayToLittle(float *array, UInt32  count) {
-    int i;
-    
-    for(i = 0; i < count; i++) {
-        array[i] = NSConvertSwappedFloatToHost(NSSwapHostFloatToLittle(array[i]));
-    }
-}
 
-void NSSwapLittleFloatArrayToHost(float *array, UInt32  count) {
-    int i;
-    
-    for(i = 0; i < count; i++) {
-        array[i] = NSSwapLittleFloatToHost(NSConvertHostFloatToSwapped(array[i]));
-    }
-}
+//void NSSwapHostFloatArrayToLittle(float *array, UInt32  count) {
+//    int i;
+//    
+//    for(i = 0; i < count; i++) {
+//        array[i] = NSSwapHostFloatToLittle(arrayOfSwappedFloats[i]);
+//    }
+//}
+//
+//void NSSwapLittleFloatArrayToHost(float *array, UInt32  count) {
+//    int i;
+//    
+//    for(i = 0; i < count; i++) {
+//        arrayOfSwappedFloats[i] = NSSwapLittleFloatToHost(array[i]);
+//    }
+//}
