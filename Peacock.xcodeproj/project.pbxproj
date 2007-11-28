@@ -6,21 +6,6 @@
 	objectVersion = 44;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		C7ADCB390BA0C1A6007D9134 /* Peacock-All */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = C7ADCB480BA0C259007D9134 /* Build configuration list for PBXAggregateTarget "Peacock-All" */;
-			buildPhases = (
-			);
-			dependencies = (
-				C7ADCB3B0BA0C1AE007D9134 /* PBXTargetDependency */,
-				C7ADCB3D0BA0C1B2007D9134 /* PBXTargetDependency */,
-			);
-			name = "Peacock-All";
-			productName = "Peacock-All";
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -30,8 +15,6 @@
 		C708E90D0B9D953A0085872E /* JKCombinedPeak.m in Sources */ = {isa = PBXBuildFile; fileRef = C708E90B0B9D953A0085872E /* JKCombinedPeak.m */; };
 		C709D00A0C465F3200C9C613 /* JKComboBoxCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C709D0080C465F3200C9C613 /* JKComboBoxCell.h */; };
 		C709D00B0C465F3200C9C613 /* JKComboBoxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C709D0090C465F3200C9C613 /* JKComboBoxCell.m */; };
-		C709D00C0C465F3200C9C613 /* JKComboBoxCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C709D0080C465F3200C9C613 /* JKComboBoxCell.h */; };
-		C709D00D0C465F3200C9C613 /* JKComboBoxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C709D0090C465F3200C9C613 /* JKComboBoxCell.m */; };
 		C70DB7610957141800C2B386 /* netcdf.h in Headers */ = {isa = PBXBuildFile; fileRef = C7EB17AF0898CF2E007FC2ED /* netcdf.h */; };
 		C70DB7620957141800C2B386 /* libnetcdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7EB17AE0898CF2E007FC2ED /* libnetcdf.a */; };
 		C70DB7640957141800C2B386 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -59,15 +42,9 @@
 		C73533D20B7A703C00F7634B /* JKChromatogramTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C73533D10B7A703C00F7634B /* JKChromatogramTest.m */; };
 		C73B27CE0CAD9EF600C09AAE /* JKSummarizer.h in Headers */ = {isa = PBXBuildFile; fileRef = C73B27CC0CAD9EF600C09AAE /* JKSummarizer.h */; };
 		C73B27CF0CAD9EF600C09AAE /* JKSummarizer.m in Sources */ = {isa = PBXBuildFile; fileRef = C73B27CD0CAD9EF600C09AAE /* JKSummarizer.m */; };
-		C73B27D00CAD9EF600C09AAE /* JKSummarizer.h in Headers */ = {isa = PBXBuildFile; fileRef = C73B27CC0CAD9EF600C09AAE /* JKSummarizer.h */; };
-		C73B27D10CAD9EF600C09AAE /* JKSummarizer.m in Sources */ = {isa = PBXBuildFile; fileRef = C73B27CD0CAD9EF600C09AAE /* JKSummarizer.m */; };
 		C73B27D80CB1224100C09AAE /* JKSummaryController.h in Headers */ = {isa = PBXBuildFile; fileRef = C73B27D60CB1224100C09AAE /* JKSummaryController.h */; };
 		C73B27D90CB1224100C09AAE /* JKSummaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73B27D70CB1224100C09AAE /* JKSummaryController.m */; };
-		C73B27DA0CB1224100C09AAE /* JKSummaryController.h in Headers */ = {isa = PBXBuildFile; fileRef = C73B27D60CB1224100C09AAE /* JKSummaryController.h */; };
-		C73B27DB0CB1224100C09AAE /* JKSummaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73B27D70CB1224100C09AAE /* JKSummaryController.m */; };
 		C73B28740CB1320A00C09AAE /* jk_statistics.m in Sources */ = {isa = PBXBuildFile; fileRef = C720AB8709EA7B6C007EF860 /* jk_statistics.m */; };
-		C73B28750CB1320B00C09AAE /* jk_statistics.m in Sources */ = {isa = PBXBuildFile; fileRef = C720AB8709EA7B6C007EF860 /* jk_statistics.m */; };
-		C74378910CCCA5AF002DF365 /* BannerBackground.tif in Resources */ = {isa = PBXBuildFile; fileRef = C74378900CCCA5AF002DF365 /* BannerBackground.tif */; };
 		C74378920CCCA5AF002DF365 /* BannerBackground.tif in Resources */ = {isa = PBXBuildFile; fileRef = C74378900CCCA5AF002DF365 /* BannerBackground.tif */; };
 		C7490D4D0CAC0B29005DCA39 /* JKChromatogram.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D420CAC0B28005DCA39 /* JKChromatogram.h */; };
 		C7490D4E0CAC0B29005DCA39 /* JKChromatogram.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D430CAC0B28005DCA39 /* JKChromatogram.m */; };
@@ -79,27 +56,7 @@
 		C7490D550CAC0B29005DCA39 /* PKGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D4A0CAC0B28005DCA39 /* PKGraphView.m */; };
 		C7490D560CAC0B29005DCA39 /* NSString+ModelCompare.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D4B0CAC0B28005DCA39 /* NSString+ModelCompare.h */; };
 		C7490D570CAC0B29005DCA39 /* NSString+ModelCompare.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D4C0CAC0B28005DCA39 /* NSString+ModelCompare.m */; };
-		C7490D580CAC0B29005DCA39 /* JKChromatogram.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D420CAC0B28005DCA39 /* JKChromatogram.h */; };
-		C7490D590CAC0B29005DCA39 /* JKChromatogram.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D430CAC0B28005DCA39 /* JKChromatogram.m */; };
-		C7490D5B0CAC0B29005DCA39 /* JKModelObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D450CAC0B28005DCA39 /* JKModelObject.h */; };
-		C7490D5C0CAC0B29005DCA39 /* JKModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D460CAC0B28005DCA39 /* JKModelObject.m */; };
-		C7490D5D0CAC0B29005DCA39 /* JKPeakRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D470CAC0B28005DCA39 /* JKPeakRecord.h */; };
-		C7490D5E0CAC0B29005DCA39 /* JKPeakRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D480CAC0B28005DCA39 /* JKPeakRecord.m */; };
-		C7490D5F0CAC0B29005DCA39 /* PKGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D490CAC0B28005DCA39 /* PKGraphView.h */; };
-		C7490D600CAC0B29005DCA39 /* PKGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D4A0CAC0B28005DCA39 /* PKGraphView.m */; };
-		C7490D610CAC0B29005DCA39 /* NSString+ModelCompare.h in Headers */ = {isa = PBXBuildFile; fileRef = C7490D4B0CAC0B28005DCA39 /* NSString+ModelCompare.h */; };
-		C7490D620CAC0B29005DCA39 /* NSString+ModelCompare.m in Sources */ = {isa = PBXBuildFile; fileRef = C7490D4C0CAC0B28005DCA39 /* NSString+ModelCompare.m */; };
-		C74A27F40CEE4D4500FFB61F /* JKLibraryPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27F20CEE4D4500FFB61F /* JKLibraryPanel.xib */; };
 		C74A27F50CEE4D4500FFB61F /* JKLibraryPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27F20CEE4D4500FFB61F /* JKLibraryPanel.xib */; };
-		C74A28090CEE4E4D00FFB61F /* DisplayOptions.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27F70CEE4E4D00FFB61F /* DisplayOptions.xib */; };
-		C74A280A0CEE4E4D00FFB61F /* JKBatchProcess.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27F90CEE4E4D00FFB61F /* JKBatchProcess.xib */; };
-		C74A280B0CEE4E4D00FFB61F /* JKGCMSDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27FB0CEE4E4D00FFB61F /* JKGCMSDocument.xib */; };
-		C74A280C0CEE4E4D00FFB61F /* JKLibrary.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27FD0CEE4E4D00FFB61F /* JKLibrary.xib */; };
-		C74A280D0CEE4E4D00FFB61F /* JKMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27FF0CEE4E4D00FFB61F /* JKMainMenu.xib */; };
-		C74A280E0CEE4E4D00FFB61F /* JKPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A28010CEE4E4D00FFB61F /* JKPanel.xib */; };
-		C74A280F0CEE4E4D00FFB61F /* JKPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A28030CEE4E4D00FFB61F /* JKPreferences.xib */; };
-		C74A28100CEE4E4D00FFB61F /* JKRatios.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A28050CEE4E4D00FFB61F /* JKRatios.xib */; };
-		C74A28110CEE4E4D00FFB61F /* JKSummary.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A28070CEE4E4D00FFB61F /* JKSummary.xib */; };
 		C74A28120CEE4E4D00FFB61F /* DisplayOptions.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27F70CEE4E4D00FFB61F /* DisplayOptions.xib */; };
 		C74A28130CEE4E4D00FFB61F /* JKBatchProcess.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27F90CEE4E4D00FFB61F /* JKBatchProcess.xib */; };
 		C74A28140CEE4E4D00FFB61F /* JKGCMSDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A27FB0CEE4E4D00FFB61F /* JKGCMSDocument.xib */; };
@@ -111,22 +68,8 @@
 		C74A281A0CEE4E4D00FFB61F /* JKSummary.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74A28070CEE4E4D00FFB61F /* JKSummary.xib */; };
 		C74A28250CEE51C100FFB61F /* JKLibraryPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = C74A28230CEE51C100FFB61F /* JKLibraryPanelController.h */; };
 		C74A28260CEE51C100FFB61F /* JKLibraryPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = C74A28240CEE51C100FFB61F /* JKLibraryPanelController.m */; };
-		C74A28270CEE51C100FFB61F /* JKLibraryPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = C74A28230CEE51C100FFB61F /* JKLibraryPanelController.h */; };
-		C74A28280CEE51C100FFB61F /* JKLibraryPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = C74A28240CEE51C100FFB61F /* JKLibraryPanelController.m */; };
-		C75846140C071ACC00756ED8 /* JKComparableProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846130C071ACC00756ED8 /* JKComparableProtocol.h */; };
-		C75846630C07268D00756ED8 /* JKLibraryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846610C07268D00756ED8 /* JKLibraryEntry.h */; };
-		C75846640C07268D00756ED8 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C75846620C07268D00756ED8 /* JKLibraryEntry.m */; };
 		C75846650C07268D00756ED8 /* JKLibraryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846610C07268D00756ED8 /* JKLibraryEntry.h */; };
 		C75846660C07268D00756ED8 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C75846620C07268D00756ED8 /* JKLibraryEntry.m */; };
-		C75AE3960CBE82190054E51B /* JKImageTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C75AE38B0CBE82190054E51B /* JKImageTextCell.h */; };
-		C75AE3970CBE82190054E51B /* JKImageTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C75AE38C0CBE82190054E51B /* JKImageTextCell.m */; };
-		C75AE3980CBE82190054E51B /* JKSeparatorCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C75AE38D0CBE82190054E51B /* JKSeparatorCell.h */; };
-		C75AE3990CBE82190054E51B /* JKSeparatorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C75AE38E0CBE82190054E51B /* JKSeparatorCell.m */; };
-		C75AE39A0CBE82190054E51B /* JKSourceTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = C75AE38F0CBE82190054E51B /* JKSourceTableView.h */; };
-		C75AE39B0CBE82190054E51B /* JKSourceTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C75AE3900CBE82190054E51B /* JKSourceTableView.m */; };
-		C75AE39C0CBE82190054E51B /* JKVariableCellColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = C75AE3910CBE82190054E51B /* JKVariableCellColumn.m */; };
-		C75AE39D0CBE82190054E51B /* JKVariableCellColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = C75AE3920CBE82190054E51B /* JKVariableCellColumn.h */; };
-		C75AE39E0CBE82190054E51B /* JKSourceTableView_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = C75AE3930CBE82190054E51B /* JKSourceTableView_Prefix.pch */; };
 		C75AE3A10CBE82190054E51B /* JKImageTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C75AE38B0CBE82190054E51B /* JKImageTextCell.h */; };
 		C75AE3A20CBE82190054E51B /* JKImageTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C75AE38C0CBE82190054E51B /* JKImageTextCell.m */; };
 		C75AE3A30CBE82190054E51B /* JKSeparatorCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C75AE38D0CBE82190054E51B /* JKSeparatorCell.h */; };
@@ -136,7 +79,6 @@
 		C75AE3A70CBE82190054E51B /* JKVariableCellColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = C75AE3910CBE82190054E51B /* JKVariableCellColumn.m */; };
 		C75AE3A80CBE82190054E51B /* JKVariableCellColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = C75AE3920CBE82190054E51B /* JKVariableCellColumn.h */; };
 		C75AE3A90CBE82190054E51B /* JKSourceTableView_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = C75AE3930CBE82190054E51B /* JKSourceTableView_Prefix.pch */; };
-		C765B8AB0C23237B00C4F153 /* factoranalysis.R in CopyFiles */ = {isa = PBXBuildFile; fileRef = C765B8AA0C23237A00C4F153 /* factoranalysis.R */; };
 		C76814070C05E66C00973566 /* JKManagedLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */; };
 		C76814240C05E6F200973566 /* FilteringDNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */; };
 		C7713B430950368F00653D2A /* JKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */; };
@@ -153,20 +95,13 @@
 		C777A2D60A1DFEE400CF44D9 /* JKMoleculeModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C777A2D00A1DFEE400CF44D9 /* JKMoleculeModel.h */; };
 		C777A2D70A1DFEE400CF44D9 /* JKMoleculeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C777A2D10A1DFEE400CF44D9 /* JKMoleculeModel.m */; };
 		C77C585A09801145002E7796 /* Peacock Help in Resources */ = {isa = PBXBuildFile; fileRef = C77C582F09800FAD002E7796 /* Peacock Help */; };
-		C77E2FBF0C0EF20C00B8A64A /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E2FBD0C0EF20C00B8A64A /* plus.png */; };
-		C77E2FC20C0EF21700B8A64A /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E2FC00C0EF21700B8A64A /* minus.png */; };
 		C77E32B90C0F2CBB00B8A64A /* libraries.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E32B80C0F2CBB00B8A64A /* libraries.png */; };
-		C77E32BA0C0F2CBB00B8A64A /* libraries.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E32B80C0F2CBB00B8A64A /* libraries.png */; };
 		C7834D1B0941ED37005431CD /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D1A0941ED37005431CD /* Carbon.framework */; };
 		C7834D3D0941ED5C005431CD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D3C0941ED5C005431CD /* CoreFoundation.framework */; };
 		C7834D440941ED7A005431CD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D430941ED7A005431CD /* Security.framework */; };
 		C7834D4A0941EDAF005431CD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D490941EDAF005431CD /* libz.dylib */; };
 		C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
-		C78FB8010CE9B73400466731 /* GCMathParser.h in Headers */ = {isa = PBXBuildFile; fileRef = C78FB7FC0CE9B73400466731 /* GCMathParser.h */; };
-		C78FB8020CE9B73400466731 /* GCMathParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C78FB7FD0CE9B73400466731 /* GCMathParser.m */; };
-		C78FB8040CE9B73400466731 /* ZExpParser.h in Headers */ = {isa = PBXBuildFile; fileRef = C78FB7FF0CE9B73400466731 /* ZExpParser.h */; };
-		C78FB8050CE9B73400466731 /* ZExpParser.mm in Sources */ = {isa = PBXBuildFile; fileRef = C78FB8000CE9B73400466731 /* ZExpParser.mm */; };
 		C78FB8060CE9B73400466731 /* GCMathParser.h in Headers */ = {isa = PBXBuildFile; fileRef = C78FB7FC0CE9B73400466731 /* GCMathParser.h */; };
 		C78FB8070CE9B73400466731 /* GCMathParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C78FB7FD0CE9B73400466731 /* GCMathParser.m */; };
 		C78FB8090CE9B73400466731 /* ZExpParser.h in Headers */ = {isa = PBXBuildFile; fileRef = C78FB7FF0CE9B73400466731 /* ZExpParser.h */; };
@@ -178,11 +113,8 @@
 		C799B0AB0ACAB30D00D4FCA4 /* Identify Peaks.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A80ACAB30D00D4FCA4 /* Identify Peaks.tiff */; };
 		C799B0AC0ACAB30D00D4FCA4 /* Identify Baseline.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A90ACAB30D00D4FCA4 /* Identify Baseline.tiff */; };
 		C79CE6290CF3569200C2D872 /* PKGraphical.xib in Resources */ = {isa = PBXBuildFile; fileRef = C79CE6280CF3569200C2D872 /* PKGraphical.xib */; };
-		C79CE62A0CF3569200C2D872 /* PKGraphical.xib in Resources */ = {isa = PBXBuildFile; fileRef = C79CE6280CF3569200C2D872 /* PKGraphical.xib */; };
 		C79CE62E0CF356CD00C2D872 /* PKGraphicalController.h in Headers */ = {isa = PBXBuildFile; fileRef = C79CE62C0CF356CD00C2D872 /* PKGraphicalController.h */; };
 		C79CE62F0CF356CD00C2D872 /* PKGraphicalController.m in Sources */ = {isa = PBXBuildFile; fileRef = C79CE62D0CF356CD00C2D872 /* PKGraphicalController.m */; };
-		C79CE6300CF356CD00C2D872 /* PKGraphicalController.h in Headers */ = {isa = PBXBuildFile; fileRef = C79CE62C0CF356CD00C2D872 /* PKGraphicalController.h */; };
-		C79CE6310CF356CD00C2D872 /* PKGraphicalController.m in Sources */ = {isa = PBXBuildFile; fileRef = C79CE62D0CF356CD00C2D872 /* PKGraphicalController.m */; };
 		C7A7BB370A9DE5D3005E3778 /* library_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB2D0A9DE5D3005E3778 /* library_document.icns */; };
 		C7A7BB380A9DE5D3005E3778 /* atlas_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB2E0A9DE5D3005E3778 /* atlas_document.icns */; };
 		C7A7BB3A0A9DE5D3005E3778 /* peacock_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB300A9DE5D3005E3778 /* peacock_document.icns */; };
@@ -205,136 +137,19 @@
 		C7A7BB5F0A9DE6E0005E3778 /* warning.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB520A9DE6E0005E3778 /* warning.tiff */; };
 		C7A7BB600A9DE6E0005E3778 /* layout.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB530A9DE6E0005E3778 /* layout.tiff */; };
 		C7A7BB610A9DE6E0005E3778 /* save_document.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB540A9DE6E0005E3778 /* save_document.tiff */; };
-		C7ADC88A0BA05609007D9134 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C70DC019095B205500C2B386 /* Credits.rtf */; };
-		C7ADC88B0BA05609007D9134 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
-		C7ADC8910BA05609007D9134 /* periodic.table in Resources */ = {isa = PBXBuildFile; fileRef = C7EB180D0898CFBD007FC2ED /* periodic.table */; };
-		C7ADC8940BA05609007D9134 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C70DC016095B201200C2B386 /* Localizable.strings */; };
-		C7ADC8950BA05609007D9134 /* Peacock Help in Resources */ = {isa = PBXBuildFile; fileRef = C77C582F09800FAD002E7796 /* Peacock Help */; };
-		C7ADC8960BA05609007D9134 /* Peacock.sdef in Resources */ = {isa = PBXBuildFile; fileRef = C7C21FC50A5060E2006E82FD /* Peacock.sdef */; };
-		C7ADC8970BA05609007D9134 /* library_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB2D0A9DE5D3005E3778 /* library_document.icns */; };
-		C7ADC8980BA05609007D9134 /* atlas_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB2E0A9DE5D3005E3778 /* atlas_document.icns */; };
-		C7ADC8990BA05609007D9134 /* peacock_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB300A9DE5D3005E3778 /* peacock_document.icns */; };
-		C7ADC89A0BA05609007D9134 /* peacock_preferences.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB310A9DE5D3005E3778 /* peacock_preferences.icns */; };
-		C7ADC89B0BA05609007D9134 /* andi_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB320A9DE5D3005E3778 /* andi_document.icns */; };
-		C7ADC89C0BA05609007D9134 /* aia_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB330A9DE5D3005E3778 /* aia_document.icns */; };
-		C7ADC89D0BA05609007D9134 /* netcdf_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB340A9DE5D3005E3778 /* netcdf_document.icns */; };
-		C7ADC89E0BA05609007D9134 /* hpchem_document.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB350A9DE5D3005E3778 /* hpchem_document.icns */; };
-		C7ADC89F0BA05609007D9134 /* peacock_application.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB360A9DE5D3005E3778 /* peacock_application.icns */; };
-		C7ADC8A00BA05609007D9134 /* question_mark.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB480A9DE6E0005E3778 /* question_mark.tiff */; };
-		C7ADC8A10BA05609007D9134 /* zoom_out.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB490A9DE6E0005E3778 /* zoom_out.tiff */; };
-		C7ADC8A20BA05609007D9134 /* processing.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB4A0A9DE6E0005E3778 /* processing.tiff */; };
-		C7ADC8A30BA05609007D9134 /* info.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB4B0A9DE6E0005E3778 /* info.icns */; };
-		C7ADC8A40BA05609007D9134 /* general.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB4C0A9DE6E0005E3778 /* general.tiff */; };
-		C7ADC8A50BA05609007D9134 /* find.icns in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB4D0A9DE6E0005E3778 /* find.icns */; };
-		C7ADC8A60BA05609007D9134 /* zoom_in.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB4E0A9DE6E0005E3778 /* zoom_in.tiff */; };
-		C7ADC8A70BA05609007D9134 /* text.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB4F0A9DE6E0005E3778 /* text.tiff */; };
-		C7ADC8A80BA05609007D9134 /* zoom.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB500A9DE6E0005E3778 /* zoom.tiff */; };
-		C7ADC8A90BA05609007D9134 /* display.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB510A9DE6E0005E3778 /* display.tiff */; };
-		C7ADC8AA0BA05609007D9134 /* warning.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB520A9DE6E0005E3778 /* warning.tiff */; };
-		C7ADC8AB0BA05609007D9134 /* layout.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB530A9DE6E0005E3778 /* layout.tiff */; };
-		C7ADC8AC0BA05609007D9134 /* save_document.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB540A9DE6E0005E3778 /* save_document.tiff */; };
-		C7ADC8AD0BA05609007D9134 /* view.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7B9BA2C0AA881AE00250EFE /* view.tiff */; };
-		C7ADC8AE0BA05609007D9134 /* presets.png in Resources */ = {isa = PBXBuildFile; fileRef = C7FBE1E30AB6F1A4000E7EF2 /* presets.png */; };
-		C7ADC8AF0BA05609007D9134 /* Peacock Test Files in Resources */ = {isa = PBXBuildFile; fileRef = C747ED320ABF43C6001F98AF /* Peacock Test Files */; };
-		C7ADC8B00BA05609007D9134 /* Identify Compounds.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A70ACAB30D00D4FCA4 /* Identify Compounds.tiff */; };
-		C7ADC8B10BA05609007D9134 /* Identify Peaks.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A80ACAB30D00D4FCA4 /* Identify Peaks.tiff */; };
-		C7ADC8B20BA05609007D9134 /* Identify Baseline.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A90ACAB30D00D4FCA4 /* Identify Baseline.tiff */; };
-		C7ADC8B80BA05609007D9134 /* PKGraphDataSeries.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F60898CFBC007FC2ED /* PKGraphDataSeries.m */; };
-		C7ADC8BD0BA05609007D9134 /* JKAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17CF0898CF2E007FC2ED /* JKAppDelegate.m */; };
-		C7ADC8BE0BA05609007D9134 /* JKLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17D50898CF2E007FC2ED /* JKLibrary.m */; };
-		C7ADC8BF0BA05609007D9134 /* JKLibraryWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17D90898CF2E007FC2ED /* JKLibraryWindowController.m */; };
-		C7ADC8C00BA05609007D9134 /* JKMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */; };
-		C7ADC8C10BA05609007D9134 /* JKPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */; };
-		C7ADC8C20BA05609007D9134 /* JKPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17E90898CF2F007FC2ED /* JKPreferencesWindowController.m */; };
-		C7ADC8C30BA05609007D9134 /* JKSpectrum.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */; };
-		C7ADC8C50BA05609007D9134 /* FilteringDNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */; };
-		C7ADC8C60BA05609007D9134 /* PKChromatogramDataSeries.m in Sources */ = {isa = PBXBuildFile; fileRef = C773669508E02D87002B72F1 /* PKChromatogramDataSeries.m */; };
-		C7ADC8C70BA05609007D9134 /* PKSpectrumDataSeries.m in Sources */ = {isa = PBXBuildFile; fileRef = C773669708E02D87002B72F1 /* PKSpectrumDataSeries.m */; };
-		C7ADC8C80BA05609007D9134 /* DeleteTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */; };
-		C7ADC8C90BA05609007D9134 /* JKManagedLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */; };
-		C7ADC8CA0BA05609007D9134 /* RBSplitSubview.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6150094DBE3A00C0887E /* RBSplitSubview.m */; };
-		C7ADC8CB0BA05609007D9134 /* RBSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6152094DBE3A00C0887E /* RBSplitView.m */; };
-		C7ADC8CC0BA05609007D9134 /* JKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */; };
-		C7ADC8CD0BA05609007D9134 /* JKRatio.m in Sources */ = {isa = PBXBuildFile; fileRef = C70DB8EC09573BEA00C2B386 /* JKRatio.m */; };
-		C7ADC8CE0BA05609007D9134 /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
-		C7ADC8D00BA05609007D9134 /* JKGCMSDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */; };
-		C7ADC8D10BA05609007D9134 /* BDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E5B1D30A14934200BB2291 /* BDAlias.m */; };
-		C7ADC8D30BA05609007D9134 /* JKMoleculeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C777A2C40A1DFEA800CF44D9 /* JKMoleculeView.m */; };
-		C7ADC8D40BA05609007D9134 /* JKAtom.m in Sources */ = {isa = PBXBuildFile; fileRef = C777A2CD0A1DFEE400CF44D9 /* JKAtom.m */; };
-		C7ADC8D50BA05609007D9134 /* JKBond.m in Sources */ = {isa = PBXBuildFile; fileRef = C777A2CF0A1DFEE400CF44D9 /* JKBond.m */; };
-		C7ADC8D60BA05609007D9134 /* JKMoleculeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C777A2D10A1DFEE400CF44D9 /* JKMoleculeModel.m */; };
-		C7ADC8D70BA05609007D9134 /* JKDataModelProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */; };
-		C7ADC8D90BA05609007D9134 /* FontNameToDisplayNameTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */; };
-		C7ADC8DA0BA05609007D9134 /* NSTableView+Copying.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */; };
-		C7ADC8DE0BA05609007D9134 /* JKSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = C7752C370B6778DA0010EE72 /* JKSearchResult.m */; };
-		C7ADC8DF0BA05609007D9134 /* NSBezierPath+RoundRect.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */; };
-		C7ADC8E00BA05609007D9134 /* ArrayEncodingObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C299890B8B48CC0017B2B2 /* ArrayEncodingObject.m */; };
-		C7ADC8E10BA05609007D9134 /* NSKeyedArchiver+CArrayEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C2998F0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.m */; };
-		C7ADC8E20BA05609007D9134 /* NSCoder+CArrayEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C29ABC0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m */; };
-		C7ADC8E30BA05609007D9134 /* JKCombinedPeak.m in Sources */ = {isa = PBXBuildFile; fileRef = C708E90B0B9D953A0085872E /* JKCombinedPeak.m */; };
-		C7ADC8E40BA05609007D9134 /* NSEvent+ModifierKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */; };
-		C7ADC8E60BA05609007D9134 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		C7ADC8E70BA05609007D9134 /* libnetcdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7EB17AE0898CF2E007FC2ED /* libnetcdf.a */; };
-		C7ADC8E80BA05609007D9134 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D1A0941ED37005431CD /* Carbon.framework */; };
-		C7ADC8E90BA05609007D9134 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D3C0941ED5C005431CD /* CoreFoundation.framework */; };
-		C7ADC8EA0BA05609007D9134 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D430941ED7A005431CD /* Security.framework */; };
-		C7ADC8EB0BA05609007D9134 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D490941EDAF005431CD /* libz.dylib */; };
-		C7ADC8EC0BA05609007D9134 /* libnetcdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7EB17AE0898CF2E007FC2ED /* libnetcdf.a */; };
-		C7ADC8ED0BA05609007D9134 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		C7ADC8EE0BA05609007D9134 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D490941EDAF005431CD /* libz.dylib */; };
-		C7ADC8EF0BA05609007D9134 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D430941ED7A005431CD /* Security.framework */; };
-		C7ADC8F00BA05609007D9134 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D3C0941ED5C005431CD /* CoreFoundation.framework */; };
-		C7ADC8F10BA05609007D9134 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D1A0941ED37005431CD /* Carbon.framework */; };
-		C7ADC8F20BA05609007D9134 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */; };
-		C7ADC8F30BA05609007D9134 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */; };
-		C7ADC8F40BA05609007D9134 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C71D9FCB099CD19D007EB10D /* Growl.framework */; };
-		C7ADC8F50BA05609007D9134 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
-		C7ADC8F60BA05609007D9134 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C716B4AD0AD6AA8F00DA408E /* CoreData.framework */; };
-		C7ADC8F80BA05609007D9134 /* netcdf.h in Headers */ = {isa = PBXBuildFile; fileRef = C7EB17AF0898CF2E007FC2ED /* netcdf.h */; };
-		C7ADC8F90BA05609007D9134 /* JKLog.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC505109A62C930093106E /* JKLog.h */; };
-		C7ADC8FA0BA05609007D9134 /* jk_statistics.h in Headers */ = {isa = PBXBuildFile; fileRef = C720AB8609EA7B6C007EF860 /* jk_statistics.h */; };
-		C7ADC8FB0BA05609007D9134 /* JKGCMSDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */; };
-		C7ADC8FC0BA05609007D9134 /* BDAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E5B1D20A14934200BB2291 /* BDAlias.h */; };
-		C7ADC8FE0BA05609007D9134 /* JKMoleculeView.h in Headers */ = {isa = PBXBuildFile; fileRef = C777A2C30A1DFEA800CF44D9 /* JKMoleculeView.h */; };
-		C7ADC8FF0BA05609007D9134 /* JKAtom.h in Headers */ = {isa = PBXBuildFile; fileRef = C777A2CC0A1DFEE400CF44D9 /* JKAtom.h */; };
-		C7ADC9000BA05609007D9134 /* JKBond.h in Headers */ = {isa = PBXBuildFile; fileRef = C777A2CE0A1DFEE400CF44D9 /* JKBond.h */; };
-		C7ADC9010BA05609007D9134 /* JKMoleculeModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C777A2D00A1DFEE400CF44D9 /* JKMoleculeModel.h */; };
-		C7ADC9020BA05609007D9134 /* JKDataModelProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = C729CAA70A4B45CD00FAB04F /* JKDataModelProxy.h */; };
-		C7ADC9050BA05609007D9134 /* FontNameToDisplayNameTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */; };
-		C7ADC9060BA05609007D9134 /* MWController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D0550B11D9030046F994 /* MWController.h */; };
-		C7ADC9070BA05609007D9134 /* NSTableView+Copying.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */; };
-		C7ADC9090BA05609007D9134 /* JKSearchResult.h in Headers */ = {isa = PBXBuildFile; fileRef = C7752C360B6778DA0010EE72 /* JKSearchResult.h */; };
-		C7ADC90A0BA05609007D9134 /* NSBezierPath+RoundRect.h in Headers */ = {isa = PBXBuildFile; fileRef = C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */; };
-		C7ADC90B0BA05609007D9134 /* ArrayEncodingObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C299880B8B48CC0017B2B2 /* ArrayEncodingObject.h */; };
-		C7ADC90C0BA05609007D9134 /* NSKeyedArchiver+CArrayEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C2998E0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.h */; };
-		C7ADC90D0BA05609007D9134 /* NSCoder+CArrayEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C29ABB0B8B67530017B2B2 /* NSCoder+CArrayEncoding.h */; };
-		C7ADC90E0BA05609007D9134 /* JKCombinedPeak.h in Headers */ = {isa = PBXBuildFile; fileRef = C708E90A0B9D953A0085872E /* JKCombinedPeak.h */; };
-		C7ADC90F0BA05609007D9134 /* NSEvent+ModifierKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */; };
-		C7ADC9110BA05609007D9134 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
-		C7ADC9120BA05609007D9134 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C71D9FCB099CD19D007EB10D /* Growl.framework */; };
 		C7B9BA2D0AA881AE00250EFE /* view.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7B9BA2C0AA881AE00250EFE /* view.tiff */; };
-		C7BB96C60CE89D82003049F9 /* ratios.pdf in Resources */ = {isa = PBXBuildFile; fileRef = C7BB96C50CE89D82003049F9 /* ratios.pdf */; };
 		C7BB96C70CE89D82003049F9 /* ratios.pdf in Resources */ = {isa = PBXBuildFile; fileRef = C7BB96C50CE89D82003049F9 /* ratios.pdf */; };
 		C7BC18A80CBBCA5E0037FBA7 /* PKDocumentController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC18A60CBBCA5E0037FBA7 /* PKDocumentController.h */; };
 		C7BC18A90CBBCA5E0037FBA7 /* PKDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC18A70CBBCA5E0037FBA7 /* PKDocumentController.m */; };
-		C7BC18AA0CBBCA5E0037FBA7 /* PKDocumentController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC18A60CBBCA5E0037FBA7 /* PKDocumentController.h */; };
-		C7BC18AB0CBBCA5E0037FBA7 /* PKDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC18A70CBBCA5E0037FBA7 /* PKDocumentController.m */; };
 		C7BC19AB0CBBE2D20037FBA7 /* PKWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC19A90CBBE2D20037FBA7 /* PKWindowController.h */; };
 		C7BC19AC0CBBE2D20037FBA7 /* PKWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC19AA0CBBE2D20037FBA7 /* PKWindowController.m */; };
-		C7BC19AD0CBBE2D20037FBA7 /* PKWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC19A90CBBE2D20037FBA7 /* PKWindowController.h */; };
-		C7BC19AE0CBBE2D20037FBA7 /* PKWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC19AA0CBBE2D20037FBA7 /* PKWindowController.m */; };
 		C7BC505309A62C930093106E /* JKLog.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC505109A62C930093106E /* JKLog.h */; };
 		C7BC505409A62C930093106E /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
 		C7BC7CD40CBB91A0006D121C /* ExceptionHandling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7BC7CD10CBB91A0006D121C /* ExceptionHandling.framework */; };
-		C7BC7CD50CBB91A0006D121C /* ExceptionHandling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7BC7CD10CBB91A0006D121C /* ExceptionHandling.framework */; };
 		C7BDA6C10AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */; };
 		C7BDA6C20AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */; };
-		C7BF0DC90CBE5D15003BEC49 /* JKRatiosController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BF0DC70CBE5D15003BEC49 /* JKRatiosController.h */; };
-		C7BF0DCA0CBE5D15003BEC49 /* JKRatiosController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BF0DC80CBE5D15003BEC49 /* JKRatiosController.m */; };
 		C7BF0DCB0CBE5D15003BEC49 /* JKRatiosController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BF0DC70CBE5D15003BEC49 /* JKRatiosController.h */; };
 		C7BF0DCC0CBE5D15003BEC49 /* JKRatiosController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BF0DC80CBE5D15003BEC49 /* JKRatiosController.m */; };
-		C7C220630BEB831000510B5B /* BooleanToStringTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C220610BEB831000510B5B /* BooleanToStringTransformer.h */; };
-		C7C220640BEB831000510B5B /* BooleanToStringTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C220620BEB831000510B5B /* BooleanToStringTransformer.m */; };
 		C7C220650BEB831000510B5B /* BooleanToStringTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C220610BEB831000510B5B /* BooleanToStringTransformer.h */; };
 		C7C220660BEB831000510B5B /* BooleanToStringTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C220620BEB831000510B5B /* BooleanToStringTransformer.m */; };
 		C7C2998A0B8B48CC0017B2B2 /* ArrayEncodingObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C299880B8B48CC0017B2B2 /* ArrayEncodingObject.h */; };
@@ -343,10 +158,12 @@
 		C7C299910B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C2998F0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.m */; };
 		C7C29ABD0B8B67540017B2B2 /* NSCoder+CArrayEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C29ABB0B8B67530017B2B2 /* NSCoder+CArrayEncoding.h */; };
 		C7C29ABE0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C29ABC0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m */; };
+		C7C588DC0CFD6DD10009CDD9 /* PKPluginProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C588DB0CFD6DD10009CDD9 /* PKPluginProtocol.h */; };
+		C7C589360CFDC48D0009CDD9 /* PKDefaultPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C589350CFDC48D0009CDD9 /* PKDefaultPlugin.m */; };
+		C7C589D10CFDD01C0009CDD9 /* Default Plugin.peacock-plugin in Resources */ = {isa = PBXBuildFile; fileRef = C7C589CB0CFDD01C0009CDD9 /* Default Plugin.peacock-plugin */; };
+		C7C589D30CFDD02C0009CDD9 /* Default Plugin.peacock-plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7C589CB0CFDD01C0009CDD9 /* Default Plugin.peacock-plugin */; };
 		C7CFFC770BBC0C290060B0C7 /* JKGCMSPrintView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */; };
 		C7CFFC780BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */; };
-		C7CFFC790BBC0C290060B0C7 /* JKGCMSPrintView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */; };
-		C7CFFC7A0BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */; };
 		C7D7D66A0B7203B0004ABEB5 /* NSBezierPath+RoundRect.h in Headers */ = {isa = PBXBuildFile; fileRef = C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */; };
 		C7D7D66B0B7203B0004ABEB5 /* NSBezierPath+RoundRect.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */; };
 		C7E5B1D70A14934200BB2291 /* BDAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E5B1D20A14934200BB2291 /* BDAlias.h */; };
@@ -370,37 +187,17 @@
 		C7F0D0560B11D9030046F994 /* MWController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D0550B11D9030046F994 /* MWController.h */; };
 		C7F0D3B30B1497D40046F994 /* NSTableView+Copying.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */; };
 		C7F0D3B40B1497D40046F994 /* NSTableView+Copying.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */; };
-		C7F8DE150BF0A4B500A34F5D /* flagged_header.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DE130BF0A4B500A34F5D /* flagged_header.tiff */; };
-		C7F8DE160BF0A4B500A34F5D /* flagged.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DE140BF0A4B500A34F5D /* flagged.tiff */; };
 		C7F8DE170BF0A4B500A34F5D /* flagged_header.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DE130BF0A4B500A34F5D /* flagged_header.tiff */; };
 		C7F8DE180BF0A4B500A34F5D /* flagged.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DE140BF0A4B500A34F5D /* flagged.tiff */; };
-		C7F8DE8F0BF0CDEE00A34F5D /* AMRemovableTableColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DE8B0BF0CDED00A34F5D /* AMRemovableTableColumn.h */; };
-		C7F8DE900BF0CDEE00A34F5D /* AMRemovableColumnsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8DE8C0BF0CDED00A34F5D /* AMRemovableColumnsTableView.m */; };
-		C7F8DE910BF0CDEE00A34F5D /* AMRemovableTableColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8DE8D0BF0CDED00A34F5D /* AMRemovableTableColumn.m */; };
-		C7F8DE920BF0CDEE00A34F5D /* AMRemovableColumnsTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DE8E0BF0CDED00A34F5D /* AMRemovableColumnsTableView.h */; };
 		C7F8DE930BF0CDEE00A34F5D /* AMRemovableTableColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DE8B0BF0CDED00A34F5D /* AMRemovableTableColumn.h */; };
 		C7F8DE940BF0CDEE00A34F5D /* AMRemovableColumnsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8DE8C0BF0CDED00A34F5D /* AMRemovableColumnsTableView.m */; };
 		C7F8DE950BF0CDEE00A34F5D /* AMRemovableTableColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8DE8D0BF0CDED00A34F5D /* AMRemovableTableColumn.m */; };
 		C7F8DE960BF0CDEE00A34F5D /* AMRemovableColumnsTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DE8E0BF0CDED00A34F5D /* AMRemovableColumnsTableView.h */; };
-		C7F8DEA40BF0CE1A00A34F5D /* table.png in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DEA30BF0CE1A00A34F5D /* table.png */; };
 		C7F8DEA50BF0CE1A00A34F5D /* table.png in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DEA30BF0CE1A00A34F5D /* table.png */; };
-		C7F8DF040BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8DF020BF0D40F00A34F5D /* DisplayOptionsWindowController.m */; };
-		C7F8DF050BF0D41000A34F5D /* DisplayOptionsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DF030BF0D40F00A34F5D /* DisplayOptionsWindowController.h */; };
 		C7F8DF060BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8DF020BF0D40F00A34F5D /* DisplayOptionsWindowController.m */; };
 		C7F8DF070BF0D41000A34F5D /* DisplayOptionsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DF030BF0D40F00A34F5D /* DisplayOptionsWindowController.h */; };
 		C7FBE1E40AB6F1A4000E7EF2 /* presets.png in Resources */ = {isa = PBXBuildFile; fileRef = C7FBE1E30AB6F1A4000E7EF2 /* presets.png */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXBuildRule section */
-		C7ADCAE50BA0BC4D007D9134 /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = org.cocotron.1.0.windows.i386.gcc.4_0_3;
-			fileType = sourcecode.c;
-			isEditable = 1;
-			outputFiles = (
-			);
-		};
-/* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
 		C72C8532098BEAD500CEF565 /* PBXContainerItemProxy */ = {
@@ -410,19 +207,12 @@
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = Peacock;
 		};
-		C7ADCB3A0BA0C1AE007D9134 /* PBXContainerItemProxy */ = {
+		C7C589370CFDC4AE0009CDD9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
-			remoteInfo = "Peacock-Mac";
-		};
-		C7ADCB3C0BA0C1B2007D9134 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C7ADC8880BA05609007D9134;
-			remoteInfo = "Peacock-Windows";
+			remoteGlobalIDString = C7C589220CFDC4250009CDD9;
+			remoteInfo = "Default Plugin";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -438,15 +228,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C7ADC9100BA05609007D9134 /* CopyFiles */ = {
+		C7C5893E0CFDC5380009CDD9 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 10;
+			dstSubfolderSpec = 13;
 			files = (
-				C7ADC9110BA05609007D9134 /* Sparkle.framework in CopyFiles */,
-				C7ADC9120BA05609007D9134 /* Growl.framework in CopyFiles */,
-				C765B8AB0C23237B00C4F153 /* factoranalysis.R in CopyFiles */,
+				C7C589D30CFDD02C0009CDD9 /* Default Plugin.peacock-plugin in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -600,7 +388,6 @@
 		C7A7BB540A9DE6E0005E3778 /* save_document.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = save_document.tiff; sourceTree = "<group>"; };
 		C7AD38AB08B2A0D600A0F4BE /* FilteringDNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FilteringDNDArrayController.h; sourceTree = "<group>"; };
 		C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FilteringDNDArrayController.m; sourceTree = "<group>"; };
-		C7ADC9190BA05609007D9134 /* Peacock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Peacock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7B9BA2C0AA881AE00250EFE /* view.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = view.tiff; sourceTree = "<group>"; };
 		C7BB96C50CE89D82003049F9 /* ratios.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = ratios.pdf; path = /Users/jkool/Developer/Peacock/trunk/Images/ratios.pdf; sourceTree = "<absolute>"; };
 		C7BC18A60CBBCA5E0037FBA7 /* PKDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKDocumentController.h; sourceTree = "<group>"; };
@@ -623,6 +410,12 @@
 		C7C2998F0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSKeyedArchiver+CArrayEncoding.m"; sourceTree = "<group>"; };
 		C7C29ABB0B8B67530017B2B2 /* NSCoder+CArrayEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCoder+CArrayEncoding.h"; sourceTree = "<group>"; };
 		C7C29ABC0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCoder+CArrayEncoding.m"; sourceTree = "<group>"; };
+		C7C588DB0CFD6DD10009CDD9 /* PKPluginProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKPluginProtocol.h; path = /Users/jkool/Developer/Peacock/trunk/PKPluginProtocol.h; sourceTree = "<absolute>"; };
+		C7C589230CFDC4250009CDD9 /* Default Plugin.peacock-plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Default Plugin.peacock-plugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C7C589240CFDC4250009CDD9 /* Default Plugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Default Plugin-Info.plist"; path = "/Users/jkool/Developer/Peacock/trunk/Default Plugin-Info.plist"; sourceTree = "<absolute>"; };
+		C7C589340CFDC48D0009CDD9 /* PKDefaultPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKDefaultPlugin.h; path = /Users/jkool/Developer/Peacock/trunk/PKDefaultPlugin.h; sourceTree = "<absolute>"; };
+		C7C589350CFDC48D0009CDD9 /* PKDefaultPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKDefaultPlugin.m; path = /Users/jkool/Developer/Peacock/trunk/PKDefaultPlugin.m; sourceTree = "<absolute>"; };
+		C7C589CB0CFDD01C0009CDD9 /* Default Plugin.peacock-plugin */ = {isa = PBXFileReference; explicitFileType = "wrapper.plug-in"; path = "Default Plugin.peacock-plugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKGCMSPrintView.h; sourceTree = "<group>"; };
 		C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKGCMSPrintView.m; sourceTree = "<group>"; };
 		C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+RoundRect.h"; sourceTree = "<group>"; };
@@ -711,28 +504,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C7ADC8E50BA05609007D9134 /* Frameworks */ = {
+		C7C589210CFDC4250009CDD9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7ADC8E60BA05609007D9134 /* Cocoa.framework in Frameworks */,
-				C7ADC8E70BA05609007D9134 /* libnetcdf.a in Frameworks */,
-				C7ADC8E80BA05609007D9134 /* Carbon.framework in Frameworks */,
-				C7ADC8E90BA05609007D9134 /* CoreFoundation.framework in Frameworks */,
-				C7ADC8EA0BA05609007D9134 /* Security.framework in Frameworks */,
-				C7ADC8EB0BA05609007D9134 /* libz.dylib in Frameworks */,
-				C7ADC8EC0BA05609007D9134 /* libnetcdf.a in Frameworks */,
-				C7ADC8ED0BA05609007D9134 /* Cocoa.framework in Frameworks */,
-				C7ADC8EE0BA05609007D9134 /* libz.dylib in Frameworks */,
-				C7ADC8EF0BA05609007D9134 /* Security.framework in Frameworks */,
-				C7ADC8F00BA05609007D9134 /* CoreFoundation.framework in Frameworks */,
-				C7ADC8F10BA05609007D9134 /* Carbon.framework in Frameworks */,
-				C7ADC8F20BA05609007D9134 /* AppKit.framework in Frameworks */,
-				C7ADC8F30BA05609007D9134 /* Foundation.framework in Frameworks */,
-				C7ADC8F40BA05609007D9134 /* Growl.framework in Frameworks */,
-				C7ADC8F50BA05609007D9134 /* Sparkle.framework in Frameworks */,
-				C7ADC8F60BA05609007D9134 /* CoreData.framework in Frameworks */,
-				C7BC7CD50CBB91A0006D121C /* ExceptionHandling.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -769,7 +544,7 @@
 			children = (
 				8D15AC370486D014006FF6A4 /* Peacock.app */,
 				C72C8500098BE74300CEF565 /* Unit Testing.octest */,
-				C7ADC9190BA05609007D9134 /* Peacock.app */,
+				C7C589230CFDC4250009CDD9 /* Default Plugin.peacock-plugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -777,6 +552,7 @@
 		2A37F4AAFDCFA73011CA2CEA /* Peacock */ = {
 			isa = PBXGroup;
 			children = (
+				C7C5894F0CFDC6FB0009CDD9 /* Plugins */,
 				C77E686F0C3A9C860051B016 /* Classes */,
 				C7F3EE900CE1F929008F7BBC /* Categories */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
@@ -785,6 +561,7 @@
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 				C72C8501098BE74400CEF565 /* Unit Testing-Info.plist */,
+				C7C589240CFDC4250009CDD9 /* Default Plugin-Info.plist */,
 			);
 			name = Peacock;
 			sourceTree = "<group>";
@@ -969,6 +746,9 @@
 				C795D9380CF4831D006CF960 /* JKSynchroScrollView.h */,
 				C795D9370CF4831D006CF960 /* JKSynchroScrollView.m */,
 				C7F3EE910CE1F9CA008F7BBC /* Deprecated */,
+				C7C588DB0CFD6DD10009CDD9 /* PKPluginProtocol.h */,
+				C7C589340CFDC48D0009CDD9 /* PKDefaultPlugin.h */,
+				C7C589350CFDC48D0009CDD9 /* PKDefaultPlugin.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1019,6 +799,14 @@
 				C79A6153094DBE3A00C0887E /* RBSplitViewPrivateDefines.h */,
 			);
 			path = RBSplitView;
+			sourceTree = "<group>";
+		};
+		C7C5894F0CFDC6FB0009CDD9 /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				C7C589CB0CFDD01C0009CDD9 /* Default Plugin.peacock-plugin */,
+			);
+			name = Plugins;
 			sourceTree = "<group>";
 		};
 		C7E5B1C50A14930600BB2291 /* BDAlias */ = {
@@ -1141,60 +929,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		C7ADC8F70BA05609007D9134 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C7ADC8F80BA05609007D9134 /* netcdf.h in Headers */,
-				C7ADC8F90BA05609007D9134 /* JKLog.h in Headers */,
-				C7ADC8FA0BA05609007D9134 /* jk_statistics.h in Headers */,
-				C7ADC8FB0BA05609007D9134 /* JKGCMSDocument.h in Headers */,
-				C7ADC8FC0BA05609007D9134 /* BDAlias.h in Headers */,
-				C7ADC8FE0BA05609007D9134 /* JKMoleculeView.h in Headers */,
-				C7ADC8FF0BA05609007D9134 /* JKAtom.h in Headers */,
-				C7ADC9000BA05609007D9134 /* JKBond.h in Headers */,
-				C7ADC9010BA05609007D9134 /* JKMoleculeModel.h in Headers */,
-				C7ADC9020BA05609007D9134 /* JKDataModelProxy.h in Headers */,
-				C7ADC9050BA05609007D9134 /* FontNameToDisplayNameTransformer.h in Headers */,
-				C7ADC9060BA05609007D9134 /* MWController.h in Headers */,
-				C7ADC9070BA05609007D9134 /* NSTableView+Copying.h in Headers */,
-				C7ADC9090BA05609007D9134 /* JKSearchResult.h in Headers */,
-				C7ADC90A0BA05609007D9134 /* NSBezierPath+RoundRect.h in Headers */,
-				C7ADC90B0BA05609007D9134 /* ArrayEncodingObject.h in Headers */,
-				C7ADC90C0BA05609007D9134 /* NSKeyedArchiver+CArrayEncoding.h in Headers */,
-				C7ADC90D0BA05609007D9134 /* NSCoder+CArrayEncoding.h in Headers */,
-				C7ADC90E0BA05609007D9134 /* JKCombinedPeak.h in Headers */,
-				C7ADC90F0BA05609007D9134 /* NSEvent+ModifierKeys.h in Headers */,
-				C7CFFC790BBC0C290060B0C7 /* JKGCMSPrintView.h in Headers */,
-				C7C220630BEB831000510B5B /* BooleanToStringTransformer.h in Headers */,
-				C7F8DE8F0BF0CDEE00A34F5D /* AMRemovableTableColumn.h in Headers */,
-				C7F8DE920BF0CDEE00A34F5D /* AMRemovableColumnsTableView.h in Headers */,
-				C7F8DF050BF0D41000A34F5D /* DisplayOptionsWindowController.h in Headers */,
-				C75846140C071ACC00756ED8 /* JKComparableProtocol.h in Headers */,
-				C75846630C07268D00756ED8 /* JKLibraryEntry.h in Headers */,
-				C709D00C0C465F3200C9C613 /* JKComboBoxCell.h in Headers */,
-				C7490D580CAC0B29005DCA39 /* JKChromatogram.h in Headers */,
-				C7490D5B0CAC0B29005DCA39 /* JKModelObject.h in Headers */,
-				C7490D5D0CAC0B29005DCA39 /* JKPeakRecord.h in Headers */,
-				C7490D5F0CAC0B29005DCA39 /* PKGraphView.h in Headers */,
-				C7490D610CAC0B29005DCA39 /* NSString+ModelCompare.h in Headers */,
-				C73B27D00CAD9EF600C09AAE /* JKSummarizer.h in Headers */,
-				C73B27DA0CB1224100C09AAE /* JKSummaryController.h in Headers */,
-				C7BC18AA0CBBCA5E0037FBA7 /* PKDocumentController.h in Headers */,
-				C7BC19AD0CBBE2D20037FBA7 /* PKWindowController.h in Headers */,
-				C7BF0DC90CBE5D15003BEC49 /* JKRatiosController.h in Headers */,
-				C75AE3960CBE82190054E51B /* JKImageTextCell.h in Headers */,
-				C75AE3980CBE82190054E51B /* JKSeparatorCell.h in Headers */,
-				C75AE39A0CBE82190054E51B /* JKSourceTableView.h in Headers */,
-				C75AE39D0CBE82190054E51B /* JKVariableCellColumn.h in Headers */,
-				C75AE39E0CBE82190054E51B /* JKSourceTableView_Prefix.pch in Headers */,
-				C78FB8010CE9B73400466731 /* GCMathParser.h in Headers */,
-				C78FB8040CE9B73400466731 /* ZExpParser.h in Headers */,
-				C74A28270CEE51C100FFB61F /* JKLibraryPanelController.h in Headers */,
-				C79CE6300CF356CD00C2D872 /* PKGraphicalController.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C7B3169A0957128D0017ADDC /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1245,6 +979,7 @@
 				C78FB8090CE9B73400466731 /* ZExpParser.h in Headers */,
 				C74A28250CEE51C100FFB61F /* JKLibraryPanelController.h in Headers */,
 				C79CE62E0CF356CD00C2D872 /* PKGraphicalController.h in Headers */,
+				C7C588DC0CFD6DD10009CDD9 /* PKPluginProtocol.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1259,12 +994,14 @@
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				C7B3169A0957128D0017ADDC /* Headers */,
+				C7C5893E0CFDC5380009CDD9 /* CopyFiles */,
 				C70DB76E0957146D00C2B386 /* CopyFiles */,
 				C724D13B0AA6E9B400EDC6D9 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C7C589380CFDC4AE0009CDD9 /* PBXTargetDependency */,
 			);
 			name = "Peacock-Mac";
 			productInstallPath = "$(HOME)/Applications";
@@ -1291,27 +1028,22 @@
 			productReference = C72C8500098BE74300CEF565 /* Unit Testing.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
-		C7ADC8880BA05609007D9134 /* Peacock-Windows */ = {
+		C7C589220CFDC4250009CDD9 /* Default Plugin */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C7ADC9140BA05609007D9134 /* Build configuration list for PBXNativeTarget "Peacock-Windows" */;
+			buildConfigurationList = C7C589270CFDC4260009CDD9 /* Build configuration list for PBXNativeTarget "Default Plugin" */;
 			buildPhases = (
-				C7ADC8890BA05609007D9134 /* Resources */,
-				C7ADC8B40BA05609007D9134 /* Sources */,
-				C7ADC8E50BA05609007D9134 /* Frameworks */,
-				C7ADC8F70BA05609007D9134 /* Headers */,
-				C7ADC9100BA05609007D9134 /* CopyFiles */,
-				C7ADC9130BA05609007D9134 /* ShellScript */,
+				C7C5891F0CFDC4250009CDD9 /* Resources */,
+				C7C589200CFDC4250009CDD9 /* Sources */,
+				C7C589210CFDC4250009CDD9 /* Frameworks */,
 			);
 			buildRules = (
-				C7ADCAE50BA0BC4D007D9134 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
-			name = "Peacock-Windows";
-			productInstallPath = "$(HOME)/Applications";
-			productName = Peacock;
-			productReference = C7ADC9190BA05609007D9134 /* Peacock.app */;
-			productType = "com.apple.product-type.application";
+			name = "Default Plugin";
+			productName = "Default Plugin";
+			productReference = C7C589230CFDC4250009CDD9 /* Default Plugin.peacock-plugin */;
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -1329,9 +1061,8 @@
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* Peacock-Mac */,
-				C7ADC8880BA05609007D9134 /* Peacock-Windows */,
 				C72C84FF098BE74300CEF565 /* Unit Testing */,
-				C7ADCB390BA0C1A6007D9134 /* Peacock-All */,
+				C7C589220CFDC4250009CDD9 /* Default Plugin */,
 			);
 		};
 /* End PBXProject section */
@@ -1391,6 +1122,7 @@
 				C74A28190CEE4E4D00FFB61F /* JKRatios.xib in Resources */,
 				C74A281A0CEE4E4D00FFB61F /* JKSummary.xib in Resources */,
 				C79CE6290CF3569200C2D872 /* PKGraphical.xib in Resources */,
+				C7C589D10CFDD01C0009CDD9 /* Default Plugin.peacock-plugin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1401,63 +1133,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C7ADC8890BA05609007D9134 /* Resources */ = {
+		C7C5891F0CFDC4250009CDD9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7ADC88A0BA05609007D9134 /* Credits.rtf in Resources */,
-				C7ADC88B0BA05609007D9134 /* InfoPlist.strings in Resources */,
-				C7ADC8910BA05609007D9134 /* periodic.table in Resources */,
-				C7ADC8940BA05609007D9134 /* Localizable.strings in Resources */,
-				C7ADC8950BA05609007D9134 /* Peacock Help in Resources */,
-				C7ADC8960BA05609007D9134 /* Peacock.sdef in Resources */,
-				C7ADC8970BA05609007D9134 /* library_document.icns in Resources */,
-				C7ADC8980BA05609007D9134 /* atlas_document.icns in Resources */,
-				C7ADC8990BA05609007D9134 /* peacock_document.icns in Resources */,
-				C7ADC89A0BA05609007D9134 /* peacock_preferences.icns in Resources */,
-				C7ADC89B0BA05609007D9134 /* andi_document.icns in Resources */,
-				C7ADC89C0BA05609007D9134 /* aia_document.icns in Resources */,
-				C7ADC89D0BA05609007D9134 /* netcdf_document.icns in Resources */,
-				C7ADC89E0BA05609007D9134 /* hpchem_document.icns in Resources */,
-				C7ADC89F0BA05609007D9134 /* peacock_application.icns in Resources */,
-				C7ADC8A00BA05609007D9134 /* question_mark.tiff in Resources */,
-				C7ADC8A10BA05609007D9134 /* zoom_out.tiff in Resources */,
-				C7ADC8A20BA05609007D9134 /* processing.tiff in Resources */,
-				C7ADC8A30BA05609007D9134 /* info.icns in Resources */,
-				C7ADC8A40BA05609007D9134 /* general.tiff in Resources */,
-				C7ADC8A50BA05609007D9134 /* find.icns in Resources */,
-				C7ADC8A60BA05609007D9134 /* zoom_in.tiff in Resources */,
-				C7ADC8A70BA05609007D9134 /* text.tiff in Resources */,
-				C7ADC8A80BA05609007D9134 /* zoom.tiff in Resources */,
-				C7ADC8A90BA05609007D9134 /* display.tiff in Resources */,
-				C7ADC8AA0BA05609007D9134 /* warning.tiff in Resources */,
-				C7ADC8AB0BA05609007D9134 /* layout.tiff in Resources */,
-				C7ADC8AC0BA05609007D9134 /* save_document.tiff in Resources */,
-				C7ADC8AD0BA05609007D9134 /* view.tiff in Resources */,
-				C7ADC8AE0BA05609007D9134 /* presets.png in Resources */,
-				C7ADC8AF0BA05609007D9134 /* Peacock Test Files in Resources */,
-				C7ADC8B00BA05609007D9134 /* Identify Compounds.tiff in Resources */,
-				C7ADC8B10BA05609007D9134 /* Identify Peaks.tiff in Resources */,
-				C7ADC8B20BA05609007D9134 /* Identify Baseline.tiff in Resources */,
-				C7F8DE150BF0A4B500A34F5D /* flagged_header.tiff in Resources */,
-				C7F8DE160BF0A4B500A34F5D /* flagged.tiff in Resources */,
-				C7F8DEA40BF0CE1A00A34F5D /* table.png in Resources */,
-				C77E2FBF0C0EF20C00B8A64A /* plus.png in Resources */,
-				C77E2FC20C0EF21700B8A64A /* minus.png in Resources */,
-				C77E32BA0C0F2CBB00B8A64A /* libraries.png in Resources */,
-				C74378910CCCA5AF002DF365 /* BannerBackground.tif in Resources */,
-				C7BB96C60CE89D82003049F9 /* ratios.pdf in Resources */,
-				C74A27F40CEE4D4500FFB61F /* JKLibraryPanel.xib in Resources */,
-				C74A28090CEE4E4D00FFB61F /* DisplayOptions.xib in Resources */,
-				C74A280A0CEE4E4D00FFB61F /* JKBatchProcess.xib in Resources */,
-				C74A280B0CEE4E4D00FFB61F /* JKGCMSDocument.xib in Resources */,
-				C74A280C0CEE4E4D00FFB61F /* JKLibrary.xib in Resources */,
-				C74A280D0CEE4E4D00FFB61F /* JKMainMenu.xib in Resources */,
-				C74A280E0CEE4E4D00FFB61F /* JKPanel.xib in Resources */,
-				C74A280F0CEE4E4D00FFB61F /* JKPreferences.xib in Resources */,
-				C74A28100CEE4E4D00FFB61F /* JKRatios.xib in Resources */,
-				C74A28110CEE4E4D00FFB61F /* JKSummary.xib in Resources */,
-				C79CE62A0CF3569200C2D872 /* PKGraphical.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1490,20 +1169,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
-		C7ADC9130BA05609007D9134 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			comments = "Script to put the svnversion in the about box.";
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = "/usr/bin/perl -w";
-			shellScript = "# Xcode auto-versioning script for Subversion\n# by Axel Andersson, modified by Daniel Jalkut to add\n# \"--revision HEAD\" to the svn info line, which allows\n# the latest revision to always be used.\n\nuse strict;\n\ndie \"$0: Must be run from Xcode\" unless $ENV{\"BUILT_PRODUCTS_DIR\"};\n\n# Get the current subversion revision number and use it to set the CFBundleVersion value\nmy $REV = `/usr/local/bin/svnversion -n ./`;\nmy $INFO = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{WRAPPER_NAME}/Contents/Info.plist\";\n\nmy $version = $REV;\n\n# (Match the last group of digits and optional letter M/S):\n\n# ugly yet functional (barely) regex by Daniel Jalkut:\n#$version =~ s/([\\d]*:)(\\d)+[M|S]*.*/$2/;\n\n# better yet still functional regex via Kevin \"Regex Nerd\" Ballard\n($version =~ m/\\d+[MS]*$/) && ($version = $&);\n\ndie \"$0: No Subversion revision found $version $REV\" unless $version;\n\nopen(FH, \"$INFO\") or die \"$0: $INFO: $!\";\nmy $info = join(\"\", <FH>);\nclose(FH);\n\n$info =~ s/([\\t ]+<key>CFBundleVersion<\\/key>\\n[\\t ]+<string>).*?(<\\/string>)/$1$version$2/;\n\nopen(FH, \">$INFO\") or die \"$0: $INFO: $!\";\nprint FH $info;\nclose(FH);";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1592,70 +1257,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C7ADC8B40BA05609007D9134 /* Sources */ = {
+		C7C589200CFDC4250009CDD9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7ADC8B80BA05609007D9134 /* PKGraphDataSeries.m in Sources */,
-				C7ADC8BD0BA05609007D9134 /* JKAppDelegate.m in Sources */,
-				C7ADC8BE0BA05609007D9134 /* JKLibrary.m in Sources */,
-				C7ADC8BF0BA05609007D9134 /* JKLibraryWindowController.m in Sources */,
-				C7ADC8C00BA05609007D9134 /* JKMainWindowController.m in Sources */,
-				C7ADC8C10BA05609007D9134 /* JKPanelController.m in Sources */,
-				C7ADC8C20BA05609007D9134 /* JKPreferencesWindowController.m in Sources */,
-				C7ADC8C30BA05609007D9134 /* JKSpectrum.m in Sources */,
-				C7ADC8C50BA05609007D9134 /* FilteringDNDArrayController.m in Sources */,
-				C7ADC8C60BA05609007D9134 /* PKChromatogramDataSeries.m in Sources */,
-				C7ADC8C70BA05609007D9134 /* PKSpectrumDataSeries.m in Sources */,
-				C7ADC8C80BA05609007D9134 /* DeleteTableView.m in Sources */,
-				C7ADC8C90BA05609007D9134 /* JKManagedLibraryEntry.m in Sources */,
-				C7ADC8CA0BA05609007D9134 /* RBSplitSubview.m in Sources */,
-				C7ADC8CB0BA05609007D9134 /* RBSplitView.m in Sources */,
-				C7ADC8CC0BA05609007D9134 /* JKBatchProcessWindowController.m in Sources */,
-				C7ADC8CD0BA05609007D9134 /* JKRatio.m in Sources */,
-				C7ADC8CE0BA05609007D9134 /* JKLog.m in Sources */,
-				C7ADC8D00BA05609007D9134 /* JKGCMSDocument.m in Sources */,
-				C7ADC8D10BA05609007D9134 /* BDAlias.m in Sources */,
-				C7ADC8D30BA05609007D9134 /* JKMoleculeView.m in Sources */,
-				C7ADC8D40BA05609007D9134 /* JKAtom.m in Sources */,
-				C7ADC8D50BA05609007D9134 /* JKBond.m in Sources */,
-				C7ADC8D60BA05609007D9134 /* JKMoleculeModel.m in Sources */,
-				C7ADC8D70BA05609007D9134 /* JKDataModelProxy.m in Sources */,
-				C7ADC8D90BA05609007D9134 /* FontNameToDisplayNameTransformer.m in Sources */,
-				C7ADC8DA0BA05609007D9134 /* NSTableView+Copying.m in Sources */,
-				C7ADC8DE0BA05609007D9134 /* JKSearchResult.m in Sources */,
-				C7ADC8DF0BA05609007D9134 /* NSBezierPath+RoundRect.m in Sources */,
-				C7ADC8E00BA05609007D9134 /* ArrayEncodingObject.m in Sources */,
-				C7ADC8E10BA05609007D9134 /* NSKeyedArchiver+CArrayEncoding.m in Sources */,
-				C7ADC8E20BA05609007D9134 /* NSCoder+CArrayEncoding.m in Sources */,
-				C7ADC8E30BA05609007D9134 /* JKCombinedPeak.m in Sources */,
-				C7ADC8E40BA05609007D9134 /* NSEvent+ModifierKeys.m in Sources */,
-				C7CFFC7A0BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */,
-				C7C220640BEB831000510B5B /* BooleanToStringTransformer.m in Sources */,
-				C7F8DE900BF0CDEE00A34F5D /* AMRemovableColumnsTableView.m in Sources */,
-				C7F8DE910BF0CDEE00A34F5D /* AMRemovableTableColumn.m in Sources */,
-				C7F8DF040BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */,
-				C75846640C07268D00756ED8 /* JKLibraryEntry.m in Sources */,
-				C709D00D0C465F3200C9C613 /* JKComboBoxCell.m in Sources */,
-				C7490D590CAC0B29005DCA39 /* JKChromatogram.m in Sources */,
-				C7490D5C0CAC0B29005DCA39 /* JKModelObject.m in Sources */,
-				C7490D5E0CAC0B29005DCA39 /* JKPeakRecord.m in Sources */,
-				C7490D600CAC0B29005DCA39 /* PKGraphView.m in Sources */,
-				C7490D620CAC0B29005DCA39 /* NSString+ModelCompare.m in Sources */,
-				C73B27D10CAD9EF600C09AAE /* JKSummarizer.m in Sources */,
-				C73B27DB0CB1224100C09AAE /* JKSummaryController.m in Sources */,
-				C73B28750CB1320B00C09AAE /* jk_statistics.m in Sources */,
-				C7BC18AB0CBBCA5E0037FBA7 /* PKDocumentController.m in Sources */,
-				C7BC19AE0CBBE2D20037FBA7 /* PKWindowController.m in Sources */,
-				C7BF0DCA0CBE5D15003BEC49 /* JKRatiosController.m in Sources */,
-				C75AE3970CBE82190054E51B /* JKImageTextCell.m in Sources */,
-				C75AE3990CBE82190054E51B /* JKSeparatorCell.m in Sources */,
-				C75AE39B0CBE82190054E51B /* JKSourceTableView.m in Sources */,
-				C75AE39C0CBE82190054E51B /* JKVariableCellColumn.m in Sources */,
-				C78FB8020CE9B73400466731 /* GCMathParser.m in Sources */,
-				C78FB8050CE9B73400466731 /* ZExpParser.mm in Sources */,
-				C74A28280CEE51C100FFB61F /* JKLibraryPanelController.m in Sources */,
-				C79CE6310CF356CD00C2D872 /* PKGraphicalController.m in Sources */,
+				C7C589360CFDC48D0009CDD9 /* PKDefaultPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1667,15 +1273,10 @@
 			target = 8D15AC270486D014006FF6A4 /* Peacock-Mac */;
 			targetProxy = C72C8532098BEAD500CEF565 /* PBXContainerItemProxy */;
 		};
-		C7ADCB3B0BA0C1AE007D9134 /* PBXTargetDependency */ = {
+		C7C589380CFDC4AE0009CDD9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8D15AC270486D014006FF6A4 /* Peacock-Mac */;
-			targetProxy = C7ADCB3A0BA0C1AE007D9134 /* PBXContainerItemProxy */;
-		};
-		C7ADCB3D0BA0C1B2007D9134 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C7ADC8880BA05609007D9134 /* Peacock-Windows */;
-			targetProxy = C7ADCB3C0BA0C1B2007D9134 /* PBXContainerItemProxy */;
+			target = C7C589220CFDC4250009CDD9 /* Default Plugin */;
+			targetProxy = C7C589370CFDC4AE0009CDD9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1877,88 +1478,47 @@
 			};
 			name = Release;
 		};
-		C7ADC9150BA05609007D9134 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = i386;
-				COPY_PHASE_STRIP = YES;
-				EXECUTABLE_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Windows";
-				EXECUTABLE_SUFFIX = .exe;
-				FRAMEWORK_SEARCH_PATHS = (
-					/Developer/Cocotron/1.0/Windows/i386/Frameworks,
-					"$(SRCROOT)",
-				);
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = "";
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
-				OTHER_LDFLAGS = (
-					"-Wl,--enable-auto-import",
-					"-mwindows",
-					"-mconsole",
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = Peacock;
-				SYMROOT = build/Windows;
-			};
-			name = Debug;
-		};
-		C7ADC9170BA05609007D9134 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = i386;
-				COPY_PHASE_STRIP = YES;
-				EXECUTABLE_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Windows";
-				EXECUTABLE_SUFFIX = .exe;
-				FRAMEWORK_SEARCH_PATHS = (
-					/Developer/Cocotron/1.0/Windows/i386/Frameworks,
-					"$(SRCROOT)",
-				);
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = "";
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
-				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
-				OTHER_LDFLAGS = (
-					"-Wl,--enable-auto-import",
-					"-mwindows",
-					"-mconsole",
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = Peacock;
-				SYMROOT = build/Windows;
-			};
-			name = Release;
-		};
-		C7ADCB490BA0C259007D9134 /* Debug */ = {
+		C7C589250CFDC4260009CDD9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G4;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = "Peacock-All";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Default Plugin-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Default Plugin";
+				WRAPPER_EXTENSION = "peacock-plugin";
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
-		C7ADCB4A0BA0C259007D9134 /* Release */ = {
+		C7C589260CFDC4260009CDD9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				PRODUCT_NAME = "Peacock-All";
+				GCC_MODEL_TUNING = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Default Plugin-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Default Plugin";
+				WRAPPER_EXTENSION = "peacock-plugin";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1994,7 +1554,6 @@
 				OTHER_CFLAGS = "-Wformat=2";
 				PREBINDING = NO;
 				PRODUCT_NAME = Peacock;
-				SYMROOT = build/Mac;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
@@ -2004,8 +1563,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
-					ppc,
 					i386,
+					ppc,
 				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
@@ -2032,7 +1591,6 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
 				OTHER_CFLAGS = "-Wformat=2";
 				PRODUCT_NAME = Peacock;
-				SYMROOT = build/Mac;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -2077,20 +1635,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		C7ADC9140BA05609007D9134 /* Build configuration list for PBXNativeTarget "Peacock-Windows" */ = {
+		C7C589270CFDC4260009CDD9 /* Build configuration list for PBXNativeTarget "Default Plugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C7ADC9150BA05609007D9134 /* Debug */,
-				C7ADC9170BA05609007D9134 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		C7ADCB480BA0C259007D9134 /* Build configuration list for PBXAggregateTarget "Peacock-All" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C7ADCB490BA0C259007D9134 /* Debug */,
-				C7ADCB4A0BA0C259007D9134 /* Release */,
+				C7C589250CFDC4260009CDD9 /* Debug */,
+				C7C589260CFDC4260009CDD9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
