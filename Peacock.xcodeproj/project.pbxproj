@@ -16,14 +16,7 @@
 		C709D00A0C465F3200C9C613 /* JKComboBoxCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C709D0080C465F3200C9C613 /* JKComboBoxCell.h */; };
 		C709D00B0C465F3200C9C613 /* JKComboBoxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C709D0090C465F3200C9C613 /* JKComboBoxCell.m */; };
 		C70DB7610957141800C2B386 /* netcdf.h in Headers */ = {isa = PBXBuildFile; fileRef = C7EB17AF0898CF2E007FC2ED /* netcdf.h */; };
-		C70DB7620957141800C2B386 /* libnetcdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7EB17AE0898CF2E007FC2ED /* libnetcdf.a */; };
-		C70DB7640957141800C2B386 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		C70DB7650957141800C2B386 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D490941EDAF005431CD /* libz.dylib */; };
 		C70DB7660957141800C2B386 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D430941ED7A005431CD /* Security.framework */; };
-		C70DB7670957141800C2B386 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D3C0941ED5C005431CD /* CoreFoundation.framework */; };
-		C70DB7680957141800C2B386 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D1A0941ED37005431CD /* Carbon.framework */; };
-		C70DB7690957141800C2B386 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */; };
-		C70DB76A0957141800C2B386 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */; };
 		C70DB8EE09573BEA00C2B386 /* JKRatio.m in Sources */ = {isa = PBXBuildFile; fileRef = C70DB8EC09573BEA00C2B386 /* JKRatio.m */; };
 		C70DC017095B201200C2B386 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C70DC016095B201200C2B386 /* Localizable.strings */; };
 		C70DC01A095B205500C2B386 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C70DC019095B205500C2B386 /* Credits.rtf */; };
@@ -79,6 +72,13 @@
 		C75AE3A70CBE82190054E51B /* JKVariableCellColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = C75AE3910CBE82190054E51B /* JKVariableCellColumn.m */; };
 		C75AE3A80CBE82190054E51B /* JKVariableCellColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = C75AE3920CBE82190054E51B /* JKVariableCellColumn.h */; };
 		C75AE3A90CBE82190054E51B /* JKSourceTableView_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = C75AE3930CBE82190054E51B /* JKSourceTableView_Prefix.pch */; };
+		C75C657D0CFE1EA5003C7700 /* schema.strings in CopyFiles */ = {isa = PBXBuildFile; fileRef = C75C65610CFE1A0F003C7700 /* schema.strings */; };
+		C75C657E0CFE1EA5003C7700 /* schema.xml in CopyFiles */ = {isa = PBXBuildFile; fileRef = C75C65660CFE1A0F003C7700 /* schema.xml */; };
+		C75C65A30CFE21E5003C7700 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = C75C65640CFE1A0F003C7700 /* main.c */; };
+		C75C65A40CFE21EE003C7700 /* GetMetadataForFile.c in Sources */ = {isa = PBXBuildFile; fileRef = C75C65630CFE1A0F003C7700 /* GetMetadataForFile.c */; };
+		C75C66FE0CFE23AD003C7700 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+		C75C67120CFE249A003C7700 /* Default Plugin.peacock-plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7C589230CFDC4250009CDD9 /* Default Plugin.peacock-plugin */; };
+		C75C67310CFE25F2003C7700 /* Peacock.mdimporter in CopyFiles */ = {isa = PBXBuildFile; fileRef = C75C65700CFE1DA0003C7700 /* Peacock.mdimporter */; };
 		C76814070C05E66C00973566 /* JKManagedLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */; };
 		C76814240C05E6F200973566 /* FilteringDNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */; };
 		C7713B430950368F00653D2A /* JKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */; };
@@ -97,7 +97,6 @@
 		C77C585A09801145002E7796 /* Peacock Help in Resources */ = {isa = PBXBuildFile; fileRef = C77C582F09800FAD002E7796 /* Peacock Help */; };
 		C77E32B90C0F2CBB00B8A64A /* libraries.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E32B80C0F2CBB00B8A64A /* libraries.png */; };
 		C7834D1B0941ED37005431CD /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D1A0941ED37005431CD /* Carbon.framework */; };
-		C7834D3D0941ED5C005431CD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D3C0941ED5C005431CD /* CoreFoundation.framework */; };
 		C7834D440941ED7A005431CD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D430941ED7A005431CD /* Security.framework */; };
 		C7834D4A0941EDAF005431CD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D490941EDAF005431CD /* libz.dylib */; };
 		C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
@@ -158,10 +157,8 @@
 		C7C299910B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C2998F0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.m */; };
 		C7C29ABD0B8B67540017B2B2 /* NSCoder+CArrayEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C29ABB0B8B67530017B2B2 /* NSCoder+CArrayEncoding.h */; };
 		C7C29ABE0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C29ABC0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m */; };
-		C7C588DC0CFD6DD10009CDD9 /* PKPluginProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C588DB0CFD6DD10009CDD9 /* PKPluginProtocol.h */; };
+		C7C588DC0CFD6DD10009CDD9 /* PKPluginProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C588DB0CFD6DD10009CDD9 /* PKPluginProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C7C589360CFDC48D0009CDD9 /* PKDefaultPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C589350CFDC48D0009CDD9 /* PKDefaultPlugin.m */; };
-		C7C589D10CFDD01C0009CDD9 /* Default Plugin.peacock-plugin in Resources */ = {isa = PBXBuildFile; fileRef = C7C589CB0CFDD01C0009CDD9 /* Default Plugin.peacock-plugin */; };
-		C7C589D30CFDD02C0009CDD9 /* Default Plugin.peacock-plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7C589CB0CFDD01C0009CDD9 /* Default Plugin.peacock-plugin */; };
 		C7CFFC770BBC0C290060B0C7 /* JKGCMSPrintView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */; };
 		C7CFFC780BBC0C290060B0C7 /* JKGCMSPrintView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */; };
 		C7D7D66A0B7203B0004ABEB5 /* NSBezierPath+RoundRect.h in Headers */ = {isa = PBXBuildFile; fileRef = C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */; };
@@ -207,6 +204,13 @@
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = Peacock;
 		};
+		C75C65930CFE1F8C003C7700 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C75C656F0CFE1DA0003C7700 /* Spotlight */;
+			remoteInfo = Spotlight;
+		};
 		C7C589370CFDC4AE0009CDD9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -228,13 +232,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C75C658F0CFE1EBA003C7700 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				C75C657D0CFE1EA5003C7700 /* schema.strings in CopyFiles */,
+				C75C657E0CFE1EA5003C7700 /* schema.xml in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C75C673C0CFE25FD003C7700 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/SpotLight;
+			dstSubfolderSpec = 1;
+			files = (
+				C75C67310CFE25F2003C7700 /* Peacock.mdimporter in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C7C5893E0CFDC5380009CDD9 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				C7C589D30CFDD02C0009CDD9 /* Default Plugin.peacock-plugin in CopyFiles */,
+				C75C67120CFE249A003C7700 /* Default Plugin.peacock-plugin in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,7 +273,7 @@
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* Peacock_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Peacock_Prefix.pch; sourceTree = "<group>"; };
-		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
+		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* Peacock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Peacock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C708E90A0B9D953A0085872E /* JKCombinedPeak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKCombinedPeak.h; sourceTree = "<group>"; };
 		C708E90B0B9D953A0085872E /* JKCombinedPeak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKCombinedPeak.m; sourceTree = "<group>"; };
@@ -314,6 +339,12 @@
 		C75AE3910CBE82190054E51B /* JKVariableCellColumn.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKVariableCellColumn.m; sourceTree = "<group>"; };
 		C75AE3920CBE82190054E51B /* JKVariableCellColumn.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKVariableCellColumn.h; sourceTree = "<group>"; };
 		C75AE3930CBE82190054E51B /* JKSourceTableView_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKSourceTableView_Prefix.pch; sourceTree = "<group>"; };
+		C75C65620CFE1A0F003C7700 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = /Users/jkool/Developer/Peacock/trunk/Spotlight/English.lproj/schema.strings; sourceTree = "<absolute>"; };
+		C75C65630CFE1A0F003C7700 /* GetMetadataForFile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = GetMetadataForFile.c; sourceTree = "<group>"; };
+		C75C65640CFE1A0F003C7700 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		C75C65660CFE1A0F003C7700 /* schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = schema.xml; sourceTree = "<group>"; };
+		C75C65700CFE1DA0003C7700 /* Peacock.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Peacock.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
+		C75C65710CFE1DA0003C7700 /* Spotlight-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Spotlight-Info.plist"; path = "/Users/jkool/Developer/Peacock/trunk/Spotlight-Info.plist"; sourceTree = "<absolute>"; };
 		C765B8AA0C23237A00C4F153 /* factoranalysis.R */ = {isa = PBXFileReference; explicitFileType = text.script; fileEncoding = 7; path = factoranalysis.R; sourceTree = "<group>"; };
 		C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = JKLibrary.xcdatamodel; sourceTree = "<group>"; };
 		C7713B410950368F00653D2A /* JKBatchProcessWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKBatchProcessWindowController.h; sourceTree = "<group>"; };
@@ -413,9 +444,8 @@
 		C7C588DB0CFD6DD10009CDD9 /* PKPluginProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKPluginProtocol.h; path = /Users/jkool/Developer/Peacock/trunk/PKPluginProtocol.h; sourceTree = "<absolute>"; };
 		C7C589230CFDC4250009CDD9 /* Default Plugin.peacock-plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Default Plugin.peacock-plugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7C589240CFDC4250009CDD9 /* Default Plugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Default Plugin-Info.plist"; path = "/Users/jkool/Developer/Peacock/trunk/Default Plugin-Info.plist"; sourceTree = "<absolute>"; };
-		C7C589340CFDC48D0009CDD9 /* PKDefaultPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKDefaultPlugin.h; path = /Users/jkool/Developer/Peacock/trunk/PKDefaultPlugin.h; sourceTree = "<absolute>"; };
-		C7C589350CFDC48D0009CDD9 /* PKDefaultPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKDefaultPlugin.m; path = /Users/jkool/Developer/Peacock/trunk/PKDefaultPlugin.m; sourceTree = "<absolute>"; };
-		C7C589CB0CFDD01C0009CDD9 /* Default Plugin.peacock-plugin */ = {isa = PBXFileReference; explicitFileType = "wrapper.plug-in"; path = "Default Plugin.peacock-plugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C7C589340CFDC48D0009CDD9 /* PKDefaultPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKDefaultPlugin.h; sourceTree = "<group>"; };
+		C7C589350CFDC48D0009CDD9 /* PKDefaultPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKDefaultPlugin.m; sourceTree = "<group>"; };
 		C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKGCMSPrintView.h; sourceTree = "<group>"; };
 		C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKGCMSPrintView.m; sourceTree = "<group>"; };
 		C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+RoundRect.h"; sourceTree = "<group>"; };
@@ -476,24 +506,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
-				C7EB185B0898D20E007FC2ED /* libnetcdf.a in Frameworks */,
 				C7834D1B0941ED37005431CD /* Carbon.framework in Frameworks */,
-				C7834D3D0941ED5C005431CD /* CoreFoundation.framework in Frameworks */,
-				C7834D440941ED7A005431CD /* Security.framework in Frameworks */,
-				C7834D4A0941EDAF005431CD /* libz.dylib in Frameworks */,
-				C70DB7620957141800C2B386 /* libnetcdf.a in Frameworks */,
-				C70DB7640957141800C2B386 /* Cocoa.framework in Frameworks */,
-				C70DB7650957141800C2B386 /* libz.dylib in Frameworks */,
-				C70DB7660957141800C2B386 /* Security.framework in Frameworks */,
-				C70DB7670957141800C2B386 /* CoreFoundation.framework in Frameworks */,
-				C70DB7680957141800C2B386 /* Carbon.framework in Frameworks */,
-				C70DB7690957141800C2B386 /* AppKit.framework in Frameworks */,
-				C70DB76A0957141800C2B386 /* Foundation.framework in Frameworks */,
-				C71D9FCC099CD19D007EB10D /* Growl.framework in Frameworks */,
-				C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */,
+				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				C716B4BD0AD6AA8F00DA408E /* CoreData.framework in Frameworks */,
 				C7BC7CD40CBB91A0006D121C /* ExceptionHandling.framework in Frameworks */,
+				C71D9FCC099CD19D007EB10D /* Growl.framework in Frameworks */,
+				C7EB185B0898D20E007FC2ED /* libnetcdf.a in Frameworks */,
+				C7834D4A0941EDAF005431CD /* libz.dylib in Frameworks */,
+				C7834D440941ED7A005431CD /* Security.framework in Frameworks */,
+				C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */,
+				C70DB7660957141800C2B386 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -501,6 +523,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C75C656E0CFE1DA0003C7700 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C75C66FE0CFE23AD003C7700 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -543,8 +573,9 @@
 			isa = PBXGroup;
 			children = (
 				8D15AC370486D014006FF6A4 /* Peacock.app */,
-				C72C8500098BE74300CEF565 /* Unit Testing.octest */,
 				C7C589230CFDC4250009CDD9 /* Default Plugin.peacock-plugin */,
+				C75C65700CFE1DA0003C7700 /* Peacock.mdimporter */,
+				C72C8500098BE74300CEF565 /* Unit Testing.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -552,16 +583,19 @@
 		2A37F4AAFDCFA73011CA2CEA /* Peacock */ = {
 			isa = PBXGroup;
 			children = (
-				C7C5894F0CFDC6FB0009CDD9 /* Plugins */,
 				C77E686F0C3A9C860051B016 /* Classes */,
 				C7F3EE900CE1F929008F7BBC /* Categories */,
+				C75C675F0CFE2823003C7700 /* Defaults Plugin */,
+				C75C655E0CFE1A0F003C7700 /* Spotlight */,
+				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				C72C85C8098BF12600CEF565 /* Tests */,
-				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
-				C72C8501098BE74400CEF565 /* Unit Testing-Info.plist */,
+				8D15AC360486D014006FF6A4 /* Info.plist */,
 				C7C589240CFDC4250009CDD9 /* Default Plugin-Info.plist */,
+				C75C65710CFE1DA0003C7700 /* Spotlight-Info.plist */,
+				C72C8501098BE74400CEF565 /* Unit Testing-Info.plist */,
 			);
 			name = Peacock;
 			sourceTree = "<group>";
@@ -634,6 +668,43 @@
 				C75AE3930CBE82190054E51B /* JKSourceTableView_Prefix.pch */,
 			);
 			name = JKSourceTableView;
+			sourceTree = "<group>";
+		};
+		C75C655E0CFE1A0F003C7700 /* Spotlight */ = {
+			isa = PBXGroup;
+			children = (
+				C75C65670CFE1A24003C7700 /* Sources */,
+				C75C65680CFE1A32003C7700 /* Resources */,
+			);
+			name = Spotlight;
+			path = /Users/jkool/Developer/Peacock/trunk/Spotlight;
+			sourceTree = "<absolute>";
+		};
+		C75C65670CFE1A24003C7700 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				C75C65630CFE1A0F003C7700 /* GetMetadataForFile.c */,
+				C75C65640CFE1A0F003C7700 /* main.c */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		C75C65680CFE1A32003C7700 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C75C65610CFE1A0F003C7700 /* schema.strings */,
+				C75C65660CFE1A0F003C7700 /* schema.xml */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		C75C675F0CFE2823003C7700 /* Defaults Plugin */ = {
+			isa = PBXGroup;
+			children = (
+				C7C589340CFDC48D0009CDD9 /* PKDefaultPlugin.h */,
+				C7C589350CFDC48D0009CDD9 /* PKDefaultPlugin.m */,
+			);
+			name = "Defaults Plugin";
 			sourceTree = "<group>";
 		};
 		C773290A08CA612600222B5B /* MolWeight */ = {
@@ -745,10 +816,8 @@
 				C79CE62D0CF356CD00C2D872 /* PKGraphicalController.m */,
 				C795D9380CF4831D006CF960 /* JKSynchroScrollView.h */,
 				C795D9370CF4831D006CF960 /* JKSynchroScrollView.m */,
-				C7F3EE910CE1F9CA008F7BBC /* Deprecated */,
 				C7C588DB0CFD6DD10009CDD9 /* PKPluginProtocol.h */,
-				C7C589340CFDC48D0009CDD9 /* PKDefaultPlugin.h */,
-				C7C589350CFDC48D0009CDD9 /* PKDefaultPlugin.m */,
+				C7F3EE910CE1F9CA008F7BBC /* Deprecated */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -799,14 +868,6 @@
 				C79A6153094DBE3A00C0887E /* RBSplitViewPrivateDefines.h */,
 			);
 			path = RBSplitView;
-			sourceTree = "<group>";
-		};
-		C7C5894F0CFDC6FB0009CDD9 /* Plugins */ = {
-			isa = PBXGroup;
-			children = (
-				C7C589CB0CFDD01C0009CDD9 /* Default Plugin.peacock-plugin */,
-			);
-			name = Plugins;
 			sourceTree = "<group>";
 		};
 		C7E5B1C50A14930600BB2291 /* BDAlias */ = {
@@ -892,7 +953,6 @@
 				C70DC019095B205500C2B386 /* Credits.rtf */,
 				C7F3EED10CE211EA008F7BBC /* License.rtf */,
 				C70DC016095B201200C2B386 /* Localizable.strings */,
-				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
 				C7EB180D0898CFBD007FC2ED /* periodic.table */,
 				C765B8AA0C23237A00C4F153 /* factoranalysis.R */,
@@ -986,9 +1046,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8D15AC270486D014006FF6A4 /* Peacock-Mac */ = {
+		8D15AC270486D014006FF6A4 /* Peacock */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C7EB179C0898CF22007FC2ED /* Build configuration list for PBXNativeTarget "Peacock-Mac" */;
+			buildConfigurationList = C7EB179C0898CF22007FC2ED /* Build configuration list for PBXNativeTarget "Peacock" */;
 			buildPhases = (
 				8D15AC2B0486D014006FF6A4 /* Resources */,
 				8D15AC300486D014006FF6A4 /* Sources */,
@@ -996,14 +1056,16 @@
 				C7B3169A0957128D0017ADDC /* Headers */,
 				C7C5893E0CFDC5380009CDD9 /* CopyFiles */,
 				C70DB76E0957146D00C2B386 /* CopyFiles */,
+				C75C673C0CFE25FD003C7700 /* CopyFiles */,
 				C724D13B0AA6E9B400EDC6D9 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				C7C589380CFDC4AE0009CDD9 /* PBXTargetDependency */,
+				C75C65940CFE1F8C003C7700 /* PBXTargetDependency */,
 			);
-			name = "Peacock-Mac";
+			name = Peacock;
 			productInstallPath = "$(HOME)/Applications";
 			productName = Peacock;
 			productReference = 8D15AC370486D014006FF6A4 /* Peacock.app */;
@@ -1026,6 +1088,24 @@
 			name = "Unit Testing";
 			productName = "Unit Testing";
 			productReference = C72C8500098BE74300CEF565 /* Unit Testing.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+		C75C656F0CFE1DA0003C7700 /* Spotlight */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C75C65740CFE1DA5003C7700 /* Build configuration list for PBXNativeTarget "Spotlight" */;
+			buildPhases = (
+				C75C656C0CFE1DA0003C7700 /* Resources */,
+				C75C656D0CFE1DA0003C7700 /* Sources */,
+				C75C656E0CFE1DA0003C7700 /* Frameworks */,
+				C75C658F0CFE1EBA003C7700 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Spotlight;
+			productName = Spotlight;
+			productReference = C75C65700CFE1DA0003C7700 /* Peacock.mdimporter */;
 			productType = "com.apple.product-type.bundle";
 		};
 		C7C589220CFDC4250009CDD9 /* Default Plugin */ = {
@@ -1060,9 +1140,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D15AC270486D014006FF6A4 /* Peacock-Mac */,
-				C72C84FF098BE74300CEF565 /* Unit Testing */,
+				8D15AC270486D014006FF6A4 /* Peacock */,
 				C7C589220CFDC4250009CDD9 /* Default Plugin */,
+				C75C656F0CFE1DA0003C7700 /* Spotlight */,
+				C72C84FF098BE74300CEF565 /* Unit Testing */,
 			);
 		};
 /* End PBXProject section */
@@ -1122,11 +1203,17 @@
 				C74A28190CEE4E4D00FFB61F /* JKRatios.xib in Resources */,
 				C74A281A0CEE4E4D00FFB61F /* JKSummary.xib in Resources */,
 				C79CE6290CF3569200C2D872 /* PKGraphical.xib in Resources */,
-				C7C589D10CFDD01C0009CDD9 /* Default Plugin.peacock-plugin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		C72C84FB098BE74300CEF565 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C75C656C0CFE1DA0003C7700 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1257,6 +1344,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C75C656D0CFE1DA0003C7700 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C75C65A30CFE21E5003C7700 /* main.c in Sources */,
+				C75C65A40CFE21EE003C7700 /* GetMetadataForFile.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C7C589200CFDC4250009CDD9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1270,8 +1366,13 @@
 /* Begin PBXTargetDependency section */
 		C72C8533098BEAD500CEF565 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8D15AC270486D014006FF6A4 /* Peacock-Mac */;
+			target = 8D15AC270486D014006FF6A4 /* Peacock */;
 			targetProxy = C72C8532098BEAD500CEF565 /* PBXContainerItemProxy */;
+		};
+		C75C65940CFE1F8C003C7700 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C75C656F0CFE1DA0003C7700 /* Spotlight */;
+			targetProxy = C75C65930CFE1F8C003C7700 /* PBXContainerItemProxy */;
 		};
 		C7C589380CFDC4AE0009CDD9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1386,6 +1487,14 @@
 			name = JKSummary.xib;
 			sourceTree = "<group>";
 		};
+		C75C65610CFE1A0F003C7700 /* schema.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C75C65620CFE1A0F003C7700 /* English */,
+			);
+			name = schema.strings;
+			sourceTree = "<group>";
+		};
 		C77C582F09800FAD002E7796 /* Peacock Help */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1478,6 +1587,29 @@
 			};
 			name = Release;
 		};
+		C75C65720CFE1DA2003C7700 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "Spotlight-Info.plist";
+				INSTALL_PATH = /Library/Spotlight;
+				PRODUCT_NAME = Peacock;
+				WRAPPER_EXTENSION = mdimporter;
+			};
+			name = Debug;
+		};
+		C75C65730CFE1DA2003C7700 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "Spotlight-Info.plist";
+				INSTALL_PATH = /Library/Spotlight;
+				PRODUCT_NAME = Peacock;
+				WRAPPER_EXTENSION = mdimporter;
+			};
+			name = Release;
+		};
 		C7C589250CFDC4260009CDD9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1532,6 +1664,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
 					"$(SRCROOT)",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks\"";
@@ -1543,11 +1676,11 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks\"";
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
@@ -1571,6 +1704,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
 					"$(SRCROOT)",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks\"";
@@ -1581,11 +1715,11 @@
 				GCC_MODEL_TUNING = G4;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks\"";
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
@@ -1635,6 +1769,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		C75C65740CFE1DA5003C7700 /* Build configuration list for PBXNativeTarget "Spotlight" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C75C65720CFE1DA2003C7700 /* Debug */,
+				C75C65730CFE1DA2003C7700 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		C7C589270CFDC4260009CDD9 /* Build configuration list for PBXNativeTarget "Default Plugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1644,7 +1787,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		C7EB179C0898CF22007FC2ED /* Build configuration list for PBXNativeTarget "Peacock-Mac" */ = {
+		C7EB179C0898CF22007FC2ED /* Build configuration list for PBXNativeTarget "Peacock" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C7EB179D0898CF22007FC2ED /* Debug */,

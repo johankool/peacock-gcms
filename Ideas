@@ -1,0 +1,28 @@
+QuickLook
+    Thumbnail.ext
+    Preview.pdf
+SpotLight Importer (in App bundle)
+    reuse opening code from main app
+    only metadata
+    Metadata.framework in CoreServices.framwework
+    
+
+CoreAnimation
++ (id)defaultAnimationForKey:(NSString *)key
+[[self animator] setValueForKey:...];
+
+
+Refactoring
+    Make sure project builds clean
+    Do not edit effected files
+    Select *DEBUG* configuration (in case some code is #ifdef'd out)
+    
+Xcconfig files useful?
+    Can't see how to get settings from the inspector into them
+    
+64 bit
+    typedef
+    
+Contact
+    Paul Burford pburford@apple.com
+    Alberto Araoz araoz.a@euro.apple.com
