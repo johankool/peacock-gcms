@@ -227,7 +227,8 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 	// Growl support
 	[GrowlApplicationBridge setGrowlDelegate:self];
     
-//    [self loadPlugins];
+    // Load plugins
+    [self loadPlugins];
     
     [documentListTableView setDoubleAction:@selector(doubleClickAction:)];
     
@@ -684,32 +685,123 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 
 #pragma mark Plugins
 
-//- (void)loadPlugins {
-//    JKLogDebug(@"Loading plugins from %@",[[NSBundle mainBundle] builtInPlugInsPath]);
-//    
-//    NSEnumerator *enumerator = [[NSBundle pathsForResourcesOfType:@"peacock-plugin" inDirectory:[[NSBundle mainBundle] builtInPlugInsPath]] objectEnumerator];
-//    NSString *path;
-//
-//    while ((path = [enumerator nextObject]) != nil) {
-//        JKLogDebug(@"Loading bundle from %@",path);
-//    	[self loadBundle:path];
-//    }
-//    
-//}
-//
-//- (void)loadBundle:(NSString*)bundlePath {
-//    Class exampleClass;
-//    id newInstance;
-//    NSBundle *bundleToLoad = [NSBundle bundleWithPath:bundlePath];
-////JKLogDebug(@"bundle %@",[bundleToLoad infoDictionary]);
-//    if (exampleClass = [bundleToLoad principalClass]) {
-//        newInstance = [[exampleClass alloc] init];
-//        // [newInstance doSomething];
-//    } else {
-//        JKLogDebug(@"No principalClass for bundle");
-//    }
-//}
+- (void)loadPlugins {
+    JKLogDebug(@"Loading plugins from %@",[[NSBundle mainBundle] builtInPlugInsPath]);
+    
+    NSEnumerator *enumerator = [[NSBundle pathsForResourcesOfType:@"peacock-plugin" inDirectory:[[NSBundle mainBundle] builtInPlugInsPath]] objectEnumerator];
+    NSString *path;
 
+    while ((path = [enumerator nextObject]) != nil) {
+        JKLogDebug(@"Loading bundle from %@",path);
+    	[self loadBundle:path];
+    }
+    
+}
+
+- (void)loadBundle:(NSString*)bundlePath {
+    Class exampleClass;
+    id newInstance;
+    NSBundle *bundleToLoad = [NSBundle bundleWithPath:bundlePath];
+    JKLogDebug(@"bundle %@",[bundleToLoad infoDictionary]);
+    if (exampleClass = [bundleToLoad principalClass]) {
+        newInstance = [[exampleClass alloc] init];
+        // [newInstance doSomething];
+ //       switch ([newInstance methodType]) {
+//            case <#constant#>:
+//                <#statements#>
+//                break;
+//            default:
+//                break;
+//        }
+    } else {
+        JKLogDebug(@"No principalClass for bundle");
+    }
+}
+NSString *ext = @"peacock-plugin"; 
+NSString *appSupportSubpath = @"Peacock/PlugIns"; 
+
+- (void)loadAllPlugins 
+{ 
+    NSMutableArray *instances; 
+    NSMutableArray *bundlePaths; 
+    NSEnumerator *pathEnum; 
+    NSString *currPath; 
+    NSBundle *currBundle; 
+    Class currPrincipalClass; 
+    id currInstance; 
+    bundlePaths = [NSMutableArray array]; 
+    if(!instances) 
+    { 
+        instances = [[NSMutableArray alloc] init]; 
+    } 
+    [bundlePaths addObjectsFromArray:[self allBundles]]; 
+    pathEnum = [bundlePaths objectEnumerator]; 
+    while(currPath = [pathEnum nextObject]) 
+    { 
+        currBundle = [NSBundle bundleWithPath:currPath]; 
+        if(currBundle) 
+        { 
+            currPrincipalClass = [currBundle principalClass]; 
+            if(currPrincipalClass && 
+               [self plugInClassIsValid:currPrincipalClass])  // Validation 
+            { 
+                currInstance = [[currPrincipalClass alloc] init]; 
+                if(currInstance) 
+                { 
+                    [instances addObject:[currInstance autorelease]]; 
+                } 
+            } 
+        } 
+    } 
+} 
+
+- (NSMutableArray *)allBundles 
+{ 
+    NSArray *librarySearchPaths; 
+    NSEnumerator *searchPathEnum; 
+    NSString *currPath; 
+    NSMutableArray *bundleSearchPaths = [NSMutableArray array]; 
+    NSMutableArray *allBundles = [NSMutableArray array]; 
+    librarySearchPaths = NSSearchPathForDirectoriesInDomains( 
+                                                             NSApplicationSupportDirectory, NSAllDomainsMask - NSSystemDomainMask, YES); 
+    searchPathEnum = [librarySearchPaths objectEnumerator]; 
+    while(currPath = [searchPathEnum nextObject]) 
+    { 
+        [bundleSearchPaths addObject: 
+         [currPath stringByAppendingPathComponent:appSupportSubpath]]; 
+    } 
+    [bundleSearchPaths addObject:[[NSBundle mainBundle] builtInPlugInsPath]]; 
+    searchPathEnum = [bundleSearchPaths objectEnumerator]; 
+    while(currPath = [searchPathEnum nextObject]) 
+    { 
+        NSDirectoryEnumerator *bundleEnum; 
+        NSString *currBundlePath; 
+        bundleEnum = [[NSFileManager defaultManager] 
+                      enumeratorAtPath:currPath]; 
+        if(bundleEnum) 
+        { 
+            while(currBundlePath = [bundleEnum nextObject]) 
+            { 
+                if([[currBundlePath pathExtension] isEqualToString:ext]) 
+                { 
+                    [allBundles addObject:[currPath stringByAppendingPathComponent:currBundlePath]]; 
+                } 
+            } 
+        } 
+    } 
+    return allBundles; 
+} 
+
+//- (BOOL)plugInClassIsValid:(Class)plugInClass { 
+//    if ([plugInClass conformsToProtocol:@protocol()]) { 
+//       return YES;
+//    } else if ([plugInClass conformsToProtocol:@protocol()]) { 
+//       return YES;
+//   }
+//   return NO; 
+//}
+           
+           
 - (NSArray *)documents {
     return [[NSDocumentController sharedDocumentController] documents];
 }

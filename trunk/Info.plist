@@ -129,6 +129,24 @@
 			<key>NSDocumentClass</key>
 			<string>JKGCMSDocument</string>
 		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>peacock-plugin</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Peacock Plugin</string>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>nl.johankool.peacock.plugin</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<true/>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>Binary</string>
+		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>Peacock</string>
@@ -250,31 +268,6 @@
 				<string>chemical/x-jcamp-dx</string>
 			</dict>
 		</dict>
-<!--		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.data</string>
-				<string>public.content</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>NetCDF File</string>
-			<key>UTTypeIconFile</key>
-			<string>netcdf_document</string>
-			<key>UTTypeIdentifier</key>
-			<string>edu.ucar.unidata.netcdf</string>
-			<key>UTTypeReferenceURL</key>
-			<string>http://www.unidata.ucar.edu/software/netcdf/</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>cdf</string>
-					<string>nc</string>
-				</array>
-				<key>public.mime-type</key>
-				<string>application/x-netcdf</string>
-			</dict>
-		</dict> -->
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
