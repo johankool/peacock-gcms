@@ -19,6 +19,9 @@
     NSMutableArray *peaks;
 }
 
+
+- (PKGraphView *)graphView;
+
 @property (retain) NSMutableArray *chromatogramDataSeries;
 @property (retain) NSMutableArray *peaks;
 

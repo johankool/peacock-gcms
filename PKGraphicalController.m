@@ -84,6 +84,9 @@
         }
     }
 }
+- (PKGraphView *)graphView {
+    return graphView;
+}
 
 @synthesize chromatogramDataSeries;
 @synthesize peaks;

@@ -298,8 +298,20 @@ static int   kPaddingLabels             = 4;
 
 #pragma mark Drawing Routines
 - (void)drawRect:(NSRect)rect {
- 	[self calculateCoordinateConversions];
         
+    NSRect currentFrame = [self plottingArea];
+    if ( [NSGraphicsContext currentContextDrawingToScreen] ) {
+        // Draw screen-only elements here
+    } else {
+        // Draw printer-only elements here
+        NSSize paperSize = [[NSPrintInfo sharedPrintInfo] paperSize];
+        NSRect paperRect = NSMakeRect(0.0f, 0.0f, paperSize.width, paperSize.height);
+        [self setPlottingArea:NSIntersectionRect([self plottingArea], paperRect)];
+        // set maxim etc.?
+    }
+    // Draw common elements here
+    [self calculateCoordinateConversions];
+
 	// Fancy schaduw effecten...
 	NSShadow *noShadow = [[NSShadow alloc] init];
 	NSShadow *shadow = [[NSShadow alloc] init];
@@ -441,6 +453,19 @@ static int   kPaddingLabels             = 4;
 
 	[shadow release];
 	[noShadow release];
+    
+    if ( [NSGraphicsContext currentContextDrawingToScreen] ) {
+        // Draw screen-only elements here
+    } else {
+        // Draw printer-only elements here
+          [self setPlottingArea:currentFrame];
+        
+    }
+    
+    //    [[NSColor redColor] set];
+//    NSSize paperSize = [[NSPrintInfo sharedPrintInfo] paperSize];
+//    NSRect paperRect = NSMakeRect(0.0f, 0.0f, paperSize.width, paperSize.height);
+//    [[NSBezierPath bezierPathWithRect:paperRect] stroke];
 }
 
 - (void)drawGrid {
@@ -1017,6 +1042,23 @@ static int   kPaddingLabels             = 4;
 - (void)refresh {
 	JKLogDebug(@"Refresh - %@",[self description]);
     [self setNeedsDisplay:YES];
+}
+#pragma mark -
+
+#pragma mark Printing
+- (BOOL)knowsPageRange:(NSRangePointer)aRange {
+    aRange -> location = 1;
+    aRange -> length = 1;
+    return YES;
+}
+
+- (NSRect)rectForPage:(NSInteger)pageNumber {
+    if (pageNumber == 1) {
+        NSSize paperSize = [[NSPrintInfo sharedPrintInfo] paperSize];
+        return NSMakeRect(0.0f, 0.0f, paperSize.width, paperSize.height);
+    } else {
+        return NSZeroRect;
+    }
 }
 #pragma mark -
 
