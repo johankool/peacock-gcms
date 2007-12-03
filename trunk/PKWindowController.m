@@ -83,18 +83,22 @@
 }
 
 
-//-(IBAction)printDocument:(id)sender {
-//    if ([[[documentTabView selectedTabViewItem] identifier] isKindOfClass:[JKGCMSDocument class]]) {
-//        [[[documentTabView selectedTabViewItem] identifier] printDocument:sender];
-//    } else if ([[[documentTabView selectedTabViewItem] identifier] isEqualToString:@"multiple"]) {
-//        // Run print dialog for first documetn only, then for all other documents with the same settings
-//        JKLogDebug(@"multiple print");
+-(IBAction)printDocument:(id)sender {
+    if ([[[documentTabView selectedTabViewItem] identifier] isKindOfClass:[JKGCMSDocument class]]) {
+        JKLogError(@"should not be called?!");
+ //       [[[documentTabView selectedTabViewItem] identifier] printDocument:sender];
+    } else if ([[[documentTabView selectedTabViewItem] identifier] isEqualToString:@"multiple"]) {
+        // Run print dialog for first documetn only, then for all other documents with the same settings
+        JKLogDebug(@"multiple print");
 //        JKGCMSDocument *firstDoc = [[[PKDocumentController sharedDocumentController] managedDocuments] objectAtIndex:0];
 //        [firstDoc printDocumentWithSettings:nil showPrintPanel:YES delegate:self didPrintSelector:@selector(document:didPrint:contextInfo:) contextInfo:[NSNumber numberWithInt:0]];
-//    } else {
-//        NSBeep();
-//    }
-//}
+    } else if ([[[documentTabView selectedTabViewItem] identifier] isEqualToString:@"graphical"]) {
+        JKLogDebug(@"graphical print");
+        [[[(JKAppDelegate *)[NSApp delegate] graphicalController] graphView] print:sender];
+    } else {
+        NSBeep();
+    }
+}
 //
 //- (void)document:(NSDocument *)document didPrint:(BOOL)didPrintSuccessfully  contextInfo: (void *)contextInfo
 //{
