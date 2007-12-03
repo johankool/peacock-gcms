@@ -10,7 +10,7 @@
 		};
 	};
 	2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
-		activeArchitecture = ppc;
+		activeArchitecture = i386;
 		activeBuildConfigurationName = Debug;
 		activeExecutable = C7EB17970898CF04007FC2ED /* Peacock */;
 		activeTarget = 8D15AC270486D014006FF6A4 /* Peacock */;
@@ -125,7 +125,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Target_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					513,
+					749,
 					20,
 					48,
 					43,
@@ -218,8 +218,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 217984014;
-			PBXWorkspaceStateSaveDate = 217984014;
+			PBXPerProjectTemplateStateSaveDate = 218382722;
+			PBXWorkspaceStateSaveDate = 218382722;
 		};
 		perUserProjectItems = {
 			C721071C0CFE133900E97A55 = C721071C0CFE133900E97A55 /* PBXTextBookmark */;
@@ -237,7 +237,7 @@
 			C75C671B0CFE24A1003C7700 = C75C671B0CFE24A1003C7700 /* PBXTextBookmark */;
 			C76B56E70CFE2B8B007AEED8 = C76B56E70CFE2B8B007AEED8 /* PBXTextBookmark */;
 			C76B570A0CFE2BE7007AEED8 = C76B570A0CFE2BE7007AEED8 /* PBXTextBookmark */;
-			C7D8EF3A0CFE2C23004C2A91 /* PBXTextBookmark */ = C7D8EF3A0CFE2C23004C2A91 /* PBXTextBookmark */;
+			C7D8EF3A0CFE2C23004C2A91 = C7D8EF3A0CFE2C23004C2A91 /* PBXTextBookmark */;
 		};
 		sourceControlManager = C7EB17A40898CF22007FC2ED /* Source Control */;
 		userBuildSettings = {
