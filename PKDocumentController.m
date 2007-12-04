@@ -216,6 +216,9 @@
     [documentTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[documentTableView rowForItem:[_specials objectAtIndex:1]]] byExtendingSelection:NO];
 }
 
+- (IBAction)showGraphical:(id)sender {
+    [documentTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[documentTableView rowForItem:[_specials objectAtIndex:2]]] byExtendingSelection:NO];
+}
 
 - (NSWindow *)window
 {

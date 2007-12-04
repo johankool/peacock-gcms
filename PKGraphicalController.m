@@ -37,6 +37,8 @@
 
 #pragma mark Window Management
 - (void)windowDidLoad {
+    [self sharedPrintInfoUpdated];
+    
     [graphView bind:@"dataSeries" toObject:chromatogramDataSeriesController
            withKeyPath:@"arrangedObjects" options:nil];
     [graphView bind:@"peaks" toObject:peaksController
@@ -46,7 +48,22 @@
     [graphView setKeyForYValue:@"Total Intensity"];
     
     [graphView showAll:self];
+    
+    [scrollView setHasHorizontalRuler:YES];
+    [scrollView setHasVerticalRuler:YES];
+    [[scrollView horizontalRulerView] setMeasurementUnits:@"Centimeters"];
+    [[scrollView verticalRulerView] setMeasurementUnits:@"Centimeters"];
+    [scrollView setRulersVisible:YES];
 }
+
+- (void)sharedPrintInfoUpdated {
+    NSSize paperSize = [[NSPrintInfo sharedPrintInfo] paperSize];
+    NSRect paperRect = NSMakeRect(0.0f, 0.0f, paperSize.width, paperSize.height);
+    [[scrollView documentView] setFrame:paperRect];
+    [graphView setFrame:paperRect];
+    
+}
+
 
 - (void)documentLoaded:(NSNotification *)aNotification
 {

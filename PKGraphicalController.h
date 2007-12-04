@@ -14,6 +14,7 @@
     IBOutlet NSArrayController *chromatogramDataSeriesController;
     IBOutlet NSArrayController *peaksController;
     IBOutlet PKGraphView *graphView;
+    IBOutlet NSScrollView *scrollView;
     
     NSMutableArray *chromatogramDataSeries;
     NSMutableArray *peaks;
@@ -21,6 +22,8 @@
 
 
 - (PKGraphView *)graphView;
+
+- (void)sharedPrintInfoUpdated;
 
 @property (retain) NSMutableArray *chromatogramDataSeries;
 @property (retain) NSMutableArray *peaks;

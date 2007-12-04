@@ -72,6 +72,11 @@ static void *PropertyObservationContext = (void *)1093;
 #pragma mark DRAWING ROUTINES
 - (void)plotDataWithTransform:(NSAffineTransform *)trans inView:(PKGraphView *)view {
     _graphView = view;
+    
+    if (!isVisible) {
+        return;
+    }
+    
 	NSBezierPath *bezierpath;
 	if (_needsReconstructingPlotPath) {
 		[self constructPlotPath];

@@ -27,6 +27,7 @@
 #import "PKDocumentController.h"
 #import "PKGraphicalController.h"
 #import <ExceptionHandling/NSExceptionHandler.h>
+#import "PKPluginProtocol.h"
 
 // Name of the application support folder
 static NSString * SUPPORT_FOLDER_NAME = @"Peacock";
@@ -228,7 +229,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 	[GrowlApplicationBridge setGrowlDelegate:self];
     
     // Load plugins
-    [self loadPlugins];
+    [self loadAllPlugins];
     
     [documentListTableView setDoubleAction:@selector(doubleClickAction:)];
     
@@ -374,8 +375,8 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     NSPageLayout *pl = [NSPageLayout pageLayout];
     NSPrintInfo *printInfo = [NSPrintInfo sharedPrintInfo];
     if ([pl runModalWithPrintInfo:printInfo] == NSOKButton) {
-        JKLogDebug(@"%d", [printInfo orientation]);
         [NSPrintInfo setSharedPrintInfo:printInfo];
+        [[self graphicalController] sharedPrintInfoUpdated];
     }
 }
 #pragma mark GROWL SUPPORT
@@ -685,38 +686,6 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 
 #pragma mark Plugins
 
-- (void)loadPlugins {
-    JKLogDebug(@"Loading plugins from %@",[[NSBundle mainBundle] builtInPlugInsPath]);
-    
-    NSEnumerator *enumerator = [[NSBundle pathsForResourcesOfType:@"peacock-plugin" inDirectory:[[NSBundle mainBundle] builtInPlugInsPath]] objectEnumerator];
-    NSString *path;
-
-    while ((path = [enumerator nextObject]) != nil) {
-        JKLogDebug(@"Loading bundle from %@",path);
-    	[self loadBundle:path];
-    }
-    
-}
-
-- (void)loadBundle:(NSString*)bundlePath {
-    Class exampleClass;
-    id newInstance;
-    NSBundle *bundleToLoad = [NSBundle bundleWithPath:bundlePath];
-    JKLogDebug(@"bundle %@",[bundleToLoad infoDictionary]);
-    if (exampleClass = [bundleToLoad principalClass]) {
-        newInstance = [[exampleClass alloc] init];
-        // [newInstance doSomething];
- //       switch ([newInstance methodType]) {
-//            case <#constant#>:
-//                <#statements#>
-//                break;
-//            default:
-//                break;
-//        }
-    } else {
-        JKLogDebug(@"No principalClass for bundle");
-    }
-}
 NSString *ext = @"peacock-plugin"; 
 NSString *appSupportSubpath = @"Peacock/PlugIns"; 
 
@@ -749,8 +718,11 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
                 if(currInstance) 
                 { 
                     [instances addObject:[currInstance autorelease]]; 
+                    JKLogDebug(@"Plugin loaded: %@",currBundle);
                 } 
-            } 
+            } else {
+                JKLogDebug(@"Plugin failed to load: %@",currBundle);
+            }
         } 
     } 
 } 
@@ -792,14 +764,12 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
     return allBundles; 
 } 
 
-//- (BOOL)plugInClassIsValid:(Class)plugInClass { 
-//    if ([plugInClass conformsToProtocol:@protocol()]) { 
-//       return YES;
-//    } else if ([plugInClass conformsToProtocol:@protocol()]) { 
-//       return YES;
-//   }
-//   return NO; 
-//}
+- (BOOL)plugInClassIsValid:(Class)plugInClass { 
+    if ([plugInClass conformsToProtocol:@protocol(PKPluginProtocol)]) { 
+        return YES;
+    } 
+    return NO; 
+}
            
            
 - (NSArray *)documents {

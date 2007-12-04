@@ -48,9 +48,11 @@ typedef enum {
 @interface PKGraphDataSeries : NSObject <NSCoding, GraphDataSerie> {
 	BOOL shouldDrawLabels;
     BOOL observeData;
+    BOOL isVisible;
 	JKSeriesTypes seriesType;
 	NSColor *seriesColor;
 	NSNumber *verticalScale;
+	NSNumber *verticalOffset;
 	NSString *seriesTitle;
     
 	NSMutableArray *dataArray; 
@@ -127,4 +129,6 @@ typedef enum {
 @property (retain,getter=oldTrans) NSAffineTransform *_previousTrans;
 @property (retain,getter=plotPath) NSBezierPath *_plotPath;
 @property BOOL observeData;
+@property BOOL isVisible;
+@property (retain) NSNumber *verticalOffset;
 @end

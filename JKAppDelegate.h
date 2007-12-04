@@ -74,9 +74,15 @@
 - (JKRatiosController *)ratiosController;
 - (PKGraphicalController *)graphicalController;
 
+#pragma mark Plugins
+- (void)loadAllPlugins;
+- (NSMutableArray *)allBundles;
+- (BOOL)plugInClassIsValid:(Class)plugInClass;
+#pragma mark -
+
 #pragma mark GROWL SUPPORT
 - (NSDictionary *)registrationDictionaryForGrowl;
-
+#pragma mark -
 
 - (void)printStackTrace:(NSException *)e;
 

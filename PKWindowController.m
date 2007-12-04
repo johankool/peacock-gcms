@@ -11,6 +11,7 @@
 #import "JKGCMSDocument.h"
 #import "JKAppDelegate.h"
 #import "PKDocumentController.h"
+#import "PKGraphicalController.h"
 
 @implementation PKWindowController
 
