@@ -220,7 +220,6 @@ static int   kPaddingLabels             = 4;
     [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self labelFont]] forKey:@"labelFont"];
     [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self legendFont]] forKey:@"legendFont"];
     [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self axesLabelFont]] forKey:@"axesLabelFont"];
-    [mutDict setValue:[NSArchiver archivedDataWithRootObject:[self axesLabelFont]] forKey:@"baselineColor"];
     [mutDict setValue:[NSNumber numberWithBool:shouldDrawBaseline] forKey:@"shouldDrawBaseline"];
     [mutDict setValue:[NSNumber numberWithBool:shouldDrawPeaks] forKey:@"shouldDrawPeaks"];
     [mutDict setValue:[NSNumber numberWithInt:drawingMode] forKey:@"drawingMode"];
@@ -271,7 +270,6 @@ static int   kPaddingLabels             = 4;
     [self setLabelFont:(NSFont *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"labelFont"]]];
     [self setLegendFont:(NSFont *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"legendFont"]]];
     [self setAxesLabelFont:(NSFont *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"axesLabelFont"]]];
-    [self setAxesLabelFont:(NSFont *)[NSUnarchiver unarchiveObjectWithData:[settings valueForKey:@"baselineColor"]]];
     [self setShouldDrawBaseline:[[settings valueForKey:@"shouldDrawBaseline"] boolValue]];
     [self setShouldDrawPeaks:[[settings valueForKey:@"shouldDrawPeaks"] boolValue]];
     [self setDrawingMode:[[settings valueForKey:@"drawingMode"] intValue]];
@@ -299,16 +297,16 @@ static int   kPaddingLabels             = 4;
 #pragma mark Drawing Routines
 - (void)drawRect:(NSRect)rect {
         
-    NSRect currentFrame = [self plottingArea];
-    if ( [NSGraphicsContext currentContextDrawingToScreen] ) {
-        // Draw screen-only elements here
-    } else {
-        // Draw printer-only elements here
-        NSSize paperSize = [[NSPrintInfo sharedPrintInfo] paperSize];
-        NSRect paperRect = NSMakeRect(0.0f, 0.0f, paperSize.width, paperSize.height);
-        [self setPlottingArea:NSIntersectionRect([self plottingArea], paperRect)];
-        // set maxim etc.?
-    }
+//    NSRect currentFrame = [self plottingArea];
+//    if ( [NSGraphicsContext currentContextDrawingToScreen] ) {
+//        // Draw screen-only elements here
+//    } else {
+//        // Draw printer-only elements here
+//        NSSize paperSize = [[NSPrintInfo sharedPrintInfo] paperSize];
+//        NSRect paperRect = NSMakeRect(0.0f, 0.0f, paperSize.width, paperSize.height);
+//        [self setPlottingArea:NSIntersectionRect([self plottingArea], paperRect)];
+//        // set maxim etc.?
+//    }
     // Draw common elements here
     [self calculateCoordinateConversions];
 
@@ -454,14 +452,14 @@ static int   kPaddingLabels             = 4;
 	[shadow release];
 	[noShadow release];
     
-    if ( [NSGraphicsContext currentContextDrawingToScreen] ) {
-        // Draw screen-only elements here
-    } else {
-        // Draw printer-only elements here
-          [self setPlottingArea:currentFrame];
-        
-    }
-    
+//    if ( [NSGraphicsContext currentContextDrawingToScreen] ) {
+//        // Draw screen-only elements here
+//    } else {
+//        // Draw printer-only elements here
+//          [self setPlottingArea:currentFrame];
+//        
+//    }
+//    
     //    [[NSColor redColor] set];
 //    NSSize paperSize = [[NSPrintInfo sharedPrintInfo] paperSize];
 //    NSRect paperRect = NSMakeRect(0.0f, 0.0f, paperSize.width, paperSize.height);

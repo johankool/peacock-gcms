@@ -184,6 +184,8 @@
 		C7F0D0560B11D9030046F994 /* MWController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D0550B11D9030046F994 /* MWController.h */; };
 		C7F0D3B30B1497D40046F994 /* NSTableView+Copying.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */; };
 		C7F0D3B40B1497D40046F994 /* NSTableView+Copying.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */; };
+		C7F5D0CF0D05794000DCD7C0 /* PKFlipView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F5D0CD0D05794000DCD7C0 /* PKFlipView.h */; };
+		C7F5D0D00D05794000DCD7C0 /* PKFlipView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5D0CE0D05794000DCD7C0 /* PKFlipView.m */; };
 		C7F8DE170BF0A4B500A34F5D /* flagged_header.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DE130BF0A4B500A34F5D /* flagged_header.tiff */; };
 		C7F8DE180BF0A4B500A34F5D /* flagged.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DE140BF0A4B500A34F5D /* flagged.tiff */; };
 		C7F8DE930BF0CDEE00A34F5D /* AMRemovableTableColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DE8B0BF0CDED00A34F5D /* AMRemovableTableColumn.h */; };
@@ -487,6 +489,8 @@
 		C7F0D0550B11D9030046F994 /* MWController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MWController.h; path = MolWeight/MWController.h; sourceTree = "<group>"; };
 		C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+Copying.h"; sourceTree = "<group>"; };
 		C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+Copying.m"; sourceTree = "<group>"; };
+		C7F5D0CD0D05794000DCD7C0 /* PKFlipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKFlipView.h; sourceTree = "<group>"; };
+		C7F5D0CE0D05794000DCD7C0 /* PKFlipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKFlipView.m; sourceTree = "<group>"; };
 		C7F5E8F308EAA98600AC1068 /* JKManagedLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKManagedLibraryEntry.h; sourceTree = "<group>"; };
 		C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKManagedLibraryEntry.m; sourceTree = "<group>"; };
 		C7F8DE130BF0A4B500A34F5D /* flagged_header.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = flagged_header.tiff; sourceTree = "<group>"; };
@@ -807,6 +811,8 @@
 				C7EB17F60898CFBC007FC2ED /* PKGraphDataSeries.m */,
 				C7490D490CAC0B28005DCA39 /* PKGraphView.h */,
 				C7490D4A0CAC0B28005DCA39 /* PKGraphView.m */,
+				C7F5D0CD0D05794000DCD7C0 /* PKFlipView.h */,
+				C7F5D0CE0D05794000DCD7C0 /* PKFlipView.m */,
 				C773669608E02D87002B72F1 /* PKSpectrumDataSeries.h */,
 				C773669708E02D87002B72F1 /* PKSpectrumDataSeries.m */,
 				C7BC19A90CBBE2D20037FBA7 /* PKWindowController.h */,
@@ -1040,6 +1046,7 @@
 				C74A28250CEE51C100FFB61F /* JKLibraryPanelController.h in Headers */,
 				C79CE62E0CF356CD00C2D872 /* PKGraphicalController.h in Headers */,
 				C7C588DC0CFD6DD10009CDD9 /* PKPluginProtocol.h in Headers */,
+				C7F5D0CF0D05794000DCD7C0 /* PKFlipView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1331,6 +1338,7 @@
 				C78FB80A0CE9B73400466731 /* ZExpParser.mm in Sources */,
 				C74A28260CEE51C100FFB61F /* JKLibraryPanelController.m in Sources */,
 				C79CE62F0CF356CD00C2D872 /* PKGraphicalController.m in Sources */,
+				C7F5D0D00D05794000DCD7C0 /* PKFlipView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

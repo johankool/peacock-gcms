@@ -8,9 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-//#import "PKPluginProtocol.h"
+#import "PKPluginProtocol.h"
 
-@interface PKDefaultPlugin : NSObject { // <PKBaselineDetectionPluginProtocol> {
+@interface PKDefaultPlugin : NSObject <PKPluginProtocol> {
 
 }
 

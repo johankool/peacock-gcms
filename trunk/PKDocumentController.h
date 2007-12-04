@@ -23,6 +23,7 @@
 
 - (IBAction)showSummary:(id)sender;
 - (IBAction)showRatios:(id)sender;
+- (IBAction)showGraphical:(id)sender;
 
 @property (retain) NSTabView *documentTabView;
 @property (retain,getter=window) NSWindow *window;
