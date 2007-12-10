@@ -1174,18 +1174,28 @@ int const JKGCMSDocument_Version = 7;
     [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:NSLocalizedString(@"Cleaning Up",@"") waitUntilDone:NO];
 	JKChromatogram *chrom;
 
+    NSMutableArray *chromsToInsert = [NSMutableArray array];
 	for (chrom in newChromatograms) {
+        NSMutableIndexSet *peaksToRemove = [NSMutableIndexSet indexSet];
 		for (JKPeakRecord *peak in [chrom peaks]) {
 			if (([peak countOfSearchResults] == 0) && ([peak identified] == NO) && ([peak confirmed] == NO)) {
-                [[chrom peaks] removeObject:peak];
+                [peaksToRemove addIndex:[[chrom peaks] indexOfObject:peak]];
             }
 		}    
-
-        if ((![[self chromatograms] containsObject:chrom]) && ([[chrom peaks] count] > 0)){
-            [self insertObject:chrom inChromatogramsAtIndex:[self countOfChromatograms]];
-        }            
         
+        // Only change the array after we've iterated over it
+        [[chrom peaks] removeObjectsAtIndexes:peaksToRemove];
+                
+        if ((![[self chromatograms] containsObject:chrom]) && ([[chrom peaks] count] > 0)){
+            [chromsToInsert addObject:chrom];
+        }            
 	}
+
+    // Only change the array after we've iterated over it
+   for (chrom in chromsToInsert) {
+        [self insertObject:chrom inChromatogramsAtIndex:[self countOfChromatograms]];
+    }
+   
     [self renumberPeaks];
     [self didChangeValueForKey:@"peaks"];
     [[self undoManager] setActionName:NSLocalizedString(@"Perform Backward Library Search",@"")];
