@@ -78,6 +78,16 @@
 	return nil;
 }
 
+- (NSURL *)libraryHitURI {
+    if (!libraryHitURI && [_libraryHit isKindOfClass:[JKManagedLibraryEntry class]]) {
+        if (![[_libraryHit objectID] isTemporaryID]) {
+            [libraryHitURI autorelease];
+            libraryHitURI = [[[_libraryHit objectID] URIRepresentation] retain];
+        }            
+    }
+    return libraryHitURI;
+}
+
 - (void)setLibraryHit:(id)aLibraryHit {
     if (_libraryHit != aLibraryHit) {
         if ([aLibraryHit isKindOfClass:[JKManagedLibraryEntry class]]) {

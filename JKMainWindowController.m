@@ -1346,18 +1346,26 @@ static void *PeaksObservationContext = (void *)1103;
         if ([rowIndexes count] != 1) {
             return NO;
         }
-
+        
         // declare our own pasteboard types
-        NSArray *typesArray = [NSArray arrayWithObjects:JKLibraryEntryTableViewDataType, nil];
+        NSArray *typesArray = [NSArray arrayWithObjects:@"JKManagedLibraryEntryURIType", nil];
         [pboard declareTypes:typesArray owner:self];
+        
+        NSString *uriString = [[[[searchResultsController arrangedObjects] objectAtIndex:[rowIndexes firstIndex]] libraryHitURI] absoluteString];
+        [pboard setString:uriString forType:@"JKManagedLibraryEntryURIType"];
 
-        NSMutableData *data = [NSMutableData data];
-        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-        [archiver encodeObject:[[[searchResultsController arrangedObjects] objectAtIndex:[rowIndexes firstIndex]] libraryHit] forKey:JKLibraryEntryTableViewDataType];
-        [archiver finishEncoding];
-        [archiver release];
-
-        [pboard setData:data forType:JKLibraryEntryTableViewDataType];
+        
+ //       // declare our own pasteboard types
+//        NSArray *typesArray = [NSArray arrayWithObjects:JKLibraryEntryTableViewDataType, nil];
+//        [pboard declareTypes:typesArray owner:self];
+//
+//        NSMutableData *data = [NSMutableData data];
+//        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+//        [archiver encodeObject:[[[searchResultsController arrangedObjects] objectAtIndex:[rowIndexes firstIndex]] libraryHit] forKey:JKLibraryEntryTableViewDataType];
+//        [archiver finishEncoding];
+//        [archiver release];
+//
+//        [pboard setData:data forType:JKLibraryEntryTableViewDataType];
 
         return YES;
 	}

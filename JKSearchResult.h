@@ -22,7 +22,7 @@
 }
 
 - (NSNumber *)deltaRetentionIndex;
-
+- (NSURL *)libraryHitURI;
 - (id)libraryHit;
 - (void)setLibraryHit:(id)libraryHit;
 

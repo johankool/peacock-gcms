@@ -88,9 +88,12 @@
     JKPeakRecord *peak = [aNotification object];
     JKCombinedPeak *combinedPeak = [self combinedPeakForPeak:peak];
     [combinedPeak removeUnconfirmedPeak:peak];
-//    if ([combinedPeak countOfPeaks] == 0) {
-//        [combinedPeaks removeObject:combinedPeak];
-//    }
+    if ([combinedPeak countOfPeaks] == 0) {
+        NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks indexOfObject:combinedPeak]];
+        [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];
+        [combinedPeaks removeObject:combinedPeak];
+        [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];
+   }
 }
 
 - (void)documentLoaded:(NSNotification *)aNotification
@@ -119,9 +122,12 @@
     
     for (combinedPeak in combinedPeaks) {
         [combinedPeak setValue:nil forKey:key];
-//        if ([combinedPeak countOfPeaks] == 0) {
-//            [combinedPeaks removeObject:combinedPeak];
-//        }        
+        if ([combinedPeak countOfPeaks] == 0) {
+            NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks indexOfObject:combinedPeak]];
+            [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];
+            [combinedPeaks removeObject:combinedPeak];
+            [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];            
+        }        
     }
 }
 
