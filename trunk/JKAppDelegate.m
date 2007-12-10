@@ -480,7 +480,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     if ([libraryConfigurationLoaded isEqualToString:configuration]) {
     	return;
     }
-    
+        
     JKLogDebug(@"configuration %@",configuration);
     [self willChangeValueForKey:@"library"];
     [self willChangeValueForKey:@"availableDictionaries"];
@@ -489,7 +489,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     if (!library) {
         library = [[JKLibrary alloc] init];
     } else {
-        [library release];
+        [library close];
         library = [[JKLibrary alloc] init];
         [availableDictionaries removeAllObjects];
     }
