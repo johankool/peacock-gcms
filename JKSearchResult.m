@@ -145,6 +145,7 @@
             jcampString = [[coder decodeObjectForKey:@"jcampString"] retain]; 
             peak = [[coder decodeObjectForKey:@"peak"] retain];
             libraryHitURI = [[coder decodeObjectForKey:@"libraryHitURI"] retain];
+            [self libraryHit]; // Causes faults to fire, which we want...
         }
     } 
     return self;
