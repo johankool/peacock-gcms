@@ -229,7 +229,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 	[GrowlApplicationBridge setGrowlDelegate:self];
     
     // Load plugins
-    [self loadAllPlugins];
+//    [self loadAllPlugins];
     
     [documentListTableView setDoubleAction:@selector(doubleClickAction:)];
     
