@@ -96,11 +96,13 @@ static void *PropertyObservationContext = (void *)1093;
         [self drawPeaksWithTransform:trans inView:view];
 	
 	// Hier stellen we in hoe de lijnen eruit moeten zien.
-    if ([[NSGraphicsContext currentContext] isDrawingToScreen]) {
-        [bezierpath setLineWidth:1.0];        
-    } else {
-        [bezierpath setLineWidth:0.5];
-    }
+//    if ([[NSGraphicsContext currentContext] isDrawingToScreen]) {
+//        [bezierpath setLineWidth:1.0];        
+//    } else {
+//        [bezierpath setLineWidth:0.5];
+//    }
+    [bezierpath setLineWidth:[self.lineThickness floatValue]];
+    
 	[[view baselineColor] set];
  	if(shouldDrawBaseline)
         [[trans transformBezierPath:[self baselineBezierPath]] stroke];
@@ -583,10 +585,12 @@ static void *PropertyObservationContext = (void *)1093;
     
     if ([[NSGraphicsContext currentContext] isDrawingToScreen]) {
         [attrs setValue:[view labelFont] forKey:NSFontAttributeName];
+        [attrs setValue:[view axesColor] forKey:NSForegroundColorAttributeName];
         //        [attrs setValue:[NSFont systemFontOfSize:10] forKey:NSFontAttributeName];
 	} else {
         [attrs setValue:[view labelFont] forKey:NSFontAttributeName];
-        //        [attrs setValue:[NSFont systemFontOfSize:8] forKey:NSFontAttributeName];        
+        [attrs setValue:[view axesColor] forKey:NSForegroundColorAttributeName];
+      //        [attrs setValue:[NSFont systemFontOfSize:8] forKey:NSFontAttributeName];        
     }
     
 	for (i=0; i<count; i++) {

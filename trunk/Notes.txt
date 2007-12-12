@@ -13,7 +13,7 @@ BUGS TO FIX:
   7. Use template images when available
   8. Confirm button for identified peak
   9. Unit per xx pixels not working properly
- 10.
+ 10. Font color not respected for labels, peak labels and legend
   
 FEATURES TO ADD:
 ----------------
@@ -29,3 +29,4 @@ FEATURES TO ADD:
   9. Store graph settings in Application Support folder
  10. Click-to-Identify
  11. Batch operations through multiple selection and choosing action
+ 12. Line thickness for dataseries
