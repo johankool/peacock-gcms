@@ -1,0 +1,31 @@
+Notes about Peacock
+===================
+
+BUGS TO FIX:
+------------
+
+  1. Library is not Intel/PPC-proof
+  2. Library editor: point table
+  3. Legend entries, esp. for library entries
+  4. Properly leave out dataseries when set to not visible
+  5. Change isVisible to isHidden?
+  6. Inspector doesn't always update properly when opening first document
+  7. Use template images when available
+  8. Confirm button for identified peak
+  9. Unit per xx pixels not working properly
+ 10.
+  
+FEATURES TO ADD:
+----------------
+
+  1. Legend per dataseries for stacked drawing
+  2. Editing dataseries title
+  3. Subtract chromatograms
+  4. Subtract spectra
+  5. Plugin structure
+  6. Search result storing used search settings
+  7. Inspector panel for dataseries
+  8. Toolbar item for library panel
+  9. Store graph settings in Application Support folder
+ 10. Click-to-Identify
+ 11. Batch operations through multiple selection and choosing action

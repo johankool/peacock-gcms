@@ -264,7 +264,6 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
-//#warning [BUG] Not working save?
     if ([library isSuperDocumentEdited]) {
         JKLogInfo(@"Saving library...");
         [[library managedObjectContext] save:NULL];

@@ -63,6 +63,7 @@
 		C74A28260CEE51C100FFB61F /* JKLibraryPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = C74A28240CEE51C100FFB61F /* JKLibraryPanelController.m */; };
 		C75846650C07268D00756ED8 /* JKLibraryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = C75846610C07268D00756ED8 /* JKLibraryEntry.h */; };
 		C75846660C07268D00756ED8 /* JKLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C75846620C07268D00756ED8 /* JKLibraryEntry.m */; };
+		C758C8C50D0EE8CB0068F70A /* Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = C758C8C40D0EE8CB0068F70A /* Notes.txt */; };
 		C75AE3A10CBE82190054E51B /* JKImageTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C75AE38B0CBE82190054E51B /* JKImageTextCell.h */; };
 		C75AE3A20CBE82190054E51B /* JKImageTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C75AE38C0CBE82190054E51B /* JKImageTextCell.m */; };
 		C75AE3A30CBE82190054E51B /* JKSeparatorCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C75AE38D0CBE82190054E51B /* JKSeparatorCell.h */; };
@@ -332,6 +333,7 @@
 		C75846130C071ACC00756ED8 /* JKComparableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKComparableProtocol.h; sourceTree = "<group>"; };
 		C75846610C07268D00756ED8 /* JKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKLibraryEntry.h; sourceTree = "<group>"; };
 		C75846620C07268D00756ED8 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = "<group>"; };
+		C758C8C40D0EE8CB0068F70A /* Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Notes.txt; sourceTree = SOURCE_ROOT; };
 		C75AE38B0CBE82190054E51B /* JKImageTextCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKImageTextCell.h; sourceTree = "<group>"; };
 		C75AE38C0CBE82190054E51B /* JKImageTextCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKImageTextCell.m; sourceTree = "<group>"; };
 		C75AE38D0CBE82190054E51B /* JKSeparatorCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKSeparatorCell.h; sourceTree = "<group>"; };
@@ -954,6 +956,7 @@
 		C7EB18070898CFBD007FC2ED /* Text */ = {
 			isa = PBXGroup;
 			children = (
+				C758C8C40D0EE8CB0068F70A /* Notes.txt */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				C77C582F09800FAD002E7796 /* Peacock Help */,
 				C70DC019095B205500C2B386 /* Credits.rtf */,
@@ -1210,6 +1213,7 @@
 				C74A28190CEE4E4D00FFB61F /* JKRatios.xib in Resources */,
 				C74A281A0CEE4E4D00FFB61F /* JKSummary.xib in Resources */,
 				C79CE6290CF3569200C2D872 /* PKGraphical.xib in Resources */,
+				C758C8C50D0EE8CB0068F70A /* Notes.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
