@@ -790,8 +790,10 @@ static int   kPaddingLabels             = 4;
 	NSMutableString *label = @"";
 	
 	[attrs setValue:[self axesLabelFont] forKey:NSFontAttributeName];
+	[attrs setValue:[self axesColor] forKey:NSForegroundColorAttributeName];
     [attrs2 setValue:[NSNumber numberWithInt:1] forKey:NSSuperscriptAttributeName];
     [attrs2 setValue:[NSFont fontWithName:[[self axesLabelFont] fontName] size:[[self axesLabelFont] pointSize]*0.8] forKey:NSFontAttributeName];
+	[attrs2 setValue:[self axesColor] forKey:NSForegroundColorAttributeName];
 //	[attrs setValue:[NSFont systemFontOfSize:10] forKey:NSFontAttributeName];
 //    [attrs2 setValue:[NSNumber numberWithInt:1] forKey:NSSuperscriptAttributeName];
 //    [attrs2 setValue:[NSFont systemFontOfSize:8] forKey:NSFontAttributeName];
@@ -888,8 +890,10 @@ static int   kPaddingLabels             = 4;
 	NSMutableString *label = @"";
 	
 	[attrs setValue:[self axesLabelFont] forKey:NSFontAttributeName];
+  	[attrs setValue:[self axesColor] forKey:NSForegroundColorAttributeName];
     [attrs2 setValue:[NSNumber numberWithInt:1] forKey:NSSuperscriptAttributeName];
     [attrs2 setValue:[NSFont fontWithName:[[self axesLabelFont] fontName] size:[[self axesLabelFont] pointSize]*0.8] forKey:NSFontAttributeName];
+	[attrs2 setValue:[self axesColor] forKey:NSForegroundColorAttributeName];
 
 	// Labels op X-as
     _lowestYOriginLabelsXAxis = [self plottingArea].origin.y;

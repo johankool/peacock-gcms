@@ -30,6 +30,7 @@ static void *ArrayObservationContext = (void *)1092;
         shouldDrawLabels = YES;
         verticalScale = [[NSNumber alloc] initWithFloat:1.0f];
         verticalOffset = [[NSNumber alloc] initWithFloat:0.0f];
+        lineThickness = [[NSNumber alloc] initWithFloat:1.0f];
         dataArray = [[NSMutableArray alloc] init];
 
         _plotPath = [[NSBezierPath alloc] init];
@@ -54,7 +55,7 @@ static void *ArrayObservationContext = (void *)1092;
     [dataArray release];
     [_plotPath release];
     [_previousTrans release];
-    
+    [lineThickness release];
 	[super dealloc];
 }
 #pragma mark -
@@ -167,7 +168,7 @@ static void *ArrayObservationContext = (void *)1092;
             bezierpath = [trans transformBezierPath:_plotPath];
 
             // Hier stellen we in hoe de lijnen eruit moeten zien.
-            [bezierpath setLineWidth:0.5];
+            [bezierpath setLineWidth:[self.lineThickness floatValue]];
             [[self seriesColor] set];
             
             // Met stroke wordt de bezierpath getekend.
@@ -634,4 +635,5 @@ static void *ArrayObservationContext = (void *)1092;
 @synthesize _needsReconstructingPlotPath;
 @synthesize isVisible;
 @synthesize verticalOffset;
+@synthesize lineThickness;
 @end

@@ -51,6 +51,7 @@ typedef enum {
     BOOL isVisible;
 	JKSeriesTypes seriesType;
 	NSColor *seriesColor;
+	NSNumber *lineThickness;
 	NSNumber *verticalScale;
 	NSNumber *verticalOffset;
 	NSString *seriesTitle;
@@ -131,4 +132,5 @@ typedef enum {
 @property BOOL observeData;
 @property BOOL isVisible;
 @property (retain) NSNumber *verticalOffset;
+@property (retain) NSNumber *lineThickness;
 @end

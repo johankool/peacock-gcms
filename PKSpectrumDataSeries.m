@@ -85,7 +85,7 @@ static void *PropertyObservationContext = (void *)1093;
 	bezierpath = [trans transformBezierPath:[self plotPath]];
 	
 	// Hier stellen we in hoe de lijnen eruit moeten zien.
-	[bezierpath setLineWidth:1.0];
+    [bezierpath setLineWidth:[self.lineThickness floatValue]];
 	[[self seriesColor] set];
 	
 	// Met stroke wordt de bezierpath getekend.
