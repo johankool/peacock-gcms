@@ -269,9 +269,7 @@ int const JKGCMSDocument_Version = 7;
             [self setMaximumScannedMassRange:[unarchiver decodeObjectForKey:@"maximumScannedMassRange"]];
             break;
         }
-//#warning [BUG] I am retaining to go by a bug, but this is not right!!
-//        [self retain];
-      [self setMetadata:[unarchiver decodeObjectForKey:@"metadata"]];
+        [self setMetadata:[unarchiver decodeObjectForKey:@"metadata"]];
         [self setBaselineWindowWidth:[unarchiver decodeObjectForKey:@"baselineWindowWidth"]];
         [self setBaselineDistanceThreshold:[unarchiver decodeObjectForKey:@"baselineDistanceThreshold"]];
         [self setBaselineSlopeThreshold:[unarchiver decodeObjectForKey:@"baselineSlopeThreshold"]];
