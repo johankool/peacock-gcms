@@ -344,7 +344,7 @@
             
             [document addChromatogramForModel:[[combinedPeak libraryEntry] model]];
             JKChromatogram *chromatogram = [document chromatogramForModel:[[combinedPeak libraryEntry] model]];
-            [chromatogram identifyPeaksWithForce:YES];
+            [chromatogram detectPeaksAndReturnError:nil];
             [chromatogramsController setSelectedObjects:[NSArray arrayWithObject:chromatogram]];
             // Find peak closest to averageRetentionTime
             float retTime = [[combinedPeak averageRetentionIndex] floatValue];

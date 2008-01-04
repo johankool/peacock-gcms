@@ -15,6 +15,8 @@
 #import "jk_statistics.h"
 #import "netcdf.h"
 #import "NSCoder+CArrayEncoding.h"
+#import "PKPluginProtocol.h"
+#import "JKAppDelegate.h"
 
 @implementation JKChromatogram
 
@@ -52,125 +54,252 @@
     [super dealloc];
 }
 #pragma mark -
+#pragma mark Action PlugIn style
+- (BOOL)detectBaselineAndReturnError:(NSError **)error {
+    JKLogEnteringMethod();
+    NSString *baselineDetectionMethod = [[self document] baselineDetectionMethod];
+    if (!baselineDetectionMethod || [baselineDetectionMethod isEqualToString:@""]) {
+        // Error 805
+        // Baseline Detection Method not set
+        NSString *errorString = NSLocalizedString(@"Baseline Detection Method not set", @"Baseline Detection Method not set error");
+        NSDictionary *userInfoDict =
+        [NSDictionary dictionaryWithObject:errorString
+                                    forKey:NSLocalizedDescriptionKey];
+        NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                       code:805
+                                                   userInfo:userInfoDict] autorelease];
+        *error = anError;             
+        return NO;
+    }
+    
+    NSObject <PKPluginProtocol> *plugIn = [[[NSApp delegate] baselineDetectionMethods] valueForKey:baselineDetectionMethod];
+    if (plugIn) {
+        NSObject <PKBaselineDetectionMethodProtocol> *object = [plugIn sharedObjectForMethod:baselineDetectionMethod];
+        if (object) {
+            // Restore method settings
+            [object setSettings:[[self document] baselineDetectionSettingsForMethod:baselineDetectionMethod]];
+            [object prepareForAction];
+            NSArray *newBaseline = [object baselineForChromatogram:self error:error];
+            [object cleanUpAfterAction];
+            if (newBaseline) {
+                [self setBaseline:newBaseline];
+                // Save method settings on success
+                [[self document] setBaselineDetectionSettings:[object settings] forMethod:baselineDetectionMethod];
+                return YES;
+            } else {
+                return NO;
+            }
+         } else {
+            // Error 801
+            // Invalid Plugin
+             NSString *errorString = NSLocalizedString(@"PlugIn does not implement method as claimed", @"PlugIn does not implement method as claimed error");
+             NSDictionary *userInfoDict =
+             [NSDictionary dictionaryWithObject:errorString
+                                         forKey:NSLocalizedDescriptionKey];
+             NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                          code:801
+                                                      userInfo:userInfoDict] autorelease];
+             *error = anError;             
+             return NO;
+        }
+    } else {
+        // Error 800
+        // Plugin failed to initialize
+        NSString *errorString = NSLocalizedString(@"PlugIn Unloaded/Method not currently available", @"PlugIn Unloaded/Method not currently available error");
+        NSDictionary *userInfoDict =
+        [NSDictionary dictionaryWithObject:errorString
+                                    forKey:NSLocalizedDescriptionKey];
+        NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                     code:800
+                                                 userInfo:userInfoDict] autorelease];
+        *error = anError;                     
+        return NO;
+    }
+}
+
+- (BOOL)detectPeaksAndReturnError:(NSError **)error {
+    NSString *peakDetectionMethod = [[self document] peakDetectionMethod];
+    if (!peakDetectionMethod || [peakDetectionMethod isEqualToString:@""]) {
+        // Error 806
+        // Peak Detection Method not set
+        NSString *errorString = NSLocalizedString(@"Peak Detection Method not set", @"Peak Detection Method not set error");
+        NSDictionary *userInfoDict =
+        [NSDictionary dictionaryWithObject:errorString
+                                    forKey:NSLocalizedDescriptionKey];
+        NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                       code:806
+                                                   userInfo:userInfoDict] autorelease];
+        *error = anError;             
+        return NO;
+    }
+    
+    NSObject <PKPluginProtocol> *plugIn = [[[NSApp delegate] peakDetectionMethods] valueForKey:peakDetectionMethod];
+    if (plugIn) {
+        NSObject <PKPeakDetectionMethodProtocol> *object = [plugIn sharedObjectForMethod:peakDetectionMethod];
+        if (object) {
+            // Restore method settings
+            [object setSettings:[[self document] peakDetectionSettingsForMethod:peakDetectionMethod]];
+            [object prepareForAction];
+            NSArray *newPeaks = [object peaksForChromatogram:self error:error];
+            [object cleanUpAfterAction];
+            if (newPeaks) {
+                // Add peaks, not replacing any that are already there!
+                for (JKPeakRecord *newPeak in newPeaks) {
+                    [self insertObject:newPeak inPeaksAtIndex:[self countOfPeaks]];
+                }
+                // Save method settings on success
+                [[self document] setPeakDetectionSettings:[object settings] forMethod:peakDetectionMethod];
+                return YES;
+            } else {
+                return NO;
+            }
+        } else {
+            // Error 801
+            // Invalid Plugin
+            NSString *errorString = NSLocalizedString(@"PlugIn does not implement method as claimed", @"PlugIn does not implement method as claimed error");
+            NSDictionary *userInfoDict =
+            [NSDictionary dictionaryWithObject:errorString
+                                        forKey:NSLocalizedDescriptionKey];
+            NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                           code:801
+                                                       userInfo:userInfoDict] autorelease];
+            *error = anError;             
+            return NO;
+        }
+    } else {
+        // Error 800
+        // Plugin failed to initialize
+        NSString *errorString = NSLocalizedString(@"PlugIn Unloaded/Method not currently available", @"PlugIn Unloaded/Method not currently available error");
+        NSDictionary *userInfoDict =
+        [NSDictionary dictionaryWithObject:errorString
+                                    forKey:NSLocalizedDescriptionKey];
+        NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                       code:800
+                                                   userInfo:userInfoDict] autorelease];
+        *error = anError;                     
+        return NO;
+    }
+}
 
 #pragma mark Actions
-- (void)obtainBaseline {
-	// get tot intensities
-	// determing running minimum
-	// dilute factor is e.g. 5
-	// get minimum for scan 0 - 5 = min at scan 0
-	// get minimum for scan 0 - 6 = min at scan 1
-	// ...
-	// get minimum for scan 0 - 10 = min at scan 5
-	// get minimum for scan 1 - 11 = min at scan 6
-	// get minimum for scan 2 - 12 = min at scan 7
-	// distance to running min
-	// distance[x] = intensity[x] - minimum[x]
-	// normalize distance[x] ??
-	// determine slope
-	// slope[x] = (intensity[x+1]-intensity[x])/(time[x+1]-time[x])
-	// normalize slope[x] ??
-	// determine pointdensity
-	// pointdensity[x] = sum of (1/distance to point n from x) / n  how about height/width ratio then?!
-	// normalize pointdensity[x] ??
-	// baseline if 
-	// distance[x] = 0 - 0.1 AND
-	// slope[x] = -0.1 - 0 - 0.1 AND
-	// pointdensity[x] = 0.9 - 1
-	int i, j, count, newBaselinePointsCount;
-	count = [self numberOfPoints];
-	float minimumSoFar, densitySoFar, distanceSquared;
-	float minimum[count];
-	float distance[count];
-	float slope[count];
-	float density[count];
-	float *intensity;
-	//	float *time;
-	intensity = totalIntensity;
-	//	time = [self time];
-	// to minimize object calling
-//	float baselineWindowWidthF = [[[self document] baselineWindowWidth] floatValue];
-	int baselineWindowWidthI = [[[self document] baselineWindowWidth] intValue];
-	float baselineDistanceThresholdF = [[[self document] baselineDistanceThreshold] floatValue];
-	float baselineSlopeThresholdF = [[[self document] baselineSlopeThreshold] floatValue];
-//	float baselineDensityThresholdF = [[[self document] baselineDensityThreshold] floatValue];
-    
-//    [[[self document] undoManager] registerUndoWithTarget:self
-//                                      selector:@selector(setBaselinePoints:)
-//                                        object:[baselinePoints mutableCopy]];
-//    [[[self document] undoManager] setActionName:NSLocalizedString(@"Identify Baseline",@"")];
-    
-	[self willChangeValueForKey:@"baseline"];
-
-    int newBaselinePointsScans[count];
-    float newBaselinePointsIntensities[count]; 
-	
-    // determine minimum (but don't go below 0 or above count for j)         
-	for (i = baselineWindowWidthI/2; i < count; i++) {
-		minimumSoFar = intensity[i];
-		for (j = i - baselineWindowWidthI/2; j < i + baselineWindowWidthI/2; j++) {
-            if (j < 0) continue;
-            if (j >= count) continue;
-			if (intensity[j] < minimumSoFar) {
-				minimumSoFar = intensity[j];
-			}
-		}
-		minimum[i] = minimumSoFar;	
-	}
-	
-	for (i = 0; i < count; i++) {
-		distance[i] = fabsf(intensity[i] - minimum[i]);
-	}
-	
-	for (i = 1; i < count-1; i++) {
-		slope[i] = (fabsf((intensity[i+1]-intensity[i])/(time[i+1]-time[i])) + fabsf((intensity[i]-intensity[i-1])/(time[i]-time[i-1])))/2;
-	}
-	slope[0] = 0.0f;
-	slope[count-1] = 0.0f;
-	
-	for (i = 0; i < count; i++) {
-		densitySoFar = 0.0f;
-		for (j = i - baselineWindowWidthI/2; j < i + baselineWindowWidthI/2; j++) {
-            if (j < 0) continue;
-            if (j >= count) continue;
-			distanceSquared = pow(fabsf(intensity[j]-intensity[i]),2) + pow(fabsf(time[j]-time[i]),2);
-			if (distanceSquared != 0.0f) densitySoFar = densitySoFar + 1/sqrt(distanceSquared);	
-		}
-		density[i] = densitySoFar;		
-	}
-	
-	normalize(distance, count);
-	normalize(slope, count);
-	normalize(density, count);
-	
-    // Starting point
-    newBaselinePointsCount = 0;
-    newBaselinePointsScans[newBaselinePointsCount] = 0;
-    newBaselinePointsIntensities[newBaselinePointsCount] = intensity[0];
-    
-	for (i = 1; i < count-1; i++) {
-     //   JKLogDebug(@"intensity: %g; minimum: %g; distance: %g; slope: %g; density:%g",intensity[i],minimum[i],distance[i],slope[i],density[i]);
-		if (distance[i] < baselineDistanceThresholdF && (slope[i] > -baselineSlopeThresholdF  && slope[i] < baselineSlopeThresholdF)) {  //   } && density[i] > baselineDensityThresholdF) { 
-            newBaselinePointsCount++;
-            newBaselinePointsScans[newBaselinePointsCount] = i;
-            newBaselinePointsIntensities[newBaselinePointsCount] = intensity[i];
- 		}
-	}
-    newBaselinePointsCount++;
-    newBaselinePointsScans[newBaselinePointsCount] = count-1;
-    newBaselinePointsIntensities[newBaselinePointsCount] = intensity[count-1];
- 
-    baselinePointsCount = newBaselinePointsCount+1;
-    baselinePointsScans = (int *) realloc(baselinePointsScans, baselinePointsCount*sizeof(int));
-    baselinePointsIntensities = (float *) realloc(baselinePointsIntensities, baselinePointsCount*sizeof(float));
-    
-	for (i = 0; i < baselinePointsCount; i++) {
-        baselinePointsScans[i] = newBaselinePointsScans[i];
-        baselinePointsIntensities[i] = newBaselinePointsIntensities[i];
- 	}
-    [self didChangeValueForKey:@"baseline"];
-
-}	
+//- (void)obtainBaseline {
+//    JKLogWarning(@"DEPRECATED FUNCTION IS USED");
+//	// get tot intensities
+//	// determing running minimum
+//	// dilute factor is e.g. 5
+//	// get minimum for scan 0 - 5 = min at scan 0
+//	// get minimum for scan 0 - 6 = min at scan 1
+//	// ...
+//	// get minimum for scan 0 - 10 = min at scan 5
+//	// get minimum for scan 1 - 11 = min at scan 6
+//	// get minimum for scan 2 - 12 = min at scan 7
+//	// distance to running min
+//	// distance[x] = intensity[x] - minimum[x]
+//	// normalize distance[x] ??
+//	// determine slope
+//	// slope[x] = (intensity[x+1]-intensity[x])/(time[x+1]-time[x])
+//	// normalize slope[x] ??
+//	// determine pointdensity
+//	// pointdensity[x] = sum of (1/distance to point n from x) / n  how about height/width ratio then?!
+//	// normalize pointdensity[x] ??
+//	// baseline if 
+//	// distance[x] = 0 - 0.1 AND
+//	// slope[x] = -0.1 - 0 - 0.1 AND
+//	// pointdensity[x] = 0.9 - 1
+//	int i, j, count, newBaselinePointsCount;
+//	count = [self numberOfPoints];
+//	float minimumSoFar, densitySoFar, distanceSquared;
+//	float minimum[count];
+//	float distance[count];
+//	float slope[count];
+//	float density[count];
+//	float *intensity;
+//	//	float *time;
+//	intensity = totalIntensity;
+//	//	time = [self time];
+//	// to minimize object calling
+////	float baselineWindowWidthF = [[[self document] baselineWindowWidth] floatValue];
+//	int baselineWindowWidthI = [[[self document] baselineWindowWidth] intValue];
+//	float baselineDistanceThresholdF = [[[self document] baselineDistanceThreshold] floatValue];
+//	float baselineSlopeThresholdF = [[[self document] baselineSlopeThreshold] floatValue];
+////	float baselineDensityThresholdF = [[[self document] baselineDensityThreshold] floatValue];
+//    
+////    [[[self document] undoManager] registerUndoWithTarget:self
+////                                      selector:@selector(setBaselinePoints:)
+////                                        object:[baselinePoints mutableCopy]];
+////    [[[self document] undoManager] setActionName:NSLocalizedString(@"Identify Baseline",@"")];
+//    
+//	[self willChangeValueForKey:@"baseline"];
+//
+//    int newBaselinePointsScans[count];
+//    float newBaselinePointsIntensities[count]; 
+//	
+//    // determine minimum (but don't go below 0 or above count for j)         
+//	for (i = baselineWindowWidthI/2; i < count; i++) {
+//		minimumSoFar = intensity[i];
+//		for (j = i - baselineWindowWidthI/2; j < i + baselineWindowWidthI/2; j++) {
+//            if (j < 0) continue;
+//            if (j >= count) continue;
+//			if (intensity[j] < minimumSoFar) {
+//				minimumSoFar = intensity[j];
+//			}
+//		}
+//		minimum[i] = minimumSoFar;	
+//	}
+//	
+//	for (i = 0; i < count; i++) {
+//		distance[i] = fabsf(intensity[i] - minimum[i]);
+//	}
+//	
+//	for (i = 1; i < count-1; i++) {
+//		slope[i] = (fabsf((intensity[i+1]-intensity[i])/(time[i+1]-time[i])) + fabsf((intensity[i]-intensity[i-1])/(time[i]-time[i-1])))/2;
+//	}
+//	slope[0] = 0.0f;
+//	slope[count-1] = 0.0f;
+//	
+//	for (i = 0; i < count; i++) {
+//		densitySoFar = 0.0f;
+//		for (j = i - baselineWindowWidthI/2; j < i + baselineWindowWidthI/2; j++) {
+//            if (j < 0) continue;
+//            if (j >= count) continue;
+//			distanceSquared = pow(fabsf(intensity[j]-intensity[i]),2) + pow(fabsf(time[j]-time[i]),2);
+//			if (distanceSquared != 0.0f) densitySoFar = densitySoFar + 1/sqrt(distanceSquared);	
+//		}
+//		density[i] = densitySoFar;		
+//	}
+//	
+//	normalize(distance, count);
+//	normalize(slope, count);
+//	normalize(density, count);
+//	
+//    // Starting point
+//    newBaselinePointsCount = 0;
+//    newBaselinePointsScans[newBaselinePointsCount] = 0;
+//    newBaselinePointsIntensities[newBaselinePointsCount] = intensity[0];
+//    
+//	for (i = 1; i < count-1; i++) {
+//     //   JKLogDebug(@"intensity: %g; minimum: %g; distance: %g; slope: %g; density:%g",intensity[i],minimum[i],distance[i],slope[i],density[i]);
+//		if (distance[i] < baselineDistanceThresholdF && (slope[i] > -baselineSlopeThresholdF  && slope[i] < baselineSlopeThresholdF)) {  //   } && density[i] > baselineDensityThresholdF) { 
+//            newBaselinePointsCount++;
+//            newBaselinePointsScans[newBaselinePointsCount] = i;
+//            newBaselinePointsIntensities[newBaselinePointsCount] = intensity[i];
+// 		}
+//	}
+//    newBaselinePointsCount++;
+//    newBaselinePointsScans[newBaselinePointsCount] = count-1;
+//    newBaselinePointsIntensities[newBaselinePointsCount] = intensity[count-1];
+// 
+//    baselinePointsCount = newBaselinePointsCount+1;
+//    baselinePointsScans = (int *) realloc(baselinePointsScans, baselinePointsCount*sizeof(int));
+//    baselinePointsIntensities = (float *) realloc(baselinePointsIntensities, baselinePointsCount*sizeof(float));
+//    
+//	for (i = 0; i < baselinePointsCount; i++) {
+//        baselinePointsScans[i] = newBaselinePointsScans[i];
+//        baselinePointsIntensities[i] = newBaselinePointsIntensities[i];
+// 	}
+//    [self didChangeValueForKey:@"baseline"];
+//
+//}	
 
 - (float)baselineValueAtScan:(int)inValue {
     NSAssert(inValue >= 0, @"Scan must be equal or larger than zero");
@@ -209,92 +338,93 @@
 	return i; 
 }
 
-- (void)identifyPeaks
-{
-    [self identifyPeaksWithForce:NO];
-}
-
-- (void)identifyPeaksWithForce:(BOOL)forced
-{
-	int i, j; 
-	int start, end, top;
-    float maximumIntensity;
-    [self willChangeValueForKey:@"peaks"];
-    
-//    if (!forced) {
-//        if ([[self peaks] count] > 0) {
-//          int answer;
-//            answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete current peaks?",@""),NSLocalizedString(@"Peaks that are already identified could cause doublures. It's recommended to delete the current peaks.",@""),NSLocalizedString(@"Delete",@""),NSLocalizedString(@"Cancel",@""),NSLocalizedString(@"Keep",@""));
-//            if (answer == NSOKButton) {
-//                // Delete contents!
-//                [[self peaks] removeAllObjects];
-//             } else if (answer == NSCancelButton) {
-//                return;
-//            } else {
+//- (void)identifyPeaks
+//{
+//    [self identifyPeaksWithForce:NO];
+//}
 //
-//            }
-//        }        
+//- (void)identifyPeaksWithForce:(BOOL)forced
+//{
+//    JKLogWarning(@"DEPRECATED FUNCTION IS USED");
+//	int i, j; 
+//	int start, end, top;
+//    float maximumIntensity;
+//    [self willChangeValueForKey:@"peaks"];
+//    
+////    if (!forced) {
+////        if ([[self peaks] count] > 0) {
+////          int answer;
+////            answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Delete current peaks?",@""),NSLocalizedString(@"Peaks that are already identified could cause doublures. It's recommended to delete the current peaks.",@""),NSLocalizedString(@"Delete",@""),NSLocalizedString(@"Cancel",@""),NSLocalizedString(@"Keep",@""));
+////            if (answer == NSOKButton) {
+////                // Delete contents!
+////                [[self peaks] removeAllObjects];
+////             } else if (answer == NSCancelButton) {
+////                return;
+////            } else {
+////
+////            }
+////        }        
+////    }
+//    
+//    // Baseline check
+//    if (baselinePointsCount <= 0) {
+//        [self obtainBaseline];
+////        answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Baseline Set",@""),NSLocalizedString(@"No baseline have yet been identified in the chromatogram. Use the 'Identify Baseline' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
+////        return;
 //    }
-    
-    // Baseline check
-    if (baselinePointsCount <= 0) {
-        [self obtainBaseline];
-//        answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Baseline Set",@""),NSLocalizedString(@"No baseline have yet been identified in the chromatogram. Use the 'Identify Baseline' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
-//        return;
-    }
-    
-    // Some initial settings
-    maximumIntensity = [self maxTotalIntensity];
-    float peakIdentificationThresholdF = [[[self document] peakIdentificationThreshold] floatValue];
-    for (i = 1; i < numberOfPoints; i++) {
-        if (totalIntensity[i]/[self baselineValueAtScan:i] > (1.0 + peakIdentificationThresholdF)){
-            // determine: high, start, end
-            // start
-            for (j=i; totalIntensity[j] > totalIntensity[j-1]; j--) {
-				if (j <= 0){
-                    break;
-                }
-            }
-            start = j;
-            if (start < 0) start = 0; // Don't go outside bounds!
-            
-            // top
-            for (j=start; totalIntensity[j] < totalIntensity[j+1]; j++) {
-                if (j >= numberOfPoints-1) {
-                    break;
-                }
-            }
-            top=j;
-            if (top >= numberOfPoints) top = numberOfPoints-1; // Don't go outside bounds!
-            
-            // end
-            for (j=top; totalIntensity[j] > totalIntensity[j+1]; j++) {				
-                if (j >= numberOfPoints-1) {
-                    break;
-                }
-            }
-            end=j;
-            if (end >= numberOfPoints-1) end = numberOfPoints-1; // Don't go outside bounds!
-            
-            if ((top != start && top != end) && ((totalIntensity[top] - [self baselineValueAtScan:top])/maximumIntensity > peakIdentificationThresholdF)) { // Sanity check
-                JKPeakRecord *newPeak = [self peakFromScan:start toScan:end];
-                if (![peaks containsObject:newPeak]) {
-                    [self insertObject:newPeak inPeaksAtIndex:[peaks count]];                    
-                }
-            }
-            
-            // Continue looking for peaks from end of this peak
-            i = end;			
-        }
-    }
-    [self didChangeValueForKey:@"peaks"];
-}
+//    
+//    // Some initial settings
+//    maximumIntensity = [self maxTotalIntensity];
+//    float peakIdentificationThresholdF = [[[self document] peakIdentificationThreshold] floatValue];
+//    for (i = 1; i < numberOfPoints; i++) {
+//        if (totalIntensity[i]/[self baselineValueAtScan:i] > (1.0 + peakIdentificationThresholdF)){
+//            // determine: high, start, end
+//            // start
+//            for (j=i; totalIntensity[j] > totalIntensity[j-1]; j--) {
+//				if (j <= 0){
+//                    break;
+//                }
+//            }
+//            start = j;
+//            if (start < 0) start = 0; // Don't go outside bounds!
+//            
+//            // top
+//            for (j=start; totalIntensity[j] < totalIntensity[j+1]; j++) {
+//                if (j >= numberOfPoints-1) {
+//                    break;
+//                }
+//            }
+//            top=j;
+//            if (top >= numberOfPoints) top = numberOfPoints-1; // Don't go outside bounds!
+//            
+//            // end
+//            for (j=top; totalIntensity[j] > totalIntensity[j+1]; j++) {				
+//                if (j >= numberOfPoints-1) {
+//                    break;
+//                }
+//            }
+//            end=j;
+//            if (end >= numberOfPoints-1) end = numberOfPoints-1; // Don't go outside bounds!
+//            
+//            if ((top != start && top != end) && ((totalIntensity[top] - [self baselineValueAtScan:top])/maximumIntensity > peakIdentificationThresholdF)) { // Sanity check
+//                JKPeakRecord *newPeak = [self peakFromScan:start toScan:end];
+//                if (![peaks containsObject:newPeak]) {
+//                    [self insertObject:newPeak inPeaksAtIndex:[peaks count]];                    
+//                }
+//            }
+//            
+//            // Continue looking for peaks from end of this peak
+//            i = end;			
+//        }
+//    }
+//    [self didChangeValueForKey:@"peaks"];
+//}
 
 
 - (JKPeakRecord *)peakFromScan:(int)startScan toScan:(int)endScan {
     // Baseline check
     if (baselinePointsCount <= 0) {
-        [self obtainBaseline];
+        [self detectBaselineAndReturnError:nil];
 //       NSRunInformationalAlertPanel(NSLocalizedString(@"No Baseline Set",@""),NSLocalizedString(@"No baseline have yet been identified in the chromatogram. Use the 'Identify Baseline' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
 //        return nil;
     }
@@ -693,6 +823,22 @@
 }
 
 // Baseline points
+- (void)setBaseline:(NSArray *)newBaseline {
+    [self willChangeValueForKey:@"baseline"];
+    baselinePointsCount = [newBaseline count];
+    baselinePointsScans = (int *) realloc(baselinePointsScans, baselinePointsCount*sizeof(int));
+    baselinePointsIntensities = (float *) realloc(baselinePointsIntensities, baselinePointsCount*sizeof(float));
+ 
+    int i;
+    NSDictionary *baselinePoint;
+    for (i = 0; i < baselinePointsCount; i++) {
+        baselinePoint = [newBaseline objectAtIndex:i];
+        baselinePointsScans[i] = [[baselinePoint valueForKey:@"scan"] intValue];
+        baselinePointsIntensities[i] = [[baselinePoint valueForKey:@"intensity"] floatValue];
+    }
+    [self didChangeValueForKey:@"baseline"];
+}
+
 - (int)baselinePointsCount 
 {
     return baselinePointsCount;

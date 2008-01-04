@@ -13,27 +13,24 @@
 @class JKSearchResult;
 @class JKLibraryEntry;
 
+#import "JKComparableProtocol.h"
+
 @protocol PKPluginProtocol
 
 /*!
  @abstract   Returns an array of NSStrings for baseline detection methods implemented through the plugin.
  */
-+ (NSArray *)baselineDetectionMethodNames;
+- (NSArray *)baselineDetectionMethodNames;
 
 /*!
  @abstract   Returns an array of NSStrings for peak detection methods implemented through the plugin.
  */
-+ (NSArray *)peakDetectionMethodNames;
+- (NSArray *)peakDetectionMethodNames;
 
 /*!
- @abstract   Returns an array of NSStrings for forward search methods implemented through the plugin.
+ @abstract   Returns an array of NSStrings for spectra matching methods implemented through the plugin.
  */
-+ (NSArray *)forwardSearchMethodNames;
-
-/*!
- @abstract   Returns an array of NSStrings for backward search methods implemented through the plugin.
- */
-+ (NSArray *)backwardSearchMethodNames;
+- (NSArray *)spectraMatchingMethodNames;
 
 /*!    
  @abstract   Returns an object that implements the method.
@@ -89,7 +86,7 @@
     @discussion The array should consist of NSDictionaries with a NSNumber for the key "intensity" and at least one NSNumber for the key "time" or the key "seconds".
     @result     Returns an array of baseline points for the chromatogram. Returns nil in case of an error.
 */
-- (NSArray *)baselineForChromatogram:(JKChromatogram *)aChromatogram withError:(NSError **)error;
+- (NSArray *)baselineForChromatogram:(JKChromatogram *)aChromatogram error:(NSError **)error;
 
 - (void)prepareForAction;
 - (void)cleanUpAfterAction;
@@ -106,7 +103,7 @@
  @discussion The array should consist of PKPeak objects.
  @result     Returns an array of peaks for the chromatogram. Returns nil in case of an error.
  */
-- (NSArray *)peaksForChromatogram:(JKChromatogram *)aChromatogram withError:(NSError **)error;
+- (NSArray *)peaksForChromatogram:(JKChromatogram *)aChromatogram error:(NSError **)error;
 
 - (void)prepareForAction;
 - (void)cleanUpAfterAction;
@@ -114,7 +111,7 @@
 @end
 #pragma mark -
 
-@protocol PKForwardSearchMethodProtocol <PKMethodProtocol>
+@protocol PKSpectraMatchingMethodProtocol <PKMethodProtocol>
 
 /*!    
  @abstract   Finds the peaks in a chromatogram.
@@ -123,29 +120,13 @@
  @discussion The array should consist of PKPeak objects.
  @result     Returns an array of peaks for the chromatogram. Returns nil in case of an error.
  */
-- (JKSearchResult *)searchResultForPeak:(JKPeakRecord *)aPeak withError:(NSError **)error;
+- (CGFloat)matchingScoreForSpectrum1:(id <JKComparableProtocol>)spectrum1 comparedToSpectrum2:(id <JKComparableProtocol>)spectrum2 error:(NSError **)error;
 
 - (void)prepareForAction;
 - (void)cleanUpAfterAction;
 
 @end
 #pragma mark -
-
-@protocol PKBackwardSearchMethodProtocol <PKMethodProtocol>
-
-/*!    
- @abstract   Finds the peaks in a chromatogram.
- @param aChromatogram The chromatogram for which the peaks will be returned.
- @param error Can be used to inform the calling object of encountered errors.
- @discussion The array should consist of PKPeak objects.
- @result     Returns an array of peaks for the chromatogram. Returns nil in case of an error.
- */
-- (JKPeakRecord *)peakForLibraryEntry:(JKLibraryEntry *)aLibraryEntry withError:(NSError **)error;
-
-- (void)prepareForAction;
-- (void)cleanUpAfterAction;
-
-@end
 
 #import "JKChromatogram.h"
 

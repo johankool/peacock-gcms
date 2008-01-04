@@ -10,7 +10,7 @@
 #import "jk_statistics.h"
 #import "math.h"
 
-#import "JKGCMSDocument.h"
+//#import "JKGCMSDocument.h"
 
 #pragma mark FUNCTIONS
 
