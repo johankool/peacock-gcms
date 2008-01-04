@@ -26,24 +26,31 @@
 @interface JKAppDelegate : NSApplication <GrowlApplicationBridgeDelegate> {
     IBOutlet NSMenu *showPresetMenu;
     IBOutlet NSMenu *removeChromatogramMenu;
-	IBOutlet MWController *mwWindowController;
     IBOutlet NSWindow *welcomeWindow;
     IBOutlet NSMenu *viewColumnsMenu;
-    IBOutlet NSTableView *documentListTableView;
-    IBOutlet NSPanel *documentListPanel;
         
+    // Window controllers
+   	IBOutlet MWController *mwWindowController;
     NSWindowController *preferencesWindowController;
 	JKBatchProcessWindowController *batchProcessWindowController;
+    JKSummaryController *summaryController;
+    JKRatiosController *ratiosController;
+    PKGraphicalController *graphicalController;
+    
+    // Summary
+    JKSummarizer *summarizer;
+    
+    // Libraries
     JKLibrary *library;
     NSMutableArray *availableDictionaries;
     NSString *libraryConfigurationLoaded;
     NSArray *autocompleteEntries;
     JKLibraryPanelController *libraryPanelController;
     
-    JKSummaryController *summaryController;
-    JKRatiosController *ratiosController;
-    PKGraphicalController *graphicalController;
-    JKSummarizer *summarizer;
+    // PlugIns
+    NSMutableDictionary *baselineDetectionMethods;
+    NSMutableDictionary *peakDetectionMethods;
+    NSMutableDictionary *spectraMatchingMethods;
 }
 
 
@@ -54,7 +61,6 @@
 - (IBAction)showBatchProcessAction:(id)sender;
 - (IBAction)showStatisticsAction:(id)sender;
 - (IBAction)openTestFile:(id)sender;
-- (IBAction)showDocumentList:(id)sender;
 
 - (void)showInFinder;
 - (JKLibrary *)library;
@@ -78,6 +84,12 @@
 - (void)loadAllPlugins;
 - (NSMutableArray *)allBundles;
 - (BOOL)plugInClassIsValid:(Class)plugInClass;
+- (NSArray *)baselineDetectionMethodNames;
+- (NSArray *)peakDetectionMethodNames;
+- (NSArray *)spectraMatchingMethodNames;
+- (NSDictionary *)baselineDetectionMethods;
+- (NSDictionary *)peakDetectionMethods;
+- (NSDictionary *)spectraMatchingMethods;
 #pragma mark -
 
 #pragma mark GROWL SUPPORT
@@ -88,11 +100,9 @@
 
 @property (retain) NSWindowController *preferencesWindowController;
 @property (retain) JKBatchProcessWindowController *batchProcessWindowController;
-@property (retain) NSTableView *documentListTableView;
 @property (retain,getter=summarizer) JKSummarizer *summarizer;
 @property (retain) NSString *libraryConfigurationLoaded;
 @property (retain) NSMenu *showPresetMenu;
-@property (retain) NSPanel *documentListPanel;
 @property (retain,getter=library) JKLibrary *library;
 @property (retain) NSMenu *removeChromatogramMenu;
 @property (retain) MWController *mwWindowController;

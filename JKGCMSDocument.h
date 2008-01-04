@@ -52,28 +52,40 @@ typedef enum {
     NSString *uuid;
 	NSString *absolutePathToNetCDF;
 	NSFileWrapper *peacockFileWrapper;
-	
     
 	// Data stored in Peacock's file because it can't be represented in Andi file format
     NSMutableArray *chromatograms;    
-//    NSMutableArray *peaks;
 	NSMutableDictionary *metadata;
 	
-	// Baseline
+    // PlugIn
+    NSString *baselineDetectionMethod;
+    NSMutableDictionary *baselineDetectionSettings;
+    NSString *peakDetectionMethod;
+    NSMutableDictionary *peakDetectionSettings;
+    NSString *spectraMatchingMethod;
+    NSMutableDictionary *spectraMatchingSettings;
+    
+    // >> MOVE TO PLUGIN
+	// Baseline 
 	NSNumber *baselineWindowWidth;
 	NSNumber *baselineDistanceThreshold;
 	NSNumber *baselineSlopeThreshold;
 	NSNumber *baselineDensityThreshold;
 	// Peak identification
 	NSNumber *peakIdentificationThreshold;
+    // Search options
+    int scoreBasis;
+
+    // << END MOVE TO PLUGIN
+
 	// RetentionIndex = retentionSlope * retentionTime +  retentionRemainder
 	NSNumber *retentionIndexSlope;     
 	NSNumber *retentionIndexRemainder;
+    
 	// Search options
-	BDAlias *libraryAlias;
+//	BDAlias *libraryAlias; // DEPRECATED
     NSString *libraryConfiguration;
     NSString *searchTemplate;
-	int scoreBasis;
     JKSearchDirections searchDirection;
     JKSearchSpectra spectrumToUse;
 	BOOL penalizeForRetentionIndex;
@@ -138,6 +150,28 @@ typedef enum {
 //int intSort(id num1, id num2, void *context);
 
 //- (void)updateLibraryHits;
+
+
+#pragma mark PlugIn Support
+- (NSString *)baselineDetectionMethod;
+- (void)setBaselineDetectionMethod:(NSString *)methodName;
+- (BOOL)validateBaselineDetectionMethod:(id *)ioValue error:(NSError **)outError;
+- (void)setBaselineDetectionSettings:(NSDictionary *)settings forMethod:(NSString *)methodName;
+- (NSDictionary *)baselineDetectionSettingsForMethod:(NSString *)methodName;
+
+- (NSString *)peakDetectionMethod;
+- (void)setPeakDetectionMethod:(NSString *)methodName;
+- (BOOL)validatePeakDetectionMethod:(id *)ioValue error:(NSError **)outError;
+- (void)setPeakDetectionSettings:(NSDictionary *)settings forMethod:(NSString *)methodName;
+- (NSDictionary *)peakDetectionSettingsForMethod:(NSString *)methodName;
+
+- (NSString *)spectraMatchingMethod;
+- (void)setSpectraMatchingMethod:(NSString *)methodName;
+- (BOOL)validateSpectraMatchingMethod:(id *)ioValue error:(NSError **)outError;
+- (void)setSpectraMatchingSettings:(NSDictionary *)settings forMethod:(NSString *)methodName;
+- (NSDictionary *)spectraMatchingSettingsForMethod:(NSString *)methodName;
+
+#pragma mark -
 
 /*! 
     @functiongroup Model
@@ -237,7 +271,6 @@ idAccessor_h(baselineDensityThreshold, setBaselineDensityThreshold)
 idAccessor_h(peakIdentificationThreshold, setPeakIdentificationThreshold)
 idAccessor_h(retentionIndexSlope, setRetentionIndexSlope)
 idAccessor_h(retentionIndexRemainder, setRetentionIndexRemainder)
-idAccessor_h(libraryAlias, setLibraryAlias)
 idAccessor_h(libraryConfiguration, setLibraryConfiguration)
 idAccessor_h(searchTemplate, setSearchTemplate)
 
@@ -263,4 +296,5 @@ idAccessor_h(maximumRetentionIndexDifference, setMaximumRetentionIndexDifference
 @property (retain) JKGCMSPrintView *printView;
 @property (retain) NSFileWrapper *peacockFileWrapper;
 @property (retain) NSString *_remainingString;
+
 @end

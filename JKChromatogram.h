@@ -39,12 +39,17 @@
 - (id)initWithModel:(NSString *)model;
 #pragma mark -
 
+#pragma mark Action PlugIn style
+- (BOOL)detectBaselineAndReturnError:(NSError **)error;
+- (BOOL)detectPeaksAndReturnError:(NSError **)error;
+#pragma mark -
+   
     /*! @functiongroup Actions */
 #pragma mark Actions
-
-- (void)obtainBaseline;
-- (void)identifyPeaks;
-- (void)identifyPeaksWithForce:(BOOL)forced;
+// DEPRECATED
+// DEPRECATED - (void)obtainBaseline;
+// DEPRECATED - (void)identifyPeaks;
+// DEPRECATED - (void)identifyPeaksWithForce:(BOOL)forced;
 - (JKPeakRecord *)peakFromScan:(int)startScan toScan:(int)endScan;
 //- (void)addPeakFromScan:(int)startScan toScan:(int)endScan withLeftBaseline:(float)baselineLeft andRightBaseline:(float)baselineRight;
 - (BOOL)combinePeaks:(NSArray *)peaksToCombine;
@@ -105,6 +110,7 @@
 - (void)replaceObjectInPeaksAtIndex:(int)index withObject:(JKPeakRecord *)aPeak;
 - (BOOL)validatePeak:(JKPeakRecord **)aPeak error:(NSError **)outError;
 
+- (void)setBaseline:(NSArray *)newBaseline;
 - (int)baselinePointsCount;
 - (void)setBaselinePointsScans:(int *)inArray withCount:(int)inValue;
 - (int *)baselinePointsScans;

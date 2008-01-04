@@ -269,6 +269,7 @@
 //#pragma mark optimization_level 3
 
 - (float)scoreComparedTo:(id <JKComparableProtocol>)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex { // Could be changed to id <protocol> to resolve warning	
+    JKLogWarning(@"DEPRECATED METHOD BEING USED");
 	int i,j,k,count1,count2;
 	float score, score2, score3, maxIntensityLibraryEntry, maxIntensitySpectrum;
 	i=0; j=0; k=0; 
@@ -504,6 +505,16 @@
 //        JKLogDebug(@"score %g [%d] label %@ score1 %g score2 %g",(1.0f-score/score2)*100.0f, scoreBasis, [libraryEntry model], score, score2);
 		return (1.0f-score/score2)*100.0f;			
 //	}
+}
+
+- (BOOL)hasScannedMassRange {
+    return YES;
+}
+- (float)minScannedMassRange {
+    return [[(JKGCMSDocument *)[self document] minimumScannedMassRange] floatValue];
+}
+- (float)maxScannedMassRange {
+    return [[(JKGCMSDocument *)[self document] maximumScannedMassRange] floatValue];
 }
 
 - (NSNumber *)retentionIndex {

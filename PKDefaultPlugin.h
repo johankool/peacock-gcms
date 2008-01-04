@@ -10,8 +10,12 @@
 
 #import "PKPluginProtocol.h"
 
-@interface PKDefaultPlugin : NSObject <PKPluginProtocol> {
+@class PKAbundanceSpectraMatchingMethod;
+@class PKMZValuesSpectraMatchingMethod;
 
+@interface PKDefaultPlugin : NSObject <PKPluginProtocol> {
+    PKAbundanceSpectraMatchingMethod *abundanceMethodObject;
+    PKMZValuesSpectraMatchingMethod *mzValuesMethodObject;
 }
 
 @end

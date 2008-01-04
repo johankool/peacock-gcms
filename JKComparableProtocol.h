@@ -5,5 +5,8 @@
 - (float *)masses;
 - (float *)intensities;
 - (NSString *)model;
+- (BOOL)hasScannedMassRange;
+- (float)minScannedMassRange;
+- (float)maxScannedMassRange;
 @end
 

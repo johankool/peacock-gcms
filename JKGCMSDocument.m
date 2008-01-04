@@ -23,6 +23,7 @@
 #import "jk_statistics.h"
 #import "netcdf.h"
 #import "JKSearchResult.h"
+#import "PKPluginProtocol.h"
 
 NSString *const JKGCMSDocument_DocumentDeactivateNotification = @"JKGCMSDocument_DocumentDeactivateNotification";
 NSString *const JKGCMSDocument_DocumentActivateNotification   = @"JKGCMSDocument_DocumentActivateNotification";
@@ -52,7 +53,6 @@ int const JKGCMSDocument_Version = 7;
 		peakIdentificationThreshold = [[defaultValues valueForKey:@"peakIdentificationThreshold"] retain];
 		retentionIndexSlope = [[defaultValues valueForKey:@"retentionIndexSlope"] retain];
 		retentionIndexRemainder = [[defaultValues valueForKey:@"retentionIndexRemainder"] retain];
-		libraryAlias = [[BDAlias aliasWithPath:[defaultValues valueForKey:@"libraryAlias"]] retain];
         libraryConfiguration = [[defaultValues valueForKey:@"libraryConfiguration"] retain];
         searchTemplate = [[defaultValues valueForKey:@"searchTemplate"] retain];
         
@@ -100,7 +100,6 @@ int const JKGCMSDocument_Version = 7;
 	[peakIdentificationThreshold release];
 	[retentionIndexSlope release];
 	[retentionIndexRemainder release];
-	[libraryAlias release];
     [libraryConfiguration release];
     [searchTemplate release];
 	[markAsIdentifiedThreshold release];
@@ -278,7 +277,7 @@ int const JKGCMSDocument_Version = 7;
         [self setRetentionIndexSlope:[unarchiver decodeObjectForKey:@"retentionIndexSlope"]];
         [self setRetentionIndexRemainder:[unarchiver decodeObjectForKey:@"retentionIndexRemainder"]];	
         // because we normally expand aliases and open them we need to wrap this back into a BDAlias
-        [self setLibraryAlias:[unarchiver decodeObjectForKey:@"libraryAlias"]];//[BDAlias aliasWithPath:[[unarchiver decodeObjectForKey:@"libraryAlias"] fileName]]];
+//        [self setLibraryAlias:[unarchiver decodeObjectForKey:@"libraryAlias"]];//[BDAlias aliasWithPath:[[unarchiver decodeObjectForKey:@"libraryAlias"] fileName]]];
         [self setScoreBasis:[unarchiver decodeIntForKey:@"scoreBasis"]];
         [self setSearchDirection:[unarchiver decodeIntForKey:@"searchDirection"]];
         [self setSpectrumToUse:[unarchiver decodeIntForKey:@"spectrumToUse"]];
@@ -317,9 +316,10 @@ int const JKGCMSDocument_Version = 7;
 - (id)archiver:(NSKeyedArchiver *)archiver willEncodeObject:(id)object {
     if (object == self) {
         return _documentProxy;
-    } else if ([object isKindOfClass:[JKLibrary class]]) {
-        return [BDAlias aliasWithPath:[object fileName]];
     }
+//    else if ([object isKindOfClass:[JKLibrary class]]) {
+//        return [BDAlias aliasWithPath:[object fileName]];
+//    }
     return object;
 }
 
@@ -548,6 +548,150 @@ int const JKGCMSDocument_Version = 7;
 }
 #pragma mark -
 
+#pragma mark PlugIn Support
+- (NSString *)baselineDetectionMethod {
+    return baselineDetectionMethod;
+}
+- (void)setBaselineDetectionMethod:(NSString *)methodName {
+    if (![methodName isEqualToString:baselineDetectionMethod]) {  
+ 		[[self undoManager] registerUndoWithTarget:self
+									      selector:@selector(setBaselineDetectionMethod:)
+											object:baselineDetectionMethod];
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Change Baseline Detection Method", @"Undo for Change Baseline Detection Method")];
+        }
+        
+        [methodName copy];
+        [baselineDetectionMethod autorelease];
+        baselineDetectionMethod = methodName;   
+	}
+}
+- (BOOL)validateBaselineDetectionMethod:(id *)ioValue error:(NSError **)outError {
+    BOOL valid = NO;
+    // The method name should be one registered with the app from one of its plugins
+    for (NSString *methodName in [[NSApp delegate] baselineDetectionMethodNames]) {
+        if ([*ioValue isEqualToString:methodName]) {
+            valid = YES;
+        } 
+    }
+    
+    if (!valid) {
+        NSString *errorString = NSLocalizedString(@"Unknown Baseline Detection Method", @"Unknown Baseline Detection Method error");
+        NSDictionary *userInfoDict =
+        [NSDictionary dictionaryWithObject:errorString
+                                    forKey:NSLocalizedDescriptionKey];
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                     code:802
+                                                 userInfo:userInfoDict] autorelease];
+        *outError = error;
+        return NO;
+    }
+    
+    return YES;    
+}
+- (void)setBaselineDetectionSettings:(NSDictionary *)settings forMethod:(NSString *)methodName {
+    [baselineDetectionSettings setObject:settings forKey:methodName];
+}
+- (NSDictionary *)baselineDetectionSettingsForMethod:(NSString *)methodName {
+    return [baselineDetectionSettings objectForKey:methodName];
+}
+
+- (NSString *)peakDetectionMethod {
+    return peakDetectionMethod;
+}
+- (void)setPeakDetectionMethod:(NSString *)methodName {
+    if (![methodName isEqualToString:peakDetectionMethod]) {  
+ 		[[self undoManager] registerUndoWithTarget:self
+									      selector:@selector(setPeakDetectionMethod:)
+											object:peakDetectionMethod];
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Detection Method", @"Undo for Change Peak Detection Method")];
+        }
+        
+        [methodName copy];
+        [peakDetectionMethod autorelease];
+        peakDetectionMethod = methodName;   
+	}
+}
+- (BOOL)validatePeakDetectionMethod:(id *)ioValue error:(NSError **)outError {
+    BOOL valid = NO;
+    // The method name should be one registered with the app from one of its plugins
+    for (NSString *methodName in [[NSApp delegate] peakDetectionMethodNames]) {
+        if ([*ioValue isEqualToString:methodName]) {
+            valid = YES;
+        } 
+    }
+    
+    if (!valid) {
+        NSString *errorString = NSLocalizedString(@"Unknown Peak Detection Method", @"Unknown Peak Detection Method error");
+        NSDictionary *userInfoDict =
+        [NSDictionary dictionaryWithObject:errorString
+                                    forKey:NSLocalizedDescriptionKey];
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                     code:803
+                                                 userInfo:userInfoDict] autorelease];
+        *outError = error;
+        return NO;
+    }
+    
+    return YES;    
+}
+- (void)setPeakDetectionSettings:(NSDictionary *)settings forMethod:(NSString *)methodName {
+    [peakDetectionSettings setObject:settings forKey:methodName];
+}
+- (NSDictionary *)peakDetectionSettingsForMethod:(NSString *)methodName {
+    return [peakDetectionSettings objectForKey:methodName];
+}
+
+- (NSString *)spectraMatchingMethod {
+    return spectraMatchingMethod;
+}
+- (void)setSpectraMatchingMethod:(NSString *)methodName {
+    if (![methodName isEqualToString:spectraMatchingMethod]) {  
+ 		[[self undoManager] registerUndoWithTarget:self
+									      selector:@selector(setSpectraMatchingMethod:)
+											object:spectraMatchingMethod];
+        if (![[self undoManager] isUndoing]) {
+            [[self undoManager] setActionName:NSLocalizedString(@"Change Spectra Matching Method", @"Undo for Change Spectra Matching Method")];
+        }
+        
+        [methodName copy];
+        [spectraMatchingMethod autorelease];
+        spectraMatchingMethod = methodName;   
+	}
+}
+- (BOOL)validateSpectraMatchingMethod:(id *)ioValue error:(NSError **)outError {
+    BOOL valid = NO;
+    // The method name should be one registered with the app from one of its plugins
+    for (NSString *methodName in [[NSApp delegate] spectraMatchingMethodNames]) {
+        if ([*ioValue isEqualToString:methodName]) {
+            valid = YES;
+        } 
+    }
+    
+    if (!valid) {
+        NSString *errorString = NSLocalizedString(@"Unknown Spectra Matching Method", @"Unknown Spectra Matching Method error");
+        NSDictionary *userInfoDict =
+        [NSDictionary dictionaryWithObject:errorString
+                                    forKey:NSLocalizedDescriptionKey];
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                     code:804
+                                                 userInfo:userInfoDict] autorelease];
+        *outError = error;
+        return NO;
+    }
+    
+    return YES;    
+}
+- (void)setSpectraMatchingSettings:(NSDictionary *)settings forMethod:(NSString *)methodName {
+    [spectraMatchingSettings setObject:settings forKey:methodName];
+}
+- (NSDictionary *)spectraMatchingSettingsForMethod:(NSString *)methodName {
+    return [spectraMatchingSettings objectForKey:methodName];
+}
+#pragma mark -
+
+
 #pragma mark Model
 - (JKChromatogram *)ticChromatogram {
     // Check if such a chromatogram is already available
@@ -770,7 +914,7 @@ int const JKGCMSDocument_Version = 7;
     [chromatogram setTotalIntensity:intensities withCount:num_scan];
     
     // Obtain the baseline
-    [chromatogram obtainBaseline];
+    [chromatogram detectBaselineAndReturnError:nil];
     
     free(massValues);
 	[chromatogram autorelease];	
@@ -835,6 +979,55 @@ int const JKGCMSDocument_Version = 7;
 	return spectrum;
 }
 
+- (id)objectForSpectraMatching:(NSError **)error {
+//       NSString *spectraMatchingMethod = [[self document] spectraMatchingMethod];
+    if (!spectraMatchingMethod || [spectraMatchingMethod isEqualToString:@""]) {
+        // Error 807
+        // Spectra Matching Method not set
+        NSString *errorString = NSLocalizedString(@"Spectra Matching Method not set", @"Spectra Matching Method not set error");
+        NSDictionary *userInfoDict =
+        [NSDictionary dictionaryWithObject:errorString
+                                    forKey:NSLocalizedDescriptionKey];
+        NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                       code:807
+                                                   userInfo:userInfoDict] autorelease];
+        *error = anError;             
+        return NO;
+    }
+    
+    NSObject <PKPluginProtocol> *plugIn = [[[NSApp delegate] spectraMatchingMethods] valueForKey:spectraMatchingMethod];
+    if (plugIn) {
+        NSObject <PKSpectraMatchingMethodProtocol> *object = [plugIn sharedObjectForMethod:spectraMatchingMethod];
+        if (object) {
+            return object;
+        } else {
+            // Error 801
+            // Invalid Plugin
+            NSString *errorString = NSLocalizedString(@"PlugIn does not implement method as claimed", @"PlugIn does not implement method as claimed error");
+            NSDictionary *userInfoDict =
+            [NSDictionary dictionaryWithObject:errorString
+                                        forKey:NSLocalizedDescriptionKey];
+            NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                           code:801
+                                                       userInfo:userInfoDict] autorelease];
+            *error = anError;             
+            return nil;
+        }
+    } else {
+        // Error 800
+        // Plugin failed to initialize
+        NSString *errorString = NSLocalizedString(@"PlugIn Unloaded/Method not currently available", @"PlugIn Unloaded/Method not currently available error");
+        NSDictionary *userInfoDict =
+        [NSDictionary dictionaryWithObject:errorString
+                                    forKey:NSLocalizedDescriptionKey];
+        NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                       code:800
+                                                   userInfo:userInfoDict] autorelease];
+        *error = anError;                     
+        return nil;
+    }
+}
+
 - (BOOL)performLibrarySearchForChromatograms:(NSArray *)someChromatograms {
     switch (searchDirection) {
     case JKForwardSearchDirection:
@@ -890,6 +1083,12 @@ int const JKGCMSDocument_Version = 7;
         entriesCount = [libraryEntries count];
     }    
 
+    // Get Spectra Matching Object from Plugin
+    NSObject <PKSpectraMatchingMethodProtocol> *spectraMatchingObject = [self objectForSpectraMatching:nil];
+    // Restore method settings
+    [spectraMatchingObject setSettings:[self spectraMatchingSettingsForMethod:spectraMatchingMethod]];
+    [spectraMatchingObject prepareForAction];
+    
 	// Loop through inPeaks(=combined spectra) and determine score
     chromatogramCount = [someChromatograms count];
 	[progressIndicator setIndeterminate:NO];
@@ -919,7 +1118,10 @@ int const JKGCMSDocument_Version = 7;
             }
             
             for (libraryEntry in libraryEntries) {
-                score = [peakSpectrum scoreComparedTo:libraryEntry];                    
+//                score = [peakSpectrum scoreComparedTo:libraryEntry];    
+                score = [spectraMatchingObject matchingScoreForSpectrum1:peakSpectrum comparedToSpectrum2:libraryEntry error:nil];
+
+                
                 if (score >= minimumScoreSearchResultsF) {
                     JKSearchResult *searchResult = [[JKSearchResult alloc] init];
                     [searchResult setScore:[NSNumber numberWithFloat:score]];
@@ -941,6 +1143,8 @@ int const JKGCMSDocument_Version = 7;
         [progressIndicator setDoubleValue:1.0*chromatogramCount];
     }
     
+    // Notify the Spectra Matching Object that we are done
+    [spectraMatchingObject cleanUpAfterAction];
 	
 	if (mainWindowController)
 		[[mainWindowController chromatogramView] setNeedsDisplay:YES];
@@ -979,10 +1183,13 @@ int const JKGCMSDocument_Version = 7;
     if (!libraryEntries) {
         return NO;
     }
-//    entriesCount = [libraryEntries count];
-//	
-//    [progressIndicator setIndeterminate:NO];
-//	[progressIndicator setMaxValue:entriesCount*1.0];
+ 
+    // Get Spectra Matching Object from Plugin
+    NSObject <PKSpectraMatchingMethodProtocol> *spectraMatchingObject = [self objectForSpectraMatching:nil];
+    // Restore method settings
+    [spectraMatchingObject setSettings:[self spectraMatchingSettingsForMethod:spectraMatchingMethod]];
+    [spectraMatchingObject prepareForAction];
+
     [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:NSLocalizedString(@"Comparing Library Entries",@"") waitUntilDone:NO];
 	JKSpectrum *peakSpectrum = nil;
     if (spectrumToUse == JKSpectrumSearchSpectrum) {
@@ -994,7 +1201,8 @@ int const JKGCMSDocument_Version = 7;
     }
     
     for (libraryEntry in libraryEntries) {
-        score = [peakSpectrum scoreComparedTo:libraryEntry];                    
+        score = [spectraMatchingObject matchingScoreForSpectrum1:peakSpectrum comparedToSpectrum2:libraryEntry error:nil];
+                    
         if (score >= minimumScoreSearchResultsF) {
             JKSearchResult *searchResult = [[JKSearchResult alloc] init];
             [searchResult setScore:[NSNumber numberWithFloat:score]];
@@ -1007,6 +1215,9 @@ int const JKGCMSDocument_Version = 7;
 //        [progressIndicator performSelectorOnMainThread:@selector(incrementBy:) withObject:[NSNumber numberWithDouble:1.0] waitUntilDone:NO];
 //        [progressIndicator incrementBy:1.0];
     }
+
+    // Notify the Spectra Matching Object that we are done
+    [spectraMatchingObject cleanUpAfterAction];
 
 //    _isBusy = NO;
 	return YES;
@@ -1073,6 +1284,12 @@ int const JKGCMSDocument_Version = 7;
 	[progressIndicator setMaxValue:entriesCount*1.0];
  //   JKLogDebug(@"entriesCount %d peaksCount %d",entriesCount, peaksCount);
 
+    // Get Spectra Matching Object from Plugin
+    NSObject <PKSpectraMatchingMethodProtocol> *spectraMatchingObject = [self objectForSpectraMatching:nil];
+    // Restore method settings
+    [spectraMatchingObject setSettings:[self spectraMatchingSettingsForMethod:spectraMatchingMethod]];
+    [spectraMatchingObject prepareForAction];
+
     [self willChangeValueForKey:@"peaks"];
 	
     for (j = 0; j < entriesCount; j++) {
@@ -1123,10 +1340,10 @@ int const JKGCMSDocument_Version = 7;
         }
         if ([chromatogramToSearch baselinePointsCount] == 0) {              
             [newChromatograms addObject:chromatogramToSearch];
-            [chromatogramToSearch obtainBaseline];                          
+            [chromatogramToSearch detectBaselineAndReturnError:nil];                          
         }
 
-        [chromatogramToSearch identifyPeaksWithForce:YES];                          
+        [chromatogramToSearch detectPeaksAndReturnError:nil];                          
         if ([[chromatogramToSearch peaks] count] == 0) {
             JKLogError(@"No peaks found for chromatogram with model '%@'. bls: %d", [chromatogramToSearch model],[chromatogramToSearch baselinePointsCount]);                        
         }
@@ -1139,7 +1356,8 @@ int const JKGCMSDocument_Version = 7;
 
 		for (k = 0; k < peaksCount; k++) {
  //           if (fabsf([[[[chromatogramToSearch peaks] objectAtIndex:k] retentionIndex] floatValue] - [[libraryEntry retentionIndex] floatValue]) < aMaximumRetentionIndexDifference) {
-                score = [[[[chromatogramToSearch peaks] objectAtIndex:k] spectrum] scoreComparedTo:libraryEntry];
+                score = [spectraMatchingObject matchingScoreForSpectrum1:[[[chromatogramToSearch peaks] objectAtIndex:k] spectrum] comparedToSpectrum2:libraryEntry error:nil];;
+
                 if (score >= maximumScore) {
                     maximumScore = score;
                     maximumIndex = k;
@@ -1167,6 +1385,9 @@ int const JKGCMSDocument_Version = 7;
         [progressIndicator incrementBy:1.0];
 	}
     
+    // Notify the Spectra Matching Object that we are done
+    [spectraMatchingObject cleanUpAfterAction];
+
     // remove peaks that have no search results
 	[progressIndicator setIndeterminate:YES];
     [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:NSLocalizedString(@"Cleaning Up",@"") waitUntilDone:NO];
@@ -1215,7 +1436,6 @@ int const JKGCMSDocument_Version = 7;
 	[self setPeakIdentificationThreshold:[defaultValues valueForKey:@"peakIdentificationThreshold"]];
 	[self setRetentionIndexSlope:[defaultValues valueForKey:@"retentionIndexSlope"]];
 	[self setRetentionIndexRemainder:[defaultValues valueForKey:@"retentionIndexRemainder"]];
-	[self setLibraryAlias:[BDAlias aliasWithPath:[defaultValues valueForKey:@"libraryAlias"]]];
 	[self setScoreBasis:[[defaultValues valueForKey:@"scoreBasis"] intValue]];
 	[self setSearchDirection:[[defaultValues valueForKey:@"searchDirection"] intValue]];
 	[self setSpectrumToUse:[[defaultValues valueForKey:@"spectrumToUse"] intValue]];
@@ -1416,7 +1636,8 @@ int const JKGCMSDocument_Version = 7;
 #pragma mark -
 
 #pragma mark Actions (OBSOLETE)
-- (void)redistributedSearchResults:(JKPeakRecord *)originatingPeak{
+- (void)redistributedSearchResults:(JKPeakRecord *)originatingPeak {
+    JKLogWarning(@"DEPRECATED METHOD IS USED");
 	int k;
 	int peaksCount;
 	int maximumIndex;
@@ -1673,7 +1894,6 @@ idUndoAccessor(baselineDensityThreshold, setBaselineDensityThreshold, @"Change B
 idUndoAccessor(peakIdentificationThreshold, setPeakIdentificationThreshold, @"Change Peak Identification Threshold")
 idUndoAccessor(retentionIndexSlope, setRetentionIndexSlope, @"Change Retention Index Slope")
 idUndoAccessor(retentionIndexRemainder, setRetentionIndexRemainder, @"Change Retention Index Remainder")
-idUndoAccessor(libraryAlias, setLibraryAlias, @"Change Library")
 idUndoAccessor(libraryConfiguration, setLibraryConfiguration, @"Change Library Configuration")
 idUndoAccessor(searchTemplate, setSearchTemplate, @"Change Search Template")
 intUndoAccessor(scoreBasis, setScoreBasis, @"Change Score Basis")
@@ -1685,6 +1905,7 @@ idUndoAccessor(minimumScoreSearchResults, setMinimumScoreSearchResults, @"Change
 idUndoAccessor(minimumScannedMassRange, setMinimumScannedMassRange, @"Change Minimum Scanned Mass Range")
 idUndoAccessor(maximumScannedMassRange, setMaximumScannedMassRange, @"Change Maximum Scanned Mass Range")
 idUndoAccessor(maximumRetentionIndexDifference, setMaximumRetentionIndexDifference, @"Change Maximum Retention Index Difference")
+
 
 boolAccessor(abortAction, setAbortAction)
 

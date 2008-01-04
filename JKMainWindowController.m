@@ -17,6 +17,7 @@
 #import "JKMoleculeModel.h"
 #import "JKMoleculeView.h"
 #import "JKPeakRecord.h"
+#import "JKSearchResult.h"
 #import "JKSpectrum.h"
 #import "PKGraphView.h"
 #import "RBSplitSubview.h"
@@ -196,16 +197,29 @@ static void *PeaksObservationContext = (void *)1103;
            didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
               contextInfo: nil];
     } else if ([[[self document] chromatograms] count] == 1) {
-        [[[self document] chromatograms] makeObjectsPerformSelector:@selector(obtainBaseline)];
+        NSError *error;
+        for (JKChromatogram *chromatogram in [chromatogramsController selectedObjects]) {
+            if (![chromatogram detectBaselineAndReturnError:&error]) {
+                [self presentError:error];
+            }
+        }
+        [NSApp endSheet:chromatogramSelectionSheet];
         [chromatogramView setShouldDrawBaseline:YES];
     }
    
 }
 
 - (void)obtainBaselineForSelectedChromatograms:(id)sender {
-    [[chromatogramsController selectedObjects] makeObjectsPerformSelector:@selector(obtainBaseline)];
-	[chromatogramView setShouldDrawBaseline:YES];
+    JKLogEnteringMethod();
+
+    NSError *error;
+    for (JKChromatogram *chromatogram in [chromatogramsController selectedObjects]) {
+        if (![chromatogram detectBaselineAndReturnError:&error]) {
+            [self presentError:error];
+        }
+    }
     [NSApp endSheet:chromatogramSelectionSheet];
+    [chromatogramView setShouldDrawBaseline:YES];
 }
 
 - (IBAction)cancel:(id)sender {
@@ -224,13 +238,23 @@ static void *PeaksObservationContext = (void *)1103;
            didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
               contextInfo: nil];
     } else if ([[[self document] chromatograms] count] == 1) {
-        [[[self document] chromatograms] makeObjectsPerformSelector:@selector(identifyPeaks)];
+        NSError *error;
+        for (JKChromatogram *chromatogram in [chromatogramsController selectedObjects]) {
+            if (![chromatogram detectPeaksAndReturnError:&error]) {
+                [self presentError:error];
+            }
+        }
         [chromatogramView setShouldDrawPeaks:YES];
     }
 }
 
 - (void)identifyPeaksForSelectedChromatograms:(id)sender {
-    [[chromatogramsController selectedObjects] makeObjectsPerformSelector:@selector(identifyPeaks)];
+    NSError *error;
+    for (JKChromatogram *chromatogram in [chromatogramsController selectedObjects]) {
+        if (![chromatogram detectPeaksAndReturnError:&error]) {
+            [self presentError:error];
+        }
+    }
     [chromatogramView setShouldDrawPeaks:YES];
     [NSApp endSheet:chromatogramSelectionSheet];
 }

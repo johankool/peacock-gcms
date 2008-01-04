@@ -143,18 +143,6 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 	if (self != nil) {
 		[self setDelegate:self];		
         
-        NSNotificationCenter *center;
-		center = [NSNotificationCenter defaultCenter];
-        
-        [center addObserver: self
-				   selector: @selector(documentActivateNotification:)
-					   name: NSWindowDidBecomeMainNotification
-					 object: nil];
-        [center addObserver: self
-				   selector: @selector(documentDeactivateNotification:)
-					   name: NSWindowDidResignMainNotification
-					 object: nil];
-        
         // Create and register font name value transformer
         NSValueTransformer *transformer = [[BooleanToStringTransformer alloc] init];
         [NSValueTransformer setValueTransformer:transformer forName:@"BooleanToStringTransformer"];
@@ -164,9 +152,12 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
         libraryConfigurationLoaded = @"";
      
         summarizer = [[JKSummarizer alloc] init];
-
-//        [[NSExceptionHandler defaultExceptionHandler] setDelegate:self];
-//        [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:NSHandleOtherExceptionMask];
+        baselineDetectionMethods = [[NSMutableDictionary alloc] init];
+        peakDetectionMethods = [[NSMutableDictionary alloc] init];        
+        spectraMatchingMethods = [[NSMutableDictionary alloc] init];
+        
+        [[NSExceptionHandler defaultExceptionHandler] setDelegate:self];
+        [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:NSHandleOtherExceptionMask];
 	}
 	return self;
 }
@@ -179,6 +170,11 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 					object: nil];
     [availableDictionaries release];
     [autocompleteEntries release];
+    
+    [baselineDetectionMethods release]; 
+    [peakDetectionMethods release];
+    [spectraMatchingMethods release];
+    
     [super dealloc];
 }
 
@@ -212,11 +208,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"showMassCalculatorOnLaunch"] boolValue] == YES) {
         [mwWindowController showWindow:self];
     } 
-    
-    if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"showDocumentListOnLaunch"] boolValue] == YES) {
-        [documentListPanel orderFront:self];
-    } 
-    
+     
     // Make the main window main 
     [[[PKDocumentController sharedDocumentController] window] makeKeyAndOrderFront:self];
 
@@ -229,10 +221,8 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 	[GrowlApplicationBridge setGrowlDelegate:self];
     
     // Load plugins
-//    [self loadAllPlugins];
-    
-    [documentListTableView setDoubleAction:@selector(doubleClickAction:)];
-    
+    [self loadAllPlugins];
+        
 //    // We call load library with "None" even though it's not the default. This causes the detection of the available libraries, but doesn't load them. When the application needs it they will get loaded because the loaded configuration ("None") will be different from the selected one.
 //    libraryConfigurationLoaded = @"";
 //	[self loadLibraryForConfiguration:@"None"];
@@ -688,9 +678,11 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 NSString *ext = @"peacock-plugin"; 
 NSString *appSupportSubpath = @"Peacock/PlugIns"; 
 
-- (void)loadAllPlugins 
-{ 
-    NSMutableArray *instances; 
+- (void)loadAllPlugins { 
+    [self willChangeValueForKey:@"baselineDetectionMethodNames"];
+    [self willChangeValueForKey:@"peakDetectionMethodNames"]; 
+    [self willChangeValueForKey:@"spectraMatchingMethodNames"];
+    
     NSMutableArray *bundlePaths; 
     NSEnumerator *pathEnum; 
     NSString *currPath; 
@@ -698,32 +690,50 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
     Class currPrincipalClass; 
     id currInstance; 
     bundlePaths = [NSMutableArray array]; 
-    if(!instances) 
-    { 
-        instances = [[NSMutableArray alloc] init]; 
-    } 
     [bundlePaths addObjectsFromArray:[self allBundles]]; 
     pathEnum = [bundlePaths objectEnumerator]; 
-    while(currPath = [pathEnum nextObject]) 
-    { 
+    while (currPath = [pathEnum nextObject]) { 
         currBundle = [NSBundle bundleWithPath:currPath]; 
-        if(currBundle) 
-        { 
+        NSError *error = [[NSError alloc] init];
+        if (![currBundle loadAndReturnError:&error]) {
+            [self presentError:error];
+            continue;
+        }
+        [error release];
+        if(currBundle) { 
             currPrincipalClass = [currBundle principalClass]; 
-            if(currPrincipalClass && 
-               [self plugInClassIsValid:currPrincipalClass])  // Validation 
-            { 
+            if (currPrincipalClass && 
+               [self plugInClassIsValid:currPrincipalClass]) { // Validation { 
                 currInstance = [[currPrincipalClass alloc] init]; 
-                if(currInstance) 
-                { 
-                    [instances addObject:[currInstance autorelease]]; 
-                    JKLogDebug(@"Plugin loaded: %@",currBundle);
-                } 
+                if (currInstance) { 
+                    JKLogDebug(@"Plugin started loading: %@",currBundle);
+                    NSString *methodName;
+                    for (methodName in [currInstance baselineDetectionMethodNames]) {
+                        [baselineDetectionMethods setObject:currInstance forKey:methodName];
+                    }
+                    for (methodName in [currInstance peakDetectionMethodNames]) {
+                        [peakDetectionMethods setObject:currInstance forKey:methodName];
+                    }
+                    for (methodName in [currInstance spectraMatchingMethodNames]) {
+                        [spectraMatchingMethods setObject:currInstance forKey:methodName];
+                    }
+                 } else {
+                     error = [[[NSError alloc] initWithDomain:@"Peacock" code:800 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Plugin failed to initialize", NSLocalizedDescriptionKey, @"", NSLocalizedFailureReasonErrorKey, @"", NSLocalizedRecoverySuggestionErrorKey, nil]] autorelease];
+                    [self presentError:error];
+                }
             } else {
-                JKLogDebug(@"Plugin failed to load: %@",currBundle);
-            }
-        } 
+                error = [[[NSError alloc] initWithDomain:@"Peacock" code:801 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Invalid Plugin", NSLocalizedDescriptionKey, @"", NSLocalizedFailureReasonErrorKey, @"This plugin is not recognized by Peacock.", NSLocalizedRecoverySuggestionErrorKey, nil]] autorelease];
+                [self presentError:error];
+           }
+        }
     } 
+    JKLogDebug(@"baselineDetectionMethods: %@", [self baselineDetectionMethodNames]);
+    JKLogDebug(@"peakDetectionMethods: %@", [self peakDetectionMethodNames]);
+    JKLogDebug(@"spectraMatchingMethods: %@", [self spectraMatchingMethodNames]);
+    [self didChangeValueForKey:@"baselineDetectionMethodNames"];
+    [self didChangeValueForKey:@"peakDetectionMethodNames"]; 
+    [self didChangeValueForKey:@"spectraMatchingMethodNames"];
+    
 } 
 
 - (NSMutableArray *)allBundles 
@@ -733,8 +743,7 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
     NSString *currPath; 
     NSMutableArray *bundleSearchPaths = [NSMutableArray array]; 
     NSMutableArray *allBundles = [NSMutableArray array]; 
-    librarySearchPaths = NSSearchPathForDirectoriesInDomains( 
-                                                             NSApplicationSupportDirectory, NSAllDomainsMask - NSSystemDomainMask, YES); 
+    librarySearchPaths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSAllDomainsMask - NSSystemDomainMask, YES); 
     searchPathEnum = [librarySearchPaths objectEnumerator]; 
     while(currPath = [searchPathEnum nextObject]) 
     { 
@@ -769,7 +778,45 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
     } 
     return NO; 
 }
-           
+
+- (NSArray *)baselineDetectionMethodNames {
+    return [baselineDetectionMethods allKeys];
+}
+
+/*!
+ @abstract   Returns an array of NSStrings for peak detection methods implemented through plugins.
+ */
+- (NSArray *)peakDetectionMethodNames {
+    return [peakDetectionMethods allKeys];
+}
+
+/*!
+ @abstract   Returns an array of NSStrings for forward search methods implemented through the plugin.
+ */
+- (NSArray *)spectraMatchingMethodNames {
+    return [spectraMatchingMethods allKeys];
+}
+
+- (NSDictionary *)baselineDetectionMethods {
+    return baselineDetectionMethods;
+}
+
+/*!
+ @abstract   Returns an array of NSStrings for peak detection methods implemented through plugins.
+ */
+- (NSDictionary *)peakDetectionMethods {
+    return peakDetectionMethods;
+}
+
+/*!
+ @abstract   Returns an array of NSStrings for forward search methods implemented through the plugin.
+ */
+- (NSDictionary *)spectraMatchingMethods {
+    return spectraMatchingMethods;
+}
+
+#pragma mark -
+
            
 - (NSArray *)documents {
     return [[NSDocumentController sharedDocumentController] documents];
@@ -800,53 +847,6 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
             [document makeWindowControllers];
         }
         [document showWindows];
-    }
-}
-
-- (void)documentActivateNotification:(NSNotification *)aNotification
-{
-    [documentListTableView reloadData];
-    int row = [[self documents] indexOfObject:[[aNotification object] document]];
-    [documentListTableView selectRow:row byExtendingSelection:NO];
-}
-
-- (void)documentDeactivateNotification:(NSNotification *)aNotification
-{
-    [documentListTableView reloadData];
-}
-
-- (void)doubleClickAction:(id)sender
-{
-    int i, count = [[self documents] count];
-    id doc;
-    for (i=0; i < count; i++) {
-        if (i != [documentListTableView selectedRow]) {
-            doc = [[self documents] objectAtIndex:i];
-            [[doc windowForSheet] orderOut:nil];            
-        }
-    }
-    if ([documentListTableView selectedRow] != -1) {
-        doc = [[self documents] objectAtIndex:[documentListTableView selectedRow]];
-        [doc showWindows];
-//        [[doc windowForSheet] setFrameTopLeftPoint:NSMakePoint([documentListPanel frame].origin.x+[documentListPanel frame].size.width,[documentListPanel frame].origin.y+[documentListPanel frame].size.height)];
-//        NSIntersectionRect(<#NSRect rect0#>,<#NSRect rect1#>)
-        NSRect visibleFrame = [[[doc windowForSheet] screen] visibleFrame];
-        NSRect panelFrame = [documentListPanel frame];
-        NSRect newRect;
-        newRect.origin.x = panelFrame.origin.x + panelFrame.size.width;
-        newRect.origin.y = visibleFrame.origin.y;
-        newRect.size.height = visibleFrame.size.height;
-        newRect.size.width = visibleFrame.size.width - (panelFrame.origin.x + panelFrame.size.width);
-        [[doc windowForSheet] setFrame:newRect display:YES animate:YES];
-    }
-}
-
-- (IBAction)showDocumentList:(id)sender
-{
-    if ([documentListPanel isVisible]) {
-        [documentListPanel orderOut:nil];
-    } else {
-        [documentListPanel orderFront:nil];        
     }
 }
 
@@ -903,8 +903,6 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
 @synthesize viewColumnsMenu;
 @synthesize welcomeWindow;
 @synthesize preferencesWindowController;
-@synthesize documentListTableView;
-@synthesize documentListPanel;
 @synthesize libraryConfigurationLoaded;
 @synthesize summarizer;
 @end

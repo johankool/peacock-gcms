@@ -568,6 +568,16 @@
 }
 #pragma mark -
 
+- (BOOL)hasScannedMassRange {
+    return NO;
+}
+- (float)minScannedMassRange {
+    return -1000.0f;
+}
+- (float)maxScannedMassRange {
+    return 1000.0f;
+}
+
 //
 //- (void)setImage:(NSImage *)inImage
 //{

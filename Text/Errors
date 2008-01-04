@@ -1,0 +1,36 @@
+ERRORS
+======
+
+Errors in the Peacock Domain:
+-----------------------------
+1 - NSException ([exception reason])
+
+101 - Invalid value for start scan (start to big error)
+102 - Invalid value for start scan (start to small error)
+103 - Invalid value for end scan (end to big error)
+104 - Invalid value for end scan (end to small error)
+105 - Invalid value for baseline intensity (left baseline to big error)
+106 - Invalid value for baseline intensity (left baseline to small error)
+107 - Invalid value for baseline intensity (right baseline to big error"
+108 - Invalid value for baseline intensity (right baseline to small error)
+109 - A peak label may not contain the characters '[', ']' and ';'.
+
+200 - Library cannot be relocated
+
+300 - No Baseline
+
+800 - Plugin failed to initialize
+801 - Invalid Plugin
+802 - Unknown Baseline Detection Method
+803 - Unknown Peak Detection Method
+804 - Unknown Spectra Matching Method
+805 - Baseline Detection Method not set
+806 - Peak Detection Method not set
+807 - Spectra Matching Method not set
+
+Errors in the JKNetCDFDomain Domain:
+------------------------------------
+
+See netcdf.h
+
+

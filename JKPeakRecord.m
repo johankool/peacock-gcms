@@ -618,7 +618,7 @@
         [NSDictionary dictionaryWithObject:errorString
                                     forKey:NSLocalizedDescriptionKey];
         NSError *error = [[[NSError alloc] initWithDomain:@"Peacock"
-                                                     code:1
+                                                     code:109
                                                  userInfo:userInfoDict] autorelease];
         *outError = error;
         return NO;
@@ -675,8 +675,8 @@
         NSString *errorString = NSLocalizedString(@"Invalid value for baseline intensity",@"baseline to big error");
         NSString *recoverySuggestionString = [NSString stringWithFormat:NSLocalizedString(@"The value for the baseline intensity should be smaller than the value of the intensity at scan %d. Enter a value smaller than or equal to %g.",@"baseline to big error"),[self start],intensities[start]];
         NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:errorString,NSLocalizedDescriptionKey,recoverySuggestionString,NSLocalizedRecoverySuggestionErrorKey,nil];
-        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock Peak domain"
-                                                     code:5
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                     code:105
                                                  userInfo:userInfoDict] autorelease];
         *outError = error;
         return NO;
@@ -684,8 +684,8 @@
         NSString *errorString = NSLocalizedString(@"Invalid value for baseline intensity",@"baseline to small error");
         NSString *recoverySuggestionString = [NSString stringWithFormat:NSLocalizedString(@"The value for the baseline intensity should be larger than or equal to 0.",@"baseline to small error")];
         NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:errorString,NSLocalizedDescriptionKey,recoverySuggestionString,NSLocalizedRecoverySuggestionErrorKey,nil];
-        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock Peak domain"
-                                                     code:6
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                     code:106
                                                  userInfo:userInfoDict] autorelease];
         *outError = error;
         return NO;
@@ -724,8 +724,8 @@
         NSString *errorString = NSLocalizedString(@"Invalid value for baseline intensity",@"baseline to big error");
         NSString *recoverySuggestionString = [NSString stringWithFormat:NSLocalizedString(@"The value for the baseline intensity should be smaller than the value of the intensity at scan %d. Enter a value smaller than or equal to %g.",@"baseline to big error"),[self end],intensities[end]];
         NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:errorString,NSLocalizedDescriptionKey,recoverySuggestionString,NSLocalizedRecoverySuggestionErrorKey,nil];
-        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock Peak domain"
-                                                     code:7
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                     code:107
                                                  userInfo:userInfoDict] autorelease];
         *outError = error;
         return NO;
@@ -733,8 +733,8 @@
         NSString *errorString = NSLocalizedString(@"Invalid value for baseline intensity",@"baseline to small error");
         NSString *recoverySuggestionString = [NSString stringWithFormat:NSLocalizedString(@"The value for the baseline intensity should be larger than or equal to 0.",@"baseline to small error")];
         NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:errorString,NSLocalizedDescriptionKey,recoverySuggestionString,NSLocalizedRecoverySuggestionErrorKey,nil];
-        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock Peak domain"
-                                                     code:8
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                     code:108
                                                  userInfo:userInfoDict] autorelease];
         *outError = error;
         return NO;
@@ -767,8 +767,8 @@
         NSString *errorString = NSLocalizedString(@"Invalid value for start scan",@"start to big error");
         NSString *recoverySuggestionString = [NSString stringWithFormat:NSLocalizedString(@"The value for start scan should be smaller than the value for the end scan. Enter a value smaller than %d.",@"start to big error"),[self end]];
         NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:errorString,NSLocalizedDescriptionKey,recoverySuggestionString,NSLocalizedRecoverySuggestionErrorKey,nil];
-        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock Peak domain"
-                                                     code:1
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                     code:101
                                                  userInfo:userInfoDict] autorelease];
         *outError = error;
         return NO;
@@ -776,8 +776,8 @@
         NSString *errorString = NSLocalizedString(@"Invalid value for start scan",@"start to small error");
         NSString *recoverySuggestionString = [NSString stringWithFormat:NSLocalizedString(@"The value for start scan should be larger than or equal to 0.",@"start to small error"),[self end]];
         NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:errorString,NSLocalizedDescriptionKey,recoverySuggestionString,NSLocalizedRecoverySuggestionErrorKey,nil];
-        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock Peak domain"
-                                                     code:2
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                     code:102
                                                  userInfo:userInfoDict] autorelease];
         *outError = error;
         return NO;
@@ -810,8 +810,8 @@
         NSString *errorString = NSLocalizedString(@"Invalid value for end scan",@"end to small error");
         NSString *recoverySuggestionString = [NSString stringWithFormat:NSLocalizedString(@"The value for end scan should be higher than the value for the start scan. Enter a value higher than %d.",@"end to small error"),[self start]];
         NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:errorString,NSLocalizedDescriptionKey,recoverySuggestionString,NSLocalizedRecoverySuggestionErrorKey,nil];
-        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock Peak domain"
-                                                     code:3
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                     code:104
                                                  userInfo:userInfoDict] autorelease];
         *outError = error;
         return NO;
@@ -819,8 +819,8 @@
         NSString *errorString = NSLocalizedString(@"Invalid value for end scan",@"end to big error");
         NSString *recoverySuggestionString = [NSString stringWithFormat:NSLocalizedString(@"The value for end scan should be smaller than the number of scans in the chromatogram. Enter a value smaller than %d.",@"end to small error"),[[self chromatogram] numberOfPoints]];
         NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:errorString,NSLocalizedDescriptionKey,recoverySuggestionString,NSLocalizedRecoverySuggestionErrorKey,nil];
-        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock Peak domain"
-                                                     code:4
+        NSError *error = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                     code:103
                                                  userInfo:userInfoDict] autorelease];
         *outError = error;
         return NO;
