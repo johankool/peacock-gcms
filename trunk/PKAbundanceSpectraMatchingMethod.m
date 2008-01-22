@@ -26,25 +26,29 @@
     [super dealloc];
 }
 
-- (CGFloat)matchingScoreForSpectrum1:(id <JKComparableProtocol>)spectrum1 comparedToSpectrum2:(id <JKComparableProtocol>)spectrum2 error:(NSError **)error {
-    int i,j,k,count1,count2;
-	float score, score2, score3, maxIntensityLibraryEntry, maxIntensitySpectrum;
+- (CGFloat)matchingScoreForSpectrum:(JKSpectrum *)spectrum comparedToLibraryEntry:(JKLibraryEntry *)libraryEntry error:(NSError **)error {
+    int i,j,k;
+	float score, score2, score3;
 	i=0; j=0; k=0; 
 	score = 0.0f;
 	score2 = 0.0f;
 	score3 = 0.0f;
-	maxIntensityLibraryEntry = jk_stats_float_max([spectrum2 intensities],[spectrum2 numberOfPoints]); // use correct count!!!!! 
-    NSAssert(maxIntensityLibraryEntry > 0.0f, @"maxIntensityLibraryEntry is 0 or smaller");
-	maxIntensitySpectrum = jk_stats_float_max([spectrum1 intensities],[spectrum1 numberOfPoints]);;
+    
+    // spectrum1
+	int count1 = [spectrum numberOfPoints];
+	float *peakMasses = [spectrum masses];
+	float *peakIntensities = [spectrum intensities];
+	float maxIntensitySpectrum = jk_stats_float_max(peakIntensities, count1);
     NSAssert(maxIntensitySpectrum > 0.0f, @"maxIntensitySpectrum is 0 or smaller");    
-    //    JKLogDebug(@"maxIntensitySpectrum %g; maxIntensityLibraryEntry %g", maxIntensitySpectrum, maxIntensityLibraryEntry);
-	count1 = [spectrum1 numberOfPoints];
-	count2 = [spectrum2 numberOfPoints];
-	float *peakMasses = [spectrum1 masses];
-	float *peakIntensities = [spectrum1 intensities];
-	float *libraryEntryMasses = [spectrum2 masses];
-	float *libraryEntryIntensities = [spectrum2 intensities];
-	float massDifference;
+ 
+    // libraryEntry
+	int count2 = [libraryEntry numberOfPoints];
+	float *libraryEntryMasses = [libraryEntry masses];
+	float *libraryEntryIntensities = [libraryEntry intensities];
+    float maxIntensityLibraryEntry = jk_stats_float_max(libraryEntryIntensities, count2); 
+    NSAssert(maxIntensityLibraryEntry > 0.0f, @"maxIntensityLibraryEntry is 0 or smaller");
+    
+	float massDifference = 0.0f;
 	float temp1, temp2;
 	BOOL peakMassesAtEnd = NO;
 	BOOL libraryEntryMassesAtEnd = NO;
@@ -54,17 +58,20 @@
     BOOL iFinished = NO;
     BOOL jFinished = NO;
     BOOL useForScore = YES;
-    BOOL useScanRangeCheck = NO;
     float minScannedMassRange = 0.0f;
     float maxScannedMassRange = 1000000.0f;
-    if ([spectrum1 hasScannedMassRange]) {
-        minScannedMassRange = [spectrum1 minScannedMassRange];
-        maxScannedMassRange = [spectrum1 maxScannedMassRange];
+    
+    // useScanRangeCheck
+    BOOL useScanRangeCheck = NO;
+    if ([spectrum hasScannedMassRange]) {
+        minScannedMassRange = [spectrum minScannedMassRange];
+        maxScannedMassRange = [spectrum maxScannedMassRange];
         useScanRangeCheck = YES;
-    } else if ([spectrum2 hasScannedMassRange]) {
-        minScannedMassRange = [spectrum2 minScannedMassRange];
-        maxScannedMassRange = [spectrum2 maxScannedMassRange];
-        useScanRangeCheck = YES;
+    }
+    
+    if (maxScannedMassRange <= minScannedMassRange) {
+        JKLogDebug(@"useScanRangeCheck disabled: minScannedMassRange: %g; maxScannedMassRange: %g", minScannedMassRange, maxScannedMassRange);
+        useScanRangeCheck = NO;
     }
     
     // Using formula 1 in Gan 2001
@@ -165,7 +172,7 @@
             jFinished = YES;
         }
     } 
-    
+    JKLogDebug(@"return: %g; score: %g; score2: %g", (1.0f-score/score2)*100.0f, score, score2);
     return (1.0f-score/score2)*100.0f;
 }
 

@@ -130,6 +130,12 @@ echo "</ul>"
 echo
 read -p "Press enter key to continue when done..."
 
+# Update version number in registration form on website
+echo
+echo "Update version number in registration form on website"
+echo
+echo "version in http://peacock.johankool.nl/registration/Config.php needs updating"
+
 # Done
 echo
 echo "Done"

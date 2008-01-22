@@ -102,6 +102,8 @@
 		C7834D4A0941EDAF005431CD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D490941EDAF005431CD /* libz.dylib */; };
 		C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
+		C78E768F0D3591AC00626A2F /* AquaticPrime.h in Headers */ = {isa = PBXBuildFile; fileRef = C78E768D0D3591AC00626A2F /* AquaticPrime.h */; };
+		C78E76900D3591AC00626A2F /* AquaticPrime.m in Sources */ = {isa = PBXBuildFile; fileRef = C78E768E0D3591AC00626A2F /* AquaticPrime.m */; };
 		C78FB8060CE9B73400466731 /* GCMathParser.h in Headers */ = {isa = PBXBuildFile; fileRef = C78FB7FC0CE9B73400466731 /* GCMathParser.h */; };
 		C78FB8070CE9B73400466731 /* GCMathParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C78FB7FD0CE9B73400466731 /* GCMathParser.m */; };
 		C78FB8090CE9B73400466731 /* ZExpParser.h in Headers */ = {isa = PBXBuildFile; fileRef = C78FB7FF0CE9B73400466731 /* ZExpParser.h */; };
@@ -381,6 +383,8 @@
 		C7834D430941ED7A005431CD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		C7834D490941EDAF005431CD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		C7859A9909CEBCE900351C87 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
+		C78E768D0D3591AC00626A2F /* AquaticPrime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AquaticPrime.h; sourceTree = "<group>"; };
+		C78E768E0D3591AC00626A2F /* AquaticPrime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AquaticPrime.m; sourceTree = "<group>"; };
 		C78FB7FC0CE9B73400466731 /* GCMathParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCMathParser.h; path = /Users/jkool/Developer/Peacock/trunk/GCExpressionParser/GCMathParser.h; sourceTree = "<absolute>"; };
 		C78FB7FD0CE9B73400466731 /* GCMathParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCMathParser.m; path = /Users/jkool/Developer/Peacock/trunk/GCExpressionParser/GCMathParser.m; sourceTree = "<absolute>"; };
 		C78FB7FE0CE9B73400466731 /* Implementation Notes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Implementation Notes"; path = "/Users/jkool/Developer/Peacock/trunk/GCExpressionParser/Implementation Notes"; sourceTree = "<absolute>"; };
@@ -619,6 +623,7 @@
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				C78E76930D3591BC00626A2F /* AquaticPrime */,
 				C78FB7FB0CE9B73400466731 /* GCExpressionParser */,
 				C75AE3AC0CBE82230054E51B /* JKSourceTableView */,
 				C77E689C0C3A9E910051B016 /* AMRemovableColumns */,
@@ -661,10 +666,10 @@
 			isa = PBXGroup;
 			children = (
 				C72C8501098BE74400CEF565 /* Unit Testing-Info.plist */,
-				C73533D00B7A703C00F7634B /* JKChromatogramTest.h */,
-				C73533D10B7A703C00F7634B /* JKChromatogramTest.m */,
 				C72C85D5098BF1B800CEF565 /* JKGeneralTesting.h */,
 				C72C85D6098BF1B800CEF565 /* JKGeneralTesting.m */,
+				C73533D00B7A703C00F7634B /* JKChromatogramTest.h */,
+				C73533D10B7A703C00F7634B /* JKChromatogramTest.m */,
 				C72C8507098BE83600CEF565 /* JKSpectrumTest.h */,
 				C72C8508098BE83600CEF565 /* JKSpectrumTest.m */,
 			);
@@ -874,6 +879,15 @@
 			name = Misc;
 			sourceTree = "<group>";
 		};
+		C78E76930D3591BC00626A2F /* AquaticPrime */ = {
+			isa = PBXGroup;
+			children = (
+				C78E768D0D3591AC00626A2F /* AquaticPrime.h */,
+				C78E768E0D3591AC00626A2F /* AquaticPrime.m */,
+			);
+			name = AquaticPrime;
+			sourceTree = "<group>";
+		};
 		C78FB7FB0CE9B73400466731 /* GCExpressionParser */ = {
 			isa = PBXGroup;
 			children = (
@@ -1073,6 +1087,7 @@
 				C79CE62E0CF356CD00C2D872 /* PKGraphicalController.h in Headers */,
 				C7C588DC0CFD6DD10009CDD9 /* PKPluginProtocol.h in Headers */,
 				C7F5D0CF0D05794000DCD7C0 /* PKFlipView.h in Headers */,
+				C78E768F0D3591AC00626A2F /* AquaticPrime.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1365,6 +1380,7 @@
 				C74A28260CEE51C100FFB61F /* JKLibraryPanelController.m in Sources */,
 				C79CE62F0CF356CD00C2D872 /* PKGraphicalController.m in Sources */,
 				C7F5D0D00D05794000DCD7C0 /* PKFlipView.m in Sources */,
+				C78E76900D3591AC00626A2F /* AquaticPrime.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

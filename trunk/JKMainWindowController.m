@@ -292,7 +292,10 @@ static void *PeaksObservationContext = (void *)1103;
 	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
 		  contextInfo: nil];
 		
-	[[self document] performLibrarySearchForChromatograms:[chromatogramsController selectedObjects]];
+    NSError *error;
+	if (![[self document] performLibrarySearchForChromatograms:[chromatogramsController selectedObjects] error:&error]) {
+        [NSApp performSelectorOnMainThread:@selector(presentError:) withObject:error waitUntilDone:NO];
+    }
 	
 	[NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];
 	
@@ -750,8 +753,9 @@ static void *PeaksObservationContext = (void *)1103;
     
     JKPeakRecord *peak;
     peak = [[peakController selectedObjects] objectAtIndex:0];
-    if (![(JKGCMSDocument *)[self document] performForwardSearchLibraryForPeak:peak]) {
-        NSBeep();
+    NSError *error;
+    if (![(JKGCMSDocument *)[self document] performForwardSearchLibraryForPeak:peak error:&error]) {
+        [self presentError:error];
     }	
     [self observeValueForKeyPath:@"selection.searchResults" ofObject:peakController change:nil context:PeaksObservationContext];
 //    [resultsTable reloadData];

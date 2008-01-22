@@ -18,6 +18,12 @@ Errors in the Peacock Domain:
 200 - Library cannot be relocated
 
 300 - No Baseline
+301 - No Peaks
+302 - Search direction not set
+303 - No Library Entries
+304 - Backward Search not possible
+
+400 - User aborted action
 
 800 - Plugin failed to initialize
 801 - Invalid Plugin

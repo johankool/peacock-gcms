@@ -120,7 +120,7 @@
  @discussion The array should consist of PKPeak objects.
  @result     Returns an array of peaks for the chromatogram. Returns nil in case of an error.
  */
-- (CGFloat)matchingScoreForSpectrum1:(id <JKComparableProtocol>)spectrum1 comparedToSpectrum2:(id <JKComparableProtocol>)spectrum2 error:(NSError **)error;
+- (CGFloat)matchingScoreForSpectrum:(JKSpectrum *)spectrum comparedToLibraryEntry:(JKLibraryEntry *)libraryEntry error:(NSError **)error;
 
 - (void)prepareForAction;
 - (void)cleanUpAfterAction;
