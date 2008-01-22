@@ -895,6 +895,8 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
         JKLogDebug(@"No stack trace available.");
     }
 }
+
+
 @synthesize batchProcessWindowController;
 @synthesize showPresetMenu;
 @synthesize library;

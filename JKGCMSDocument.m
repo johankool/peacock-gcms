@@ -992,7 +992,7 @@ int const JKGCMSDocument_Version = 7;
                                                        code:807
                                                    userInfo:userInfoDict] autorelease];
         *error = anError;             
-        return NO;
+        return nil;
     }
     
     NSObject <PKPluginProtocol> *plugIn = [[[NSApp delegate] spectraMatchingMethods] valueForKey:spectraMatchingMethod];
@@ -1028,24 +1028,32 @@ int const JKGCMSDocument_Version = 7;
     }
 }
 
-- (BOOL)performLibrarySearchForChromatograms:(NSArray *)someChromatograms {
+- (BOOL)performLibrarySearchForChromatograms:(NSArray *)someChromatograms error:(NSError **)error {
     switch (searchDirection) {
     case JKForwardSearchDirection:
         NSAssert([someChromatograms count] > 0, @"No chromatograms were selected to be searched.");
-        return [self performForwardSearchForChromatograms:someChromatograms];
+            return [self performForwardSearchForChromatograms:someChromatograms error:error];
         break;
     case JKBackwardSearchDirection:
-        return [self performBackwardSearch];
+            return [self performBackwardSearchAndReturnError:error];
         break;
     default:
-        [NSException raise:@"Search Direction Unknown" format:@"The search direction was not set."];
         break;
     }
-    
+    // Error 302
+    // Search direction not set
+    NSString *errorString = NSLocalizedString(@"Search direction not set", @"error 302: Search direction not set");
+    NSString *recoverySuggestionString = NSLocalizedString(@"Set the search direction in the processing pane of the inspector.", @"error 302: Search direction not set recovery suggestion");
+    NSDictionary *userInfoDict =
+    [NSDictionary dictionaryWithObjectsAndKeys:errorString, NSLocalizedDescriptionKey, recoverySuggestionString, NSLocalizedRecoverySuggestionErrorKey, nil];
+    NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                   code:302
+                                               userInfo:userInfoDict] autorelease];
+    *error = anError;
     return NO;
 }
 
-- (BOOL)performForwardSearchForChromatograms:(NSArray *)someChromatograms {
+- (BOOL)performForwardSearchForChromatograms:(NSArray *)someChromatograms error:(NSError **)error {
     _isBusy = YES;
 	NSArray *libraryEntries = nil;
     JKLibraryEntry *libraryEntry = nil;
@@ -1078,6 +1086,16 @@ int const JKGCMSDocument_Version = 7;
     if (!refetchNeeded) {
         libraryEntries = [aLibrary libraryEntriesWithPredicate:[aLibrary predicateForSearchTemplate:[self searchTemplate] andObject:nil]];  
         if (!libraryEntries) {
+            // Error 303
+            // No Library Entries
+            NSString *errorString = NSLocalizedString(@"No Library Entries", @"error 303: No Library Entries");
+            NSString *recoverySuggestionString = NSLocalizedString(@"Ensure that the used library configuration and template will yield library entries.", @"error 303: No Library Entries recovery suggestion");
+            NSDictionary *userInfoDict =
+            [NSDictionary dictionaryWithObjectsAndKeys:errorString, NSLocalizedDescriptionKey, recoverySuggestionString, NSLocalizedRecoverySuggestionErrorKey, nil];
+            NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                           code:303
+                                                       userInfo:userInfoDict] autorelease];
+            *error = anError;
             return NO;
         }
         entriesCount = [libraryEntries count];
@@ -1119,7 +1137,7 @@ int const JKGCMSDocument_Version = 7;
             
             for (libraryEntry in libraryEntries) {
 //                score = [peakSpectrum scoreComparedTo:libraryEntry];    
-                score = [spectraMatchingObject matchingScoreForSpectrum1:peakSpectrum comparedToSpectrum2:libraryEntry error:nil];
+                score = [spectraMatchingObject matchingScoreForSpectrum:peakSpectrum comparedToLibraryEntry:libraryEntry error:nil];
 
                 
                 if (score >= minimumScoreSearchResultsF) {
@@ -1153,8 +1171,7 @@ int const JKGCMSDocument_Version = 7;
 	return YES;
 }
 
-- (BOOL)performForwardSearchLibraryForPeak:(JKPeakRecord *)aPeak
-{
+- (BOOL)performForwardSearchLibraryForPeak:(JKPeakRecord *)aPeak error:(NSError **)error {
 //    _isBusy = YES;
 	NSArray *libraryEntries = nil;
     JKLibraryEntry *libraryEntry = nil;
@@ -1181,11 +1198,24 @@ int const JKGCMSDocument_Version = 7;
     libraryEntries = [aLibrary libraryEntriesWithPredicate:[aLibrary predicateForSearchTemplate:[self searchTemplate] andObject:aPeak]];
 
     if (!libraryEntries) {
+        // Error 303
+        // No Library Entries
+        NSString *errorString = NSLocalizedString(@"No Library Entries", @"error 303: No Library Entries");
+        NSString *recoverySuggestionString = NSLocalizedString(@"Ensure that the used library configuration and template will yield library entries.", @"error 303: No Library Entries recovery suggestion");
+        NSDictionary *userInfoDict =
+        [NSDictionary dictionaryWithObjectsAndKeys:errorString, NSLocalizedDescriptionKey, recoverySuggestionString, NSLocalizedRecoverySuggestionErrorKey, nil];
+        NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                       code:303
+                                                   userInfo:userInfoDict] autorelease];
+        *error = anError;
         return NO;
     }
  
     // Get Spectra Matching Object from Plugin
-    NSObject <PKSpectraMatchingMethodProtocol> *spectraMatchingObject = [self objectForSpectraMatching:nil];
+    NSObject <PKSpectraMatchingMethodProtocol> *spectraMatchingObject = [self objectForSpectraMatching:error];
+    if (!spectraMatchingObject) {
+        return NO;
+    }
     // Restore method settings
     [spectraMatchingObject setSettings:[self spectraMatchingSettingsForMethod:spectraMatchingMethod]];
     [spectraMatchingObject prepareForAction];
@@ -1201,7 +1231,7 @@ int const JKGCMSDocument_Version = 7;
     }
     
     for (libraryEntry in libraryEntries) {
-        score = [spectraMatchingObject matchingScoreForSpectrum1:peakSpectrum comparedToSpectrum2:libraryEntry error:nil];
+        score = [spectraMatchingObject matchingScoreForSpectrum:peakSpectrum comparedToLibraryEntry:libraryEntry error:nil]; 
                     
         if (score >= minimumScoreSearchResultsF) {
             JKSearchResult *searchResult = [[JKSearchResult alloc] init];
@@ -1223,7 +1253,7 @@ int const JKGCMSDocument_Version = 7;
 	return YES;
 }
 
-- (BOOL)performBackwardSearch {
+- (BOOL)performBackwardSearchAndReturnError:(NSError **)error{
     NSProgressIndicator *progressIndicator = nil;
     NSTextField *progressText = nil;
     
@@ -1239,19 +1269,38 @@ int const JKGCMSDocument_Version = 7;
     JKLibrary *aLibrary = [[NSApp delegate] libraryForConfiguration:[self libraryConfiguration]];
     BOOL requiresObject = [aLibrary requiresObjectForPredicateForSearchTemplate:[self searchTemplate]];
     if (requiresObject) {
-        JKLogWarning(@"Backward search is not possible with search template depending on peak.");
+        // Error 304
+        // Backward Search not possible
+        NSString *errorString = NSLocalizedString(@"Backward Search not possible", @"error 304: Backward Search not possible");
+        NSString *recoverySuggestionString = NSLocalizedString(@"Backward search is not possible with search template depending on peak.", @"error 304: Backward Search not possible recovery suggestion");
+        NSDictionary *userInfoDict =
+        [NSDictionary dictionaryWithObjectsAndKeys:errorString, NSLocalizedDescriptionKey, recoverySuggestionString, NSLocalizedRecoverySuggestionErrorKey, nil];
+        NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                       code:304
+                                                   userInfo:userInfoDict] autorelease];
+        *error = anError;
         return NO;
     }
     
     NSArray *libraryEntries = [aLibrary libraryEntriesWithPredicate:[aLibrary predicateForSearchTemplate:[self searchTemplate] andObject:nil]];
     if (!libraryEntries) {
+        // Error 303
+        // No Library Entries
+        NSString *errorString = NSLocalizedString(@"No Library Entries", @"error 303: No Library Entries");
+        NSString *recoverySuggestionString = NSLocalizedString(@"Ensure that the used library configuration and template will yield library entries.", @"error 303: No Library Entries recovery suggestion");
+        NSDictionary *userInfoDict =
+        [NSDictionary dictionaryWithObjectsAndKeys:errorString, NSLocalizedDescriptionKey, recoverySuggestionString, NSLocalizedRecoverySuggestionErrorKey, nil];
+        NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                       code:303
+                                                   userInfo:userInfoDict] autorelease];
+        *error = anError;
         return NO;
     }
     
-    return [self performBackwardSearchWithLibraryEntries:libraryEntries maximumRetentionIndexDifference:[[self maximumRetentionIndexDifference] floatValue]];
+    return [self performBackwardSearchWithLibraryEntries:libraryEntries maximumRetentionIndexDifference:[[self maximumRetentionIndexDifference] floatValue] error:error];
     
 }
-- (BOOL)performBackwardSearchWithLibraryEntries:(NSArray *)libraryEntries maximumRetentionIndexDifference:(float)aMaximumRetentionIndexDifference {
+- (BOOL)performBackwardSearchWithLibraryEntries:(NSArray *)libraryEntries maximumRetentionIndexDifference:(float)aMaximumRetentionIndexDifference  error:(NSError **)error {
     _isBusy = YES;
     JKLibraryEntry *libraryEntry = nil;
     JKChromatogram *chromatogramToSearch = nil;
@@ -1340,10 +1389,14 @@ int const JKGCMSDocument_Version = 7;
         }
         if ([chromatogramToSearch baselinePointsCount] == 0) {              
             [newChromatograms addObject:chromatogramToSearch];
-            [chromatogramToSearch detectBaselineAndReturnError:nil];                          
+            if (![chromatogramToSearch detectBaselineAndReturnError:error]){
+                return NO;
+            }                         
         }
 
-        [chromatogramToSearch detectPeaksAndReturnError:nil];                          
+        if (![chromatogramToSearch detectPeaksAndReturnError:error]) {
+            return NO;
+        }                         
         if ([[chromatogramToSearch peaks] count] == 0) {
             JKLogError(@"No peaks found for chromatogram with model '%@'. bls: %d", [chromatogramToSearch model],[chromatogramToSearch baselinePointsCount]);                        
         }
@@ -1356,7 +1409,7 @@ int const JKGCMSDocument_Version = 7;
 
 		for (k = 0; k < peaksCount; k++) {
  //           if (fabsf([[[[chromatogramToSearch peaks] objectAtIndex:k] retentionIndex] floatValue] - [[libraryEntry retentionIndex] floatValue]) < aMaximumRetentionIndexDifference) {
-                score = [spectraMatchingObject matchingScoreForSpectrum1:[[[chromatogramToSearch peaks] objectAtIndex:k] spectrum] comparedToSpectrum2:libraryEntry error:nil];;
+                score = [spectraMatchingObject matchingScoreForSpectrum:[[[chromatogramToSearch peaks] objectAtIndex:k] spectrum] comparedToLibraryEntry:libraryEntry error:error];
 
                 if (score >= maximumScore) {
                     maximumScore = score;
@@ -1380,6 +1433,7 @@ int const JKGCMSDocument_Version = 7;
 		if(abortAction){
 			JKLogInfo(@"Identifying Compounds Search Aborted by User at entry %d/%d peak %d/%d.",j,entriesCount, k, peaksCount);
             _isBusy = NO;
+#warning Error should be created here
 			return NO;
 		}
         [progressIndicator incrementBy:1.0];

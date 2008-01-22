@@ -128,17 +128,13 @@ typedef enum {
 */
 - (void)resetToDefaultValues;
 - (void)renumberPeaks;
-//- (BOOL)searchLibraryForAllPeaks;
 
-- (BOOL)performLibrarySearchForChromatograms:(NSArray *)someChromatograms;
-- (BOOL)performBackwardSearch;
-- (BOOL)performBackwardSearchWithLibraryEntries:(NSArray *)libraryEntries maximumRetentionIndexDifference:(float)aMaximumRetentionIndexDifference;
-//- (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms;
-//- (BOOL)performBackwardSearchForChromatograms:(NSArray *)someChromatograms withLibraryEntries:(NSArray *)libraryEntries maximumRetentionIndexDifference:(float)aMaximumRetentionIndexDifference;
-- (BOOL)performForwardSearchForChromatograms:(NSArray *)someChromatograms;
-- (BOOL)performForwardSearchLibraryForPeak:(JKPeakRecord *)aPeak;
+- (BOOL)performLibrarySearchForChromatograms:(NSArray *)someChromatograms error:(NSError **)error;
+- (BOOL)performBackwardSearchAndReturnError:(NSError **)error;
+- (BOOL)performBackwardSearchWithLibraryEntries:(NSArray *)libraryEntries maximumRetentionIndexDifference:(float)aMaximumRetentionIndexDifference  error:(NSError **)error;
+- (BOOL)performForwardSearchForChromatograms:(NSArray *)someChromatograms error:(NSError **)error;
+- (BOOL)performForwardSearchLibraryForPeak:(JKPeakRecord *)aPeak error:(NSError **)error;
 
-//- (BOOL)searchLibraryForAllPeaks:(id)sender;
 //- (void)addChromatogramForMass:(NSString *)inString;
 - (void)redistributedSearchResults:(JKPeakRecord *)originatingPeak;
 - (float)retentionIndexForScan:(int)scan;
@@ -147,7 +143,6 @@ typedef enum {
 - (BOOL)isBusy;
 - (NSString *)cleanupModelString:(NSString *)model;
 - (BOOL)modelString:(NSString *)stringA isEqualToString:(NSString *)stringB;
-//int intSort(id num1, id num2, void *context);
 
 //- (void)updateLibraryHits;
 
