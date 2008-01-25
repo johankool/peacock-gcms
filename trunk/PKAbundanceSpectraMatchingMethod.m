@@ -9,6 +9,7 @@
 #import "PKAbundanceSpectraMatchingMethod.h"
 
 #import "JKLog.h"
+#import "math.h"
 
 @implementation PKAbundanceSpectraMatchingMethod
 
@@ -16,7 +17,7 @@
     JKLogEnteringMethod();
     self = [super init];
     if (self != nil) {
-        [self setSettings:[PKAbundanceSpectraMatchingMethod defaultSettings]];
+      //  [self setSettings:[PKAbundanceSpectraMatchingMethod defaultSettings]];
     }
     return self;
 }
@@ -50,8 +51,8 @@
     
 	float massDifference = 0.0f;
 	float temp1, temp2;
-	BOOL peakMassesAtEnd = NO;
-	BOOL libraryEntryMassesAtEnd = NO;
+//	BOOL peakMassesAtEnd = NO;
+//	BOOL libraryEntryMassesAtEnd = NO;
     i = 0;
     j = 0;
     k = 0; 
@@ -64,13 +65,14 @@
     // useScanRangeCheck
     BOOL useScanRangeCheck = NO;
     if ([spectrum hasScannedMassRange]) {
-        minScannedMassRange = [spectrum minScannedMassRange];
-        maxScannedMassRange = [spectrum maxScannedMassRange];
+#warning Not reading from doc!!!
+        minScannedMassRange = 45.0f;//[spectrum minScannedMassRange];
+        maxScannedMassRange = 650.0f;//[spectrum maxScannedMassRange];
         useScanRangeCheck = YES;
     }
     
     if (maxScannedMassRange <= minScannedMassRange) {
-        JKLogDebug(@"useScanRangeCheck disabled: minScannedMassRange: %g; maxScannedMassRange: %g", minScannedMassRange, maxScannedMassRange);
+ //       JKLogDebug(@"useScanRangeCheck disabled: minScannedMassRange: %g; maxScannedMassRange: %g", minScannedMassRange, maxScannedMassRange);
         useScanRangeCheck = NO;
     }
     
@@ -171,9 +173,23 @@
             iFinished = YES;
             jFinished = YES;
         }
+//        NSAssert(score >= 0.0f, @"score < 0");
+//        NSAssert(score2 >= 0.0f, @"score2 < 0");
     } 
-    JKLogDebug(@"return: %g; score: %g; score2: %g", (1.0f-score/score2)*100.0f, score, score2);
-    return (1.0f-score/score2)*100.0f;
+
+    if (isnan(score)  || isnan(score2)) {
+ //     NSLog(@"000");
+        return 0.0f;
+    }
+//    NSAssert(score > 0.0f, @"score < 0");
+//    NSAssert(score2 > 0.0f, @"score2 < 0");
+
+    float result = (1.0f-score/score2)*100.0f;
+//    NSAssert(result >= 0.0f, @"result < 0");
+//    NSAssert(result <= 100.0f, @"result > 100");
+ 
+//    NSLog(@"%g", result);
+    return result;
 }
 
 - (void)prepareForAction {
@@ -188,7 +204,7 @@
 }
 
 + (NSDictionary *)defaultSettings {
-    return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:0.01f], @"peakIdentificationThreshold", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:nil];
 }
 
 - (NSDictionary *)settings {

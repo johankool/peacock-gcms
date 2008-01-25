@@ -69,6 +69,9 @@ int const JKGCMSDocument_Version = 7;
         uuid = [@"uuid" retain];
         uuid = [GetUUID() retain];
         
+        baselineDetectionMethod = [@"Default Baseline Detection Method" retain];
+        peakDetectionMethod = [@"Default Peak Detection Method" retain];
+        spectraMatchingMethod = [@"Abundance" retain];
         
         [[self undoManager] disableUndoRegistration];
         _documentProxy = [[NSDictionary alloc] initWithObjectsAndKeys:@"_documentProxy", @"_documentProxy",nil];
@@ -106,6 +109,10 @@ int const JKGCMSDocument_Version = 7;
 	[minimumScoreSearchResults release];
     [maximumRetentionIndexDifference release];
 	[printView release];
+    [baselineDetectionMethod release];
+    [peakDetectionMethod release];
+    [spectraMatchingMethod release]; 
+    
 	int dummy;
 	dummy = nc_close(ncid);
 //	if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"File closing error",@"File closing error") format:NSLocalizedString(@"Closing NetCDF file caused problem.\nNetCDF error: %d",@""), dummy];
@@ -1336,7 +1343,7 @@ int const JKGCMSDocument_Version = 7;
     // Get Spectra Matching Object from Plugin
     NSObject <PKSpectraMatchingMethodProtocol> *spectraMatchingObject = [self objectForSpectraMatching:nil];
     // Restore method settings
-    [spectraMatchingObject setSettings:[self spectraMatchingSettingsForMethod:spectraMatchingMethod]];
+ //   [spectraMatchingObject setSettings:[self spectraMatchingSettingsForMethod:spectraMatchingMethod]];
     [spectraMatchingObject prepareForAction];
 
     [self willChangeValueForKey:@"peaks"];
@@ -1449,17 +1456,18 @@ int const JKGCMSDocument_Version = 7;
 
     NSMutableArray *chromsToInsert = [NSMutableArray array];
 	for (chrom in newChromatograms) {
+#warning Commented out something important
         NSMutableIndexSet *peaksToRemove = [NSMutableIndexSet indexSet];
-		for (JKPeakRecord *peak in [chrom peaks]) {
-			if (([peak countOfSearchResults] == 0) && ([peak identified] == NO) && ([peak confirmed] == NO)) {
-                [peaksToRemove addIndex:[[chrom peaks] indexOfObject:peak]];
-            }
-		}    
+//		for (JKPeakRecord *peak in [chrom peaks]) {
+//			if (([peak countOfSearchResults] == 0) && ([peak identified] == NO) && ([peak confirmed] == NO)) {
+//                [peaksToRemove addIndex:[[chrom peaks] indexOfObject:peak]];
+//            }
+//		}    
         
         // Only change the array after we've iterated over it
         [[chrom peaks] removeObjectsAtIndexes:peaksToRemove];
                 
-        if ((![[self chromatograms] containsObject:chrom]) && ([[chrom peaks] count] > 0)){
+        if ((![[self chromatograms] containsObject:chrom]) ){ //&& ([[chrom peaks] count] > 0)
             [chromsToInsert addObject:chrom];
         }            
 	}

@@ -14,7 +14,7 @@
 @implementation PKDefaultBaselineDetectionMethod
 
 - (id)init {
-    JKLogEnteringMethod();
+//    JKLogEnteringMethod();
     self = [super init];
     if (self != nil) {
         [self setSettings:[PKDefaultBaselineDetectionMethod defaultSettings]];
@@ -28,7 +28,7 @@
 }
 
 - (NSArray *)baselineForChromatogram:(JKChromatogram *)aChromatogram error:(NSError **)error {
-    JKLogEnteringMethod();
+    //JKLogEnteringMethod();
     // Fall back to default settings when settings are nil
     if (![self settings]) {
         [self setSettings:[PKDefaultBaselineDetectionMethod defaultSettings]];
@@ -121,6 +121,7 @@
             [newBaseline addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:i], @"scan", [NSNumber numberWithFloat:intensity[i]], @"intensity", nil]];
         }
     }
+        NSLog(@"%d baseline points found", [newBaseline count]);
     return [newBaseline autorelease];
 }
 
@@ -136,7 +137,7 @@
 }
 
 + (NSDictionary *)defaultSettings {
-    return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:30], @"baselineWindowWidth", [NSNumber numberWithFloat:0.05f], @"baselineDistanceThreshold", [NSNumber numberWithFloat:0.01f], @"baselineSlopeThreshold", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:30], @"baselineWindowWidth", [NSNumber numberWithFloat:0.01f], @"baselineDistanceThreshold", [NSNumber numberWithFloat:0.01f], @"baselineSlopeThreshold", nil];
 }
 
 - (NSDictionary *)settings {
