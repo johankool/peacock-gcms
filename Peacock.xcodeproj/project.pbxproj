@@ -33,6 +33,10 @@
 		C729CAAA0A4B45CD00FAB04F /* JKDataModelProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */; };
 		C72C8509098BE83600CEF565 /* JKSpectrumTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C8508098BE83600CEF565 /* JKSpectrumTest.m */; };
 		C72C85D7098BF1B800CEF565 /* JKGeneralTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C85D6098BF1B800CEF565 /* JKGeneralTesting.m */; };
+		C7314A370D463D0F0093EB47 /* PKLicenseController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7314A350D463D0F0093EB47 /* PKLicenseController.h */; };
+		C7314A380D463D0F0093EB47 /* PKLicenseController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7314A360D463D0F0093EB47 /* PKLicenseController.m */; };
+		C7314A3B0D4640CE0093EB47 /* PKRegister.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7314A390D4640CE0093EB47 /* PKRegister.xib */; };
+		C7314C570D465C7D0093EB47 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7314C560D465C7D0093EB47 /* AddressBook.framework */; };
 		C73533D20B7A703C00F7634B /* JKChromatogramTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C73533D10B7A703C00F7634B /* JKChromatogramTest.m */; };
 		C73B27CE0CAD9EF600C09AAE /* JKSummarizer.h in Headers */ = {isa = PBXBuildFile; fileRef = C73B27CC0CAD9EF600C09AAE /* JKSummarizer.h */; };
 		C73B27CF0CAD9EF600C09AAE /* JKSummarizer.m in Sources */ = {isa = PBXBuildFile; fileRef = C73B27CD0CAD9EF600C09AAE /* JKSummarizer.m */; };
@@ -306,6 +310,10 @@
 		C72C8508098BE83600CEF565 /* JKSpectrumTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSpectrumTest.m; sourceTree = "<group>"; };
 		C72C85D5098BF1B800CEF565 /* JKGeneralTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKGeneralTesting.h; sourceTree = "<group>"; };
 		C72C85D6098BF1B800CEF565 /* JKGeneralTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKGeneralTesting.m; sourceTree = "<group>"; };
+		C7314A350D463D0F0093EB47 /* PKLicenseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKLicenseController.h; path = /Users/jkool/Developer/Peacock/trunk/PKLicenseController.h; sourceTree = "<absolute>"; };
+		C7314A360D463D0F0093EB47 /* PKLicenseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKLicenseController.m; path = /Users/jkool/Developer/Peacock/trunk/PKLicenseController.m; sourceTree = "<absolute>"; };
+		C7314A3A0D4640CE0093EB47 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/PKRegister.xib; sourceTree = "<absolute>"; };
+		C7314C560D465C7D0093EB47 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = /System/Library/Frameworks/AddressBook.framework; sourceTree = "<absolute>"; };
 		C73533D00B7A703C00F7634B /* JKChromatogramTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKChromatogramTest.h; sourceTree = "<group>"; };
 		C73533D10B7A703C00F7634B /* JKChromatogramTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKChromatogramTest.m; sourceTree = "<group>"; };
 		C73B27CC0CAD9EF600C09AAE /* JKSummarizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSummarizer.h; sourceTree = "<group>"; };
@@ -530,6 +538,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7314C570D465C7D0093EB47 /* AddressBook.framework in Frameworks */,
 				C7834D1B0941ED37005431CD /* Carbon.framework in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				C716B4BD0AD6AA8F00DA408E /* CoreData.framework in Frameworks */,
@@ -571,6 +580,7 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C7314C560D465C7D0093EB47 /* AddressBook.framework */,
 				C7BC7CD10CBB91A0006D121C /* ExceptionHandling.framework */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
@@ -852,6 +862,8 @@
 				C795D9370CF4831D006CF960 /* JKSynchroScrollView.m */,
 				C7C588DB0CFD6DD10009CDD9 /* PKPluginProtocol.h */,
 				C7F3EE910CE1F9CA008F7BBC /* Deprecated */,
+				C7314A350D463D0F0093EB47 /* PKLicenseController.h */,
+				C7314A360D463D0F0093EB47 /* PKLicenseController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -974,6 +986,7 @@
 		C7EB17F90898CFBC007FC2ED /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
+				C7314A390D4640CE0093EB47 /* PKRegister.xib */,
 				C79CE6280CF3569200C2D872 /* PKGraphical.xib */,
 				C74A27F70CEE4E4D00FFB61F /* DisplayOptions.xib */,
 				C74A27F90CEE4E4D00FFB61F /* JKBatchProcess.xib */,
@@ -1088,6 +1101,7 @@
 				C7C588DC0CFD6DD10009CDD9 /* PKPluginProtocol.h in Headers */,
 				C7F5D0CF0D05794000DCD7C0 /* PKFlipView.h in Headers */,
 				C78E768F0D3591AC00626A2F /* AquaticPrime.h in Headers */,
+				C7314A370D463D0F0093EB47 /* PKLicenseController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1251,6 +1265,7 @@
 				C74A28190CEE4E4D00FFB61F /* JKRatios.xib in Resources */,
 				C74A281A0CEE4E4D00FFB61F /* JKSummary.xib in Resources */,
 				C79CE6290CF3569200C2D872 /* PKGraphical.xib in Resources */,
+				C7314A3B0D4640CE0093EB47 /* PKRegister.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1381,6 +1396,7 @@
 				C79CE62F0CF356CD00C2D872 /* PKGraphicalController.m in Sources */,
 				C7F5D0D00D05794000DCD7C0 /* PKFlipView.m in Sources */,
 				C78E76900D3591AC00626A2F /* AquaticPrime.m in Sources */,
+				C7314A380D463D0F0093EB47 /* PKLicenseController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1461,6 +1477,14 @@
 				2A37F4BAFDCFA73011CA2CEA /* English */,
 			);
 			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		C7314A390D4640CE0093EB47 /* PKRegister.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C7314A3A0D4640CE0093EB47 /* English */,
+			);
+			name = PKRegister.xib;
 			sourceTree = "<group>";
 		};
 		C74A27F20CEE4D4500FFB61F /* JKLibraryPanel.xib */ = {
@@ -1741,6 +1765,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
 				OTHER_CFLAGS = "-Wformat=2";
+				OTHER_LDFLAGS = "-lcrypto";
 				PREBINDING = NO;
 				PRODUCT_NAME = Peacock;
 				WRAPPER_EXTENSION = app;
@@ -1780,6 +1805,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
 				OTHER_CFLAGS = "-Wformat=2";
+				OTHER_LDFLAGS = "-lcrypto";
 				PRODUCT_NAME = Peacock;
 				WRAPPER_EXTENSION = app;
 			};

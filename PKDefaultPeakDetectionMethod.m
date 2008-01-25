@@ -13,7 +13,7 @@
 @implementation PKDefaultPeakDetectionMethod
 
 - (id)init {
-    JKLogEnteringMethod();
+ //   JKLogEnteringMethod();
     self = [super init];
     if (self != nil) {
         [self setSettings:[PKDefaultPeakDetectionMethod defaultSettings]];
@@ -27,7 +27,7 @@
 }
 
 - (NSArray *)peaksForChromatogram:(JKChromatogram *)aChromatogram error:(NSError **)error {
-    JKLogEnteringMethod();
+//    JKLogEnteringMethod();
     // Fall back to default settings when settings are nil
     if (![self settings]) {
         [self setSettings:[PKDefaultPeakDetectionMethod defaultSettings]];
@@ -102,6 +102,7 @@
             i = end;			
         }
     }    
+    NSLog(@"%d peaks found", [newPeaks count]);
     return [newPeaks autorelease];
 }
 
@@ -117,7 +118,7 @@
 }
 
 + (NSDictionary *)defaultSettings {
-    return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:0.01f], @"peakIdentificationThreshold", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:0.03f], @"peakIdentificationThreshold", nil];
 }
 
 - (NSDictionary *)settings {

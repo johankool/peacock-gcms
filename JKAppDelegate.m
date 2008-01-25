@@ -28,10 +28,14 @@
 #import "PKGraphicalController.h"
 #import <ExceptionHandling/NSExceptionHandler.h>
 #import "PKPluginProtocol.h"
+#import "PKLicenseController.h"
 
 // Name of the application support folder
 static NSString * SUPPORT_FOLDER_NAME = @"Peacock";
 static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
+static NSString * LICENSES_FOLDER_NAME = @"Licenses";
+static NSString * LIBRARY_EXTENSION = @"peacock-library";
+static NSString * LICENSE_EXTENSION = @"peacock-license";
 
 @implementation JKAppDelegate
 
@@ -187,12 +191,16 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {	
 	// Execute startup preferences
-//#warning Custom level debug verbosity set.
+    //#warning Custom level debug verbosity set.
     JKSetVerbosityLevel([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue]);
-//#warning High level debug verbosity set.
-//	JKSetVerbosityLevel(JK_VERBOSITY_ALL);
-    
-    
+    //#warning High level debug verbosity set.
+    //	JKSetVerbosityLevel(JK_VERBOSITY_ALL);
+
+#warning License check disabled
+//    // Check for valid licenses
+//    [[PKLicenseController sharedController] showWindow:self];
+//    [[PKLicenseController sharedController] begIfNeeded];
+
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSave"] boolValue] == YES) {
         [[NSDocumentController sharedDocumentController] setAutosavingDelay:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSaveDelay"] intValue]*60];
     } else {
@@ -232,6 +240,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"showLibraryPanelOnLaunch"] boolValue] == YES) {
         [[JKLibraryPanelController sharedController] showInspector:self];
     }    
+ 
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
@@ -289,6 +298,10 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
     if (path) {
         if (![[NSWorkspace sharedWorkspace] openFile:path withApplication:@"TextEdit"]) NSBeep();
     }
+}
+
+- (IBAction)showLicenses:(id)sender {
+    [[PKLicenseController sharedController] showLicenses:self];
 }
 
 - (IBAction)showBatchProcessAction:(id)sender {
@@ -378,6 +391,9 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
+    if ([NSApp modalWindow]) { // Disable menuitems because they cause a crash when running the modal registration window + its *MODAL*! anyway
+        return NO;
+    }
 	if ([anItem action] == @selector(showInspector:)) {
 		if ([[[JKPanelController sharedController] window] isVisible] == YES) {
 			[anItem setTitle:NSLocalizedString(@"Hide Inspector",@"Menutitle when inspector is visible")];
@@ -505,7 +521,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
         int count = 0;
         int loadedCount = 0;
         while ((file = [dirEnum nextObject])) {
-            if ([[file pathExtension] isEqualToString: @"peacock-library"]) {// || [[file pathExtension] isEqualToString: @"jdx"] ||[[file pathExtension] isEqualToString: @"hpj"]
+            if ([[file pathExtension] isEqualToString:LIBRARY_EXTENSION]) {// || [[file pathExtension] isEqualToString: @"jdx"] ||[[file pathExtension] isEqualToString: @"hpj"]
                 count++;
                 if ([self shouldLoadLibrary:[file stringByDeletingPathExtension] forConfiguration:configuration]) {
                     if (![[[library managedObjectContext] persistentStoreCoordinator] addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:file]] options:nil error:nil]) {
@@ -597,7 +613,7 @@ static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
         NSArray *searchpaths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
         if ([searchpaths count] > 0) {
             // look for the Peacock support folder (and create if not there)
-            path = [[[[searchpaths objectAtIndex:0] stringByAppendingPathComponent: SUPPORT_FOLDER_NAME] stringByAppendingPathComponent: LIBRARY_FOLDER_NAME] stringByAppendingPathComponent:[defaultLibrary stringByAppendingPathExtension:@"peacock-library"]];
+            path = [[[[searchpaths objectAtIndex:0] stringByAppendingPathComponent: SUPPORT_FOLDER_NAME] stringByAppendingPathComponent: LIBRARY_FOLDER_NAME] stringByAppendingPathComponent:[defaultLibrary stringByAppendingPathExtension:LIBRARY_EXTENSION]];
         } else {
             return nil;
         }      
@@ -907,4 +923,5 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
 @synthesize preferencesWindowController;
 @synthesize libraryConfigurationLoaded;
 @synthesize summarizer;
+
 @end

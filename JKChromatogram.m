@@ -903,13 +903,14 @@
     [[self container] willChangeValueForKey:@"peaks"];
     JKPeakRecord *peak;
     if (inValue != peaks) {
-        [inValue retain];
-        [peaks release];
    
         for (peak in peaks) {
             [peak setContainer:nil];
         }
         
+        [inValue retain];
+        [peaks release];
+
         peaks = inValue;
     }
     
@@ -943,6 +944,8 @@
 	
 	// Add aPeak to the array peaks
     [[self container] willChangeValueForKey:@"peaks"];
+    if (!peaks)
+        peaks = [[NSMutableArray alloc] init];
 	[peaks insertObject:aPeak atIndex:index];
     [aPeak setContainer:self];
     [[self container] didChangeValueForKey:@"peaks"];

@@ -16,7 +16,7 @@
     JKLogEnteringMethod();
     self = [super init];
     if (self != nil) {
-        [self setSettings:[PKMZValuesSpectraMatchingMethod defaultSettings]];
+       // [self setSettings:[PKMZValuesSpectraMatchingMethod defaultSettings]];
     }
     return self;
 }
@@ -115,7 +115,7 @@
 }
 
 + (NSDictionary *)defaultSettings {
-    return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:0.01f], @"peakIdentificationThreshold", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:nil];
 }
 
 - (NSDictionary *)settings {
