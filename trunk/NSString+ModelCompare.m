@@ -14,26 +14,27 @@
 @implementation NSString (ModelCompare)
 
 -(BOOL)isEqualToModelString:(NSString *)aModelString {
-    NSString *stringACleaned = [self cleanupModelString:self];
-    NSString *stringBCleaned = [self cleanupModelString:aModelString];
+    NSString *stringACleaned = [self cleanupModelString];
+    NSString *stringBCleaned = [aModelString cleanupModelString];
     return [stringACleaned isEqualToString:stringBCleaned];
 }
 
-- (NSString *)cleanupModelString:(NSString *)model {
+- (NSString *)cleanupModelString {
     int i,j,mzValuesCount;
-    if ([model isEqualToString:@""]) {
-        return @"";
+    if ([self isEqualToString:@""]) {
+        return self;
     }
-    if ([model isEqualToString:@"TIC"]) {
-        return @"TIC";
+    if ([self isEqualToString:@"TIC"]) {
+        return self;
     }
     
     NSMutableArray *mzValues = [NSMutableArray array];
-    [model stringByTrimmingCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+"] invertedSet]];
-    if ([model isEqualToString:@""]) {
-        return @"";
+    [self stringByTrimmingCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+"] invertedSet]];
+    if ([self isEqualToString:@""]) {
+        return self
+        ;
     }
-	NSArray *mzValuesPlus = [model componentsSeparatedByString:@"+"];
+	NSArray *mzValuesPlus = [self componentsSeparatedByString:@"+"];
 	NSArray *mzValuesMin = nil;
 	for (i = 0; i < [mzValuesPlus count]; i++) {
 		mzValuesMin = [[mzValuesPlus objectAtIndex:i] componentsSeparatedByString:@"-"];
@@ -81,7 +82,8 @@
             mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d",[[mzValues objectAtIndex:i] intValue]];            
         }        
     }
-    //    JKLogDebug(@"%@ %@",mzValuesString,[mzValues description]);
+    
+//    JKLogDebug(@"%@ %@",mzValuesString,[mzValues description]);
     return mzValuesString;
 }
 

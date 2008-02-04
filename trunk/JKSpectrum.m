@@ -14,6 +14,7 @@
 #import "JKPeakRecord.h"
 #import "PKSpectrumDataSeries.h"
 #import "NSCoder+CArrayEncoding.h"
+#import "PKPluginProtocol.h"
 
 @implementation JKSpectrum
 
@@ -267,8 +268,30 @@
     return [self scoreComparedTo:comparableObject usingMethod:[(JKGCMSDocument *)[self document] scoreBasis] penalizingForRententionIndex:[(JKGCMSDocument *)[self document] penalizeForRetentionIndex]];
 }
 //#pragma mark optimization_level 3
-
 - (float)scoreComparedTo:(id <JKComparableProtocol>)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex { // Could be changed to id <protocol> to resolve warning	
+    NSError *error = [[NSError alloc] init];
+#warning document is nil?!
+    NSObject <PKSpectraMatchingMethodProtocol> *spectraMatchingObject = [[self document] objectForSpectraMatching:&error];
+    if (!spectraMatchingObject) {
+        JKLogError(@"where is my spectraMatchingObject?!");
+        [[self document] presentError:error];
+        [error release];
+        return -1.0f;
+    }
+    // Restore method settings
+    [spectraMatchingObject setSettings:[[self document] spectraMatchingSettingsForMethod:[[self document] spectraMatchingMethod]]];
+    [spectraMatchingObject prepareForAction];
+    float score = [spectraMatchingObject matchingScoreForSpectrum:self comparedToLibraryEntry:libraryEntry error:error];
+    [spectraMatchingObject cleanUpAfterAction];
+    
+    float oldScore = (float)[self oldScoreComparedTo:libraryEntry usingMethod:scoreBasis penalizingForRententionIndex:penalizeForRetentionIndex];
+    if (score != oldScore) {
+        JKLogError(@"Score not calculated consistently: old: %@; plugin: %@", oldScore, score);
+    }
+    [error release];
+    return score;
+}
+- (float)oldScoreComparedTo:(id <JKComparableProtocol>)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex { // Could be changed to id <protocol> to resolve warning	
     JKLogWarning(@"DEPRECATED METHOD BEING USED");
 	int i,j,k,count1,count2;
 	float score, score2, score3, maxIntensityLibraryEntry, maxIntensitySpectrum;

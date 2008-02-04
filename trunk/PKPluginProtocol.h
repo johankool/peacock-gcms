@@ -11,7 +11,7 @@
 @class JKSpectrum;
 @class JKPeakRecord;
 @class JKSearchResult;
-@class JKLibraryEntry;
+@class JKManagedLibraryEntry;
 
 #import "JKComparableProtocol.h"
 
@@ -120,7 +120,7 @@
  @discussion The array should consist of PKPeak objects.
  @result     Returns an array of peaks for the chromatogram. Returns nil in case of an error.
  */
-- (CGFloat)matchingScoreForSpectrum:(JKSpectrum *)spectrum comparedToLibraryEntry:(JKLibraryEntry *)libraryEntry error:(NSError **)error;
+- (CGFloat)matchingScoreForSpectrum:(JKSpectrum *)spectrum comparedToLibraryEntry:(JKManagedLibraryEntry *)libraryEntry error:(NSError **)error;
 
 - (void)prepareForAction;
 - (void)cleanUpAfterAction;
