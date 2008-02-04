@@ -26,7 +26,7 @@
 - (NSArray *)gatherValidLicenses;
 - (void)begForRegistration;
 - (BOOL)validLicenseAvailable;
-
+- (IBAction)showLicenses:(id)sender;
 - (IBAction)installLicenseFile:(id)sender;
 - (IBAction)retrieveLostLicenseFile:(id)sender;
 - (IBAction)registerOnline:(id)sender;

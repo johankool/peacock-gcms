@@ -26,7 +26,7 @@
     [super dealloc];
 }
 
-- (CGFloat)matchingScoreForSpectrum:(JKSpectrum *)spectrum comparedToLibraryEntry:(JKManagedLibraryEntry *)libraryEntry error:(NSError **)error {
+- (CGFloat)matchingScoreForSpectrum:(id <JKComparableProtocol>)spectrum comparedToLibraryEntry:(id <JKComparableProtocol>)libraryEntry error:(NSError **)error {
     int i,j,k,count1,count2;
 	float score, score2, score3, maxIntensityLibraryEntry, maxIntensitySpectrum;
 	i=0; j=0; k=0; 

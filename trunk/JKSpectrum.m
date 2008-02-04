@@ -94,6 +94,7 @@
 - (void)setPeak:(JKPeakRecord *)inValue {
 	// Weak reference
 	peak = inValue;
+    [self setContainer:inValue];
 }
 - (JKPeakRecord *)peak {
     return peak;
@@ -137,9 +138,9 @@
 //- (float)minimumIntensity {
 //    return minimumIntensity;
 //}
-//- (float)maximumIntensity {
-//    return maximumIntensity;
-//}
+- (float)maxIntensity {
+    return jk_stats_float_max(intensities, numberOfPoints);
+}
 
 - (JKSpectrum *)spectrumBySubtractingSpectrum:(JKSpectrum *)inSpectrum {
 	int i,j,k,count1,count2;
@@ -270,7 +271,8 @@
 //#pragma mark optimization_level 3
 - (float)scoreComparedTo:(id <JKComparableProtocol>)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex { // Could be changed to id <protocol> to resolve warning	
     NSError *error = [[NSError alloc] init];
-#warning document is nil?!
+
+    NSAssert([self document], @"document is nil?!");
     NSObject <PKSpectraMatchingMethodProtocol> *spectraMatchingObject = [[self document] objectForSpectraMatching:&error];
     if (!spectraMatchingObject) {
         JKLogError(@"where is my spectraMatchingObject?!");
@@ -281,12 +283,12 @@
     // Restore method settings
     [spectraMatchingObject setSettings:[[self document] spectraMatchingSettingsForMethod:[[self document] spectraMatchingMethod]]];
     [spectraMatchingObject prepareForAction];
-    float score = [spectraMatchingObject matchingScoreForSpectrum:self comparedToLibraryEntry:libraryEntry error:error];
+    float score = [spectraMatchingObject matchingScoreForSpectrum:self comparedToLibraryEntry:libraryEntry error:&error];
     [spectraMatchingObject cleanUpAfterAction];
     
     float oldScore = (float)[self oldScoreComparedTo:libraryEntry usingMethod:scoreBasis penalizingForRententionIndex:penalizeForRetentionIndex];
     if (score != oldScore) {
-        JKLogError(@"Score not calculated consistently: old: %@; plugin: %@", oldScore, score);
+        JKLogError(@"Score not calculated consistently: old: %g; plugin: %g", oldScore, score);
     }
     [error release];
     return score;
@@ -303,7 +305,7 @@
     NSAssert(maxIntensityLibraryEntry > 0.0f, @"maxIntensityLibraryEntry is 0 or smaller");
 	maxIntensitySpectrum = jk_stats_float_max(intensities,numberOfPoints);;
     NSAssert(maxIntensitySpectrum > 0.0f, @"maxIntensitySpectrum is 0 or smaller");    
-//    JKLogDebug(@"maxIntensitySpectrum %g; maxIntensityLibraryEntry %g", maxIntensitySpectrum, maxIntensityLibraryEntry);
+    JKLogDebug(@"maxIntensitySpectrum %g; maxIntensityLibraryEntry %g", maxIntensitySpectrum, maxIntensityLibraryEntry);
 	count1 = [self numberOfPoints];
 	count2 = [libraryEntry numberOfPoints];
 	float *peakMasses = [self masses];

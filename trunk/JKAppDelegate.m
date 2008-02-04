@@ -865,11 +865,15 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
         [document showWindows];
     }
 }
+#pragma mark -
 
+#pragma mark JKSummarizer
 - (JKSummarizer *)summarizer {
     return summarizer;
 }
+#pragma mark -
 
+#pragma mark Exception Handling
 - (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldHandleException:(NSException *)exception mask:(unsigned int)aMask {
     if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue] >= JK_VERBOSITY_DEBUG) {
         [self printStackTrace:exception];

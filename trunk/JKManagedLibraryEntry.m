@@ -18,14 +18,21 @@
 - (id)init {
 	self = [super init];
     if (self != nil) {
-//        numberOfPoints = 0;
-//        masses = (float *) malloc(numberOfPoints*sizeof(float));
-//        intensities = (float *) malloc(numberOfPoints*sizeof(float));
+        numberOfPoints = 0;
+        needDatapointsRefresh = YES;
+        masses = (float *) malloc(numberOfPoints*sizeof(float));
+        intensities = (float *) malloc(numberOfPoints*sizeof(float));
     }
     return self;
 }
 
-- (void) dealloc {     
+- (void)awakeFromFetch {
+    needDatapointsRefresh = YES;
+}
+
+- (void) dealloc { 
+    free(masses);
+    free(intensities);
     [super dealloc];
 }
 #pragma mark -
@@ -36,7 +43,8 @@
         JKLogWarning(@"Empty JCAMPString encountered.");
         return;
     }
-		
+		 needDatapointsRefresh = YES;
+    
         NSCharacterSet *whiteCharacters = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 		NSScanner *theScanner = [[NSScanner alloc] initWithString:inString];
 		
@@ -350,9 +358,11 @@
 		if ([theScanner scanString:@"##NPOINTS=" intoString:NULL]) {
             int scanNumber;
 			if (![theScanner scanInt:&scanNumber]) {
-				[self setNumberOfPoints:0];
+              //  numberOfPoints = 0;
+				//[self setNumberOfPoints:0];
 			}
-            [self setNumberOfPoints:scanNumber];
+           // numberOfPoints = scanNumber;
+           // [self setNumberOfPoints:scanNumber];
 		} else {
 			JKLogError(@"Couldn't find number of points.");
 		}	
@@ -533,18 +543,110 @@
 - (NSString *)legendEntry {
     return [NSString stringWithFormat:NSLocalizedString(@"Library Entry '%@'",@""),[self name]];
 }
+#pragma mark -
 
-//- (IBAction)viewOnline{
-//	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi?ID=%@&Units=SI",[self CASNumber]]]];
-//}
-//
-//- (IBAction)downloadMolFile{
-//	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]]];
-//}
-//
-//- (IBAction)downloadMassSpectrum{
-//	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",[self CASNumber],[self CASNumber]]]];
-//}
+#pragma mark IBActions
+- (IBAction)viewOnline{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi?ID=%@&Units=SI",[self CASNumber]]]];
+}
+
+- (IBAction)downloadMolFile{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]]];
+}
+
+- (IBAction)downloadMassSpectrum{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",[self CASNumber],[self CASNumber]]]];
+}
+#pragma mark -
+
+#pragma mark Calculated Accessors
+- (NSString *)peakTable{
+  	NSMutableString *newPeakTable = [[[NSMutableString alloc] init] autorelease];
+	int j;
+    float *massesL = [self masses];
+    float *intensitiesL = [self intensities];
+    for (j=0; j < numberOfPoints; j++) {
+		[newPeakTable appendFormat:@"%.0f, %.0f ", massesL[j], intensitiesL[j]];
+		if (fmod(j,8) == 7 && j != numberOfPoints-1) {
+			[newPeakTable appendString:@"\r\n"];
+		}
+	}
+    return newPeakTable;
+}
+
+- (void)setPeakTable:(NSString *)newPeakTable {
+    NSAssert(newPeakTable,@"Peak table may not be nil.");
+     needDatapointsRefresh = YES;
+	NSScanner *theScanner = [[NSScanner alloc] initWithString:newPeakTable];
+	int j, massInt, intensityInt;
+    
+    // Check for silly HP JCAMP file
+    if ([newPeakTable rangeOfString:@","].location == NSNotFound) {
+        numberOfPoints = [[newPeakTable componentsSeparatedByString:@"\n"] count]-1;
+    } else {
+        numberOfPoints = [[newPeakTable componentsSeparatedByString:@","] count]-1;
+    }
+    
+    float newMass;
+    float newIntensity;
+    NSMutableSet *datapointsSet = [[NSMutableSet alloc] init];
+	for (j=0; j < numberOfPoints; j++){
+		if (![theScanner scanInt:&massInt]) JKLogError(@"Error during reading library (masses).");
+		newMass = massInt*1.0f;
+		[theScanner scanUpToCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:NULL];
+		if (![theScanner scanInt:&intensityInt]) JKLogError(@"Error during reading library (intensities).");
+		newIntensity = intensityInt*1.0f;
+        NSManagedObject *newDatapoint = [NSEntityDescription
+                                         insertNewObjectForEntityForName:@"PKDatapoint"
+                                         inManagedObjectContext:[self managedObjectContext]];
+        [newDatapoint setValue:[NSNumber numberWithFloat:newMass] forKey:@"mass"];
+        [newDatapoint setValue:[NSNumber numberWithFloat:newIntensity] forKey:@"intensity"];
+        [datapointsSet addObject:newDatapoint];
+	}
+    [self willChangeValueForKey:@"datapoints"];
+    [self setValue:datapointsSet forKey:@"datapoints"];
+    [self didChangeValueForKey:@"datapoints"];
+	[theScanner release];	
+    [datapointsSet release];
+}
+
+- (int)numberOfPoints {
+    return numberOfPoints;
+}
+- (float *)masses {
+    if (needDatapointsRefresh) {
+        [self datapointsRefresh];     
+    }
+    return masses;
+}
+- (float *)intensities {
+    if (needDatapointsRefresh) {
+        [self datapointsRefresh];
+    }
+    return intensities;
+}
+
+- (void)datapointsRefresh {
+    int i = 0;
+    numberOfPoints = [[self valueForKey:@"datapoints"] count];
+    masses = (float *)realloc(masses, numberOfPoints*sizeof(float));
+    intensities = (float *)realloc(intensities, numberOfPoints*sizeof(float));
+    maxIntensity = 0.0f;
+    NSSet *datapoints = [self valueForKey:@"datapoints"];
+    for (id point in datapoints) {
+        masses[i] = [[point valueForKey:@"mass"] floatValue];    
+        intensities[i] = [[point valueForKey:@"intensity"] floatValue];    
+        if (intensities[i] > maxIntensity)
+            maxIntensity = intensities[i];
+        i++;
+    }
+    needDatapointsRefresh = NO;
+}
+
+- (float)maxIntensity {
+    return maxIntensity;
+}
+
 - (NSString *)library
 {
     id persistentStore = [[self objectID] persistentStore]; 
@@ -568,57 +670,17 @@
 }
 #pragma mark -
 
+#pragma mark Scanned Mass Range
 - (BOOL)hasScannedMassRange {
     return NO;
 }
 - (float)minScannedMassRange {
-    return -1000.0f;
+    return -1000.0f; // bogus values, should be ignored
 }
 - (float)maxScannedMassRange {
-    return 1000.0f;
+    return 1000.0f; // bogus values, should be ignored
 }
-
-//
-//- (void)setImage:(NSImage *)inImage
-//{
-//    [self willChangeValueForKey: @"image"];
-//    [self setPrimitiveValue:[value copy] forKey: @"image"];
-//    [self didChangeValueForKey: @"image"];
-//}
-//
-//
-//- (void)willSave
-//{
-//    NSImage *tmpImage = [self primitiveValueForKey:@"image"];
-//    if (array != nil)
-//    {
-//        [self setPrimitiveValue:[NSArchiver tmpImage]
-//                         forKey:@"imageData"];
-//    }
-//    else
-//        [self setPrimitiveValue:nil forKey:@"imageData"];
-//    
-//    [super willSave];
-//}
-//
-//- (NSImage *)image {
-//    NSImage *ret;
-//
-//    [self willAccessValueForKey: @"image"];
-//    ret = [self primitiveValueForKey: @"image"];
-//    [self didAccessValueForKey: @"image"];
-//
-//    return ret;
-//}
-//
-//- (void)awakeFromFetch
-//{
-//    NSData *imageData = [self valueForKey:@"imageData"];
-//    if (imageData != nil) {
-//        NSImage *image = [NSUnarchiver unarchiveObjectWithData:imageData];
-//        [self setPrimitiveValue:array forKey:@"image"];
-//    }
-//}
+#pragma mark -
 
 #pragma mark Accessors (NSManagedObject style)
 - (NSString *)name
@@ -935,128 +997,6 @@
     [self setPrimitiveValue:newsynonyms forKey:@"synonyms"];
     [self didChangeValueForKey:@"synonyms"];
 }
-
-- (int)numberOfPoints
-{
-    [self willAccessValueForKey:@"numberOfPoints"];
-    int f = [[self primitiveValueForKey:@"numberOfPoints"] intValue];
-    [self didAccessValueForKey:@"numberOfPoints"];
-    return f;
-}
-
-- (void)setNumberOfPoints:(int)newnumberOfPoints
-{
-    [self willChangeValueForKey:@"numberOfPoints"];
-    [self setPrimitiveValue:[NSNumber numberWithInt:newnumberOfPoints] forKey:@"numberOfPoints"];
-    [self didChangeValueForKey:@"numberOfPoints"];
-}
-
-- (float *)masses {
-    [self willAccessValueForKey:@"masses"];
-
-   float *masses = [[self primitiveValueForKey:@"masses"] bytes];
-
-#warning [BUG] Floats not swapped if necessary (see comment below)
-    // The library file format currently differs on PPC and Intel machines.
-    // Storing this data should probably be better done by archiving and storing the data.
-    // Should consider to use one archive only to hold both masses and intensities.
-    // Use - (void)awakeFromFetch to unarchive.
-    // Use - (void)willSave (?) to archive.
-    
-//    NSData *data;
-//    NSKeyedUnarchiver *unarchiver;
-//    
-//    data = [self primitiveValueForKey:@"masses"];
-//    unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-//    // Customize unarchiver here
-//    masses = [unarchiver decodeFloatArrayForKey:@"masses" returnedCount:&numberOfPoints];
-//    masses = [unarchiver 
-//    [unarchiver finishDecoding];
-//    [unarchiver release];
-    
-    [self didAccessValueForKey:@"masses"];
-    return masses;
-}
-
-- (void)setMasses:(float *)newMasses
-{
-    [self willChangeValueForKey:@"masses"];
-
-//    NSMutableData *data;
-//    NSKeyedArchiver *archiver;
-//    
-//    data = [NSMutableData data];
-//    archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-//    [archiver encodeFloatArray:masses withCount:numberOfPoints forKey:@"masses"];
-//    [archiver finishEncoding];
-//    [archiver release];
-//    
-//    [archiver encodeFloatArray:masses withCount:numberOfPoints forKey:@"masses"];
-//    [self setPrimitiveValue:data forKey:@"masses"];
-
-    [self setPrimitiveValue:[NSData dataWithBytes:newMasses length:[self numberOfPoints]*sizeof(float)] forKey:@"masses"];
-    [self didChangeValueForKey:@"masses"];
-}
-
-- (float *)intensities {
-    [self willAccessValueForKey:@"intensities"];
-    float *intensities = [[self primitiveValueForKey:@"intensities"] bytes];
-    [self didAccessValueForKey:@"intensities"];
-    return intensities;
-}
-
-- (void)setIntensities:(float *)newIntensities
-{
-    [self willChangeValueForKey:@"intensities"];
-    [self setPrimitiveValue:[NSData dataWithBytes:newIntensities length:[self numberOfPoints]*sizeof(float)] forKey:@"intensities"];
-    [self didChangeValueForKey:@"intensities"];
-}
-#pragma mark -
-
-#pragma mark Peak Table
-- (NSString *)peakTable{
-  	NSMutableString *newPeakTable = [[[NSMutableString alloc] init] autorelease];
-	int j, numberOfPoints = [self numberOfPoints];
-    float *masses = [self masses];
-    float *intensities = [self intensities];
-    for (j=0; j < numberOfPoints; j++) {
-		[newPeakTable appendFormat:@"%.0f, %.0f ", masses[j], intensities[j]];
-		if (fmod(j,8) == 7 && j != numberOfPoints-1) {
-			[newPeakTable appendString:@"\r\n"];
-		}
-	}
-    return newPeakTable;
-}
-
-- (void)setPeakTable:(NSString *)newPeakTable {
-    NSAssert(newPeakTable,@"Peak table may not be nil.");
-    
-	NSScanner *theScanner = [[NSScanner alloc] initWithString:newPeakTable];
-	int j, massInt, intensityInt, numberOfPoints;
-    
-    // Check for silly HP JCAMP file
-    if ([newPeakTable rangeOfString:@","].location == NSNotFound) {
-        numberOfPoints = [[newPeakTable componentsSeparatedByString:@"\n"] count]-1;
-    } else {
-        numberOfPoints = [[newPeakTable componentsSeparatedByString:@","] count]-1;
-    }
-    [self setNumberOfPoints:numberOfPoints];
-    
-    float newMasses[numberOfPoints];
-    float newIntensities[numberOfPoints];
-	for (j=0; j < numberOfPoints; j++){
-		if (![theScanner scanInt:&massInt]) JKLogError(@"Error during reading library (masses).");
-		newMasses[j] = massInt*1.0f;
-		[theScanner scanUpToCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:NULL];
-		if (![theScanner scanInt:&intensityInt]) JKLogError(@"Error during reading library (intensities).");
-		newIntensities[j] = intensityInt*1.0f;
-	}
-	[theScanner release];	
-    
-    [self setNumberOfPoints:numberOfPoints];
-    [self setMasses:newMasses];
-    [self setIntensities:newIntensities];
-}
 #pragma mark -
 
 #pragma mark Encoding
@@ -1071,7 +1011,7 @@
 - (id)initWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) {
 		int version = [coder decodeIntForKey:@"version"];
-		
+		needDatapointsRefresh = YES;
 		if (version >= 2) {
             [self setJCAMPString:[coder decodeObjectForKey:@"jcampString"]];
 			return self;
