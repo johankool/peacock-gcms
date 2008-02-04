@@ -46,6 +46,9 @@
         [managedDocuments addObject:document];
         [documentTableView reloadItem:managedDocuments reloadChildren:YES];
         [documentTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[documentTableView rowForItem:document]] byExtendingSelection:NO];
+        
+        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+        [center postNotificationName:@"JKGCMSDocument_DocumentActivateNotification" object:document];
      }
     [super addDocument:document];
 }
@@ -56,6 +59,9 @@
         [managedDocuments removeObject:document];
         [documentTabView removeTabViewItem:[documentTabView tabViewItemAtIndex:[documentTabView indexOfTabViewItemWithIdentifier:document]]];
         [documentTableView reloadItem:managedDocuments reloadChildren:YES];
+        
+        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+        [center postNotificationName:@"JKGCMSDocument_DocumentDeactivateNotification" object:document];
     }
 	[super removeDocument:document];
 }
