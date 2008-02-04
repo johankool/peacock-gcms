@@ -24,6 +24,7 @@
 #import "netcdf.h"
 #import "JKSearchResult.h"
 #import "PKPluginProtocol.h"
+#import "NSString+ModelCompare.h"
 
 NSString *const JKGCMSDocument_DocumentDeactivateNotification = @"JKGCMSDocument_DocumentDeactivateNotification";
 NSString *const JKGCMSDocument_DocumentActivateNotification   = @"JKGCMSDocument_DocumentActivateNotification";
@@ -780,6 +781,7 @@ int const JKGCMSDocument_Version = 7;
     if ([model isEqualToString:@"TIC"]) {
         return [self ticChromatogram];
     }
+        
     NSMutableArray *mzValues = [NSMutableArray array];
     [model stringByTrimmingCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+"] invertedSet]];
     if ([model isEqualToString:@""]) {
@@ -840,7 +842,7 @@ int const JKGCMSDocument_Version = 7;
     
     // Check if such a chromatogram is already available
     for (JKChromatogram *chromatogram in [self chromatograms]) {
-        if ([self modelString:[chromatogram model] isEqualToString:mzValuesString]) {
+        if ([[chromatogram model] isEqualToModelString:mzValuesString]) {
             return chromatogram;
         }
     }
@@ -998,7 +1000,8 @@ int const JKGCMSDocument_Version = 7;
         NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
                                                        code:807
                                                    userInfo:userInfoDict] autorelease];
-        *error = anError;             
+        *error = anError;    
+        JKLogError(errorString);
         return nil;
     }
     
@@ -1006,6 +1009,7 @@ int const JKGCMSDocument_Version = 7;
     if (plugIn) {
         NSObject <PKSpectraMatchingMethodProtocol> *object = [plugIn sharedObjectForMethod:spectraMatchingMethod];
         if (object) {
+            JKLogInfo(@"spectraMatchingObject is %@", object);
             return object;
         } else {
             // Error 801
@@ -1018,6 +1022,7 @@ int const JKGCMSDocument_Version = 7;
                                                            code:801
                                                        userInfo:userInfoDict] autorelease];
             *error = anError;             
+            JKLogError(errorString);
             return nil;
         }
     } else {
@@ -1030,7 +1035,8 @@ int const JKGCMSDocument_Version = 7;
         NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
                                                        code:800
                                                    userInfo:userInfoDict] autorelease];
-        *error = anError;                     
+        *error = anError;          
+        JKLogError(errorString);
         return nil;
     }
 }
@@ -1109,7 +1115,12 @@ int const JKGCMSDocument_Version = 7;
     }    
 
     // Get Spectra Matching Object from Plugin
-    NSObject <PKSpectraMatchingMethodProtocol> *spectraMatchingObject = [self objectForSpectraMatching:nil];
+    NSObject <PKSpectraMatchingMethodProtocol> *spectraMatchingObject = [self objectForSpectraMatching:error];
+    if (!spectraMatchingObject) {
+#warning Check if we need to do some cleaning up here before returning
+        [self presentError:error];
+        return;
+    }
     // Restore method settings
     [spectraMatchingObject setSettings:[self spectraMatchingSettingsForMethod:spectraMatchingMethod]];
     [spectraMatchingObject prepareForAction];
@@ -1144,7 +1155,7 @@ int const JKGCMSDocument_Version = 7;
             
             for (libraryEntry in libraryEntries) {
 //                score = [peakSpectrum scoreComparedTo:libraryEntry];    
-                score = [spectraMatchingObject matchingScoreForSpectrum:peakSpectrum comparedToLibraryEntry:libraryEntry error:nil];
+                score = [spectraMatchingObject matchingScoreForSpectrum:peakSpectrum comparedToLibraryEntry:libraryEntry error:error];
 
                 
                 if (score >= minimumScoreSearchResultsF) {

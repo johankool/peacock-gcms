@@ -426,7 +426,7 @@
     if (baselinePointsCount <= 0) {
         NSError *error;
         if (![self detectBaselineAndReturnError:&error]) {
-            [self presentError:error];
+            [[self document] presentError:error];
         }
 //       NSRunInformationalAlertPanel(NSLocalizedString(@"No Baseline Set",@""),NSLocalizedString(@"No baseline have yet been identified in the chromatogram. Use the 'Identify Baseline' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);
 //        return nil;

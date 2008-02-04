@@ -77,13 +77,13 @@
 }
 
 - (void)testCaseBaseline {
-    [testChromatogram obtainBaseline];
+    [testChromatogram detectBaselineAndReturnError:nil];
     int count= 2; // is expected value?
     STAssertEquals([testChromatogram baselinePointsCount], count, @"Number of baseline points");
 }
 
 - (void)testCaseAddPeak {
-    [testChromatogram obtainBaseline];
+    [testChromatogram detectBaselineAndReturnError:nil];
     JKPeakRecord *peak = [testChromatogram peakFromScan:3 toScan:7];
     [testChromatogram insertObject:peak inPeaksAtIndex:0];
     unsigned int count= 1; // is expected value?

@@ -12,6 +12,6 @@
 @interface NSString (ModelCompare) 
 
 -(BOOL)isEqualToModelString:(NSString *)aModelString;
-- (NSString *)cleanupModelString:(NSString *)model;
+- (NSString *)cleanupModelString;
 
 @end

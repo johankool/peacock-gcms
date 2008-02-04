@@ -35,7 +35,7 @@
 
 - (float)scoreComparedTo:(id <JKComparableProtocol>)inSpectrum;
 - (float)scoreComparedTo:(id <JKComparableProtocol>)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex;
-
+- (float)oldScoreComparedTo:(id <JKComparableProtocol>)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex;
 - (NSNumber *)retentionIndex;
 - (NSString *)peakTable;
 

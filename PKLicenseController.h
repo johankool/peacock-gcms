@@ -21,6 +21,8 @@
     IBOutlet NSButton *includeInfoField;
 }
 
++ (PKLicenseController *)sharedController;
+
 - (NSArray *)gatherValidLicenses;
 - (void)begForRegistration;
 - (BOOL)validLicenseAvailable;

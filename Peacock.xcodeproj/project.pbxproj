@@ -31,13 +31,11 @@
 		C7213E470D1726DB0062E45B /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
 		C729CAA90A4B45CD00FAB04F /* JKDataModelProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = C729CAA70A4B45CD00FAB04F /* JKDataModelProxy.h */; };
 		C729CAAA0A4B45CD00FAB04F /* JKDataModelProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */; };
-		C72C8509098BE83600CEF565 /* JKSpectrumTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C8508098BE83600CEF565 /* JKSpectrumTest.m */; };
 		C72C85D7098BF1B800CEF565 /* JKGeneralTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C85D6098BF1B800CEF565 /* JKGeneralTesting.m */; };
 		C7314A370D463D0F0093EB47 /* PKLicenseController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7314A350D463D0F0093EB47 /* PKLicenseController.h */; };
 		C7314A380D463D0F0093EB47 /* PKLicenseController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7314A360D463D0F0093EB47 /* PKLicenseController.m */; };
 		C7314A3B0D4640CE0093EB47 /* PKRegister.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7314A390D4640CE0093EB47 /* PKRegister.xib */; };
 		C7314C570D465C7D0093EB47 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7314C560D465C7D0093EB47 /* AddressBook.framework */; };
-		C73533D20B7A703C00F7634B /* JKChromatogramTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C73533D10B7A703C00F7634B /* JKChromatogramTest.m */; };
 		C73B27CE0CAD9EF600C09AAE /* JKSummarizer.h in Headers */ = {isa = PBXBuildFile; fileRef = C73B27CC0CAD9EF600C09AAE /* JKSummarizer.h */; };
 		C73B27CF0CAD9EF600C09AAE /* JKSummarizer.m in Sources */ = {isa = PBXBuildFile; fileRef = C73B27CD0CAD9EF600C09AAE /* JKSummarizer.m */; };
 		C73B27D80CB1224100C09AAE /* JKSummaryController.h in Headers */ = {isa = PBXBuildFile; fileRef = C73B27D60CB1224100C09AAE /* JKSummaryController.h */; };
@@ -99,6 +97,7 @@
 		C777A2D50A1DFEE400CF44D9 /* JKBond.m in Sources */ = {isa = PBXBuildFile; fileRef = C777A2CF0A1DFEE400CF44D9 /* JKBond.m */; };
 		C777A2D60A1DFEE400CF44D9 /* JKMoleculeModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C777A2D00A1DFEE400CF44D9 /* JKMoleculeModel.h */; };
 		C777A2D70A1DFEE400CF44D9 /* JKMoleculeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C777A2D10A1DFEE400CF44D9 /* JKMoleculeModel.m */; };
+		C778A2CE0D4FD202005C95E0 /* PKAbundanceSpectraMatchingMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D4A5D30D2DB9B500E97AD4 /* PKAbundanceSpectraMatchingMethod.m */; };
 		C77C585A09801145002E7796 /* Peacock Help in Resources */ = {isa = PBXBuildFile; fileRef = C77C582F09800FAD002E7796 /* Peacock Help */; };
 		C77E32B90C0F2CBB00B8A64A /* libraries.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E32B80C0F2CBB00B8A64A /* libraries.png */; };
 		C7834D1B0941ED37005431CD /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D1A0941ED37005431CD /* Carbon.framework */; };
@@ -217,13 +216,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = Peacock;
-		};
-		C75C65930CFE1F8C003C7700 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C75C656F0CFE1DA0003C7700;
-			remoteInfo = Spotlight;
 		};
 		C7C589370CFDC4AE0009CDD9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -382,6 +374,8 @@
 		C777A2CF0A1DFEE400CF44D9 /* JKBond.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKBond.m; sourceTree = "<group>"; };
 		C777A2D00A1DFEE400CF44D9 /* JKMoleculeModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKMoleculeModel.h; sourceTree = "<group>"; };
 		C777A2D10A1DFEE400CF44D9 /* JKMoleculeModel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKMoleculeModel.m; sourceTree = "<group>"; };
+		C778A2C50D4FCF02005C95E0 /* PKAbundanceTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKAbundanceTest.h; path = /Users/jkool/Developer/Peacock/trunk/PKAbundanceTest.h; sourceTree = "<absolute>"; };
+		C778A2C60D4FCF02005C95E0 /* PKAbundanceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKAbundanceTest.m; path = /Users/jkool/Developer/Peacock/trunk/PKAbundanceTest.m; sourceTree = "<absolute>"; };
 		C77C583009800FAD002E7796 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = "English.lproj/Peacock Help"; sourceTree = "<group>"; };
 		C77E2FBD0C0EF20C00B8A64A /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
 		C77E2FC00C0EF21700B8A64A /* minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minus.png; sourceTree = "<group>"; };
@@ -682,6 +676,8 @@
 				C73533D10B7A703C00F7634B /* JKChromatogramTest.m */,
 				C72C8507098BE83600CEF565 /* JKSpectrumTest.h */,
 				C72C8508098BE83600CEF565 /* JKSpectrumTest.m */,
+				C778A2C50D4FCF02005C95E0 /* PKAbundanceTest.h */,
+				C778A2C60D4FCF02005C95E0 /* PKAbundanceTest.m */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -1125,7 +1121,6 @@
 			);
 			dependencies = (
 				C7C589380CFDC4AE0009CDD9 /* PBXTargetDependency */,
-				C75C65940CFE1F8C003C7700 /* PBXTargetDependency */,
 			);
 			name = Peacock;
 			productInstallPath = "$(HOME)/Applications";
@@ -1404,9 +1399,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C72C8509098BE83600CEF565 /* JKSpectrumTest.m in Sources */,
 				C72C85D7098BF1B800CEF565 /* JKGeneralTesting.m in Sources */,
-				C73533D20B7A703C00F7634B /* JKChromatogramTest.m in Sources */,
+				C778A2CE0D4FD202005C95E0 /* PKAbundanceSpectraMatchingMethod.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1440,11 +1434,6 @@
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* Peacock */;
 			targetProxy = C72C8532098BEAD500CEF565 /* PBXContainerItemProxy */;
-		};
-		C75C65940CFE1F8C003C7700 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C75C656F0CFE1DA0003C7700 /* Spotlight */;
-			targetProxy = C75C65930CFE1F8C003C7700 /* PBXContainerItemProxy */;
 		};
 		C7C589380CFDC4AE0009CDD9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
