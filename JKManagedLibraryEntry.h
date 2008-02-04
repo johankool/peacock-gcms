@@ -9,6 +9,11 @@
 #import "JKComparableProtocol.h"
 
 @interface JKManagedLibraryEntry : NSManagedObject <JKComparableProtocol> {	
+    int numberOfPoints;
+    float *masses;
+    float *intensities;
+    float maxIntensity;
+    BOOL needDatapointsRefresh;
 }
 
 #pragma mark Importing data
@@ -31,6 +36,13 @@
 - (void)setLibrary:(NSString *)aLibrary;
 - (NSString *)peakTable;
 - (void)setPeakTable:(NSString *)inString;
+- (int)numberOfPoints;
+//- (void)setNumberOfPoints:(int)newnumberOfPoints;
+- (float *)masses;
+//- (void)setMasses:(float *)newMasses;
+- (float *)intensities;
+//- (void)setIntensities:(float *)newIntensities;
+- (void)datapointsRefresh;
 #pragma mark -
 
 #pragma mark Accessors (NSManagedObject style)
@@ -76,11 +88,5 @@
 - (void)setGroup:(NSString *)newgroup;
 - (NSString *)synonyms;
 - (void)setSynonyms:(NSString *)newsynonyms;
-- (int)numberOfPoints;
-- (void)setNumberOfPoints:(int)newnumberOfPoints;
-- (float *)masses;
-- (void)setMasses:(float *)newMasses;
-- (float *)intensities;
-- (void)setIntensities:(float *)newIntensities;
 
 @end

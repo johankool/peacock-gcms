@@ -102,7 +102,7 @@
             i = end;			
         }
     }    
-    NSLog(@"%d peaks found", [newPeaks count]);
+//    JKLogDebug(@"%d peaks found", [newPeaks count]);
     return [newPeaks autorelease];
 }
 

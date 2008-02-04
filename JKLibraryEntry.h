@@ -8,7 +8,7 @@
 
 #import "JKSpectrum.h"
 
-@interface JKLibraryEntry : JKSpectrum <NSCoding> {	
+@interface JKLibraryEntry : JKSpectrum <JKComparableProtocol, NSCoding> {	
 	// Required in JCAMP-DX
 	NSString *name;			// ##TITLE=
 							// ##JCAMP-DX= (string) 5.00 $$ (Name and version number of the JCAMP-DX program) 

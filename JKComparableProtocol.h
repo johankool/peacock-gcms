@@ -4,6 +4,7 @@
 - (int)numberOfPoints;
 - (float *)masses;
 - (float *)intensities;
+- (float)maxIntensity;
 - (NSString *)model;
 - (BOOL)hasScannedMassRange;
 - (float)minScannedMassRange;

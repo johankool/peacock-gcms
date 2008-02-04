@@ -128,7 +128,7 @@ typedef enum {
 */
 - (void)resetToDefaultValues;
 - (void)renumberPeaks;
-
+- (id)objectForSpectraMatching:(NSError **)error;
 - (BOOL)performLibrarySearchForChromatograms:(NSArray *)someChromatograms error:(NSError **)error;
 - (BOOL)performBackwardSearchAndReturnError:(NSError **)error;
 - (BOOL)performBackwardSearchWithLibraryEntries:(NSArray *)libraryEntries maximumRetentionIndexDifference:(float)aMaximumRetentionIndexDifference  error:(NSError **)error;

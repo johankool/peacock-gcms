@@ -1117,9 +1117,9 @@ int const JKGCMSDocument_Version = 7;
     // Get Spectra Matching Object from Plugin
     NSObject <PKSpectraMatchingMethodProtocol> *spectraMatchingObject = [self objectForSpectraMatching:error];
     if (!spectraMatchingObject) {
-#warning Check if we need to do some cleaning up here before returning
-        [self presentError:error];
-        return;
+// Check if we need to do some cleaning up here before returning
+        #warning Create error here
+        return NO;
     }
     // Restore method settings
     [spectraMatchingObject setSettings:[self spectraMatchingSettingsForMethod:spectraMatchingMethod]];
@@ -1467,13 +1467,12 @@ int const JKGCMSDocument_Version = 7;
 
     NSMutableArray *chromsToInsert = [NSMutableArray array];
 	for (chrom in newChromatograms) {
-#warning Commented out something important
         NSMutableIndexSet *peaksToRemove = [NSMutableIndexSet indexSet];
-//		for (JKPeakRecord *peak in [chrom peaks]) {
-//			if (([peak countOfSearchResults] == 0) && ([peak identified] == NO) && ([peak confirmed] == NO)) {
-//                [peaksToRemove addIndex:[[chrom peaks] indexOfObject:peak]];
-//            }
-//		}    
+		for (JKPeakRecord *peak in [chrom peaks]) {
+			if (([peak countOfSearchResults] == 0) && ([peak identified] == NO) && ([peak confirmed] == NO)) {
+                [peaksToRemove addIndex:[[chrom peaks] indexOfObject:peak]];
+            }
+		}    
         
         // Only change the array after we've iterated over it
         [[chrom peaks] removeObjectsAtIndexes:peaksToRemove];

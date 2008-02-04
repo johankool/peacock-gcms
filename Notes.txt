@@ -4,29 +4,58 @@ Notes about Peacock
 BUGS TO FIX:
 ------------
 
+ version 0.25:
   1. Library is not Intel/PPC-proof
   2. Library editor: point table
   3. Legend entries, esp. for library entries
-  4. Properly leave out dataseries when set to not visible
-  5. Change isVisible to isHidden?
-  6. Inspector doesn't always update properly when opening first document
-  7. Use template images when available
-  8. Confirm button for identified peak
-  9. Unit per xx pixels not working properly
- 10. Font color not respected for labels, peak labels and legend
+  4. Inspector doesn't always update properly when opening first document
+  5. Change shortcut for "Discard Library Hit" (conflicts with Front Row)
+  
+ version 0.26 (or later):
+  1. Properly leave out dataseries when set to not visible
+  2. Change isVisible to isHidden?
+  3. Unit per xx pixels not working properly
+  4. Font color not respected for labels, peak labels and legend
+  5. Use template images when available
+  6. Dragging from library editor onto peak causes crash
+    
+FIXED BUGS:
+-----------
+ 
+ version 0.25:
+  1. Deleting chromatograms and peaks now works properly again
+  2. Chromatograms for mass values "100-101" and "100+101" now properly seen as the same
   
 FEATURES TO ADD:
 ----------------
 
+ version 0.25:
+  1. Search result storing used search settings
+  2. Confirm button for identified peak
+
+ version 0.26 (or later):
   1. Legend per dataseries for stacked drawing
+  2. Subtract chromatograms
+  3. Subtract spectra
+  4. Toolbar item for library panel
+  5. Inspector panel for dataseries
+  6. Store graph settings in Application Support folder
+  7. Click-to-Identify
+  8. Batch operations through multiple selection and choosing action
+  9. Create Plugin SDK incl. documentation
+ 
+ADDED FEATURES:
+---------------
+
+ version 0.25:
+  1. Plugin structure
   2. Editing dataseries title
-  3. Subtract chromatograms
-  4. Subtract spectra
-  5. Plugin structure
-  6. Search result storing used search settings
-  7. Inspector panel for dataseries
-  8. Toolbar item for library panel
-  9. Store graph settings in Application Support folder
- 10. Click-to-Identify
- 11. Batch operations through multiple selection and choosing action
- 12. Line thickness for dataseries
+  3. Line thickness for dataseries
+
+MISC TODO:
+----------
+
+ version 0.25:
+  1. Take care of all build warnings
+  2. Properly testing before release
+  

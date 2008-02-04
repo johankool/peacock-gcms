@@ -59,7 +59,7 @@
 					  ofObject:(id)object
 						change:(NSDictionary *)change
 					   context:(void *)context {
-	if ([[[self libraryController] selectedObjects] count] > 0) {
+	if (object == libraryController) {
 //		[moleculeView setModel:[[JKMoleculeModel alloc] initWithMoleculeString:[[[[self libraryController] selectedObjects] objectAtIndex:0] valueForKey:@"molString"]]];
         [moleculeView setNeedsDisplay:YES];
       

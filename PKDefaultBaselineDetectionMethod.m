@@ -121,7 +121,7 @@
             [newBaseline addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:i], @"scan", [NSNumber numberWithFloat:intensity[i]], @"intensity", nil]];
         }
     }
-        NSLog(@"%d baseline points found", [newBaseline count]);
+//    JKLogDebug(@"%d baseline points found", [newBaseline count]);
     return [newBaseline autorelease];
 }
 
