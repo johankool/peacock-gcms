@@ -5,11 +5,10 @@ BUGS TO FIX:
 ------------
 
  version 0.25:
-  1. Library is not Intel/PPC-proof
-  2. Library editor: point table
-  3. Legend entries, esp. for library entries
-  4. Inspector doesn't always update properly when opening first document
-  5. Change shortcut for "Discard Library Hit" (conflicts with Front Row)
+  1. Legend entries, esp. for library entries are wrong
+  2. Settings not available to plugin methods
+  3. Control point bounds exception
+  4. Setting "Sample Description" and "Sample Code" not possible
   
  version 0.26 (or later):
   1. Properly leave out dataseries when set to not visible
@@ -25,6 +24,10 @@ FIXED BUGS:
  version 0.25:
   1. Deleting chromatograms and peaks now works properly again
   2. Chromatograms for mass values "100-101" and "100+101" now properly seen as the same
+  3. Library is not Intel/PPC-proof
+  4. Library editor: point table
+  5. Inspector doesn't always update properly when opening first document
+  6. Change shortcut for "Discard Library Hit" (conflicts with Front Row)
   
 FEATURES TO ADD:
 ----------------

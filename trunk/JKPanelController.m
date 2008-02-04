@@ -35,7 +35,17 @@ static JKPanelController *theSharedController;
 				   selector: @selector(documentDeactivateNotification:)
 					   name: NSWindowDidResignMainNotification
 					 object: nil];
-
+        
+        [center addObserver: theSharedController
+				   selector: @selector(documentActivateNotification:)
+					   name: @"JKGCMSDocument_DocumentActivateNotification"
+					 object: nil];
+        
+        [center addObserver: theSharedController
+				   selector: @selector(documentDeactivateNotification:)
+					   name: @"JKGCMSDocument_DocumentDeactivateNotification"
+					 object: nil];
+        
         [center addObserver: theSharedController
 				   selector: @selector(plotViewDidBecomeFirstResponderNotification:)
 					   name: MyGraphView_DidBecomeFirstResponderNotification
@@ -166,20 +176,26 @@ static JKPanelController *theSharedController;
 #pragma mark NOTIFICATIONS
 
 - (void)documentActivateNotification:(NSNotification *)aNotification {
-	if ([[[aNotification object] document] isKindOfClass:[JKGCMSDocument class]]) { // || [[[aNotification object] document] isKindOfClass:[JKStatisticsDocument class]]) {
-		if ([[aNotification object] document] != inspectedDocument) {
-			[self setInspectedDocument:[[aNotification object] document]];
+	if ([[aNotification object] isKindOfClass:[JKGCMSDocument class]]) {
+		if ([aNotification object] != inspectedDocument) {
+			[self setInspectedDocument:[aNotification object]];
 			[infoTableView reloadData];
 		}
-    }  else {
+    } else if ([[aNotification object] isKindOfClass:[NSWindow class]]) {
+        if ([[[aNotification object] document] isKindOfClass:[JKGCMSDocument class]]) { 
+            if ([[aNotification object] document] != inspectedDocument) {
+                [self setInspectedDocument:[[aNotification object] document]];
+                [infoTableView reloadData];
+            }
+        }
+        if ([[[aNotification object] firstResponder] isKindOfClass:[PKGraphView class]]) {
+            [self setInspectedGraphView:[[aNotification object] firstResponder]];
+        }
+    }  else  {
 		[self setInspectedDocument:nil];
-	}
-    if ([[[aNotification object] firstResponder] isKindOfClass:[PKGraphView class]]) {
-        [self setInspectedGraphView:[[aNotification object] firstResponder]];
-    } else {
         [self setInspectedGraphView:nil];
-    }
-    
+	}
+
     [legendFontButton setState:NSOffState];
     [labelFontButton setState:NSOffState];
     [axesLabelFontButton setState:NSOffState];

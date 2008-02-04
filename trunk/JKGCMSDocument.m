@@ -1691,9 +1691,7 @@ int const JKGCMSDocument_Version = 7;
 
 - (void)windowDidBecomeMain:(NSNotification *)notification
 {
-    JKLogEnteringMethod();
     [self postNotification:JKGCMSDocument_DocumentActivateNotification];
-    JKLogExitingMethod();
 }
 
 - (void) windowDidResignMain: (NSNotification *) notification

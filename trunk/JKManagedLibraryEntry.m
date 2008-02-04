@@ -633,7 +633,13 @@
     intensities = (float *)realloc(intensities, numberOfPoints*sizeof(float));
     maxIntensity = 0.0f;
     NSSet *datapoints = [self valueForKey:@"datapoints"];
-    for (id point in datapoints) {
+    NSSortDescriptor *massDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"mass"
+                                                                    ascending:YES
+                                                                     selector:@selector(compare:)] autorelease];
+                                                         
+    NSArray *descriptors = [NSArray arrayWithObject:massDescriptor];
+    NSArray *dataarray = [[datapoints allObjects] sortedArrayUsingDescriptors:descriptors];
+    for (id point in dataarray) {
         masses[i] = [[point valueForKey:@"mass"] floatValue];    
         intensities[i] = [[point valueForKey:@"intensity"] floatValue];    
         if (intensities[i] > maxIntensity)
