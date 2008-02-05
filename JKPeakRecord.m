@@ -488,22 +488,12 @@
 
 - (JKSpectrum *)spectrum {
     JKSpectrum *spectrum = [[self document] spectrumForScan:[self top]];
-    if (![[self label] isEqualToString:@""]) {
-        [spectrum setModel:[NSString stringWithFormat:NSLocalizedString(@"Spectrum for Peak '%@' (#%d)",@""),[self label], [self peakID]]];        
-    } else {
-        [spectrum setModel:[NSString stringWithFormat:NSLocalizedString(@"Spectrum for Peak #%d",@""), [self peakID]]];        
-    }
     [spectrum setPeak:self];
     return spectrum;
 }
 
 - (JKSpectrum *)combinedSpectrum {
     JKSpectrum *spectrum = [[[self document] spectrumForScan:[self top]] spectrumBySubtractingSpectrum:[[[self document] spectrumForScan:[self start]] spectrumByAveragingWithSpectrum:[[self document] spectrumForScan:[self end]]]];
-    if ((![[self label] isEqualToString:@""]) && ([self label])) {
-        [spectrum setModel:[NSString stringWithFormat:NSLocalizedString(@"Combined Spectrum for Peak '%@' (#%d)",@""),[self label], [self peakID]]];        
-    } else {
-        [spectrum setModel:[NSString stringWithFormat:NSLocalizedString(@"Combined Spectrum for Peak #%d",@""), [self peakID]]];        
-    }
     [spectrum setPeak:self];
     return spectrum;
 }

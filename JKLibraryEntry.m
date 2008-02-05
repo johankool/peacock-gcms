@@ -576,7 +576,7 @@
 }
 
 - (NSString *)legendEntry {
-    return [NSString stringWithFormat:NSLocalizedString(@"Library Entry '%@'",@""),[self name]];
+    return [NSString stringWithFormat:NSLocalizedString(@"Library Entry %@",@""),[self name]];
 }
 #pragma mark -
 
@@ -693,6 +693,22 @@ idAccessor(library, setLibrary)
 - (IBAction)downloadMassSpectrum{
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",[self CASNumber],[self CASNumber]]]];
 }
+#pragma mark -
+
+#pragma mark Scanned Mass Range
+- (BOOL)hasScannedMassRange {
+    return NO;
+}
+- (float)minScannedMassRange {
+    return -1000.0f; // bogus values, should be ignored
+}
+- (float)maxScannedMassRange {
+    return 1000.0f; // bogus values, should be ignored
+}
+- (float)maxIntensity {
+    return jk_stats_float_max([self intensities], [self numberOfPoints]);
+}
+
 #pragma mark -
 
 #pragma mark Encoding

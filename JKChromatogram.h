@@ -61,6 +61,7 @@
 - (float)largestPeakSurface;
 - (void)removeUnidentifiedPeaks;
 #pragma mark -
+- (NSString *)legendEntry;
 
 #pragma mark Document
 - (JKGCMSDocument *)document;

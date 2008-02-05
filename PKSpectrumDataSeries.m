@@ -43,7 +43,7 @@ static void *PropertyObservationContext = (void *)1093;
     if (self) {
         // Zet de standaardwaarden
         // set in superclass
-		[self setSeriesTitle:[aSpectrum model]];
+		[self setSeriesTitle:[aSpectrum legendEntry]];
 		[self setKeyForXValue:@"Mass"];
 		[self setKeyForYValue:@"Intensity"];
 		[self setSeriesColor:[NSColor blueColor]];
@@ -108,7 +108,11 @@ static void *PropertyObservationContext = (void *)1093;
 	if (count <= 0) {	
 		return;
 	}
-
+	if (count == 1) {
+        JKLogWarning(@"Plotting a one point spectrum");
+		//return;
+	}
+    
 	float maxYValue = 0.0;
 	if (normalizeYData) {
 		for (i=0; i<count; i++) {

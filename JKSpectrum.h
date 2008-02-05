@@ -22,6 +22,7 @@
 	int numberOfPoints;
 	float *masses;
 	float *intensities;
+    BOOL combined;
 }
 
 - (id)initWithModel:(NSString *)modelString;
@@ -38,7 +39,8 @@
 - (float)oldScoreComparedTo:(id <JKComparableProtocol>)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex;
 - (NSNumber *)retentionIndex;
 - (NSString *)peakTable;
-
+- (NSString *)legendEntry;
+    
 #pragma mark ACCESSORS
 - (JKGCMSDocument *)document;
 - (void)setPeak:(JKPeakRecord *)inValue;
@@ -50,6 +52,8 @@
 - (float *)masses;
 - (void)setIntensities:(float *)inArray withCount:(int)inValue;
 - (float *)intensities;
+- (BOOL)combined;
+- (void)setCombined:(BOOL)inValue;
 
 @property (getter=masses) float *masses;
 @property (assign,getter=peak,setter=setPeak:) JKPeakRecord *peak;

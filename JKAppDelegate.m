@@ -28,7 +28,7 @@
 #import "PKGraphicalController.h"
 #import <ExceptionHandling/NSExceptionHandler.h>
 #import "PKPluginProtocol.h"
-#import "PKLicenseController.h"
+//#import "PKLicenseController.h"
 
 // Name of the application support folder
 static NSString * SUPPORT_FOLDER_NAME = @"Peacock";
@@ -196,7 +196,7 @@ static NSString * LICENSE_EXTENSION = @"peacock-license";
     //#warning High level debug verbosity set.
     //	JKSetVerbosityLevel(JK_VERBOSITY_ALL);
 
-#warning License check disabled
+//#warning License check disabled
 //    // Check for valid licenses
 //    [[PKLicenseController sharedController] showWindow:self];
 //    [[PKLicenseController sharedController] begIfNeeded];
@@ -300,9 +300,9 @@ static NSString * LICENSE_EXTENSION = @"peacock-license";
     }
 }
 
-- (IBAction)showLicenses:(id)sender {
-    [[PKLicenseController sharedController] showLicenses:self];
-}
+//- (IBAction)showLicenses:(id)sender {
+//    [[PKLicenseController sharedController] showLicenses:self];
+//}
 
 - (IBAction)showBatchProcessAction:(id)sender {
 	if (!batchProcessWindowController) {

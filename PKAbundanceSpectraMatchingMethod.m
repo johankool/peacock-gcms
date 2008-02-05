@@ -67,9 +67,8 @@
     // useScanRangeCheck
     BOOL useScanRangeCheck = NO;
     if ([spectrum hasScannedMassRange]) {
-#warning Not reading from doc!!!
-        minScannedMassRange = 45.0f;//[spectrum minScannedMassRange];
-        maxScannedMassRange = 650.0f;//[spectrum maxScannedMassRange];
+        minScannedMassRange = [spectrum minScannedMassRange];
+        maxScannedMassRange = [spectrum maxScannedMassRange];
         useScanRangeCheck = YES;
     }
     

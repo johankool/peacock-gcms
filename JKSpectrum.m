@@ -39,6 +39,7 @@
 		intensities = (float *) malloc(1*sizeof(float));
         NSAssert(modelString, @"modelString is nil");
         model = [modelString retain];
+        combined = NO;
 	}
 	return self;
 }
@@ -73,6 +74,26 @@
     //@"time"
 }
 #pragma mark -
+
+- (NSString *)legendEntry {
+    if (peak) {
+        if (combined) {
+            if (![[peak label] isEqualToString:@""]) {
+                return [NSString stringWithFormat:NSLocalizedString(@"Peak (combined) %@ (#%d)",@""),[peak label], [peak peakID]];        
+            } else {
+                return [NSString stringWithFormat:NSLocalizedString(@"Peak (combined) #%d",@""), [peak peakID]];        
+            }                        
+        } else {
+            if (![[peak label] isEqualToString:@""]) {
+                return [NSString stringWithFormat:NSLocalizedString(@"Peak %@ (#%d)",@""),[peak label], [peak peakID]];        
+            } else {
+                return [NSString stringWithFormat:NSLocalizedString(@"Peak #%d",@""), [peak peakID]];        
+            }            
+        }
+    }
+    
+    return model;
+}
 
 #pragma mark ACCESSORS
 
@@ -122,6 +143,15 @@
 - (float *)intensities {
     return intensities;
 }
+
+- (BOOL)combined {
+    return combined;
+}
+
+- (void)setCombined:(BOOL)inValue {
+    combined = inValue;
+}
+
 //- (void)setRetentionIndex:(float)inValue {
 //	retentionIndex = inValue;
 //}
@@ -184,6 +214,7 @@
 	
 	[outSpectrum setMasses:massesOut withCount:k];
 	[outSpectrum setIntensities:intensitiesOut withCount:k];
+    [outSpectrum setCombined:YES];
 	[outSpectrum autorelease];
 	return outSpectrum;
 }
@@ -242,6 +273,7 @@
 	
 	[outSpectrum setMasses:massesOut withCount:k];
 	[outSpectrum setIntensities:intensitiesOut withCount:k];
+    [outSpectrum setCombined:YES];
 	[outSpectrum autorelease];
 	return outSpectrum;	
 }
@@ -286,10 +318,10 @@
     float score = [spectraMatchingObject matchingScoreForSpectrum:self comparedToLibraryEntry:libraryEntry error:&error];
     [spectraMatchingObject cleanUpAfterAction];
     
-    float oldScore = (float)[self oldScoreComparedTo:libraryEntry usingMethod:scoreBasis penalizingForRententionIndex:penalizeForRetentionIndex];
-    if (score != oldScore) {
-        JKLogError(@"Score not calculated consistently: old: %g; plugin: %g", oldScore, score);
-    }
+//    float oldScore = (float)[self oldScoreComparedTo:libraryEntry usingMethod:scoreBasis penalizingForRententionIndex:penalizeForRetentionIndex];
+//    if (score != oldScore) {
+//        JKLogError(@"Score not calculated consistently: old: %g; plugin: %g", oldScore, score);
+//    }
     [error release];
     return score;
 }
