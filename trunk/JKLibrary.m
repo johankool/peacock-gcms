@@ -44,7 +44,7 @@
 
 - (BOOL)isDocumentEdited {
     // The main library will get saved on exit anyway
-    if ([(JKAppDelegate *)[NSApp delegate] library] == self) {
+    if ([self isMainLibrary]) {
         return NO;
     } else {
         return [super isDocumentEdited];
@@ -52,6 +52,10 @@
 }
 - (BOOL)isSuperDocumentEdited {
     return [super isDocumentEdited];  
+}
+
+- (BOOL)isMainLibrary {
+    return ([(JKAppDelegate *)[NSApp delegate] library] == self);
 }
 
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)absoluteOriginalContentsURL error:(NSError **)error 

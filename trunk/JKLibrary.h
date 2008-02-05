@@ -14,7 +14,7 @@
 @interface JKLibrary : NSPersistentDocument {
     JKLibraryWindowController *libraryWindowController;
 }
-
+- (BOOL)isMainLibrary;
 - (BOOL)isSuperDocumentEdited;
 
 #pragma mark IMPORT/EXPORT ACTIONS

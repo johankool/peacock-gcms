@@ -33,7 +33,6 @@
 		C729CAAA0A4B45CD00FAB04F /* JKDataModelProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */; };
 		C72C85D7098BF1B800CEF565 /* JKGeneralTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C85D6098BF1B800CEF565 /* JKGeneralTesting.m */; };
 		C7314A370D463D0F0093EB47 /* PKLicenseController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7314A350D463D0F0093EB47 /* PKLicenseController.h */; };
-		C7314A380D463D0F0093EB47 /* PKLicenseController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7314A360D463D0F0093EB47 /* PKLicenseController.m */; };
 		C7314A3B0D4640CE0093EB47 /* PKRegister.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7314A390D4640CE0093EB47 /* PKRegister.xib */; };
 		C7314C570D465C7D0093EB47 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7314C560D465C7D0093EB47 /* AddressBook.framework */; };
 		C73B27CE0CAD9EF600C09AAE /* JKSummarizer.h in Headers */ = {isa = PBXBuildFile; fileRef = C73B27CC0CAD9EF600C09AAE /* JKSummarizer.h */; };
@@ -81,7 +80,6 @@
 		C75C65A40CFE21EE003C7700 /* GetMetadataForFile.c in Sources */ = {isa = PBXBuildFile; fileRef = C75C65630CFE1A0F003C7700 /* GetMetadataForFile.c */; };
 		C75C66FE0CFE23AD003C7700 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		C75C67120CFE249A003C7700 /* Default Plugin.peacock-plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7C589230CFDC4250009CDD9 /* Default Plugin.peacock-plugin */; };
-		C75C67310CFE25F2003C7700 /* Peacock.mdimporter in CopyFiles */ = {isa = PBXBuildFile; fileRef = C75C65700CFE1DA0003C7700 /* Peacock.mdimporter */; };
 		C76814070C05E66C00973566 /* JKManagedLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */; };
 		C76814240C05E6F200973566 /* FilteringDNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */; };
 		C7713B430950368F00653D2A /* JKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */; };
@@ -246,16 +244,6 @@
 			files = (
 				C75C657D0CFE1EA5003C7700 /* schema.strings in CopyFiles */,
 				C75C657E0CFE1EA5003C7700 /* schema.xml in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C75C673C0CFE25FD003C7700 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = Contents/Library/SpotLight;
-			dstSubfolderSpec = 1;
-			files = (
-				C75C67310CFE25F2003C7700 /* Peacock.mdimporter in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1114,7 +1102,6 @@
 				C7B3169A0957128D0017ADDC /* Headers */,
 				C7C5893E0CFDC5380009CDD9 /* CopyFiles */,
 				C70DB76E0957146D00C2B386 /* CopyFiles */,
-				C75C673C0CFE25FD003C7700 /* CopyFiles */,
 				C724D13B0AA6E9B400EDC6D9 /* ShellScript */,
 			);
 			buildRules = (
@@ -1391,7 +1378,6 @@
 				C79CE62F0CF356CD00C2D872 /* PKGraphicalController.m in Sources */,
 				C7F5D0D00D05794000DCD7C0 /* PKFlipView.m in Sources */,
 				C78E76900D3591AC00626A2F /* AquaticPrime.m in Sources */,
-				C7314A380D463D0F0093EB47 /* PKLicenseController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -817,6 +817,7 @@ static void *PeaksObservationContext = (void *)1103;
                     [sgds setNormalizeYData:YES];
                 }
                 [sgds setSeriesColor:[peakColors colorWithKey:[peakColorsArray objectAtIndex:[spectrumArray count]%peakColorsArrayCount]]];
+               // [sgds setSeriesTitle:[NSString stringWithFormat:NSLocalizedString(@"Library Hit '%@'", @""), [[searchResult libraryHit] name]]];
                 [sgds setAcceptableKeysForXValue:[NSArray arrayWithObjects:NSLocalizedString(@"Mass", @""), nil]];
                 [sgds setAcceptableKeysForYValue:[NSArray arrayWithObjects:NSLocalizedString(@"Intensity", @""), nil]];
                 [spectrumArray addObject:sgds];
@@ -919,20 +920,39 @@ static void *PeaksObservationContext = (void *)1103;
     
     // Remove those that we don't need anymore
     NSMutableArray *cgdsToRemove = [NSMutableArray array];
-    for (PKChromatogramDataSeries *cgds in chromatogramDataSeries) {
-        found = NO;
-        for (JKChromatogram *chromatogram in [[self chromatogramsController] selectedObjects]) {
-            if ([cgds chromatogram] == chromatogram) {
-                found = YES;
-                continue;
+    if ([chromatogramsTableSplitView isCollapsed] || [chromatogramsTableSplitView isHidden]) {
+        // When chromatogramsTableSplitView is collapsed, only show those chroms for which peaks are selected
+        for (PKChromatogramDataSeries *cgds in chromatogramDataSeries) {
+            found = NO;
+            for (JKPeakRecord *peak in [[self peakController] selectedObjects]) {
+                if ([cgds chromatogram] == [peak chromatogram]) {
+                    found = YES;
+                    continue;
+                }
             }
+            if (showTICTrace && [cgds chromatogram] == [[self document] ticChromatogram]) {
+                found = YES; // do  not remove
+            }        
+            if (!found) 
+                [cgdsToRemove addObject:cgds];
         }
-        if (showTICTrace && [cgds chromatogram] == [[self document] ticChromatogram]) {
-            found = YES; // do  not remove
-        }        
-        if (!found) 
-            [cgdsToRemove addObject:cgds];
+    } else {
+        for (PKChromatogramDataSeries *cgds in chromatogramDataSeries) {
+            found = NO;
+            for (JKChromatogram *chromatogram in [[self chromatogramsController] selectedObjects]) {
+                if ([cgds chromatogram] == chromatogram) {
+                    found = YES;
+                    continue;
+                }
+            }
+            if (showTICTrace && [cgds chromatogram] == [[self document] ticChromatogram]) {
+                found = YES; // do  not remove
+            }        
+            if (!found) 
+                [cgdsToRemove addObject:cgds];
+        }
     }
+
     [chromatogramDataSeries removeObjectsInArray:cgdsToRemove];
     
     for (JKChromatogram *chromatogram in [[self document] chromatograms]) {

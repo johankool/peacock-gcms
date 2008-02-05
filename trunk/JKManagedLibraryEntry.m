@@ -541,7 +541,7 @@
 }
 
 - (NSString *)legendEntry {
-    return [NSString stringWithFormat:NSLocalizedString(@"Library Entry '%@'",@""),[self name]];
+    return [NSString stringWithFormat:NSLocalizedString(@"Library Entry %@",@""),[self name]];
 }
 #pragma mark -
 

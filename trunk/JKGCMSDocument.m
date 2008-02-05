@@ -40,7 +40,7 @@ int const JKGCMSDocument_Version = 7;
 {
 	self = [super init];
     if (self != nil) {
-		metadata = [[NSMutableDictionary alloc] init];
+		metadata = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"", @"sampleCode", @"", @"sampleDescription", nil];
 		chromatograms = [[NSMutableArray alloc] init];
 		
 		_remainingString = [@"" retain];
@@ -601,7 +601,8 @@ int const JKGCMSDocument_Version = 7;
     [baselineDetectionSettings setObject:settings forKey:methodName];
 }
 - (NSDictionary *)baselineDetectionSettingsForMethod:(NSString *)methodName {
-    return [baselineDetectionSettings objectForKey:methodName];
+    return [NSDictionary dictionaryWithObjectsAndKeys:[self baselineDensityThreshold], @"baselineDensityThreshold", [self baselineDistanceThreshold], @"baselineDistanceThreshold", [self baselineSlopeThreshold], @"baselineSlopeThreshold", [self baselineWindowWidth], @"baselineWindowWidth", nil];
+//    return [baselineDetectionSettings objectForKey:methodName];
 }
 
 - (NSString *)peakDetectionMethod {
@@ -648,7 +649,8 @@ int const JKGCMSDocument_Version = 7;
     [peakDetectionSettings setObject:settings forKey:methodName];
 }
 - (NSDictionary *)peakDetectionSettingsForMethod:(NSString *)methodName {
-    return [peakDetectionSettings objectForKey:methodName];
+    return [NSDictionary dictionaryWithObjectsAndKeys:[self peakIdentificationThreshold], @"peakIdentificationThreshold", nil];
+//    return [peakDetectionSettings objectForKey:methodName];
 }
 
 - (NSString *)spectraMatchingMethod {
@@ -1117,8 +1119,17 @@ int const JKGCMSDocument_Version = 7;
     // Get Spectra Matching Object from Plugin
     NSObject <PKSpectraMatchingMethodProtocol> *spectraMatchingObject = [self objectForSpectraMatching:error];
     if (!spectraMatchingObject) {
-// Check if we need to do some cleaning up here before returning
-        #warning Create error here
+        // Error 810
+        // Spectra Matching Method could not be loaded
+        NSString *errorString = NSLocalizedString(@"Spectra Matching Method could not be loaded", @"error 810: Spectra Matching Method could not be loaded");
+        NSString *recoverySuggestionString = NSLocalizedString(@"Ensure that the plugins are installed properly.", @"error 810: Spectra Matching Method could not be loaded recovery suggestion");
+        NSDictionary *userInfoDict =
+        [NSDictionary dictionaryWithObjectsAndKeys:errorString, NSLocalizedDescriptionKey, recoverySuggestionString, NSLocalizedRecoverySuggestionErrorKey, nil];
+        NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                       code:810
+                                                   userInfo:userInfoDict] autorelease];
+        *error = anError;
+        
         return NO;
     }
     // Restore method settings
@@ -1451,7 +1462,17 @@ int const JKGCMSDocument_Version = 7;
 		if(abortAction){
 			JKLogInfo(@"Identifying Compounds Search Aborted by User at entry %d/%d peak %d/%d.",j,entriesCount, k, peaksCount);
             _isBusy = NO;
-#warning Error should be created here
+            // Error 400
+            // Spectra Matching Method could not be loaded
+            NSString *errorString = NSLocalizedString(@"User Aborted Action", @"error 400: User aborted action");
+            NSString *recoverySuggestionString = NSLocalizedString(@"You clicked the 'Stop' button to abort the running operation.", @"error 400: User aborted action recovery suggestion");
+            NSDictionary *userInfoDict =
+            [NSDictionary dictionaryWithObjectsAndKeys:errorString, NSLocalizedDescriptionKey, recoverySuggestionString, NSLocalizedRecoverySuggestionErrorKey, nil];
+            NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                           code:400
+                                                       userInfo:userInfoDict] autorelease];
+            *error = anError;
+            
 			return NO;
 		}
         [progressIndicator incrementBy:1.0];
@@ -1893,19 +1914,19 @@ int const JKGCMSDocument_Version = 7;
 - (int)numberOfRowsInTableView:(NSTableView *)tableView {
     int dummy, count;
     dummy =  nc_inq_natts([self ncid], &count);
-    if (dummy == NC_NOERR) return count + [[self metadata] count];
-    return [[self metadata] count];			
+    if (dummy == NC_NOERR) return count + 2;//[[self metadata] count];
+    return 2;//[[self metadata] count];			
 }
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
     int dummy;
     NSMutableString *nameString, *keyString;
-    
-    if (row < [[self metadata] count]) {
+    // [[self metadata] count] replaced with 2
+    if (row < 2) {
         nameString = [[[[self metadata] allKeys] objectAtIndex:row] mutableCopy];
         keyString = [[[self metadata] valueForKey:nameString] mutableCopy];
 
     } else {
-        row = row - [[self metadata] count];
+        row = row - 2;
 
         char name[256];
         char value[256];
@@ -1943,7 +1964,7 @@ int const JKGCMSDocument_Version = 7;
     if ([[aTableColumn identifier] isEqualToString:@"name"]) {
         return;
     } else if ([[aTableColumn identifier] isEqualToString:@"value"]) {
-        if (rowIndex < [[self metadata] count]) {
+        if (rowIndex < 2) {
             NSString *nameString = [[[self metadata] allKeys] objectAtIndex:rowIndex];
             [[self metadata] setValue:anObject forKey:nameString];
         }

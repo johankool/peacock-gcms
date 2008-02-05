@@ -36,7 +36,7 @@ static void *PropertyObservationContext = (void *)1093;
 		[self setShouldDrawLabels:YES];
         [self setVerticalScale:[NSNumber numberWithFloat:1.0]];
         [self setVerticalOffset:[NSNumber numberWithFloat:0.0]];
-        [self setSeriesTitle:[aChromatogram model]];
+        [self setSeriesTitle:[aChromatogram legendEntry]];
         
         chromatogram = [aChromatogram retain];
         [self setKeyForXValue:NSLocalizedString(@"Time",@"")];

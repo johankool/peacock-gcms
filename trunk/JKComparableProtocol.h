@@ -6,6 +6,7 @@
 - (float *)intensities;
 - (float)maxIntensity;
 - (NSString *)model;
+- (NSString *)legendEntry;
 - (BOOL)hasScannedMassRange;
 - (float)minScannedMassRange;
 - (float)maxScannedMassRange;

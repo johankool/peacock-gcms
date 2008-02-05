@@ -773,6 +773,10 @@
  	} 
     return self;
 }
+
+- (NSString *)legendEntry {
+    return model;
+}
 #pragma mark -
 
 #pragma mark Document

@@ -27,23 +27,27 @@
 }
 
 - (CGFloat)matchingScoreForSpectrum:(id <JKComparableProtocol>)spectrum comparedToLibraryEntry:(id <JKComparableProtocol>)libraryEntry error:(NSError **)error {
-    int i,j,k,count1,count2;
-	float score, score2, score3, maxIntensityLibraryEntry, maxIntensitySpectrum;
+    int i,j,k;
+	float score, score2, score3;
 	i=0; j=0; k=0; 
 	score = 0.0f;
 	score2 = 0.0f;
 	score3 = 0.0f;
-	maxIntensityLibraryEntry = jk_stats_float_max([libraryEntry intensities],[libraryEntry numberOfPoints]); // use correct count!!!!! 
-    NSAssert(maxIntensityLibraryEntry > 0.0f, @"maxIntensityLibraryEntry is 0 or smaller");
-	maxIntensitySpectrum = jk_stats_float_max([spectrum intensities],[spectrum numberOfPoints]);;
-    NSAssert(maxIntensitySpectrum > 0.0f, @"maxIntensitySpectrum is 0 or smaller");    
-    //    JKLogDebug(@"maxIntensitySpectrum %g; maxIntensityLibraryEntry %g", maxIntensitySpectrum, maxIntensityLibraryEntry);
-	count1 = [spectrum numberOfPoints];
-	count2 = [libraryEntry numberOfPoints];
+    // spectrum1
+	int count1 = [spectrum numberOfPoints];
 	float *peakMasses = [spectrum masses];
 	float *peakIntensities = [spectrum intensities];
+	float maxIntensitySpectrum = [spectrum maxIntensity]; //jk_stats_float_max(peakIntensities, count1);
+    NSAssert(maxIntensitySpectrum > 0.0f, @"maxIntensitySpectrum is 0 or smaller");    
+    
+    // libraryEntry
+	int count2 = [libraryEntry numberOfPoints];
 	float *libraryEntryMasses = [libraryEntry masses];
 	float *libraryEntryIntensities = [libraryEntry intensities];
+    float maxIntensityLibraryEntry = [libraryEntry maxIntensity]; // jk_stats_float_max(libraryEntryIntensities, count2); 
+    NSAssert(maxIntensityLibraryEntry > 0.0f, @"maxIntensityLibraryEntry is 0 or smaller");
+    
+    
 	float massDifference;
 	float temp1, temp2;
 	BOOL peakMassesAtEnd = NO;

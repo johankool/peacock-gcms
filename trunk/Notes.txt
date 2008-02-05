@@ -4,61 +4,70 @@ Notes about Peacock
 BUGS TO FIX:
 ------------
 
- version 0.25:
-  1. Legend entries, esp. for library entries are wrong
-  2. Settings not available to plugin methods
-  3. Control point bounds exception
-  4. Setting "Sample Description" and "Sample Code" not possible
-  
- version 0.26 (or later):
-  1. Properly leave out dataseries when set to not visible
-  2. Change isVisible to isHidden?
-  3. Unit per xx pixels not working properly
-  4. Font color not respected for labels, peak labels and legend
-  5. Use template images when available
-  6. Dragging from library editor onto peak causes crash
-    
+version 0.25:
+- *** Collection <NSCFArray: 0x254190> was mutated while being enumerated.
+   
+version 0.26 (or later):
+- Properly leave out dataseries when set to not visible
+- Change isVisible to isHidden?
+- Unit per xx pixels not working properly
+- Font color not respected for labels, peak labels and legend
+- Use template images when available
+- Dragging from library editor onto peak causes crash
+- Library (the "main" one) has icon (Intel only?)
+- Datapoints in library not sorted by mass by default
+- Control point bounds exception (after a zero-datapoints spectrum was shown?)
+- Sample code and description not updated in graphical pane when changed
+- Settings not available to plugin methods (remove temporary fix)
+     
 FIXED BUGS:
 -----------
  
- version 0.25:
-  1. Deleting chromatograms and peaks now works properly again
-  2. Chromatograms for mass values "100-101" and "100+101" now properly seen as the same
-  3. Library is not Intel/PPC-proof
-  4. Library editor: point table
-  5. Inspector doesn't always update properly when opening first document
-  6. Change shortcut for "Discard Library Hit" (conflicts with Front Row)
+version 0.25:
+- Deleting chromatograms and peaks now works properly again
+- Chromatograms for mass values "100-101" and "100+101" now properly seen as the same
+- Library is not Intel/PPC-proof
+- Library editor: point table
+- Inspector doesn't always update properly when opening first document
+- Change shortcut for "Discard Library Hit" (conflicts with Front Row)
+- Legend entries, esp. for library entries are wrong
+- Should only show chromatograms of selected peaks in collapsed mode
+- Library-popup should be hidden in library file windows
+- Setting "Sample Description" and "Sample Code" not possible
+- Settings not available to plugin methods (temporary fix only)
   
 FEATURES TO ADD:
 ----------------
 
- version 0.25:
-  1. Search result storing used search settings
-  2. Confirm button for identified peak
-
- version 0.26 (or later):
-  1. Legend per dataseries for stacked drawing
-  2. Subtract chromatograms
-  3. Subtract spectra
-  4. Toolbar item for library panel
-  5. Inspector panel for dataseries
-  6. Store graph settings in Application Support folder
-  7. Click-to-Identify
-  8. Batch operations through multiple selection and choosing action
-  9. Create Plugin SDK incl. documentation
+version 0.25:
+none
+ 
+version 0.26 (or later):
+- Search result storing used search settings
+- Confirm button for identified peak
+- Legend per dataseries for stacked drawing
+- Subtract chromatograms
+- Subtract spectra
+- Toolbar item for library panel
+- Inspector panel for dataseries
+- Store graph settings in Application Support folder
+- Click-to-Identify
+- Batch operations through multiple selection and choosing action
+- Create Plugin SDK incl. documentation
  
 ADDED FEATURES:
 ---------------
 
- version 0.25:
-  1. Plugin structure
-  2. Editing dataseries title
-  3. Line thickness for dataseries
+version 0.25:
+- Plugin structure
+- Editing dataseries title
+- Line thickness for dataseries
 
 MISC TODO:
 ----------
 
- version 0.25:
-  1. Take care of all build warnings
-  2. Properly testing before release
+version 0.25:
+- Take care of all build warnings
+- Properly testing before release
+- Write more unit tests
   
