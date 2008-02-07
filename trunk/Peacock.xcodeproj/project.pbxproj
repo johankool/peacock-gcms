@@ -96,7 +96,6 @@
 		C777A2D60A1DFEE400CF44D9 /* JKMoleculeModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C777A2D00A1DFEE400CF44D9 /* JKMoleculeModel.h */; };
 		C777A2D70A1DFEE400CF44D9 /* JKMoleculeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C777A2D10A1DFEE400CF44D9 /* JKMoleculeModel.m */; };
 		C778A2CE0D4FD202005C95E0 /* PKAbundanceSpectraMatchingMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D4A5D30D2DB9B500E97AD4 /* PKAbundanceSpectraMatchingMethod.m */; };
-		C77C585A09801145002E7796 /* Peacock Help in Resources */ = {isa = PBXBuildFile; fileRef = C77C582F09800FAD002E7796 /* Peacock Help */; };
 		C77E32B90C0F2CBB00B8A64A /* libraries.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E32B80C0F2CBB00B8A64A /* libraries.png */; };
 		C7834D1B0941ED37005431CD /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D1A0941ED37005431CD /* Carbon.framework */; };
 		C7834D440941ED7A005431CD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D430941ED7A005431CD /* Security.framework */; };
@@ -1202,7 +1201,6 @@
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
 				C7EB182B0898CFBD007FC2ED /* periodic.table in Resources */,
 				C70DC017095B201200C2B386 /* Localizable.strings in Resources */,
-				C77C585A09801145002E7796 /* Peacock Help in Resources */,
 				C7A7BB370A9DE5D3005E3778 /* library_document.icns in Resources */,
 				C7A7BB380A9DE5D3005E3778 /* atlas_document.icns in Resources */,
 				C7A7BB3A0A9DE5D3005E3778 /* peacock_document.icns in Resources */,

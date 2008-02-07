@@ -5,8 +5,13 @@ BUGS TO FIX:
 ------------
 
 version 0.25:
+- Fetch entry does not work
 - *** Collection <NSCFArray: 0x254190> was mutated while being enumerated.
-   
+- "Multiplying" search results
+- Memory usage!
+- Last opened file not in summary?
+- JKSearchResult should not use jcampString to encode library entry?
+
 version 0.26 (or later):
 - Properly leave out dataseries when set to not visible
 - Change isVisible to isHidden?
@@ -19,6 +24,10 @@ version 0.26 (or later):
 - Control point bounds exception (after a zero-datapoints spectrum was shown?)
 - Sample code and description not updated in graphical pane when changed
 - Settings not available to plugin methods (remove temporary fix)
+- Checkmark for Summary, Ratios and Graphical for menuitem when current pane
+- Molecular weight calculator needs rethinking
+- Check weights used in  molecular weight calculator
+- Peacock Help very outdated
      
 FIXED BUGS:
 -----------
@@ -43,6 +52,7 @@ version 0.25:
 none
  
 version 0.26 (or later):
+- Assign multiple library entries to a peak(?) e.g. when it is not sure wether it is 3- or 4-methylphenol
 - Search result storing used search settings
 - Confirm button for identified peak
 - Legend per dataseries for stacked drawing

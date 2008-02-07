@@ -774,81 +774,76 @@ int const JKGCMSDocument_Version = 7;
     float   mass, intensity;
     float	*times,	*intensities;
     unsigned int numberOfPoints, num_scan;
-	unsigned int i,j,k, mzValuesCount;
+    int i,j,k,start,end,mzValuesCount,mzValuesCountPlus;
     
-    if ([model isEqualToString:@""]) {
-        return nil;
-    }
-    
-    if ([model isEqualToString:@"TIC"]) {
-        return [self ticChromatogram];
-    }
-        
-    NSMutableArray *mzValues = [NSMutableArray array];
-    [model stringByTrimmingCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+"] invertedSet]];
-    if ([model isEqualToString:@""]) {
-        return nil;
-    }
-	NSArray *mzValuesPlus = [model componentsSeparatedByString:@"+"];
-	NSArray *mzValuesMin = nil;
-	for (i = 0; i < [mzValuesPlus count]; i++) {
-		mzValuesMin = [[mzValuesPlus objectAtIndex:i] componentsSeparatedByString:@"-"];
-		if ([mzValuesMin count] > 1) {
-			if ([[mzValuesMin objectAtIndex:0] intValue] < [[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]) {
-				for (j = (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j <= (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j++) {
-                    if ((j >= [minimumScannedMassRange intValue]) && (j <= [maximumScannedMassRange intValue])) {
-                        [mzValues addObject:[NSNumber numberWithInt:j]];                        
-                    }
-				}
-			} else {
-				for (j = (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j <= (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j++) {
-                    if ((j >= [minimumScannedMassRange intValue]) && (j <= [maximumScannedMassRange intValue])) {
-                        [mzValues addObject:[NSNumber numberWithInt:j]];
-                    }
-				}
-			}
-		} else {
-            j = [[mzValuesMin objectAtIndex:0] intValue];
-            if ((j >= [minimumScannedMassRange intValue]) && (j <= [maximumScannedMassRange intValue])) {
-                [mzValues addObject:[NSNumber numberWithInt:j]];
-            }
-		}
-	}
-    if ([mzValues count] < 1) {
-        return nil;
-    } 
-	// Short mzValues
-    mzValues = [[mzValues sortedArrayUsingFunction:intSort context:NULL] mutableCopy];
-    
-	NSString *mzValuesString = [NSString stringWithFormat:@"%d",[[mzValues objectAtIndex:0] intValue]];
-	mzValuesCount = [mzValues count];
-    float mzValuesF[mzValuesCount];
-	for (i = 0; i < mzValuesCount; i++) {
-        mzValuesF[i] = [[mzValues objectAtIndex:i] floatValue];
-    }
-    if (mzValuesCount > 1) {
-        for (i = 1; i < mzValuesCount-1; i++) {
-            if ((mzValuesF[i] == mzValuesF[i-1]+1.0f) && (mzValuesF[i+1] > mzValuesF[i]+1.0f)) {
-                mzValuesString = [mzValuesString stringByAppendingFormat:@"-%d",[[mzValues objectAtIndex:i] intValue]];            
-            } else if (mzValuesF[i] != mzValuesF[i-1]+1.0f) {
-                mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d",[[mzValues objectAtIndex:i] intValue]];            
-            }
-        }	
-        if ((mzValuesF[i] == mzValuesF[i-1] + 1.0f)) {
-            mzValuesString = [mzValuesString stringByAppendingFormat:@"-%d",[[mzValues objectAtIndex:i] intValue]];            
-        } else {
-            mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d",[[mzValues objectAtIndex:i] intValue]];            
-        }        
-    }
-    //JKLogDebug(@"%@ %@",mzValuesString,[mzValues description]);
+    model = [model cleanupModelString];
     
     // Check if such a chromatogram is already available
     for (JKChromatogram *chromatogram in [self chromatograms]) {
-        if ([[chromatogram model] isEqualToModelString:mzValuesString]) {
+        if ([[chromatogram model] isEqualToModelString:model]) {
             return chromatogram;
         }
     }
     
+    if ([model isEqualToString:@""]) {
+        return nil;
+    }
+    if ([model isEqualToString:@"TIC"]) {
+        return [self ticChromatogram];
+    }
+    
+    [model stringByTrimmingCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+"] invertedSet]];
+    if ([model isEqualToString:@""]) {
+        return nil;
+    }
+    
+    // Find out how many values are covered
+	NSArray *mzValuesPlus = [model componentsSeparatedByString:@"+"];
+    NSArray *mzValuesMin = nil;
+    mzValuesCount = [mzValuesPlus count];
+    mzValuesCountPlus = mzValuesCount;
+	for (i = 0; i < mzValuesCountPlus; i++) {
+		mzValuesMin = [[mzValuesPlus objectAtIndex:i] componentsSeparatedByString:@"-"];
+		if ([mzValuesMin count] > 1) {
+            start = [[mzValuesMin objectAtIndex:0] intValue];
+            end = [[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue];
+            mzValuesCount += abs(end-start);
+		} 
+	}
+    // Return empty string if zero (e.g. when string was "-+-+")
+    if (mzValuesCount < 1) {
+        return nil;
+    } 
+    
+    // Collect the values
+    int mzValues[mzValuesCount];
+    k = 0;
+    for (i = 0; i < mzValuesCountPlus; i++) {
+		mzValuesMin = [[mzValuesPlus objectAtIndex:i] componentsSeparatedByString:@"-"];
+		if ([mzValuesMin count] > 1) {
+            start = [[mzValuesMin objectAtIndex:0] intValue];
+            end = [[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue];
+			if (start < end) {
+				for (j = start; j <= end; j++) {
+                    mzValues[k] = j;     
+                    k++;
+				}
+			} else {
+				for (j = end; j <= start; j++) {
+                    mzValues[k] = j;     
+                    k++;
+				}
+			}
+		} else {
+            mzValues[k] = [[mzValuesMin objectAtIndex:0] intValue];
+            k++;
+		}
+	}
+    
+	// Sort mzValues
+    insertionSort(mzValues, mzValuesCount);
+        
+
     dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
     if(dummy != NC_NOERR) { JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return nil;}
     
@@ -907,7 +902,7 @@ int const JKGCMSDocument_Version = 7;
 			//dummy = nc_get_var1_float(ncid, varid_mass_value, (void *) &j, &mass);
             // find out wether the mass encountered is on the masses we are interested in
 			for(k = 0; k < mzValuesCount; k++) {
-				if (fabsf(mass-mzValuesF[k]) < 0.5f) {
+				if (fabsf(mass-mzValues[k]*1.0f) < 0.5f) {
                     intScan = j+ scan;
 					dummy = nc_get_var1_float(ncid, varid_intensity_value, (const size_t *) &intScan, &intensity);					
 					intensities[i] = intensities[i] + intensity;
@@ -915,11 +910,9 @@ int const JKGCMSDocument_Version = 7;
 			}
 		}
 	}
-    
-	JKChromatogram *chromatogram = nil;
 	
-    //create a chromatogram object
-    chromatogram = [[JKChromatogram alloc] initWithModel:mzValuesString];
+    // Create a chromatogram object
+    JKChromatogram *chromatogram = [[JKChromatogram alloc] initWithModel:model];
     [chromatogram setContainer:self];
     [chromatogram setTime:times withCount:num_scan];
     [chromatogram setTotalIntensity:intensities withCount:num_scan];
@@ -927,9 +920,10 @@ int const JKGCMSDocument_Version = 7;
     // Obtain the baseline
     [chromatogram detectBaselineAndReturnError:nil];
     
+    // Clean up
     free(massValues);
-	[chromatogram autorelease];	
-	return chromatogram;    
+
+	return [chromatogram autorelease];    
 }
 
  
@@ -986,6 +980,9 @@ int const JKGCMSDocument_Version = 7;
     [spectrum setMasses:massValues withCount:numberOfPoints];
     [spectrum setIntensities:intensities withCount:numberOfPoints];
 
+    free(massValues);
+    free(intensities);
+    
 	[spectrum autorelease];
 	return spectrum;
 }
@@ -1376,7 +1373,7 @@ int const JKGCMSDocument_Version = 7;
         libraryEntry = [libraryEntries objectAtIndex:j]; // can also be a spectrum!!
         if ([libraryEntry isKindOfClass:[JKLibraryEntry class]]) {
             [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Library Entry '%@'",@""),[libraryEntry name]] waitUntilDone:NO];            
-            libraryEntryModel = [self cleanupModelString:[libraryEntry model]];
+            libraryEntryModel = [[libraryEntry model] cleanupModelString];
         } else {
             [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Spectrum  '%@'",@""),[libraryEntry model]] waitUntilDone:NO];                        
             libraryEntryModel = [libraryEntry model];
@@ -1563,81 +1560,6 @@ int const JKGCMSDocument_Version = 7;
     [[self undoManager] setActionName:NSLocalizedString(@"Remove Unidentified Peaks",@"")];
 }
 
-- (NSString *)cleanupModelString:(NSString *)model {
-    int i,j,mzValuesCount;
-    if ([model isEqualToString:@""]) {
-        return @"";
-    }
-    if ([model isEqualToString:@"TIC"]) {
-        return @"TIC";
-    }
-    
-    NSMutableArray *mzValues = [NSMutableArray array];
-    [model stringByTrimmingCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+"] invertedSet]];
-    if ([model isEqualToString:@""]) {
-        return @"";
-    }
-	NSArray *mzValuesPlus = [model componentsSeparatedByString:@"+"];
-	NSArray *mzValuesMin = nil;
-	for (i = 0; i < [mzValuesPlus count]; i++) {
-		mzValuesMin = [[mzValuesPlus objectAtIndex:i] componentsSeparatedByString:@"-"];
-		if ([mzValuesMin count] > 1) {
-			if ([[mzValuesMin objectAtIndex:0] intValue] < [[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]) {
-				for (j = (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j <= (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j++) {
-                    if ((j >= [minimumScannedMassRange intValue]) && (j <= [maximumScannedMassRange intValue])) {
-                        [mzValues addObject:[NSNumber numberWithInt:j]];                        
-                    }
-				}
-			} else {
-				for (j = (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j <= (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j++) {
-                    if ((j >= [minimumScannedMassRange intValue]) && (j <= [maximumScannedMassRange intValue])) {
-                        [mzValues addObject:[NSNumber numberWithInt:j]];
-                    }
-				}
-			}
-		} else {
-            j = [[mzValuesMin objectAtIndex:0] intValue];
-            if ((j >= [minimumScannedMassRange intValue]) && (j <= [maximumScannedMassRange intValue])) {
-                [mzValues addObject:[NSNumber numberWithInt:j]];
-            }
-		}
-	}
-    if ([mzValues count] < 1) {
-        return nil;
-    } 
-	// Short mzValues
-    mzValues = [[mzValues sortedArrayUsingFunction:intSort context:NULL] mutableCopy];
-    
-	NSString *mzValuesString = [NSString stringWithFormat:@"%d",[[mzValues objectAtIndex:0] intValue]];
-	mzValuesCount = [mzValues count];
-    float mzValuesF[mzValuesCount];
-	for (i = 0; i < mzValuesCount; i++) {
-        mzValuesF[i] = [[mzValues objectAtIndex:i] floatValue];
-    }
-    if (mzValuesCount > 1) {
-        for (i = 1; i < mzValuesCount-1; i++) {
-            if ((mzValuesF[i] == mzValuesF[i-1]+1.0f) && (mzValuesF[i+1] > mzValuesF[i]+1.0f)) {
-                mzValuesString = [mzValuesString stringByAppendingFormat:@"-%d",[[mzValues objectAtIndex:i] intValue]];            
-            } else if (mzValuesF[i] != mzValuesF[i-1]+1.0f) {
-                mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d",[[mzValues objectAtIndex:i] intValue]];            
-            }
-        }	
-        if ((mzValuesF[i] == mzValuesF[i-1] + 1.0f)) {
-            mzValuesString = [mzValuesString stringByAppendingFormat:@"-%d",[[mzValues objectAtIndex:i] intValue]];            
-        } else {
-            mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d",[[mzValues objectAtIndex:i] intValue]];            
-        }        
-    }
-//    JKLogDebug(@"%@ %@",mzValuesString,[mzValues description]);
-    return mzValuesString;
-}
-
-- (BOOL)modelString:(NSString *)stringA isEqualToString:(NSString *)stringB
-{
-    NSString *stringACleaned = [self cleanupModelString:stringA];
-    NSString *stringBCleaned = [self cleanupModelString:stringB];
-    return [stringACleaned isEqualToString:stringBCleaned];
-}
 
 - (BOOL)isBusy {
     return _isBusy;

@@ -157,18 +157,19 @@
 }
 
 - (BOOL)isCompound:(NSString *)compoundString {
-    compoundString = [compoundString lowercaseString];
+//    compoundString = [compoundString lowercaseString];
     
-    if ([[[self label] lowercaseString] isEqualToString:compoundString]) {
+//    if ([[[self label] lowercaseString] isEqualToString:compoundString]) {
+    if ([[self label] isEqualToString:compoundString]) {
         return YES;
     }
     
     if ([self libraryEntry]) {
         NSArray *synonymsArray = [[self libraryEntry] synonymsArray];
-        NSString *synonym;
-        
-        for (synonym in synonymsArray) {
-            if ([[synonym lowercaseString] isEqualToString:compoundString]) {
+
+        for (NSString *synonym in synonymsArray) {
+//            if ([[synonym lowercaseString] isEqualToString:compoundString]) {
+            if ([synonym isEqualToString:compoundString]) {
                 return YES;
             }
         }        
@@ -190,13 +191,13 @@
 
         if (value) {
             [peaks setObject:value forKey:key];            
-            if ([value libraryHit]) {
+            if ([value libraryHit] && ![self libraryEntry]) {
                 [self setLibraryEntry:[value libraryHit]];
             }
-            if ([value symbol]) {
+            if ([value symbol] && ![self symbol]) {
                 [self setSymbol:[value symbol]];
             }        
-            if ([value label]) {
+            if ([value label] && ![self label]) {
                 [self setLabel:[value label]];
             }        
          } else {
