@@ -20,70 +20,82 @@
 }
 
 - (NSString *)cleanupModelString {
-    int i,j,mzValuesCount;
+    int i,j,k,start,end,mzValuesCount,mzValuesCountPlus;
     if ([self isEqualToString:@""]) {
-        return self;
+        return @"";
     }
     if ([self isEqualToString:@"TIC"]) {
-        return self;
+        return @"TIC";
     }
     
-    NSMutableArray *mzValues = [NSMutableArray array];
-    [self stringByTrimmingCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+"] invertedSet]];
+    self = [self stringByTrimmingCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+"] invertedSet]];
     if ([self isEqualToString:@""]) {
-        return self
-        ;
+        return @"";
     }
+    
+    // Find out how many values are covered
 	NSArray *mzValuesPlus = [self componentsSeparatedByString:@"+"];
-	NSArray *mzValuesMin = nil;
-	for (i = 0; i < [mzValuesPlus count]; i++) {
+    NSArray *mzValuesMin = nil;
+    mzValuesCount = [mzValuesPlus count];
+    mzValuesCountPlus = mzValuesCount;
+	for (i = 0; i < mzValuesCountPlus; i++) {
 		mzValuesMin = [[mzValuesPlus objectAtIndex:i] componentsSeparatedByString:@"-"];
 		if ([mzValuesMin count] > 1) {
-			if ([[mzValuesMin objectAtIndex:0] intValue] < [[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]) {
-				for (j = (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j <= (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j++) {
-                    [mzValues addObject:[NSNumber numberWithInt:j]];                        
+            start = [[mzValuesMin objectAtIndex:0] intValue];
+            end = [[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue];
+            mzValuesCount += abs(end-start);
+		} 
+	}
+    // Return empty string if zero (e.g. when string was "-+-+")
+    if (mzValuesCount < 1) {
+        return @"";
+    } 
+    
+    // Collect the values
+    int mzValues[mzValuesCount];
+    k = 0;
+    for (i = 0; i < mzValuesCountPlus; i++) {
+		mzValuesMin = [[mzValuesPlus objectAtIndex:i] componentsSeparatedByString:@"-"];
+		if ([mzValuesMin count] > 1) {
+            start = [[mzValuesMin objectAtIndex:0] intValue];
+            end = [[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue];
+			if (start < end) {
+				for (j = start; j <= end; j++) {
+                    mzValues[k] = j;     
+                    k++;
 				}
 			} else {
-				for (j = (unsigned)[[mzValuesMin objectAtIndex:([mzValuesMin count]-1)] intValue]; j <= (unsigned)[[mzValuesMin objectAtIndex:0] intValue]; j++) {
-                        [mzValues addObject:[NSNumber numberWithInt:j]];
-                    
+				for (j = end; j <= start; j++) {
+                    mzValues[k] = j;     
+                    k++;
 				}
 			}
 		} else {
-            j = [[mzValuesMin objectAtIndex:0] intValue];
-  
-                [mzValues addObject:[NSNumber numberWithInt:j]];
-            
+            mzValues[k] = [[mzValuesMin objectAtIndex:0] intValue];
+            k++;
 		}
 	}
-    if ([mzValues count] < 1) {
-        return nil;
-    } 
-	// Short mzValues
-    mzValues = [[mzValues sortedArrayUsingFunction:intSort context:NULL] mutableCopy];
     
-	NSString *mzValuesString = [NSString stringWithFormat:@"%d",[[mzValues objectAtIndex:0] intValue]];
-	mzValuesCount = [mzValues count];
-    float mzValuesF[mzValuesCount];
-	for (i = 0; i < mzValuesCount; i++) {
-        mzValuesF[i] = [[mzValues objectAtIndex:i] floatValue];
-    }
+	// Sort mzValues
+    insertionSort(mzValues, mzValuesCount);
+    
+    // Combine into a string with collapsing
+	NSString *mzValuesString = [NSString stringWithFormat:@"%d", mzValues[0]];
     if (mzValuesCount > 1) {
         for (i = 1; i < mzValuesCount-1; i++) {
-            if ((mzValuesF[i] == mzValuesF[i-1]+1.0f) && (mzValuesF[i+1] > mzValuesF[i]+1.0f)) {
-                mzValuesString = [mzValuesString stringByAppendingFormat:@"-%d",[[mzValues objectAtIndex:i] intValue]];            
-            } else if (mzValuesF[i] != mzValuesF[i-1]+1.0f) {
-                mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d",[[mzValues objectAtIndex:i] intValue]];            
+            if ((mzValues[i] == mzValues[i-1]+1) && (mzValues[i+1] > mzValues[i]+1)) {
+                mzValuesString = [mzValuesString stringByAppendingFormat:@"-%d", mzValues[i]];            
+            } else if (mzValues[i] != mzValues[i-1]+1) {
+                mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d", mzValues[i]];            
             }
         }	
-        if ((mzValuesF[i] == mzValuesF[i-1] + 1.0f)) {
-            mzValuesString = [mzValuesString stringByAppendingFormat:@"-%d",[[mzValues objectAtIndex:i] intValue]];            
+        if ((mzValues[i] == mzValues[i-1]+1)) {
+            mzValuesString = [mzValuesString stringByAppendingFormat:@"-%d", mzValues[i]];            
         } else {
-            mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d",[[mzValues objectAtIndex:i] intValue]];            
+            mzValuesString = [mzValuesString stringByAppendingFormat:@"+%d", mzValues[i]];            
         }        
     }
     
-//    JKLogDebug(@"%@ %@",mzValuesString,[mzValues description]);
     return mzValuesString;
 }
 

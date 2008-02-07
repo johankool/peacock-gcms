@@ -17,6 +17,7 @@
 #import "NSCoder+CArrayEncoding.h"
 #import "PKPluginProtocol.h"
 #import "JKAppDelegate.h"
+#import "NSString+ModelCompare.h"
 
 @implementation JKChromatogram
 
@@ -659,7 +660,7 @@
 
 - (NSComparisonResult)sortOrderComparedTo:(JKChromatogram *)otherChromatogram
 {
-    if ([[self document] modelString:[self model] isEqualToString:[otherChromatogram model]]) {
+    if ([[self model] isEqualToModelString:[otherChromatogram model]]) {
         return NSOrderedSame;
     }
     if ([[self model] isEqualToString:@""]) {

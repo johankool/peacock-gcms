@@ -127,7 +127,7 @@
         start = [coder decodeIntForKey:@"start"];
         end = [coder decodeIntForKey:@"end"];
         searchResults = [[coder decodeObjectForKey:@"searchResults"] retain];
-        identifiedSearchResult = [[coder decodeObjectForKey:@"identifiedSearchResult"] retain];
+        identifiedSearchResult = [[coder decodeObjectForKey:@"identifiedSearchResult"] retain];       
         baselineLeft = [[coder decodeObjectForKey:@"baselineLeft"] retain];
         baselineRight = [[coder decodeObjectForKey:@"baselineRight"] retain];
         uuid = [[coder decodeObjectForKey:@"uuid"] retain];
@@ -138,7 +138,12 @@
         confirmed = [coder decodeBoolForKey:@"confirmed"]; 
         //[self setConfirmed:[coder decodeBoolForKey:@"confirmed"]];
         flagged = [coder decodeBoolForKey:@"flagged"]; 
-	} else {
+       
+        // Bug workaround for having multiple search results for confirmed peaks 
+        if (confirmed && identifiedSearchResult) {
+            [self setSearchResults:[NSMutableArray arrayWithObject:identifiedSearchResult]];
+        }
+  	} else {
         [NSException raise:NSInvalidArchiveOperationException
                     format:@"Only supports NSKeyedUnarchiver decoders"];
     }
@@ -157,7 +162,7 @@
         return NO;
     }
     
-    if (![[self document] modelString:[[self chromatogram] model] isEqualToString:[[identifiedSearchResult libraryHit] model]] && ![[[identifiedSearchResult libraryHit] model] isEqualToString:@""] && identifiedSearchResult) {   
+    if (![[[self chromatogram] model] isEqualToModelString:[[identifiedSearchResult libraryHit] model]] && ![[[identifiedSearchResult libraryHit] model] isEqualToString:@""] && identifiedSearchResult) {   
         answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Model mismatch occurred",@""), NSLocalizedString(@"The model of the peak is different from the library entry. Are you sure you want to assign this library entry to this peak?",@""), NSLocalizedString(@"Assign",@""), NSLocalizedString(@"Cancel",@""),nil); // NSLocalizedString(@"Move Peak to Model",@"")
         if (answer == NSOKButton) {
             // Continue

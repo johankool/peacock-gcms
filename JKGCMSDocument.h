@@ -141,8 +141,6 @@ typedef enum {
 - (NSComparisonResult)metadataCompare:(JKGCMSDocument *)otherDocument;
 
 - (BOOL)isBusy;
-- (NSString *)cleanupModelString:(NSString *)model;
-- (BOOL)modelString:(NSString *)stringA isEqualToString:(NSString *)stringB;
 
 //- (void)updateLibraryHits;
 

@@ -571,8 +571,9 @@
         return nil;
     }
 	atom = [[CFragment alloc] initFromString:[inString cStringUsingEncoding:NSASCIIStringEncoding]:NULL];
-	
-	return [NSNumber numberWithFloat:[atom calculateWeight]];
+	float result = [atom calculateWeight];
+  //[atom release];
+	return [NSNumber numberWithFloat:result];
 }
 
 - (NSString *)legendEntry {
@@ -714,8 +715,29 @@ idAccessor(library, setLibrary)
 #pragma mark Encoding
 - (void)encodeWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
-        [coder encodeInt:2 forKey:@"version"];
-		[coder encodeObject:[self jcampString] forKey:@"jcampString"];
+        [super encodeWithCoder:coder];
+        [coder encodeInt:3 forKey:@"version"];
+        [coder encodeObject:[self name] forKey:@"name"];
+        [coder encodeObject:[self origin] forKey:@"origin"];
+        [coder encodeObject:[self owner] forKey:@"owner"];
+        [coder encodeObject:[self formula] forKey:@"formula"];
+        [coder encodeObject:[self CASNumber] forKey:@"CASNumber"];
+        [coder encodeObject:[self epaMassSpecNo] forKey:@"epaMassSpecNo"];
+        [coder encodeObject:[self nistSource] forKey:@"nistSource"];
+        [coder encodeObject:[self source] forKey:@"source"];
+        [coder encodeObject:[self comment] forKey:@"comment"];
+        [coder encodeObject:[self molString] forKey:@"molString"];
+        [coder encodeObject:[self symbol] forKey:@"symbol"];
+        [coder encodeObject:[self massWeight] forKey:@"massWeight"];
+        [coder encodeObject:[self ionizationEnergy] forKey:@"ionizationEnergy"];
+        [coder encodeObject:[self xUnits] forKey:@"xUnits"];
+        [coder encodeObject:[self yUnits] forKey:@"yUnits"];
+        [coder encodeObject:[self xFactor] forKey:@"xFactor"];
+        [coder encodeObject:[self yFactor] forKey:@"yFactor"];
+        [coder encodeObject:[self retentionIndex] forKey:@"retentionIndex"];
+        [coder encodeObject:[self synonyms] forKey:@"synonyms"];
+        [coder encodeObject:[self group] forKey:@"group"];
+        [coder encodeObject:[self library] forKey:@"library"];
     } 
     return;
 }
@@ -725,8 +747,33 @@ idAccessor(library, setLibrary)
 		int version;
 		
 		version = [coder decodeIntForKey:@"version"];
-		
-		if (version > 1) {
+		if (version > 3) {
+            self = [super initWithCoder:coder];
+            if (self != nil) {
+                name = [[coder decodeObjectForKey:@"name"] retain];
+                origin = [[coder decodeObjectForKey:@"origin"] retain];
+                owner = [[coder decodeObjectForKey:@"owner"] retain];
+                formula = [[coder decodeObjectForKey:@"formula"] retain];
+                CASNumber = [[coder decodeObjectForKey:@"CASNumber"] retain];
+                epaMassSpecNo = [[coder decodeObjectForKey:@"epaMassSpecNo"] retain];
+                nistSource = [[coder decodeObjectForKey:@"nistSource"] retain];
+                source = [[coder decodeObjectForKey:@"source"] retain];
+                comment = [[coder decodeObjectForKey:@"comment"] retain];
+                molString = [[coder decodeObjectForKey:@"molString"] retain];
+                symbol = [[coder decodeObjectForKey:@"symbol"] retain];
+                massWeight = [[coder decodeObjectForKey:@"massWeight"] retain];
+                ionizationEnergy = [[coder decodeObjectForKey:@"ionizationEnergy"] retain];
+                xUnits = [[coder decodeObjectForKey:@"xUnits"] retain];
+                yUnits = [[coder decodeObjectForKey:@"yUnits"] retain];
+                xFactor = [[coder decodeObjectForKey:@"xFactor"] retain];
+                yFactor = [[coder decodeObjectForKey:@"yFactor"] retain];
+                retentionIndex = [[coder decodeObjectForKey:@"retentionIndex"] retain];
+                synonyms = [[coder decodeObjectForKey:@"synonyms"] retain];
+                group = [[coder decodeObjectForKey:@"group"] retain];
+                library = [[coder decodeObjectForKey:@"library"] retain];
+            }
+            return self;
+         } else if (version == 1) {
 			return [self initWithJCAMPString:[coder decodeObjectForKey:@"jcampString"]];
 		} else {
 			// Can decode keys in any order
