@@ -40,6 +40,9 @@
 	float *peakMasses = [spectrum masses];
 	float *peakIntensities = [spectrum intensities];
 	float maxIntensitySpectrum = [spectrum maxIntensity]; //jk_stats_float_max(peakIntensities, count1);
+    if (maxIntensitySpectrum <= 0.0f) {
+        return 0.0f;
+    }   
     NSAssert(maxIntensitySpectrum > 0.0f, @"maxIntensitySpectrum is 0 or smaller");    
  
     // libraryEntry
@@ -47,6 +50,9 @@
 	float *libraryEntryMasses = [libraryEntry masses];
 	float *libraryEntryIntensities = [libraryEntry intensities];
     float maxIntensityLibraryEntry = [libraryEntry maxIntensity]; // jk_stats_float_max(libraryEntryIntensities, count2); 
+    if (maxIntensityLibraryEntry <= 0.0f) {
+        return 0.0f;
+    }
     NSAssert1(maxIntensityLibraryEntry > 0.0f, @"maxIntensityLibraryEntry is 0 or smaller for library entry '%@'", [libraryEntry name]);
     
 //    JKLogDebug(@"maxIntensitySpectrum %g; maxIntensityLibraryEntry %g", maxIntensitySpectrum, maxIntensityLibraryEntry);

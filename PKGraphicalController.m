@@ -95,11 +95,13 @@
 - (void)documentUnloaded:(NSNotification *)aNotification
 {
     id object = [aNotification object];
+    NSMutableArray *objectsToRemove = [NSMutableArray array];
     for (PKChromatogramDataSeries *cgds in [chromatogramDataSeriesController arrangedObjects]) {
         if ([cgds chromatogram] == [object ticChromatogram]) {
-            [chromatogramDataSeriesController removeObject:cgds];
+            [objectsToRemove addObject:cgds];
         }
     }
+    [chromatogramDataSeriesController removeObjects:objectsToRemove];
 }
 - (PKGraphView *)graphView {
     return graphView;

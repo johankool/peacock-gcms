@@ -1200,7 +1200,7 @@ int const JKGCMSDocument_Version = 7;
 - (BOOL)performForwardSearchLibraryForPeak:(JKPeakRecord *)aPeak error:(NSError **)error {
 //    _isBusy = YES;
 	NSArray *libraryEntries = nil;
-    JKLibraryEntry *libraryEntry = nil;
+    JKManagedLibraryEntry *libraryEntry = nil;
 //	int entriesCount;
 	float score;	
     float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];
@@ -1255,8 +1255,11 @@ int const JKGCMSDocument_Version = 7;
     } else {
         JKLogError(@"spectrumToUse has unexpected value.");
     }
-    
+    [progressIndicator setIndeterminate:NO];
+	[progressIndicator setMaxValue:[libraryEntries count]*1.0];
+
     for (libraryEntry in libraryEntries) {
+        [libraryEntry willAccessValueForKey:nil];
         score = [spectraMatchingObject matchingScoreForSpectrum:peakSpectrum comparedToLibraryEntry:libraryEntry error:nil]; 
                     
         if (score >= minimumScoreSearchResultsF) {
@@ -1268,13 +1271,22 @@ int const JKGCMSDocument_Version = 7;
             [aPeak addSearchResult:searchResult];
             [searchResult release];
         }
-//        [progressIndicator performSelectorOnMainThread:@selector(incrementBy:) withObject:[NSNumber numberWithDouble:1.0] waitUntilDone:NO];
+        
+        if(abortAction) { 
+            // Restore default library (otherwise dragging from libpanel doesn't work)
+            [(JKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
+
+            return YES;
+        }
+        [progressIndicator performSelectorOnMainThread:@selector(incrementBy:) withObject:[NSNumber numberWithDouble:1.0] waitUntilDone:NO];
 //        [progressIndicator incrementBy:1.0];
     }
 
     // Notify the Spectra Matching Object that we are done
     [spectraMatchingObject cleanUpAfterAction];
-
+    
+    // Restore default library (otherwise dragging from libpanel doesn't work)
+    [(JKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
 //    _isBusy = NO;
 	return YES;
 }
@@ -1328,7 +1340,7 @@ int const JKGCMSDocument_Version = 7;
 }
 - (BOOL)performBackwardSearchWithLibraryEntries:(NSArray *)libraryEntries maximumRetentionIndexDifference:(float)aMaximumRetentionIndexDifference  error:(NSError **)error {
     _isBusy = YES;
-    JKLibraryEntry *libraryEntry = nil;
+    JKManagedLibraryEntry *libraryEntry = nil;
     JKChromatogram *chromatogramToSearch = nil;
     
 	int j,k,l;
@@ -1371,8 +1383,10 @@ int const JKGCMSDocument_Version = 7;
 		maximumScore = 0.0f;
 		maximumIndex = -1;
         libraryEntry = [libraryEntries objectAtIndex:j]; // can also be a spectrum!!
-        if ([libraryEntry isKindOfClass:[JKLibraryEntry class]]) {
+ 
+        if ([libraryEntry isKindOfClass:[JKManagedLibraryEntry class]]) {
             [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Library Entry '%@'",@""),[libraryEntry name]] waitUntilDone:NO];            
+            [libraryEntry willAccessValueForKey:nil];
             libraryEntryModel = [[libraryEntry model] cleanupModelString];
         } else {
             [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Spectrum  '%@'",@""),[libraryEntry model]] waitUntilDone:NO];                        
@@ -1512,6 +1526,9 @@ int const JKGCMSDocument_Version = 7;
 	if (mainWindowController)
 		[[mainWindowController chromatogramView] setNeedsDisplay:YES];
 
+    // Restore default library (otherwise dragging from libpanel doesn't work)
+    [(JKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
+    
     _isBusy = NO;
 	return YES;
 }
@@ -1844,8 +1861,12 @@ int const JKGCMSDocument_Version = 7;
     NSMutableString *nameString, *keyString;
     // [[self metadata] count] replaced with 2
     if (row < 2) {
-        nameString = [[[[self metadata] allKeys] objectAtIndex:row] mutableCopy];
-        keyString = [[[self metadata] valueForKey:nameString] mutableCopy];
+        if ([[self metadata] count] < 2) {
+            [[self metadata] setObject:@"" forKey:@"sampleCode"];
+            [[self metadata] setObject:@"" forKey:@"sampleDescription"];
+        }
+        nameString = [[[[[self metadata] allKeys] objectAtIndex:row] mutableCopy] autorelease];
+        keyString = [[[[self metadata] valueForKey:nameString] mutableCopy] autorelease];
 
     } else {
         row = row - 2;

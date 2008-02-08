@@ -5,13 +5,12 @@ BUGS TO FIX:
 ------------
 
 version 0.25:
-//- Fetch entry does not work
-- *** Collection <NSCFArray: 0x254190> was mutated while being enumerated.
-- Memory usage!
-//- Last opened file not in summary?
-//- JKSearchResult should not use jcampString to encode library entry?
+none
 
 version 0.26 (or later):
+- Processing prefs needs updating + explanatory text
+- Reload library configuration needs a rethink? Or Library panel needs to reflect the configuration?
+- Cannot create key value coding array relationship mutator proxy with key path peaks for the current selection (with chromatogram table collapsed)
 - Properly leave out dataseries when set to not visible
 - Change isVisible to isHidden?
 - Unit per xx pixels not working properly
@@ -27,7 +26,8 @@ version 0.26 (or later):
 - Molecular weight calculator needs rethinking
 - Check weights used in  molecular weight calculator
 - Peacock Help very outdated
-     
+- Fetch entry does not give an error for empty returns for false or unavailable CAS Numbers
+
 FIXED BUGS:
 -----------
  
@@ -44,7 +44,14 @@ version 0.25:
 - Setting "Sample Description" and "Sample Code" not possible
 - Settings not available to plugin methods (temporary fix only)
 - "Multiplying" search results
-  
+- JKSearchResult should not use jcampString to encode library entry?
+- Memory usage reduced
+- Some Collection was mutated while being enumerated bugs
+- Autocomplete doesn't work
+- Warning for peak at the same scan removed (can be valid, and to annoying)
+- Library panels drags do not always work after library configuration changed
+- Calculating ratios much faster
+
 FEATURES TO ADD:
 ----------------
 
