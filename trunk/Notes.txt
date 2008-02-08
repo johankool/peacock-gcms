@@ -5,12 +5,11 @@ BUGS TO FIX:
 ------------
 
 version 0.25:
-- Fetch entry does not work
+//- Fetch entry does not work
 - *** Collection <NSCFArray: 0x254190> was mutated while being enumerated.
-- "Multiplying" search results
 - Memory usage!
-- Last opened file not in summary?
-- JKSearchResult should not use jcampString to encode library entry?
+//- Last opened file not in summary?
+//- JKSearchResult should not use jcampString to encode library entry?
 
 version 0.26 (or later):
 - Properly leave out dataseries when set to not visible
@@ -44,6 +43,7 @@ version 0.25:
 - Library-popup should be hidden in library file windows
 - Setting "Sample Description" and "Sample Code" not possible
 - Settings not available to plugin methods (temporary fix only)
+- "Multiplying" search results
   
 FEATURES TO ADD:
 ----------------

@@ -110,9 +110,10 @@
 
 - (void)encodeWithCoder:(NSCoder *)coder {
     if ([coder allowsKeyedCoding]) {
-        [coder encodeInt:2 forKey:@"version"];
+        [coder encodeInt:3 forKey:@"version"];
 		[coder encodeObject:score forKey:@"score"]; 
-		[coder encodeObject:[[self libraryHit] jcampString] forKey:@"jcampString"]; 
+		[coder encodeObject:[self libraryHit] forKey:@"libraryHit"]; 
+		//[coder encodeObject:[[self libraryHit] jcampString] forKey:@"jcampString"]; 
         // If the library entry has gained a permanentID in between the assignment, we want to get it and use it.
         if (!libraryHitURI && [_libraryHit isKindOfClass:[JKManagedLibraryEntry class]]) {
             if (![[_libraryHit objectID] isTemporaryID]) {
@@ -140,13 +141,21 @@
             } else {
                 jcampString = [[someLibraryHit jcampString] retain];
             }
-         } else {
+         } else if (version ==2) {
             score = [[coder decodeObjectForKey:@"score"] retain]; 
             jcampString = [[coder decodeObjectForKey:@"jcampString"] retain]; 
             peak = [[coder decodeObjectForKey:@"peak"] retain];
             libraryHitURI = [[coder decodeObjectForKey:@"libraryHitURI"] retain];
             [self libraryHit]; // Causes faults to fire, which we want...
-        }
+         } else {
+             score = [[coder decodeObjectForKey:@"score"] retain]; 
+             peak = [[coder decodeObjectForKey:@"peak"] retain];
+             libraryHitURI = [[coder decodeObjectForKey:@"libraryHitURI"] retain];
+             [self libraryHit]; // Causes faults to fire, which we want...
+             if (!_libraryHit) {
+                 _libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain];
+             }
+         }
     } 
     return self;
 }
