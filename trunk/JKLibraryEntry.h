@@ -40,6 +40,7 @@
 	NSString *group;        // ##$GROUP=
     NSString *library;       // ##$LIBRARY=
 	//int numberOfPoints;		// ##NPOINTS=
+    NSArray *_synonymsArray;
 }
 
 + (id)libraryEntryWithJCAMPString:(NSString *)inString;

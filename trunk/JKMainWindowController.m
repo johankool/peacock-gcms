@@ -624,6 +624,7 @@ static void *PeaksObservationContext = (void *)1103;
 
 - (IBAction)abort:(id)sender {
     [[self document] setAbortAction:YES];
+//    [self didEndSheet:progressSheet returnCode:0 contextInfo:nil];
 }
 
 - (IBAction)showTICTraceAction:(id)sender {
@@ -744,12 +745,15 @@ static void *PeaksObservationContext = (void *)1103;
 }
 - (IBAction)identifyCompound:(id)sender
 {
-    [NSApp beginSheet: progressSheet
-       modalForWindow: [self window]
-        modalDelegate: self
-       didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
-          contextInfo: nil];
-    
+     [NSThread detachNewThreadSelector:@selector(identifyCompound) toTarget:self withObject:nil];
+}
+- (void)identifyCompound {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	[NSApp beginSheet: progressSheet
+	   modalForWindow: [self window]
+		modalDelegate: self
+	   didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
+		  contextInfo: nil];
     
     JKPeakRecord *peak;
     peak = [[peakController selectedObjects] objectAtIndex:0];
@@ -758,11 +762,11 @@ static void *PeaksObservationContext = (void *)1103;
         [self presentError:error];
     }	
     [self observeValueForKeyPath:@"selection.searchResults" ofObject:peakController change:nil context:PeaksObservationContext];
-//    [resultsTable reloadData];
-	[NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];
-    
-}
+    //    [resultsTable reloadData];
+    [NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];
 
+	[pool release]; 
+}
 #pragma mark -
 
 #pragma mark Key Value Observation
@@ -1451,6 +1455,8 @@ static void *PeaksObservationContext = (void *)1103;
             NSURL *libraryHitURI = [NSURL URLWithString:stringURI];
             NSManagedObjectContext *moc = [[[NSApp delegate] library] managedObjectContext];
             NSManagedObjectID *mid = [[moc persistentStoreCoordinator] managedObjectIDForURIRepresentation:libraryHitURI];
+            if (!mid)
+                return NO;
             JKSearchResult *searchResult = [peak addSearchResultForLibraryEntry:(JKManagedLibraryEntry *)[moc objectWithID:mid]];
             [peak identifyAsSearchResult:searchResult];
             return YES;
@@ -1462,6 +1468,8 @@ static void *PeaksObservationContext = (void *)1103;
             NSURL *libraryHitURI = [NSURL URLWithString:stringURI];
             NSManagedObjectContext *moc = [[[NSApp delegate] library] managedObjectContext];
             NSManagedObjectID *mid = [[moc persistentStoreCoordinator] managedObjectIDForURIRepresentation:libraryHitURI];
+            if (!mid)
+                return NO;
             JKManagedLibraryEntry *managedLibraryEntry = (JKManagedLibraryEntry *)[moc objectWithID:mid];
             
             // Add the library entry to the peak

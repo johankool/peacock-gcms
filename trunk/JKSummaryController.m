@@ -298,21 +298,11 @@
 	if (([sender clickedRow] == -1) && ([sender clickedColumn] == -1)) {
 		return;
 	} else if ([sender clickedColumn] == 0) {
-/*###290 [cc] warning: (Messages without a matching method signature%%%*/
-/*###290 [cc] warning: ‘JKAppDelegate’ may not respond to ‘-editLibrary:’%%%*/
-/*###290 [cc] warning: will be assumed to return ‘id’ and accept%%%*/
-/*###290 [cc] warning: ‘...’ as arguments.)%%%*/
-/*###290 [cc] warning: ‘...’ as arguments.)%%%*/
-/*###290 [cc] warning: will be assumed to return ‘id’ and accept%%%*/
-/*###290 [cc] warning: (Messages without a matching method signature%%%*/
-/*###290 [cc] warning: ‘JKAppDelegate’ may not respond to ‘-editLibrary:’%%%*/
+
        [(JKAppDelegate *)[NSApp delegate] editLibrary:self];
         JKLogDebug(@"label = %@", [[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedColumn]] valueForKey:@"label"]);
-/*###292 [cc] warning: no ‘-libraryController’ method found%%%*/
-/*###292 [cc] warning: no ‘-libraryWindowController’ method found%%%*/
-/*###292 [cc] warning: no ‘-libraryController’ method found%%%*/
-/*###292 [cc] warning: no ‘-libraryWindowController’ method found%%%*/
-       [[[[(JKAppDelegate *)[NSApp delegate] library] libraryWindowController] libraryController] setSelectedObjects:[NSArray arrayWithObject:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedColumn]] valueForKey:@"libraryHit"]]];
+
+       [[[[(JKAppDelegate *)[NSApp delegate] library] libraryWindowController] libraryController] setSelectedObjects:[NSArray arrayWithObject:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedColumn]] valueForKey:@"libraryEntry"]]];
 		return;
     } else if ([sender clickedRow] == -1) {
         // A column was double clicked

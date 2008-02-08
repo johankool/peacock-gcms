@@ -89,10 +89,12 @@
     JKCombinedPeak *combinedPeak = [self combinedPeakForPeak:peak];
     [combinedPeak removeUnconfirmedPeak:peak];
     if ([combinedPeak countOfPeaks] == 0) {
-        NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks indexOfObject:combinedPeak]];
-        [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];
-        [combinedPeaks removeObject:combinedPeak];
-        [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];
+        if ([combinedPeaks indexOfObject:combinedPeak] != NSNotFound) {
+            NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks indexOfObject:combinedPeak]];
+            [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];
+            [combinedPeaks removeObject:combinedPeak];
+            [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];            
+        }
    }
 }
 
@@ -119,16 +121,20 @@
 {
     NSString *key = [[aNotification object] uuid];
     JKCombinedPeak *combinedPeak;
-    
+    NSMutableArray *objectsToRemove = [NSMutableArray array];
     for (combinedPeak in combinedPeaks) {
         [combinedPeak setValue:nil forKey:key];
         if ([combinedPeak countOfPeaks] == 0) {
-            NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks indexOfObject:combinedPeak]];
-            [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];
-            [combinedPeaks removeObject:combinedPeak];
-            [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];            
+            [objectsToRemove addObject:combinedPeak];
+//            NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks indexOfObject:combinedPeak]];
+//            [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];
+//            [combinedPeaks removeObject:combinedPeak];
+//            [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];            
         }        
     }
+   [self willChangeValueForKey:@"combinedPeaks"];
+    [combinedPeaks removeObjectsInArray:objectsToRemove];
+    [self didChangeValueForKey:@"combinedPeaks"];
 }
 
 

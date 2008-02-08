@@ -27,6 +27,7 @@
 }
 
 - (void)awakeFromFetch {
+    [super awakeFromFetch];
     needDatapointsRefresh = YES;
 }
 
@@ -611,6 +612,9 @@
 }
 
 - (int)numberOfPoints {
+    if (needDatapointsRefresh) {
+        [self datapointsRefresh];
+    }
     return numberOfPoints;
 }
 - (float *)masses {
@@ -628,6 +632,7 @@
 
 - (void)datapointsRefresh {
     int i = 0;
+    [self willAccessValueForKey:@"datapoints"];
     numberOfPoints = [[self valueForKey:@"datapoints"] count];
     masses = (float *)realloc(masses, numberOfPoints*sizeof(float));
     intensities = (float *)realloc(intensities, numberOfPoints*sizeof(float));
@@ -646,10 +651,15 @@
             maxIntensity = intensities[i];
         i++;
     }
+    [self didAccessValueForKey:@"datapoints"];
+
     needDatapointsRefresh = NO;
 }
 
 - (float)maxIntensity {
+    if (needDatapointsRefresh) {
+        [self datapointsRefresh];
+    }
     return maxIntensity;
 }
 

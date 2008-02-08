@@ -181,9 +181,9 @@ static NSString * LICENSE_EXTENSION = @"peacock-license";
     
     [super dealloc];
 }
+#pragma mark  -
 
 #pragma mark DELEGATE METHODS
-
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
     // Delegate method per NSApplication to suppress or allow untitled window at launch.
     return NO;
@@ -196,16 +196,17 @@ static NSString * LICENSE_EXTENSION = @"peacock-license";
     //#warning High level debug verbosity set.
     //	JKSetVerbosityLevel(JK_VERBOSITY_ALL);
 
-//#warning License check disabled
+#warning License check disabled
 //    // Check for valid licenses
 //    [[PKLicenseController sharedController] showWindow:self];
 //    [[PKLicenseController sharedController] begIfNeeded];
 
-    if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSave"] boolValue] == YES) {
-        [[NSDocumentController sharedDocumentController] setAutosavingDelay:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSaveDelay"] intValue]*60];
-    } else {
-        [[NSDocumentController sharedDocumentController] setAutosavingDelay:0];
-    }
+#warning Auto-save disabled
+//    if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSave"] boolValue] == YES) {
+//        [[NSDocumentController sharedDocumentController] setAutosavingDelay:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSaveDelay"] intValue]*60];
+//    } else {
+//        [[NSDocumentController sharedDocumentController] setAutosavingDelay:0];
+//    }
 	
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"showInspectorOnLaunch"] boolValue] == YES) {
         [[JKPanelController sharedController] showInspector:self];
@@ -268,6 +269,7 @@ static NSString * LICENSE_EXTENSION = @"peacock-license";
         [[library managedObjectContext] save:NULL];
     }
 }
+#pragma mark  -
 
 #pragma mark ACTIONS
 
@@ -381,15 +383,18 @@ static NSString * LICENSE_EXTENSION = @"peacock-license";
         [[self graphicalController] sharedPrintInfoUpdated];
     }
 }
-#pragma mark GROWL SUPPORT
+#pragma mark  -
 
+#pragma mark GROWL SUPPORT
 - (NSDictionary *) registrationDictionaryForGrowl {
 	NSArray *defaultArray = [NSArray arrayWithObjects:@"Batch Process Finished", @"Identifying Compounds Finished", @"Statistical Analysis Finished",nil];
 	NSArray *allArray = [NSArray arrayWithObjects:@"Batch Process Finished", @"Identifying Compounds Finished", @"Statistical Analysis Finished",nil];
 	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:defaultArray, GROWL_NOTIFICATIONS_DEFAULT, allArray, GROWL_NOTIFICATIONS_ALL,nil];
 	return dictionary;
 }
+#pragma mark -
 
+#pragma mark Interface validation
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
     if ([NSApp modalWindow]) { // Disable menuitems because they cause a crash when running the modal registration window + its *MODAL*! anyway
         return NO;
@@ -668,6 +673,7 @@ static NSString * LICENSE_EXTENSION = @"peacock-license";
 //        return nil;
 //    }
 }
+
 - (NSArray *)autocompleteEntries {
     return [[summarizer combinedPeaks] valueForKey:@"label"];
 //	return autocompleteEntries;
@@ -837,6 +843,7 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
 - (NSArray *)documents {
     return [[NSDocumentController sharedDocumentController] documents];
 }
+#pragma mark -
 
 #pragma mark NSTableView Datasource
 

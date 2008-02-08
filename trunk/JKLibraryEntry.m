@@ -436,6 +436,9 @@
 }
 
 - (void) dealloc {
+    if (_synonymsArray) {
+        [_synonymsArray release];
+    }
 	[name release];	
 	[origin release];
 	[owner release];	
@@ -605,8 +608,29 @@ idUndoAccessor(molString, setMolString, @"Change Mol String")
 idUndoAccessor(symbol, setSymbol, @"Change Symbol")
 idUndoAccessor(model, setModel, @"Change Model")
 idUndoAccessor(group, setGroup, @"Change Group")
-idUndoAccessor(synonyms, setSynonyms, @"Change Synonyms")
+//idUndoAccessor(synonyms, setSynonyms, @"Change Synonyms")
 idAccessor(library, setLibrary)
+
+- (id)synonyms {	
+    return synonyms;			
+}
+
+- (void)setSynonyms:(id)newVar { 
+    if ( newVar!=synonyms) {  
+        if ( newVar!=(id)self ) 
+            [newVar retain]; 
+        [[self undoManager] registerUndoWithTarget:self 
+                                          selector:@selector(setSynonyms:) 
+                                            object:synonyms]; 
+        [[self undoManager] setActionName:NSLocalizedString(@"Change Synonyms",@"Change Synonyms")]; 
+        if ( synonyms && synonyms!=(id)self) 
+            [synonyms release]; 
+        synonyms = newVar; 
+        if (_synonymsArray)
+            [_synonymsArray release];
+        _synonymsArray = nil;
+    } 
+} 
 
 #pragma mark -
 
@@ -615,10 +639,10 @@ idAccessor(library, setLibrary)
 {
     NSArray *synonymsArray = [self synonymsArray];
     NSString *synonym;
-    compoundString = [compoundString lowercaseString];
+ //   compoundString = [compoundString lowercaseString];
     
     for (synonym in synonymsArray) {
-        if ([[synonym lowercaseString] isEqualToString:compoundString]) {
+        if ([synonym isEqualToString:compoundString]) {
             return YES;
         }
     }
@@ -626,10 +650,15 @@ idAccessor(library, setLibrary)
 }
 
 - (NSArray *)synonymsArray {
-    if (![self synonyms]) {
-        return [NSArray arrayWithObject:[self name]];
+    if (_synonymsArray) {
+        return _synonymsArray;
     }
-    return [[[self synonyms] componentsSeparatedByString:@"; "] arrayByAddingObject:[self name]];
+    if (![self synonyms]) {
+        _synonymsArray = [[NSArray arrayWithObject:[self name]] retain];
+    } else {
+        _synonymsArray = [[[[self synonyms] componentsSeparatedByString:@"; "] arrayByAddingObject:[self name]] retain];
+    }
+    return _synonymsArray;
 }
 
 - (NSString *)peakTable{
@@ -716,7 +745,7 @@ idAccessor(library, setLibrary)
 - (void)encodeWithCoder:(NSCoder *)coder{
     if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
         [super encodeWithCoder:coder];
-        [coder encodeInt:3 forKey:@"version"];
+//        [coder encodeInt:3 forKey:@"version"]; => set in super!
         [coder encodeObject:[self name] forKey:@"name"];
         [coder encodeObject:[self origin] forKey:@"origin"];
         [coder encodeObject:[self owner] forKey:@"owner"];
@@ -747,7 +776,7 @@ idAccessor(library, setLibrary)
 		int version;
 		
 		version = [coder decodeIntForKey:@"version"];
-		if (version > 3) {
+		if (version >= 3) {
             self = [super initWithCoder:coder];
             if (self != nil) {
                 name = [[coder decodeObjectForKey:@"name"] retain];
