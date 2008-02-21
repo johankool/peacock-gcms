@@ -423,7 +423,11 @@
             NSURL *libraryHitURI = [NSURL URLWithString:stringURI];
             NSManagedObjectContext *moc = [[[NSApp delegate] library] managedObjectContext];
             NSManagedObjectID *mid = [[moc persistentStoreCoordinator] managedObjectIDForURIRepresentation:libraryHitURI];
-            [combinedPeak setLibraryEntry:[moc objectWithID:mid]];
+           
+            if (!mid)
+                return NO;
+            JKManagedLibraryEntry *managedLibraryEntry = (JKManagedLibraryEntry *)[moc objectWithID:mid];
+            [combinedPeak setLibraryEntry:managedLibraryEntry];
             return YES;
   		}	
     }

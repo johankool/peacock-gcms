@@ -53,7 +53,7 @@
     if (maxIntensityLibraryEntry <= 0.0f) {
         return 0.0f;
     }
-    NSAssert1(maxIntensityLibraryEntry > 0.0f, @"maxIntensityLibraryEntry is 0 or smaller for library entry '%@'", [libraryEntry name]);
+    NSAssert1(maxIntensityLibraryEntry > 0.0f, @"maxIntensityLibraryEntry is 0 or smaller for library entry '%@'", libraryEntry);
     
 //    JKLogDebug(@"maxIntensitySpectrum %g; maxIntensityLibraryEntry %g", maxIntensitySpectrum, maxIntensityLibraryEntry);
 
