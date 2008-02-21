@@ -33,9 +33,9 @@
 // Name of the application support folder
 static NSString * SUPPORT_FOLDER_NAME = @"Peacock";
 static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
-static NSString * LICENSES_FOLDER_NAME = @"Licenses";
+//static NSString * LICENSES_FOLDER_NAME = @"Licenses";
 static NSString * LIBRARY_EXTENSION = @"peacock-library";
-static NSString * LICENSE_EXTENSION = @"peacock-license";
+//static NSString * LICENSE_EXTENSION = @"peacock-license";
 
 @implementation JKAppDelegate
 

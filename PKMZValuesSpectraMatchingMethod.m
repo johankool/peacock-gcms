@@ -55,15 +55,15 @@
     
     
 	float massDifference;
-	float temp1, temp2;
-	BOOL peakMassesAtEnd = NO;
-	BOOL libraryEntryMassesAtEnd = NO;
+//	float temp1, temp2;
+//	BOOL peakMassesAtEnd = NO;
+//	BOOL libraryEntryMassesAtEnd = NO;
     i = 0;
     j = 0;
     k = 0; 
-    BOOL iFinished = NO;
-    BOOL jFinished = NO;
-    BOOL useForScore = YES;
+//    BOOL iFinished = NO;
+//    BOOL jFinished = NO;
+//    BOOL useForScore = YES;
     BOOL useScanRangeCheck = NO;
     float minScannedMassRange = 0.0f;
     float maxScannedMassRange = 1000000.0f;
