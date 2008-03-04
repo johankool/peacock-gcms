@@ -51,6 +51,7 @@ version 0.25:
 - Warning for peak at the same scan removed (can be valid, and to annoying)
 - Library panels drags do not always work after library configuration changed
 - Calculating ratios much faster
+- Fixed exception raised when using Identify compounds and the currently selected chromatogram was used.
 
 FEATURES TO ADD:
 ----------------

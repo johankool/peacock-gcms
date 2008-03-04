@@ -14,7 +14,7 @@
 @implementation PKAbundanceSpectraMatchingMethod
 
 - (id)init {
-    JKLogEnteringMethod();
+//    JKLogEnteringMethod();
     self = [super init];
     if (self != nil) {
       //  [self setSettings:[PKAbundanceSpectraMatchingMethod defaultSettings]];

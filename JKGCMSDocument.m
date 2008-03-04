@@ -304,12 +304,14 @@ int const JKGCMSDocument_Version = 7;
         if (![[self chromatograms] containsObject:ticChromatogram]) {
             [self insertObject:ticChromatogram inChromatogramsAtIndex:0];
         }
-        
+
+// [BUG] This code cause a *** Collection <NSCFArray: 0x647370> was mutated while being enumerated.-exception.
 //        for (JKChromatogram *chromatogram in [self chromatograms]) {
 //            if (![[chromatogram model] isEqualToString:@"TIC"] && [chromatogram countOfPeaks] == 0) {
 //                [self removeObjectFromChromatogramsAtIndex:[[self chromatograms] indexOfObject:chromatogram]];
 //            }
 //        }
+        
         
         [chromatograms sortUsingSelector:@selector(sortOrderComparedTo:)];
   		return result;	
@@ -1356,6 +1358,8 @@ int const JKGCMSDocument_Version = 7;
 	if (mainWindowController) {
         progressIndicator = [mainWindowController progressIndicator];
         progressText = [mainWindowController progressText];
+        [[mainWindowController chromatogramsController] setSelectedObjects:nil];
+        [mainWindowController setupChromatogramDataSeries];
     }
     
 	[progressIndicator setDoubleValue:0.0];
@@ -1509,16 +1513,19 @@ int const JKGCMSDocument_Version = 7;
         // Only change the array after we've iterated over it
         [[chrom peaks] removeObjectsAtIndexes:peaksToRemove];
                 
-        if ((![[self chromatograms] containsObject:chrom]) ){ //&& ([[chrom peaks] count] > 0)
+        if ((![[self chromatograms] containsObject:chrom]) && ([[chrom peaks] count] > 0)) {
             [chromsToInsert addObject:chrom];
         }            
 	}
 
     // Only change the array after we've iterated over it
-   for (chrom in chromsToInsert) {
+    for (chrom in chromsToInsert) {
         [self insertObject:chrom inChromatogramsAtIndex:[self countOfChromatograms]];
     }
-   
+    
+    // Sort chromatograms
+    [chromatograms sortUsingSelector:@selector(sortOrderComparedTo:)];
+    
     [self renumberPeaks];
     [self didChangeValueForKey:@"peaks"];
     [[self undoManager] setActionName:NSLocalizedString(@"Perform Backward Library Search",@"")];
@@ -1529,6 +1536,9 @@ int const JKGCMSDocument_Version = 7;
     // Restore default library (otherwise dragging from libpanel doesn't work)
     [(JKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
     
+    if (mainWindowController)
+        [[mainWindowController chromatogramsController] setSelectedObjects:[NSArray arrayWithObject:[self ticChromatogram]]];
+
     _isBusy = NO;
 	return YES;
 }
