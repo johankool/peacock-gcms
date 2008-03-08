@@ -1,0 +1,9 @@
+Following are yet to do, in rough order of priority:
+
+  * fixed names full rendering
+  * correct prefix/suffix (particuly on container title)
+  * rule to not print content where it is an alternate sort key
+  * fill out cs templates
+  * generalize RDF mapping?
+  * finalize CSL
+

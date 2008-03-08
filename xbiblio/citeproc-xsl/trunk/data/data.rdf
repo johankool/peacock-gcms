@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:prism="http://prismstandard.org/namespaces/1.2/basic/"
+         xmlns:dcterms="http://purl.org/dc/terms/"
+         xmlns:foaf="http://xmlns.com/foaf/0.1/"
+  	 xmlns:vcard="http://nwalsh.com/rdf/vCard" 
+         xmlns="http://purl.org/net/biblio#">
+   <Reference rdf:about="NW2000-0424a">
+      <rdf:type rdf:resource="http://purl.org/net/biblio#Article"/>
+      <dc:title>Perspectives</dc:title>
+      <dcterms:isPartOf rdf:resource="newsweek"/>
+      <pages>21</pages>
+      <dc:date>2000-10-13</dc:date>
+      <prism:volume>135</prism:volume>
+      <prism:number>17</prism:number>
+      <prism:publicationName>Newsweek</prism:publicationName>
+   </Reference>
+   <Periodical rdf:about="newsweek">
+      <dc:title>Newsweek</dc:title>
+   </Periodical>
+   <Reference rdf:about="NW2000-0207">
+      <rdf:type rdf:resource="http://purl.org/net/biblio#Article"/>
+      <dc:title>The Grandmas Pay a Visit</dc:title>
+      <dcterms:isPartOf rdf:resource="newsweek"/>
+      <pages>45</pages>
+      <dc:date>2000</dc:date>
+      <prism:volume>135</prism:volume>
+      <prism:number>6</prism:number>
+      <prism:publicationName>Newsweek</prism:publicationName>
+   </Reference>
+   <Reference rdf:about="Tremblay2001a">
+      <rdf:type rdf:resource="http://purl.org/net/biblio#LegalCase"/>
+      <dc:title>Tremblay v. Québec (Attorney General)</dc:title>
+      <dcterms:isPartOf rdf:resource="cs"/>
+      <citekey>Tremblay2001a</citekey>
+      <dc:date>2001</dc:date>
+      <prism:publicationName>C.S.</prism:publicationName>
+   </Reference>
+   <Periodical rdf:about="cs">
+      <dc:title>C.S.</dc:title>
+   </Periodical>
+   <Reference rdf:about="Veer1996a">
+      <authors>
+         <rdf:Seq>
+            <rdf:li rdf:resource="veer-p"/>
+         </rdf:Seq>
+      </authors>
+      <rdf:type rdf:resource="http://purl.org/net/biblio#Chapter"/>
+      <dc:title>Riots and Rituals: The Construction of Violence and Public Space in Hindu Nationalism</dc:title>
+      <dcterms:isPartOf rdf:resource="riots"/>
+      <pages>154-176</pages>
+      <dc:date>1996</dc:date>
+   </Reference>
+   <Book rdf:about="riots">
+      <dc:title>Riots and Pogroms</dc:title>
+      <dc:publisher>
+        <foaf:Organization>          <foaf:name>NYU Press</foaf:name>          <vcard:adr>            <vcard:Address>              <vcard:locality>New York</vcard:locality>            </vcard:Address>          </vcard:adr>        </foaf:Organization>
+      </dc:publisher>
+   </Book>
+   <foaf:Person rdf:about="veer-p">
+      <foaf:givenname>Peter</foaf:givenname>
+      <foaf:surname>van der Veer</foaf:surname>
+   </foaf:Person>
+   <Reference rdf:about="Tilly2000a">
+      <authors>
+         <rdf:Seq>
+           <rdf:li rdf:resource="tilly-c"/>
+         </rdf:Seq>
+      </authors>
+      <rdf:type rdf:resource="http://purl.org/net/biblio#Review"/>
+      <dc:title>Review of Moral Economy and Popular Protest</dc:title>
+      <dcterms:isPartOf rdf:resource="jih"/>
+      <prism:volume>31</prism:volume>
+      <prism:number>2</prism:number>
+      <pages>259-260</pages>
+      <dc:date>2000</dc:date>
+   </Reference>
+   <Journal rdf:about="jih">
+      <dc:title>Journal of Interdisciplinary History</dc:title>
+   </Journal>
+   <Reference rdf:about="Tilly2002a">
+      <authors>
+         <rdf:Seq>
+            <rdf:li rdf:resource="tilly-c"/>
+         </rdf:Seq>
+      </authors>
+      <rdf:type rdf:resource="http://purl.org/net/biblio#Book"/>
+      <dc:title>Stories, Identities, and Political Change</dc:title>
+      <dc:date>2002</dc:date>
+      <dc:publisher>
+        <foaf:Organization>          <foaf:name>Rowman &amp; Littlefield Publishers, Inc.</foaf:name>          <vcard:adr>            <vcard:Address>              <vcard:locality>Lanham, MD</vcard:locality>            </vcard:Address>          </vcard:adr>        </foaf:Organization>
+      </dc:publisher>
+   </Reference>
+   <foaf:Person rdf:about="tilly-c">
+      <foaf:givenname>Charles</foaf:givenname>
+      <foaf:surname>Tilly</foaf:surname>
+   </foaf:Person>
+   <Reference rdf:about="Thrift1990a">
+      <authors>
+         <rdf:Seq>
+            <rdf:li rdf:resource="thrift-n"/>
+         </rdf:Seq>
+      </authors>
+      <rdf:type rdf:resource="http://purl.org/net/biblio#Article"/>
+      <dc:title>For a New Regional Geography 1</dc:title>
+      <dcterms:isPartOf rdf:resource="phg"/>
+      <citekey>Thrift1990a</citekey>
+      <pages>272-279</pages>
+      <dc:date>1990</dc:date>
+      <prism:volume>14</prism:volume>
+      <prism:number>2</prism:number>
+   </Reference>
+   <Journal rdf:about="phg">
+      <dc:title>Progress in Human Geography</dc:title>
+   </Journal>
+   <foaf:Person rdf:about="thrift-n">
+      <foaf:surname>Thrift</foaf:surname>
+      <foaf:givenname>Nigel</foaf:givenname>
+   </foaf:Person>
+   <Reference rdf:about="TimesP2001a">
+      <rdf:type rdf:resource="http://purl.org/net/biblio#Article"/>
+      <dc:title>Senators Stamp OK on Anti-Terrorism Laws</dc:title>
+      <dcterms:isPartOf rdf:resource="times"/>
+      <citekey>TimesP2001a</citekey>
+      <pages>A-01</pages>
+      <dc:date>2001-10-03</dc:date>
+      <prism:publicationName>Times</prism:publicationName>
+   </Reference>
+   <Newspaper rdf:about="times">
+      <dc:title>Times</dc:title>
+   </Newspaper>
+   <Reference rdf:about="Arendt1959a">
+      <authors>
+         <rdf:Seq>
+            <rdf:li rdf:resource="arendt-h"/>
+         </rdf:Seq>
+      </authors>
+      <rdf:type rdf:resource="http://purl.org/net/biblio#Book"/>
+      <dc:title>The Human Condition</dc:title>
+      <citekey>Arendt1959a</citekey>
+      <dc:date>1959</dc:date>
+   </Reference>
+   <foaf:Person rdf:about="arendt-h">
+      <foaf:surname>Arendt</foaf:surname>
+      <foaf:givenname>Hannah</foaf:givenname>
+   </foaf:Person>
+   <Reference rdf:about="Amin1994a">
+      <authors>
+         <rdf:Seq>
+            <rdf:li rdf:resource="amin-a"/>
+         </rdf:Seq>
+      </authors>
+      <rdf:type rdf:resource="http://purl.org/net/biblio#BookSection"/>
+      <dc:title>Post-Fordism: Models, Fantasies and Phantoms of Transition</dc:title>
+      <dcterms:isPartOf rdf:resource="post-ford"/>
+      <citekey>Amin1994a</citekey>
+      <pages>23-45</pages>
+      <dc:date>1994</dc:date>
+   </Reference>
+   <Book rdf:about="post-ford">
+      <dc:title>Post-Fordism: A Reader</dc:title>
+      <dc:publisher>
+        <foaf:Organization>          <foaf:name>University of Chicago Press</foaf:name>          <vcard:adr>            <vcard:Address>              <vcard:locality>Chicago</vcard:locality>            </vcard:Address>          </vcard:adr>        </foaf:Organization>
+      </dc:publisher>
+   </Book>
+   <foaf:Person rdf:about="amin-a">
+      <foaf:givenname>Ash</foaf:givenname>
+      <foaf:surname>Amin</foaf:surname>
+   </foaf:Person>
+   <Reference rdf:about="Brenner2000a">
+      <authors>
+         <rdf:Seq>
+            <rdf:li rdf:resource="brenner-n"/>
+         </rdf:Seq>
+      </authors>
+      <rdf:type rdf:resource="http://purl.org/net/biblio#Article"/>
+      <dc:title>The Urban Question as a Scale Question: Reflections on Henri Lefebre, Urban Theory and the Politics of Scale</dc:title>
+      <dcterms:isPartOf rdf:resource="jurr"/>
+      <prism:volume>2</prism:volume>
+      <citekey>BrennerN2000a</citekey>
+      <pages>361-378</pages>
+      <dc:date>2000</dc:date>
+      <prism:publicationName>International Journal of Urban and Regional Research</prism:publicationName>
+   </Reference>
+   <Journal rdf:about="jurr">
+      <dc:title>International Journal of Urban and Regional Research</dc:title>
+   </Journal>
+   <foaf:Person rdf:about="brenner-n">
+      <foaf:givenname>Neil</foaf:givenname>
+      <foaf:surname>Brenner</foaf:surname>
+   </foaf:Person>
+   <Reference rdf:about="DoeJ2002a">
+      <authors>
+         <rdf:Seq>
+            <rdf:li rdf:resource="doe-j"/>
+            <rdf:li rdf:resource="smith-j"/>
+            <rdf:li rdf:resource="chavez-h"/>
+            <rdf:li rdf:resource="jones-s"/>
+            <rdf:li rdf:resource="abel-j"/>
+            <rdf:li rdf:resource="mcdonnell-c"/>
+            <rdf:li rdf:resource="turner-m"/>
+         </rdf:Seq>
+      </authors>
+      <rdf:type rdf:resource="http://purl.org/net/biblio#Article"/>
+      <dc:title>A Test Article with Multiple Authors</dc:title>
+      <dcterms:isPartOf rdf:resource="jmr"/>
+      <citekey>DoeJ2002a</citekey>
+      <pages>361-378</pages>
+      <dc:date>2000</dc:date>
+      <prism:publicationName>Journal of Marginal Research</prism:publicationName>
+   </Reference>
+   <Journal rdf:about="jmr">
+      <dc:title>Journal of Marginal Research</dc:title>
+   </Journal>
+   <foaf:Person rdf:about="doe-j">
+      <foaf:givenname>John C.</foaf:givenname>
+      <foaf:surname>Doe</foaf:surname>
+   </foaf:Person>
+   <foaf:Person rdf:about="smith-j">
+      <foaf:givenname>Jane</foaf:givenname>
+      <foaf:surname>Smith</foaf:surname>
+   </foaf:Person>
+   <foaf:Person rdf:about="chavez-h">
+      <foaf:givenname>Hugo</foaf:givenname>
+      <foaf:surname>Chavez</foaf:surname>
+   </foaf:Person>
+   <foaf:Person rdf:about="jones-s">
+      <foaf:givenname>Steve</foaf:givenname>
+      <foaf:surname>Jones</foaf:surname>
+   </foaf:Person>
+   <foaf:Person rdf:about="abel-j">
+      <foaf:givenname>Jennifer</foaf:givenname>
+      <foaf:surname>Abel</foaf:surname>
+   </foaf:Person>
+   <foaf:Person rdf:about="mcdonnell-c">
+      <foaf:givenname>Cynthia</foaf:givenname>
+      <foaf:surname>McDonnell</foaf:surname>
+   </foaf:Person>
+   <foaf:Person rdf:about="turner-m">
+      <foaf:givenname>Matthew</foaf:givenname>
+      <foaf:surname>Turner</foaf:surname>
+   </foaf:Person>
+   <Reference rdf:about="Batson1990">
+      <authors>
+         <rdf:Seq>
+            <rdf:li rdf:resource="batson-c"/>
+         </rdf:Seq>
+      </authors>
+      <rdf:type rdf:resource="http://purl.org/net/biblio#Article"/>
+      <dc:title>How Social is the Animal? The Human Capacity for Caring</dc:title>
+      <dcterms:isPartOf rdf:resource="ap"/>
+      <pages>336-346</pages>
+      <dc:date>1990</dc:date>
+   </Reference>
+   <Journal rdf:about="ap">
+      <dc:title>American Pyschologist</dc:title>
+   </Journal>
+   <foaf:Person rdf:about="batson-c">
+      <foaf:givenname>C. Daniel</foaf:givenname>
+      <foaf:surname>Batson</foaf:surname>
+   </foaf:Person>
+   <Reference rdf:about="Conley1999">
+      <authors>
+         <rdf:Seq>
+            <rdf:li rdf:resource="conley-a"/>
+         </rdf:Seq>
+      </authors>
+      <rdf:type rdf:resource="http://purl.org/net/biblio#Article"/>
+      <dc:title>Fifth-Grade Boys' Decisions about Participation in Sports
+        Activities</dc:title>
+      <dcterms:isPartOf rdf:resource="nsmos"/>
+      <pages>131-146</pages>
+      <dc:date>1999</dc:date>
+      <prism:publicationName>Non-subject-matter Outcomes of Schooling</prism:publicationName>
+   </Reference>
+   <Journal rdf:about="nsmos">
+      <dc:title>Non-subject-matter Outcomes of Schooling</dc:title>
+   </Journal>
+   <foaf:Person rdf:about="conley-a">
+      <foaf:givenname>Alice</foaf:givenname>
+      <foaf:surname>Conley</foaf:surname>
+   </foaf:Person>
+   <Reference rdf:about="Wall1971">
+      <authors>
+         <rdf:Seq>
+            <rdf:li rdf:resource="wall-j"/>
+         </rdf:Seq>
+      </authors>
+      <rdf:type rdf:resource="http://purl.org/net/biblio#Article"/>
+      <dc:title>2700 MHz observations of 4c radio sources in the declination zone
+        +4 to -4</dc:title>
+      <dcterms:isPartOf rdf:resource="ajpa"/>
+      <dc:date>1971</dc:date>
+   </Reference>
+   <Journal rdf:about="ajpa">
+      <dc:title>Australian J. Phys. Astronphys.</dc:title>
+   </Journal>
+   <foaf:Person rdf:about="wall-j">
+      <foaf:givenname>Jasper V.</foaf:givenname>
+      <foaf:surname>Wall</foaf:surname>
+   </foaf:Person>
+   <Reference rdf:about="Testa2000">
+      <authors>
+         <rdf:Seq>
+            <rdf:li rdf:resource="testa-b"/>
+            <rdf:li rdf:resource="kier-l"/>
+         </rdf:Seq>
+      </authors>
+      <rdf:type rdf:resource="http://purl.org/net/biblio#Article"/>
+      <dc:title>Emergence and Dissolvence in the Self-Organization of Complex
+        Systems</dc:title>
+      <dcterms:isPartOf rdf:resource="entropy"/>
+      <pages>17-17</pages>
+      <dc:date>2000</dc:date>
+      <prism:publicationName>Entropy</prism:publicationName>
+   </Reference>
+   <Journal rdf:about="entropy">
+      <dc:title>Entropy</dc:title>
+   </Journal>
+   <foaf:Person rdf:about="testa-b">
+      <foaf:givenname>Bernard</foaf:givenname>
+      <foaf:surname>Testa</foaf:surname>
+   </foaf:Person>
+   <foaf:Person rdf:about="kier-l">
+      <foaf:givenname>Lamont B.</foaf:givenname>
+      <foaf:surname>Kier</foaf:surname>
+   </foaf:Person>
+   <Reference rdf:about="Osborne2001">
+      <authors>
+         <rdf:Seq>
+           <rdf:li rdf:resource="osborne-l"/>
+      </rdf:Seq>
+      </authors>
+      <rdf:type rdf:resource="http://purl.org/net/biblio#Article"/>
+      <dc:title>Poison Pen</dc:title>
+      <dc:title>Thereview of The collaborator: Trial and Execution of Robert Brasillach</dc:title>
+      <dc:title>The Collaborator: The Trial and Execution of Robert Brasillach</dc:title>
+      <dcterms:isPartOf rdf:resource="salon"/>
+      <electronicCopy rdf:about="http://www.salon.com/books/it/2000/03/29/kaplan/index.html">
+         <dcterms:dateAccessed>2001-07-10</dcterms:dateAccessed>
+      </electronicCopy>
+      <dc:date>2000</dc:date>
+      <prism:publicationName>Salon</prism:publicationName>
+   </Reference>
+   <Periodical rdf:about="salon">
+      <dc:title>Salon</dc:title>
+   </Periodical>
+   <foaf:Person rdf:about="osborne-l">
+     <foaf:givenname>Lawrence</foaf:givenname>
+     <foaf:surname>Osborne</foaf:surname>
+   </foaf:Person>
+   <Reference rdf:about="MitchellA2002">
+      <authors>
+         <rdf:Seq>
+            <rdf:li rdf:resource="mitchell-a"/>
+            <rdf:li rdf:resource="bruni-f"/>
+         </rdf:Seq>
+      </authors>
+      <rdf:type rdf:resource="http://purl.org/net/biblio#Article"/>
+      <dc:title>Scars still raw, Bush clashes with McClain</dc:title>
+      <dcterms:isPartOf rdf:resource="nyt"/>
+      <electronicCopy rdf:about="http://www.nytimes.com/2001/03/25/politics/25MCCA.html">
+         <dcterms:dateAccessed>2002-01-02</dcterms:dateAccessed>
+      </electronicCopy>
+      <dc:date>2001</dc:date>
+      <prism:publicationName>New York Times</prism:publicationName>
+   </Reference>
+   <Newspaper rdf:about="nyt">
+      <dc:title>New York Times</dc:title>
+   </Newspaper>
+   <foaf:Person rdf:about="mitchell-a">
+      <foaf:givenname>Alison</foaf:givenname>
+      <foaf:surname>Mitchell</foaf:surname>
+   </foaf:Person>
+   <foaf:Person rdf:about="bruni-f">
+      <foaf:givenname>Frank</foaf:givenname>
+      <foaf:surname>Bruni</foaf:surname>
+   </foaf:Person>
+   <Reference rdf:about="MyersN1987">
+      <authors>
+         <rdf:Seq>
+            <rdf:li rdf:resource="myers-n"/>
+            <rdf:li rdf:resource="tucker-r"/>
+         </rdf:Seq>
+      </authors>
+      <rdf:type rdf:resource="http://purl.org/net/biblio#"/>
+      <dc:title>Deforestation in Central America: Spanish Legacy and North American Consumers</dc:title>
+      <dcterms:isPartOf rdf:resource="er"/>
+      <pages>55-71</pages>
+      <dc:date>1987</dc:date>
+   </Reference>
+   <Journal rdf:about="er">
+      <dc:title>Environmental Review</dc:title>
+   </Journal>
+   <foaf:Person rdf:about="myers-n">
+      <foaf:givenname>Norman</foaf:givenname>
+      <foaf:surname>Myers</foaf:surname>
+   </foaf:Person>
+   <foaf:Person rdf:about="tucker-r">
+      <foaf:givenname>Richard P.</foaf:givenname>
+      <foaf:surname>Tucker</foaf:surname>
+   </foaf:Person>
+   <Reference rdf:about="USvChristmas">
+      <rdf:type rdf:resource="http://purl.org/net/biblio#"/>
+      <dc:title>U.S. v. Christmas</dc:title>
+      <dcterms:isPartOf rdf:resource="usvc"/>
+      <pages>141, 145</pages>
+      <dc:date>2000</dc:date>
+      <prism:publicationName>F.3d</prism:publicationName>
+   </Reference>
+   <Book rdf:about="usvc">
+      <dc:title>F.3d</dc:title>
+   </Book>
+</rdf:RDF>

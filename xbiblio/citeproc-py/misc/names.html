@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>untitled</title>
+	
+</head>
+
+<body>
+<form action="" method="get" accept-charset="utf-8">
+    <label for="name">Name:</label><input type="text/submit/hidden/button" name="name" value="" id="name"> <select name="type" id="type" onchange="" size="1">
+        <option value="option1">Western</option>
+        <option value="option2">Eastern</option>
+        <option value="option2">Islensk</option>
+    </select>
+    
+    <h4>How names should be written to be properly detected</h4>
+    <ul>
+        <li>Western names:
+            <ol>
+                <li>John Doe</li>
+                <li>J. Doe | J.T. Doe | J. T. Doe<br/><small>Use points to indicate initials.</small></li>
+                <li>John T. Doe<br/><small>The initial for the middle name needs to be succeeded with a point.</small></li>
+                <li>T. John Doe<br/><small>The initial for the first given name needs to be succeeded with a point.</small></li>
+                <li>Joh. S. Bach<br/><small>Initals can consist of more than one letter for some names. Some styles may still choose to abbreviate these to a single letter anyway.</small></li>
+                <li>J.W. (Hans) Bakker<br/><small>Use brackets for people for whom the first letter(s) of their given name differs from their initials.</small></li>
+                <li>Klaas de Vries<br/><small>Use lowercase for articulars. Articulars are displayed before a family name, but are ignored during sorting.</small></li>
+                <li>John Doe Sr.<br/><small>Use a point after a suffix.</small></li>
+                <li>John Doe IV<br/><small>Roman numbers are automatically detected as suffixes.</small></li>
+                <li>Pope (John Paul) II<br/><small>Put brackets around a given name if no family name is available.</small></li>
+                <li>(Jaap) Sinninghe Damsté<br/><small>Put brackets around a given name if the family name contains a space.</small></li>
+            </ol>
+        </li>
+        <li>Eastern names:
+            <ol>
+                <li>Mao Zedong</li>
+                <li>Setiadi<br/><small>Some Asian people go by a single name. Those won't be initialized in any style.</small></li>
+            </ol>
+        </li>
+        <li>Icelandic names:
+            <ol>
+                <li>Björk Guðmundsdóttir<br/><small>Icelandic names will be sorted by their given name.</small></li>
+            </ol>
+        </li>
+    </ul>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+namespace cs = "http://purl.org/net/xbiblio/csl"
+namespace dc = "http://purl.org/dc/elements/1.1/"
+namespace s = "http://www.ascc.net/xml/schematron"
+
+dc:title [ "Citation Style Language" ]
+dc:creator [ "Bruce D’Arcus" ]
+dc:copyright [ "Bruce D’Arcus, 2006" ]
+dc:rights [ "Permission to freely use, copy and distribute." ]
+dc:description [
+  "A simple customization schema to simlpify the normative schema for conversion to XSD."
+]
+
+## Schematron rules.
+[
+  s:pattern [
+    s:rule [
+      name = "'Author-date' class test"
+      context = "/cs:style[@class='author-date']"
+      s:assert [
+        test = "cs:bibliography/cs:sort/@algorithm='author-date'"
+        "Must use author-date sorting for the author-date class."
+      ]
+      s:assert [
+        test = "name(cs:citation/cs:layout/cs:item/*[1]) = 'author'"
+        "The citation item layout must include an author element first."
+      ]
+    ]
+    s:rule [
+      context = "/cs:style[@class='number']"
+      s:assert [
+        test =
+          "@class='number' and cs:bibliography/cs:sort/@algorithm=('cited' or 'author-date')"
+        "Must use 'author-date' or 'cited' sorting for the number class."
+      ]
+    ]
+  ]
+]
+include "csl-alt.rnc" {
+  cs-citationstyle =
+    element cs:style {
+      attribute class { cs-classes },
+      cs-info,
+      cs-terms?,
+      cs-defaults,
+      cs-citation?,
+      cs-bibliography?
+    }
+}
+cs-classes = "author-date" | "number" | "label" | "annotated" | "note"

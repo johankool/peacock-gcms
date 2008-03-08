@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?oxygen RNGSchema="../schema/trunk/csl.rnc" type="compact"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="author-date" xml:lang="en">
+  <info>
+    <title>Harvard</title>
+    <id>http://purl.org/net/xbiblio/csl/styles/harvard.csl</id>
+    <link>http://purl.org/net/xbiblio/csl/styles/harvard.csl</link>
+    <author>
+      <name>Bruce D’Arcus</name>
+      <email>bdarcus@sourceforge.net</email>
+    </author>
+    <contributor>
+      <name>Johan Kool</name>
+      <email>johankool@users.sourceforge.net</email>
+    </contributor>
+    <category term="generic-base"/>
+    <updated>2006-10-04T15:07:00+05:00</updated>
+  </info>
+  <defaults>
+    <contributor name-as-sort-order="all">
+      <name and="symbol" sort-separator=", " initialize-with="." delimiter=", "/>
+      <label form="short" prefix=" (" suffix=")"/>
+    </contributor>
+    <locator>
+      <number/>
+    </locator>
+    <titles>
+      <title/>
+    </titles>
+    <date>
+      <year/>
+      <month prefix=", "/>
+      <day prefix=" "/>
+    </date>
+    <publisher>
+      <name suffix=", "/>
+      <place/>
+    </publisher>
+    <access>
+      <text term-name="available-at" suffix=": "/>
+      <url/>
+    </access>
+  </defaults>
+  <citation prefix="(" suffix=")" delimiter="; ">
+    <et-al min-authors="6" use-first="6" position="first"/>
+    <et-al min-authors="6" use-first="1" position="subsequent"/>
+    <layout>
+      <item>
+        <author form="short" suffix=", "/>
+        <date>
+          <year/>
+        </date>
+        <locator prefix=", ">
+          <label form="short" suffix=" "/>
+          <number/>
+        </locator>
+      </item>
+    </layout>
+  </citation>
+  <bibliography>
+    <sort algorithm="author-date"/>
+    <et-al min-authors="4" use-first="3"/>
+    <layout>
+      <list>
+        <heading>
+          <text term-name="references"/>
+        </heading>
+      </list>
+      <item suffix=".">
+        <choose>
+          <type name="book">
+            <author/>
+            <date prefix=" " suffix=".">
+              <year/>
+            </date>
+            <titles font-style="italic" prefix=" " suffix="."/>
+            <edition prefix=", "/>
+            <publisher prefix=", "/>
+            <access prefix=", "/>
+          </type>
+          <type name="chapter">
+            <author/>
+            <date prefix=" " suffix=".">
+              <year/>
+            </date>
+            <titles prefix=" "/>
+            <group class="container">
+              <text term-name="in"/>
+              <editor/>
+              <titles relation="container" font-style="italic" prefix=" " suffix="."/>
+              <titles relation="collection" prefix=" " suffix="."/>
+              <publisher/>
+            </group>
+            <access prefix=" "/>
+            <pages prefix=", ">
+              <text term-name="pages-short" suffix=". "/>
+              <number/>
+            </pages>
+          </type>
+          <type name="article">
+            <author/>
+            <date prefix=" " suffix=".">
+              <year/>
+            </date>
+            <titles prefix=" ‘" suffix="’"/>
+            <group class="container" suffix=".">
+              <editor/>
+              <titles relation="container" font-style="italic" prefix=", "/>
+            </group>
+            <access prefix=" "/>
+            <volume prefix=" ">
+              <text term-name="volume-short" suffix=". "/>
+              <number/>
+            </volume>
+            <issue prefix=", ">
+              <text term-name="number-short" suffix=". "/>
+              <number/>
+            </issue>
+            <pages prefix=", ">
+              <text term-name="pages-short" suffix=". "/>
+              <number/>
+            </pages>
+          </type>
+        </choose>
+      </item>
+    </layout>
+  </bibliography>
+</style>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?oxygen RNGSchema="../schema/trunk/csl.rnc" type="compact"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" xml:lang="en">
+  <info>
+    <title>BlueBook</title>
+    <id>http://purl.org/net/xbiblio/csl/styles/bluebook.csl</id>
+    <author>
+      <name>Bruce D’Arcus</name>
+      <email>bdarcus@sourceforge.net</email>
+    </author>
+    <updated>2006-11-22T00:07:00+05:00</updated>
+    <summary>The Bluebook legal citation style.</summary>
+  </info>
+  <defaults>
+    <contributor>
+      <label form="short" suffix=". " text-transform="lowercase"/>
+      <name and="text" delimiter=", "/>
+    </contributor>
+    <author>
+      <name and="text" delimiter=", "/>
+      <label form="short" prefix=", " suffix="." text-transform="lowercase"/>
+      <substitute>
+        <choose>
+          <editor/>
+          <translator/>
+        </choose>
+      </substitute>
+    </author>
+    <locator>
+      <number/>
+    </locator>
+    <titles>
+      <title/>
+    </titles>
+    <date>
+      <month suffix=" " text-transform="capitalize"/>
+      <day suffix=", "/>
+      <year/>
+    </date>
+    <publisher>
+      <place suffix=": "/>
+      <name/>
+    </publisher>
+    <access>
+      <url/>
+      <date prefix=" (" suffix=")">
+        <text term-name="accessed" suffix=" "/>
+        <month suffix=" " text-transform="capitalize"/>
+        <day suffix=", "/>
+        <year/>
+      </date>
+    </access>
+  </defaults>
+  <citation suffix="." delimiter="; ">
+    <et-al min-authors="4" use-first="1"/>
+    <layout>
+      <item>
+        <choose>
+          <type name="book">
+            <author suffix=", "/>
+            <titles text-decoration="underline"/>
+            <editor prefix=", "/>
+            <translator prefix=", "/>
+            <titles relation="container" prefix=" "/>
+            <group prefix=" (" suffix=")" delimiter=", ">
+              <publisher/>
+              <date>
+                <year/>
+              </date>
+            </group>
+            <pages prefix=", "/>
+            <access prefix=", "/>
+          </type>
+          <type name="chapter">
+            <author suffix=", "/>
+            <titles text-decoration="underline"/>
+            <group class="container">
+              <text term-name="in" text-transform="lowercase"/>
+              <titles relation="container" prefix=" " font-style="italic"/>
+              <editor prefix=", "/>
+              <translator prefix=", "/>
+              <group prefix=" (" suffix=")" delimiter=", ">
+                <publisher/>
+                <date>
+                  <year/>
+                </date>
+              </group>
+              <pages prefix=", "/>
+              <access prefix=", "/>
+            </group>
+          </type>
+          <type name="article">
+            <author suffix=", "/>
+            <titles text-decoration="underline"/>
+            <titles relation="container" font-style="italic" suffix=", "/>
+            <group delimiter=", ">
+              <date/>
+              <access/>
+            </group>
+          </type>
+          <type name="legal case">
+       <!-- 
+         Beachy v. Becerra, 609 N.W.2d 648 (Neb. 2000)[history]
+       -->
+            <titles text-decoration="underline"/>
+            <volume/>
+            <titles relation="container"/>
+            <pages/> <!-- start page -->
+            <group prefix="(" suffix=")">
+              <publisher/>
+              <date>
+                <year/>
+              </date>
+            </group>
+          </type>
+          <type name="legislation">
+            <!-- [Title number] [Code abbreviation] § [Specific section] (Date of code edition cited). 
+              28 U.S.C. § 1291 (1994). -->
+            <number/>
+            <titles text-decoration="underline"/>
+            <volume/>
+            <titles relation="container"/>
+            <pages/> <!-- start page -->
+            <group prefix="(" suffix=")">
+              <publisher/>
+              <date>
+                <year/>
+              </date>
+            </group>
+          </type>
+        </choose>
+      </item>
+      <item position="subsequent" ibid="true">
+        <author/>
+        <title prefix=", "/>
+      </item>
+    </layout>
+  </citation>
+</style>

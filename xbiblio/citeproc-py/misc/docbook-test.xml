@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <info>
+    <title>CiteProc Test</title>
+  </info>
+  <section>
+    <info>
+      <title>Introduction</title>
+    </info>
+    <para>CiteProc supports the following features, depending on the details of the style as
+      specified in the <acronym>CSL</acronym> file: <itemizedlist>
+        <listitem>
+          <para>Reference grouping and sorting <citation>
+              <biblioref linkend="Tilly2000a"/>
+              <biblioref linkend="Thrift1990a"/>
+              <biblioref linkend="Tilly2002a"/>
+            </citation>
+          </para>
+        </listitem>
+        <listitem>
+          <para>Point citation locator details such as page <citation>
+              <biblioref linkend="Veer1996a" units="page" begin="23" end="24"/>
+            </citation> and paragraph numbers.</para>
+        </listitem>
+        <listitem>
+          <para>First and subsequent citation handling <citation>
+              <biblioref linkend="Thrift1990a"/>
+            </citation>.</para>
+        </listitem>
+        <listitem>
+          <para>Coding for note-based citations is fully consistent <citation><biblioref linkend="DoeJ2006"/></citation>
+			with that for other citation
+            classes. One need not manually place a citation in a footnote or use a special command
+            like footcite to have it rendered as a note.<footnote>
+              <para>... in a footnote <citation>
+                  <biblioref linkend="Tilly2002a"/>
+                </citation>
+              </para>
+            </footnote> This greatly simplifies radical style changes.</para>
+        </listitem>
+        <listitem>
+          <para>Both ibid. <citation>
+              <biblioref linkend="Tilly2002a" begin="234"/>
+            </citation> and complex et al. handling.<footnote>Some styles—such as APA—specify
+              different et al. handling for first <citation>
+                <biblioref linkend="DoeJ2002a"/>
+              </citation> and subsequent <citation>
+                <biblioref linkend="Brenner2000a"/>
+                <biblioref linkend="DoeJ2002a"/>
+              </citation> references.</footnote>
+          </para>
+        </listitem>
+        <listitem>
+          <para>Configuration of author- name substitution <citation>
+              <biblioref linkend="NW2000-0207"/>
+              <biblioref linkend="NW2000-0424a"/>
+            </citation>.</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </section>
+</article>

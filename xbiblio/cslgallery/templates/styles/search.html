@@ -1,0 +1,17 @@
+{% extends "styles/style_list.html" %}
+
+{% block title %}Search | CSLGallery{% endblock %}
+
+{% block pagetitle %}
+  <h2>Search for {% if q %}'{{ q|escape }}'{% else %}packages{% endif %}:</h2>
+  <div class="arrow" id="arrow-search"></div>  
+{% endblock %}
+
+{% block content %}
+  <form id="search" action="." method="get" accept-charset="utf-8">
+    <input class="text" type="text" name="q" value="">
+    <input class="button" type="submit" value="Search">
+  </form>
+  <br>
+  {{ block.super }}  
+{% endblock %}

@@ -1,0 +1,127 @@
+@prefix : <http://purl.org/net/biblio#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+
+<info:doi/10.1134/S0003683806040089>
+    a :Article ;
+    dct:title "Effect of argillaceous minerals on the growth of phosphate-mobilizing bacteria Bacillus subtilis"@en ;
+    dct:issued "2006" ;
+    dct:isPartOf <urn:issn:23346587> ;
+    :volume "42" ;
+    :issue "4" ;
+    :pages "388-391" ;
+    dct:creator _:authorgroup1 .
+
+_:authorgroup1
+    a foaf:Group ;
+    vcard:sort-string "Doe, Jane; Smith, John" ;
+    :members (
+        <http://examples.net/contributors/1>
+        <http://examples.net/contributors/2>
+    ).
+
+<urn:issn:23346587>
+    a :Journal ;
+    dct:title "Applied Biochemistry and Microbiology"@en ;
+    :shortTitle "App Biochem and Biol"@en .
+
+<http://examples.net/book>
+    a :Book ;
+    dct:title "Book Title"@en ;
+    dct:issued "2004" ;
+    dct:publisher <http://examples.net/contributors/4> ;
+    dct:creator <http://examples.net/contributors/3> .
+
+<http://examples.net/patent>
+    a :Patent ;
+    dct:issued "1999" ;
+    dct:title "Patent Title"@en ;
+    dct:creator <http://examples.net/contributors/1> .
+
+<http://examples.net/article-magazine>
+    a :Article ;
+    dct:title "Article Title"@en ;
+    dct:issued "2006-03" ;
+    dct:isPartOf <http;//examples.net/> ;
+    :accessed "2006-10-14" ;
+    dct:creator <http://examples.net/contributors/1> .
+
+<http://examples.net/case>
+    a :Case ;
+    :date "2006" ;
+    :title "Doe v. Smith"@en ;
+    :number "123223" ;
+    dct:isPartOf <http;//examples.net/periodicals/1> ;
+    dct:creator <http://examples.net/contributors/1> .
+
+<http://examples.net/email>
+    a :EMail ;
+    dct:date "2004-10-12" ;
+    dct:creator <http://examples.net/contributors/1> .
+
+<http://examples.net/dissertation>
+    a :Dissertation ;
+    dct:date "1998" ;
+    dct:title "Dissertation Title"@en ;
+    :degree "PhD" ;
+    :department <http://examples.net/contributors/6> ;
+    dct:creator <http://examples.net/contributors/1> .
+
+<http://examples.net/law>
+    a :Law ;
+    dct:date "1993" ;
+    dct:title ""@en ;
+    dct:creator <http://examples.net/contributors/1> .
+
+<http://examples.net/paper-presentation>
+    a :Paper ;
+    dct:date "2004" ;
+    dct:title "Paper Title"@en ;
+    dct:creator <http://examples.net/contributors/1> .
+
+<http://examples.net/manuscript>
+    a :Manuscript ;
+    dct:title "Manuscript Title"@en ;
+    dct:isPartOf <http://examples.net/collections/1> ;
+    :physicalLocation "Box 12, Folder 3" ;
+    dct:creator <http://examples.net/contributors/1> .
+
+<http://examples.net/collections/1>
+    a :Collection ;
+    dct:title "Manuscript Collection Title"@en ;
+    :owner <http://examples.net/contributors/5> .
+
+<http;//examples.net/periodicals/1>
+    a :CourtReporter ;
+    dct:title "Court Reporter Title"@en ;
+    :shortTitle "CRT"@en .
+
+# ==== contributors ====
+
+<http://examples.net/contributors/1>
+    a foaf:Person ;
+    vcard:sort-string "Doe, Jane" .
+
+<http://examples.net/contributors/2>
+    a foaf:Person ;
+    vcard:sort-string "Smith, John" .
+
+<http://examples.net/contributors/3>
+    a foaf:Person ;
+    vcard:sort-string "Mao Zedong" .
+
+<http://examples.net/contributors/4>
+    a foaf:Organization ;
+    vcard:fn "ABC Publishers" ;
+    :address "New York" .
+
+<http://examples.net/contributors/5>
+    a foaf:Organization ;
+    vcard:fn "XYZ Archive, National University" ;
+    :address "London, UK" .
+
+<http://examples.net/contributors/6>
+    a foaf:Group ;
+    vcard:n "Department of History, National University" ;
+    :address "London, UK" .

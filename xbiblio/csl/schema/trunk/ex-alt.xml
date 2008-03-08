@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?oxygen RNGSchema="csl-alt.rnc" type="compact"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="author-date">
+  <info>
+    <id>http://www.purl.org/net/xbiblio/csl/styles/apa</id>
+    <title>APA</title>
+    <updated>2006-07-27T04:35:20-07:00</updated>
+  </info>
+  <defaults>
+    <contributor>
+      <name and="text" delimiter=", " initialize-with="."/>
+      <originalScriptName/>
+      <role/>
+    </contributor>
+    <author>
+      <substitute>
+        <choose>
+          <editor/>
+          <titles/>
+          <text idref="anonymous"/>
+        </choose>
+      </substitute>
+    </author>
+    <publisher>
+      <place suffix=":"/>
+      <name/>
+    </publisher>
+    <locator>
+      <number/>
+    </locator>
+    <date>
+      <year/>
+      <month prefix=", "/>
+      <day/>
+      <substitute>
+        <text idref="no-date"/>
+      </substitute>
+    </date>
+    <access>
+      <url/>
+      <date prefix=", "/>
+      <physicalLocation prefix=", "/>
+    </access>
+    <titles>
+      <title/>
+      <originalScriptTitle prefix=" (" suffix=")"/>
+      <translatedTitle prefix=" "/>
+    </titles>
+  </defaults>
+  <citation>
+    <layout>
+      <item>
+        <author form="short">
+          <name/>
+        </author>
+        <date>
+          <year/>
+        </date>
+        <locator/>
+      </item>
+    </layout>
+  </citation>
+  <bibliography author-as-sort-order="all" subsequent-author-substitute="———."
+    hanging-indent="true">
+    <sort algorithm="author-date"/>
+    <et-al min="3" use="3"/>
+    <layout>
+      <list>
+        <heading>
+          <text idref="bibliography"/>
+        </heading>
+      </list>
+      <item>
+        <choose>
+          <type name="book">
+            <author/>
+            <date prefix=" (" suffix="). ">
+              <year/>
+            </date>
+            <titles/>
+            <publisher/>
+            <access prefix=", "/>
+          </type>
+          <type name="chapter">
+            <author/>
+            <date prefix=" (" suffix="). ">
+              <year/>
+            </date>
+            <titles/>
+            <group class="container">
+              <text idref="in"/>
+              <editor/>
+              <titles prefix=", " font-style="italic" relation="container"/>
+              <publisher/>
+            </group>
+            <access prefix=", "/>
+            <pages/>
+          </type>
+          <type name="article">
+            <author/>
+            <date prefix=" (" suffix="). ">
+              <year/>
+            </date>
+            <titles/>
+            <titles prefix=", " font-style="italic" relation="container"/>
+            <volume prefix=", "/>
+            <issue prefix="(" suffix=")"/>
+            <access prefix=", "/>
+            <pages prefix=", "/>
+          </type>
+        </choose>
+      </item>
+    </layout>
+  </bibliography>
+</style>
