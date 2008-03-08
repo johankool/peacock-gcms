@@ -1,0 +1,22 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {showBibliography = id; showCitation = id; showContent = id; showInfo = id; }; 
+            CLASS = CSLWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                bibliographyOutlineView = NSView; 
+                bibliographyView = NSView; 
+                citationView = NSView; 
+                contentView = NSView; 
+                infoView = NSView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSDatePicker; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = NSOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
+    ); 
+    IBVersion = 1; 
+}

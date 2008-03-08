@@ -1,0 +1,840 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xml" href="mods2html.xsl"?>
+<modsCollection xmlns="http://www.loc.gov/mods/v3">
+<mods ID="Vissac2005">
+    <titleInfo>
+        <title>Study of a historical garden soil at the Grand-Pressigny site (Indre-et-Loire, France)</title>
+        <subTitle>evidence of landscape management</subTitle>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">Carole</namePart>
+        <namePart type="family">Vissac</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>2005-00</dateIssued>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <relatedItem type="host">
+        <titleInfo>
+            <title>Journal of Cultural Heritage</title>
+        </titleInfo>
+        <originInfo>
+            <issuance>continuing</issuance>
+        </originInfo>
+        <genre authority="marc">periodical</genre>
+        <genre>academic journal</genre>
+    </relatedItem>
+    <abstract>Garden archaeology is a new discipline in France, which mainly focuses on technical aspects of garden creation. Excavations reveal complex stratigraphic sequences and show that soils are strongly influenced by human activities linked to cultivation, including for aesthetic purposes. The objective of the research was firstly to better understand and explain the complex archaeological deposits of a historical garden, using various techniques such as soil micromorphology, image analysis and soil chemistry. The second objective was to show the composition of remains from one garden. Samples were taken from Le Grand-Pressigny site in Touraine, a French garden dating from the XVIth-XIXth centuries. The analyses of different anthropogenic levels in thin sections, the measurements of carbonate, phosphorus, carbon organic contents and soil porosity (image analysis) provided accurate information about the presence of an earlier garden made up of imported soil. The results also identified spatial changes over time. This study suggests an interesting approach to understanding soil care by early human communities and can contribute to garden restoration projects considering the technical construction of these sites and historical techniques.</abstract>
+    <subject>
+        <topic>Anthroposol</topic>
+    </subject>
+    <subject>
+        <topic>French garden archaeology</topic>
+    </subject>
+    <subject>
+        <topic>Historical garden</topic>
+    </subject>
+    <subject>
+        <topic>Soil care</topic>
+    </subject>
+    <subject>
+        <topic>Soil science</topic>
+    </subject>
+    <identifier type="citekey">Vissac2005</identifier>
+    <location>
+        <url>http://www.sciencedirect.com/science/article/B6W6G-4FV2SBP-8/2/d528563d978083f3e35a8c5e8abacf55</url>
+    </location>
+    <part>
+        <date>2005-0</date>
+        <detail type="volume"><number>6</number></detail>
+        <detail type="issue"><number>1</number></detail>
+        <extent unit="page">
+            <start>61</start>
+            <end>67</end>
+        </extent>
+    </part>
+</mods>
+<mods ID="Macphail2004">
+    <titleInfo>
+        <title>Archaeological soil and pollen analysis of experimental floor deposits; with special reference to Butser Ancient Farm, Hampshire, UK</title>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">Richard</namePart>
+        <namePart type="given">I</namePart>
+        <namePart type="family">Macphail</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">G</namePart>
+        <namePart type="given">M</namePart>
+        <namePart type="family">Cruise</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Michael</namePart>
+        <namePart type="given">J</namePart>
+        <namePart type="family">Allen</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Johan</namePart>
+        <namePart type="family">Linderholm</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Peter</namePart>
+        <namePart type="family">Reynolds</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>2004-02</dateIssued>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <relatedItem type="host">
+        <titleInfo>
+            <title>Journal of Archaeological Science</title>
+        </titleInfo>
+        <originInfo>
+            <issuance>continuing</issuance>
+        </originInfo>
+        <genre authority="marc">periodical</genre>
+        <genre>academic journal</genre>
+    </relatedItem>
+    <abstract>Archaeological stratigraphies that may contain floors are often encountered. For more than a decade soil micromorphologists working on archaeological sequences have benefited from having access to reference thin sections of ethnoarchaeological and experimental floors, including those from the floors of Iron Age houses reconstructed by the late Dr Peter Reynolds at Butser Ancient Farm, Hampshire, UK. This paper reports upon experimental studies mainly carried out at Butser during 1990-95 and their suggested application to microstratigraphic and microfacies analysis of occupation sites. Sampling at Butser in 1990 was very much a &#8216;rescue&#8217; operation. Nevertheless, fundamental differences in soil micromorphology were found between domestic house beaten floor deposits and those formed in a stable. These differences were also reflected in the parallel study of pollen from these deposits, with microchemical analyses helping to explain anomalous pollen preservation in the &#8216;unsuitable&#8217; soil at Butser. The limited bulk chemical study produced less clear results, but when compared with findings from some Roman and early medieval sites in London, showed that the chemical trends hinted at Butser are probably replicated in some ancient floors. A preliminary interdisciplinary study of samples from the London Guildhall clearly suggested the potential of such microstratigraphical and microfacies analyses, and intimates at the potential of attaining rigorous consensus interpretations. Stable floor deposits are both organic and phosphate-rich, with homogeneous soil micromorphological and pollen characteristics. Beaten floors are much more mineralogenic and heterogeneous in terms of their microfabric and pollen that also indicate trampling-in of a wide variety of allocthonous materials, the last commonly responsible for raised magnetic susceptibility at archaeological sites. These findings prove the worth of the ethnoarchaeological simulations carried out at the Moel-y-gar stable and domestic Pimperne House. This microfacies approach is viewed as complementary to site reconstruction through macrofossil analysis of beetles and plant remains, especially where sites are being investigated at the microstratigraphic level. The phosphate content of stabling deposits may allow preservation of pollen in what may otherwise be deemed unsuitable material, as demonstrated at Butser.</abstract>
+    <subject>
+        <topic>Chemistry</topic>
+    </subject>
+    <subject>
+        <topic>Experimental archaeology</topic>
+    </subject>
+    <subject>
+        <topic>Floors</topic>
+    </subject>
+    <subject>
+        <topic>Magnetic susceptibility</topic>
+    </subject>
+    <subject>
+        <topic>Palynology</topic>
+    </subject>
+    <subject>
+        <topic>Soil micromorphology</topic>
+    </subject>
+    <identifier type="citekey">Macphail2004</identifier>
+    <location>
+        <url>http://www.sciencedirect.com/science/article/B6WH8-49XPH9P-2/2/07036c7a53d0384bcbd835369aa24c24</url>
+    </location>
+    <part>
+        <date>2004-2</date>
+        <detail type="volume"><number>31</number></detail>
+        <detail type="issue"><number>2</number></detail>
+        <extent unit="page">
+            <start>175</start>
+            <end>191</end>
+        </extent>
+    </part>
+</mods>
+<mods ID="Webb2004">
+    <titleInfo>
+        <title>Detection of ancient maize in lowland Maya soils using stable carbon isotopes</title>
+        <subTitle>evidence from Caracol, Belize</subTitle>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">Elizabeth</namePart>
+        <namePart type="given">A</namePart>
+        <namePart type="family">Webb</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Henry</namePart>
+        <namePart type="given">P</namePart>
+        <namePart type="family">Schwarcz</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Paul</namePart>
+        <namePart type="given">F</namePart>
+        <namePart type="family">Healy</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>2004-08</dateIssued>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <relatedItem type="host">
+        <titleInfo>
+            <title>Journal of Archaeological Science</title>
+        </titleInfo>
+        <originInfo>
+            <issuance>continuing</issuance>
+        </originInfo>
+        <genre authority="marc">periodical</genre>
+        <genre>academic journal</genre>
+    </relatedItem>
+    <abstract>Maize (a C4 plant) is enriched in the stable isotope 13C relative to most other cultivated and wild plants in Mesoamerica. Hence, a distinctive carbon isotope signal produced by ancient maize crop residues may be preserved in the most stable humic component of the soil organic matter. We extracted humic substances from terraced soils surrounding the ancient Maya center of Caracol, Belize that were likely used for agriculture. Total organic matter was only slightly enriched in 13C relative to a control section whereas both humic acid and humin were significantly enriched in 13C, indicating that maize had been grown in these areas. Studying terraced plots that may have been used to grow maize, we find that the maximum [delta]13C signal is found near the bedrock-soil interface, while shallower soils near the former level of cultivation exhibit native C3-like [delta]13C values. We infer that humic matter derived from post-agricultural vegetation has replaced the 13C-enriched humus of the upper levels. Analyses of [delta]13C in soil humus should enable archaeologists to resolve discrepancies between the size of some Maya settlements and the extent of nearby cultivated areas.</abstract>
+    <subject>
+        <topic>Maize</topic>
+    </subject>
+    <subject>
+        <topic>Cultivation</topic>
+    </subject>
+    <subject>
+        <topic>Maya archaeology</topic>
+    </subject>
+    <subject>
+        <topic>Terraces</topic>
+    </subject>
+    <subject>
+        <topic>Carbon isotopes</topic>
+    </subject>
+    <subject>
+        <topic>Soil organic matter</topic>
+    </subject>
+    <subject>
+        <topic>Humic substances</topic>
+    </subject>
+    <identifier type="citekey">Webb2004</identifier>
+    <location>
+        <url>http://www.sciencedirect.com/science/article/B6WH8-4BYC00W-2/2/2e918e6525ab399e167a2c6a225d0e10</url>
+    </location>
+    <part>
+        <date>2004-8</date>
+        <detail type="volume"><number>31</number></detail>
+        <detail type="issue"><number>8</number></detail>
+        <extent unit="page">
+            <start>1039</start>
+            <end>1052</end>
+        </extent>
+    </part>
+</mods>
+<mods ID="Feller2003">
+    <titleInfo>
+        <title>Charles Darwin, earthworms and the natural sciences</title>
+        <subTitle>various lessons from past to future</subTitle>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">Christian</namePart>
+        <namePart type="family">Feller</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">George</namePart>
+        <namePart type="given">G</namePart>
+        <namePart type="family">Brown</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Eric</namePart>
+        <namePart type="family">Blanchart</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Pierre</namePart>
+        <namePart type="family">Deleporte</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Sergey</namePart>
+        <namePart type="given">S</namePart>
+        <namePart type="family">Chernyanskii</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>2003-10</dateIssued>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <relatedItem type="host">
+        <titleInfo>
+            <title>Agriculture, Ecosystems &amp; Environment</title>
+        </titleInfo>
+        <originInfo>
+            <issuance>continuing</issuance>
+        </originInfo>
+        <genre authority="marc">periodical</genre>
+        <genre>academic journal</genre>
+    </relatedItem>
+    <abstract>In 1881, Darwin (1809-1882) published his last scientific book entitled "The formation of vegetable mould through the action of worms with observations on their habits", the result of several decades of detailed observations and measurements on earthworms and the natural sciences. The work was considered a "best-seller" at the time, with 3500 copies sold immediately and 8500 in less than 3 years which, at the time, rivaled the sale of his most well known book "On the origin of species". The book covers the importance of earthworm activity on a variety of topics: pedogenesis and weathering processes, soil horizon differentiation and the formation of vegetable mould (topsoil), the role of earthworm burrowing and casting (bioturbation) in soil fertility and plant growth, the burial of organic materials and soil enrichment with mineral elements, the global cycle of erosion-sedimentation with hydrologic and aerial transfers of fine particles brought up to the soil surface by earthworms and the protection of archaeological remains through their burial. Finally, Darwin also performed a series of original experiments to determine if earthworms possessed, or not, a certain "intelligence". This part of the book was, among others, one of the main reasons for its success. In this article we analyze the success (past and present) of this book, Darwin&#8217;s own opinion of his book and the general contents of the work. Throughout, we discuss the main lessons to be learned from his &#8216;little&#8217; (as he called it) book and provide brief historic reviews of major literary works on earthworms, both contemporary and posterior to Darwin, emphasizing his role as precursor and/or founder of various scientific disciplines (ethology, soil ecology and pedology). However, despite Darwin&#8217;s clear demonstrations of the importance of biological activities (earthworms) in the maintenance of soil fertility, his book on worms has been mostly neglected by agronomists and soil scientists, primarily due to the predominant soil fertility and management paradigms of the 19th and 20th centuries.</abstract>
+    <subject>
+        <topic>Charles Darwin</topic>
+    </subject>
+    <subject>
+        <topic>Earthworms</topic>
+    </subject>
+    <subject>
+        <topic>Pedology</topic>
+    </subject>
+    <subject>
+        <topic>Agronomy</topic>
+    </subject>
+    <subject>
+        <topic>Ethology</topic>
+    </subject>
+    <subject>
+        <topic>Soil ecology</topic>
+    </subject>
+    <subject>
+        <topic>Geology</topic>
+    </subject>
+    <subject>
+        <topic>Archaeology</topic>
+    </subject>
+    <identifier type="citekey">Feller2003</identifier>
+    <location>
+        <url>http://www.sciencedirect.com/science/article/B6T3Y-49BSCB7-2/2/07bcfd882391743fec045593ac3855cb</url>
+    </location>
+    <part>
+        <date>2003-10</date>
+        <detail type="volume"><number>99</number></detail>
+        <detail type="issue"><number>1-3</number></detail>
+        <extent unit="page">
+            <start>29</start>
+            <end>49</end>
+        </extent>
+    </part>
+</mods>
+<mods ID="Coil2003">
+    <titleInfo>
+        <title>Laboratory goals and considerations for multiple microfossil extraction in archaeology</title>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">James</namePart>
+        <namePart type="family">Coil</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">M</namePart>
+        <namePart type="family">Alejandra Korstanje</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Steven</namePart>
+        <namePart type="family">Archer</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Christine</namePart>
+        <namePart type="given">A</namePart>
+        <namePart type="family">Hastorf</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>2003-08</dateIssued>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <relatedItem type="host">
+        <titleInfo>
+            <title>Journal of Archaeological Science</title>
+        </titleInfo>
+        <originInfo>
+            <issuance>continuing</issuance>
+        </originInfo>
+        <genre authority="marc">periodical</genre>
+        <genre>academic journal</genre>
+    </relatedItem>
+    <abstract>We discuss some recent trends in archaeological microfossil research, including approaches using multiple microfossil data sets (e.g. pollen, phytoliths, starches, and microscopic charcoal). We review eight types of microfossils, with reference to their physical characteristics, their uses in archaeology, and specific requirements for laboratory extraction and microscope viewing. Rather than presenting any single processing protocol, in order to assist individual researchers or laboratories in developing safe, effective, and economical procedures for extracting their microfossils of interest, we provide guidelines based on previous studies from various fields of microfossil research. We articulate the various general goals of extraction and slide-mounting protocols, and tabulate the potentially destructive effects of discrete methodological procedures on individual microfossil types, including raw sample preparation, disaggregation, deflocculation, clay removal, organic and mineral destruction, heavy-liquid flotation, slide-mounting, and light microscopy. Finally, we present two illustrative archaeological case studies: (1) an example of developing a microfossil extraction protocol to accommodate refractory volcanic soils from the Hawaiian Islands, and (2) a discussion of the development of a low-chemical laboratory approach for extraction and interpretation of multiple microfossil types from agricultural and pastoral archaeological sites in an Argentinean high valley.</abstract>
+    <subject>
+        <topic>Phytoliths</topic>
+    </subject>
+    <subject>
+        <topic>Pollen</topic>
+    </subject>
+    <subject>
+        <topic>Spherulites</topic>
+    </subject>
+    <subject>
+        <topic>Charcoal</topic>
+    </subject>
+    <subject>
+        <topic>Starch</topic>
+    </subject>
+    <subject>
+        <topic>Paleoethnobotany</topic>
+    </subject>
+    <subject>
+        <topic>Geoarchaeology</topic>
+    </subject>
+    <identifier type="citekey">Coil2003</identifier>
+    <location>
+        <url>http://www.sciencedirect.com/science/article/B6WH8-48B5K08-7/2/a93b6bc523b8bd82175765867c350497</url>
+    </location>
+    <part>
+        <date>2003-8</date>
+        <detail type="volume"><number>30</number></detail>
+        <detail type="issue"><number>8</number></detail>
+        <extent unit="page">
+            <start>991</start>
+            <end>1008</end>
+        </extent>
+    </part>
+</mods>
+<mods ID="Parnell2002">
+    <titleInfo>
+        <title>Soil Chemical Analysis Applied as an Interpretive Tool for Ancient Human Activities in Piedras Negras, Guatemala</title>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">J</namePart>
+        <namePart type="given">Jacob</namePart>
+        <namePart type="family">Parnell</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Richard</namePart>
+        <namePart type="given">E</namePart>
+        <namePart type="family">Terry</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Zachary</namePart>
+        <namePart type="family">Nelson</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>2002-04</dateIssued>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <relatedItem type="host">
+        <titleInfo>
+            <title>Journal of Archaeological Science</title>
+        </titleInfo>
+        <originInfo>
+            <issuance>continuing</issuance>
+        </originInfo>
+        <genre authority="marc">periodical</genre>
+        <genre>academic journal</genre>
+    </relatedItem>
+    <abstract>The applicability of soil chemical analysis to the interpretation of ancient human activity areas in the Maya region was studied for potential implications in anthropogenically modified soils. We studied chemical signatures associated with a horizontally excavated site in Piedras Negras, Guatemala. The focus of this study is on soil phosphate and trace metals as indicators of ancient activity. We compared total phosphate with Mehlich extractable phosphate to see which method was superior. We also compared total (nitric-perchloric) digestion with the DTPA extraction procedure of heavy metal determination to resolve which method most accurately indicates ancient activity areas. We used principal component analysis to compare the metals and give probable locations of ancient activities. Statistical analysis of chemical patterns indicated possible areas of food preparation and craft production as well as sweeping patterns. We found that elevated phosphate, barium and manganese levels indicate areas of organic refuse disposal. Mercury and lead concentrations indicate areas of craft production. These observations are compared with the artifact data. We were also able to determine areas associated with similar activities using chemical analysis. The comparison of the total and extractable element analysis demonstrated that both methods yield important information regarding activity areas. However, because of the resolution obtained, convenience, economy, and safety, we suggest the extractable DTPA and Mehlich methods.</abstract>
+    <subject>
+        <topic>HOUSEHOLD ARCHAEOLOGY, HEAVY METALS, PHOSPHATE, ACTIVITY AREAS, MAYA</topic>
+    </subject>
+    <identifier type="citekey">Parnell2002</identifier>
+    <location>
+        <url>http://www.sciencedirect.com/science/article/B6WH8-45WGH5X-G/2/bf53410f70fe660c93ddcd92cea93b72</url>
+    </location>
+    <part>
+        <date>2002-4</date>
+        <detail type="volume"><number>29</number></detail>
+        <detail type="issue"><number>4</number></detail>
+        <extent unit="page">
+            <start>379</start>
+            <end>404</end>
+        </extent>
+    </part>
+</mods>
+<mods ID="Breuning-Madsen2001">
+    <titleInfo>
+        <title>The Chemical Environment in a Burial Mound Shortly after Construction--An Archaeological-Pedological Experiment</title>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">Henrik</namePart>
+        <namePart type="family">Breuning-Madsen</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Mads</namePart>
+        <namePart type="given">K</namePart>
+        <namePart type="family">Holst</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Marianne</namePart>
+        <namePart type="family">Rasmussen</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>2001-07</dateIssued>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <relatedItem type="host">
+        <titleInfo>
+            <title>Journal of Archaeological Science</title>
+        </titleInfo>
+        <originInfo>
+            <issuance>continuing</issuance>
+        </originInfo>
+        <genre authority="marc">periodical</genre>
+        <genre>academic journal</genre>
+    </relatedItem>
+    <abstract>A number of burial mounds from the South Scandinavian Early Bronze Age have contained iron pan encapsulated, wet mound cores, in which organic material has been extraordinarily well preserved. Chemical analysis of iron pan formations in recently excavated burial mounds from Jutland, Denmark have demonstrated that the iron pans were formed by redox-processes, caused by anaerobic conditions in the core of the mound and possibly influenced or determined by the way the mound was constructed. In 1995 an experimental burial mound was erected at the Historical-Archaeological Research Centre at Lejre in Denmark. The purpose of the experiment was to test and elaborate the theories on the iron pan formation and the mound construction developed on the basis of the previous chemical analysis. Three years after construction the mound was excavated and the iron pan formation and the preservation of organic matter in an oaken log coffin were studied. Anaerobic conditions had developed in the mound core and the contents of the oaken log coffin were found to be well preserved. This paper describes the results of the experiment.</abstract>
+    <subject>
+        <topic>BRONZE AGE, BURIAL MOUND, IRON PAN, EXPERIMENTAL ARCHAEOLOGY, SOIL</topic>
+    </subject>
+    <identifier type="citekey">Breuning-Madsen2001</identifier>
+    <location>
+        <url>http://www.sciencedirect.com/science/article/B6WH8-45RFJ10-R/2/3dc149e18bc3a1eb8620c88536d08824</url>
+    </location>
+    <part>
+        <date>2001-7</date>
+        <detail type="volume"><number>28</number></detail>
+        <detail type="issue"><number>7</number></detail>
+        <extent unit="page">
+            <start>691</start>
+            <end>697</end>
+        </extent>
+    </part>
+</mods>
+<mods ID="daCosta1999">
+    <titleInfo>
+        <title>Geochemical signatures of tropical soils with archaeological black earth in the Amazon, Brazil</title>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">Marcondes</namePart>
+        <namePart type="given">Lima</namePart>
+        <namePart type="family">da Costa</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Dirse</namePart>
+        <namePart type="given">Clara</namePart>
+        <namePart type="family">Kern</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>1999-07</dateIssued>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <relatedItem type="host">
+        <titleInfo>
+            <title>Journal of Geochemical Exploration</title>
+        </titleInfo>
+        <originInfo>
+            <issuance>continuing</issuance>
+        </originInfo>
+        <genre authority="marc">periodical</genre>
+        <genre>academic journal</genre>
+    </relatedItem>
+    <abstract>The archeological black earth (ABE) in Caxiuana, Amazon, differs from the surrounding (AD) and underlying yellow latosols (YLS) through its black color, texture, abundance of organic matter and presence of archaeological artifacts. The ABE contains higher contents of quartz and lesser kaolinite than the yellow latosols. ABE exhibits a P-Mg-Ca-Sr-Ba-Cl-Mn-Zn-Cu geochemical signature, with anomalously low As. This signature can be related to anthropogenic activity. The YLS is characterized by the Fe-Ga-V-Cr-Pb-Nb-Zr-Sc-Cd-Co association which was not modified by the formation of ABE soil, although they were leached during hydromorphic soil formation in the southern part of the ABE exposures. Elements such Y, B and F show no variations throughout the entire area (including ABE and YLS).</abstract>
+    <subject>
+        <topic>archaeology</topic>
+    </subject>
+    <subject>
+        <topic>geochemistry</topic>
+    </subject>
+    <subject>
+        <topic>geochemical association</topic>
+    </subject>
+    <subject>
+        <topic>archaeological black earth</topic>
+    </subject>
+    <subject>
+        <topic>pre-history</topic>
+    </subject>
+    <subject>
+        <topic>Amazon region</topic>
+    </subject>
+    <identifier type="citekey">da Costa1999</identifier>
+    <location>
+        <url>http://www.sciencedirect.com/science/article/B6VCP-3X8G5SD-17/2/bc9dd59898f3fa0832e258b161fa8fbd</url>
+    </location>
+    <part>
+        <date>1999-7</date>
+        <detail type="volume"><number>66</number></detail>
+        <detail type="issue"><number>1-2</number></detail>
+        <extent unit="page">
+            <start>369</start>
+            <end>385</end>
+        </extent>
+    </part>
+</mods>
+<mods ID="Bull1999">
+    <titleInfo>
+        <title>Organic geochemical evidence for the origin of ancient anthropogenic soil deposits at Tofts Ness, Sanday, Orkney</title>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">Ian</namePart>
+        <namePart type="given">D</namePart>
+        <namePart type="family">Bull</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Ian</namePart>
+        <namePart type="given">A</namePart>
+        <namePart type="family">Simpson</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Stephen</namePart>
+        <namePart type="given">J</namePart>
+        <namePart type="family">Dockrill</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <name type="personal">
+        <namePart type="given">Richard</namePart>
+        <namePart type="given">P</namePart>
+        <namePart type="family">Evershed</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>1999-07</dateIssued>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <relatedItem type="host">
+        <titleInfo>
+            <title>Organic Geochemistry</title>
+        </titleInfo>
+        <originInfo>
+            <issuance>continuing</issuance>
+        </originInfo>
+        <genre authority="marc">periodical</genre>
+        <genre>academic journal</genre>
+    </relatedItem>
+    <abstract>Lipid biomarker components of soils constituting three Orcadian archaeological fossil soil profiles were analysed. The combined assessment of lipid distributional and compound specific stable carbon isotope data enabled the identification of grass turves as the most probable material used in the formation of the anthropogenic soil deposits. Appraisal of 5[beta]-stanol components indicated a faecal input to one of the soils which, on considering distributional evidence, was ascribed a human/porcine origin. Additional study of polar bile acids from this profile revealed a distribution exhibiting a predominance of deoxycholic acid indicating the primary faecal input to be mainly derived from humans although the minor occurrence of hyodeoxycholic acid, a characteristic component of pig faeces, attested to a limited porcine input.</abstract>
+    <subject>
+        <topic>Archaeology</topic>
+    </subject>
+    <subject>
+        <topic>Bile acids</topic>
+    </subject>
+    <subject>
+        <topic>Biomarkers</topic>
+    </subject>
+    <subject>
+        <topic>Lipids</topic>
+    </subject>
+    <subject>
+        <topic>Stable carbon isotopes</topic>
+    </subject>
+    <subject>
+        <topic>Soils</topic>
+    </subject>
+    <subject>
+        <topic>Stanols</topic>
+    </subject>
+    <identifier type="citekey">Bull1999</identifier>
+    <location>
+        <url>http://www.sciencedirect.com/science/article/B6V7P-3WXP299-5/2/5e679c62ac3996848d74df382eba7f5e</url>
+    </location>
+    <part>
+        <date>1999-7</date>
+        <detail type="volume"><number>30</number></detail>
+        <detail type="issue"><number>7</number></detail>
+        <extent unit="page">
+            <start>535</start>
+            <end>556</end>
+        </extent>
+    </part>
+</mods>
+<mods ID="Liniondin1995">
+    <titleInfo>
+        <title>Late-glacial and holocene malacofaunas from archaeological sites in the Somme valley (North France)</title>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">N</namePart>
+        <namePart type="family">Liniondin</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>1995-09</dateIssued>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <relatedItem type="host">
+        <titleInfo>
+            <title>Journal of Archaeological Science</title>
+        </titleInfo>
+        <originInfo>
+            <issuance>continuing</issuance>
+        </originInfo>
+        <genre authority="marc">periodical</genre>
+        <genre>academic journal</genre>
+    </relatedItem>
+    <abstract>The first malacological successions covering the Late-glacial period and the early Holocene are reported from archaeological sites in northern France. Five malacological zones (S1-5) are recognized which are related to the regional lithostratigraphy, Upper Palaeolithic/Mesolithic archaeology and to a radiocarbon chronology. The zone S1, which contains an assemblage of low species diversity but with abundant Vallonia, allows attribution of the basal loess (reworked as a rainwashed silt in the valley bottom) to the early Late-glacial, rather than the Pleniglacial. Overlying the loessic sediments is an organic silt, known as the 'Belloy soil'w at Belloy, which has yielded birch pollen (but no pine) allowing attribution to the early part of "Allerod" phase of the Late-glacial. The molluscan faunas from this level (S2) are richer and more diverse. Helicopsis striata (Muller) appears to be typical of this period. Above the Allerod deposit is a minerogenic silt containing rhizomes, but this is only represented in the valley floors. The malacofaunas from this unit (S3) are similar to those of the Allerod silt but contain a higher proportion of hygrophilous taxa. These faunas are assigned to the Younger Dryas, a conclusion supported by radiocarbon dating of bones associated with the terminal Upper Palaeolithic "Industrie a pieces machurees" which occur at the top of the unit. The Late-glacial succession is overlain by organic silts of Holocene age, which at several sites have yielded Mesolithic artefacts. The molluscan faunas are much more diverse than the earlier Late-glacial assemblages and contain abundant shade-demanding taxa (S4), then a fall in species diversity and a reversion to faunas of open-ground occur (S5). Comparison of these successions with similar sites in Burgundy, the Paris basin and southeastern England demonstrate a closer affinity to the molluscan sequences of Kent rather than to the French sites, although Late-glacial molluscan faunas are still poorly known from France.</abstract>
+    <subject>
+        <topic>Malacofaunas</topic>
+    </subject>
+    <subject>
+        <topic>Late-glacial</topic>
+    </subject>
+    <subject>
+        <topic>Holocene</topic>
+    </subject>
+    <subject>
+        <topic>'Belloy soil'</topic>
+    </subject>
+    <subject>
+        <topic>Allerod</topic>
+    </subject>
+    <subject>
+        <topic>Younger dryas</topic>
+    </subject>
+    <subject>
+        <topic>Late magdalenian</topic>
+    </subject>
+    <subject>
+        <topic>Federmesser</topic>
+    </subject>
+    <subject>
+        <topic>"Industrie a Pieces Machurees"</topic>
+    </subject>
+    <subject>
+        <topic>Mesolithic</topic>
+    </subject>
+    <subject>
+        <topic>Radiocarbon dates</topic>
+    </subject>
+    <subject>
+        <topic>France</topic>
+    </subject>
+    <subject>
+        <topic>England</topic>
+    </subject>
+    <identifier type="citekey">Liniondin1995</identifier>
+    <location>
+        <url>http://www.sciencedirect.com/science/article/B6WH8-4G6TXYP-C/2/7864559704855b84593b5430e20cce8b</url>
+    </location>
+    <part>
+        <date>1995-9</date>
+        <detail type="volume"><number>22</number></detail>
+        <detail type="issue"><number>5</number></detail>
+        <extent unit="page">
+            <start>683</start>
+            <end>698</end>
+        </extent>
+    </part>
+</mods>
+<mods ID="Sikes1994">
+    <titleInfo>
+        <title>Early hominid habitat preferences in East Africa</title>
+        <subTitle>Paleosol carbon isotopic evidence</subTitle>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">Nancy</namePart>
+        <namePart type="given">E</namePart>
+        <namePart type="family">Sikes</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>1994-07</dateIssued>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <relatedItem type="host">
+        <titleInfo>
+            <title>Journal of Human Evolution</title>
+        </titleInfo>
+        <originInfo>
+            <issuance>continuing</issuance>
+        </originInfo>
+        <genre authority="marc">periodical</genre>
+        <genre>academic journal</genre>
+    </relatedItem>
+    <abstract>Interpretations of the habitat preferences of sympatric Homo and Australopithecus have been based mainly on regional and/or macrohabitat reconstructions of the Plio-Pleistocene environment. Microhabitat reconstructions are biased by the preservafon of many East African sites in disturbed fluvial contexts and by the rarity of organic remains that may provide site-specific evidence of habitat diversity. In order to determine early hominid foraging behavior and land-use patterns, however, their site-specific floral microhabitat use must be reconstructed across the Plio-Pleistocene landscape. Variability in the distribution and density of excavated archaeological traces over a paleolandscape may be related to hominid activities, resource use, and habitat preference. The stable isotopic composition of paleosol (buried soil) organic and pedogenic carbonate carbon can be used to estimate the original proportion of grasses (C4) to woody (C3) vegetation, and is a powerful tool for microhabitat reconstruction. In collaboration with a landscape archaeology project, isotopic values were determined on basal Bed II paleosol samples from trenches excavated at Olduvai Gorge (Tanzania). Interpreted with reference to modern East African soil and vegetation analogs, carbon isotopic ratios indicate a 1 km2 area near HWK and FLK in the eastern paleolake Olduvai margin supported a riparian forest to grassy woodland ~ 1[middle dot]74 Myr ago. Stone artifacts and hammerstone-fractured bones are abundant across the waxy claystone paleosol, which corresponds to level 1 at HWK-E. Isotopic evidence from this preliminary study (including FLK Zinjanthropus) suggests Plio-Pleistocene hominids in East Africa may have preferred relatively closed woodland habitats that may have offered food, shade, and predator and sleeping refuge.</abstract>
+    <subject>
+        <topic>Early hominids, habitat preferences, floral microhabitats, stable carbon isotopes, paleosols, Olduvai Gorge, landscape archaeology, Plio-Pleistocene</topic>
+    </subject>
+    <identifier type="citekey">Sikes1994</identifier>
+    <location>
+        <url>http://www.sciencedirect.com/science/article/B6WJS-45P0MX0-3/2/2b26db498911bed7597d46cd24089055</url>
+    </location>
+    <part>
+        <date>1994-7</date>
+        <detail type="volume"><number>27</number></detail>
+        <detail type="issue"><number>1-3</number></detail>
+        <extent unit="page">
+            <start>25</start>
+            <end>45</end>
+        </extent>
+    </part>
+</mods>
+<mods ID="Schwartz1988">
+    <titleInfo>
+        <title>Some podzols on Bateke sands and their origins, People's Republic of Congo</title>
+    </titleInfo>
+    <name type="personal">
+        <namePart type="given">D</namePart>
+        <namePart type="family">Schwartz</namePart>
+        <role>
+            <roleTerm authority="marcrelator" type="text">author</roleTerm>
+        </role>
+    </name>
+    <originInfo>
+        <dateIssued>1988-12</dateIssued>
+    </originInfo>
+    <typeOfResource>text</typeOfResource>
+    <relatedItem type="host">
+        <titleInfo>
+            <title>Geoderma</title>
+        </titleInfo>
+        <originInfo>
+            <issuance>continuing</issuance>
+        </originInfo>
+        <genre authority="marc">periodical</genre>
+        <genre>academic journal</genre>
+    </relatedItem>
+    <abstract>The morphology and composition of specimen podzols in Bateke land were investigated with special attention to the organic matter. Data were obtained on the amounts, the ratios between two carbon isotopes and the radiocarbon ages for certain horizons. These data were combined with information on palaeoclimates and archaeology to reconstruct the history of development of two profiles.Available evidence indicates that podzolization proceeded in more than one stage. The first and main stage is believed to have occured between 40,000 and 3 30,000 years B.P. under forest cover and the influence of a fluctuating groundwater table. Ortsteins formed during this stage persist in the soils. Later stages of podzolization have added lamellae of organic matter to pre-existing A2 horizons of some profiles. The soils thus have a complex history. This may also be true of podzols in other tropical regions.</abstract>
+    <identifier type="citekey">Schwartz1988</identifier>
+    <location>
+        <url>http://www.sciencedirect.com/science/article/B6V67-489Y7NY-16/2/b110e90c1b03e4670d5d7497c1a2903a</url>
+    </location>
+    <part>
+        <date>1988-12</date>
+        <detail type="volume"><number>43</number></detail>
+        <detail type="issue"><number>2-3</number></detail>
+        <extent unit="page">
+            <start>229</start>
+            <end>247</end>
+        </extent>
+    </part>
+</mods>
+</modsCollection>

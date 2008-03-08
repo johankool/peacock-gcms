@@ -1,0 +1,14 @@
+TODO
+====
+
+Lots!
+
+ - openid iontegration
+ - comments
+ - style and macro previewing (using citeproc-py)
+ - CSL creation wizard
+ - use newforms (as forms) and switch to newforms admin
+ - enhance CSS to look nicer
+ - look into why XMLField isn't working ATM
+ - Atom feeds
+ - load with as many good macros and templates as possible

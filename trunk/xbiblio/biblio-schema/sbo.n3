@@ -1,0 +1,644 @@
+@prefix sbo: <http://purl.org/net/biblio#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xs: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix frbr: <http://purl.org/vocab/frbr/core#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vcard: <http://nwalsh.com/rdf/vCard#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix wordnet: <http://xmlns.com/wordnet/1.6/> .
+@prefix contrib: <http://purl.org/net/contributions#> .
+
+<> a owl:Ontology ;
+    dc:title "Description of Citation Sources (DOCS)" ;
+	  dc:creator "Bruce D'Arcus" ;
+    dc:description """DOCS provides a complete vocabulary for bibliographic metadata for scholarly citations, 
+      and a superset of legacy formats such as RIS, Refer and BibTeX. Primary classes include Reference, 
+			Agent, Event, and Collection to model citation sources, as well as Note, ReferenceCollection, 
+			and ReferenceLibrary to model a user's organization of and commentary on that source data. In addition, 
+			DOCS includes a full list of properties to describe resources and the relations between them. Finally, 
+			DOCS includes mappings to other vocabularies such as FRBR, Dublin Core, and FOAF."""@en ;
+    dc:identifier <http://purl.org/net/biblio-20060930> ;
+    dcterms:isVersionOf <http://purl.org/net/biblio#> ;
+    vann:preferredNamespaceUri "http://purl.org/net/biblio#" ;
+    vann:preferredNamespacePrefix "docs" ;
+    skos:changeNote [
+       rdf:value "added full range of properties" ;
+       dc:creator "Bruce D'Arcus" ;
+       dc:date "2006-09-30" ;
+			 ] ;
+    skos:changeNote [
+       rdf:value "added Contribution, Agent, ReferenceLibrary and ReferenceCollection classes" ;
+       dc:creator "Bruce D'Arcus" ;
+       dc:date "2006-09-30" ;
+			 ] ;
+    dc:date "2006-10-15" ;
+    dc:issued "2006-02-12" ;
+    dc:rights "2006 Bruce D'Arcus" .
+
+# ---------- Classes -----------
+
+# --------- ReferenceLibrary --------
+
+sbo:ReferenceLibrary a owl:Class ;
+    rdfs:label "reference library"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subclassOf owl:Thing ;
+    rdfs:comment "A library of bibliographic references."@en .
+
+sbo:ReferenceCollection a owl:Class ;
+    rdfs:label "reference collection"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subclassOf owl:Thing ;
+    rdfs:comment "A collection of bibliographic references."@en .
+
+# ---------- Events -------------
+
+sbo:Event a owl:Class ;
+    rdfs:label "event"@en ;
+    owl:equivalentClass wordnet:Event ;
+    rdfs:isDefinedBy sbo: .
+
+sbo:Conference a owl:Class ;
+    rdfs:label "conference"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentClass wordnet:Conference ;
+    rdfs:subClassOf sbo:Event .
+
+sbo:Hearing a owl:Class ;
+    rdfs:label "hearing"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subClassOf sbo:Event .
+
+sbo:Workshop a owl:Class ;
+    rdfs:label "workshop"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subClassOf sbo:Event ;
+    rdfs:comment "An informal, usually academic, event where work may be presented."@en .
+
+# ----- Agents (may replace with FOAF) ------
+
+sbo:Agent a owl:Class ;
+    rdfs:label "agent"@en ;
+    rdfs:isDefinedBy sbo: ;
+	  owl:equivalentClass foaf:Agent .
+
+sbo:Person a owl:Class ;
+    rdfs:label "person"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subclassOf sbo:Agent ;
+    owl:equivalentClass foaf:Person .
+
+sbo:Group a owl:Class ;
+    rdfs:label "group"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subclassOf sbo:Agent ;
+    owl:equivalentClass foaf:Group .
+
+sbo:Organization a owl:Class ;
+    rdfs:label "organization"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentClass foaf:Organization .
+
+# ---- PersonName ------
+
+sbo:PersonName a owl:Class ;
+    rdfs:label "person name"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subClassOf
+        [    a owl:Restriction;
+             owl:maxCardinality "1";
+             owl:onProperty sbo:givenName ] ,
+        [    a owl:Restriction;
+             owl:maxCardinality "1";
+             owl:onProperty sbo:familyName ] ,
+        [    a owl:Restriction;
+             owl:maxCardinality "1";
+             owl:onProperty sbo:prefix ] ,
+        [    a owl:Restriction;
+             owl:maxCardinality "1";
+             owl:onProperty sbo:suffix ] ;
+             owl:equivalentClass vcard:Name .
+
+# ------ Contribution (might be better in its own namespace?) -------
+
+sbo:Contribution a owl:Class;
+    rdfs:label "contribution"@en;
+    owl:equivalentClass wordnet:Contribution ;
+    rdfs:subClassOf
+        [    a owl:Restriction ;
+             owl:cardinality "1";
+             owl:onProperty sbo:agent ] ,
+        [    a owl:Restriction ;
+             owl:maxCardinality "1";
+             owl:onProperty sbo:role ] ,
+        [    a owl:Restriction ;
+             owl:maxCardinality "1" ;
+             owl:onProperty sbo:position ] ;
+    rdfs:comment "Associates Agents and Resources."@en .
+
+# ------- Reference Types ------
+
+sbo:Reference a owl:Class ;
+    rdfs:label "reference"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subclassOf frbr:Manifestation ;
+    rdfs:subClassOf
+        [    a owl:Restriction;
+             owl:minCardinality "0";
+             owl:onProperty sbo:title ] ,
+        [    a owl:Restriction;
+             owl:minCardinality "0";
+             owl:onProperty sbo:altTitle ] ,
+        [    a owl:Restriction;
+             owl:minCardinality "0";
+             owl:onProperty sbo:creator ] ,
+        [    a owl:Restriction;
+             owl:minCardinality "0";
+             owl:onProperty sbo:subject ] ,
+        [    a owl:Restriction;
+             owl:maxCardinality "1";
+             owl:onProperty sbo:date ] ,
+        [    a owl:Restriction;
+             owl:minCardinality "0";
+             owl:onProperty sbo:producer ] .
+
+sbo:Document a owl:Class  ;
+    rdfs:label "document"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subclassOf sbo:Reference ;
+    owl:equivalentClass foaf:Document .
+
+sbo:Image a owl:Class  ;
+    rdfs:label "image"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subclassOf sbo:Document ;
+    owl:equivalentClass foaf:Image .
+
+sbo:TextDocument a owl:Class  ;
+    rdfs:label "text document"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subclassOf sbo:Document .
+
+sbo:Data a owl:Class  ;
+    rdfs:label "data"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentClass wordnet:Data ;
+    rdfs:comment "Any kind of data (statistical, GIS, etc.)."@en .
+
+sbo:Album a owl:Class ;
+    rdfs:label "album"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentClass wordnet:Album ;
+    rdfs:subClassOf sbo:Document .
+
+sbo:Art a owl:Class ;
+    rdfs:label "art"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentClass wordnet:Art ;
+    rdfs:subClassOf sbo:Image .
+
+sbo:Book a owl:Class ;
+    rdfs:label "book"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentClass wordnet:Book ;
+    rdfs:subClassOf sbo:Document .
+
+sbo:EditedBook a owl:Class ;
+    rdfs:label "book"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subClassOf sbo:Book .
+
+sbo:InternetSite a owl:Class ;
+    rdfs:label "interview"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subClassOf sbo:Collection .
+
+sbo:Interview a owl:Class ;
+    rdfs:label "interview"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentClass wordnet:Interview ;
+    rdfs:subClassOf sbo:Reference .
+
+sbo:Legislation a owl:Class ;
+    rdfs:label "legislation"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentClass wordnet:Legislation ;
+    rdfs:subClassOf sbo:Document .
+
+sbo:Patent a owl:Class ;
+    rdfs:label "patent"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentClass wordnet:Patent ;
+    rdfs:subClassOf sbo:Document .
+
+sbo:Recording a owl:Class ;
+    rdfs:label "recording"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentClass wordnet:Recording ;
+    rdfs:subClassOf sbo:Document ;
+    rdfs:comment "A sound or audiovisual recording."@en .
+
+sbo:Film a owl:Class ;
+    rdfs:label "film"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentClass wordnet:Film ;
+    rdfs:subClassOf sbo:Recording ;
+    rdfs:comment "An audio-visual recording; dramatic film, documentary, and so forth."@en .
+
+sbo:Report a owl:Class ;
+    rdfs:label "report"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentClass wordnet:Report ;
+    rdfs:subClassOf sbo:Document .
+
+sbo:Thesis a owl:Class ;
+    rdfs:label "thesis"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subClassOf sbo:Document .
+
+sbo:Dissertation a owl:Class ;
+    rdfs:label "dissertation"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentClass wordnet:Dissertation ;
+    rdfs:subClassOf sbo:Thesis .
+
+sbo:ConferenceProceedings a owl:Class ;
+    rdfs:label "conference proceedings"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subClassOf sbo:Book .
+
+sbo:Transcript a owl:Class ;
+    rdfs:label "transcript"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentClass wordnet:Transcript ;
+    rdfs:subClassOf sbo:Document .
+
+sbo:Part a owl:Class ;
+    rdfs:label "part"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subClassOf sbo:Reference ;
+    rdfs:subClassOf 
+         [    a owl:Restriction ;
+              owl:cardinality "1" ;
+              owl:onProperty sbo:partOf ] . 
+
+sbo:Article a owl:Class ;
+    rdfs:label "article"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentClass wordnet:Article ;
+    rdfs:subClassOf sbo:Part ;
+    rdfs:subClassOf 
+        [    a owl:Restriction ;
+             owl:maxCardinality "1" ;
+             owl:onProperty sbo:volume ] ,
+        [    a owl:Restriction ; 
+             owl:maxCardinality "1" ; 
+             owl:onProperty sbo:issue ] ,
+        [    a owl:Restriction ; 
+             owl:maxCardinality "1" ; 
+             owl:onProperty sbo:pages ] .
+
+sbo:Section a owl:Class ;
+    rdfs:label "section"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subClassOf sbo:Part ;
+    owl:equivalentClass wordnet:Section .
+
+sbo:Chapter a owl:Class ;
+    rdfs:label "chapter"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subClassOf sbo:Section .
+
+# ---------- Collections -----------
+
+sbo:Collection a owl:Class ;
+    rdfs:label "collection"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentClass wordnet:Collection ;
+    rdfs:subClassOf
+        [    a owl:Restriction;
+             owl:minCardinality "1";
+             owl:onProperty sbo:title ] ,
+        [    a owl:Restriction;
+             owl:minCardinality "0";
+             owl:onProperty sbo:shortTitle ] ,
+        [    a owl:Restriction;
+             owl:minCardinality "0";
+             owl:onProperty sbo:altTitle ] ,
+				[    a owl:Restriction;
+             owl:minCardinality "0";
+             owl:onProperty sbo:subject ] ,
+        [    a owl:Restriction;
+             owl:minCardinality "0";
+             owl:onProperty sbo:producer ] ;
+	  rdfs:comment "A collection of items, otherwise not typically cited per se."@en .
+
+sbo:Periodical a owl:Class ;
+    rdfs:label "periodical"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentClass wordnet:Periodical ;
+    rdfs:subClassOf sbo:Collection .
+
+sbo:Journal a owl:Class ;
+    rdfs:label "journal"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subClassOf sbo:Periodical .
+
+sbo:Series a owl:Class ;
+    rdfs:label "series"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subClassOf sbo:Collection .
+
+# ---------- Note -----------
+
+sbo:Note a owl:Class ;
+    rdfs:label "note"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subClassOf 
+        [    a owl:Restriction ;
+             owl:maxCardinality "1" ;
+             owl:onProperty sbo:creator ] .
+
+# ---------- Properties -------------
+
+# ---------- Relations --------------
+
+sbo:partOf a owl:TransitiveProperty ;
+    rdfs:label "part of"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentProperty frbr:partOf ;
+    rdfs:comment "Relates a part to a containing object; conceptually the same as dcterms:isPartOf or prism:isPartOf."@en .
+
+sbo:versionOf a owl:TransitiveProperty ;
+    rdfs:label "version of"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf frbr:transformationOf ;
+    rdfs:comment "Relates an item to a previous version; conceptually the same as dcterms:isVersionOf."@en .
+
+sbo:translationOf a owl:TransitiveProperty ; # right?
+    rdfs:label "translation of"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf sbo:versionOf ;
+    rdfs:comment "Relates a translated item to the original."@en .
+
+sbo:presentedAt a owl:ObjectProperty ;
+    rdfs:label "presented at"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf dc:relation ;
+    rdfs:domain sbo:Reference ;
+    rdfs:range sbo:Event ;
+    rdfs:comment "Relates an item to an event; for example, a paper to a conference."@en .
+
+# ----------- Contributors ------------
+
+# the basic creator/contributor/producer hierarchy references FRBR
+
+sbo:creator a owl:ObjectProperty ;
+    rdfs:label "creator"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf frbr:creator ;
+    rdfs:domain [ owl:unionOf (sbo:Reference sbo:Note) ] ;
+    rdfs:range sbo:Agent ;
+    rdfs:comment "An agent primarily responsible for the intellectual or artistic content of a work."@en .
+
+sbo:contributor a owl:ObjectProperty ;
+    rdfs:label "contributor"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf frbr:realizer ;
+    rdfs:domain sbo:Reference ;
+    rdfs:range sbo:Agent ;
+    rdfs:comment "An agent contributing to realizing a particular expression of a work."@en .
+
+sbo:producer a owl:ObjectProperty ;
+    rdfs:label "producer"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf frbr:producer ;
+    rdfs:domain [ owl:unionOf (sbo:Reference sbo:Collection) ] ;
+    rdfs:range sbo:Agent ;
+    rdfs:comment "An agent responsible for producing a particular manifestation of an expression of a work."@en .
+
+sbo:publisher a owl:ObjectProperty ;
+    rdfs:label "publisher"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf sbo:producer .
+
+sbo:owner a owl:ObjectProperty ;
+    rdfs:label "owner"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentProperty frbr:owner ;
+    rdfs:domain [ owl:unionOf (sbo:Reference sbo:Collection) ] ;
+    rdfs:range sbo:Agent ;
+    rdfs:comment "An agent who owns a specific item."@en .
+
+sbo:distributor a owl:ObjectProperty ;
+    rdfs:label "distributor"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf sbo:producer .
+
+sbo:author a owl:ObjectProperty ;
+    rdfs:label "author"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf sbo:creator .
+
+sbo:editor a owl:ObjectProperty ;
+    rdfs:label "editor"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf sbo:contributor .
+
+sbo:translator a owl:ObjectProperty ;
+    rdfs:label "translator"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf sbo:contributor .
+
+# --------- numbers ----------------
+
+sbo:locator a owl:DatetypeProperty ;
+    rdfs:label "locator"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:domain	sbo:Part ;
+    rdfs:range xs:string .
+
+sbo:pages a owl:DatatypeProperty ;
+    rdfs:label "pages"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf sbo:locator .
+
+sbo:volume a owl:DatatypeProperty ;
+    rdfs:label "volume"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf sbo:locator .
+
+sbo:issue a owl:DatatypeProperty ;
+    rdfs:label "issue"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf sbo:locator .
+
+sbo:number a owl:DatetypeProperty ;
+    rdfs:label "number"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:domain	sbo:Reference ;
+    rdfs:range xs:string ;
+    rdfs:comment "A generic item or document number."@en .
+
+# ----------- status ------------------
+
+sbo:status a owl:ObjectProperty ;
+    rdfs:label "status"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:comment "The publication status of (typically academic) content."@en .
+
+# ---- following dc/dcterms-derived properties are mostly for convenience ---
+
+# ----------- titles -------------------
+
+sbo:title a owl:DatatypeProperty ;
+    rdfs:label "title"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentProperty dc:title ;
+    rdfs:range xs:string .
+
+sbo:altTitle a owl:DatatypeProperty ;
+    rdfs:label "alternative title"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentProperty dcterms:alternative ;
+    rdfs:subPropertyOf sbo:title .
+
+sbo:shortTitle a owl:DatatypeProperty ;
+    rdfs:label "short title"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf sbo:title .
+
+# ----------- dates -------------------
+
+sbo:date a owl:DatatypeProperty ;
+    rdfs:label "date"@en  ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentProperty dc:date ;
+    rdfs:range [ owl:unionOf (xs:dateTime xs:date xs:gYear xs:gYearMonth) ] .
+
+sbo:dateAnnotation a owl:DatatypeProperty ;
+    rdfs:label "date annotation"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:range xs:string ;
+    rdfs:comment "A plain text date string to handle non-normalized dates ('Spring', 'Second Quarter', etc.)."@en .
+
+sbo:issued a owl:DatatypeProperty ;
+    rdfs:label "issued"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf sbo:date ;
+    owl:equivalentProperty dcterms:issued .
+
+sbo:forthcoming a owl:DatatypeProperty ;
+    rdfs:label "forthcoming"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf sbo:date ;		
+    rdfs:comment "A future date on which an item (typically a journal article) will be published."@en .
+
+sbo:accessed a owl:DatatypeProperty ;
+    rdfs:label "accessed"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:subPropertyOf sbo:date .
+
+sbo:updated a owl:DatatypeProperty ;
+    rdfs:label "updated"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentProperty dcterms:modified ;
+    rdfs:subPropertyOf sbo:date .
+
+# ----- contribution properties ----
+
+sbo:agent a owl:ObjectProperty;
+    rdfs:domain sbo:Contribution;
+    rdfs:label "agent"@en;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:comment "A reference to the agent that makes a contribution."@en .
+
+sbo:role a owl:ObjectProperty;
+    rdfs:domain sbo:Contribution;
+    rdfs:label "role"@en;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:comment "The role an agent plays in a contribution."@en .
+
+sbo:position a owl:DatatypeProperty;
+    rdfs:domain sbo:Contribution;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:label "position"@en;
+    rdfs:comment "A position within an ordered contributor list, as scoped by a role."@en .
+
+# -------- agent properties ---------
+
+sbo:formattedName a owl:DatatypeProperty;
+    rdfs:label "formatted name"@en;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:domain sbo:Agent;
+    owl:equivalentProperty foaf:name ;
+    owl:equivalentProperty vcard:fn ;
+    rdfs:comment "The formatted version of an agent name."@en .
+
+sbo:sortName a owl:DatatypeProperty;
+    rdfs:label "sort name"@en;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:domain sbo:Agent;
+    owl:equivalentProperty vcard:sort-string ;
+    rdfs:comment "The comma-delimited string to use for sorting an agent."@en .
+
+sbo:structuredName a owl:ObjectProperty;
+    rdfs:label "formatted name"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:domain sbo:Agent ;
+    rdfs:range sbo:PersonName ;
+    owl:equivalentProperty vcard:n ;
+    rdfs:comment "The formatted version of an agent name."@en .
+
+sbo:givenName a owl:DatatypeProperty;
+    rdfs:label "given name"@en;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:domain sbo:PersonName;
+    owl:equivalentProperty vcard:given-name .
+
+sbo:familyName a owl:DatatypeProperty;
+    rdfs:label "family name"@en;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:domain sbo:PersonName;
+    owl:equivalentProperty vcard:family-name .
+
+sbo:prefix a owl:DatatypeProperty;
+    rdfs:label "prefix"@en;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:domain sbo:PersonName;
+    owl:equivalentProperty vcard:honorific-prefix .
+
+sbo:suffix a owl:DatatypeProperty;
+    rdfs:label "suffix"@en;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:domain sbo:PersonName;
+    owl:equivalentProperty vcard:honorific-suffix .
+
+# -------------- misc ---------------
+
+sbo:medium a owl:ObjectProperty ;
+    rdfs:label "medium"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentProperty dcterms:medium ;
+    rdfs:domain sbo:Reference .
+
+sbo:format a owl:ObjectProperty ;
+    rdfs:label "format"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentProperty dcterms:format .
+
+sbo:reference a owl:ObjectProperty ;
+    rdfs:label "bibliographic reference"@en ;
+    rdfs:isDefinedBy sbo: ;
+    rdfs:domain [ owl:unionOf (sbo:ReferenceLibrary sbo:ReferenceCollection) ] ;
+    rdfs:comment "Associates a bibliographic reference with a collection of references."@en .
+
+sbo:subject a owl:ObjectProperty ;
+    rdfs:label "subject"@en ;
+    rdfs:isDefinedBy sbo: ;
+    owl:equivalentProperty skos:subject .

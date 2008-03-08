@@ -1,0 +1,122 @@
+[
+   {
+      "pk": 7, 
+      "model": "styles.category", 
+      "fields": {
+         "name": "anthropology", 
+         "slug": "anthropology"
+      }
+   }, 
+   {
+      "pk": 4, 
+      "model": "styles.category", 
+      "fields": {
+         "name": "biology", 
+         "slug": "biology"
+      }
+   }, 
+   {
+      "pk": 6, 
+      "model": "styles.category", 
+      "fields": {
+         "name": "chemistry", 
+         "slug": "chemistry"
+      }
+   }, 
+   {
+      "pk": 10, 
+      "model": "styles.category", 
+      "fields": {
+         "name": "communications", 
+         "slug": "communications"
+      }
+   }, 
+   {
+      "pk": 15, 
+      "model": "styles.category", 
+      "fields": {
+         "name": "ecology", 
+         "slug": "ecology"
+      }
+   }, 
+   {
+      "pk": 11, 
+      "model": "styles.category", 
+      "fields": {
+         "name": "engineering", 
+         "slug": "engineering"
+      }
+   }, 
+   {
+      "pk": 1, 
+      "model": "styles.category", 
+      "fields": {
+         "name": "geography", 
+         "slug": "geography"
+      }
+   }, 
+   {
+      "pk": 2, 
+      "model": "styles.category", 
+      "fields": {
+         "name": "history", 
+         "slug": "history"
+      }
+   }, 
+   {
+      "pk": 13, 
+      "model": "styles.category", 
+      "fields": {
+         "name": "interntional relations", 
+         "slug": "interntional-relations"
+      }
+   }, 
+   {
+      "pk": 8, 
+      "model": "styles.category", 
+      "fields": {
+         "name": "literature", 
+         "slug": "literature"
+      }
+   }, 
+   {
+      "pk": 3, 
+      "model": "styles.category", 
+      "fields": {
+         "name": "math", 
+         "slug": "math"
+      }
+   }, 
+   {
+      "pk": 14, 
+      "model": "styles.category", 
+      "fields": {
+         "name": "medicine", 
+         "slug": "medicine"
+      }
+   }, 
+   {
+      "pk": 12, 
+      "model": "styles.category", 
+      "fields": {
+         "name": "political science", 
+         "slug": "political-science"
+      }
+   }, 
+   {
+      "pk": 5, 
+      "model": "styles.category", 
+      "fields": {
+         "name": "psychology", 
+         "slug": "psychology"
+      }
+   }, 
+   {
+      "pk": 9, 
+      "model": "styles.category", 
+      "fields": {
+         "name": "sociology", 
+         "slug": "sociology"
+      }
+   }
+]

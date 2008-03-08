@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/style.css" media="screen"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    {% block extrahead %}{% endblock %}
+    <title>{% block title %}CSLGallery{% endblock %}</title>
+  </head>
+  <body>
+    <div id="wrapper" class="container">
+      <div id="header">
+<!--
+        <h1><a href="/">CSLGallery</a></h1>
+-->
+        <div id="menu">
+          <ul id="widenav">
+            <li><a id="link1" href="/styles/"><span>By Title</span></a></li>
+            <li><a id="link2" href="/styles/by-category/"><span>By Category</span></a></li>
+            <li><a id="link3" href="/styles/search/"><span>Search</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <div id="account">
+        {% if user.is_authenticated %}
+          Logged in as <em>{{ user.username }}</em> (<a href="/accounts/logout/">logout</a>)
+        {% else %}
+         <a href="/accounts/login/">Log in</a> or <a href="/accounts/register/">register</a> to create new styles.
+        {% endif %}
+      </div>
+      {% block content-wrapper %}
+      <div id="list-content" class="prepend-2">
+        {% block content %}{% endblock %}
+      </div>
+      {% endblock %}
+      <div id="footer">
+        <p>
+        &copy; <a href="http://bruce.darcus.name">Bruce D’Arcus</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .@prefix owl:     <http://www.w3.org/2002/07/owl#> .@prefix dc:      <http://purl.org/dc/elements/1.1/> .@prefix cont:    <http://purl.org/net/contribution#> .<http://purl.org/net/contribution#> a owl:Ontology ;    dc:title         "An RDF Ontology for Contributions" ;    dc:creator       "Bruce D'Arcus" ;    dc:date          "2006-09-12" ;
+    dc:descriptions  "Provides a richer description of (particularly ordered) contributions."@en . # ------------------- Classes ------------------cont:Contribution a owl:Class;
+    rdfs:label "Contribution"@en;
+    rdfs:subClassOf
+        [    a owl:Restriction;
+             owl:cardinality "1";
+             owl:onProperty cont:agent ];
+    rdfs:subClassOf
+        [    a owl:Restriction;
+             owl:maxCardinality "1";
+             owl:onProperty cont:role ];
+    rdfs:subClassOf
+        [    a owl:Restriction;
+             owl:maxCardinality "1";
+             owl:onProperty cont:position ];
+    rdfs:comment "Associates Agents and Resources."@en .
+
+# ------------------- Properties ------------------
+
+cont:agent a owl:ObjectProperty;
+    rdfs:domain cont:Contribution;
+    rdfs:label "agent"@en;
+    rdfs:comment "A reference to the agent that makes a contribution."@en .
+
+cont:role a owl:ObjectProperty;
+    rdfs:domain cont:Contribution;
+    rdfs:label "role"@en;
+    rdfs:comment "The role an agent plays in a contribution."@en .
+
+cont:position a owl:DatatypeProperty;
+    rdfs:domain cont:Contribution;
+    rdfs:label "position"@en;
+    rdfs:comment "A position within an ordered contributor list, as scoped by a role."@en .
+
+cont:note a owl:DatatypeProperty;
+    rdfs:domain cont:Contribution;
+    rdfs:label "note"@en .

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Citation Style Language (CSL)</title>
+    <style type="text/css">
+      body { width: 650px; margin: auto; position: center; font-family: Georgia; }
+      dl { padding: 1em; background: silver; }
+      dt { font-weight: bold; }
+      p { line-height: 1.5em; }
+      span.structure { background: yellow; }
+      .nxml-attribute-colon {
+      }
+      .nxml-attribute-local-name {
+      /* nxml-attribute-local-name-face */
+      color: #ff0000;
+      }
+      .nxml-attribute-prefix {
+      }
+      .nxml-attribute-value {
+      }
+      .nxml-attribute-value-delimiter {
+      }
+      .nxml-element-local-name {
+      /* nxml-element-local-name-face */
+      color: #a020f0;
+      font-weight: bold;
+      }
+      .nxml-namespace-attribute-value {
+      }
+      .nxml-namespace-attribute-value-delimiter {
+      }
+      .nxml-namespace-attribute-xmlns {
+      }
+      .nxml-processing-instruction-content {
+      /* nxml-processing-instruction-content-face */
+      color: #bebebe;
+      }
+      .nxml-processing-instruction-delimiter {
+      /* nxml-processing-instruction-delimiter-face */
+      color: #bebebe;
+      }
+      .nxml-processing-instruction-target {
+      /* nxml-processing-instruction-target-face */
+      color: #bebebe;
+      }
+      .nxml-tag-delimiter {
+      }
+      .nxml-tag-slash {
+      }
+      .nxml-text {
+      }
+      a {
+      color: inherit;
+      background-color: inherit;
+      font: inherit;
+      text-decoration: inherit;
+      }
+      a:hover {
+      text-decoration: underline;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <h1>Citation Style Language (CSL)</h1>
+    <div>
+      <h2>Basic Configuration</h2>
+      <p>CSL is based on three types of structures. <span class="structure">Fields</span> represent data
+        place-holders, and are combined in <span class="structure">templates</span> to configure output
+        rendering. There are also <span class="structure">rules</span> for sorting, et al configuration
+        and so forth.</p>
+    </div>
+    <div>
+      <h2>Fields</h2>
+      <p>Fields consist of two levels. The most general includes:</p>
+      <ul>
+        <li>contributor</li>
+        <li>date</li>
+        <li>titles</li>
+        <li>locator</li>
+        <li>publisher</li>
+      </ul>
+      <p>CSL then includes a host of more specific fields, which often inherit
+        behavior from their parent field.</p>
+    </div>
+    <div>
+      <h2>Templates</h2>
+    </div>
+    <div>
+      <h2>Reference Types and Fallbacks</h2>
+    </div>
+    <div>
+      <h2>Citation Class</h2>
+      <p>Almost all citation styles can be reduced to a handful of more abstract
+        classes:</p>
+      <div>
+        <dl>
+          <dt>author-date</dt>
+          <dd>
+            <p>Contains in-text citations that reference bibliographic entries.
+              The reference list is sorted author-date, and duplicate keys are
+              disambiguated using a year prefix. May contain additional locator
+              details such as page number, and author may be supressed if it is
+              duplicated in preceeding running text.</p>
+            <div>
+              <p>(Doe, 1999a, 1999b:34).</p>
+              <p>Doe, J. (1999a) Title, New York:ABC Publishers.</p>
+            </div>
+          </dd>
+        </dl>
+        <dl>
+          <dt>note</dt>
+          <dd>
+            <p>Citations are rendered as footnotes or endnotes, with optional
+              bibliography. Where there is a bibliograph it is sorted author-date.
+              This class typically includes positional rendering, with
+              distinctions between full first and subsequent shortened forms, as
+              well as conventions such as "ibid" for immediately subsequent
+              duplicate citations.</p>
+            <div>
+              <p><sup>1</sup> Doe, J., 1999, Title.</p>
+              <p>Doe, J. (1999a) Title, New York:ABC Publishers.</p>
+            </div>
+          </dd>
+        </dl>
+        
+        <dl>
+          <dt>number</dt>
+          <dd>
+            <p>Citations are in-text numbered labels, and bibliographies may be
+              ordered either by the order of their approach as cited, or
+              author-date.</p>
+            <div>
+              <p>[1]</p>
+              <p>[1] Doe, J., 1999, Title, New York:ABC Publishers.</p>
+            </div>
+          </dd>
+        </dl>
+        
+
+        <dl>
+          <dt>label</dt>
+          <dd>
+            <p>Citations are in-text natural language labels, and bibliographies
+              may be ordered either by that label, or author-date.</p>
+            <div>
+              <p>[doe99]</p>
+              <p>[doe99] Doe, J., 1999, Title, New York:ABC Publishers.</p>
+            </div>
+          </dd>
+        </dl>
+        
+        <dl>
+          <dt>annotated</dt>
+          <dd>
+            <p>There are no citations per se, and reference entries includes
+              annotation text.</p>
+            <div>
+              <p>Doe, J., 1999, Title, New York:ABC Publishers.</p>
+              <p>Some notes ...</p>
+            </div>
+          </dd>
+        </dl>
+       
+      </div>
+      <p>CSL is designed to make configuration of these classes simple, but also
+        to allow for custom definitions that override the default assumptions of
+        the base classes. For example, to implement the author-date class using
+        the explicit definitions of the custom definition, one would first
+        define default author rendering and substitution like so:</p>
+      <code>
+        <pre>
+  <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">defaults</span><span class="nxml-tag-delimiter">&gt;</span>
+    <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">contributor</span> <span class="nxml-attribute-local-name">name-as-sort-order</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">no</span><span class="nxml-attribute-value-delimiter">"</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">name</span> <span class="nxml-attribute-local-name">and</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">symbol</span><span class="nxml-attribute-value-delimiter">"</span> <span class="nxml-attribute-local-name">initialize-with</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">. </span><span class="nxml-attribute-value-delimiter">"</span> <span class="nxml-attribute-local-name">delimiter</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">, </span><span class="nxml-attribute-value-delimiter">"</span> <span class="nxml-attribute-local-name">delimiter-precedes-last</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">always</span><span class="nxml-attribute-value-delimiter">"</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">label</span> <span class="nxml-attribute-local-name">form</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">short</span><span class="nxml-attribute-value-delimiter">"</span> <span class="nxml-attribute-local-name">prefix</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">, </span><span class="nxml-attribute-value-delimiter">"</span> <span class="nxml-attribute-local-name">text-transform</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">capitalize</span><span class="nxml-attribute-value-delimiter">"</span> <span class="nxml-attribute-local-name">suffix</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">.</span><span class="nxml-attribute-value-delimiter">"</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+    <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-tag-slash">/</span><span class="nxml-element-local-name">contributor</span><span class="nxml-tag-delimiter">&gt;</span>
+
+    <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">author</span> <span class="nxml-attribute-local-name">name-as-sort-order</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">all</span><span class="nxml-attribute-value-delimiter">"</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">name</span> <span class="nxml-attribute-local-name">and</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">symbol</span><span class="nxml-attribute-value-delimiter">"</span> <span class="nxml-attribute-local-name">sort-separator</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">, </span><span class="nxml-attribute-value-delimiter">"</span> <span class="nxml-attribute-local-name">initialize-with</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">.</span><span class="nxml-attribute-value-delimiter">"</span> <span class="nxml-attribute-local-name">delimiter</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">, </span><span class="nxml-attribute-value-delimiter">"</span> <span class="nxml-attribute-local-name">delimiter-precedes-last</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">always</span><span class="nxml-attribute-value-delimiter">"</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">label</span> <span class="nxml-attribute-local-name">form</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">short</span><span class="nxml-attribute-value-delimiter">"</span> <span class="nxml-attribute-local-name">prefix</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value"> (</span><span class="nxml-attribute-value-delimiter">"</span> <span class="nxml-attribute-local-name">suffix</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">.)</span><span class="nxml-attribute-value-delimiter">"</span> <span class="nxml-attribute-local-name">text-transform</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">capitalize</span><span class="nxml-attribute-value-delimiter">"</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">substitute</span><span class="nxml-tag-delimiter">&gt;</span>
+        <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">choose</span><span class="nxml-tag-delimiter">&gt;</span>
+          <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">editor</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+          <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">translator</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+          <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">titles</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+        <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-tag-slash">/</span><span class="nxml-element-local-name">choose</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-tag-slash">/</span><span class="nxml-element-local-name">substitute</span><span class="nxml-tag-delimiter">&gt;</span>
+    <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-tag-slash">/</span><span class="nxml-element-local-name">author</span><span class="nxml-tag-delimiter">&gt;</span>
+
+    <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">locator</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">number</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+    <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-tag-slash">/</span><span class="nxml-element-local-name">locator</span><span class="nxml-tag-delimiter">&gt;</span>
+
+    <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">identifier</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">number</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+    <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-tag-slash">/</span><span class="nxml-element-local-name">identifier</span><span class="nxml-tag-delimiter">&gt;</span>
+
+    <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">titles</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">title</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+    <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-tag-slash">/</span><span class="nxml-element-local-name">titles</span><span class="nxml-tag-delimiter">&gt;</span>
+
+    <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">date</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">year</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">month</span> <span class="nxml-attribute-local-name">prefix</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">, </span><span class="nxml-attribute-value-delimiter">"</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">day</span> <span class="nxml-attribute-local-name">prefix</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value"> </span><span class="nxml-attribute-value-delimiter">"</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+    <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-tag-slash">/</span><span class="nxml-element-local-name">date</span><span class="nxml-tag-delimiter">&gt;</span>
+
+    <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">publisher</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">place</span> <span class="nxml-attribute-local-name">suffix</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">: </span><span class="nxml-attribute-value-delimiter">"</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">name</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+    <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-tag-slash">/</span><span class="nxml-element-local-name">publisher</span><span class="nxml-tag-delimiter">&gt;</span>
+
+    <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">access</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">text</span> <span class="nxml-attribute-local-name">term-name</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">retrieved</span><span class="nxml-attribute-value-delimiter">"</span> <span class="nxml-attribute-local-name">text-transform</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">capitalize</span><span class="nxml-attribute-value-delimiter">"</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">date</span> <span class="nxml-attribute-local-name">suffix</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">, </span><span class="nxml-attribute-value-delimiter">"</span><span class="nxml-tag-delimiter">&gt;</span>
+        <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">month</span> <span class="nxml-attribute-local-name">suffix</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value"> </span><span class="nxml-attribute-value-delimiter">"</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+        <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">day</span> <span class="nxml-attribute-local-name">suffix</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">, </span><span class="nxml-attribute-value-delimiter">"</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+        <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">year</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-tag-slash">/</span><span class="nxml-element-local-name">date</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">text</span> <span class="nxml-attribute-local-name">term-name</span>=<span class="nxml-attribute-value-delimiter">"</span><span class="nxml-attribute-value">from</span><span class="nxml-attribute-value-delimiter">"</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+      <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-element-local-name">url</span><span class="nxml-tag-slash">/</span><span class="nxml-tag-delimiter">&gt;</span>
+    <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-tag-slash">/</span><span class="nxml-element-local-name">access</span><span class="nxml-tag-delimiter">&gt;</span>
+
+  <span class="nxml-tag-delimiter">&lt;</span><span class="nxml-tag-slash">/</span><span class="nxml-element-local-name">defaults</span><span class="nxml-tag-delimiter">&gt;</span>   
+        </pre>
+      </code>
+      <p>The citation element would then contain a type attribute of "in-text",
+        and the bibliography would include a sort element configured like:</p>
+      <code>
+        <pre>
+          
+        </pre>
+      </code>
+    </div>
+  </body>
+</html>
