@@ -1,5 +1,0 @@
-<macro name="year" xmlns="http://purl.org/net/xbiblio/csl">
-  <date variable="issued">
-    <date-part name="year"/>
-  </date> 
-</macro>

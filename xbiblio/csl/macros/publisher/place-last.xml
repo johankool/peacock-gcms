@@ -1,7 +1,0 @@
-<macro name="year" xmlns="http://purl.org/net/xbiblio/csl">
-  <group delimiter=":">
-    <text variable="publisher"/>
-    <text variable="publisher-place"/>
-  </group>
-</macro>
-
