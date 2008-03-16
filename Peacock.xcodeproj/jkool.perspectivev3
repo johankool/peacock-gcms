@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>ActivePerspectiveName</key>
-	<string>Debug</string>
+	<string>Project</string>
 	<key>AllowedModules</key>
 	<array>
 		<dict>
@@ -292,17 +292,20 @@
 							<array>
 								<string>2A37F4AAFDCFA73011CA2CEA</string>
 								<string>C77E686F0C3A9C860051B016</string>
+								<string>2A37F4B8FDCFA73011CA2CEA</string>
+								<string>C7EB18070898CFBD007FC2ED</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>45</integer>
-									<integer>1</integer>
+									<integer>111</integer>
+									<integer>106</integer>
+									<integer>101</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {185, 621}}</string>
+							<string>{{0, 1589}, {185, 621}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -318,6 +321,8 @@
 							<string>MainColumn</string>
 							<real>185</real>
 						</array>
+						<key>RubberWindowFrame</key>
+						<string>3 98 997 680 0 0 1280 778 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -333,7 +338,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>C7FAB88F0D82ED6C007A1DE4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>JKMainWindowController.m</string>
+								<string>JKManagedLibraryEntry.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -341,22 +346,42 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>C7FAB8900D82ED6C007A1DE4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>JKMainWindowController.m</string>
+										<string>JKManagedLibraryEntry.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C7AD47AF0D8DB2680091E3E8</string>
+										<string>C7AD47E80D8DBEDC0091E3E8</string>
 										<key>history</key>
 										<array>
 											<string>C7A6650F0D84465A00DB8647</string>
 											<string>C7A665100D84465A00DB8647</string>
-											<string>C7AD47AB0D8DB1AD0091E3E8</string>
+											<string>C7AD47BB0D8DB5B30091E3E8</string>
+											<string>C7AD47C60D8DB78D0091E3E8</string>
+											<string>C7AD47D30D8DB8040091E3E8</string>
+											<string>C7AD47D40D8DB8040091E3E8</string>
+											<string>C7AD47D50D8DB8040091E3E8</string>
+											<string>C7AD47DF0D8DBBA50091E3E8</string>
+											<string>C7AD47E50D8DBEDC0091E3E8</string>
+											<string>C7AD47E60D8DBEDC0091E3E8</string>
 										</array>
 										<key>prevStack</key>
 										<array>
 											<string>C7A665120D84465A00DB8647</string>
 											<string>C7A665130D84465A00DB8647</string>
 											<string>C7A665140D84465A00DB8647</string>
+											<string>C7AD47BD0D8DB5B30091E3E8</string>
+											<string>C7AD47C80D8DB78D0091E3E8</string>
+											<string>C7AD47C90D8DB78D0091E3E8</string>
+											<string>C7AD47CA0D8DB78D0091E3E8</string>
+											<string>C7AD47CB0D8DB78D0091E3E8</string>
+											<string>C7AD47CC0D8DB78D0091E3E8</string>
+											<string>C7AD47CD0D8DB78D0091E3E8</string>
+											<string>C7AD47D70D8DB8040091E3E8</string>
+											<string>C7AD47D80D8DB8040091E3E8</string>
+											<string>C7AD47D90D8DB8040091E3E8</string>
+											<string>C7AD47DA0D8DB8040091E3E8</string>
+											<string>C7AD47E10D8DBBA50091E3E8</string>
+											<string>C7AD47E70D8DBEDC0091E3E8</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -370,16 +395,18 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {790, 445}}</string>
+								<string>{{0, 0}, {790, 370}}</string>
+								<key>RubberWindowFrame</key>
+								<string>3 98 997 680 0 0 1280 778 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>445pt</string>
+							<string>370pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
-							<string>192pt</string>
+							<string>267pt</string>
 							<key>Tabs</key>
 							<array>
 								<dict>
@@ -409,7 +436,9 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 31}, {603, 297}}</string>
+										<string>{{10, 27}, {790, 240}}</string>
+										<key>RubberWindowFrame</key>
+										<string>3 98 997 680 0 0 1280 778 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXProjectFindModule</string>
@@ -468,7 +497,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {790, 165}}</string>
+										<string>{{10, 27}, {790, 240}}</string>
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>
@@ -542,8 +571,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXProjectModuleGUID</key>
@@ -555,8 +582,6 @@
 					<dict>
 						<key>Frame</key>
 						<string>{{0, 0}, {997, 190}}</string>
-						<key>RubberWindowFrame</key>
-						<string>3 98 997 680 0 0 1280 778 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXDebugCLIModule</string>
@@ -631,11 +656,7 @@
 							</array>
 							<key>Frame</key>
 							<string>{{0, 222}, {499, 222}}</string>
-							<key>RubberWindowFrame</key>
-							<string>3 98 997 680 0 0 1280 778 </string>
 						</dict>
-						<key>RubberWindowFrame</key>
-						<string>3 98 997 680 0 0 1280 778 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXDebugSessionModule</string>
@@ -680,7 +701,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>227390056.556054</real>
+	<real>227393244.208563</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
