@@ -1262,6 +1262,8 @@ int const JKGCMSDocument_Version = 7;
 
     for (libraryEntry in libraryEntries) {
         [libraryEntry willAccessValueForKey:nil];
+/*###1265 [cc] warning: type 'JKManagedLibraryEntry *' does not conform to the 'JKComparableProtocol' protocol%%%*/
+/*###1265 [cc] warning: type 'JKManagedLibraryEntry *' does not conform to the 'JKComparableProtocol' protocol%%%*/
         score = [spectraMatchingObject matchingScoreForSpectrum:peakSpectrum comparedToLibraryEntry:libraryEntry error:nil]; 
                     
         if (score >= minimumScoreSearchResultsF) {
@@ -1388,6 +1390,8 @@ int const JKGCMSDocument_Version = 7;
 		maximumIndex = -1;
         libraryEntry = [libraryEntries objectAtIndex:j]; // can also be a spectrum!!
  
+/*###1391 [cc] warning: receiver ‘JKManagedLibraryEntry’ is a forward class and corresponding @interface may not exist%%%*/
+/*###1391 [cc] warning: receiver ‘JKManagedLibraryEntry’ is a forward class and corresponding @interface may not exist%%%*/
         if ([libraryEntry isKindOfClass:[JKManagedLibraryEntry class]]) {
             [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Library Entry '%@'",@""),[libraryEntry name]] waitUntilDone:NO];            
             [libraryEntry willAccessValueForKey:nil];
@@ -1453,6 +1457,8 @@ int const JKGCMSDocument_Version = 7;
 
 		for (k = 0; k < peaksCount; k++) {
  //           if (fabsf([[[[chromatogramToSearch peaks] objectAtIndex:k] retentionIndex] floatValue] - [[libraryEntry retentionIndex] floatValue]) < aMaximumRetentionIndexDifference) {
+/*###1456 [cc] warning: type 'JKManagedLibraryEntry *' does not conform to the 'JKComparableProtocol' protocol%%%*/
+/*###1456 [cc] warning: type 'JKManagedLibraryEntry *' does not conform to the 'JKComparableProtocol' protocol%%%*/
                 score = [spectraMatchingObject matchingScoreForSpectrum:[[[chromatogramToSearch peaks] objectAtIndex:k] spectrum] comparedToLibraryEntry:libraryEntry error:error];
 
                 if (score >= maximumScore) {
