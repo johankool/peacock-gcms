@@ -268,65 +268,65 @@
 		32DBCF750370BD2300C91783 /* Peacock_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Peacock_Prefix.pch; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* Peacock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Peacock.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C708E90A0B9D953A0085872E /* JKCombinedPeak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKCombinedPeak.h; sourceTree = "<group>"; };
-		C708E90B0B9D953A0085872E /* JKCombinedPeak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKCombinedPeak.m; sourceTree = "<group>"; };
-		C709D0080C465F3200C9C613 /* JKComboBoxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKComboBoxCell.h; sourceTree = "<group>"; };
-		C709D0090C465F3200C9C613 /* JKComboBoxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKComboBoxCell.m; sourceTree = "<group>"; };
-		C70DB8EB09573BEA00C2B386 /* JKRatio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKRatio.h; sourceTree = "<group>"; };
-		C70DB8EC09573BEA00C2B386 /* JKRatio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKRatio.m; sourceTree = "<group>"; };
+		C708E90A0B9D953A0085872E /* JKCombinedPeak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKCombinedPeak.h; sourceTree = SOURCE_ROOT; };
+		C708E90B0B9D953A0085872E /* JKCombinedPeak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKCombinedPeak.m; sourceTree = SOURCE_ROOT; };
+		C709D0080C465F3200C9C613 /* JKComboBoxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKComboBoxCell.h; sourceTree = SOURCE_ROOT; };
+		C709D0090C465F3200C9C613 /* JKComboBoxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKComboBoxCell.m; sourceTree = SOURCE_ROOT; };
+		C70DB8EB09573BEA00C2B386 /* JKRatio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKRatio.h; sourceTree = SOURCE_ROOT; };
+		C70DB8EC09573BEA00C2B386 /* JKRatio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKRatio.m; sourceTree = SOURCE_ROOT; };
 		C70DC00F095B1FDB00C2B386 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
-		C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKGCMSDocument.h; sourceTree = "<group>"; };
-		C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKGCMSDocument.m; sourceTree = "<group>"; };
+		C715DEB30A136AD200348AB5 /* JKGCMSDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKGCMSDocument.h; sourceTree = SOURCE_ROOT; };
+		C715DECE0A136B2F00348AB5 /* JKGCMSDocument.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKGCMSDocument.m; sourceTree = SOURCE_ROOT; };
 		C716B4AD0AD6AA8F00DA408E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		C71D9FCB099CD19D007EB10D /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
-		C720AB8609EA7B6C007EF860 /* jk_statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jk_statistics.h; sourceTree = "<group>"; };
-		C720AB8709EA7B6C007EF860 /* jk_statistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = jk_statistics.m; sourceTree = "<group>"; };
-		C729CAA70A4B45CD00FAB04F /* JKDataModelProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKDataModelProxy.h; sourceTree = "<group>"; };
-		C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKDataModelProxy.m; sourceTree = "<group>"; };
+		C720AB8609EA7B6C007EF860 /* jk_statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jk_statistics.h; sourceTree = SOURCE_ROOT; };
+		C720AB8709EA7B6C007EF860 /* jk_statistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = jk_statistics.m; sourceTree = SOURCE_ROOT; };
+		C729CAA70A4B45CD00FAB04F /* JKDataModelProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKDataModelProxy.h; sourceTree = SOURCE_ROOT; };
+		C729CAA80A4B45CD00FAB04F /* JKDataModelProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKDataModelProxy.m; sourceTree = SOURCE_ROOT; };
 		C72C8500098BE74300CEF565 /* Unit Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C72C8501098BE74400CEF565 /* Unit Testing-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Unit Testing-Info.plist"; sourceTree = "<group>"; };
 		C72C8507098BE83600CEF565 /* JKSpectrumTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSpectrumTest.h; sourceTree = "<group>"; };
 		C72C8508098BE83600CEF565 /* JKSpectrumTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSpectrumTest.m; sourceTree = "<group>"; };
 		C72C85D5098BF1B800CEF565 /* JKGeneralTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKGeneralTesting.h; sourceTree = "<group>"; };
 		C72C85D6098BF1B800CEF565 /* JKGeneralTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKGeneralTesting.m; sourceTree = "<group>"; };
-		C7314A350D463D0F0093EB47 /* PKLicenseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKLicenseController.h; path = /Users/jkool/Developer/Peacock/trunk/PKLicenseController.h; sourceTree = "<absolute>"; };
-		C7314A360D463D0F0093EB47 /* PKLicenseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKLicenseController.m; path = /Users/jkool/Developer/Peacock/trunk/PKLicenseController.m; sourceTree = "<absolute>"; };
-		C7314A3A0D4640CE0093EB47 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/PKRegister.xib; sourceTree = "<absolute>"; };
+		C7314A350D463D0F0093EB47 /* PKLicenseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKLicenseController.h; sourceTree = SOURCE_ROOT; };
+		C7314A360D463D0F0093EB47 /* PKLicenseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKLicenseController.m; sourceTree = SOURCE_ROOT; };
+		C7314A3A0D4640CE0093EB47 /* PKRegister.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PKRegister.xib; path = English.lproj/PKRegister.xib; sourceTree = "<group>"; };
 		C7314C560D465C7D0093EB47 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = /System/Library/Frameworks/AddressBook.framework; sourceTree = "<absolute>"; };
 		C73533D00B7A703C00F7634B /* JKChromatogramTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKChromatogramTest.h; sourceTree = "<group>"; };
 		C73533D10B7A703C00F7634B /* JKChromatogramTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKChromatogramTest.m; sourceTree = "<group>"; };
-		C73B27CC0CAD9EF600C09AAE /* JKSummarizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSummarizer.h; sourceTree = "<group>"; };
+		C73B27CC0CAD9EF600C09AAE /* JKSummarizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSummarizer.h; sourceTree = SOURCE_ROOT; };
 		C73B27CD0CAD9EF600C09AAE /* JKSummarizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSummarizer.m; sourceTree = SOURCE_ROOT; };
-		C73B27D60CB1224100C09AAE /* JKSummaryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSummaryController.h; sourceTree = "<group>"; };
-		C73B27D70CB1224100C09AAE /* JKSummaryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSummaryController.m; sourceTree = "<group>"; };
+		C73B27D60CB1224100C09AAE /* JKSummaryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSummaryController.h; sourceTree = SOURCE_ROOT; };
+		C73B27D70CB1224100C09AAE /* JKSummaryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSummaryController.m; sourceTree = SOURCE_ROOT; };
 		C74378900CCCA5AF002DF365 /* BannerBackground.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = BannerBackground.tif; sourceTree = "<group>"; };
 		C747ED320ABF43C6001F98AF /* Peacock Test Files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Peacock Test Files"; sourceTree = "<group>"; };
-		C7490D420CAC0B28005DCA39 /* JKChromatogram.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKChromatogram.h; sourceTree = "<group>"; };
-		C7490D430CAC0B28005DCA39 /* JKChromatogram.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKChromatogram.m; sourceTree = "<group>"; };
-		C7490D450CAC0B28005DCA39 /* JKModelObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKModelObject.h; sourceTree = "<group>"; };
-		C7490D460CAC0B28005DCA39 /* JKModelObject.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKModelObject.m; sourceTree = "<group>"; };
-		C7490D470CAC0B28005DCA39 /* JKPeakRecord.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKPeakRecord.h; sourceTree = "<group>"; };
-		C7490D480CAC0B28005DCA39 /* JKPeakRecord.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKPeakRecord.m; sourceTree = "<group>"; };
-		C7490D490CAC0B28005DCA39 /* PKGraphView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PKGraphView.h; sourceTree = "<group>"; };
-		C7490D4A0CAC0B28005DCA39 /* PKGraphView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PKGraphView.m; sourceTree = "<group>"; };
-		C7490D4B0CAC0B28005DCA39 /* NSString+ModelCompare.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSString+ModelCompare.h"; sourceTree = "<group>"; };
-		C7490D4C0CAC0B28005DCA39 /* NSString+ModelCompare.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSString+ModelCompare.m"; sourceTree = "<group>"; };
-		C7490D710CAC0CA4005DCA39 /* jk_statistics.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = jk_statistics.c; sourceTree = "<group>"; };
-		C74A27F30CEE4D4500FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKLibraryPanel.xib; sourceTree = "<absolute>"; };
-		C74A27F80CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/DisplayOptions.xib; sourceTree = "<absolute>"; };
-		C74A27FA0CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKBatchProcess.xib; sourceTree = "<absolute>"; };
-		C74A27FC0CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKGCMSDocument.xib; sourceTree = "<absolute>"; };
-		C74A27FE0CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKLibrary.xib; sourceTree = "<absolute>"; };
-		C74A28000CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKMainMenu.xib; sourceTree = "<absolute>"; };
-		C74A28020CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKPanel.xib; sourceTree = "<absolute>"; };
-		C74A28040CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKPreferences.xib; sourceTree = "<absolute>"; };
-		C74A28060CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKRatios.xib; sourceTree = "<absolute>"; };
-		C74A28080CEE4E4D00FFB61F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = /Users/jkool/Developer/Peacock/trunk/Nibs/English.lproj/JKSummary.xib; sourceTree = "<absolute>"; };
-		C74A28230CEE51C100FFB61F /* JKLibraryPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JKLibraryPanelController.h; path = /Users/jkool/Developer/Peacock/trunk/JKLibraryPanelController.h; sourceTree = "<absolute>"; };
-		C74A28240CEE51C100FFB61F /* JKLibraryPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JKLibraryPanelController.m; path = /Users/jkool/Developer/Peacock/trunk/JKLibraryPanelController.m; sourceTree = "<absolute>"; };
-		C75846130C071ACC00756ED8 /* JKComparableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKComparableProtocol.h; sourceTree = "<group>"; };
-		C75846610C07268D00756ED8 /* JKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKLibraryEntry.h; sourceTree = "<group>"; };
-		C75846620C07268D00756ED8 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = "<group>"; };
+		C7490D420CAC0B28005DCA39 /* JKChromatogram.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKChromatogram.h; sourceTree = SOURCE_ROOT; };
+		C7490D430CAC0B28005DCA39 /* JKChromatogram.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKChromatogram.m; sourceTree = SOURCE_ROOT; };
+		C7490D450CAC0B28005DCA39 /* JKModelObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKModelObject.h; sourceTree = SOURCE_ROOT; };
+		C7490D460CAC0B28005DCA39 /* JKModelObject.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKModelObject.m; sourceTree = SOURCE_ROOT; };
+		C7490D470CAC0B28005DCA39 /* JKPeakRecord.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKPeakRecord.h; sourceTree = SOURCE_ROOT; };
+		C7490D480CAC0B28005DCA39 /* JKPeakRecord.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKPeakRecord.m; sourceTree = SOURCE_ROOT; };
+		C7490D490CAC0B28005DCA39 /* PKGraphView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PKGraphView.h; sourceTree = SOURCE_ROOT; };
+		C7490D4A0CAC0B28005DCA39 /* PKGraphView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PKGraphView.m; sourceTree = SOURCE_ROOT; };
+		C7490D4B0CAC0B28005DCA39 /* NSString+ModelCompare.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSString+ModelCompare.h"; sourceTree = SOURCE_ROOT; };
+		C7490D4C0CAC0B28005DCA39 /* NSString+ModelCompare.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSString+ModelCompare.m"; sourceTree = SOURCE_ROOT; };
+		C7490D710CAC0CA4005DCA39 /* jk_statistics.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = jk_statistics.c; sourceTree = SOURCE_ROOT; };
+		C74A27F30CEE4D4500FFB61F /* JKLibraryPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JKLibraryPanel.xib; path = English.lproj/JKLibraryPanel.xib; sourceTree = "<group>"; };
+		C74A27F80CEE4E4D00FFB61F /* DisplayOptions.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = DisplayOptions.xib; path = English.lproj/DisplayOptions.xib; sourceTree = "<group>"; };
+		C74A27FA0CEE4E4D00FFB61F /* JKBatchProcess.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JKBatchProcess.xib; path = English.lproj/JKBatchProcess.xib; sourceTree = "<group>"; };
+		C74A27FC0CEE4E4D00FFB61F /* JKGCMSDocument.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JKGCMSDocument.xib; path = English.lproj/JKGCMSDocument.xib; sourceTree = "<group>"; };
+		C74A27FE0CEE4E4D00FFB61F /* JKLibrary.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JKLibrary.xib; path = English.lproj/JKLibrary.xib; sourceTree = "<group>"; };
+		C74A28000CEE4E4D00FFB61F /* JKMainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JKMainMenu.xib; path = English.lproj/JKMainMenu.xib; sourceTree = "<group>"; };
+		C74A28020CEE4E4D00FFB61F /* JKPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JKPanel.xib; path = English.lproj/JKPanel.xib; sourceTree = "<group>"; };
+		C74A28040CEE4E4D00FFB61F /* JKPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JKPreferences.xib; path = English.lproj/JKPreferences.xib; sourceTree = "<group>"; };
+		C74A28060CEE4E4D00FFB61F /* JKRatios.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JKRatios.xib; path = English.lproj/JKRatios.xib; sourceTree = "<group>"; };
+		C74A28080CEE4E4D00FFB61F /* JKSummary.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JKSummary.xib; path = English.lproj/JKSummary.xib; sourceTree = "<group>"; };
+		C74A28230CEE51C100FFB61F /* JKLibraryPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKLibraryPanelController.h; sourceTree = SOURCE_ROOT; };
+		C74A28240CEE51C100FFB61F /* JKLibraryPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLibraryPanelController.m; sourceTree = SOURCE_ROOT; };
+		C75846130C071ACC00756ED8 /* JKComparableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKComparableProtocol.h; sourceTree = SOURCE_ROOT; };
+		C75846610C07268D00756ED8 /* JKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKLibraryEntry.h; sourceTree = SOURCE_ROOT; };
+		C75846620C07268D00756ED8 /* JKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKLibraryEntry.m; sourceTree = SOURCE_ROOT; };
 		C758C8C40D0EE8CB0068F70A /* Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Notes.txt; sourceTree = SOURCE_ROOT; };
 		C75AE38B0CBE82190054E51B /* JKImageTextCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKImageTextCell.h; sourceTree = "<group>"; };
 		C75AE38C0CBE82190054E51B /* JKImageTextCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKImageTextCell.m; sourceTree = "<group>"; };
@@ -338,31 +338,31 @@
 		C75AE3920CBE82190054E51B /* JKVariableCellColumn.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKVariableCellColumn.h; sourceTree = "<group>"; };
 		C75AE3930CBE82190054E51B /* JKSourceTableView_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKSourceTableView_Prefix.pch; sourceTree = "<group>"; };
 		C75C65620CFE1A0F003C7700 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = /Users/jkool/Developer/Peacock/trunk/Spotlight/English.lproj/schema.strings; sourceTree = "<absolute>"; };
-		C75C65630CFE1A0F003C7700 /* GetMetadataForFile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = GetMetadataForFile.c; sourceTree = "<group>"; };
-		C75C65640CFE1A0F003C7700 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		C75C65660CFE1A0F003C7700 /* schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = schema.xml; sourceTree = "<group>"; };
+		C75C65630CFE1A0F003C7700 /* GetMetadataForFile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = GetMetadataForFile.c; path = Spotlight/GetMetadataForFile.c; sourceTree = SOURCE_ROOT; };
+		C75C65640CFE1A0F003C7700 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = Spotlight/main.c; sourceTree = SOURCE_ROOT; };
+		C75C65660CFE1A0F003C7700 /* schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = schema.xml; path = Spotlight/schema.xml; sourceTree = SOURCE_ROOT; };
 		C75C65700CFE1DA0003C7700 /* Peacock.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Peacock.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		C75C65710CFE1DA0003C7700 /* Spotlight-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Spotlight-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C765B8AA0C23237A00C4F153 /* factoranalysis.R */ = {isa = PBXFileReference; explicitFileType = text.script; fileEncoding = 7; path = factoranalysis.R; sourceTree = "<group>"; };
 		C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = JKLibrary.xcdatamodel; sourceTree = "<group>"; };
-		C7713B410950368F00653D2A /* JKBatchProcessWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKBatchProcessWindowController.h; sourceTree = "<group>"; };
-		C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKBatchProcessWindowController.m; sourceTree = "<group>"; };
-		C773669408E02D87002B72F1 /* PKChromatogramDataSeries.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PKChromatogramDataSeries.h; sourceTree = "<group>"; };
-		C773669508E02D87002B72F1 /* PKChromatogramDataSeries.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PKChromatogramDataSeries.m; sourceTree = "<group>"; };
-		C773669608E02D87002B72F1 /* PKSpectrumDataSeries.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PKSpectrumDataSeries.h; sourceTree = "<group>"; };
-		C773669708E02D87002B72F1 /* PKSpectrumDataSeries.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PKSpectrumDataSeries.m; sourceTree = "<group>"; };
-		C7752C360B6778DA0010EE72 /* JKSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSearchResult.h; sourceTree = "<group>"; };
-		C7752C370B6778DA0010EE72 /* JKSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSearchResult.m; sourceTree = "<group>"; };
-		C777A2C30A1DFEA800CF44D9 /* JKMoleculeView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKMoleculeView.h; sourceTree = "<group>"; };
-		C777A2C40A1DFEA800CF44D9 /* JKMoleculeView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKMoleculeView.m; sourceTree = "<group>"; };
-		C777A2CC0A1DFEE400CF44D9 /* JKAtom.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKAtom.h; sourceTree = "<group>"; };
-		C777A2CD0A1DFEE400CF44D9 /* JKAtom.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKAtom.m; sourceTree = "<group>"; };
-		C777A2CE0A1DFEE400CF44D9 /* JKBond.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKBond.h; sourceTree = "<group>"; };
-		C777A2CF0A1DFEE400CF44D9 /* JKBond.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKBond.m; sourceTree = "<group>"; };
-		C777A2D00A1DFEE400CF44D9 /* JKMoleculeModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKMoleculeModel.h; sourceTree = "<group>"; };
-		C777A2D10A1DFEE400CF44D9 /* JKMoleculeModel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKMoleculeModel.m; sourceTree = "<group>"; };
-		C778A2C50D4FCF02005C95E0 /* PKAbundanceTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKAbundanceTest.h; path = /Users/jkool/Developer/Peacock/trunk/PKAbundanceTest.h; sourceTree = "<absolute>"; };
-		C778A2C60D4FCF02005C95E0 /* PKAbundanceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKAbundanceTest.m; path = /Users/jkool/Developer/Peacock/trunk/PKAbundanceTest.m; sourceTree = "<absolute>"; };
+		C7713B410950368F00653D2A /* JKBatchProcessWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKBatchProcessWindowController.h; sourceTree = SOURCE_ROOT; };
+		C7713B420950368F00653D2A /* JKBatchProcessWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKBatchProcessWindowController.m; sourceTree = SOURCE_ROOT; };
+		C773669408E02D87002B72F1 /* PKChromatogramDataSeries.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PKChromatogramDataSeries.h; sourceTree = SOURCE_ROOT; };
+		C773669508E02D87002B72F1 /* PKChromatogramDataSeries.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PKChromatogramDataSeries.m; sourceTree = SOURCE_ROOT; };
+		C773669608E02D87002B72F1 /* PKSpectrumDataSeries.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PKSpectrumDataSeries.h; sourceTree = SOURCE_ROOT; };
+		C773669708E02D87002B72F1 /* PKSpectrumDataSeries.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PKSpectrumDataSeries.m; sourceTree = SOURCE_ROOT; };
+		C7752C360B6778DA0010EE72 /* JKSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSearchResult.h; sourceTree = SOURCE_ROOT; };
+		C7752C370B6778DA0010EE72 /* JKSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSearchResult.m; sourceTree = SOURCE_ROOT; };
+		C777A2C30A1DFEA800CF44D9 /* JKMoleculeView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKMoleculeView.h; sourceTree = SOURCE_ROOT; };
+		C777A2C40A1DFEA800CF44D9 /* JKMoleculeView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKMoleculeView.m; sourceTree = SOURCE_ROOT; };
+		C777A2CC0A1DFEE400CF44D9 /* JKAtom.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKAtom.h; sourceTree = SOURCE_ROOT; };
+		C777A2CD0A1DFEE400CF44D9 /* JKAtom.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKAtom.m; sourceTree = SOURCE_ROOT; };
+		C777A2CE0A1DFEE400CF44D9 /* JKBond.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKBond.h; sourceTree = SOURCE_ROOT; };
+		C777A2CF0A1DFEE400CF44D9 /* JKBond.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKBond.m; sourceTree = SOURCE_ROOT; };
+		C777A2D00A1DFEE400CF44D9 /* JKMoleculeModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = JKMoleculeModel.h; sourceTree = SOURCE_ROOT; };
+		C777A2D10A1DFEE400CF44D9 /* JKMoleculeModel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = JKMoleculeModel.m; sourceTree = SOURCE_ROOT; };
+		C778A2C50D4FCF02005C95E0 /* PKAbundanceTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKAbundanceTest.h; sourceTree = "<group>"; };
+		C778A2C60D4FCF02005C95E0 /* PKAbundanceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKAbundanceTest.m; sourceTree = "<group>"; };
 		C77C583009800FAD002E7796 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = "English.lproj/Peacock Help"; sourceTree = "<group>"; };
 		C77E2FBD0C0EF20C00B8A64A /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
 		C77E2FC00C0EF21700B8A64A /* minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minus.png; sourceTree = "<group>"; };
@@ -374,18 +374,18 @@
 		C7859A9909CEBCE900351C87 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		C78E768D0D3591AC00626A2F /* AquaticPrime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AquaticPrime.h; sourceTree = "<group>"; };
 		C78E768E0D3591AC00626A2F /* AquaticPrime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AquaticPrime.m; sourceTree = "<group>"; };
-		C78FB7FC0CE9B73400466731 /* GCMathParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCMathParser.h; path = /Users/jkool/Developer/Peacock/trunk/GCExpressionParser/GCMathParser.h; sourceTree = "<absolute>"; };
-		C78FB7FD0CE9B73400466731 /* GCMathParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCMathParser.m; path = /Users/jkool/Developer/Peacock/trunk/GCExpressionParser/GCMathParser.m; sourceTree = "<absolute>"; };
-		C78FB7FE0CE9B73400466731 /* Implementation Notes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Implementation Notes"; path = "/Users/jkool/Developer/Peacock/trunk/GCExpressionParser/Implementation Notes"; sourceTree = "<absolute>"; };
-		C78FB7FF0CE9B73400466731 /* ZExpParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZExpParser.h; path = /Users/jkool/Developer/Peacock/trunk/GCExpressionParser/ZExpParser.h; sourceTree = "<absolute>"; };
-		C78FB8000CE9B73400466731 /* ZExpParser.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ZExpParser.mm; path = /Users/jkool/Developer/Peacock/trunk/GCExpressionParser/ZExpParser.mm; sourceTree = "<absolute>"; };
-		C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSEvent+ModifierKeys.h"; sourceTree = "<group>"; };
-		C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSEvent+ModifierKeys.m"; sourceTree = "<group>"; };
-		C795D9370CF4831D006CF960 /* JKSynchroScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JKSynchroScrollView.m; path = /Users/jkool/Developer/Peacock/trunk/JKSynchroScrollView.m; sourceTree = "<absolute>"; };
-		C795D9380CF4831D006CF960 /* JKSynchroScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JKSynchroScrollView.h; path = /Users/jkool/Developer/Peacock/trunk/JKSynchroScrollView.h; sourceTree = "<absolute>"; };
-		C79618900C0C75BC00D79FAC /* JKTargetObjectProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKTargetObjectProtocol.h; sourceTree = "<group>"; };
-		C798C9E808E17B5400C6C7D1 /* DeleteTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteTableView.h; sourceTree = "<group>"; };
-		C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteTableView.m; sourceTree = "<group>"; };
+		C78FB7FC0CE9B73400466731 /* GCMathParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCMathParser.h; sourceTree = "<group>"; };
+		C78FB7FD0CE9B73400466731 /* GCMathParser.m */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GCMathParser.m; path = GCExpressionParser/GCMathParser.m; sourceTree = SOURCE_ROOT; };
+		C78FB7FE0CE9B73400466731 /* Implementation Notes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Implementation Notes"; sourceTree = "<group>"; };
+		C78FB7FF0CE9B73400466731 /* ZExpParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZExpParser.h; path = GCExpressionParser/ZExpParser.h; sourceTree = SOURCE_ROOT; };
+		C78FB8000CE9B73400466731 /* ZExpParser.mm */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = ZExpParser.mm; path = GCExpressionParser/ZExpParser.mm; sourceTree = SOURCE_ROOT; };
+		C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSEvent+ModifierKeys.h"; sourceTree = SOURCE_ROOT; };
+		C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSEvent+ModifierKeys.m"; sourceTree = SOURCE_ROOT; };
+		C795D9370CF4831D006CF960 /* JKSynchroScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSynchroScrollView.m; sourceTree = SOURCE_ROOT; };
+		C795D9380CF4831D006CF960 /* JKSynchroScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSynchroScrollView.h; sourceTree = SOURCE_ROOT; };
+		C79618900C0C75BC00D79FAC /* JKTargetObjectProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKTargetObjectProtocol.h; sourceTree = SOURCE_ROOT; };
+		C798C9E808E17B5400C6C7D1 /* DeleteTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteTableView.h; sourceTree = SOURCE_ROOT; };
+		C798C9E908E17B5400C6C7D1 /* DeleteTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteTableView.m; sourceTree = SOURCE_ROOT; };
 		C799B0A70ACAB30D00D4FCA4 /* Identify Compounds.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Identify Compounds.tiff"; sourceTree = "<group>"; };
 		C799B0A80ACAB30D00D4FCA4 /* Identify Peaks.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Identify Peaks.tiff"; sourceTree = "<group>"; };
 		C799B0A90ACAB30D00D4FCA4 /* Identify Baseline.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Identify Baseline.tiff"; sourceTree = "<group>"; };
@@ -395,8 +395,8 @@
 		C79A6152094DBE3A00C0887E /* RBSplitView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RBSplitView.m; sourceTree = "<group>"; };
 		C79A6153094DBE3A00C0887E /* RBSplitViewPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RBSplitViewPrivateDefines.h; sourceTree = "<group>"; };
 		C79CE6240CF3568A00C2D872 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PKGraphical.xib; sourceTree = "<group>"; };
-		C79CE62C0CF356CD00C2D872 /* PKGraphicalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKGraphicalController.h; path = /Users/jkool/Developer/Peacock/trunk/PKGraphicalController.h; sourceTree = "<absolute>"; };
-		C79CE62D0CF356CD00C2D872 /* PKGraphicalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKGraphicalController.m; path = /Users/jkool/Developer/Peacock/trunk/PKGraphicalController.m; sourceTree = "<absolute>"; };
+		C79CE62C0CF356CD00C2D872 /* PKGraphicalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKGraphicalController.h; sourceTree = SOURCE_ROOT; };
+		C79CE62D0CF356CD00C2D872 /* PKGraphicalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKGraphicalController.m; sourceTree = SOURCE_ROOT; };
 		C7A7BB2D0A9DE5D3005E3778 /* library_document.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = library_document.icns; sourceTree = "<group>"; };
 		C7A7BB2E0A9DE5D3005E3778 /* atlas_document.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = atlas_document.icns; sourceTree = "<group>"; };
 		C7A7BB300A9DE5D3005E3778 /* peacock_document.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = peacock_document.icns; sourceTree = "<group>"; };
@@ -419,46 +419,46 @@
 		C7A7BB520A9DE6E0005E3778 /* warning.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = warning.tiff; sourceTree = "<group>"; };
 		C7A7BB530A9DE6E0005E3778 /* layout.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = layout.tiff; sourceTree = "<group>"; };
 		C7A7BB540A9DE6E0005E3778 /* save_document.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = save_document.tiff; sourceTree = "<group>"; };
-		C7AD38AB08B2A0D600A0F4BE /* FilteringDNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FilteringDNDArrayController.h; sourceTree = "<group>"; };
-		C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FilteringDNDArrayController.m; sourceTree = "<group>"; };
+		C7AD38AB08B2A0D600A0F4BE /* FilteringDNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FilteringDNDArrayController.h; sourceTree = SOURCE_ROOT; };
+		C7AD38AC08B2A0D600A0F4BE /* FilteringDNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FilteringDNDArrayController.m; sourceTree = SOURCE_ROOT; };
 		C7B9BA2C0AA881AE00250EFE /* view.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = view.tiff; sourceTree = "<group>"; };
-		C7BB34FC0D1AEE310065B99C /* Errors */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Errors; path = /Users/jkool/Developer/Peacock/trunk/Text/Errors; sourceTree = "<absolute>"; };
-		C7BB96C50CE89D82003049F9 /* ratios.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = ratios.pdf; path = /Users/jkool/Developer/Peacock/trunk/Images/ratios.pdf; sourceTree = "<absolute>"; };
-		C7BC18A60CBBCA5E0037FBA7 /* PKDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKDocumentController.h; sourceTree = "<group>"; };
-		C7BC18A70CBBCA5E0037FBA7 /* PKDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKDocumentController.m; sourceTree = "<group>"; };
-		C7BC19A90CBBE2D20037FBA7 /* PKWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKWindowController.h; sourceTree = "<group>"; };
-		C7BC19AA0CBBE2D20037FBA7 /* PKWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKWindowController.m; sourceTree = "<group>"; };
+		C7BB34FC0D1AEE310065B99C /* Errors */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Errors; path = Text/Errors; sourceTree = SOURCE_ROOT; };
+		C7BB96C50CE89D82003049F9 /* ratios.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = ratios.pdf; sourceTree = "<group>"; };
+		C7BC18A60CBBCA5E0037FBA7 /* PKDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKDocumentController.h; sourceTree = SOURCE_ROOT; };
+		C7BC18A70CBBCA5E0037FBA7 /* PKDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKDocumentController.m; sourceTree = SOURCE_ROOT; };
+		C7BC19A90CBBE2D20037FBA7 /* PKWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKWindowController.h; sourceTree = SOURCE_ROOT; };
+		C7BC19AA0CBBE2D20037FBA7 /* PKWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKWindowController.m; sourceTree = SOURCE_ROOT; };
 		C7BC505109A62C930093106E /* JKLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKLog.h; sourceTree = "<group>"; };
 		C7BC505209A62C930093106E /* JKLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLog.m; sourceTree = "<group>"; };
 		C7BC7CD10CBB91A0006D121C /* ExceptionHandling.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExceptionHandling.framework; path = /System/Library/Frameworks/ExceptionHandling.framework; sourceTree = "<absolute>"; };
-		C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FontNameToDisplayNameTransformer.m; sourceTree = "<group>"; };
-		C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FontNameToDisplayNameTransformer.h; sourceTree = "<group>"; };
-		C7BF0DC70CBE5D15003BEC49 /* JKRatiosController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKRatiosController.h; sourceTree = "<group>"; };
-		C7BF0DC80CBE5D15003BEC49 /* JKRatiosController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKRatiosController.m; sourceTree = "<group>"; };
+		C7BDA6BF0AF8B40E003513C7 /* FontNameToDisplayNameTransformer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FontNameToDisplayNameTransformer.m; sourceTree = SOURCE_ROOT; };
+		C7BDA6C00AF8B40E003513C7 /* FontNameToDisplayNameTransformer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FontNameToDisplayNameTransformer.h; sourceTree = SOURCE_ROOT; };
+		C7BF0DC70CBE5D15003BEC49 /* JKRatiosController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKRatiosController.h; sourceTree = SOURCE_ROOT; };
+		C7BF0DC80CBE5D15003BEC49 /* JKRatiosController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKRatiosController.m; sourceTree = SOURCE_ROOT; };
 		C7C21FC50A5060E2006E82FD /* Peacock.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = Peacock.sdef; sourceTree = "<group>"; };
-		C7C220610BEB831000510B5B /* BooleanToStringTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooleanToStringTransformer.h; sourceTree = "<group>"; };
-		C7C220620BEB831000510B5B /* BooleanToStringTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooleanToStringTransformer.m; sourceTree = "<group>"; };
-		C7C299880B8B48CC0017B2B2 /* ArrayEncodingObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrayEncodingObject.h; sourceTree = "<group>"; };
-		C7C299890B8B48CC0017B2B2 /* ArrayEncodingObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayEncodingObject.m; sourceTree = "<group>"; };
-		C7C2998E0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSKeyedArchiver+CArrayEncoding.h"; sourceTree = "<group>"; };
-		C7C2998F0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSKeyedArchiver+CArrayEncoding.m"; sourceTree = "<group>"; };
-		C7C29ABB0B8B67530017B2B2 /* NSCoder+CArrayEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCoder+CArrayEncoding.h"; sourceTree = "<group>"; };
-		C7C29ABC0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCoder+CArrayEncoding.m"; sourceTree = "<group>"; };
-		C7C588DB0CFD6DD10009CDD9 /* PKPluginProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKPluginProtocol.h; path = /Users/jkool/Developer/Peacock/trunk/PKPluginProtocol.h; sourceTree = "<absolute>"; };
+		C7C220610BEB831000510B5B /* BooleanToStringTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooleanToStringTransformer.h; sourceTree = SOURCE_ROOT; };
+		C7C220620BEB831000510B5B /* BooleanToStringTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooleanToStringTransformer.m; sourceTree = SOURCE_ROOT; };
+		C7C299880B8B48CC0017B2B2 /* ArrayEncodingObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrayEncodingObject.h; sourceTree = SOURCE_ROOT; };
+		C7C299890B8B48CC0017B2B2 /* ArrayEncodingObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayEncodingObject.m; sourceTree = SOURCE_ROOT; };
+		C7C2998E0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSKeyedArchiver+CArrayEncoding.h"; sourceTree = SOURCE_ROOT; };
+		C7C2998F0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSKeyedArchiver+CArrayEncoding.m"; sourceTree = SOURCE_ROOT; };
+		C7C29ABB0B8B67530017B2B2 /* NSCoder+CArrayEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCoder+CArrayEncoding.h"; sourceTree = SOURCE_ROOT; };
+		C7C29ABC0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCoder+CArrayEncoding.m"; sourceTree = SOURCE_ROOT; };
+		C7C588DB0CFD6DD10009CDD9 /* PKPluginProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKPluginProtocol.h; sourceTree = SOURCE_ROOT; };
 		C7C589230CFDC4250009CDD9 /* Default Plugin.peacock-plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Default Plugin.peacock-plugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7C589240CFDC4250009CDD9 /* Default Plugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Default Plugin-Info.plist"; sourceTree = "<group>"; };
 		C7C589340CFDC48D0009CDD9 /* PKDefaultPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKDefaultPlugin.h; sourceTree = "<group>"; };
 		C7C589350CFDC48D0009CDD9 /* PKDefaultPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKDefaultPlugin.m; sourceTree = "<group>"; };
-		C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKGCMSPrintView.h; sourceTree = "<group>"; };
-		C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKGCMSPrintView.m; sourceTree = "<group>"; };
-		C7D4A56C0D2DA8CE00E97AD4 /* PKDefaultPeakDetectionMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKDefaultPeakDetectionMethod.h; path = /Users/jkool/Developer/Peacock/trunk/PKDefaultPeakDetectionMethod.h; sourceTree = "<absolute>"; };
-		C7D4A56D0D2DA8CE00E97AD4 /* PKDefaultPeakDetectionMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKDefaultPeakDetectionMethod.m; path = /Users/jkool/Developer/Peacock/trunk/PKDefaultPeakDetectionMethod.m; sourceTree = "<absolute>"; };
-		C7D4A5D20D2DB9B500E97AD4 /* PKAbundanceSpectraMatchingMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKAbundanceSpectraMatchingMethod.h; path = /Users/jkool/Developer/Peacock/trunk/PKAbundanceSpectraMatchingMethod.h; sourceTree = "<absolute>"; };
-		C7D4A5D30D2DB9B500E97AD4 /* PKAbundanceSpectraMatchingMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKAbundanceSpectraMatchingMethod.m; path = /Users/jkool/Developer/Peacock/trunk/PKAbundanceSpectraMatchingMethod.m; sourceTree = "<absolute>"; };
-		C7D4A5EF0D2E14D100E97AD4 /* PKMZValuesSpectraMatchingMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKMZValuesSpectraMatchingMethod.h; path = /Users/jkool/Developer/Peacock/trunk/PKMZValuesSpectraMatchingMethod.h; sourceTree = "<absolute>"; };
-		C7D4A5F00D2E14D100E97AD4 /* PKMZValuesSpectraMatchingMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKMZValuesSpectraMatchingMethod.m; path = /Users/jkool/Developer/Peacock/trunk/PKMZValuesSpectraMatchingMethod.m; sourceTree = "<absolute>"; };
-		C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+RoundRect.h"; sourceTree = "<group>"; };
-		C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+RoundRect.m"; sourceTree = "<group>"; };
+		C7CFFC750BBC0C290060B0C7 /* JKGCMSPrintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKGCMSPrintView.h; sourceTree = SOURCE_ROOT; };
+		C7CFFC760BBC0C290060B0C7 /* JKGCMSPrintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKGCMSPrintView.m; sourceTree = SOURCE_ROOT; };
+		C7D4A56C0D2DA8CE00E97AD4 /* PKDefaultPeakDetectionMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKDefaultPeakDetectionMethod.h; sourceTree = SOURCE_ROOT; };
+		C7D4A56D0D2DA8CE00E97AD4 /* PKDefaultPeakDetectionMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKDefaultPeakDetectionMethod.m; sourceTree = SOURCE_ROOT; };
+		C7D4A5D20D2DB9B500E97AD4 /* PKAbundanceSpectraMatchingMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKAbundanceSpectraMatchingMethod.h; sourceTree = SOURCE_ROOT; };
+		C7D4A5D30D2DB9B500E97AD4 /* PKAbundanceSpectraMatchingMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKAbundanceSpectraMatchingMethod.m; sourceTree = SOURCE_ROOT; };
+		C7D4A5EF0D2E14D100E97AD4 /* PKMZValuesSpectraMatchingMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKMZValuesSpectraMatchingMethod.h; sourceTree = SOURCE_ROOT; };
+		C7D4A5F00D2E14D100E97AD4 /* PKMZValuesSpectraMatchingMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKMZValuesSpectraMatchingMethod.m; sourceTree = SOURCE_ROOT; };
+		C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+RoundRect.h"; sourceTree = SOURCE_ROOT; };
+		C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+RoundRect.m"; sourceTree = SOURCE_ROOT; };
 		C7E5B1D20A14934200BB2291 /* BDAlias.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BDAlias.h; sourceTree = "<group>"; };
 		C7E5B1D30A14934200BB2291 /* BDAlias.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BDAlias.m; sourceTree = "<group>"; };
 		C7EB17A60898CF2D007FC2ED /* AccessorMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccessorMacros.h; sourceTree = "<group>"; };
@@ -470,38 +470,38 @@
 		C7EB17AC0898CF2E007FC2ED /* CMutableArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMutableArray.m; sourceTree = "<group>"; };
 		C7EB17AE0898CF2E007FC2ED /* libnetcdf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libnetcdf.a; path = Frameworks/libnetcdf.a; sourceTree = "<group>"; };
 		C7EB17AF0898CF2E007FC2ED /* netcdf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = netcdf.h; path = Frameworks/netcdf.h; sourceTree = "<group>"; };
-		C7EB17CE0898CF2E007FC2ED /* JKAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAppDelegate.h; sourceTree = "<group>"; };
-		C7EB17CF0898CF2E007FC2ED /* JKAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAppDelegate.m; sourceTree = "<group>"; };
-		C7EB17D40898CF2E007FC2ED /* JKLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKLibrary.h; sourceTree = "<group>"; };
-		C7EB17D50898CF2E007FC2ED /* JKLibrary.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKLibrary.m; sourceTree = "<group>"; };
-		C7EB17D80898CF2E007FC2ED /* JKLibraryWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKLibraryWindowController.h; sourceTree = "<group>"; };
-		C7EB17D90898CF2E007FC2ED /* JKLibraryWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKLibraryWindowController.m; sourceTree = "<group>"; };
-		C7EB17DC0898CF2E007FC2ED /* JKMainWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKMainWindowController.h; sourceTree = "<group>"; };
-		C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKMainWindowController.m; sourceTree = "<group>"; };
-		C7EB17DE0898CF2E007FC2ED /* JKPanelController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKPanelController.h; sourceTree = "<group>"; };
-		C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKPanelController.m; sourceTree = "<group>"; };
-		C7EB17E80898CF2F007FC2ED /* JKPreferencesWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKPreferencesWindowController.h; sourceTree = "<group>"; };
-		C7EB17E90898CF2F007FC2ED /* JKPreferencesWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKPreferencesWindowController.m; sourceTree = "<group>"; };
-		C7EB17EA0898CF2F007FC2ED /* JKSpectrum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKSpectrum.h; sourceTree = "<group>"; };
-		C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKSpectrum.m; sourceTree = "<group>"; };
+		C7EB17CE0898CF2E007FC2ED /* JKAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKAppDelegate.h; sourceTree = SOURCE_ROOT; };
+		C7EB17CF0898CF2E007FC2ED /* JKAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKAppDelegate.m; sourceTree = SOURCE_ROOT; };
+		C7EB17D40898CF2E007FC2ED /* JKLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKLibrary.h; sourceTree = SOURCE_ROOT; };
+		C7EB17D50898CF2E007FC2ED /* JKLibrary.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKLibrary.m; sourceTree = SOURCE_ROOT; };
+		C7EB17D80898CF2E007FC2ED /* JKLibraryWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKLibraryWindowController.h; sourceTree = SOURCE_ROOT; };
+		C7EB17D90898CF2E007FC2ED /* JKLibraryWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKLibraryWindowController.m; sourceTree = SOURCE_ROOT; };
+		C7EB17DC0898CF2E007FC2ED /* JKMainWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKMainWindowController.h; sourceTree = SOURCE_ROOT; };
+		C7EB17DD0898CF2E007FC2ED /* JKMainWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKMainWindowController.m; sourceTree = SOURCE_ROOT; };
+		C7EB17DE0898CF2E007FC2ED /* JKPanelController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKPanelController.h; sourceTree = SOURCE_ROOT; };
+		C7EB17DF0898CF2E007FC2ED /* JKPanelController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKPanelController.m; sourceTree = SOURCE_ROOT; };
+		C7EB17E80898CF2F007FC2ED /* JKPreferencesWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKPreferencesWindowController.h; sourceTree = SOURCE_ROOT; };
+		C7EB17E90898CF2F007FC2ED /* JKPreferencesWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKPreferencesWindowController.m; sourceTree = SOURCE_ROOT; };
+		C7EB17EA0898CF2F007FC2ED /* JKSpectrum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JKSpectrum.h; sourceTree = SOURCE_ROOT; };
+		C7EB17EB0898CF2F007FC2ED /* JKSpectrum.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKSpectrum.m; sourceTree = SOURCE_ROOT; };
 		C7EB17F00898CFBC007FC2ED /* MolTypes.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = MolTypes.c; sourceTree = "<group>"; };
 		C7EB17F10898CFBC007FC2ED /* MolTypes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MolTypes.h; sourceTree = "<group>"; };
 		C7EB17F20898CFBC007FC2ED /* MolWeight.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MolWeight.h; sourceTree = "<group>"; };
-		C7EB17F40898CFBC007FC2ED /* MWController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MWController.m; path = MolWeight/MWController.m; sourceTree = "<group>"; };
-		C7EB17F50898CFBC007FC2ED /* PKGraphDataSeries.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PKGraphDataSeries.h; sourceTree = "<group>"; };
-		C7EB17F60898CFBC007FC2ED /* PKGraphDataSeries.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PKGraphDataSeries.m; sourceTree = "<group>"; };
+		C7EB17F40898CFBC007FC2ED /* MWController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MWController.m; path = MolWeight/MWController.m; sourceTree = SOURCE_ROOT; };
+		C7EB17F50898CFBC007FC2ED /* PKGraphDataSeries.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PKGraphDataSeries.h; sourceTree = SOURCE_ROOT; };
+		C7EB17F60898CFBC007FC2ED /* PKGraphDataSeries.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PKGraphDataSeries.m; sourceTree = SOURCE_ROOT; };
 		C7EB18060898CFBD007FC2ED /* Parseable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Parseable.h; sourceTree = "<group>"; };
 		C7EB180A0898CFBD007FC2ED /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/License.rtf; sourceTree = "<group>"; };
 		C7EB180D0898CFBD007FC2ED /* periodic.table */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = periodic.table; sourceTree = "<group>"; };
-		C7ECCAA30D2D753100B2DE87 /* PKDefaultBaselineDetectionMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PKDefaultBaselineDetectionMethod.h; path = /Users/jkool/Developer/Peacock/trunk/PKDefaultBaselineDetectionMethod.h; sourceTree = "<absolute>"; };
-		C7ECCAA40D2D753100B2DE87 /* PKDefaultBaselineDetectionMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PKDefaultBaselineDetectionMethod.m; path = /Users/jkool/Developer/Peacock/trunk/PKDefaultBaselineDetectionMethod.m; sourceTree = "<absolute>"; };
-		C7F0D0550B11D9030046F994 /* MWController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MWController.h; path = MolWeight/MWController.h; sourceTree = "<group>"; };
-		C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+Copying.h"; sourceTree = "<group>"; };
-		C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+Copying.m"; sourceTree = "<group>"; };
-		C7F5D0CD0D05794000DCD7C0 /* PKFlipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKFlipView.h; sourceTree = "<group>"; };
-		C7F5D0CE0D05794000DCD7C0 /* PKFlipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKFlipView.m; sourceTree = "<group>"; };
-		C7F5E8F308EAA98600AC1068 /* JKManagedLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKManagedLibraryEntry.h; sourceTree = "<group>"; };
-		C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKManagedLibraryEntry.m; sourceTree = "<group>"; };
+		C7ECCAA30D2D753100B2DE87 /* PKDefaultBaselineDetectionMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKDefaultBaselineDetectionMethod.h; sourceTree = SOURCE_ROOT; };
+		C7ECCAA40D2D753100B2DE87 /* PKDefaultBaselineDetectionMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKDefaultBaselineDetectionMethod.m; sourceTree = SOURCE_ROOT; };
+		C7F0D0550B11D9030046F994 /* MWController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MWController.h; path = MolWeight/MWController.h; sourceTree = SOURCE_ROOT; };
+		C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTableView+Copying.h"; sourceTree = SOURCE_ROOT; };
+		C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTableView+Copying.m"; sourceTree = SOURCE_ROOT; };
+		C7F5D0CD0D05794000DCD7C0 /* PKFlipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKFlipView.h; sourceTree = SOURCE_ROOT; };
+		C7F5D0CE0D05794000DCD7C0 /* PKFlipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKFlipView.m; sourceTree = SOURCE_ROOT; };
+		C7F5E8F308EAA98600AC1068 /* JKManagedLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKManagedLibraryEntry.h; sourceTree = SOURCE_ROOT; };
+		C7F5E8F408EAA98600AC1068 /* JKManagedLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKManagedLibraryEntry.m; sourceTree = SOURCE_ROOT; };
 		C7F8DE130BF0A4B500A34F5D /* flagged_header.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = flagged_header.tiff; sourceTree = "<group>"; };
 		C7F8DE140BF0A4B500A34F5D /* flagged.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = flagged.tiff; sourceTree = "<group>"; };
 		C7F8DE8B0BF0CDED00A34F5D /* AMRemovableTableColumn.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AMRemovableTableColumn.h; sourceTree = "<group>"; };
@@ -688,31 +688,31 @@
 		C75C655E0CFE1A0F003C7700 /* Spotlight */ = {
 			isa = PBXGroup;
 			children = (
-				C75C65670CFE1A24003C7700 /* Sources */,
-				C75C65680CFE1A32003C7700 /* Resources */,
+				C75C65670CFE1A24003C7700 /* Spotlight */,
+				C75C65680CFE1A32003C7700 /* English.lproj */,
 			);
-			name = Spotlight;
-			path = /Users/jkool/Developer/Peacock/trunk/Spotlight;
-			sourceTree = "<absolute>";
+			path = Spotlight;
+			sourceTree = SOURCE_ROOT;
 		};
-		C75C65670CFE1A24003C7700 /* Sources */ = {
+		C75C65670CFE1A24003C7700 /* Spotlight */ = {
 			isa = PBXGroup;
 			children = (
 				C75C65630CFE1A0F003C7700 /* GetMetadataForFile.c */,
 				C75C65640CFE1A0F003C7700 /* main.c */,
+				C75C65660CFE1A0F003C7700 /* schema.xml */,
 			);
-			name = Sources;
-			sourceTree = "<group>";
+			path = Spotlight;
+			sourceTree = SOURCE_ROOT;
 		};
-		C75C65680CFE1A32003C7700 /* Resources */ = {
+		C75C65680CFE1A32003C7700 /* English.lproj */ = {
 			isa = PBXGroup;
 			children = (
 				C75C65710CFE1DA0003C7700 /* Spotlight-Info.plist */,
 				C75C65610CFE1A0F003C7700 /* schema.strings */,
-				C75C65660CFE1A0F003C7700 /* schema.xml */,
 			);
-			name = Resources;
-			sourceTree = "<group>";
+			name = English.lproj;
+			path = Spotlight/English.lproj;
+			sourceTree = SOURCE_ROOT;
 		};
 		C75C675F0CFE2823003C7700 /* Defaults Plugin */ = {
 			isa = PBXGroup;
@@ -892,9 +892,8 @@
 				C78FB7FF0CE9B73400466731 /* ZExpParser.h */,
 				C78FB8000CE9B73400466731 /* ZExpParser.mm */,
 			);
-			name = GCExpressionParser;
-			path = /Users/jkool/Developer/Peacock/trunk/GCExpressionParser;
-			sourceTree = "<absolute>";
+			path = GCExpressionParser;
+			sourceTree = "<group>";
 		};
 		C79A6157094DBE4000C0887E /* RBSplitView */ = {
 			isa = PBXGroup;
@@ -1455,7 +1454,7 @@
 		C7314A390D4640CE0093EB47 /* PKRegister.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C7314A3A0D4640CE0093EB47 /* English */,
+				C7314A3A0D4640CE0093EB47 /* PKRegister.xib */,
 			);
 			name = PKRegister.xib;
 			sourceTree = "<group>";
@@ -1463,7 +1462,7 @@
 		C74A27F20CEE4D4500FFB61F /* JKLibraryPanel.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C74A27F30CEE4D4500FFB61F /* English */,
+				C74A27F30CEE4D4500FFB61F /* JKLibraryPanel.xib */,
 			);
 			name = JKLibraryPanel.xib;
 			sourceTree = "<group>";
@@ -1471,7 +1470,7 @@
 		C74A27F70CEE4E4D00FFB61F /* DisplayOptions.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C74A27F80CEE4E4D00FFB61F /* English */,
+				C74A27F80CEE4E4D00FFB61F /* DisplayOptions.xib */,
 			);
 			name = DisplayOptions.xib;
 			sourceTree = "<group>";
@@ -1479,7 +1478,7 @@
 		C74A27F90CEE4E4D00FFB61F /* JKBatchProcess.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C74A27FA0CEE4E4D00FFB61F /* English */,
+				C74A27FA0CEE4E4D00FFB61F /* JKBatchProcess.xib */,
 			);
 			name = JKBatchProcess.xib;
 			sourceTree = "<group>";
@@ -1487,7 +1486,7 @@
 		C74A27FB0CEE4E4D00FFB61F /* JKGCMSDocument.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C74A27FC0CEE4E4D00FFB61F /* English */,
+				C74A27FC0CEE4E4D00FFB61F /* JKGCMSDocument.xib */,
 			);
 			name = JKGCMSDocument.xib;
 			sourceTree = "<group>";
@@ -1495,7 +1494,7 @@
 		C74A27FD0CEE4E4D00FFB61F /* JKLibrary.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C74A27FE0CEE4E4D00FFB61F /* English */,
+				C74A27FE0CEE4E4D00FFB61F /* JKLibrary.xib */,
 			);
 			name = JKLibrary.xib;
 			sourceTree = "<group>";
@@ -1503,7 +1502,7 @@
 		C74A27FF0CEE4E4D00FFB61F /* JKMainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C74A28000CEE4E4D00FFB61F /* English */,
+				C74A28000CEE4E4D00FFB61F /* JKMainMenu.xib */,
 			);
 			name = JKMainMenu.xib;
 			sourceTree = "<group>";
@@ -1511,7 +1510,7 @@
 		C74A28010CEE4E4D00FFB61F /* JKPanel.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C74A28020CEE4E4D00FFB61F /* English */,
+				C74A28020CEE4E4D00FFB61F /* JKPanel.xib */,
 			);
 			name = JKPanel.xib;
 			sourceTree = "<group>";
@@ -1519,7 +1518,7 @@
 		C74A28030CEE4E4D00FFB61F /* JKPreferences.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C74A28040CEE4E4D00FFB61F /* English */,
+				C74A28040CEE4E4D00FFB61F /* JKPreferences.xib */,
 			);
 			name = JKPreferences.xib;
 			sourceTree = "<group>";
@@ -1527,7 +1526,7 @@
 		C74A28050CEE4E4D00FFB61F /* JKRatios.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C74A28060CEE4E4D00FFB61F /* English */,
+				C74A28060CEE4E4D00FFB61F /* JKRatios.xib */,
 			);
 			name = JKRatios.xib;
 			sourceTree = "<group>";
@@ -1535,7 +1534,7 @@
 		C74A28070CEE4E4D00FFB61F /* JKSummary.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C74A28080CEE4E4D00FFB61F /* English */,
+				C74A28080CEE4E4D00FFB61F /* JKSummary.xib */,
 			);
 			name = JKSummary.xib;
 			sourceTree = "<group>";

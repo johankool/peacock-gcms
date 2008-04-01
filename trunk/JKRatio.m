@@ -11,7 +11,7 @@
 #import "JKGCMSDocument.h"
 #import "JKSummarizer.h"
 #import "JKAppDelegate.h"
-#import "GCMathParser.h"
+#import "GCExpressionParser/GCMathParser.h"
 #import "JKCombinedPeak.h"
 
 @interface JKRatio (Private)
