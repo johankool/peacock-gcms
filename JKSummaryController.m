@@ -332,8 +332,16 @@
             // Attempt to find the peak!       
 #warning Should check if there is an identified peak with this libraryHit first
             
-            [document addChromatogramForModel:[[combinedPeak libraryEntry] model]];
-            JKChromatogram *chromatogram = [document chromatogramForModel:[[combinedPeak libraryEntry] model]];
+            NSString *model = nil;
+            if ([[combinedPeak libraryEntry] model]) {
+                model = [[combinedPeak libraryEntry] model];
+            } else {
+                // If no model is set for the library entry, fetch it elsewhere...
+                model = [[[[combinedPeak peaks] allValues] objectAtIndex:0] model];
+            }
+            [document addChromatogramForModel:model];
+            JKChromatogram *chromatogram = [document chromatogramForModel:model];
+            NSAssert(chromatogram, @"No chromatogram for requested model returned.");
             [chromatogram detectPeaksAndReturnError:nil];
             [chromatogramsController setSelectedObjects:[NSArray arrayWithObject:chromatogram]];
             // Find peak closest to averageRetentionTime
