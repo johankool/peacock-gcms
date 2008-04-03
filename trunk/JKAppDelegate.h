@@ -68,6 +68,7 @@
 - (void)loadLibraryForConfiguration:(NSString *)configuration;
 - (BOOL)shouldLoadLibrary:(NSString *)fileName forConfiguration:(NSString *)configuration;
 - (JKManagedLibraryEntry *)addLibraryEntryBasedOnPeak:(JKPeakRecord *)aPeak;
+- (JKManagedLibraryEntry *)addLibraryEntryBasedOnJCAMPString:(NSString *)jcampString;
 - (JKManagedLibraryEntry *)libraryEntryForName:(NSString *)compoundString;
 
 - (IBAction)editLibrary:(id)sender;

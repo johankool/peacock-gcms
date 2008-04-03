@@ -636,8 +636,35 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
     } else {
         return nil;
     }
-
 }
+
+- (JKManagedLibraryEntry *)addLibraryEntryBasedOnJCAMPString:(NSString *)jcampString
+{
+    NSString *path = nil;
+    JKManagedLibraryEntry *libEntry = nil;
+
+    libEntry = [NSEntityDescription insertNewObjectForEntityForName:@"JKManagedLibraryEntry" inManagedObjectContext:[library managedObjectContext]];
+    NSString *defaultLibrary = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibraryForNewEntries"];
+    NSArray *searchpaths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    if ([searchpaths count] > 0) {
+        // look for the Peacock support folder (and create if not there)
+        path = [[[[searchpaths objectAtIndex:0] stringByAppendingPathComponent: SUPPORT_FOLDER_NAME] stringByAppendingPathComponent: LIBRARY_FOLDER_NAME] stringByAppendingPathComponent:[defaultLibrary stringByAppendingPathExtension:LIBRARY_EXTENSION]];
+    } else {
+        return nil;
+    }      
+    JKLogInfo(@"Saving new library entry to %@", path);
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        id persistentStore = [[[library managedObjectContext] persistentStoreCoordinator] persistentStoreForURL:[NSURL fileURLWithPath:path]];
+        if (persistentStore) {
+            [[library managedObjectContext] assignObject:libEntry toPersistentStore:persistentStore];            
+        }
+    } else {
+        JKLogError(@"Saving new library entry to '%@' failed. No such library exists.", path);
+    }
+    [libEntry setJCAMPString:jcampString];
+    return libEntry;     
+}
+
 - (IBAction)editLibrary:(id)sender {
     [self loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"libraryConfiguration"]];
     if (![[[NSDocumentController sharedDocumentController] documents] containsObject:[self library]]) {        
