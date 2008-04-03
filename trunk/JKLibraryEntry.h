@@ -47,7 +47,7 @@
 - (id)initWithJCAMPString:(NSString *)inString;
 - (NSString *)jcampString;
 - (NSNumber *)calculateMassWeight:(NSString *)inString;
-
+- (BOOL)validateCASNumber:(id *)ioValue error:(NSError **)outError;
 - (NSUndoManager *)undoManager;
 
 - (BOOL)isCompound:(NSString *)compoundString;
