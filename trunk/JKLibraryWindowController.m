@@ -252,7 +252,7 @@
         *outError = error;
         return NO;
     }
-    fixedString = [NSString stringWithFormat:@"%d-%d-%d", first_part, second_part, expected];
+    fixedString = [NSString stringWithFormat:@"%d-%02d-%1d", first_part, second_part, expected];
     *ioValue = fixedString;
     return YES;
 }
