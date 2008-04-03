@@ -30,7 +30,11 @@ version 0.26 (or later):
 
 FIXED BUGS:
 -----------
- 
+
+version 0.26:
+- Fixed bug where some files failed to open under certain conditions
+- Double clicking in Summary on empty cell would fail if the model of the library entry was not set, now falls back to model of first peak
+
 version 0.25:
 - Deleting chromatograms and peaks now works properly again
 - Chromatograms for mass values "100-101" and "100+101" now properly seen as the same

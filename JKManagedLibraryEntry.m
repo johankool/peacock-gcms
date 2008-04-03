@@ -1150,9 +1150,8 @@
 		int version = [coder decodeIntForKey:@"version"];
 		needDatapointsRefresh = YES;
 		if (version >= 2) {
-            [self setJCAMPString:[coder decodeObjectForKey:@"jcampString"]];
-			return self;
-		} else  {
+            return [[NSApp delegate] addLibraryEntryBasedOnJCAMPString:[coder decodeObjectForKey:@"jcampString"]];
+        } else  {
             return nil;
 		}
      } 
