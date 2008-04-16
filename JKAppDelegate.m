@@ -488,6 +488,7 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
 - (void)loadLibraryForConfiguration:(NSString *)configuration
 {
     if ([libraryConfigurationLoaded isEqualToString:configuration]) {
+        JKLogDebug(@"Loading configuration %@ ignored (already current configuration)",configuration);
     	return;
     }
         
@@ -543,23 +544,24 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
             }
         }
         
-        // set up the path for the "CoreRecipes.crx" file
-        if (count == 0) {            
-            JKLogWarning(@"No libraries found.");
-            NSPersistentStoreCoordinator *psc = [[library managedObjectContext] persistentStoreCoordinator];
-            if (![psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:@"Default.peacock-library"]] options:nil error:nil]) {
-                JKLogError(@"Default Library could not be created.");
-            } else {
-                [availableDictionaries addObject:[NSDictionary dictionaryWithObjectsAndKeys:[path stringByAppendingPathComponent:@"Default.peacock-library"], @"path", @"Default", @"name", nil]];
-                JKLogInfo(@"Loaded Library Default");
-                loadedCount++;
+        if (![configuration isEqualToString:@""]) { // Empty string used to force reload, but should not load anything or cause creation of default library
+            if (count == 0) {            
+                JKLogWarning(@"No libraries found.");
+                NSPersistentStoreCoordinator *psc = [[library managedObjectContext] persistentStoreCoordinator];
+                if (![psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:@"Default.peacock-library"]] options:nil error:nil]) {
+                    JKLogError(@"Default Library could not be created.");
+                } else {
+                    [availableDictionaries addObject:[NSDictionary dictionaryWithObjectsAndKeys:[path stringByAppendingPathComponent:@"Default.peacock-library"], @"path", @"Default", @"name", nil]];
+                    JKLogInfo(@"Loaded Library Default");
+                    loadedCount++;
+                }
             }
+            if (loadedCount == 0 && ![configuration isEqualToString:@"None"]) { 
+                NSRunAlertPanel(NSLocalizedString(@"No Libraries could be opened or created",@""),NSLocalizedString(@"This is not good. Identifying compounds isn't going to work.",@""),@"OK, I guess...",nil,nil);
+            }        
         }
-        if (loadedCount == 0 && ![configuration isEqualToString:@"None"]) { 
-            NSRunAlertPanel(NSLocalizedString(@"No Libraries could be opened or created",@""),NSLocalizedString(@"This is not good. Identifying compounds isn't going to work.",@""),@"OK, I guess...",nil,nil);
-        }        
-     }
-    
+    }        
+        
     // Store configuration
     [libraryConfigurationLoaded release];
     [configuration retain];
@@ -680,8 +682,9 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
 - (JKManagedLibraryEntry *)libraryEntryForName:(NSString *)compoundString {
 //    int result = 0;
 //    JKManagedLibraryEntry *foundLibEntry;
-
-    for (JKManagedLibraryEntry *managedLibEntry in [library libraryEntries]) {
+    NSArray *libraryEntries = [library libraryEntries];
+    
+    for (JKManagedLibraryEntry *managedLibEntry in libraryEntries) {
     	if ([managedLibEntry isCompound:compoundString]) {
             return managedLibEntry;
 //            foundLibEntry = managedLibEntry;

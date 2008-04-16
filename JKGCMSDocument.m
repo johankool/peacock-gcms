@@ -1290,6 +1290,7 @@ int const JKGCMSDocument_Version = 7;
     [spectraMatchingObject cleanUpAfterAction];
     
     // Restore default library (otherwise dragging from libpanel doesn't work)
+    [(JKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:@""];
     [(JKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
 //    _isBusy = NO;
 	return YES;

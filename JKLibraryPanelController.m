@@ -12,6 +12,7 @@
 #import "JKManagedLibraryEntry.h"
 #import "PKGraphView.h"
 #import "PKSpectrumDataSeries.h"
+#import "JKAppDelegate.h"
 
 static JKLibraryPanelController *theSharedController;
 
@@ -132,8 +133,10 @@ static JKLibraryPanelController *theSharedController;
 }
 #pragma mark -
 
-- (JKLibrary *)library {
-    return [[NSApp delegate] library];
+- (IBAction)reloadLibrary:(id)sender
+{
+    [(JKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:@""]; // force empty
+    [(JKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"libraryConfiguration"]];
 }
 
 @synthesize spectrumViewDataseriesController;

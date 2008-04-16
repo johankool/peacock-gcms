@@ -18,7 +18,7 @@
 	IBOutlet JKMoleculeView *moleculeView;
     IBOutlet NSTextField *casNumberField;
     IBOutlet NSWindow *addCasNumberSheet;
-    
+    IBOutlet NSScrollView *detailsScrollView;
     BOOL showNormalizedSpectra;
 }
 
