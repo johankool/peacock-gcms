@@ -47,6 +47,9 @@
     [moleculeView bind:@"moleculeString" toObject: libraryController
 		   withKeyPath:@"selection.molString" options:nil];
     
+    [[detailsScrollView contentView] scrollToPoint:NSMakePoint(0.0f,1000.0f)];
+
+    
 //    [tableView registerForDraggedTypes:[NSArray arrayWithObjects:@"JKLibraryEntryTableViewDataType", nil]]; 
 }
 
@@ -268,7 +271,12 @@
     return [[self document] undoManager];
 }
 #pragma mark -
-
+- (NSArray *)datapointsSortDescriptors {
+    return [NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"mass" ascending:YES] autorelease]];
+}
+- (void)setDatapointsSortDescriptors:(id)something {
+    // ignored!
+}
 #pragma mark Drag-'n-drop
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard
 {

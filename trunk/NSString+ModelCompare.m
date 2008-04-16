@@ -28,13 +28,13 @@
         return @"TIC";
     }
     
-    self = [self stringByTrimmingCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+"] invertedSet]];
+    NSString *trimmedString = [self stringByTrimmingCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+"] invertedSet]];
     if ([self isEqualToString:@""]) {
         return @"";
     }
     
     // Find out how many values are covered
-	NSArray *mzValuesPlus = [self componentsSeparatedByString:@"+"];
+	NSArray *mzValuesPlus = [trimmedString componentsSeparatedByString:@"+"];
     NSArray *mzValuesMin = nil;
     mzValuesCount = [mzValuesPlus count];
     mzValuesCountPlus = mzValuesCount;

@@ -23,6 +23,7 @@
 + (JKLibraryPanelController *) sharedController;
 - (IBAction)showInspector:(id)sender;
 - (JKLibrary *)library;
+- (IBAction)reloadLibrary:(id)sender;
 
 @property (retain) PKGraphView *spectrumView;
 @property (retain) NSTableView *tableView;

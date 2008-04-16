@@ -66,7 +66,8 @@
 
 - (IBAction)reloadLibrary:(id)sender
 {
-    [(JKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
+    [(JKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:@""]; // force empty
+    [(JKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"libraryConfiguration"]];
 }
 
 #pragma mark TOOLBAR
