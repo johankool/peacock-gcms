@@ -1,14 +1,7 @@
 #!/bin/sh
 cd "`dirname \"$0\"`"
 
-echo "Peacock Release Note Generator"
-
-# Check status
-echo
-echo "Checking status working directory"
-svn status
-echo
-read -p "Press enter key to continue when done..."
+echo "Peacock Release Script"
 
 # Update to latest build
 echo
@@ -38,7 +31,8 @@ NEXTSUBVERSIONVERSION=$((SUBVERSIONVERSION+1))
 echo "	Version $VERSION ($NEXTSUBVERSIONVERSION) ("`date "+%a, %e %b %Y %H:%M"`")"
 echo
 echo "	Changes in this build:"
-svn log -r $PREVIOUSSUBVERSIONVERSION:$SUBVERSIONVERSION --incremental | grep -e "\[" | sed 's/^/	- /'
+svn log -r $PREVIOUSSUBVERSIONVERSION:$SUBVERSIONVERSION --incremental > temp_release_notes
+echo < temp_release_notes | grep -e "\[" | sed 's/^/	- /'
 echo
 open -e English.lproj/Credits.rtf
 echo "Copy the text above to Credits.rtf"
@@ -73,10 +67,12 @@ echo "Next click 'Package DMG'"
 echo
 read -p "Press enter key to continue when done..."
 
+#dmgcanvas -t Peacock.dmgCanvas -o ~/Releases/Peacock-releases/Peacock_$VERSION.dmg
+
 # Rename file and get some info
-mv /Users/jkool/Developer/Releases/Peacock\ releases/Peacock_release.dmg /Users/jkool/Developer/Releases/Peacock\ releases/Peacock_$VERSION.dmg
-MD5=`md5 /Users/jkool/Developer/Releases/Peacock\ releases/Peacock_$VERSION.dmg | sed 's/^.*= //'`
-LENGTH=`ls -l /Users/jkool/Developer/Releases/Peacock\ releases/Peacock_$VERSION.dmg | sed 's/.* jkool *//' | sed 's/ .*//'`
+mv ~/Developer/Releases/Peacock-releases/Peacock_release.dmg ~/Developer/Releases/Peacock-releases/Peacock_$VERSION.dmg
+MD5=`md5 ~/Developer/Releases/Peacock-releases/Peacock_$VERSION.dmg | sed 's/^.*= //'`
+LENGTH=`ls -l ~/Developer/Releases/Peacock-releases/Peacock_$VERSION.dmg | sed 's/.* jkool *//' | sed 's/ .*//'`
 
 # Upload to website
 echo
@@ -84,7 +80,7 @@ echo "Launching Transmit"
 open -a /Applications/Transmit.app
 echo
 echo "Upload file to website."
-open /Users/jkool/Developer/Releases/Peacock\ releases/
+open ~/Developer/Releases/Peacock-releases/
 echo
 read -p "Press enter key to continue when done..."
 
