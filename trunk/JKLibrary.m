@@ -74,6 +74,12 @@
                 // No persistent store could be created, so we fail here
                 return NO;
             }
+            
+//            
+//            if (saveOperation == NSSaveOperation) {
+//                saveOperation = NSSaveAsOperation;
+//            }
+            
             // Call super, but set absoluteOriginalContentsURL to nil to avoid exception that there is none at that url
             return [super writeToURL:absoluteURL ofType:typeName forSaveOperation:saveOperation originalContentsURL:nil error:error];
         }
