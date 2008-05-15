@@ -138,7 +138,13 @@
 		if ([theScanner scanString:@"##CAS REGISTRY NO=" intoString:NULL]) {
             scannedString = @"";
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
-			[self setCASNumber:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
+            NSString *cas = [scannedString stringByTrimmingCharactersInSet:whiteCharacters];
+            NSError *error;
+            if ([self validateCASNumber:&cas error:&error]){
+                [self setCASNumber:cas];
+            } else {
+                JKLogWarning(@"Invalid CAS Number: %@, not imported.", cas);                
+            }
 		} else {
 		}
 
@@ -1017,7 +1023,7 @@
 
 #pragma mark Validation
 - (BOOL)validateCASNumber:(id *)ioValue error:(NSError **)outError {
-    if (*ioValue == nil) {
+    if (*ioValue == nil || [*ioValue isEqualToString:@""]) {
         return YES;
     }
     
@@ -1044,9 +1050,10 @@
         }
     }
     
-    int first_length = [[parts objectAtIndex:0] length];
-    int second_length = [[parts objectAtIndex:1] length];
-    int third_length = [[parts objectAtIndex:2] length];
+    // converting to int and back to string to get rid of preceding zeroes etc.
+    int first_length = [[NSString stringWithFormat:@"%d", [[parts objectAtIndex:0] intValue]] length];
+    int second_length = [[NSString stringWithFormat:@"%d", [[parts objectAtIndex:1] intValue]] length];
+    int third_length = [[NSString stringWithFormat:@"%d", [[parts objectAtIndex:2] intValue]] length];
     
     // max 7, min 2 digits before 1st hyphen
     if (first_length < 2) {
