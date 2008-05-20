@@ -15,6 +15,7 @@
     IBOutlet NSOutlineView *documentTableView;
     NSMutableArray *managedDocuments;
     NSArray *_specials;
+    IBOutlet NSImageView *splitterView;
 }
 
 - (NSWindow *)window;
