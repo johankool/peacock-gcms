@@ -10,6 +10,7 @@
 #import "JKGCMSDocument.h"
 #import "JKSeparatorCell.h"
 #import "JKImageTextCell.h"
+#import "RBSplitView.h"
 
 @implementation PKDocumentController
 - (id) init {
@@ -25,6 +26,10 @@
     [documentTableView expandItem:managedDocuments];
     [documentTableView expandItem:_specials];
     [documentTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[documentTableView rowForItem:[_specials objectAtIndex:0]]] byExtendingSelection:NO];
+    
+    // Drag and drop
+	[documentTableView registerForDraggedTypes:[NSArray arrayWithObjects:@"PKDocumentEntryType", nil]];
+
 }
 
 - (void)dealloc
@@ -173,13 +178,14 @@
         if ([item isKindOfClass:[NSString class]]) {
             return item;
         }
-        return [item displayName];
-    } else  {
-         if ([item isKindOfClass:[JKGCMSDocument class]]) {
-             return [item valueForKey:[tableColumn identifier]];  
-        } else {
-            return @"";
+        
+        if ([item isKindOfClass:[JKGCMSDocument class]]) {
+            return [NSString stringWithFormat:@"%@ - %@ - %@", [item displayName], [item valueForKey:@"sampleCode"], [item valueForKey:@"sampleDescription"]];  
         }
+        
+        return @"";
+    } else  {
+        return @"";
     }
 }
 
@@ -212,6 +218,85 @@
         [documentTabView selectTabViewItemWithIdentifier:item];     
         [[NSNotificationCenter defaultCenter] postNotificationName:NSWindowDidBecomeMainNotification object:window];
     }
+}
+
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard {
+    if (outlineView == documentTableView) {
+        if ([items count] < 1) {
+            return NO;
+        }
+        NSMutableIndexSet *indexes = [[NSMutableIndexSet alloc] init];
+        for (id item in items) {
+            if (![[self managedDocuments] containsObject:item]) {
+                return NO;
+            } else {
+                [indexes addIndex:[[self managedDocuments] indexOfObject:item]];
+            }
+        }
+                
+        // declare our own pasteboard types
+        [pboard declareTypes:[NSArray arrayWithObject:@"PKDocumentEntryType"] owner:self];
+        
+        NSMutableData *data = [NSMutableData data];
+        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+        [archiver encodeObject:indexes forKey:@"PKDocumentEntryType"];
+        [archiver finishEncoding];
+        [archiver release];
+        
+        [pboard setData:data forType:@"PKDocumentEntryType"];
+        
+        return YES;
+    }
+}
+
+- (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id < NSDraggingInfo >)info proposedItem:(id)item proposedChildIndex:(NSInteger)index {
+    if (item == managedDocuments && index >= 0 && index < [managedDocuments count]) {
+        return NSDragOperationMove;
+    }
+    return NSDragOperationNone;
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id < NSDraggingInfo >)info item:(id)item childIndex:(NSInteger)index {
+    if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:@"PKDocumentEntryType"]]) {
+        NSData *data = [[info draggingPasteboard] dataForType:@"PKDocumentEntryType"];
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+        NSIndexSet *indexes = [unarchiver decodeObjectForKey:@"PKDocumentEntryType"];
+        [unarchiver finishDecoding];
+        [unarchiver release];
+        
+        NSArray *movedObjects = [managedDocuments objectsAtIndexes:indexes];
+        [managedDocuments removeObjectsAtIndexes:indexes];
+        
+        for (id movedObject in movedObjects) {
+            [managedDocuments insertObject:movedObject atIndex:index];
+            index++;
+        }
+        
+        id currentSelection = [outlineView itemAtRow:[outlineView selectedRow]];
+        [outlineView reloadItem:managedDocuments reloadChildren:YES];
+        [outlineView selectRow:[outlineView rowForItem:currentSelection] byExtendingSelection:NO];
+
+        return YES;
+    }
+    return NO;
+}
+
+//- (NSRect)splitView:(RBSplitView*)sender cursorRect:(NSRect)rect forDivider:(unsigned int)divider {
+//    JKLogEnteringMethod();
+//  //  return [splitterView frame];
+//}
+
+- (unsigned int)splitView:(RBSplitView*)sender dividerForPoint:(NSPoint)point inSubview:(RBSplitSubview*)subview {
+    JKLogEnteringMethod();
+    if (NSPointInRect(point, [splitterView frame])) {
+        return 1;
+    }
+        return NSNotFound;
+}
+
+- (NSRect)splitView:(NSSplitView *)splitView additionalEffectiveRectOfDividerAtIndex:(NSInteger)dividerIndex {
+    return [splitterView frame];
 }
 
 - (IBAction)showSummary:(id)sender {
