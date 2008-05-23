@@ -37,10 +37,12 @@
         totalIntensity = (float *) malloc(1*sizeof(float));
 
         peaks = [[NSMutableArray alloc] init];
+        baselinePoints = [[NSMutableArray alloc] init];
+        
         baselinePointsCount = 0;
         baselinePointsScans = (int *) malloc(sizeof(int));
         baselinePointsIntensities = (float *) malloc(sizeof(float));
-
+        _baselinePointsCacheUpToDate = NO;
     }
     return self;
 }
@@ -80,10 +82,10 @@
             // Restore method settings
             [object setSettings:[[self document] baselineDetectionSettingsForMethod:baselineDetectionMethod]];
             [object prepareForAction];
-            NSArray *newBaseline = [object baselineForChromatogram:self error:error];
+            NSMutableArray *newBaseline = [[object baselineForChromatogram:self error:error] mutableCopy];
             [object cleanUpAfterAction];
             if (newBaseline) {
-                [self setBaseline:newBaseline];
+                [self setBaselinePoints:newBaseline];
                 // Save method settings on success
                 [[self document] setBaselineDetectionSettings:[object settings] forMethod:baselineDetectionMethod];
                 return YES;
@@ -304,6 +306,9 @@
 
 - (float)baselineValueAtScan:(int)inValue {
     NSAssert(inValue >= 0, @"Scan must be equal or larger than zero");
+    if (!_baselinePointsCacheUpToDate)
+        [self cacheBaselinePoints];
+    
 	int i = 0;
 	float lowestScan, lowestInten, highestScan, highestInten;
 	
@@ -330,6 +335,10 @@
 
 - (int)baselinePointsIndexAtScan:(int)inValue {
     NSAssert(inValue >= 0, @"Scan must be equal or larger than zero");
+    
+    if (!_baselinePointsCacheUpToDate)
+        [self cacheBaselinePoints];
+    
 	int i = 0;
 	
 	while (inValue > baselinePointsScans[i] && i < baselinePointsCount) {
@@ -339,19 +348,34 @@
 	return i; 
 }
 
-- (void)addBaselinePoint:(NSDictionary *)aPoint {
-    int scan = [[aPoint valueForKey:@"Scan"] intValue];
-    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
-    float intensity = [[aPoint valueForKey:@"Total Intensity"] floatValue];
-    
-    NSDictionary *baselinePoint = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:scan], @"scan", [NSNumber numberWithFloat:intensity], @"intensity", nil];
-    
-    int placeToInsert = [self baselinePointsIndexAtScan:scan];
-    NSMutableArray *currentBaseline = [self baseline];
-    [currentBaseline insertObject:baselinePoint atIndex:placeToInsert];
-    [self setBaseline:currentBaseline];
-    
+- (void)cacheBaselinePoints {
+    baselinePointsCount = [self countOfBaselinePoints];
+    baselinePointsScans = (int *) realloc(baselinePointsScans, baselinePointsCount*sizeof(int));
+    baselinePointsIntensities = (float *) realloc(baselinePointsIntensities, baselinePointsCount*sizeof(float));
+ 
+    int i;
+    NSDictionary *baselinePoint;
+    for (i = 0; i < baselinePointsCount; i++) {
+        baselinePoint = [[self baselinePoints] objectAtIndex:i];
+        baselinePointsScans[i] = [[baselinePoint valueForKey:@"scan"] intValue];
+        baselinePointsIntensities[i] = [[baselinePoint valueForKey:@"intensity"] floatValue];
+    }
+    _baselinePointsCacheUpToDate = YES;
 }
+
+//- (void)addBaselinePoint:(NSDictionary *)aPoint {
+//    int scan = [[aPoint valueForKey:@"Scan"] intValue];
+//    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
+//    float intensity = [[aPoint valueForKey:@"Total Intensity"] floatValue];
+//    
+//    NSDictionary *baselinePoint = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:scan], @"scan", [NSNumber numberWithFloat:intensity], @"intensity", nil];
+//    
+//    int placeToInsert = [self baselinePointsIndexAtScan:scan];
+//    NSMutableArray *currentBaseline = [self baseline];
+//    [currentBaseline insertObject:baselinePoint atIndex:placeToInsert];
+//    [self setBaseline:currentBaseline];
+//    
+//}
 
 //- (void)identifyPeaks
 //{
@@ -715,15 +739,16 @@
             [super encodeWithCoder:coder];        
         } 
 
-		[coder encodeInt:2 forKey:@"version"];
+		[coder encodeInt:3 forKey:@"version"];
 		[coder encodeObject:model forKey:@"model"];
         [coder encodeObject:peaks forKey:@"peaks"];
         
         [coder encodeFloatArray:time withCount:numberOfPoints forKey:@"time"];
         [coder encodeFloatArray:totalIntensity withCount:numberOfPoints forKey:@"totalIntensity"];
         
-        [coder encodeIntArray:baselinePointsScans withCount:baselinePointsCount forKey:@"baselinePointsScans"];
-        [coder encodeFloatArray:baselinePointsIntensities withCount:baselinePointsCount forKey:@"baselinePointsIntensities"];
+        [coder encodeObject:baselinePoints forKey:@"baselinePoints"];
+//        [coder encodeIntArray:baselinePointsScans withCount:baselinePointsCount forKey:@"baselinePointsScans"];
+//        [coder encodeFloatArray:baselinePointsIntensities withCount:baselinePointsCount forKey:@"baselinePointsIntensities"];
     } else {
         [NSException raise:NSInvalidArchiveOperationException
                     format:@"Only supports NSKeyedArchiver coders"];
@@ -772,7 +797,7 @@
             baselinePointsIntensities = (float *) malloc(2*sizeof(float));
 //            baselinePoints = [[coder decodeObjectForKey:@"baselinePoints"] retain];
 
-        } else {
+        } else if (version == 2) {
             unsigned int length;
   
             time = [coder decodeFloatArrayForKey:@"time" returnedCount:&length];
@@ -784,6 +809,20 @@
             baselinePointsCount = length;
             
             baselinePointsIntensities = [coder decodeFloatArrayForKey:@"baselinePointsIntensities" returnedCount:&length];           
+        } else {
+            unsigned int length;
+            
+            time = [coder decodeFloatArrayForKey:@"time" returnedCount:&length];
+            numberOfPoints = length;
+            
+            totalIntensity = [coder decodeFloatArrayForKey:@"totalIntensity" returnedCount:&length];
+
+            baselinePoints = [[coder decodeObjectForKey:@"baselinePoints"] retain];
+            
+            // just so these get malloced, used as cache otherwise
+            baselinePointsScans = (int *) malloc(2*sizeof(int));
+            baselinePointsIntensities = (float *) malloc(2*sizeof(float));
+
         }
  	} 
     return self;
@@ -845,80 +884,80 @@
 }
 
 // Baseline points
-- (NSArray *)baseline {
-    NSMutableArray *baselineArray = [[NSMutableArray alloc] initWithCapacity:baselinePointsCount];
-    NSDictionary *baselinePoint;
-    for (int i = 0; i < baselinePointsCount; i++) {
-        baselinePoint = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:baselinePointsScans[i]], @"scan", [NSNumber numberWithFloat:baselinePointsIntensities[i]], @"intensity", nil];
-        [baselineArray addObject:baselinePoint];
-        [baselinePoint release];
-    }
-    return [baselineArray autorelease];
-}
-
-- (void)setBaseline:(NSArray *)newBaseline {
-    [self willChangeValueForKey:@"baseline"];
-    baselinePointsCount = [newBaseline count];
-    baselinePointsScans = (int *) realloc(baselinePointsScans, baselinePointsCount*sizeof(int));
-    baselinePointsIntensities = (float *) realloc(baselinePointsIntensities, baselinePointsCount*sizeof(float));
- 
-    int i;
-    NSDictionary *baselinePoint;
-    for (i = 0; i < baselinePointsCount; i++) {
-        baselinePoint = [newBaseline objectAtIndex:i];
-        baselinePointsScans[i] = [[baselinePoint valueForKey:@"scan"] intValue];
-        baselinePointsIntensities[i] = [[baselinePoint valueForKey:@"intensity"] floatValue];
-    }
-    [self didChangeValueForKey:@"baseline"];
-}
-
-- (int)baselinePointsCount 
-{
-    return baselinePointsCount;
-}
-
-- (int *)baselinePointsScans
-{
-    return baselinePointsScans;
-}
-- (void)setBaselinePointsScans:(int *)inArray withCount:(int)inValue 
-{
-    baselinePointsCount = inValue;
-    baselinePointsScans = (int *) realloc(baselinePointsScans, baselinePointsCount*sizeof(int));
-    memcpy(baselinePointsScans, inArray, baselinePointsCount*sizeof(int));
-}
-
-- (float *)baselinePointsIntensities 
-{
-    return baselinePointsIntensities;
-}
-- (void)setBaselinePointsIntensities:(float *)inArray withCount:(int)inValue {
-    baselinePointsCount = inValue;
-    baselinePointsIntensities = (float *) realloc(baselinePointsIntensities, baselinePointsCount*sizeof(float));
-    memcpy(baselinePointsIntensities, inArray, baselinePointsCount*sizeof(float));
-}
-
-- (void)insertObject:(NSMutableDictionary *)aBaselinePoint inBaselinePointsAtIndex:(int)index
-{
-    int i, newCount = baselinePointsCount+1;
-    int newScans[newCount];
-    float newIntensities[newCount];
-    
-    for (i=0; i<index; i++) {
-        newScans[i] = baselinePointsScans[i];
-        newIntensities[i] = baselinePointsIntensities[i];
-    }
-    newScans[index] = [[aBaselinePoint valueForKey:@"Scan"] intValue];
-    newIntensities[index] = [[aBaselinePoint valueForKey:@"Total Intensity"] floatValue];
-    if (newCount > index) {
-        for (i= index+1; i<newCount; i++) {
-            newScans[i] = baselinePointsScans[i-1];
-            newIntensities[i] = baselinePointsIntensities[i-1];
-        }
-    }
-    [self setBaselinePointsScans:newScans withCount:newCount];
-    [self setBaselinePointsIntensities:newIntensities withCount:newCount];
-}
+//- (NSArray *)baseline {
+//    NSMutableArray *baselineArray = [[NSMutableArray alloc] initWithCapacity:baselinePointsCount];
+//    NSDictionary *baselinePoint;
+//    for (int i = 0; i < baselinePointsCount; i++) {
+//        baselinePoint = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:baselinePointsScans[i]], @"scan", [NSNumber numberWithFloat:baselinePointsIntensities[i]], @"intensity", nil];
+//        [baselineArray addObject:baselinePoint];
+//        [baselinePoint release];
+//    }
+//    return [baselineArray autorelease];
+//}
+//
+//- (void)setBaseline:(NSArray *)newBaseline {
+//    [self willChangeValueForKey:@"baseline"];
+//    baselinePointsCount = [newBaseline count];
+//    baselinePointsScans = (int *) realloc(baselinePointsScans, baselinePointsCount*sizeof(int));
+//    baselinePointsIntensities = (float *) realloc(baselinePointsIntensities, baselinePointsCount*sizeof(float));
+// 
+//    int i;
+//    NSDictionary *baselinePoint;
+//    for (i = 0; i < baselinePointsCount; i++) {
+//        baselinePoint = [newBaseline objectAtIndex:i];
+//        baselinePointsScans[i] = [[baselinePoint valueForKey:@"scan"] intValue];
+//        baselinePointsIntensities[i] = [[baselinePoint valueForKey:@"intensity"] floatValue];
+//    }
+//    [self didChangeValueForKey:@"baseline"];
+//}
+//
+//- (int)baselinePointsCount 
+//{
+//    return baselinePointsCount;
+//}
+//
+//- (int *)baselinePointsScans
+//{
+//    return baselinePointsScans;
+//}
+//- (void)setBaselinePointsScans:(int *)inArray withCount:(int)inValue 
+//{
+//    baselinePointsCount = inValue;
+//    baselinePointsScans = (int *) realloc(baselinePointsScans, baselinePointsCount*sizeof(int));
+//    memcpy(baselinePointsScans, inArray, baselinePointsCount*sizeof(int));
+//}
+//
+//- (float *)baselinePointsIntensities 
+//{
+//    return baselinePointsIntensities;
+//}
+//- (void)setBaselinePointsIntensities:(float *)inArray withCount:(int)inValue {
+//    baselinePointsCount = inValue;
+//    baselinePointsIntensities = (float *) realloc(baselinePointsIntensities, baselinePointsCount*sizeof(float));
+//    memcpy(baselinePointsIntensities, inArray, baselinePointsCount*sizeof(float));
+//}
+//
+//- (void)insertObject:(NSMutableDictionary *)aBaselinePoint inBaselinePointsAtIndex:(int)index
+//{
+//    int i, newCount = baselinePointsCount+1;
+//    int newScans[newCount];
+//    float newIntensities[newCount];
+//    
+//    for (i=0; i<index; i++) {
+//        newScans[i] = baselinePointsScans[i];
+//        newIntensities[i] = baselinePointsIntensities[i];
+//    }
+//    newScans[index] = [[aBaselinePoint valueForKey:@"Scan"] intValue];
+//    newIntensities[index] = [[aBaselinePoint valueForKey:@"Total Intensity"] floatValue];
+//    if (newCount > index) {
+//        for (i= index+1; i<newCount; i++) {
+//            newScans[i] = baselinePointsScans[i-1];
+//            newIntensities[i] = baselinePointsIntensities[i-1];
+//        }
+//    }
+//    [self setBaselinePointsScans:newScans withCount:newCount];
+//    [self setBaselinePointsIntensities:newIntensities withCount:newCount];
+//}
 
 #pragma mark (to many relationships)
 // Mutable To-Many relationship peaks
@@ -1040,6 +1079,110 @@
     // Implement validation here...
     return YES;
 } // end peaks
+
+// Mutable To-Many relationship baselinePoints
+- (NSMutableArray *)baselinePoints {
+	return baselinePoints;
+}
+
+- (void)setBaselinePoints:(NSMutableArray *)inValue {
+    [[self container] willChangeValueForKey:@"baselinePoints"];
+    NSDictionary *baselinePoint;
+    if (inValue != baselinePoints) {
+        
+        [inValue retain];
+        [baselinePoints release];
+        
+        baselinePoints = inValue;
+        _baselinePointsCacheUpToDate = NO;
+    }
+    
+    [[self container] didChangeValueForKey:@"baselinePoints"];
+}
+
+- (int)countOfBaselinePoints {
+    return [[self baselinePoints] count];
+}
+
+- (NSDictionary *)objectInBaselinePointsAtIndex:(int)index {
+    return [[self baselinePoints] objectAtIndex:index];
+}
+
+- (void)getBaselinePoint:(NSDictionary **)someBaselinePoints range:(NSRange)inRange {
+    // Return the objects in the specified range in the provided buffer.
+    [baselinePoints getObjects:someBaselinePoints range:inRange];
+}
+
+- (void)insertObject:(NSDictionary *)aBaselinePoint inBaselinePointsAtIndex:(int)index {
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] removeObjectFromBaselinePointsAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Insert Baseline Point",@"")];
+	}
+	
+	// Add aBaselinePoint to the array baselinePoints
+    [[self container] willChangeValueForKey:@"baselinePoints"];
+    if (!baselinePoints)
+        baselinePoints = [[NSMutableArray alloc] init];
+	[baselinePoints insertObject:aBaselinePoint atIndex:index];
+    _baselinePointsCacheUpToDate = NO;
+
+    [[self container] didChangeValueForKey:@"baselinePoints"];
+}
+
+- (void)removeObjectFromBaselinePointsAtIndex:(int)index{
+    if (index >= [baselinePoints count] || index < 0) {
+        JKLogError(@"No baselinePoint at out-of-bounds index %d.", index);
+        return;
+    }
+	NSDictionary *aBaselinePoint = [baselinePoints objectAtIndex:index];
+    if (!aBaselinePoint) {
+        JKLogError(@"No baselinePoint found at index %d.", index);
+        return;
+    }
+
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] insertObject:aBaselinePoint inBaselinePointsAtIndex:index];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Delete Baseline Point",@"")];
+	}
+	
+	// Remove the baselinePoint from the array
+    [[self container] willChangeValueForKey:@"baselinePoints"];
+	[baselinePoints removeObjectAtIndex:index];
+    _baselinePointsCacheUpToDate = NO;
+
+    [[self container] didChangeValueForKey:@"baselinePoints"];
+}
+
+- (void)replaceObjectInBaselinePointsAtIndex:(int)index withObject:(NSDictionary *)aBaselinePoint{
+	NSDictionary *replacedBaselinePoint = [baselinePoints objectAtIndex:index];
+	
+	// Add the inverse action to the undo stack
+	NSUndoManager *undo = [self undoManager];
+	[[undo prepareWithInvocationTarget:self] replaceObjectAtIndex:index withObject:replacedBaselinePoint];
+	
+	if (![undo isUndoing]) {
+		[undo setActionName:NSLocalizedString(@"Replace BaselinePoint",@"")];
+	}
+	
+	// Replace the baselinePoint from the array
+    [[self container] willChangeValueForKey:@"baselinePoints"];
+	[baselinePoints replaceObjectAtIndex:index withObject:aBaselinePoint];
+    _baselinePointsCacheUpToDate = NO;
+    [[self container] didChangeValueForKey:@"baselinePoints"];
+}
+
+- (BOOL)validateBaselinePoint:(NSDictionary **)aBaselinePoint error:(NSError **)outError {
+    // Implement validation here...
+    return YES;
+} // end baselinePoints
+
+
 #pragma mark -
 
 #pragma mark Convenience methods
@@ -1063,10 +1206,11 @@
 
 
 @synthesize numberOfPoints;
-@synthesize baselinePointsCount;
+//@synthesize baselinePointsCount;
 @synthesize time;
-@synthesize baselinePointsIntensities;
+//@synthesize baselinePointsIntensities;
 @synthesize totalIntensity;
-@synthesize baselinePointsScans;
+@synthesize baselinePoints;
+//@synthesize baselinePointsScans;
 @end
 

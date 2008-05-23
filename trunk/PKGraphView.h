@@ -25,12 +25,14 @@ typedef enum {
 typedef enum {
     JKNoOperation,
     JKDragOperation,
+    JKDragHorizontalOnlyOperation,
+    JKDragVerticalOnlyOperation,
     JKZoomOperation,
     JKZoomHorizontalOnlyOperation,
     JKZoomVerticalOnlyOperation,
     JKZoomOutOperation,
     JKSelectPeakOperation,
-    JKSelectBaselinePointsOperation,
+    JKSelectBaselinePointOperation,
     JKLeftResizePlottingAreaOperation,
     JKRightResizePlottingAreaOperation,
     JKTopResizePlottingAreaOperation,
@@ -121,6 +123,7 @@ typedef enum {
 	NSPoint _oldOrigin;
 	NSPoint _oldLegendOrigin;
 	int _lastSelectedPeakIndex;
+	int _lastSelectedBaselinePointIndex;
     float _lowestXOriginLabelsYAxis;
     float _lowestYOriginLabelsXAxis;
 }
@@ -174,6 +177,7 @@ typedef enum {
 - (JKChromatogram *)chromatogramAtPoint:(NSPoint)aPoint;
 - (NSMutableDictionary *)pointAtPoint:(NSPoint)aPoint;
 - (int)massAtPoint:(NSPoint)aPoint;
+- (NSDictionary *)baselinePointAtPoint:(NSPoint)aPoint;
 
 #pragma mark MOUSE
 - (void)setCursorForOperation:(JKOperations)operation;

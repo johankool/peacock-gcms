@@ -1425,9 +1425,12 @@ static int   kPaddingLabels             = 4;
 		} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
             // zoom
             _startedOperation = JKZoomOperation;
-		} else if (([theEvent modifierFlags] & NSCommandKeyMask) && ([theEvent modifierFlags] & NSShiftKeyMask)) {
+		} else if (([theEvent modifierFlags] & NSControlKeyMask) && ([theEvent modifierFlags] & NSCommandKeyMask)) {
             // adding baselinepoint
             _startedOperation = JKAddBaselinePointOperation;
+        } else if (([theEvent modifierFlags] & NSControlKeyMask) && ([theEvent modifierFlags] & NSAlternateKeyMask)) {
+            // select baselinepoint
+            _startedOperation = JKSelectBaselinePointOperation;
 		} else {
             // clicks
             _startedOperation = JKSelectPeakOperation;
@@ -1524,8 +1527,11 @@ static int   kPaddingLabels             = 4;
 - (void)mouseUp:(NSEvent *)theEvent {
 	NSPoint mouseLocation = [self convertPoint:[theEvent locationInWindow] fromView:nil];
     JKPeakRecord *selectedPeak = nil;
+    JKChromatogram *selectedChromatogram;
+    NSDictionary *selectedBaselinePoint = nil;
 //    int selectedScan = NSNotFound;
     int selectedPeakIndex = NSNotFound;
+    int selectedBaselinePointIndex = NSNotFound;
     
     switch (_startedOperation) {
         case JKSelectPeakOperation:
@@ -1601,8 +1607,8 @@ static int   kPaddingLabels             = 4;
             break;
         case JKAddBaselinePointOperation:
 #warning Does not work with non-TIC chroms well
-            theChromatogram = [self chromatogramAtPoint:mouseLocation]; 
-            [theChromatogram addBaselinePoint:[self pointAtPoint:mouseLocation]];
+            selectedChromatogram = [self chromatogramAtPoint:mouseLocation]; 
+            [selectedChromatogram insertObject:[self pointAtPoint:mouseLocation] inBaselinePointsAtIndex:[selectedChromatogram baselinePointsIndexAtScan:[self scanAtPoint:mouseLocation]]];
             [self setShouldDrawBaseline:YES];
             [self setNeedsDisplayInRect:[self plottingArea]];  
             break;
@@ -1624,10 +1630,52 @@ static int   kPaddingLabels             = 4;
                 [self zoomIn];
             }
             break;
-        case JKSelectBaselinePointsOperation:
+        case JKSelectBaselinePointOperation:
             // deselect any peaks
-            [peaksContainer setSelectedObjects:nil];
-           	//  select baselinpoints
+            // [peaksContainer setSelectedObjects:nil];
+            selectedChromatogram = [self chromatogramAtPoint:_mouseDownAtPoint];
+            
+           	//  select baselinepoints
+            if ([theEvent modifierFlags] & NSCommandKeyMask ) {
+                //  select additional peak(/select baseline point/select scan)
+                selectedBaselinePoint = [self baselinePointAtPoint:mouseLocation];
+                if (selectedBaselinePoint) {
+                    _lastSelectedBaselinePointIndex = [[selectedChromatogram baselinePoints] indexOfObject:selectedBaselinePoint];
+                    [baselineContainer addSelectedObjects:[NSArray arrayWithObject:selectedBaselinePoint]];
+                } else {
+                    _lastSelectedBaselinePointIndex = NSNotFound;
+                }
+            } else if ([theEvent modifierFlags] & NSShiftKeyMask) {
+                //  select series of baseline points
+                selectedBaselinePoint = [self baselinePointAtPoint:mouseLocation];
+                if (selectedBaselinePoint) {
+                    selectedBaselinePointIndex = [[selectedChromatogram baselinePoints] indexOfObject:selectedBaselinePoint];
+                    // do we know where the range for the selection started?
+                    if (_lastSelectedBaselinePointIndex != NSNotFound) {
+                        if (_lastSelectedBaselinePointIndex < selectedBaselinePointIndex) {
+                            [baselineContainer addSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(_lastSelectedBaselinePointIndex+1,selectedBaselinePointIndex-_lastSelectedBaselinePointIndex)]];
+                        } else {
+                            [baselineContainer addSelectionIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(selectedBaselinePointIndex,_lastSelectedBaselinePointIndex-selectedBaselinePointIndex)]];
+                        }
+                    } else {
+                        [baselineContainer addSelectedObjects:[NSArray arrayWithObject:selectedBaselinePoint]];
+                    }
+                    _lastSelectedBaselinePointIndex = [[selectedChromatogram baselinePoints] indexOfObject:selectedBaselinePoint];
+                } else {
+                    _lastSelectedBaselinePointIndex = NSNotFound;
+                }
+            } else {
+                //  select baseline point
+                selectedBaselinePoint = [self baselinePointAtPoint:mouseLocation];
+                if (selectedBaselinePoint) {
+                    _lastSelectedBaselinePointIndex = [[theChromatogram baselinePoints] indexOfObject:selectedBaselinePoint];
+                    [baselineContainer setSelectedObjects:[NSArray arrayWithObject:selectedBaselinePoint]];
+                } else {
+                    _lastSelectedBaselinePointIndex = NSNotFound;
+                }
+            }
+            [self setNeedsDisplayInRect:[self plottingArea]];
+            
             break;
         case  JKDragOperation:
             [self setNeedsDisplay:YES];
@@ -1764,11 +1812,13 @@ static int   kPaddingLabels             = 4;
     if ([keyForXValue isEqualToString:@"Scan"]) {
         scan = lroundf(graphLocation.x);
         [thePoint setValue:[NSNumber numberWithInt:scan] forKey:@"Scan"];
+        [thePoint setValue:[NSNumber numberWithInt:scan] forKey:@"scan"];
         JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
         if (chromatogram) {
             [thePoint setValue:[NSNumber numberWithFloat:[[self chromatogramAtPoint:aPoint] timeForScan:scan]] forKey:@"Time"];
         }
         [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"Total Intensity"];
+        [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"intensity"];
     } else if ([keyForXValue isEqualToString:@"Retention Index"]) {
         JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
         if (chromatogram) {
@@ -1776,17 +1826,21 @@ static int   kPaddingLabels             = 4;
             float retentionRemainder = [[[chromatogram document] retentionIndexRemainder] floatValue];
             scan = lroundf( (graphLocation.x - retentionRemainder)/retentionSlope );
             [thePoint setValue:[NSNumber numberWithInt:scan] forKey:@"Scan"];
-            [thePoint setValue:[NSNumber numberWithFloat:[[self chromatogramAtPoint:aPoint] timeForScan:scan]] forKey:@"Time"];
+            [thePoint setValue:[NSNumber numberWithInt:scan] forKey:@"scan"];
+           [thePoint setValue:[NSNumber numberWithFloat:[[self chromatogramAtPoint:aPoint] timeForScan:scan]] forKey:@"Time"];
         }
         [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"Total Intensity"];        
-    } else if ([keyForXValue isEqualToString:@"Time"]) {
+        [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"intensity"];        
+   } else if ([keyForXValue isEqualToString:@"Time"]) {
         JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
         if (chromatogram) {
             scan = [chromatogram scanForTime:graphLocation.x];            
             [thePoint setValue:[NSNumber numberWithInt:scan] forKey:@"Scan"];
+            [thePoint setValue:[NSNumber numberWithInt:scan] forKey:@"scan"];
         }
         [thePoint setValue:[NSNumber numberWithFloat:graphLocation.x] forKey:@"Time"];
         [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"Total Intensity"];
+        [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"intensity"];
         
     } else {
 //        JKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
@@ -1837,6 +1891,40 @@ static int   kPaddingLabels             = 4;
         } 
     }
     return chromatogram;
+}
+
+- (NSDictionary *)baselinePointAtPoint:(NSPoint)aPoint {
+    NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:aPoint];
+    NSDictionary *baselinePoint = nil;
+    JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
+    int i;
+    float retentionSlope = [[[chromatogram document] retentionIndexSlope] floatValue];
+    float retentionRemainder = [[[chromatogram document] retentionIndexRemainder] floatValue];
+    
+//    if (chromatogram) {
+//        int peaksCount = [[chromatogram baselinePoints] count];
+//        for (i=0; i < peaksCount; i++) {
+//            baselinePoint = [[chromatogram baselinePoints] objectAtIndex:i];
+//            if ([keyForXValue isEqualToString:@"Scan"]) {
+//                if (([peak start] < graphLocation.x) & ([peak end] > graphLocation.x)) {
+//                    return baselinePoint;
+//                } 
+//            } else if ([keyForXValue isEqualToString:@"Retention Index"]) {
+//                if (([peak start] *retentionSlope +retentionRemainder < graphLocation.x) & ([peak end] *retentionSlope +retentionRemainder > graphLocation.x)) {
+//                    return baselinePoint;
+//                } 
+//            } else if ([keyForXValue isEqualToString:@"Time"]) {
+//                if (([[peak valueForKey:@"startTime"] floatValue] < graphLocation.x) & ([[peak valueForKey:@"endTime"] floatValue] > graphLocation.x)) {
+//                    return baselinePoint;
+//                }                         
+//            } else {
+////                JKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
+//            }
+//        }
+//    } else {
+////        JKLogError(@"No chromatogram available");
+//    }
+    return baselinePoint;
 }
 #pragma mark -
 

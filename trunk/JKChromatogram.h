@@ -17,6 +17,7 @@
 @interface JKChromatogram : JKModelObject <NSCoding> {
     NSString *model;
     NSMutableArray *peaks;
+    NSMutableArray *baselinePoints;
     
     int numberOfPoints;
     
@@ -29,7 +30,7 @@
     int baselinePointsCount;
     int *baselinePointsScans;
     float *baselinePointsIntensities;
-
+    BOOL _baselinePointsCacheUpToDate;
 }
 
 /*! @functiongroup Initialization */
@@ -56,7 +57,7 @@
 
 - (int)baselinePointsIndexAtScan:(int)inValue;
 - (float)baselineValueAtScan:(int)inValue;
-- (void)addBaselinePoint:(NSDictionary *)aPoint;
+//- (void)addBaselinePoint:(NSDictionary *)aPoint;
 
 - (float)highestPeakHeight;
 - (float)largestPeakSurface;
@@ -89,17 +90,16 @@
 - (int)scanForTime:(float)inTime;
 
 // Mutable To-Many relationship baselinePoint
-//- (NSMutableArray *)baselinePoints;
-//- (void)setBaselinePoints:(NSMutableArray *)inValue;
-//- (int)countOfBaselinePoints;
-//- (NSMutableDictionary *)objectInBaselinePointsAtIndex:(int)index;
-//- (void)getBaselinePoint:(NSMutableDictionary **)someBaselinePoints range:(NSRange)inRange;
-//- (void)insertObject:(NSMutableDictionary *)aBaselinePoint inBaselinePointsAtIndex:(int)index;
-//- (void)removeObjectFromBaselinePointsAtIndex:(int)index;
-//- (void)replaceObjectInBaselinePointsAtIndex:(int)index withObject:(NSMutableDictionary *)aBaselinePoint;
-//- (BOOL)validateBaselinePoint:(NSMutableDictionary **)aBaselinePoint error:(NSError **)outError;
-//- (void)cacheBaselinePoints;
-- (void)insertObject:(NSMutableDictionary *)aBaselinePoint inBaselinePointsAtIndex:(int)index;
+- (NSMutableArray *)baselinePoints;
+- (void)setBaselinePoints:(NSMutableArray *)inValue;
+- (int)countOfBaselinePoints;
+- (NSDictionary *)objectInBaselinePointsAtIndex:(int)index;
+- (void)getBaselinePoint:(NSDictionary **)someBaselinePoints range:(NSRange)inRange;
+- (void)insertObject:(NSDictionary *)aBaselinePoint inBaselinePointsAtIndex:(int)index;
+- (void)removeObjectFromBaselinePointsAtIndex:(int)index;
+- (void)replaceObjectInBaselinePointsAtIndex:(int)index withObject:(NSDictionary *)aBaselinePoint;
+- (BOOL)validateBaselinePoint:(NSDictionary **)aBaselinePoint error:(NSError **)outError;
+- (void)cacheBaselinePoints;
 
 // Mutable To-Many relationship peak
 - (NSMutableArray *)peaks;
@@ -112,12 +112,12 @@
 - (void)replaceObjectInPeaksAtIndex:(int)index withObject:(JKPeakRecord *)aPeak;
 - (BOOL)validatePeak:(JKPeakRecord **)aPeak error:(NSError **)outError;
 
-- (void)setBaseline:(NSArray *)newBaseline;
-- (int)baselinePointsCount;
-- (void)setBaselinePointsScans:(int *)inArray withCount:(int)inValue;
-- (int *)baselinePointsScans;
-- (void)setBaselinePointsIntensities:(float *)inArray withCount:(int)inValue;
-- (float *)baselinePointsIntensities;
+//- (void)setBaseline:(NSArray *)newBaseline;
+//- (int)baselinePointsCount;
+//- (void)setBaselinePointsScans:(int *)inArray withCount:(int)inValue;
+//- (int *)baselinePointsScans;
+//- (void)setBaselinePointsIntensities:(float *)inArray withCount:(int)inValue;
+//- (float *)baselinePointsIntensities;
                 
 
 
@@ -126,11 +126,12 @@
 - (float)maxTotalIntensity;
 - (float)minTotalIntensity;
 
-@property (getter=baselinePointsScans) int *baselinePointsScans;
-@property (getter=baselinePointsCount) int baselinePointsCount;
+//@property (getter=baselinePointsScans) int *baselinePointsScans;
+//@property (getter=baselinePointsCount) int baselinePointsCount;
 @property (getter=time) float *time;
-@property (getter=baselinePointsIntensities) float *baselinePointsIntensities;
+//@property (getter=baselinePointsIntensities) float *baselinePointsIntensities;
 @property (getter=totalIntensity) float *totalIntensity;
 @property (getter=numberOfPoints) int numberOfPoints;
+@property (retain) NSMutableArray *baselinePoints;
 @end
 
