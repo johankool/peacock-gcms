@@ -38,7 +38,7 @@
     float maximumIntensity;
     
     // Baseline check
-    if ([aChromatogram baselinePointsCount] <= 0) {
+    if ([aChromatogram countOfBaselinePoints] <= 0) {
         // Error 300
         // No Baseline
         NSString *errorString = NSLocalizedString(@"No Baseline", @"error 300: No Baseline");

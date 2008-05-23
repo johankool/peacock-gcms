@@ -219,7 +219,7 @@ static void *PropertyObservationContext = (void *)1093;
 	NSPoint pointInUnits;
 	NSBezierPath *bezierpath = [[[NSBezierPath alloc] init] autorelease];
 	
-	count = [[self chromatogram] baselinePointsCount];
+	count = [[self chromatogram] countOfBaselinePoints];
 	if (count <= 0) {	
 		return bezierpath;
 	}
@@ -240,25 +240,38 @@ static void *PropertyObservationContext = (void *)1093;
     }
     
 	// Creeer het pad.
-    int *baselineScans = [[self chromatogram] baselinePointsScans];
-    float *baselineIntensities = [[self chromatogram] baselinePointsIntensities];
+//    int *baselineScans = [[self chromatogram] baselinePointsScans];
+//    float *baselineIntensities = [[self chromatogram] baselinePointsIntensities];
+    NSArray *baselinePoints = [[self chromatogram] baselinePoints];
     if ([keyToUseX isEqualToString:@"Time"]) {
-        [bezierpath moveToPoint:NSMakePoint([chromatogram timeForScan:baselineScans[0]] * retentionSlope + retentionRemainder,
-                                            baselineIntensities[0] * [verticalScale floatValue]+[verticalOffset floatValue])];
+        int scan = [[[baselinePoints objectAtIndex:0] valueForKey:@"scan"] intValue];
+        float intensity = [[[baselinePoints objectAtIndex:0] valueForKey:@"intensity"] floatValue];
+        
+        [bezierpath moveToPoint:NSMakePoint([chromatogram timeForScan:scan] * retentionSlope + retentionRemainder,
+                                            intensity * [verticalScale floatValue]+[verticalOffset floatValue])];
         
         for (i=1; i<count; i++) {
-            pointInUnits = NSMakePoint([chromatogram timeForScan:baselineScans[i]] * retentionSlope + retentionRemainder,
-                                       baselineIntensities[i] * [verticalScale floatValue]+[verticalOffset floatValue]);
+            scan = [[[baselinePoints objectAtIndex:i] valueForKey:@"scan"] intValue];
+            intensity = [[[baselinePoints objectAtIndex:i] valueForKey:@"intensity"] floatValue];
+            
+            pointInUnits = NSMakePoint([chromatogram timeForScan:scan] * retentionSlope + retentionRemainder,
+                                       intensity * [verticalScale floatValue]+[verticalOffset floatValue]);
             [bezierpath lineToPoint:pointInUnits];
         }
         
     } else {
-        [bezierpath moveToPoint:NSMakePoint(baselineScans[0] * retentionSlope + retentionRemainder,
-                                            baselineIntensities[0] * [verticalScale floatValue]+[verticalOffset floatValue])];
+        int scan = [[[baselinePoints objectAtIndex:0] valueForKey:@"scan"] intValue];
+        float intensity = [[[baselinePoints objectAtIndex:0] valueForKey:@"intensity"] floatValue];
+        
+        [bezierpath moveToPoint:NSMakePoint(scan * retentionSlope + retentionRemainder,
+                                            intensity * [verticalScale floatValue]+[verticalOffset floatValue])];
         
         for (i=1; i<count; i++) {
-            pointInUnits = NSMakePoint(baselineScans[i] * retentionSlope + retentionRemainder,
-                                       baselineIntensities[i] * [verticalScale floatValue]+[verticalOffset floatValue]);
+            scan = [[[baselinePoints objectAtIndex:i] valueForKey:@"scan"] intValue];
+            intensity = [[[baselinePoints objectAtIndex:i] valueForKey:@"intensity"] floatValue];
+
+            pointInUnits = NSMakePoint(scan * retentionSlope + retentionRemainder,
+                                       intensity * [verticalScale floatValue]+[verticalOffset floatValue]);
             [bezierpath lineToPoint:pointInUnits];
         }        
     }

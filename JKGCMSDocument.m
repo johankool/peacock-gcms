@@ -1436,7 +1436,7 @@ int const JKGCMSDocument_Version = 7;
                 continue;
             }
         }
-        if ([chromatogramToSearch baselinePointsCount] == 0) {              
+        if ([chromatogramToSearch countOfBaselinePoints] == 0) {              
             [newChromatograms addObject:chromatogramToSearch];
             if (![chromatogramToSearch detectBaselineAndReturnError:error]){
                 return NO;
@@ -1447,7 +1447,7 @@ int const JKGCMSDocument_Version = 7;
             return NO;
         }                         
         if ([[chromatogramToSearch peaks] count] == 0) {
-            JKLogError(@"No peaks found for chromatogram with model '%@'. bls: %d", [chromatogramToSearch model],[chromatogramToSearch baselinePointsCount]);                        
+            JKLogError(@"No peaks found for chromatogram with model '%@'. bls: %d", [chromatogramToSearch model],[chromatogramToSearch countOfBaselinePoints]);                        
         }
         if ([libraryEntry isKindOfClass:[JKLibraryEntry class]]) {
             [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Library Entry '%@'",@""),[libraryEntry name]] waitUntilDone:NO];
