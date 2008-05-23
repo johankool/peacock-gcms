@@ -56,6 +56,7 @@
 
 - (int)baselinePointsIndexAtScan:(int)inValue;
 - (float)baselineValueAtScan:(int)inValue;
+- (void)addBaselinePoint:(NSDictionary *)aPoint;
 
 - (float)highestPeakHeight;
 - (float)largestPeakSurface;

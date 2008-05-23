@@ -339,6 +339,20 @@
 	return i; 
 }
 
+- (void)addBaselinePoint:(NSDictionary *)aPoint {
+    int scan = [[aPoint valueForKey:@"Scan"] intValue];
+    NSAssert(scan >= 0, @"Scan must be equal or larger than zero");
+    float intensity = [[aPoint valueForKey:@"Total Intensity"] floatValue];
+    
+    NSDictionary *baselinePoint = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:scan], @"scan", [NSNumber numberWithFloat:intensity], @"intensity", nil];
+    
+    int placeToInsert = [self baselinePointsIndexAtScan:scan];
+    NSMutableArray *currentBaseline = [self baseline];
+    [currentBaseline insertObject:baselinePoint atIndex:placeToInsert];
+    [self setBaseline:currentBaseline];
+    
+}
+
 //- (void)identifyPeaks
 //{
 //    [self identifyPeaksWithForce:NO];
@@ -831,6 +845,17 @@
 }
 
 // Baseline points
+- (NSArray *)baseline {
+    NSMutableArray *baselineArray = [[NSMutableArray alloc] initWithCapacity:baselinePointsCount];
+    NSDictionary *baselinePoint;
+    for (int i = 0; i < baselinePointsCount; i++) {
+        baselinePoint = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:baselinePointsScans[i]], @"scan", [NSNumber numberWithFloat:baselinePointsIntensities[i]], @"intensity", nil];
+        [baselineArray addObject:baselinePoint];
+        [baselinePoint release];
+    }
+    return [baselineArray autorelease];
+}
+
 - (void)setBaseline:(NSArray *)newBaseline {
     [self willChangeValueForKey:@"baseline"];
     baselinePointsCount = [newBaseline count];

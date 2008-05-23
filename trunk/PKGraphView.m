@@ -1425,6 +1425,9 @@ static int   kPaddingLabels             = 4;
 		} else if ([theEvent modifierFlags] & NSAlternateKeyMask) {
             // zoom
             _startedOperation = JKZoomOperation;
+		} else if (([theEvent modifierFlags] & NSCommandKeyMask) && ([theEvent modifierFlags] & NSShiftKeyMask)) {
+            // adding baselinepoint
+            _startedOperation = JKAddBaselinePointOperation;
 		} else {
             // clicks
             _startedOperation = JKSelectPeakOperation;
@@ -1595,6 +1598,13 @@ static int   kPaddingLabels             = 4;
                 _lastSelectedPeakIndex = NSNotFound;
             }
             [self setNeedsDisplayInRect:[self plottingArea]];            
+            break;
+        case JKAddBaselinePointOperation:
+#warning Does not work with non-TIC chroms well
+            theChromatogram = [self chromatogramAtPoint:mouseLocation]; 
+            [theChromatogram addBaselinePoint:[self pointAtPoint:mouseLocation]];
+            [self setShouldDrawBaseline:YES];
+            [self setNeedsDisplayInRect:[self plottingArea]];  
             break;
         case JKZoomOutOperation:
             if ([theEvent clickCount] == 2) { // Double click

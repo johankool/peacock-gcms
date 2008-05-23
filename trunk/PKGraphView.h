@@ -36,6 +36,7 @@ typedef enum {
     JKTopResizePlottingAreaOperation,
     JKBottomResizePlottingAreaOperation,
     JKAddPeakOperation,
+    JKAddBaselinePointOperation,
     JKDragLegendOperation
 } JKOperations;
 
