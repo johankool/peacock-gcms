@@ -235,7 +235,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>C78603CD0DE88614007138CC</string>
+						<string>C78603D90DE886A2007138CC</string>
 						<key>history</key>
 						<array>
 							<string>C76D3EF40DE8804C00AFB9DE</string>
@@ -295,8 +295,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -400,7 +398,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C78603CC0DE88614007138CC</string>
+										<string>C78603D80DE886A2007138CC</string>
 										<key>history</key>
 										<array>
 											<string>C7AD47C60D8DB78D0091E3E8</string>
@@ -737,6 +735,8 @@
 									<string>PBXProjectFindModule</string>
 								</dict>
 								<dict>
+									<key>BecomeActive</key>
+									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXCVSModuleFilterTypeKey</key>
@@ -745,7 +745,7 @@
 										<dict>
 											<key>PBXCVSModuleTreeModuleColumnWidthsKey</key>
 											<array>
-												<real>318</real>
+												<real>426</real>
 												<real>56</real>
 												<real>63</real>
 												<real>60</real>
@@ -770,7 +770,9 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {965, 139}}</string>
+										<string>{{10, 27}, {1073, 283}}</string>
+										<key>RubberWindowFrame</key>
+										<string>1 42 1280 735 0 0 1280 778 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXCVSModule</string>
@@ -791,8 +793,6 @@
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {1073, 283}}</string>
-										<key>RubberWindowFrame</key>
-										<string>1 42 1280 735 0 0 1280 778 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>
@@ -996,7 +996,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>233342484.53734201</real>
+	<real>233342626.32439399</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
