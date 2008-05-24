@@ -42,7 +42,7 @@
 typedef enum {
     JKPointsSeriesType,
     JKLineSeriesType,
-    JKSpectrumSeriesType
+    PKSpectrumSeriesType
 } JKSeriesTypes;
 
 @interface PKGraphDataSeries : NSObject <NSCoding, GraphDataSerie> {

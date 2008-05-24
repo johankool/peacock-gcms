@@ -35,7 +35,7 @@
 
 @class PKGCMSDocument;
 
-@interface JKGeneralTesting : SenTestCase {
+@interface PKGeneralTesting : SenTestCase {
 	PKGCMSDocument *CDFDocument;
 	PKGCMSDocument *PeacockDocument;
 }

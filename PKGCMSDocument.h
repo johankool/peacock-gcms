@@ -34,7 +34,7 @@ typedef enum {
 } JKSearchDirections;
 
 typedef enum {
-    JKSpectrumSearchSpectrum,
+    PKSpectrumSearchSpectrum,
     JKCombinedSpectrumSearchSpectrum
 } JKSearchSpectra;
 
@@ -236,15 +236,15 @@ typedef enum {
 - (void)replaceObjectInChromatogramsAtIndex:(int)index withObject:(PKChromatogram *)aChromatogram;
 - (BOOL)validateChromatogram:(PKChromatogram **)aChromatogram error:(NSError **)outError;
 
-//- (void)startObservingChromatogram:(JKChromatogram *)chromatogram;
-//- (void)stopObservingChromatogram:(JKChromatogram *)chromatogram;
+//- (void)startObservingChromatogram:(PKChromatogram *)chromatogram;
+//- (void)stopObservingChromatogram:(PKChromatogram *)chromatogram;
 
 - (NSMutableArray *)peaks;
 - (void)setPeaks:(NSMutableArray *)array;
-//- (void)insertObject:(JKPeakRecord *)peak inPeaksAtIndex:(int)index;
+//- (void)insertObject:(PKPeakRecord *)peak inPeaksAtIndex:(int)index;
 //- (void)removeObjectFromPeaksAtIndex:(int)index;
-//- (void)startObservingPeak:(JKPeakRecord *)peak;
-//- (void)stopObservingPeak:(JKPeakRecord *)peak;
+//- (void)startObservingPeak:(PKPeakRecord *)peak;
+//- (void)stopObservingPeak:(PKPeakRecord *)peak;
 
 
 - (float)retentionIndexForScan:(int)scan;

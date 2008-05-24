@@ -7,7 +7,7 @@
 //
 
 #import "NSString+ModelCompare.h"
-#import "JKGCMSDocument.h"
+#import "PKGCMSDocument.h"
 
 #import "pk_statistics.h"
 

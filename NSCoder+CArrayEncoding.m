@@ -57,6 +57,7 @@
     //Get the NSData object which contains an NSArchiver archive of an arrayObject
     //Containing our iteration buffer (UGH!!!!)
     NSData *myDataObject = [self decodeObjectForKey: key];
+    [NSUnarchiver decodeClassName:@"ArrayEncodingObject" asClassName:@"PKArrayEncodingObject"];
     PKArrayEncodingObject *theArrayObject = [NSUnarchiver unarchiveObjectWithData: myDataObject];
     int *theIterationBuffer = [theArrayObject getIntArray];
     *countp = [theArrayObject count];
@@ -65,6 +66,7 @@
 - (float *)decodeFloatArrayForKey:(NSString *)key returnedCount:(unsigned *)countp {
     //Get the NSData object which contains an NSArchiver archive of an arrayObject
     //Containing our iteration buffer (UGH!!!!)
+    [NSUnarchiver decodeClassName:@"ArrayEncodingObject" asClassName:@"PKArrayEncodingObject"];
     NSData *myDataObject = [self decodeObjectForKey: key];
     PKArrayEncodingObject *theArrayObject = [NSUnarchiver unarchiveObjectWithData: myDataObject];
     float *theIterationBuffer = [theArrayObject getFloatArray];
@@ -74,6 +76,7 @@
 - (double *)decodeDoubleArrayForKey:(NSString *)key returnedCount:(unsigned *)countp {
     //Get the NSData object which contains an NSArchiver archive of an arrayObject
     //Containing our iteration buffer (UGH!!!!)
+    [NSUnarchiver decodeClassName:@"ArrayEncodingObject" asClassName:@"PKArrayEncodingObject"];
     NSData *myDataObject = [self decodeObjectForKey:key];
     PKArrayEncodingObject *theArrayObject = [NSUnarchiver unarchiveObjectWithData: myDataObject];
     double *theIterationBuffer = [theArrayObject getDoubleArray];

@@ -16,7 +16,7 @@
 
 @implementation PKRatiosController
 - (id)init {
-    self = [super initWithWindowNibName:@"JKRatios"];
+    self = [super initWithWindowNibName:@"PKRatios"];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentLoaded:) name:@"JKGCMSDocument_DocumentLoadedNotification" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentUnloaded:) name:@"JKGCMSDocument_DocumentUnloadedNotification" object:nil];

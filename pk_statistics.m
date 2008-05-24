@@ -71,7 +71,8 @@ int intSort(id num1, id num2, void *context)
         return NSOrderedSame;
 }
 
-    
+
+void insertionSort(int numbers[], int array_size)
 {
     int i, j, index;
     

@@ -32,7 +32,7 @@ static void *SpectrumObservationContext = (void *)1102;
 static void *PeaksObservationContext = (void *)1103;
 //static void *MetadataObservationContext = (void *)1104;
 
-#define JKPeakRecordTableViewDataType @"JKPeakRecordTableViewDataType"
+#define PKPeakRecordTableViewDataType @"PKPeakRecordTableViewDataType"
 #define JKSearchResultTableViewDataType @"JKSearchResultTableViewDataType"
 #define JKLibraryEntryTableViewDataType @"JKLibraryEntryTableViewDataType"
 
@@ -41,7 +41,7 @@ static void *PeaksObservationContext = (void *)1103;
 #pragma mark Initialization & deallocation
 
 - (id)init {
-	self = [super initWithWindowNibName:@"JKGCMSDocument"];
+	self = [super initWithWindowNibName:@"PKGCMSDocument"];
     if (self != nil) {
         [self setShouldCloseDocument:YES];
 		showTICTrace = YES;
@@ -150,7 +150,7 @@ static void *PeaksObservationContext = (void *)1103;
 	// Drag and drop
 	[peaksTable registerForDraggedTypes:[NSArray arrayWithObjects:@"JKManagedLibraryEntryURIType", nil]];
 	[resultsTable registerForDraggedTypes:[NSArray arrayWithObjects:@"JKManagedLibraryEntryURIType", nil]];
-	[chromatogramsTable registerForDraggedTypes:[NSArray arrayWithObjects:JKPeakRecordTableViewDataType, nil]];
+	[chromatogramsTable registerForDraggedTypes:[NSArray arrayWithObjects:PKPeakRecordTableViewDataType, nil]];
 	[peaksTable setDataSource:self];
 	[resultsTable setDataSource:self];
 	[chromatogramsTable setDataSource:self];
@@ -1383,15 +1383,15 @@ static void *PeaksObservationContext = (void *)1103;
         }
         
         // declare our own pasteboard types
-        [pboard declareTypes:[NSArray arrayWithObject:JKPeakRecordTableViewDataType] owner:self];
+        [pboard declareTypes:[NSArray arrayWithObject:PKPeakRecordTableViewDataType] owner:self];
   
         NSMutableData *data = [NSMutableData data];
         NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-        [archiver encodeObject:[[peakController arrangedObjects] objectsAtIndexes:rowIndexes] forKey:JKPeakRecordTableViewDataType];
+        [archiver encodeObject:[[peakController arrangedObjects] objectsAtIndexes:rowIndexes] forKey:PKPeakRecordTableViewDataType];
         [archiver finishEncoding];
         [archiver release];
         
-        [pboard setData:data forType:JKPeakRecordTableViewDataType];
+        [pboard setData:data forType:PKPeakRecordTableViewDataType];
         
         return YES;
     } else if (tv == resultsTable) {
@@ -1427,18 +1427,18 @@ static void *PeaksObservationContext = (void *)1103;
 - (BOOL)tableView:(NSTableView *)tv acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation{
 	
 	if (tv == chromatogramsTable) {
-        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKPeakRecordTableViewDataType]]){
+        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:PKPeakRecordTableViewDataType]]){
             // Add peaks to target chromatogram
             PKChromatogram *chrom = [[chromatogramsController arrangedObjects] objectAtIndex:row];
             
-            NSData *data = [[info draggingPasteboard] dataForType:JKPeakRecordTableViewDataType];
+            NSData *data = [[info draggingPasteboard] dataForType:PKPeakRecordTableViewDataType];
             NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-            NSArray *peaks = [unarchiver decodeObjectForKey:JKPeakRecordTableViewDataType];
+            NSArray *peaks = [unarchiver decodeObjectForKey:PKPeakRecordTableViewDataType];
             [unarchiver finishDecoding];
             [unarchiver release];
 
             PKPeakRecord *peak = nil;
-//            JKPeakRecord *newPeak = nil;
+//            PKPeakRecord *newPeak = nil;
             for (peak in peaks) {
                 [[peak chromatogram] removeObjectFromPeaksAtIndex:[[[peak chromatogram] peaks] indexOfObject:peak]];
                 [chrom insertObject:peak inPeaksAtIndex:[chrom countOfPeaks]];
@@ -1484,7 +1484,7 @@ static void *PeaksObservationContext = (void *)1103;
 
 - (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op {
 	if (tv == chromatogramsTable) {
-        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:JKPeakRecordTableViewDataType]]){
+        if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:PKPeakRecordTableViewDataType]]){
             [tv setDropRow:row dropOperation:NSTableViewDropOn];
 			return NSDragOperationMove;
         }

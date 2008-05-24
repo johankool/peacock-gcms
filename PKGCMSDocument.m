@@ -9,22 +9,24 @@
 #import "PKGCMSDocument.h"
 
 #import "BDAlias.h"
-#import "PKChromatogramDataSeries.h"
+#import "NSString+ModelCompare.h"
 #import "PKAppDelegate.h"
+#import "PKArrayEncodingObject.h"
 #import "PKChromatogram.h"
+#import "PKChromatogramDataSeries.h"
 #import "PKDataModelProxy.h"
+#import "PKGCMSPrintView.h"
 #import "PKLibrary.h"
 #import "PKLibraryEntry.h"
 #import "PKMainWindowController.h"
+#import "PKManagedLibraryEntry.h"
 #import "PKPanelController.h"
 #import "PKPeakRecord.h"
-#import "PKGCMSPrintView.h"
-#import "PKSpectrum.h"
-#import "pk_statistics.h"
-#import "netcdf.h"
-#import "PKSearchResult.h"
 #import "PKPluginProtocol.h"
-#import "NSString+ModelCompare.h"
+#import "PKSearchResult.h"
+#import "PKSpectrum.h"
+#import "netcdf.h"
+#import "pk_statistics.h"
 
 NSString *const JKGCMSDocument_DocumentDeactivateNotification = @"JKGCMSDocument_DocumentDeactivateNotification";
 NSString *const JKGCMSDocument_DocumentActivateNotification   = @"JKGCMSDocument_DocumentActivateNotification";
@@ -254,6 +256,7 @@ int const JKGCMSDocument_Version = 7;
         [unarchiver setClass:[PKPeakRecord class] forClassName:@"JKPeakRecord"];
         [unarchiver setClass:[PKSearchResult class] forClassName:@"JKSearchResult"];
         [unarchiver setClass:[PKManagedLibraryEntry class] forClassName:@"JKManagedLibraryEntry"];
+        [unarchiver setClass:[PKArrayEncodingObject class] forClassName:@"ArrayEncodingObject"];
         
         [unarchiver setDelegate:self];
 		int version = [unarchiver decodeIntForKey:@"version"];
@@ -314,7 +317,7 @@ int const JKGCMSDocument_Version = 7;
         }
 
 // [BUG] This code cause a *** Collection <NSCFArray: 0x647370> was mutated while being enumerated.-exception.
-//        for (JKChromatogram *chromatogram in [self chromatograms]) {
+//        for (PKChromatogram *chromatogram in [self chromatograms]) {
 //            if (![[chromatogram model] isEqualToString:@"TIC"] && [chromatogram countOfPeaks] == 0) {
 //                [self removeObjectFromChromatogramsAtIndex:[[self chromatograms] indexOfObject:chromatogram]];
 //            }
@@ -1163,7 +1166,7 @@ int const JKGCMSDocument_Version = 7;
                 entriesCount = [libraryEntries count];                
             }
             PKSpectrum *peakSpectrum = nil;
-            if (spectrumToUse == JKSpectrumSearchSpectrum) {
+            if (spectrumToUse == PKSpectrumSearchSpectrum) {
                 peakSpectrum = [peak spectrum];
             } else if (spectrumToUse == JKCombinedSpectrumSearchSpectrum) {
                 peakSpectrum = [peak combinedSpectrum];
@@ -1258,7 +1261,7 @@ int const JKGCMSDocument_Version = 7;
 
     [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:NSLocalizedString(@"Comparing Library Entries",@"") waitUntilDone:NO];
 	PKSpectrum *peakSpectrum = nil;
-    if (spectrumToUse == JKSpectrumSearchSpectrum) {
+    if (spectrumToUse == PKSpectrumSearchSpectrum) {
         peakSpectrum = [aPeak spectrum];
     } else if (spectrumToUse == JKCombinedSpectrumSearchSpectrum) {
         peakSpectrum = [aPeak combinedSpectrum];
@@ -1484,7 +1487,7 @@ int const JKGCMSDocument_Version = 7;
 			[searchResult setScore:[NSNumber numberWithFloat:maximumScore]];
             [searchResult setLibraryHit:libraryEntry];
             [searchResult setPeak:[[chromatogramToSearch peaks] objectAtIndex:maximumIndex]];
-//            [searchResult setType:JKSpectrumSearchSpectrum];
+//            [searchResult setType:PKSpectrumSearchSpectrum];
 			[[[chromatogramToSearch peaks] objectAtIndex:maximumIndex] addSearchResult:searchResult];
 			[searchResult release];
 		} 
@@ -1729,7 +1732,7 @@ int const JKGCMSDocument_Version = 7;
 //
 //    JKLibraryEntry *anEntry = nil;
 //
-//    for (JKPeakRecord *peak in [self peaks]) {
+//    for (PKPeakRecord *peak in [self peaks]) {
 //    	if ([peak confirmed] || [peak identified]) {
 //            peakConfirmed = [peak confirmed];
 //            // Check if libraryHit present
@@ -1923,7 +1926,7 @@ int const JKGCMSDocument_Version = 7;
          */
         return keyString;
     } else {
-        [NSException raise:NSInvalidArgumentException format:@"Exception raised in JKPanelController -tableView:objectValueForTableColumn:row: - tableColumn identifier not known"];
+        [NSException raise:NSInvalidArgumentException format:@"Exception raised in PKPanelController -tableView:objectValueForTableColumn:row: - tableColumn identifier not known"];
         return nil;
     }        
 }
@@ -1938,7 +1941,7 @@ int const JKGCMSDocument_Version = 7;
         }
         return;
     } else {
-        [NSException raise:NSInvalidArgumentException format:@"Exception raised in JKPanelController -tableView:setObjectValue:forTableColumn:row: - tableColumn identifier not known"];
+        [NSException raise:NSInvalidArgumentException format:@"Exception raised in PKPanelController -tableView:setObjectValue:forTableColumn:row: - tableColumn identifier not known"];
         return;
     }
 }
@@ -2116,7 +2119,7 @@ boolAccessor(abortAction, setAbortAction)
 } // end chromatograms
 
 // Peaks
-// Not stored in JKGCMSDocument, but in their JKChromatogram
+// Not stored in JKGCMSDocument, but in their PKChromatogram
 // but because we often need all peaks in the document context too
 // these method was constructed.
 - (NSMutableArray *)peaks{

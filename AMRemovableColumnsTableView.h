@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "DeleteTableView.h"
+#import "PKDeletableTableView.h"
 
 @interface AMRemovableColumnsTableView : PKDeletableTableView {
 	IBOutlet id obligatoryColumnIdentifiers; // NSArray

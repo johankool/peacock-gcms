@@ -6,7 +6,7 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
-#import "DeleteTableView.h"
+#import "PKDeletableTableView.h"
 	
 @implementation PKDeletableTableView
 

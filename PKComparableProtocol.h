@@ -1,4 +1,4 @@
-// Objects conforming to this protocol can be used to calculate matching scores, e.g. JKSpectrum and JKLibraryEntry
+// Objects conforming to this protocol can be used to calculate matching scores, e.g. PKSpectrum and JKLibraryEntry
 
 @protocol PKComparableProtocol
 - (int)numberOfPoints;

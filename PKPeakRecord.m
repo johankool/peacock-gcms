@@ -42,7 +42,7 @@
 }
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"JKPeakRecord: %@ (top: %f)\nuuid: %@", [self label], [[self topTime] floatValue], [self uuid]];
+	return [NSString stringWithFormat:@"PKPeakRecord: %@ (top: %f)\nuuid: %@", [self label], [[self topTime] floatValue], [self uuid]];
 }
 
 - (id)init {
@@ -171,14 +171,14 @@
             return NO;
 //        } else {
 //            // Move peak to chromatogram of the model in the libraryentry
-//            JKChromatogram *targetChrom = nil;
+//            PKChromatogram *targetChrom = nil;
 //            if ([[self document] addChromatogramForModel:[[identifiedSearchResult libraryHit] model]]) {
 //                targetChrom = [[self document] chromatogramForModel:[[identifiedSearchResult libraryHit] model]];
 //                [targetChrom obtainBaseline];
 //            } else {
 //                targetChrom = [[self document] chromatogramForModel:[[identifiedSearchResult libraryHit] model]];
 //            }
-//            JKChromatogram *oldChrom = [self chromatogram];
+//            PKChromatogram *oldChrom = [self chromatogram];
 //            [targetChrom insertObject:self inPeaksAtIndex:[targetChrom countOfPeaks]];
 //            [oldChrom removeObjectFromPeaksAtIndex:[[oldChrom peaks] indexOfObject:self]];
         }

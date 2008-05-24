@@ -1,24 +1,24 @@
 //
-//  JKSpectrumTest.m
+//  PKSpectrumTest.m
 //  Peacock
 //
 //  Created by Johan Kool on 28-1-06.
 //  Copyright 2006-2007 Johan Kool. All rights reserved.
 //
 
-#import "JKSpectrumTest.h"
+#import "PKSpectrumTest.h"
 
-#import "JKGCMSDocument.h"
+#import "PKGCMSDocument.h"
 
-@implementation JKSpectrumTest
+@implementation PKSpectrumTest
 
 - (void)setUp {
     // Create data structures here.
-    testSpectrum1 = [[JKSpectrum alloc] init];
-    testSpectrum2 = [[JKSpectrum alloc] init];
-    testSpectrum3 = [[JKSpectrum alloc] init];
-    testSpectrum4 = [[JKSpectrum alloc] init];
-    testSpectrum5 = [[JKSpectrum alloc] init];
+    testSpectrum1 = [[PKSpectrum alloc] init];
+    testSpectrum2 = [[PKSpectrum alloc] init];
+    testSpectrum3 = [[PKSpectrum alloc] init];
+    testSpectrum4 = [[PKSpectrum alloc] init];
+    testSpectrum5 = [[PKSpectrum alloc] init];
     float masses[10];
     float intensities[10];
 
@@ -148,23 +148,23 @@
 }
 
 - (void)testCase1 {
-    JKSpectrum *spectrum = [[JKSpectrum alloc] init];
-    STAssertNotNil(spectrum, @"Could not create instance of JKSpectrum.");
+    PKSpectrum *spectrum = [[PKSpectrum alloc] init];
+    STAssertNotNil(spectrum, @"Could not create instance of PKSpectrum.");
 }
 
 - (void)testCaseSubtracting {
-	JKSpectrum *spectrum3 = [testSpectrum1 spectrumBySubtractingSpectrum:testSpectrum2];
+	PKSpectrum *spectrum3 = [testSpectrum1 spectrumBySubtractingSpectrum:testSpectrum2];
     float *masses = [spectrum3 masses];
     float *intensities = [spectrum3 intensities];
     
     STAssertEquals(masses[3], 80.0f, @"Error substracting spectrum");
     STAssertEquals(intensities[3], 40.0f, @"Error substracting spectrum");
-	STAssertNotNil(spectrum3, @"Could not return subtracted instance of JKSpectrum.");
+	STAssertNotNil(spectrum3, @"Could not return subtracted instance of PKSpectrum.");
 }
 
 - (void)testCaseAveraging {
-	JKSpectrum *spectrum = [testSpectrum2 spectrumByAveragingWithSpectrum:testSpectrum3];
-	STAssertNotNil(spectrum, @"Could not return averaged instance of JKSpectrum.");
+	PKSpectrum *spectrum = [testSpectrum2 spectrumByAveragingWithSpectrum:testSpectrum3];
+	STAssertNotNil(spectrum, @"Could not return averaged instance of PKSpectrum.");
 
     float *masses = [spectrum masses];
     float *intensities = [spectrum intensities];
@@ -177,8 +177,8 @@
 }
 
 - (void)testCaseAveragingReverse {
-	JKSpectrum *spectrum = [testSpectrum3 spectrumByAveragingWithSpectrum:testSpectrum2];
-	STAssertNotNil(spectrum, @"Could not return averaged instance of JKSpectrum.");
+	PKSpectrum *spectrum = [testSpectrum3 spectrumByAveragingWithSpectrum:testSpectrum2];
+	STAssertNotNil(spectrum, @"Could not return averaged instance of PKSpectrum.");
     
     float *masses = [spectrum masses];
     float *intensities = [spectrum intensities];
@@ -191,8 +191,8 @@
 }
 
 - (void)testCaseAveragingWithWeight {
-	JKSpectrum *spectrum = [testSpectrum1 spectrumByAveragingWithSpectrum:testSpectrum3 withWeight:0.8];
-	STAssertNotNil(spectrum, @"Could not return averaged instance of JKSpectrum.");
+	PKSpectrum *spectrum = [testSpectrum1 spectrumByAveragingWithSpectrum:testSpectrum3 withWeight:0.8];
+	STAssertNotNil(spectrum, @"Could not return averaged instance of PKSpectrum.");
     
     float *masses = [spectrum masses];
     float *intensities = [spectrum intensities];
@@ -205,8 +205,8 @@
 }
 
 - (void)testCaseNormalizedSpectrum {
-	JKSpectrum *spectrum = [testSpectrum1 normalizedSpectrum];
-	STAssertNotNil(spectrum, @"Could not return averaged instance of JKSpectrum.");
+	PKSpectrum *spectrum = [testSpectrum1 normalizedSpectrum];
+	STAssertNotNil(spectrum, @"Could not return averaged instance of PKSpectrum.");
     
     float *masses = [spectrum masses];
     float *intensities = [spectrum intensities];

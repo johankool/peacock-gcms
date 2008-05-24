@@ -31,7 +31,7 @@
 
 #pragma mark ACTIONS
 - (void)confirm {
-//	for (JKPeakRecord *peak in [[self peaks] allValues]) {
+//	for (PKPeakRecord *peak in [[self peaks] allValues]) {
 //        [peak confirm]
 //        if ([peak identified] | [peak confirmed]) {
 //            [peak confirm];
@@ -280,16 +280,16 @@
        group = [aGroup retain];
        
 //        // Set group also for all peaks' libraryhits
-//        for (JKPeakRecord *peak in [[self peaks] allValues]) {
+//        for (PKPeakRecord *peak in [[self peaks] allValues]) {
 //            [[peak libraryHit] setGroup:group];
 //        }
 //        [[self libraryEntry] setGroup:group];
     }    
 }
-//- (JKSpectrum *)spectrum {
+//- (PKSpectrum *)spectrum {
 //	return spectrum;
 //}
-//- (void)setSpectrum:(JKSpectrum *)aSpectrum {
+//- (void)setSpectrum:(PKSpectrum *)aSpectrum {
 //	[spectrum autorelease];
 //	spectrum = [aSpectrum retain];
 //}

@@ -19,7 +19,7 @@
 @implementation PKLibraryWindowController
 
 - (id)init {
-	self = [super initWithWindowNibName:@"JKLibrary"];
+	self = [super initWithWindowNibName:@"PKLibrary"];
     if (self != nil) {
         [self setShouldCloseDocument:YES];
     }

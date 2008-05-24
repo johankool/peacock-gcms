@@ -17,7 +17,7 @@
 @implementation PKBatchProcessWindowController
 
 - (id)init {
-	self = [super initWithWindowNibName:@"JKBatchProcess"];
+	self = [super initWithWindowNibName:@"PKBatchProcess"];
     if (self != nil) {
 		files = [[NSMutableArray alloc] init];
 		[self setAbortAction:NO];

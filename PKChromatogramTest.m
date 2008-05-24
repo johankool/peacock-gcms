@@ -1,19 +1,19 @@
 //
-//  JKChromatogramTest.m
+//  PKChromatogramTest.m
 //  Peacock
 //
 //  Created by Johan Kool on 7-2-07.
 //  Copyright 2007 __MyCompanyName__. All rights reserved.
 //
 
-#import "JKChromatogramTest.h"
+#import "PKChromatogramTest.h"
 
-#import "JKPeakRecord.h"
+#import "PKPeakRecord.h"
 
-@implementation JKChromatogramTest
+@implementation PKChromatogramTest
 - (void)setUp {
     // Create data structures here.
-    testChromatogram = [[JKChromatogram alloc] init];
+    testChromatogram = [[PKChromatogram alloc] init];
 
     float times[10];
     float intensities[10];
@@ -79,12 +79,12 @@
 - (void)testCaseBaseline {
     [testChromatogram detectBaselineAndReturnError:nil];
     int count= 2; // is expected value?
-    STAssertEquals([testChromatogram baselinePointsCount], count, @"Number of baseline points");
+    STAssertEquals([testChromatogram countOfBaselinePoints], count, @"Number of baseline points");
 }
 
 - (void)testCaseAddPeak {
     [testChromatogram detectBaselineAndReturnError:nil];
-    JKPeakRecord *peak = [testChromatogram peakFromScan:3 toScan:7];
+    PKPeakRecord *peak = [testChromatogram peakFromScan:3 toScan:7];
     [testChromatogram insertObject:peak inPeaksAtIndex:0];
     unsigned int count= 1; // is expected value?
     STAssertEquals([[testChromatogram peaks] count], count, @"Number of baseline points");
