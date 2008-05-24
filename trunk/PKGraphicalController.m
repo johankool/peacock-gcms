@@ -9,9 +9,9 @@
 #import "PKGraphicalController.h"
 
 #import "PKGraphView.h"
-#import "JKGCMSDocument.h"
+#import "PKGCMSDocument.h"
 #import "PKChromatogramDataSeries.h"
-#import "JKChromatogram.h"
+#import "PKChromatogram.h"
 
 @implementation PKGraphicalController
 - (id)init {
@@ -76,8 +76,8 @@
     int peakColorsArrayCount = [peakColorsArray count];
 
     id document = [aNotification object];
-    if ([document isKindOfClass:[JKGCMSDocument class]]) {
-        JKChromatogram *chromatogram = [document ticChromatogram];
+    if ([document isKindOfClass:[PKGCMSDocument class]]) {
+        PKChromatogram *chromatogram = [document ticChromatogram];
         PKChromatogramDataSeries *cgds = [[[PKChromatogramDataSeries alloc] initWithChromatogram:chromatogram] autorelease];
         // sets title to "filename: code - description (model)"
         [cgds setSeriesTitle:[NSString stringWithFormat:@"%@: %@ - %@ (%@)", [document displayName], [document sampleCode],[document sampleDescription],[chromatogram model]]];

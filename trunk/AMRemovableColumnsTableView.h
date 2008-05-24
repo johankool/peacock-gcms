@@ -10,7 +10,7 @@
 
 #import "DeleteTableView.h"
 
-@interface AMRemovableColumnsTableView : DeleteTableView {
+@interface AMRemovableColumnsTableView : PKDeletableTableView {
 	IBOutlet id obligatoryColumnIdentifiers; // NSArray
 	NSSet *allTableColumns;
 	NSSet *obligatoryTableColumns;

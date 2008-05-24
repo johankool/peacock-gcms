@@ -1,0 +1,137 @@
+//
+//  This file is part of the application with the working name:
+//  Peacock
+//
+//  Created by Johan Kool.
+//  Copyright 2003-2007 Johan Kool. All rights reserved.
+//
+
+#import "PKModelObject.h"
+
+@class PKSpectrum;
+@class PKGCMSDocument;
+@class PKChromatogramDataSeries;
+@class PKPeakRecord;
+@class PKLibraryEntry;
+
+@interface PKChromatogram : PKModelObject <NSCoding> {
+    NSString *model;
+    NSMutableArray *peaks;
+    NSMutableArray *baselinePoints;
+    
+    int numberOfPoints;
+    
+    float *time;
+    float *totalIntensity;
+    float highestPeakHeight;
+    float largestPeakSurface;
+    
+    // baseline points cache (for baselineValueAtScan bottle neck)
+    int baselinePointsCount;
+    int *baselinePointsScans;
+    float *baselinePointsIntensities;
+    BOOL _baselinePointsCacheUpToDate;
+}
+
+/*! @functiongroup Initialization */
+#pragma mark Initialization
+
+    /*! Designated initializer. */
+- (id)initWithModel:(NSString *)model;
+#pragma mark -
+
+#pragma mark Action PlugIn style
+- (BOOL)detectBaselineAndReturnError:(NSError **)error;
+- (BOOL)detectPeaksAndReturnError:(NSError **)error;
+#pragma mark -
+   
+    /*! @functiongroup Actions */
+#pragma mark Actions
+// DEPRECATED
+// DEPRECATED - (void)obtainBaseline;
+// DEPRECATED - (void)identifyPeaks;
+// DEPRECATED - (void)identifyPeaksWithForce:(BOOL)forced;
+- (PKPeakRecord *)peakFromScan:(int)startScan toScan:(int)endScan;
+//- (void)addPeakFromScan:(int)startScan toScan:(int)endScan withLeftBaseline:(float)baselineLeft andRightBaseline:(float)baselineRight;
+- (BOOL)combinePeaks:(NSArray *)peaksToCombine;
+
+- (int)baselinePointsIndexAtScan:(int)inValue;
+- (float)baselineValueAtScan:(int)inValue;
+//- (void)addBaselinePoint:(NSDictionary *)aPoint;
+
+- (float)highestPeakHeight;
+- (float)largestPeakSurface;
+- (void)removeUnidentifiedPeaks;
+#pragma mark -
+- (NSString *)legendEntry;
+
+#pragma mark Document
+- (PKGCMSDocument *)document;
+#pragma mark -
+
+#pragma mark Accessors
+/*! @functiongroup Accessors */
+
+- (NSString *)model;
+- (void)setModel:(NSString *)inString;
+
+/*! ID needed for reading NetCDF file. */
+- (int)numberOfPoints;
+
+/*! Returns array of floats for the time. */
+- (float *)time;
+- (void)setTime:(float *)inArray withCount:(int)inValue;
+
+- (float *)totalIntensity;
+- (void)setTotalIntensity:(float *)inArray withCount:(int)inValue;
+
+
+- (float)timeForScan:(int)scan;
+- (int)scanForTime:(float)inTime;
+
+// Mutable To-Many relationship baselinePoint
+- (NSMutableArray *)baselinePoints;
+- (void)setBaselinePoints:(NSMutableArray *)inValue;
+- (int)countOfBaselinePoints;
+- (NSDictionary *)objectInBaselinePointsAtIndex:(int)index;
+- (void)getBaselinePoint:(NSDictionary **)someBaselinePoints range:(NSRange)inRange;
+- (void)insertObject:(NSDictionary *)aBaselinePoint inBaselinePointsAtIndex:(int)index;
+- (void)removeObjectFromBaselinePointsAtIndex:(int)index;
+- (void)replaceObjectInBaselinePointsAtIndex:(int)index withObject:(NSDictionary *)aBaselinePoint;
+- (BOOL)validateBaselinePoint:(NSDictionary **)aBaselinePoint error:(NSError **)outError;
+- (void)cacheBaselinePoints;
+
+// Mutable To-Many relationship peak
+- (NSMutableArray *)peaks;
+- (void)setPeaks:(NSMutableArray *)inValue;
+- (int)countOfPeaks;
+- (PKPeakRecord *)objectInPeaksAtIndex:(int)index;
+- (void)getPeak:(PKPeakRecord **)somePeaks range:(NSRange)inRange;
+- (void)insertObject:(PKPeakRecord *)aPeak inPeaksAtIndex:(int)index;
+- (void)removeObjectFromPeaksAtIndex:(int)index;
+- (void)replaceObjectInPeaksAtIndex:(int)index withObject:(PKPeakRecord *)aPeak;
+- (BOOL)validatePeak:(PKPeakRecord **)aPeak error:(NSError **)outError;
+
+//- (void)setBaseline:(NSArray *)newBaseline;
+//- (int)baselinePointsCount;
+//- (void)setBaselinePointsScans:(int *)inArray withCount:(int)inValue;
+//- (int *)baselinePointsScans;
+//- (void)setBaselinePointsIntensities:(float *)inArray withCount:(int)inValue;
+//- (float *)baselinePointsIntensities;
+                
+
+
+- (float)maxTime;
+- (float)minTime;
+- (float)maxTotalIntensity;
+- (float)minTotalIntensity;
+
+//@property (getter=baselinePointsScans) int *baselinePointsScans;
+//@property (getter=baselinePointsCount) int baselinePointsCount;
+@property (getter=time) float *time;
+//@property (getter=baselinePointsIntensities) float *baselinePointsIntensities;
+@property (getter=totalIntensity) float *totalIntensity;
+@property (getter=numberOfPoints) int numberOfPoints;
+@property (retain) NSMutableArray *baselinePoints;
+@end
+

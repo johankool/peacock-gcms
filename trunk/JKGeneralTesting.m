@@ -7,10 +7,10 @@
 //
 
 #import "JKGeneralTesting.h"
-#import "JKGCMSDocument.h"
-#import "JKRatio.h"
-#import "JKPeakRecord.h"
-#import "JKChromatogram.h"
+#import "PKGCMSDocument.h"
+#import "PKRatio.h"
+#import "PKPeakRecord.h"
+#import "PKChromatogram.h"
 
 @implementation JKGeneralTesting
 
@@ -53,18 +53,18 @@
 }
 
 - (void)testJKPeakRecord {
-	JKPeakRecord *object = [[JKPeakRecord alloc] init];	
+	PKPeakRecord *object = [[PKPeakRecord alloc] init];	
 	STAssertNotNil(object, @"Could not create instance.");
 }
 
 - (void)testAccessingChromatograms {
-    JKChromatogram *tic = [PeacockDocument ticChromatogram];
+    PKChromatogram *tic = [PeacockDocument ticChromatogram];
     STAssertNotNil(tic, @"Could not get TIC");
-    JKChromatogram *chrom100 = [PeacockDocument chromatogramForModel:@"100"];
+    PKChromatogram *chrom100 = [PeacockDocument chromatogramForModel:@"100"];
     STAssertNotNil(chrom100, @"Could not get m/z 100 chromatogram");
-    JKChromatogram *chrom100min = [PeacockDocument chromatogramForModel:@"100-101"];
+    PKChromatogram *chrom100min = [PeacockDocument chromatogramForModel:@"100-101"];
     STAssertNotNil(chrom100min, @"Could not get m/z 100-101 chromatogram");
-    JKChromatogram *chrom100plus = [PeacockDocument chromatogramForModel:@"100+101"];
+    PKChromatogram *chrom100plus = [PeacockDocument chromatogramForModel:@"100+101"];
     STAssertNotNil(chrom100plus, @"Could not get m/z 100+101 chromatogram");
     STAssertTrue([PeacockDocument addChromatogramForModel:@"100-101"], @"Could not add 100-101 chrom");
     STAssertFalse([PeacockDocument addChromatogramForModel:@"100+101"], @"Could add 100+101 chrom");
@@ -75,7 +75,7 @@
 
 - (void)testDetectingBaseline {
     [PeacockDocument addChromatogramForModel:@"100"];
-    JKChromatogram *chrom100 = [PeacockDocument chromatogramForModel:@"100"];
+    PKChromatogram *chrom100 = [PeacockDocument chromatogramForModel:@"100"];
     STAssertNotNil(chrom100, @"Could not get m/z 100 chromatogram");
     NSError *error = [[NSError alloc] init];
     BOOL result = [chrom100 detectBaselineAndReturnError:&error];
@@ -86,7 +86,7 @@
 
 - (void)testDetectingPeaks {
     [PeacockDocument addChromatogramForModel:@"100"];
-    JKChromatogram *chrom100 = [PeacockDocument chromatogramForModel:@"100"];
+    PKChromatogram *chrom100 = [PeacockDocument chromatogramForModel:@"100"];
     STAssertNotNil(chrom100, @"Could not get m/z 100 chromatogram");
     NSError *error = [[NSError alloc] init];
     BOOL result = [chrom100 detectPeaksAndReturnError:&error];

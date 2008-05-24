@@ -27,7 +27,7 @@
     [super dealloc];
 }
 
-- (CGFloat)matchingScoreForSpectrum:(id <JKComparableProtocol>)spectrum comparedToLibraryEntry:(id <JKComparableProtocol>)libraryEntry error:(NSError **)error {
+- (CGFloat)matchingScoreForSpectrum:(id <PKComparableProtocol>)spectrum comparedToLibraryEntry:(id <PKComparableProtocol>)libraryEntry error:(NSError **)error {
     int i,j,k;
 	float score, score2, score3;
 	i=0; j=0; k=0; 
@@ -39,7 +39,7 @@
 	int count1 = [spectrum numberOfPoints];
 	float *peakMasses = [spectrum masses];
 	float *peakIntensities = [spectrum intensities];
-	float maxIntensitySpectrum = [spectrum maxIntensity]; //jk_stats_float_max(peakIntensities, count1);
+	float maxIntensitySpectrum = [spectrum maxIntensity]; //pk_stats_float_max(peakIntensities, count1);
     if (maxIntensitySpectrum <= 0.0f) {
         return 0.0f;
     }   
@@ -49,7 +49,7 @@
 	int count2 = [libraryEntry numberOfPoints];
 	float *libraryEntryMasses = [libraryEntry masses];
 	float *libraryEntryIntensities = [libraryEntry intensities];
-    float maxIntensityLibraryEntry = [libraryEntry maxIntensity]; // jk_stats_float_max(libraryEntryIntensities, count2); 
+    float maxIntensityLibraryEntry = [libraryEntry maxIntensity]; // pk_stats_float_max(libraryEntryIntensities, count2); 
     if (maxIntensityLibraryEntry <= 0.0f) {
         return 0.0f;
     }

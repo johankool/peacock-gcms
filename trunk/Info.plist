@@ -24,7 +24,7 @@
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
-			<string>JKLibrary</string>
+			<string>PKLibrary</string>
 			<key>NSExportableTypes</key>
 			<array>
 				<string>org.jcamp</string>
@@ -52,7 +52,7 @@
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
-			<string>JKLibrary</string>
+			<string>PKLibrary</string>
 			<key>NSExportableTypes</key>
 			<array>
 				<string>nl.johankool.peacock.library</string>
@@ -76,7 +76,7 @@
 			<key>LSTypeIsPackage</key>
 			<true/>
 			<key>NSDocumentClass</key>
-			<string>JKGCMSDocument</string>
+			<string>PKGCMSDocument</string>
 			<key>NSExportableTypes</key>
 			<array>
 				<string>public.plain-text</string>
@@ -103,7 +103,7 @@
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
-			<string>JKGCMSDocument</string>
+			<string>PKGCMSDocument</string>
 			<key>NSExportableTypes</key>
 			<array>
 				<string>nl.johankool.peacock.data</string>
@@ -127,7 +127,7 @@
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
-			<string>JKGCMSDocument</string>
+			<string>PKGCMSDocument</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -179,7 +179,7 @@
 	<key>NSMainNibFile</key>
 	<string>JKMainMenu</string>
 	<key>NSPrincipalClass</key>
-	<string>JKAppDelegate</string>
+	<string>PKAppDelegate</string>
 	<key>SUAllowsAutomaticUpdates</key>
 	<true/>
 	<key>SUCheckAtStartup</key>

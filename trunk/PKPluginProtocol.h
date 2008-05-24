@@ -7,13 +7,13 @@
  *
  */
 
-@class JKChromatogram;
-@class JKSpectrum;
-@class JKPeakRecord;
-@class JKSearchResult;
-@class JKManagedLibraryEntry;
+@class PKChromatogram;
+@class PKSpectrum;
+@class PKPeakRecord;
+@class PKSearchResult;
+@class PKManagedLibraryEntry;
 
-#import "JKComparableProtocol.h"
+#import "PKComparableProtocol.h"
 
 @protocol PKPluginProtocol
 
@@ -86,7 +86,7 @@
     @discussion The array should consist of NSDictionaries with a NSNumber for the key "intensity" and at least one NSNumber for the key "time" or the key "seconds".
     @result     Returns an array of baseline points for the chromatogram. Returns nil in case of an error.
 */
-- (NSArray *)baselineForChromatogram:(JKChromatogram *)aChromatogram error:(NSError **)error;
+- (NSArray *)baselineForChromatogram:(PKChromatogram *)aChromatogram error:(NSError **)error;
 
 - (void)prepareForAction;
 - (void)cleanUpAfterAction;
@@ -103,7 +103,7 @@
  @discussion The array should consist of PKPeak objects.
  @result     Returns an array of peaks for the chromatogram. Returns nil in case of an error.
  */
-- (NSArray *)peaksForChromatogram:(JKChromatogram *)aChromatogram error:(NSError **)error;
+- (NSArray *)peaksForChromatogram:(PKChromatogram *)aChromatogram error:(NSError **)error;
 
 - (void)prepareForAction;
 - (void)cleanUpAfterAction;
@@ -120,7 +120,7 @@
  @discussion The array should consist of PKPeak objects.
  @result     Returns an array of peaks for the chromatogram. Returns nil in case of an error.
  */
-- (CGFloat)matchingScoreForSpectrum:(id <JKComparableProtocol>)spectrum comparedToLibraryEntry:(id <JKComparableProtocol>)libraryEntry error:(NSError **)error;
+- (CGFloat)matchingScoreForSpectrum:(id <PKComparableProtocol>)spectrum comparedToLibraryEntry:(id <PKComparableProtocol>)libraryEntry error:(NSError **)error;
 
 - (void)prepareForAction;
 - (void)cleanUpAfterAction;
@@ -128,9 +128,9 @@
 @end
 #pragma mark -
 
-#import "JKChromatogram.h"
+#import "PKChromatogram.h"
 
-@interface JKChromatogram (Public)
+@interface PKChromatogram (Public)
 
 - (id)document;
 - (NSString *)model;
@@ -156,9 +156,9 @@
 
 @end
 
-#import "JKPeakRecord.h"
+#import "PKPeakRecord.h"
 
-@interface JKPeakRecord (Public)
+@interface PKPeakRecord (Public)
 
 - (NSString *)uuid;
 - (void)setPeakID:(int)inValue;
@@ -199,11 +199,11 @@
 - (NSNumber *)surface;
 - (NSNumber *)normalizedSurface;
 - (NSNumber *)width;
-- (JKSpectrum *)spectrum;
-- (JKSpectrum *)combinedSpectrum;
+- (PKSpectrum *)spectrum;
+- (PKSpectrum *)combinedSpectrum;
 - (NSNumber *)score;
 - (NSString *)library;
-- (JKLibraryEntry *)libraryHit;
+- (PKLibraryEntry *)libraryHit;
 - (id)document;
 - (NSString *)model;
 

@@ -26,7 +26,7 @@
     [super dealloc];
 }
 
-- (NSArray *)peaksForChromatogram:(JKChromatogram *)aChromatogram error:(NSError **)error {
+- (NSArray *)peaksForChromatogram:(PKChromatogram *)aChromatogram error:(NSError **)error {
 //    JKLogEnteringMethod();
     // Fall back to default settings when settings are nil
     if (![self settings]) {
@@ -92,7 +92,7 @@
             if (end >= numberOfPoints-1) end = numberOfPoints-1; // Don't go outside bounds!
             
             if ((top != start && top != end) && ((totalIntensity[top] - [aChromatogram baselineValueAtScan:top])/maximumIntensity > peakIdentificationThresholdF)) { // Sanity check
-                JKPeakRecord *newPeak = [aChromatogram peakFromScan:start toScan:end];
+                PKPeakRecord *newPeak = [aChromatogram peakFromScan:start toScan:end];
                 if (![[aChromatogram peaks] containsObject:newPeak]) {
                     [newPeaks addObject:newPeak];
                 }

@@ -8,8 +8,8 @@
 
 #import "PKWindowController.h"
 
-#import "JKGCMSDocument.h"
-#import "JKAppDelegate.h"
+#import "PKGCMSDocument.h"
+#import "PKAppDelegate.h"
 #import "PKDocumentController.h"
 #import "PKGraphicalController.h"
 
@@ -17,12 +17,12 @@
 
 - (void)awakeFromNib
 {
-    [[documentTabView tabViewItemAtIndex:0] setView:[[[(JKAppDelegate *)[NSApp delegate] summaryController] window] contentView]];
-    [[(JKAppDelegate *)[NSApp delegate] summaryController] setWindow:[self window]];
-    [[documentTabView tabViewItemAtIndex:1] setView:[[[(JKAppDelegate *)[NSApp delegate] ratiosController] window] contentView]];
-    [[(JKAppDelegate *)[NSApp delegate] ratiosController] setWindow:[self window]];
-    [[documentTabView tabViewItemAtIndex:3] setView:[[[(JKAppDelegate *)[NSApp delegate] graphicalController] window] contentView]];
-    [[(JKAppDelegate *)[NSApp delegate] graphicalController] setWindow:[self window]];
+    [[documentTabView tabViewItemAtIndex:0] setView:[[[(PKAppDelegate *)[NSApp delegate] summaryController] window] contentView]];
+    [[(PKAppDelegate *)[NSApp delegate] summaryController] setWindow:[self window]];
+    [[documentTabView tabViewItemAtIndex:1] setView:[[[(PKAppDelegate *)[NSApp delegate] ratiosController] window] contentView]];
+    [[(PKAppDelegate *)[NSApp delegate] ratiosController] setWindow:[self window]];
+    [[documentTabView tabViewItemAtIndex:3] setView:[[[(PKAppDelegate *)[NSApp delegate] graphicalController] window] contentView]];
+    [[(PKAppDelegate *)[NSApp delegate] graphicalController] setWindow:[self window]];
     [self setupToolbar];
     [[self window] setDelegate:self];
     NSButton *closeButton = [[self window] standardWindowButton:NSWindowCloseButton];
@@ -32,9 +32,9 @@
 
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {
-    if ([[tabViewItem identifier] isKindOfClass:[JKGCMSDocument class]]) {
+    if ([[tabViewItem identifier] isKindOfClass:[PKGCMSDocument class]]) {
         for (NSTabViewItem *anyTabViewItem in [tabView tabViewItems]) {
-            if ([[anyTabViewItem identifier] isKindOfClass:[JKGCMSDocument class]])
+            if ([[anyTabViewItem identifier] isKindOfClass:[PKGCMSDocument class]])
                 [[[anyTabViewItem identifier] mainWindowController] setWindow:nil];
         }
         [[tabViewItem identifier] addWindowController:self];
@@ -43,37 +43,37 @@
         [[[tabViewItem identifier] mainWindowController] setWindow:[self window]];
      } else if ([[tabViewItem identifier] isEqualToString:@"summary"]) {
          for (NSTabViewItem *anyTabViewItem in [tabView tabViewItems]) {
-             if ([[anyTabViewItem identifier] isKindOfClass:[JKGCMSDocument class]])
+             if ([[anyTabViewItem identifier] isKindOfClass:[PKGCMSDocument class]])
                  [[[anyTabViewItem identifier] mainWindowController] setWindow:nil];
              [[self document] removeWindowController:self];
          }
         [[self window] setTitleWithRepresentedFilename:@""];
         [[self window] setTitle:@"Summary"];
         [[self document] removeWindowController:self];
-        [[self window] setNextResponder:(NSResponder *)[(JKAppDelegate *)[NSApp delegate] summaryController]];
+        [[self window] setNextResponder:(NSResponder *)[(PKAppDelegate *)[NSApp delegate] summaryController]];
     } else if ([[tabViewItem identifier] isEqualToString:@"ratios"]) {
         for (NSTabViewItem *anyTabViewItem in [tabView tabViewItems]) {
-            if ([[anyTabViewItem identifier] isKindOfClass:[JKGCMSDocument class]])
+            if ([[anyTabViewItem identifier] isKindOfClass:[PKGCMSDocument class]])
                 [[[anyTabViewItem identifier] mainWindowController] setWindow:nil];
         }
             [[self document] removeWindowController:self];
         [[self window] setTitleWithRepresentedFilename:@""];
         [[self window] setTitle:@"Ratios"];
         [[self document] removeWindowController:self];
-        [[self window] setNextResponder:(NSResponder *)[(JKAppDelegate *)[NSApp delegate] ratiosController]];
+        [[self window] setNextResponder:(NSResponder *)[(PKAppDelegate *)[NSApp delegate] ratiosController]];
     } else if ([[tabViewItem identifier] isEqualToString:@"graphical"]) {
         for (NSTabViewItem *anyTabViewItem in [tabView tabViewItems]) {
-            if ([[anyTabViewItem identifier] isKindOfClass:[JKGCMSDocument class]])
+            if ([[anyTabViewItem identifier] isKindOfClass:[PKGCMSDocument class]])
                 [[[anyTabViewItem identifier] mainWindowController] setWindow:nil];
         }
         [[self document] removeWindowController:self];
         [[self window] setTitleWithRepresentedFilename:@""];
         [[self window] setTitle:@"Graphical"];
         [[self document] removeWindowController:self];
-        [[self window] setNextResponder:(NSResponder *)[(JKAppDelegate *)[NSApp delegate] graphicalController]];
+        [[self window] setNextResponder:(NSResponder *)[(PKAppDelegate *)[NSApp delegate] graphicalController]];
 	} else if ([[tabViewItem identifier] isEqualToString:@"multiple"]) {
         for (NSTabViewItem *anyTabViewItem in [tabView tabViewItems]) {
-            if ([[anyTabViewItem identifier] isKindOfClass:[JKGCMSDocument class]])
+            if ([[anyTabViewItem identifier] isKindOfClass:[PKGCMSDocument class]])
                 [[[anyTabViewItem identifier] mainWindowController] setWindow:nil];
         }
             [[self document] removeWindowController:self];
@@ -85,7 +85,7 @@
 
 
 -(IBAction)printDocument:(id)sender {
-    if ([[[documentTabView selectedTabViewItem] identifier] isKindOfClass:[JKGCMSDocument class]]) {
+    if ([[[documentTabView selectedTabViewItem] identifier] isKindOfClass:[PKGCMSDocument class]]) {
         JKLogError(@"should not be called?!");
  //       [[[documentTabView selectedTabViewItem] identifier] printDocument:sender];
     } else if ([[[documentTabView selectedTabViewItem] identifier] isEqualToString:@"multiple"]) {
@@ -95,7 +95,7 @@
 //        [firstDoc printDocumentWithSettings:nil showPrintPanel:YES delegate:self didPrintSelector:@selector(document:didPrint:contextInfo:) contextInfo:[NSNumber numberWithInt:0]];
     } else if ([[[documentTabView selectedTabViewItem] identifier] isEqualToString:@"graphical"]) {
         JKLogDebug(@"graphical print");
-        [[[(JKAppDelegate *)[NSApp delegate] graphicalController] graphView] print:sender];
+        [[[(PKAppDelegate *)[NSApp delegate] graphicalController] graphView] print:sender];
     } else {
         NSBeep();
     }

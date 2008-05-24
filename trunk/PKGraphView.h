@@ -6,8 +6,8 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
-@class JKPeakRecord;
-@class JKChromatogram;
+@class PKPeakRecord;
+@class PKChromatogram;
 
 extern NSString *const MyGraphView_DidBecomeFirstResponderNotification;
 extern NSString *const MyGraphView_DidResignFirstResponderNotification;
@@ -173,8 +173,8 @@ typedef enum {
 - (float)unitsPerMajorGridLine:(float)pixelsPerUnit;
 
 - (int)scanAtPoint:(NSPoint)aPoint;
-- (JKPeakRecord *)peakAtPoint:(NSPoint)aPoint;
-- (JKChromatogram *)chromatogramAtPoint:(NSPoint)aPoint;
+- (PKPeakRecord *)peakAtPoint:(NSPoint)aPoint;
+- (PKChromatogram *)chromatogramAtPoint:(NSPoint)aPoint;
 - (NSMutableDictionary *)pointAtPoint:(NSPoint)aPoint;
 - (int)massAtPoint:(NSPoint)aPoint;
 - (NSDictionary *)baselinePointAtPoint:(NSPoint)aPoint;

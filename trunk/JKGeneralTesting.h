@@ -33,11 +33,11 @@
 #import "AccessorMacros.h"
 #import "JKLog.h"
 
-@class JKGCMSDocument;
+@class PKGCMSDocument;
 
 @interface JKGeneralTesting : SenTestCase {
-	JKGCMSDocument *CDFDocument;
-	JKGCMSDocument *PeacockDocument;
+	PKGCMSDocument *CDFDocument;
+	PKGCMSDocument *PeacockDocument;
 }
 
 @end
