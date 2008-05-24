@@ -8,12 +8,12 @@
 
 #import "PKGraphDataSeries.h"
 
-#import "JKComparableProtocol.h"
+#import "PKComparableProtocol.h"
 
-@class JKSpectrum;
+@class PKSpectrum;
 
 @interface PKSpectrumDataSeries : PKGraphDataSeries {
-    JKSpectrum *spectrum;
+    PKSpectrum *spectrum;
 	BOOL drawUpsideDown;
 	BOOL normalizeYData;
 
@@ -21,11 +21,11 @@
 	NSRect _boundingRect;
 }
 
-- (id)initWithSpectrum:(NSObject <JKComparableProtocol>*)aSpectrum;
+- (id)initWithSpectrum:(NSObject <PKComparableProtocol>*)aSpectrum;
 
 #pragma mark ACCESSORS
-- (JKSpectrum *)spectrum;
-- (void)setSpectrum:(JKSpectrum *)aSpectrum;
+- (PKSpectrum *)spectrum;
+- (void)setSpectrum:(PKSpectrum *)aSpectrum;
 - (BOOL)drawUpsideDown;
 - (void)setDrawUpsideDown:(BOOL)inValue;
 - (BOOL)normalizeYData;

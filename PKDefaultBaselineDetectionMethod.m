@@ -9,7 +9,7 @@
 #import "PKDefaultBaselineDetectionMethod.h"
 
 #import "JKLog.h"
-#import "jk_statistics.h"
+#import "pk_statistics.h"
 
 @implementation PKDefaultBaselineDetectionMethod
 
@@ -27,7 +27,7 @@
     [super dealloc];
 }
 
-- (NSArray *)baselineForChromatogram:(JKChromatogram *)aChromatogram error:(NSError **)error {
+- (NSArray *)baselineForChromatogram:(PKChromatogram *)aChromatogram error:(NSError **)error {
     //JKLogEnteringMethod();
     // Fall back to default settings when settings are nil
     if (![self settings]) {

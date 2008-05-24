@@ -10,9 +10,9 @@
 #import "PKGraphView.h"
 
 #import "PKChromatogramDataSeries.h"
-#import "JKChromatogram.h"
-#import "JKGCMSDocument.h"
-#import "JKPeakRecord.h"
+#import "PKChromatogram.h"
+#import "PKGCMSDocument.h"
+#import "PKPeakRecord.h"
 #import "PKGraphDataSeries.h"
 #import "PKSpectrumDataSeries.h"
 
@@ -177,6 +177,7 @@ static int   kPaddingLabels             = 4;
 }
 #pragma mark -
 
+#pragma mark Settings
 - (NSDictionary *)settings {
     NSMutableDictionary *mutDict = [[NSMutableDictionary alloc] init];
     [mutDict setValue:NSStringFromPoint([self origin]) forKey:@"origin"];
@@ -292,7 +293,7 @@ static int   kPaddingLabels             = 4;
         [self setSettings:[NSDictionary dictionaryWithContentsOfURL:[op URL]]];
     }
 }
-
+#pragma mark -
 
 #pragma mark Drawing Routines
 - (void)drawRect:(NSRect)rect {
@@ -409,7 +410,7 @@ static int   kPaddingLabels             = 4;
             if ([keyForXValue isEqualToString:@"Scan"]) {
                 point = [[self transformGraphToScreen] transformPoint:NSMakePoint([self selectedScan]*1.0, 0)];                
             } else if ([keyForXValue isEqualToString:@"Time"]) {
-                float thetime = [(JKGCMSDocument *)[[[[self dataSeries] objectAtIndex:0] chromatogram] document] timeForScan:selectedScan];
+                float thetime = [(PKGCMSDocument *)[[[[self dataSeries] objectAtIndex:0] chromatogram] document] timeForScan:selectedScan];
                 point = [[self transformGraphToScreen] transformPoint:NSMakePoint(thetime, 0)];
             }
             
@@ -1443,7 +1444,11 @@ static int   kPaddingLabels             = 4;
                 _startedOperation = JKZoomVerticalOnlyOperation;                 
             }
 		} else {
-            _startedOperation = JKNoOperation;
+            if (_mouseDownAtPoint.x > plottingArea.origin.x && _mouseDownAtPoint.x < plottingArea.origin.x + plottingArea.size.width) {
+                _startedOperation = JKDragHorizontalOnlyOperation;
+            } else {
+                _startedOperation = JKDragVerticalOnlyOperation;                 
+            }
 		}		
 	}
     
@@ -1464,29 +1469,34 @@ static int   kPaddingLabels             = 4;
 		newOrigin.y = _oldLegendOrigin.y + (mouseLocation.y - _mouseDownAtPoint.y);
 		legendRect = [self legendArea];
 		legendRect.origin = newOrigin;
-		[self setLegendArea:legendRect];	        
+        if (NSIntersectsRect([self bounds], legendRect))
+            [self setLegendArea:legendRect];	        
         break;
     case JKLeftResizePlottingAreaOperation:
         newRect = [self plottingArea];
         newRect.size.width = newRect.size.width - (mouseLocation.x - newRect.origin.x);
         newRect.origin.x = mouseLocation.x;
-        [self setPlottingArea:newRect];
+        if (NSIntersectsRect([self bounds], newRect))
+            [self setPlottingArea:newRect];
         break;
     case JKRightResizePlottingAreaOperation:
         newRect = [self plottingArea];
         newRect.size.width = mouseLocation.x - newRect.origin.x;
-        [self setPlottingArea:newRect];
+        if (NSIntersectsRect([self bounds], newRect))
+            [self setPlottingArea:newRect];
         break;
     case JKBottomResizePlottingAreaOperation:
         newRect = [self plottingArea];
         newRect.size.height = newRect.size.height - (mouseLocation.y - newRect.origin.y);
         newRect.origin.y = mouseLocation.y;
-        [self setPlottingArea:newRect];
+        if (NSIntersectsRect([self bounds], newRect))
+            [self setPlottingArea:newRect];
         break;
     case JKTopResizePlottingAreaOperation:
         newRect = [self plottingArea];
         newRect.size.height = mouseLocation.y - newRect.origin.y;
-        [self setPlottingArea:newRect];
+        if (NSIntersectsRect([self bounds], newRect))
+            [self setPlottingArea:newRect];
         break;
     case JKZoomOperation:
         draggedRect.origin.x = (_mouseDownAtPoint.x < mouseLocation.x ? _mouseDownAtPoint.x : mouseLocation.x);
@@ -1517,6 +1527,20 @@ static int   kPaddingLabels             = 4;
         [self setOrigin:newOrigin];
         _startedOperation = JKDragOperation;
 		break;
+    case JKDragVerticalOnlyOperation:
+        newOrigin;
+            newOrigin.x = _oldOrigin.x;// + (mouseLocation.x - _mouseDownAtPoint.x);
+        newOrigin.y = _oldOrigin.y + (mouseLocation.y - _mouseDownAtPoint.y);
+        [self setOrigin:newOrigin];
+        _startedOperation = JKDragVerticalOnlyOperation;
+        break;
+    case JKDragHorizontalOnlyOperation:
+        newOrigin;
+        newOrigin.x = _oldOrigin.x + (mouseLocation.x - _mouseDownAtPoint.x);
+        newOrigin.y = _oldOrigin.y;// + (mouseLocation.y - _mouseDownAtPoint.y);
+        [self setOrigin:newOrigin];
+        _startedOperation = JKDragHorizontalOnlyOperation;
+        break;
     default:
         break;
     }
@@ -1526,8 +1550,8 @@ static int   kPaddingLabels             = 4;
 
 - (void)mouseUp:(NSEvent *)theEvent {
 	NSPoint mouseLocation = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    JKPeakRecord *selectedPeak = nil;
-    JKChromatogram *selectedChromatogram;
+    PKPeakRecord *selectedPeak = nil;
+    PKChromatogram *selectedChromatogram;
     NSDictionary *selectedBaselinePoint = nil;
 //    int selectedScan = NSNotFound;
     int selectedPeakIndex = NSNotFound;
@@ -1593,8 +1617,8 @@ static int   kPaddingLabels             = 4;
             break;
         case JKAddPeakOperation:
             JKLogDebug(@"peak drag from scan %d to scan %d",[self scanAtPoint:_mouseDownAtPoint],[self scanAtPoint:mouseLocation]);
-            JKChromatogram *theChromatogram = [self chromatogramAtPoint:_mouseDownAtPoint]; 
-            JKPeakRecord *newPeak = [theChromatogram peakFromScan:[self scanAtPoint:_mouseDownAtPoint] toScan:[self scanAtPoint:mouseLocation]];
+            PKChromatogram *theChromatogram = [self chromatogramAtPoint:_mouseDownAtPoint]; 
+            PKPeakRecord *newPeak = [theChromatogram peakFromScan:[self scanAtPoint:_mouseDownAtPoint] toScan:[self scanAtPoint:mouseLocation]];
             [theChromatogram insertObject:newPeak inPeaksAtIndex:[theChromatogram countOfPeaks]];
             selectedPeak = newPeak;
             if (selectedPeak) {
@@ -1677,10 +1701,12 @@ static int   kPaddingLabels             = 4;
             [self setNeedsDisplayInRect:[self plottingArea]];
             
             break;
-        case  JKDragOperation:
-            [self setNeedsDisplay:YES];
-            break;
+        case JKDragOperation:
+        case JKDragVerticalOnlyOperation:
+        case JKDragHorizontalOnlyOperation:
+        case JKDragLegendOperation:
         default:
+            [self setNeedsDisplay:YES]; // Avoid blurry display
             break;
     }
             
@@ -1698,6 +1724,8 @@ static int   kPaddingLabels             = 4;
     switch (operation) {
         case JKDragLegendOperation:
         case JKDragOperation:
+        case JKDragVerticalOnlyOperation:
+        case JKDragHorizontalOnlyOperation:
             [[NSCursor closedHandCursor] set];
             break;
         case JKZoomOperation:
@@ -1745,19 +1773,21 @@ static int   kPaddingLabels             = 4;
          [self setYMinimum:[NSNumber numberWithFloat:[[self yMinimum] floatValue] + 4.0f*deltaY/pixelsPerYUnitF]];         
      }
 }
+#pragma mark -
 
+#pragma mark Selection helper methods
 - (int)scanAtPoint:(NSPoint)aPoint {
     int scan = NSNotFound;
     NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:aPoint];
     if ([keyForXValue isEqualToString:@"Scan"]) {
         scan = lroundf(graphLocation.x);
     } else if ([keyForXValue isEqualToString:@"Time"]) {
-        JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
+        PKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
         if (chromatogram) {
             scan = [chromatogram scanForTime:graphLocation.x];            
         }
     } else if ([keyForXValue isEqualToString:@"Retention Index"]) {
-        JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
+        PKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
         if (chromatogram) {
             float retentionSlope = [[[chromatogram document] retentionIndexSlope] floatValue];
             float retentionRemainder = [[[chromatogram document] retentionIndexRemainder] floatValue];
@@ -1770,10 +1800,10 @@ static int   kPaddingLabels             = 4;
     return scan;
 }
 
-- (JKPeakRecord *)peakAtPoint:(NSPoint)aPoint {
+- (PKPeakRecord *)peakAtPoint:(NSPoint)aPoint {
     NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:aPoint];
-    JKPeakRecord *peak = nil;
-    JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
+    PKPeakRecord *peak = nil;
+    PKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
     int i;
     float retentionSlope = [[[chromatogram document] retentionIndexSlope] floatValue];
     float retentionRemainder = [[[chromatogram document] retentionIndexRemainder] floatValue];
@@ -1813,14 +1843,14 @@ static int   kPaddingLabels             = 4;
         scan = lroundf(graphLocation.x);
         [thePoint setValue:[NSNumber numberWithInt:scan] forKey:@"Scan"];
         [thePoint setValue:[NSNumber numberWithInt:scan] forKey:@"scan"];
-        JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
+        PKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
         if (chromatogram) {
             [thePoint setValue:[NSNumber numberWithFloat:[[self chromatogramAtPoint:aPoint] timeForScan:scan]] forKey:@"Time"];
         }
         [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"Total Intensity"];
         [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"intensity"];
     } else if ([keyForXValue isEqualToString:@"Retention Index"]) {
-        JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
+        PKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
         if (chromatogram) {
             float retentionSlope = [[[chromatogram document] retentionIndexSlope] floatValue];
             float retentionRemainder = [[[chromatogram document] retentionIndexRemainder] floatValue];
@@ -1832,7 +1862,7 @@ static int   kPaddingLabels             = 4;
         [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"Total Intensity"];        
         [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"intensity"];        
    } else if ([keyForXValue isEqualToString:@"Time"]) {
-        JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
+        PKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
         if (chromatogram) {
             scan = [chromatogram scanForTime:graphLocation.x];            
             [thePoint setValue:[NSNumber numberWithInt:scan] forKey:@"Scan"];
@@ -1862,15 +1892,36 @@ static int   kPaddingLabels             = 4;
     return mass;
 }
 
-- (JKChromatogram *)chromatogramAtPoint:(NSPoint)aPoint {
-    JKChromatogram *chromatogram = nil;
-    int count, dataSerieIndex;
+- (PKChromatogram *)chromatogramAtPoint:(NSPoint)aPoint {
+    PKChromatogram *chromatogram = nil;
+    int i, count, dataSerieIndex;
     float dataSerieHeight;
 
     count = [[self dataSeries] count];
     if (count > 0) {
         switch (drawingMode) {
             case JKStackedDrawingMode:
+                // Does a bezierpath contain the point?
+                for (i = 0; i < count; i++) {
+                    NSAffineTransform *transform = [[NSAffineTransform alloc] init];
+                    [transform translateXBy:0.0 yBy:i*([self plottingArea].size.height/count)];
+                    [transform prependTransform:[self transformGraphToScreen]];
+                    NSBezierPath *bezierPath = [[[[[self dataSeries] objectAtIndex:i] plotPath] copy] autorelease];
+                    [bezierPath transformUsingAffineTransform:transform];
+                    [transform release];
+                    
+                    if ([bezierPath containsPoint:aPoint]) {
+                        return [[self dataSeries] objectAtIndex:i];
+                    }
+                } 
+                // or else, is it in a bounding rect
+                for (i = 0; i < count; i++) {
+                    NSRect rect = [[[self dataSeries] objectAtIndex:i] boundingRect];
+                    if (NSPointInRect(aPoint, rect)) {
+                        return [[self dataSeries] objectAtIndex:i];
+                    }
+                } 
+                // When outside any rect, use fall back
                 dataSerieHeight = [self plottingArea].size.height/count;
                 dataSerieIndex = floor((aPoint.y-[self plottingArea].origin.y)/dataSerieHeight);
                 if ((dataSerieIndex < 0) || (dataSerieIndex >= count)) {
@@ -1896,7 +1947,7 @@ static int   kPaddingLabels             = 4;
 - (NSDictionary *)baselinePointAtPoint:(NSPoint)aPoint {
     NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:aPoint];
     NSDictionary *baselinePoint = nil;
-    JKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
+    PKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
     int i;
     float retentionSlope = [[[chromatogram document] retentionIndexSlope] floatValue];
     float retentionRemainder = [[[chromatogram document] retentionIndexRemainder] floatValue];

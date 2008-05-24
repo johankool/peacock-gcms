@@ -8,8 +8,8 @@
 
 #import "PKSpectrumDataSeries.h"
 
-#import "JKSpectrum.h"
-#import "JKComparableProtocol.h"
+#import "PKSpectrum.h"
+#import "PKComparableProtocol.h"
 
 
 static void *DictionaryObservationContext = (void *)1091;
@@ -38,7 +38,7 @@ static void *PropertyObservationContext = (void *)1093;
     return self;
 }
 
-- (id)initWithSpectrum:(NSObject <JKComparableProtocol>*)aSpectrum {
+- (id)initWithSpectrum:(NSObject <PKComparableProtocol>*)aSpectrum {
     self = [super init];
     if (self) {
         // Zet de standaardwaarden
@@ -302,11 +302,11 @@ static void *PropertyObservationContext = (void *)1093;
 	}
 }
 
-- (JKSpectrum *)spectrum {
+- (PKSpectrum *)spectrum {
     return spectrum;
 }
 
-- (void)setSpectrum:(JKSpectrum *)aSpectrum {
+- (void)setSpectrum:(PKSpectrum *)aSpectrum {
     if (aSpectrum != spectrum) {
         [aSpectrum retain];
         [spectrum autorelease];

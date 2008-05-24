@@ -7,15 +7,15 @@
 
 #import "NSCoder+CArrayEncoding.h"
 
-#import "ArrayEncodingObject.h"
+#import "PKArrayEncodingObject.h"
 
 @implementation NSCoder (CArrayEncoding)
 
 - (void)encodeIntArray:(int *)anArray withCount:(unsigned long)aCount forKey:(NSString *)key{
-    ArrayEncodingObject* myEncodeObject;
+    PKArrayEncodingObject* myEncodeObject;
     NSData* myDataObject;
     //Create a temporary arrayObject to hold our Iteration buffer.
-    myEncodeObject = [[[ArrayEncodingObject alloc] initWithIntArray: anArray
+    myEncodeObject = [[[PKArrayEncodingObject alloc] initWithIntArray: anArray
                                                         elementSize: (int) sizeof(int)
                                                            andCount: aCount] autorelease];
     //encode the arrayObject using NSArchiver, which allows writing arrays of C data types
@@ -26,10 +26,10 @@
 }
 
 - (void)encodeFloatArray:(float *)anArray withCount:(unsigned long)aCount forKey:(NSString *)key {
-    ArrayEncodingObject* myEncodeObject;
+    PKArrayEncodingObject* myEncodeObject;
     NSData* myDataObject;
     //Create a temporary arrayObject to hold our Iteration buffer.
-    myEncodeObject = [[[ArrayEncodingObject alloc] initWithFloatArray: anArray
+    myEncodeObject = [[[PKArrayEncodingObject alloc] initWithFloatArray: anArray
                                                           elementSize: (int) sizeof(float)
                                                              andCount: aCount] autorelease];
     //encode the arrayObject using NSArchiver, which allows writing arrays of C data types
@@ -40,10 +40,10 @@
 }
 
 - (void)encodeDoubleArray:(double *)anArray withCount:(unsigned long)aCount forKey:(NSString *)key {
-    ArrayEncodingObject* myEncodeObject;
+    PKArrayEncodingObject* myEncodeObject;
     NSData* myDataObject;
     //Create a temporary arrayObject to hold our Iteration buffer.
-    myEncodeObject = [[[ArrayEncodingObject alloc] initWithDoubleArray: anArray
+    myEncodeObject = [[[PKArrayEncodingObject alloc] initWithDoubleArray: anArray
                                                            elementSize: (int) sizeof(double)
                                                               andCount: aCount] autorelease];
     //encode the arrayObject using NSArchiver, which allows writing arrays of C data types
@@ -57,7 +57,7 @@
     //Get the NSData object which contains an NSArchiver archive of an arrayObject
     //Containing our iteration buffer (UGH!!!!)
     NSData *myDataObject = [self decodeObjectForKey: key];
-    ArrayEncodingObject *theArrayObject = [NSUnarchiver unarchiveObjectWithData: myDataObject];
+    PKArrayEncodingObject *theArrayObject = [NSUnarchiver unarchiveObjectWithData: myDataObject];
     int *theIterationBuffer = [theArrayObject getIntArray];
     *countp = [theArrayObject count];
     return theIterationBuffer;
@@ -66,7 +66,7 @@
     //Get the NSData object which contains an NSArchiver archive of an arrayObject
     //Containing our iteration buffer (UGH!!!!)
     NSData *myDataObject = [self decodeObjectForKey: key];
-    ArrayEncodingObject *theArrayObject = [NSUnarchiver unarchiveObjectWithData: myDataObject];
+    PKArrayEncodingObject *theArrayObject = [NSUnarchiver unarchiveObjectWithData: myDataObject];
     float *theIterationBuffer = [theArrayObject getFloatArray];
     *countp = [theArrayObject count];
     return theIterationBuffer;
@@ -75,7 +75,7 @@
     //Get the NSData object which contains an NSArchiver archive of an arrayObject
     //Containing our iteration buffer (UGH!!!!)
     NSData *myDataObject = [self decodeObjectForKey:key];
-    ArrayEncodingObject *theArrayObject = [NSUnarchiver unarchiveObjectWithData: myDataObject];
+    PKArrayEncodingObject *theArrayObject = [NSUnarchiver unarchiveObjectWithData: myDataObject];
     double *theIterationBuffer = [theArrayObject getDoubleArray];
     *countp = [theArrayObject count];
     return theIterationBuffer;    

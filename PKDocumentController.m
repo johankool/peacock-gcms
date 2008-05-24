@@ -7,7 +7,7 @@
 //
 
 #import "PKDocumentController.h"
-#import "JKGCMSDocument.h"
+#import "PKGCMSDocument.h"
 #import "JKSeparatorCell.h"
 #import "JKImageTextCell.h"
 #import "RBSplitView.h"
@@ -41,9 +41,9 @@
 
 - (void)addDocument:(NSDocument *)document
 {
-    if ([document isKindOfClass:[JKGCMSDocument class]]) {
+    if ([document isKindOfClass:[PKGCMSDocument class]]) {
         NSTabViewItem *newTabViewItem = [[NSTabViewItem alloc] initWithIdentifier:document];
-	    NSWindow *documentWindow = [[(JKGCMSDocument *)document mainWindowController] window];
+	    NSWindow *documentWindow = [[(PKGCMSDocument *)document mainWindowController] window];
         [newTabViewItem setView:[documentWindow contentView]];
         [newTabViewItem setLabel:[document displayName]];
         [documentTabView addTabViewItem:newTabViewItem];
@@ -60,7 +60,7 @@
 
 - (void)removeDocument:(NSDocument *)document
 {
-    if ([document isKindOfClass:[JKGCMSDocument class]]) {
+    if ([document isKindOfClass:[PKGCMSDocument class]]) {
         [managedDocuments removeObject:document];
         [documentTabView removeTabViewItem:[documentTabView tabViewItemAtIndex:[documentTabView indexOfTabViewItemWithIdentifier:document]]];
         [documentTableView reloadItem:managedDocuments reloadChildren:YES];
@@ -73,7 +73,7 @@
 
 - (void)showDocument:(NSDocument *)document
 {
-    if ([document isKindOfClass:[JKGCMSDocument class]]) {
+    if ([document isKindOfClass:[PKGCMSDocument class]]) {
         [documentTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[documentTableView rowForItem:document]] byExtendingSelection:NO];
     }    
 }
@@ -179,7 +179,7 @@
             return item;
         }
         
-        if ([item isKindOfClass:[JKGCMSDocument class]]) {
+        if ([item isKindOfClass:[PKGCMSDocument class]]) {
             return [NSString stringWithFormat:@"%@ - %@ - %@", [item displayName], [item valueForKey:@"sampleCode"], [item valueForKey:@"sampleDescription"]];  
         }
         
@@ -198,7 +198,7 @@
          return NSLocalizedString(@"Overview of ratios.", @"");
     }
     
-    if ([item isKindOfClass:[JKGCMSDocument class]]) {
+    if ([item isKindOfClass:[PKGCMSDocument class]]) {
         return [item fileName];  
     }
     
@@ -214,7 +214,7 @@
     id item = [documentTableView itemAtRow:[documentTableView selectedRow]];
     if ([item isKindOfClass:[NSString class]]) {
         [documentTabView selectTabViewItemWithIdentifier:[item lowercaseString]];
-    } else if ([item isKindOfClass:[JKGCMSDocument class]]){
+    } else if ([item isKindOfClass:[PKGCMSDocument class]]){
         [documentTabView selectTabViewItemWithIdentifier:item];     
         [[NSNotificationCenter defaultCenter] postNotificationName:NSWindowDidBecomeMainNotification object:window];
     }
@@ -330,13 +330,13 @@
         if ([[[documentTabView selectedTabViewItem] identifier] isKindOfClass:[NSString class]]) {
             [NSApp terminate:self];
          } else {
-            JKGCMSDocument *doc = [[documentTabView selectedTabViewItem] identifier];
+            PKGCMSDocument *doc = [[documentTabView selectedTabViewItem] identifier];
             [doc canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
          }
     }
 }
 
-- (void)document:(JKGCMSDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo {
+- (void)document:(PKGCMSDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo {
     if (shouldClose) {
         int index = [managedDocuments indexOfObject:doc] - 1;
         [managedDocuments removeObject:doc];
