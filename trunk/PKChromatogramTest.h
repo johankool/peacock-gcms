@@ -1,5 +1,5 @@
 //
-//  JKChromatogramTest.h
+//  PKChromatogramTest.h
 //  Peacock
 //
 //  Created by Johan Kool on 7-2-07.
@@ -10,11 +10,11 @@
 
 #import "AccessorMacros.h"
 #import "JKLog.h"
-#import "JKChromatogram.h"
+#import "PKChromatogram.h"
 
-@interface JKChromatogramTest : SenTestCase {
-    JKChromatogram *testChromatogram;
+@interface PKChromatogramTest : SenTestCase {
+    PKChromatogram *testChromatogram;
 }
 
-@property (retain) JKChromatogram *testChromatogram;
+@property (retain) PKChromatogram *testChromatogram;
 @end

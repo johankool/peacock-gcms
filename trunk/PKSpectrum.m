@@ -266,7 +266,7 @@
 			
 			k++; j++;
 		} else {
-            JKLogDebug(@"unexpected error in JKSpectrum spectrumByAveragingWithSpectrum");
+            JKLogDebug(@"unexpected error in PKSpectrum spectrumByAveragingWithSpectrum");
             i++; j++;
         };
 	} while (i < count1 && j < count2);

@@ -1,5 +1,5 @@
 //
-//  JKLibraryPanelController.h
+//  PKLibraryPanelController.h
 //  Peacock
 //
 //  Created by Johan Kool on 16-11-07.
@@ -22,7 +22,7 @@
 #pragma mark INITIALIZATION
 + (PKLibraryPanelController *) sharedController;
 - (IBAction)showInspector:(id)sender;
-- (PKLibrary *)library;
+//- (PKLibrary *)library;
 - (IBAction)reloadLibrary:(id)sender;
 
 @property (retain) PKGraphView *spectrumView;

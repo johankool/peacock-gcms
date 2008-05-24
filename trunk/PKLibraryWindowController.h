@@ -27,6 +27,7 @@
 - (IBAction)showAddCasNumber:(id)sender;
 - (IBAction)cancelCasNumber:(id)sender;
 //- (void)displaySpectrum:(JKLibraryEntry *)spectrum;
+- (BOOL)validateCASNumber:(id *)ioValue error:(NSError **)outError;
 
 #pragma mark ACCESSORS
 - (NSArrayController *)libraryController;

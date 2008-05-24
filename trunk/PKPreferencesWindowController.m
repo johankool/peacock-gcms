@@ -17,7 +17,7 @@
 #pragma mark INITIALIZATION
 
 - (id)init {
-    self = [super initWithWindowNibName:@"JKPreferences"];
+    self = [super initWithWindowNibName:@"PKPreferences"];
     return self;
 }
 

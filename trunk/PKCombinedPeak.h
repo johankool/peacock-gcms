@@ -56,8 +56,8 @@
 //- (void)setRetentionIndex:(NSNumber *)retentionIndex;
 //- (NSString *)model;
 //- (void)setModel:(NSString *)model;
-//- (JKSpectrum *)spectrum;
-//- (void)setSpectrum:(JKSpectrum *)spectrum;
+//- (PKSpectrum *)spectrum;
+//- (void)setSpectrum:(PKSpectrum *)spectrum;
 - (PKLibraryEntry *)libraryEntry;
 - (void)setLibraryEntry:(PKLibraryEntry *)libraryEntry;
 - (BOOL)unknownCompound;

@@ -446,7 +446,7 @@
 //            if (end >= numberOfPoints-1) end = numberOfPoints-1; // Don't go outside bounds!
 //            
 //            if ((top != start && top != end) && ((totalIntensity[top] - [self baselineValueAtScan:top])/maximumIntensity > peakIdentificationThresholdF)) { // Sanity check
-//                JKPeakRecord *newPeak = [self peakFromScan:start toScan:end];
+//                PKPeakRecord *newPeak = [self peakFromScan:start toScan:end];
 //                if (![peaks containsObject:newPeak]) {
 //                    [self insertObject:newPeak inPeaksAtIndex:[peaks count]];                    
 //                }

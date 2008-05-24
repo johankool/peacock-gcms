@@ -21,7 +21,7 @@ static PKPanelController *theSharedController;
 + (PKPanelController *) sharedController {
     if (theSharedController == nil) {
 		
-        theSharedController = [[PKPanelController alloc] initWithWindowNibName: @"JKPanel"];
+        theSharedController = [[PKPanelController alloc] initWithWindowNibName: @"PKPanel"];
 		 
         NSNotificationCenter *center;
 		center = [NSNotificationCenter defaultCenter];
@@ -78,7 +78,7 @@ static PKPanelController *theSharedController;
     [super windowDidLoad];
 	
     [self setShouldCascadeWindows: NO];
-    [self setWindowFrameAutosaveName: @"JKPanelWindow"];
+    [self setWindowFrameAutosaveName: @"PKPanelWindow"];
 	
     // Rich text in our fields! 
     [titleTextField setAllowsEditingTextAttributes:YES];
@@ -259,7 +259,7 @@ static PKPanelController *theSharedController;
 		} 
     } 
 
-//    [NSException raise:NSInvalidArgumentException format:@"Exception raised in JKPanelController -tableView:objectValueForTableColumn:row: - tableView not known"];
+//    [NSException raise:NSInvalidArgumentException format:@"Exception raised in PKPanelController -tableView:objectValueForTableColumn:row: - tableView not known"];
     return nil;
 }
 

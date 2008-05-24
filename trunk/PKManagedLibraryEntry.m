@@ -11,6 +11,7 @@
 #import "MolTypes.h"
 #import "CFragment.h"
 #import "pk_statistics.h"
+#import "PKAppDelegate.h"
 
 @implementation PKManagedLibraryEntry
 

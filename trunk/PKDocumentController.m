@@ -8,8 +8,6 @@
 
 #import "PKDocumentController.h"
 #import "PKGCMSDocument.h"
-#import "JKSeparatorCell.h"
-#import "JKImageTextCell.h"
 #import "RBSplitView.h"
 
 @implementation PKDocumentController

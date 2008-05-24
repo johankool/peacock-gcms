@@ -11,7 +11,6 @@
 #import "PKGCMSDocument.h"
 #import "JKLog.h"
 #import "PKPanelController.h"
-// #import "JKStatisticsDocument.h"
 #import "PKMainWindowController.h"
 #import "PKBooleanToStringTransformer.h"
 #import "PKLibrary.h"
@@ -28,7 +27,6 @@
 #import "PKGraphicalController.h"
 #import <ExceptionHandling/NSExceptionHandler.h>
 #import "PKPluginProtocol.h"
-//#import "PKLicenseController.h"
 
 // Name of the application support folder
 static NSString * SUPPORT_FOLDER_NAME = @"Peacock";
@@ -65,7 +63,7 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
 	[defaultValues setValue:[[NSString stringWithString:@"~/Desktop/Test Library.jdx"] stringByExpandingTildeInPath] forKey:@"libraryAlias"];
 	[defaultValues setValue:[NSNumber numberWithInt:JKAbundanceScoreBasis] forKey:@"scoreBasis"]; // Using formula 1 in Gan 2001
 	[defaultValues setValue:[NSNumber numberWithInt:JKForwardSearchDirection] forKey:@"searchDirection"];
-	[defaultValues setValue:[NSNumber numberWithInt:JKSpectrumSearchSpectrum] forKey:@"spectrumToUse"];
+	[defaultValues setValue:[NSNumber numberWithInt:PKSpectrumSearchSpectrum] forKey:@"spectrumToUse"];
 	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"penalizeForRetentionIndex"];
 	[defaultValues setValue:[NSNumber numberWithFloat:75.0f] forKey:@"markAsIdentifiedThreshold"];
 	[defaultValues setValue:[NSNumber numberWithFloat:50.0f] forKey:@"minimumScoreSearchResults"];
@@ -195,11 +193,6 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
     JKSetVerbosityLevel([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue]);
     //#warning High level debug verbosity set.
     //	JKSetVerbosityLevel(JK_VERBOSITY_ALL);
-
-#warning License check disabled
-//    // Check for valid licenses
-//    [[PKLicenseController sharedController] showWindow:self];
-//    [[PKLicenseController sharedController] begIfNeeded];
 
 #warning Auto-save disabled
 //    if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSave"] boolValue] == YES) {

@@ -6,13 +6,13 @@
 //  Copyright 2006-2007 Johan Kool. All rights reserved.
 //
 
-#import "JKGeneralTesting.h"
+#import "PKGeneralTesting.h"
 #import "PKGCMSDocument.h"
 #import "PKRatio.h"
 #import "PKPeakRecord.h"
 #import "PKChromatogram.h"
 
-@implementation JKGeneralTesting
+@implementation PKGeneralTesting
 
 - (void) setUp
 {
@@ -52,7 +52,7 @@
 
 }
 
-- (void)testJKPeakRecord {
+- (void)testPKPeakRecord {
 	PKPeakRecord *object = [[PKPeakRecord alloc] init];	
 	STAssertNotNil(object, @"Could not create instance.");
 }
@@ -81,7 +81,7 @@
     BOOL result = [chrom100 detectBaselineAndReturnError:&error];
     [error release];
     STAssertTrue(result, @"Could not detect baseline");
-    STAssertTrue([chrom100 baselinePointsCount] > 0, @"No baseline points found");
+    STAssertTrue([chrom100 countOfBaselinePoints] > 0, @"No baseline points found");
 }
 
 - (void)testDetectingPeaks {

@@ -31,6 +31,8 @@
 - (NSUndoManager *)undoManager;
 #pragma mark -
 
+- (BOOL)validateCASNumber:(id *)ioValue error:(NSError **)outError;
+
 #pragma mark Calculated Accessors
 - (NSString *)library;
 - (void)setLibrary:(NSString *)aLibrary;

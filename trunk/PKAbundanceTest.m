@@ -9,8 +9,8 @@
 #import "PKAbundanceTest.h"
 
 #import "PKAbundanceSpectraMatchingMethod.h"
-#import "JKSpectrum.h"
-#import "JKManagedLibraryEntry.h"
+#import "PKSpectrum.h"
+#import "PKManagedLibraryEntry.h"
 
 @implementation PKAbundanceTest
 
@@ -23,8 +23,8 @@
     PKAbundanceSpectraMatchingMethod *matchObject = [[PKAbundanceSpectraMatchingMethod alloc] init];
     STAssertNotNil(matchObject, @"Could not init PKAbundanceSpectraMatchingMethod.");
     NSError *error = [[NSError alloc] init];
-    JKSpectrum *spectrum = [[JKSpectrum alloc] init];
-    JKManagedLibraryEntry *libraryEntry = [[JKManagedLibraryEntry alloc] init];
+    PKSpectrum *spectrum = [[PKSpectrum alloc] init];
+    PKManagedLibraryEntry *libraryEntry = [[PKManagedLibraryEntry alloc] init];
     CGFloat result = [matchObject matchingScoreForSpectrum:spectrum comparedToLibraryEntry:libraryEntry error:&error];
     STAssertEquals(result, 100.0f, @"Unexpected result");
     [spectrum release];

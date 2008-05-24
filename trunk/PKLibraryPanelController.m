@@ -1,5 +1,5 @@
 //
-//  JKLibraryPanelController.m
+//  PKLibraryPanelController.m
 //  Peacock
 //
 //  Created by Johan Kool on 16-11-07.
@@ -21,7 +21,7 @@ static PKLibraryPanelController *theSharedController;
 + (PKLibraryPanelController *) sharedController {
     if (theSharedController == nil) {
 		
-        theSharedController = [[PKLibraryPanelController alloc] initWithWindowNibName: @"JKLibraryPanel"];
+        theSharedController = [[PKLibraryPanelController alloc] initWithWindowNibName: @"PKLibraryPanel"];
     }
 	
     return (theSharedController);
@@ -29,7 +29,7 @@ static PKLibraryPanelController *theSharedController;
 } 
 
 - (id)init {
-	self = [super initWithWindowNibName:@"JKLibraryPanel"];
+	self = [super initWithWindowNibName:@"PKLibraryPanel"];
     if (self != nil) {
         [self setShouldCloseDocument:YES];
     }

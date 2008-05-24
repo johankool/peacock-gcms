@@ -19,7 +19,7 @@
 @interface PKPeakRecord : PKModelObject <NSCoding, PKTargetObjectProtocol> {
     BOOL confirmed;
     BOOL identified;
-//    JKChromatogram *chromatogram;
+//    PKChromatogram *chromatogram;
     NSMutableArray *searchResults;
     NSNumber *baselineLeft;
     NSNumber *baselineRight;

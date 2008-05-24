@@ -14,7 +14,7 @@
 
 /*
  -(id)init {
-    self = [super initWithWindowNibName:@"JKMolWeight"];
+    self = [super initWithWindowNibName:@"PKMolWeight"];
         JKLogDebug(@"init MW panel");
     return self;
 }

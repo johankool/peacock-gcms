@@ -24,7 +24,7 @@
 
 @implementation PKSummaryController
 - (id)init {
-    self = [super initWithWindowNibName:@"JKSummary"];
+    self = [super initWithWindowNibName:@"PKSummary"];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentLoaded:) name:@"JKGCMSDocument_DocumentLoadedNotification" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentUnloaded:) name:@"JKGCMSDocument_DocumentUnloadedNotification" object:nil];
@@ -435,7 +435,7 @@
             if (!mid)
                 return NO;
             PKManagedLibraryEntry *managedLibraryEntry = (PKManagedLibraryEntry *)[moc objectWithID:mid];
-            [combinedPeak setLibraryEntry:managedLibraryEntry];
+            [combinedPeak setLibraryEntry:(PKLibraryEntry *)managedLibraryEntry];
             return YES;
   		}	
     }
