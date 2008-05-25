@@ -8,7 +8,6 @@
 
 #import "PKGCMSDocument.h"
 
-#import "BDAlias.h"
 #import "NSString+ModelCompare.h"
 #import "PKAppDelegate.h"
 #import "PKArrayEncodingObject.h"
@@ -148,10 +147,10 @@ int const JKGCMSDocument_Version = 7;
 		data = [NSMutableData data];
 		archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
         [archiver setDelegate:self];
-//        JKLogDebug(@"Saving time 1: %g", [date timeIntervalSinceNow]);
+//        PKLogDebug(@"Saving time 1: %g", [date timeIntervalSinceNow]);
 		[archiver encodeInt:JKGCMSDocument_Version forKey:@"version"];
  		[archiver encodeObject:[self chromatograms] forKey:@"chromatograms"];
-//        JKLogDebug(@"Saving time 2: %g", [date timeIntervalSinceNow]);
+//        PKLogDebug(@"Saving time 2: %g", [date timeIntervalSinceNow]);
 //		[archiver encodeObject:[self peaks] forKey:@"peaks"];
 		[archiver encodeObject:[self metadata] forKey:@"metadata"];		
 		[archiver encodeObject:baselineWindowWidth forKey:@"baselineWindowWidth"];
@@ -172,27 +171,27 @@ int const JKGCMSDocument_Version = 7;
 		[archiver encodeObject:[self minimumScoreSearchResults] forKey:@"minimumScoreSearchResults"];
 		[archiver encodeObject:[self minimumScannedMassRange] forKey:@"minimumScannedMassRange"];
 		[archiver encodeObject:[self maximumScannedMassRange] forKey:@"maximumScannedMassRange"];
-//        JKLogDebug(@"Saving time 3: %g", [date timeIntervalSinceNow]);
+//        PKLogDebug(@"Saving time 3: %g", [date timeIntervalSinceNow]);
 
 		[archiver finishEncoding];
-//        JKLogDebug(@"Saving time 4: %g", [date timeIntervalSinceNow]);
+//        PKLogDebug(@"Saving time 4: %g", [date timeIntervalSinceNow]);
 		[archiver release];
 		
 		if (peacockFileWrapper) {
 			// This is when we save back to a peacock file
-//            JKLogDebug(@"Saving time 5b: %g", [date timeIntervalSinceNow]);
+//            PKLogDebug(@"Saving time 5b: %g", [date timeIntervalSinceNow]);
 
 			[peacockFileWrapper removeFileWrapper:[[peacockFileWrapper fileWrappers] valueForKey:@"peacock-data"]];
 			NSFileWrapper *fileWrapperForData = [[NSFileWrapper alloc] initRegularFileWithContents:data];
 			[fileWrapperForData setPreferredFilename:@"peacock-data"];
 			[peacockFileWrapper addFileWrapper:fileWrapperForData];
-//            JKLogDebug(@"Saving time 6b: %g", [date timeIntervalSinceNow]);
+//            PKLogDebug(@"Saving time 6b: %g", [date timeIntervalSinceNow]);
 
 			// NetCDF file should not have changed!
 			
 		} else {
 			// First time save to a peacock file
-//            JKLogDebug(@"Saving time 5a: %g", [date timeIntervalSinceNow]);
+//            PKLogDebug(@"Saving time 5a: %g", [date timeIntervalSinceNow]);
 
 			NSMutableDictionary *fileWrappers = [[NSMutableDictionary alloc] init];
 				
@@ -201,17 +200,17 @@ int const JKGCMSDocument_Version = 7;
 			NSAssert(fileWrapperForData != nil, @"fileWrapperForData = nil!");
 			[fileWrapperForData setPreferredFilename:@"peacock-data"];
 			[fileWrappers setObject:fileWrapperForData forKey:@"peacock-data"];	
-//            JKLogDebug(@"Saving time 6a: %g", [date timeIntervalSinceNow]);
+//            PKLogDebug(@"Saving time 6a: %g", [date timeIntervalSinceNow]);
 
 			NSFileWrapper *fileWrapperForNetCDF = [[NSFileWrapper alloc] initWithPath:absolutePathToNetCDF];
             NSAssert(fileWrapperForNetCDF != nil, @"fileWrapperForNetCDF = nil!");
 			[fileWrapperForNetCDF setPreferredFilename:@"netcdf"];
 			[fileWrappers setObject:fileWrapperForNetCDF forKey:@"netcdf"];		
- //           JKLogDebug(@"Saving time 7a: %g", [date timeIntervalSinceNow]);
+ //           PKLogDebug(@"Saving time 7a: %g", [date timeIntervalSinceNow]);
 
 			peacockFileWrapper = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:fileWrappers];			
 		}
-//        JKLogDebug(@"Saving time 8: %g", [date timeIntervalSinceNow]);
+//        PKLogDebug(@"Saving time 8: %g", [date timeIntervalSinceNow]);
 
 		return peacockFileWrapper;	
 		
@@ -241,7 +240,7 @@ int const JKGCMSDocument_Version = 7;
 		if (result) {
 			peacockFileWrapper = wrapper;
 		} else {
-            JKLogError(@"No NetCDF file found at '%@'.",[[absoluteURL path] stringByAppendingPathComponent:@"netcdf"]);
+            PKLogError(@"No NetCDF file found at '%@'.",[[absoluteURL path] stringByAppendingPathComponent:@"netcdf"]);
             return NO;
         }
         
@@ -295,8 +294,6 @@ int const JKGCMSDocument_Version = 7;
         [self setPeakIdentificationThreshold:[unarchiver decodeObjectForKey:@"peakIdentificationThreshold"]];
         [self setRetentionIndexSlope:[unarchiver decodeObjectForKey:@"retentionIndexSlope"]];
         [self setRetentionIndexRemainder:[unarchiver decodeObjectForKey:@"retentionIndexRemainder"]];	
-        // because we normally expand aliases and open them we need to wrap this back into a BDAlias
-//        [self setLibraryAlias:[unarchiver decodeObjectForKey:@"libraryAlias"]];//[BDAlias aliasWithPath:[[unarchiver decodeObjectForKey:@"libraryAlias"] fileName]]];
         [self setScoreBasis:[unarchiver decodeIntForKey:@"scoreBasis"]];
         [self setSearchDirection:[unarchiver decodeIntForKey:@"searchDirection"]];
         [self setSpectrumToUse:[unarchiver decodeIntForKey:@"spectrumToUse"]];
@@ -338,16 +335,13 @@ int const JKGCMSDocument_Version = 7;
     if (object == self) {
         return _documentProxy;
     }
-//    else if ([object isKindOfClass:[JKLibrary class]]) {
-//        return [BDAlias aliasWithPath:[object fileName]];
-//    }
     return object;
 }
 
 - (id)unarchiver:(NSKeyedUnarchiver *)unarchiver didDecodeObject:(id)object {
     if ([object isKindOfClass:[NSDictionary class]]) {
         if ([[object valueForKey:@"_documentProxy"] isEqualToString:@"_documentProxy"]) {
-            JKLogDebug(@"retaincount = %d",[self retainCount]);
+            PKLogDebug(@"retaincount = %d",[self retainCount]);
             return self;
         }
     }
@@ -483,7 +477,7 @@ int const JKGCMSDocument_Version = 7;
 	// and the remaining string
 	_remainingString = [array objectAtIndex:count-1];
 	
-	JKLogDebug(@"Found %d entries", [libraryEntries count]);
+	PKLogDebug(@"Found %d entries", [libraryEntries count]);
 	[libraryEntries autorelease];
     return libraryEntries;	
 }
@@ -753,7 +747,7 @@ int const JKGCMSDocument_Version = 7;
         
         dummy = nc_inq_varid(ncid, "raw_data_retention", &varid_scanaqtime);
 		//		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting raw_data_retention variable failed.\nNetCDF error: %d",@""), dummy];
-        if(dummy != NC_NOERR) { NSBeep(); JKLogError(@"Getting raw_data_retention variable failed. Report error #%d.", dummy); hasVarid_scanaqtime = NO;}
+        if(dummy != NC_NOERR) { NSBeep(); PKLogError(@"Getting raw_data_retention variable failed. Report error #%d.", dummy); hasVarid_scanaqtime = NO;}
         
         dummy = nc_inq_varid(ncid, "ordinate_values", &varid_totintens);
 		if(dummy != NC_NOERR) [NSException raise:NSLocalizedString(@"Expected data absent",@"Expected data absent") format:NSLocalizedString(@"Getting ordinate_values variable failed.\nNetCDF error: %d",@""), dummy];
@@ -782,7 +776,7 @@ int const JKGCMSDocument_Version = 7;
 }
 
 - (PKChromatogram *)chromatogramForModel:(NSString *)model {
-    JKLogDebug(@"model %@", model);
+    PKLogDebug(@"model %@", model);
     int     dummy, scan, dimid, varid_intensity_value, varid_mass_value, varid_scan_index, varid_point_count, scanCount; //varid_time_value
     float   mass, intensity;
     float	*times,	*intensities;
@@ -858,31 +852,31 @@ int const JKGCMSDocument_Version = 7;
         
 
     dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
-    if(dummy != NC_NOERR) { JKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return nil;}
+    if(dummy != NC_NOERR) { PKLogError(@"Getting mass_values variable failed. Report error #%d.", dummy); return nil;}
     
 //    dummy = nc_inq_varid(ncid, "time_values", &varid_time_value);
-//    if(dummy != NC_NOERR) { JKLogError(@"Getting time_values variable failed. Report error #%d. Continuing...", dummy);}
+//    if(dummy != NC_NOERR) { PKLogError(@"Getting time_values variable failed. Report error #%d. Continuing...", dummy);}
     
     dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
-    if(dummy != NC_NOERR) { JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return nil;}
+    if(dummy != NC_NOERR) { PKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return nil;}
 	
     dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
-    if(dummy != NC_NOERR) { JKLogError(@"Getting varid_scan_index variable failed. Report error #%d.", dummy); return nil;}
+    if(dummy != NC_NOERR) { PKLogError(@"Getting varid_scan_index variable failed. Report error #%d.", dummy); return nil;}
 	
     dummy = nc_inq_varid(ncid, "point_count", &varid_point_count);
-    if(dummy != NC_NOERR) { JKLogError(@"Getting point_count variable failed. Report error #%d.", dummy); return nil;}
+    if(dummy != NC_NOERR) { PKLogError(@"Getting point_count variable failed. Report error #%d.", dummy); return nil;}
     
     dummy = nc_inq_dimid(ncid, "point_number", &dimid);
-    if(dummy != NC_NOERR) { JKLogError(@"Getting point_number dimension failed. Report error #%d.", dummy); return nil;}
+    if(dummy != NC_NOERR) { PKLogError(@"Getting point_number dimension failed. Report error #%d.", dummy); return nil;}
     
     dummy = nc_inq_dimlen(ncid, dimid, (void *) &numberOfPoints);
-    if(dummy != NC_NOERR) { JKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return nil;}
+    if(dummy != NC_NOERR) { PKLogError(@"Getting point_number dimension length failed. Report error #%d.", dummy); return nil;}
 	
     dummy = nc_inq_dimid(ncid, "scan_number", &dimid);
-    if(dummy != NC_NOERR) { JKLogError(@"Getting scan_number dimension failed. Report error #%d.", dummy); return nil;}
+    if(dummy != NC_NOERR) { PKLogError(@"Getting scan_number dimension failed. Report error #%d.", dummy); return nil;}
     
     dummy = nc_inq_dimlen(ncid, dimid, (void *) &num_scan);
-    if(dummy != NC_NOERR) { JKLogError(@"Getting scan_number dimension length failed. Report error #%d.", dummy); return nil;}
+    if(dummy != NC_NOERR) { PKLogError(@"Getting scan_number dimension length failed. Report error #%d.", dummy); return nil;}
     
 	times = (float *) malloc((num_scan)*sizeof(float));
 	intensities = (float *) malloc((num_scan)*sizeof(float));
@@ -906,7 +900,7 @@ int const JKGCMSDocument_Version = 7;
         massValues = (float *) realloc(massValues, scanCount*sizeof(float));
         
         dummy = nc_get_vara_float(ncid, varid_mass_value, (const size_t *) &scan, (const size_t *) &scanCount, massValues);
-        if(dummy != NC_NOERR) { JKLogError(@"Getting mass_values failed. Report error #%d.", dummy); return nil;}
+        if(dummy != NC_NOERR) { PKLogError(@"Getting mass_values failed. Report error #%d.", dummy); return nil;}
         
         
         for(j = 0; j < (unsigned)scanCount; j++) {
@@ -960,33 +954,33 @@ int const JKGCMSDocument_Version = 7;
     float 	*intensities;
     
     dummy = nc_inq_varid(ncid, "mass_values", &varid_mass_value);
-    if(dummy != NC_NOERR) { JKLogError(@"Getting mass_value variable failed. Report error #%d.", dummy);        return 0;}
+    if(dummy != NC_NOERR) { PKLogError(@"Getting mass_value variable failed. Report error #%d.", dummy);        return 0;}
     
     dummy = nc_inq_varid(ncid, "scan_index", &varid_scan_index);
-    if(dummy != NC_NOERR) { JKLogError(@"Getting scan_index variable failed. Report error #%d.", dummy); return 0;}
+    if(dummy != NC_NOERR) { PKLogError(@"Getting scan_index variable failed. Report error #%d.", dummy); return 0;}
     
     dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &start);
-    if(dummy != NC_NOERR) { JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
+    if(dummy != NC_NOERR) { PKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
     
     scan++;
     dummy = nc_get_var1_int(ncid, varid_scan_index, (void *) &scan, &end);
-    if(dummy != NC_NOERR) { JKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
+    if(dummy != NC_NOERR) { PKLogError(@"Getting scan_index variable at index %d failed. Report error #%d.", scan, dummy); return 0;}
     
     numberOfPoints = end - start;
     
     massValues = (float *) malloc(numberOfPoints*sizeof(float));
     
     dummy = nc_get_vara_float(ncid, varid_mass_value, (const size_t *) &start, (const size_t *) &numberOfPoints, massValues);
-    if(dummy != NC_NOERR) { JKLogError(@"Getting mass_values failed. Report error #%d.", dummy); return nil;}
+    if(dummy != NC_NOERR) { PKLogError(@"Getting mass_values failed. Report error #%d.", dummy); return nil;}
 
     
     dummy = nc_inq_varid(ncid, "intensity_values", &varid_intensity_value);
-    if(dummy != NC_NOERR) { JKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return 0;}
+    if(dummy != NC_NOERR) { PKLogError(@"Getting intensity_value variable failed. Report error #%d.", dummy); return 0;}
         
     intensities = (float *) malloc((numberOfPoints)*sizeof(float));
     
     dummy = nc_get_vara_float(ncid, varid_intensity_value, (const size_t *) &start, (const size_t *) &numberOfPoints, intensities);
-    if(dummy != NC_NOERR) { JKLogError(@"Getting intensity_values failed. Report error #%d.", dummy); return nil;}
+    if(dummy != NC_NOERR) { PKLogError(@"Getting intensity_values failed. Report error #%d.", dummy); return nil;}
     
     PKSpectrum *spectrum = [[PKSpectrum alloc] initWithModel:[NSString stringWithFormat:@"scan %d",scan-1]];
   
@@ -1013,7 +1007,7 @@ int const JKGCMSDocument_Version = 7;
                                                        code:807
                                                    userInfo:userInfoDict] autorelease];
         *error = anError;    
-        JKLogError(errorString);
+        PKLogError(errorString);
         return nil;
     }
     
@@ -1021,7 +1015,7 @@ int const JKGCMSDocument_Version = 7;
     if (plugIn) {
         NSObject <PKSpectraMatchingMethodProtocol> *object = [plugIn sharedObjectForMethod:spectraMatchingMethod];
         if (object) {
-            JKLogInfo(@"spectraMatchingObject is %@", object);
+            PKLogInfo(@"spectraMatchingObject is %@", object);
             return object;
         } else {
             // Error 801
@@ -1034,7 +1028,7 @@ int const JKGCMSDocument_Version = 7;
                                                            code:801
                                                        userInfo:userInfoDict] autorelease];
             *error = anError;             
-            JKLogError(errorString);
+            PKLogError(errorString);
             return nil;
         }
     } else {
@@ -1048,7 +1042,7 @@ int const JKGCMSDocument_Version = 7;
                                                        code:800
                                                    userInfo:userInfoDict] autorelease];
         *error = anError;          
-        JKLogError(errorString);
+        PKLogError(errorString);
         return nil;
     }
 }
@@ -1171,7 +1165,7 @@ int const JKGCMSDocument_Version = 7;
             } else if (spectrumToUse == JKCombinedSpectrumSearchSpectrum) {
                 peakSpectrum = [peak combinedSpectrum];
             } else {
-                JKLogError(@"spectrumToUse has unexpected value.");
+                PKLogError(@"spectrumToUse has unexpected value.");
             }
             
             for (libraryEntry in libraryEntries) {
@@ -1193,7 +1187,7 @@ int const JKGCMSDocument_Version = 7;
 
         }
         if(abortAction){
-			JKLogInfo(@"Identifying Compounds Search Aborted by User at entry %d/%d peak %d/%d.",j,entriesCount, k, peaksCount);
+			PKLogInfo(@"Identifying Compounds Search Aborted by User at entry %d/%d peak %d/%d.",j,entriesCount, k, peaksCount);
             _isBusy = NO;
 			break;
 		}       
@@ -1266,7 +1260,7 @@ int const JKGCMSDocument_Version = 7;
     } else if (spectrumToUse == JKCombinedSpectrumSearchSpectrum) {
         peakSpectrum = [aPeak combinedSpectrum];
     } else {
-        JKLogError(@"spectrumToUse has unexpected value.");
+        PKLogError(@"spectrumToUse has unexpected value.");
     }
     [progressIndicator setIndeterminate:NO];
 	[progressIndicator setMaxValue:[libraryEntries count]*1.0];
@@ -1387,7 +1381,7 @@ int const JKGCMSDocument_Version = 7;
 	entriesCount = [libraryEntries count];
 	[progressIndicator setIndeterminate:NO];
 	[progressIndicator setMaxValue:entriesCount*1.0];
- //   JKLogDebug(@"entriesCount %d peaksCount %d",entriesCount, peaksCount);
+ //   PKLogDebug(@"entriesCount %d peaksCount %d",entriesCount, peaksCount);
 
     // Get Spectra Matching Object from Plugin
     NSObject <PKSpectraMatchingMethodProtocol> *spectraMatchingObject = [self objectForSpectraMatching:nil];
@@ -1424,10 +1418,10 @@ int const JKGCMSDocument_Version = 7;
             if (!chromatogramToSearch) {
                 // Add chromatogram
                 [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Fetching Chromatogram for Model '%@'",@""),libraryEntryModel] waitUntilDone:NO];
-                //JKLogWarning(@"Adding chromatogram for model '%@'.", libraryEntryModel); 
+                //PKLogWarning(@"Adding chromatogram for model '%@'.", libraryEntryModel); 
                 chromatogramToSearch = [self chromatogramForModel:libraryEntryModel];
                 if (!chromatogramToSearch) {
-                    JKLogWarning(@"Chromatogram with model '%@' could not be obtained.", libraryEntryModel); 
+                    PKLogWarning(@"Chromatogram with model '%@' could not be obtained.", libraryEntryModel); 
                     continue;
                 }
                 if (![searchChromatograms containsObject:chromatogramToSearch]) {                    
@@ -1440,7 +1434,7 @@ int const JKGCMSDocument_Version = 7;
         } else {
             if ([searchChromatograms containsObject:[[self chromatograms] objectAtIndex:0]]) {
                 if ([libraryEntry isKindOfClass:[PKLibraryEntry class]]) {
-                    JKLogWarning(@"Using TIC chromatogram for library entry '%@'.", [libraryEntry name]); 
+                    PKLogWarning(@"Using TIC chromatogram for library entry '%@'.", [libraryEntry name]); 
                 }
                 chromatogramToSearch = [[self chromatograms] objectAtIndex:0];
             } else {
@@ -1458,7 +1452,7 @@ int const JKGCMSDocument_Version = 7;
             return NO;
         }                         
         if ([[chromatogramToSearch peaks] count] == 0) {
-            JKLogError(@"No peaks found for chromatogram with model '%@'. bls: %d", [chromatogramToSearch model],[chromatogramToSearch countOfBaselinePoints]);                        
+            PKLogError(@"No peaks found for chromatogram with model '%@'. bls: %d", [chromatogramToSearch model],[chromatogramToSearch countOfBaselinePoints]);                        
         }
         if ([libraryEntry isKindOfClass:[PKLibraryEntry class]]) {
             [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Library Entry '%@'",@""),[libraryEntry name]] waitUntilDone:NO];
@@ -1482,7 +1476,7 @@ int const JKGCMSDocument_Version = 7;
         
 		// Add libentry as result to highest scoring peak if it is within range of acceptance
 		if ((maximumScore >= minimumScoreSearchResultsF) && (maximumIndex > -1)) {
-            JKLogDebug(@"Found match for %@",[libraryEntry name]);
+            PKLogDebug(@"Found match for %@",[libraryEntry name]);
 			PKSearchResult *searchResult = [[PKSearchResult alloc] init];
 			[searchResult setScore:[NSNumber numberWithFloat:maximumScore]];
             [searchResult setLibraryHit:libraryEntry];
@@ -1493,7 +1487,7 @@ int const JKGCMSDocument_Version = 7;
 		} 
         
 		if(abortAction){
-			JKLogInfo(@"Identifying Compounds Search Aborted by User at entry %d/%d peak %d/%d.",j,entriesCount, k, peaksCount);
+			PKLogInfo(@"Identifying Compounds Search Aborted by User at entry %d/%d peak %d/%d.",j,entriesCount, k, peaksCount);
             _isBusy = NO;
             // Error 400
             // Spectra Matching Method could not be loaded
@@ -1695,7 +1689,7 @@ int const JKGCMSDocument_Version = 7;
 
 #pragma mark Actions (OBSOLETE)
 - (void)redistributedSearchResults:(PKPeakRecord *)originatingPeak {
-    JKLogWarning(@"DEPRECATED METHOD IS USED");
+    PKLogWarning(@"DEPRECATED METHOD IS USED");
 	int k;
 	int peaksCount;
 	int maximumIndex;
@@ -1811,33 +1805,7 @@ int const JKGCMSDocument_Version = 7;
     return x * [retentionIndexSlope floatValue] + [retentionIndexRemainder floatValue];
 }
 
-- (int)nextPeakID 
-{
-//    NSArray *peaks = [self peaks];
-//    int i, j, count = [peaks count];
-//    BOOL found;
-//    
-//    for (j=1; j < count+1; j++) {
-//        found = NO;
-//        for (i=0; i<count; i++) {
-//            if ([[peaks objectAtIndex:i] peakID] == j) {
-//                found = YES;
-//            }
-//        }
-//        if (!found) {
-//            if (_lastReturnedIndex != j) {
-//                _lastReturnedIndex = j;
-//               return j; 
-//            }
-//
-//        }
-//    }
-//    j = count+1;
-//    if (_lastReturnedIndex == j) {
-//        j = _lastReturnedIndex+1;
-//    }
-//    _lastReturnedIndex = j;
-//    return j;
+- (int)nextPeakID {
     _lastReturnedIndex++;
     return _lastReturnedIndex;
 }
@@ -1853,7 +1821,6 @@ int const JKGCMSDocument_Version = 7;
     
     return totalPeakSurface;
 }
-
 #pragma mark -
 
 #pragma mark Key Value Observing
@@ -1884,6 +1851,7 @@ int const JKGCMSDocument_Version = 7;
     if (dummy == NC_NOERR) return count + 2;//[[self metadata] count];
     return 2;//[[self metadata] count];			
 }
+
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
     int dummy;
     NSMutableString *nameString, *keyString;
@@ -1918,7 +1886,7 @@ int const JKGCMSDocument_Version = 7;
         /*
          NSCalendarDate *date;
          if ([nameString rangeOfString:@"time_stamp"].location > 0) {
-             JKLogDebug(@"date");
+             PKLogDebug(@"date");
              date = [NSCalendarDate dateWithString:keyString calendarFormat:@"%Y%m%d%H%M%S%z"];
              keyString = "2323";
              return keyString;
@@ -2209,11 +2177,11 @@ boolAccessor(abortAction, setAbortAction)
 #pragma mark Debug
 // Great debug snippet!
 //- (void)addObserver:(NSObject *)anObserver forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context {
-//    JKLogDebug(@"addObserver:    %@ %@", anObserver, keyPath);
+//    PKLogDebug(@"addObserver:    %@ %@", anObserver, keyPath);
 //    [super addObserver:anObserver forKeyPath:keyPath options:options context:context];
 //}
 //- (void)removeObserver:(NSObject *)anObserver forKeyPath:(NSString *)keyPath {
-//    JKLogDebug(@"removeObserver: %@ %@", anObserver, keyPath);
+//    PKLogDebug(@"removeObserver: %@ %@", anObserver, keyPath);
 //    [super removeObserver:anObserver forKeyPath:keyPath];
 //}
 

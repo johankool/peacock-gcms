@@ -37,7 +37,7 @@
             }
             [outString appendString:@"\n"];
         }
-        JKLogDebug(outString);
+        PKLogDebug(outString);
 
         NSPasteboard *pb = [NSPasteboard generalPasteboard];
         //Declare types of data you'll be putting onto the pasteboard
@@ -73,7 +73,7 @@
             }
             [outString appendString:@"\n"];
         }
-        JKLogDebug(outString);
+        PKLogDebug(outString);
         
         NSPasteboard *pb = [NSPasteboard generalPasteboard];
         //Declare types of data you'll be putting onto the pasteboard

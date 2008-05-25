@@ -8,11 +8,11 @@
 
 #import "PKModelObject.h"
 
-@class PKSpectrum;
-@class PKGCMSDocument;
 @class PKChromatogramDataSeries;
-@class PKPeakRecord;
+@class PKGCMSDocument;
 @class PKLibraryEntry;
+@class PKPeakRecord;
+@class PKSpectrum;
 
 @interface PKChromatogram : PKModelObject <NSCoding> {
     NSString *model;
@@ -36,7 +36,7 @@
 /*! @functiongroup Initialization */
 #pragma mark Initialization
 
-    /*! Designated initializer. */
+/*! Designated initializer. */
 - (id)initWithModel:(NSString *)model;
 #pragma mark -
 
@@ -47,21 +47,23 @@
    
     /*! @functiongroup Actions */
 #pragma mark Actions
-// DEPRECATED
-// DEPRECATED - (void)obtainBaseline;
-// DEPRECATED - (void)identifyPeaks;
-// DEPRECATED - (void)identifyPeaksWithForce:(BOOL)forced;
 - (PKPeakRecord *)peakFromScan:(int)startScan toScan:(int)endScan;
 //- (void)addPeakFromScan:(int)startScan toScan:(int)endScan withLeftBaseline:(float)baselineLeft andRightBaseline:(float)baselineRight;
 - (BOOL)combinePeaks:(NSArray *)peaksToCombine;
 
 - (int)baselinePointsIndexAtScan:(int)inValue;
 - (float)baselineValueAtScan:(int)inValue;
-//- (void)addBaselinePoint:(NSDictionary *)aPoint;
+- (void)removeUnidentifiedPeaks;
 
 - (float)highestPeakHeight;
 - (float)largestPeakSurface;
-- (void)removeUnidentifiedPeaks;
+
+- (float)maxTime;
+- (float)minTime;
+- (float)maxTotalIntensity;
+- (float)minTotalIntensity;
+
+
 #pragma mark -
 - (NSString *)legendEntry;
 
@@ -112,26 +114,10 @@
 - (void)replaceObjectInPeaksAtIndex:(int)index withObject:(PKPeakRecord *)aPeak;
 - (BOOL)validatePeak:(PKPeakRecord **)aPeak error:(NSError **)outError;
 
-//- (void)setBaseline:(NSArray *)newBaseline;
-//- (int)baselinePointsCount;
-//- (void)setBaselinePointsScans:(int *)inArray withCount:(int)inValue;
-//- (int *)baselinePointsScans;
-//- (void)setBaselinePointsIntensities:(float *)inArray withCount:(int)inValue;
-//- (float *)baselinePointsIntensities;
-                
-
-
-- (float)maxTime;
-- (float)minTime;
-- (float)maxTotalIntensity;
-- (float)minTotalIntensity;
-
-//@property (getter=baselinePointsScans) int *baselinePointsScans;
-//@property (getter=baselinePointsCount) int baselinePointsCount;
 @property (getter=time) float *time;
-//@property (getter=baselinePointsIntensities) float *baselinePointsIntensities;
 @property (getter=totalIntensity) float *totalIntensity;
 @property (getter=numberOfPoints) int numberOfPoints;
 @property (retain) NSMutableArray *baselinePoints;
+
 @end
 

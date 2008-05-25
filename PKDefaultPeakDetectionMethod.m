@@ -8,12 +8,12 @@
 
 #import "PKDefaultPeakDetectionMethod.h"
 
-#import "JKLog.h"
+#import "PKLog.h"
 
 @implementation PKDefaultPeakDetectionMethod
 
 - (id)init {
- //   JKLogEnteringMethod();
+ //   PKLogEnteringMethod();
     self = [super init];
     if (self != nil) {
         [self setSettings:[PKDefaultPeakDetectionMethod defaultSettings]];
@@ -27,7 +27,7 @@
 }
 
 - (NSArray *)peaksForChromatogram:(PKChromatogram *)aChromatogram error:(NSError **)error {
-//    JKLogEnteringMethod();
+//    PKLogEnteringMethod();
     // Fall back to default settings when settings are nil
     if (![self settings]) {
         [self setSettings:[PKDefaultPeakDetectionMethod defaultSettings]];
@@ -102,7 +102,7 @@
             i = end;			
         }
     }    
-//    JKLogDebug(@"%d peaks found", [newPeaks count]);
+//    PKLogDebug(@"%d peaks found", [newPeaks count]);
     return [newPeaks autorelease];
 }
 

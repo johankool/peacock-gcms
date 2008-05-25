@@ -8,13 +8,13 @@
 
 #import "PKAbundanceSpectraMatchingMethod.h"
 
-#import "JKLog.h"
+#import "PKLog.h"
 #import "math.h"
 
 @implementation PKAbundanceSpectraMatchingMethod
 
 - (id)init {
-//    JKLogEnteringMethod();
+//    PKLogEnteringMethod();
     self = [super init];
     if (self != nil) {
       //  [self setSettings:[PKAbundanceSpectraMatchingMethod defaultSettings]];
@@ -55,7 +55,7 @@
     }
     NSAssert1(maxIntensityLibraryEntry > 0.0f, @"maxIntensityLibraryEntry is 0 or smaller for library entry '%@'", libraryEntry);
     
-//    JKLogDebug(@"maxIntensitySpectrum %g; maxIntensityLibraryEntry %g", maxIntensitySpectrum, maxIntensityLibraryEntry);
+//    PKLogDebug(@"maxIntensitySpectrum %g; maxIntensityLibraryEntry %g", maxIntensitySpectrum, maxIntensityLibraryEntry);
 
 	float massDifference = 0.0f;
 	float temp1, temp2;
@@ -79,7 +79,7 @@
     }
     
     if (maxScannedMassRange <= minScannedMassRange) {
- //       JKLogDebug(@"useScanRangeCheck disabled: minScannedMassRange: %g; maxScannedMassRange: %g", minScannedMassRange, maxScannedMassRange);
+ //       PKLogDebug(@"useScanRangeCheck disabled: minScannedMassRange: %g; maxScannedMassRange: %g", minScannedMassRange, maxScannedMassRange);
         useScanRangeCheck = NO;
     }
     
@@ -173,7 +173,7 @@
             // When out of range?!?
             // Keep counting to get us out of it...
             k++; i++; j++;
-            //JKLogError(@"This should not happen ever!! i %d j %d k %d massdif %f mass %f masslib %f inten %f intenlib %f count1 %d count2 %d", i,j,k, massDifference, masses[i], libraryEntryMasses[j], intensities[i], libraryEntryIntensities[j], count1, count2);
+            //PKLogError(@"This should not happen ever!! i %d j %d k %d massdif %f mass %f masslib %f inten %f intenlib %f count1 %d count2 %d", i,j,k, massDifference, masses[i], libraryEntryMasses[j], intensities[i], libraryEntryIntensities[j], count1, count2);
         }
         
         if ((i >= count1) && (j >= count2)) {

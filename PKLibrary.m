@@ -99,11 +99,11 @@
         unsigned int usedEncoding;
         NSString *inString = [NSString stringWithContentsOfURL:absoluteURL usedEncoding:&usedEncoding error:outError];
 		if (!inString) {
-			JKLogWarning(@"Library encoding is not recognized, trying as UTF8.");
+			PKLogWarning(@"Library encoding is not recognized, trying as UTF8.");
 			inString = [NSString stringWithContentsOfURL:absoluteURL encoding:NSUTF8StringEncoding error:outError];
 		}
 		if (!inString) {
-			JKLogWarning(@"Library is not readable as UTF8, perhaps as ASCII?");
+			PKLogWarning(@"Library is not readable as UTF8, perhaps as ASCII?");
 			inString = [NSString stringWithContentsOfURL:absoluteURL encoding:NSASCIIStringEncoding error:outError];
 		}
 		if (!inString) {
@@ -431,7 +431,7 @@
         return nil;
     
     NSString *searchTemplateString = [searchTemplate valueForKey:@"searchTemplate"];
-    JKLogDebug(@"%@: %@",searchTemplateName, searchTemplateString);
+    PKLogDebug(@"%@: %@",searchTemplateName, searchTemplateString);
     
     // Substitute values for targetSpectrum
     NSPredicate *predicate = [NSPredicate predicateWithFormat:searchTemplateString];
@@ -448,7 +448,7 @@
 {
 	NSManagedObjectContext *moc = [self managedObjectContext];
 //    NSAssert([[moc registeredObjects] count] > 0, @"No registeredObjects in managedObjectContext?!");
-//    JKLogDebug(@"%d registeredObjects in managedObjectContext?!",[[moc registeredObjects] count]); // EXPENSIVE LOG!!
+//    PKLogDebug(@"%d registeredObjects in managedObjectContext?!",[[moc registeredObjects] count]); // EXPENSIVE LOG!!
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"JKManagedLibraryEntry" inManagedObjectContext:moc];
     NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
     [request setEntity:entityDescription];
@@ -470,7 +470,7 @@
     if (array == nil)
     {
         // Deal with error...
-        JKLogError(@"No library entries were found.");
+        PKLogError(@"No library entries were found.");
         [self willPresentError:error];
     }
     [error release];

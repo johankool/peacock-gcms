@@ -8,35 +8,34 @@
 
 #import "PKAppDelegate.h"
 
-#import "PKGCMSDocument.h"
-#import "JKLog.h"
-#import "PKPanelController.h"
-#import "PKMainWindowController.h"
+#import "PKBatchProcessWindowController.h"
 #import "PKBooleanToStringTransformer.h"
+#import "PKDocumentController.h"
+#import "PKGCMSDocument.h"
+#import "PKGraphicalController.h"
 #import "PKLibrary.h"
 #import "PKLibraryEntry.h"
 #import "PKLibraryPanelController.h"
+#import "PKLog.h"
+#import "PKMainWindowController.h"
 #import "PKManagedLibraryEntry.h"
+#import "PKPanelController.h"
 #import "PKPeakRecord.h"
-#import "PKSummaryController.h"
+#import "PKPluginProtocol.h"
+#import "PKPreferencesWindowController.h"
 #import "PKRatiosController.h"
 #import "PKSummarizer.h"
-#import "PKPreferencesWindowController.h"
-#import "PKBatchProcessWindowController.h"
-#import "PKDocumentController.h"
-#import "PKGraphicalController.h"
+#import "PKSummaryController.h"
 #import <ExceptionHandling/NSExceptionHandler.h>
-#import "PKPluginProtocol.h"
 
-// Name of the application support folder
+// Name of the application support folders and extenstion of library
 static NSString * SUPPORT_FOLDER_NAME = @"Peacock";
 static NSString * LIBRARY_FOLDER_NAME = @"Libraries";
-//static NSString * LICENSES_FOLDER_NAME = @"Licenses";
 static NSString * LIBRARY_EXTENSION = @"peacock-library";
-//static NSString * LICENSE_EXTENSION = @"peacock-license";
 
 @implementation PKAppDelegate
 
+#pragma mark Initialisation and deallocation
 + (void)initialize {
 	// Register default settings
 	NSMutableDictionary *defaultValues = [NSMutableDictionary new];
@@ -126,16 +125,15 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
     [defaultValues setValue:[NSArchiver archivedDataWithRootObject:[NSColor whiteColor]] forKey:@"legendFrameColor"];
     [defaultValues setValue:[NSArchiver archivedDataWithRootObject:[NSColor greenColor]] forKey:@"baselineColor"];
 				
-    // Additions for Peacock
+    // Additions to PKGraphView for Peacock
     [defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"shouldDrawBaseline"];
     [defaultValues setValue:[NSNumber numberWithBool:YES] forKey:@"shouldDrawPeaks"];
 	[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:@"drawLabelsAlways"];
     
-    
 	// Hidden preference for logging verbosity
 	[defaultValues setValue:[NSNumber numberWithInt:JK_VERBOSITY_INFO] forKey:@"JKVerbosity"];
 	
-//	[[NSUserDefaults standardUserDefaults] setInitialValues:defaultValues];
+    // Set initial values
 	[[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:defaultValues];
 	[defaultValues release];
 }
@@ -143,7 +141,8 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
 - (id)init {
 	self = [super init];
 	if (self != nil) {
-		[self setDelegate:self];		
+        // Set ourselves as the app delegate
+        [self setDelegate:self];
         
         // Create and register font name value transformer
         NSValueTransformer *transformer = [[PKBooleanToStringTransformer alloc] init];
@@ -151,7 +150,7 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
                 
         availableDictionaries = [[NSMutableArray alloc] init];
         autocompleteEntries = [[NSArray alloc] init];
-        libraryConfigurationLoaded = @"";
+        libraryConfigurationLoaded = [@"" retain];
      
         summarizer = [[PKSummarizer alloc] init];
         baselineDetectionMethods = [[NSMutableDictionary alloc] init];
@@ -164,24 +163,22 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
 	return self;
 }
 
-- (void)dealloc
-{
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center removeObserver: self
-					  name: nil
-					object: nil];
+- (void)dealloc {
+    // Release objects
     [availableDictionaries release];
     [autocompleteEntries release];
+    [libraryConfigurationLoaded release];
     
+    [summarizer release];
     [baselineDetectionMethods release]; 
     [peakDetectionMethods release];
     [spectraMatchingMethods release];
     
     [super dealloc];
 }
-#pragma mark  -
+#pragma mark -
 
-#pragma mark DELEGATE METHODS
+#pragma mark Delegate Methods
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
     // Delegate method per NSApplication to suppress or allow untitled window at launch.
     return NO;
@@ -189,24 +186,33 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {	
 	// Execute startup preferences
-    //#warning Custom level debug verbosity set.
+    
+    // Custom level debug verbosity
     JKSetVerbosityLevel([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue]);
-    //#warning High level debug verbosity set.
-    //	JKSetVerbosityLevel(JK_VERBOSITY_ALL);
+    
+#ifndef DEBUG
+    // High level debug verbosity always during debug
+    JKSetVerbosityLevel(JK_VERBOSITY_ALL);
+    PKLogDebug(@"Peacock is now running in Debug mode");
+#endif
 
-#warning Auto-save disabled
+#warning [BUG] Auto-save disabled
+    // Auto-save doesn't seem to work because it seems to get confused about the file-type it should use to save the file
+    
 //    if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSave"] boolValue] == YES) {
 //        [[NSDocumentController sharedDocumentController] setAutosavingDelay:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSaveDelay"] intValue]*60];
 //    } else {
 //        [[NSDocumentController sharedDocumentController] setAutosavingDelay:0];
 //    }
 	
+    // Show inspector panel
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"showInspectorOnLaunch"] boolValue] == YES) {
         [[PKPanelController sharedController] showInspector:self];
     } else {
 		[PKPanelController sharedController]; // Just so it's initiated in time to register for notifications
 	}
 	
+    // Show mass calculator
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"showMassCalculatorOnLaunch"] boolValue] == YES) {
         [mwWindowController showWindow:self];
     } 
@@ -214,23 +220,19 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
     // Make the main window main 
     [[[PKDocumentController sharedDocumentController] window] makeKeyAndOrderFront:self];
 
+    // Show welcome window
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"skipWelcomeDialog"] boolValue] == NO) {
         [welcomeWindow center];
         [welcomeWindow makeKeyAndOrderFront:self];
     }	
-    
-	// Growl support
-	[GrowlApplicationBridge setGrowlDelegate:self];
-    
+       
     // Load plugins
     [self loadAllPlugins];
         
-//    // We call load library with "None" even though it's not the default. This causes the detection of the available libraries, but doesn't load them. When the application needs it they will get loaded because the loaded configuration ("None") will be different from the selected one.
-//    libraryConfigurationLoaded = @"";
-//	[self loadLibraryForConfiguration:@"None"];
-//    libraryConfigurationLoaded = @"";
+    // Load library configuration
     [self loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"libraryConfiguration"]];
     
+    // Show library panel
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"showLibraryPanelOnLaunch"] boolValue] == YES) {
         [[PKLibraryPanelController sharedController] showInspector:self];
     }    
@@ -238,6 +240,7 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
+    // Prevent user from accidentally closing Peacock when he has files open
     if ([[[PKDocumentController sharedDocumentController] documents] count] > 0) {
         NSString *msgString;
         if ([[[PKDocumentController sharedDocumentController] documents] count] == 1) {
@@ -255,17 +258,16 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
     return NSTerminateNow;
 }
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification
-{
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+    // Save changes made to the library
     if ([library isSuperDocumentEdited]) {
-        JKLogInfo(@"Saving library...");
+        PKLogInfo(@"Saving library...");
         [[library managedObjectContext] save:NULL];
     }
 }
 #pragma mark  -
 
-#pragma mark ACTIONS
-
+#pragma mark IBActions
 - (IBAction)openPreferencesWindowAction:(id)sender {
     if (!preferencesWindowController) {
         preferencesWindowController = [[PKPreferencesWindowController alloc] init];
@@ -282,7 +284,7 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
 }
 
 - (IBAction)showReadMe:(id)sender {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"ReadMe" ofType:@"rtf"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"];
     if (path) {
         if (![[NSWorkspace sharedWorkspace] openFile:path withApplication:@"TextEdit"]) NSBeep();
     }
@@ -294,6 +296,15 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
         if (![[NSWorkspace sharedWorkspace] openFile:path withApplication:@"TextEdit"]) NSBeep();
     }
 }
+
+- (IBAction)showOnlineHelp:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://johankool.nl/software/peacock/documentation/"]];
+}
+
+- (IBAction)showProductWebsite:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://johankool.nl/software/peacock/"]];
+}
+
 
 //- (IBAction)showLicenses:(id)sender {
 //    [[PKLicenseController sharedController] showLicenses:self];
@@ -307,34 +318,20 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
 }
 
 - (IBAction)showStatisticsAction:(id)sender {
-//	NSError *error = [[NSError alloc] init];
-//	JKStatisticsDocument *document = [[NSDocumentController sharedDocumentController] makeUntitledDocumentOfType:@"Peacock Statistics File" error:&error];
-//	[[NSDocumentController sharedDocumentController] addDocument:document];
-//	[document makeWindowControllers];
-//	[document showWindows];
-//	[error release];
-		
-//	if (!statisticsWindowController) {
-//        statisticsWindowController = [[JKStatisticsWindowController alloc] init];
-//    }
-//    [statisticsWindowController showWindow:self];	
-
 	if (!summaryController) {
         summaryController = [[PKSummaryController alloc] init];
     }
     [summaryController showWindow:self];	
 }
 
-- (PKSummaryController *)summaryController
-{
+- (PKSummaryController *)summaryController {
     if (!summaryController) {
         summaryController = [[PKSummaryController alloc] init];
     }
     return summaryController;
 }
 
-- (PKRatiosController *)ratiosController
-{
+- (PKRatiosController *)ratiosController {
     if (!ratiosController) {
         ratiosController = [[PKRatiosController alloc] init];
     }
@@ -349,9 +346,19 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
 }
 
 - (IBAction)openTestFile:(id)sender {
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:@"Peacock Test Files"]]) {
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:@"Peacock Test Files"] stringByAppendingPathComponent:@"Test File.cdf"]]) {
-            [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:@"Peacock Test Files"] stringByAppendingPathComponent:@"Test File.cdf"]] display:YES error:NULL];
+    // Copies test files to the desktop for users wanting to explore Peacock without data at hand
+    NSString *desktopDirectory;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
+    if ([paths count] > 0)  {
+        desktopDirectory = [paths objectAtIndex:0];
+    } else {
+        PKLogError(@"Cannot locate desktop directory");
+        return;
+    }
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[desktopDirectory stringByAppendingPathComponent:@"Peacock Test Files"]]) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[[desktopDirectory stringByAppendingPathComponent:@"Peacock Test Files"] stringByAppendingPathComponent:@"Test File.cdf"]]) {
+            [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[desktopDirectory stringByAppendingPathComponent:@"Peacock Test Files"] stringByAppendingPathComponent:@"Test File.cdf"]] display:YES error:NULL];
             [welcomeWindow orderOut:self];
             return;
         }
@@ -359,11 +366,11 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
         NSRunAlertPanel(@"Folder already exists",@"A folder with the name \"Peacock Test Files\" already exists on your desktop.",@"OK",nil,nil);
         return;
     }
-    if (![[NSFileManager defaultManager] copyPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Peacock Test Files"] toPath:[[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:@"Peacock Test Files"] handler:nil]) {
+    if (![[NSFileManager defaultManager] copyPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Peacock Test Files"] toPath:[desktopDirectory stringByAppendingPathComponent:@"Peacock Test Files"] handler:nil]) {
          NSRunAlertPanel(@"Error during copying of folder",@"An error occurred during the copying of the folder with the name \"Peacock Test Files\" to your desktop.",@"OK",nil,nil);
     }
     
-    [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[[NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"] stringByAppendingPathComponent:@"Peacock Test Files"] stringByAppendingPathComponent:@"Test File.cdf"]] display:YES error:NULL];
+    [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[desktopDirectory stringByAppendingPathComponent:@"Peacock Test Files"] stringByAppendingPathComponent:@"Test File.cdf"]] display:YES error:NULL];
     
     [welcomeWindow orderOut:self];
 }
@@ -377,15 +384,6 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
     }
 }
 #pragma mark  -
-
-#pragma mark GROWL SUPPORT
-- (NSDictionary *) registrationDictionaryForGrowl {
-	NSArray *defaultArray = [NSArray arrayWithObjects:@"Batch Process Finished", @"Identifying Compounds Finished", @"Statistical Analysis Finished",nil];
-	NSArray *allArray = [NSArray arrayWithObjects:@"Batch Process Finished", @"Identifying Compounds Finished", @"Statistical Analysis Finished",nil];
-	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:defaultArray, GROWL_NOTIFICATIONS_DEFAULT, allArray, GROWL_NOTIFICATIONS_ALL,nil];
-	return dictionary;
-}
-#pragma mark -
 
 #pragma mark Interface validation
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
@@ -454,20 +452,18 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
 #pragma mark -
 
 #pragma mark Library Management
-- (void)showInFinder
-{
-    // open up the default store
+- (void)showInFinder {
+    // Open up the default store
     NSArray *searchpaths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-    if ([searchpaths count] > 0) {
-        
-        // look for the Peacock support folder (and create if not there)
+    if ([searchpaths count] > 0) {        
+        // Look for the Peacock support folder (and create if not there)
         NSString *path = [[searchpaths objectAtIndex:0] stringByAppendingPathComponent: SUPPORT_FOLDER_NAME];
         NSFileManager *fileManager = [NSFileManager defaultManager];
         if (![fileManager fileExistsAtPath:path]) {
             [fileManager createDirectoryAtPath:path attributes:nil];
         }
         
-        // look for the library folder (and create if not there)
+        // Look for the library folder (and create if not there)
         path = [path stringByAppendingPathComponent: LIBRARY_FOLDER_NAME];
         if (![fileManager fileExistsAtPath:path]) {
             [fileManager createDirectoryAtPath:path attributes:nil];
@@ -478,14 +474,13 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
     }        
 }
 
-- (void)loadLibraryForConfiguration:(NSString *)configuration
-{
+- (void)loadLibraryForConfiguration:(NSString *)configuration {
     if ([libraryConfigurationLoaded isEqualToString:configuration]) {
-        JKLogDebug(@"Loading configuration %@ ignored (already current configuration)",configuration);
+        PKLogDebug(@"Loading configuration %@ ignored (already current configuration)",configuration);
     	return;
     }
         
-    JKLogDebug(@"configuration %@",configuration);
+    PKLogDebug(@"configuration %@",configuration);
     [self willChangeValueForKey:@"library"];
     [self willChangeValueForKey:@"availableDictionaries"];
     [self willChangeValueForKey:@"availableConfigurations"];
@@ -524,10 +519,10 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
                 count++;
                 if ([self shouldLoadLibrary:[file stringByDeletingPathExtension] forConfiguration:configuration]) {
                     if (![[[library managedObjectContext] persistentStoreCoordinator] addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:file]] options:nil error:nil]) {
-                        JKLogError(@"Can't add '%@' to library persistent store coordinator.", file);
+                        PKLogError(@"Can't add '%@' to library persistent store coordinator.", file);
                     } else {
                         loadedCount++;
-                        JKLogInfo(@"Loaded Library %@",[file stringByDeletingPathExtension]);
+                        PKLogInfo(@"Loaded Library %@",[file stringByDeletingPathExtension]);
                     }
                 }
                 [availableDictionaries addObject:[NSDictionary dictionaryWithObjectsAndKeys:[path stringByAppendingPathComponent:file], @"path", [file stringByDeletingPathExtension], @"name", nil]];
@@ -539,13 +534,13 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
         
         if (![configuration isEqualToString:@""]) { // Empty string used to force reload, but should not load anything or cause creation of default library
             if (count == 0) {            
-                JKLogWarning(@"No libraries found.");
+                PKLogWarning(@"No libraries found.");
                 NSPersistentStoreCoordinator *psc = [[library managedObjectContext] persistentStoreCoordinator];
                 if (![psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:@"Default.peacock-library"]] options:nil error:nil]) {
-                    JKLogError(@"Default Library could not be created.");
+                    PKLogError(@"Default Library could not be created.");
                 } else {
                     [availableDictionaries addObject:[NSDictionary dictionaryWithObjectsAndKeys:[path stringByAppendingPathComponent:@"Default.peacock-library"], @"path", @"Default", @"name", nil]];
-                    JKLogInfo(@"Loaded Library Default");
+                    PKLogInfo(@"Loaded Library Default");
                     loadedCount++;
                 }
             }
@@ -564,10 +559,9 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
     [self didChangeValueForKey:@"availableConfigurations"];
 }
 
-- (PKLibrary *)libraryForConfiguration:(NSString *)libraryConfiguration
-{
-    JKLogDebug(@"libraryConfigurationLoaded %@",libraryConfigurationLoaded);
-    JKLogDebug(@"libraryConfiguration %@",libraryConfiguration);
+- (PKLibrary *)libraryForConfiguration:(NSString *)libraryConfiguration {
+    PKLogDebug(@"libraryConfigurationLoaded %@",libraryConfigurationLoaded);
+    PKLogDebug(@"libraryConfiguration %@",libraryConfiguration);
     
     if (![libraryConfiguration isEqualToString:libraryConfigurationLoaded]) {
         if ([library isDocumentEdited])
@@ -578,14 +572,11 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
     return library;
 }
 
-- (PKLibrary *)library
-{
-//    [self loadLibraryForConfiguration:libraryConfigurationLoaded];
+- (PKLibrary *)library {
     return library;
 }
 
-- (BOOL)shouldLoadLibrary:(NSString *)fileName forConfiguration:(NSString *)configuration
-{
+- (BOOL)shouldLoadLibrary:(NSString *)fileName forConfiguration:(NSString *)configuration {
     if ([configuration isEqualToString:NSLocalizedString(@"All",@"")]) {
         return YES;
     } else if ([configuration isEqualToString:fileName]) {
@@ -594,16 +585,16 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
         return NO;
     }
 }
-- (NSArray *)availableDictionaries
-{
+
+- (NSArray *)availableDictionaries {
     return availableDictionaries;
 }
-- (NSArray *)availableConfigurations
-{
+
+- (NSArray *)availableConfigurations {
     return [[NSArray arrayWithObject:NSLocalizedString(@"All",@"")] arrayByAddingObjectsFromArray:[availableDictionaries valueForKey:@"name"]];
 }
-- (PKManagedLibraryEntry *)addLibraryEntryBasedOnPeak:(PKPeakRecord *)aPeak
-{
+
+- (PKManagedLibraryEntry *)addLibraryEntryBasedOnPeak:(PKPeakRecord *)aPeak {
     NSString *path = nil;
     PKManagedLibraryEntry *libEntry = nil;
     int answer = NSRunAlertPanel(NSLocalizedString(@"Peak without library hit being confirmed",@""),NSLocalizedString(@"You are confirming a peak for which you do not have a library hit. Do you want to store your identification as a library entry so it can be used for future compound identifications? ",@""),@"Add Library Entry",@"Cancel",nil);
@@ -617,14 +608,14 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
         } else {
             return nil;
         }      
-        JKLogInfo(@"Saving new library entry to %@", path);
+        PKLogInfo(@"Saving new library entry to %@", path);
         if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
             id persistentStore = [[[library managedObjectContext] persistentStoreCoordinator] persistentStoreForURL:[NSURL fileURLWithPath:path]];
             if (persistentStore) {
                 [[library managedObjectContext] assignObject:libEntry toPersistentStore:persistentStore];            
             }
         } else {
-            JKLogError(@"Saving new library entry to '%@' failed. No such library exists.", path);
+            PKLogError(@"Saving new library entry to '%@' failed. No such library exists.", path);
         }
         [libEntry setJCAMPString:[[aPeak libraryEntryRepresentation] jcampString]];
         return libEntry; 
@@ -633,8 +624,7 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
     }
 }
 
-- (PKManagedLibraryEntry *)addLibraryEntryBasedOnJCAMPString:(NSString *)jcampString
-{
+- (PKManagedLibraryEntry *)addLibraryEntryBasedOnJCAMPString:(NSString *)jcampString {
     NSString *path = nil;
     PKManagedLibraryEntry *libEntry = nil;
 
@@ -647,14 +637,14 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
     } else {
         return nil;
     }      
-    JKLogInfo(@"Saving new library entry to %@", path);
+    PKLogInfo(@"Saving new library entry to %@", path);
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         id persistentStore = [[[library managedObjectContext] persistentStoreCoordinator] persistentStoreForURL:[NSURL fileURLWithPath:path]];
         if (persistentStore) {
             [[library managedObjectContext] assignObject:libEntry toPersistentStore:persistentStore];            
         }
     } else {
-        JKLogError(@"Saving new library entry to '%@' failed. No such library exists.", path);
+        PKLogError(@"Saving new library entry to '%@' failed. No such library exists.", path);
     }
     [libEntry setJCAMPString:jcampString];
     return libEntry;     
@@ -673,49 +663,20 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
 }
 
 - (PKManagedLibraryEntry *)libraryEntryForName:(NSString *)compoundString {
-//    int result = 0;
-//    JKManagedLibraryEntry *foundLibEntry;
+    // Note that this returns the first match only and ignores that a compound may occur more than once in a library
     NSArray *libraryEntries = [library libraryEntries];
     
     for (PKManagedLibraryEntry *managedLibEntry in libraryEntries) {
     	if ([managedLibEntry isCompound:compoundString]) {
             return managedLibEntry;
-//            foundLibEntry = managedLibEntry;
-//            result++;
         }
     }
     return nil;
-    
-//    if (result > 1) {
-////        NSRunAlertPanel(NSLocalizedString(@"Duplicate Entry in Library",@""),[NSString stringWithFormat:NSLocalizedString(@"The compound '%@' is listed more than once in the library.",@""),compoundString], NSLocalizedString(@"OK", @""), nil, nil);
-//        JKLogWarning(@"Duplicate Entry in Library: The compound '%@' is listed more than once in the library.", compoundString);
-//        return foundLibEntry;
-//    } else if (result == 1) {
-//        return foundLibEntry; //[JKLibraryEntry libraryEntryWithJCAMPString:[foundLibEntry jcampString]];
-//    } else {
-//        return nil;
-//    }
 }
 
 - (NSArray *)autocompleteEntries {
     return [[summarizer combinedPeaks] valueForKey:@"label"];
-//	return autocompleteEntries;
 }
-//- (void)setAutocompleteEntries:(NSArray *)aAutocompleteEntries {
-//	if (aAutocompleteEntries != autocompleteEntries) {
-//		[autocompleteEntries autorelease];
-//		autocompleteEntries = [aAutocompleteEntries retain];
-//	}
-//}
-//- (NSArray *)autocompleteEntriesForModel:(NSString *)model {
-//    // Get all synonyms for autocomplete in label fields
-//    NSMutableArray *aNewAutocompleteEntries = [NSMutableArray array];
-//    for (JKManagedLibraryEntry *managedLibEntry in [library libraryEntriesWithPredicate:[NSPredicate predicateWithFormat:@"model == %@", model]]) {
-//    	[aNewAutocompleteEntries addObjectsFromArray:[managedLibEntry synonymsArray]];
-//    }
-//    [aNewAutocompleteEntries sortUsingSelector:@selector(compare:)];
-//    return aNewAutocompleteEntries;
-//}
 #pragma mark -
 
 #pragma mark Plugins
@@ -751,7 +712,7 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
                [self plugInClassIsValid:currPrincipalClass]) { // Validation { 
                 currInstance = [[currPrincipalClass alloc] init]; 
                 if (currInstance) { 
-                    JKLogDebug(@"Plugin started loading: %@",currBundle);
+                    PKLogDebug(@"Plugin started loading: %@",currBundle);
                     NSString *methodName;
                     for (methodName in [currInstance baselineDetectionMethodNames]) {
                         [baselineDetectionMethods setObject:currInstance forKey:methodName];
@@ -772,17 +733,16 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
            }
         }
     } 
-    JKLogDebug(@"baselineDetectionMethods: %@", [self baselineDetectionMethodNames]);
-    JKLogDebug(@"peakDetectionMethods: %@", [self peakDetectionMethodNames]);
-    JKLogDebug(@"spectraMatchingMethods: %@", [self spectraMatchingMethodNames]);
+    PKLogDebug(@"baselineDetectionMethods: %@", [self baselineDetectionMethodNames]);
+    PKLogDebug(@"peakDetectionMethods: %@", [self peakDetectionMethodNames]);
+    PKLogDebug(@"spectraMatchingMethods: %@", [self spectraMatchingMethodNames]);
     [self didChangeValueForKey:@"baselineDetectionMethodNames"];
     [self didChangeValueForKey:@"peakDetectionMethodNames"]; 
     [self didChangeValueForKey:@"spectraMatchingMethodNames"];
     
 } 
 
-- (NSMutableArray *)allBundles 
-{ 
+- (NSMutableArray *)allBundles { 
     NSArray *librarySearchPaths; 
     NSEnumerator *searchPathEnum; 
     NSString *currPath; 
@@ -859,43 +819,8 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
 - (NSDictionary *)spectraMatchingMethods {
     return spectraMatchingMethods;
 }
-
 #pragma mark -
 
-           
-- (NSArray *)documents {
-    return [[NSDocumentController sharedDocumentController] documents];
-}
-#pragma mark -
-
-#pragma mark NSTableView Datasource
-
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView {
-    return [[self documents] count];
-}
-
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
-    NSDocument *doc = [[self documents] objectAtIndex:rowIndex];
-    if ([[doc windowForSheet] windowController]) {
-        return [[[doc windowForSheet] windowController] windowTitleForDocumentDisplayName:[doc displayName]];
-    } else {
-        return [doc displayName];        
-    }
-}
-#pragma mark -
-
-#pragma mark NSTableView Delegate
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
-{
-    if ([[aNotification object] selectedRow] != -1) {
-        NSDocument *document = [[self documents] objectAtIndex:[[aNotification object] selectedRow]];
-        if ([[document windowControllers] count] == 0) {
-            [document makeWindowControllers];
-        }
-        [document showWindows];
-    }
-}
-#pragma mark -
 
 #pragma mark JKSummarizer
 - (PKSummarizer *)summarizer {
@@ -913,8 +838,7 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
     }
 }
 
-- (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldLogException:(NSException *)exception mask:(unsigned int)mask
-{
+- (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldLogException:(NSException *)exception mask:(unsigned int)mask {
     if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue] >= JK_VERBOSITY_DEBUG) {
         [self printStackTrace:exception];
         return YES;
@@ -923,8 +847,7 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
     }
 }
 
-- (void)printStackTrace:(NSException *)e
-{
+- (void)printStackTrace:(NSException *)e {
     NSString *stack = [[e userInfo] objectForKey:NSStackTraceKey];
     if (stack) {
         NSTask *ls = [[NSTask alloc] init];
@@ -942,11 +865,12 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
         [ls release];
         
     } else {
-        JKLogDebug(@"No stack trace available.");
+        PKLogDebug(@"No stack trace available.");
     }
 }
+#pragma mark -
 
-
+#pragma mark Properties
 @synthesize batchProcessWindowController;
 @synthesize showPresetMenu;
 @synthesize library;
@@ -957,5 +881,5 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
 @synthesize preferencesWindowController;
 @synthesize libraryConfigurationLoaded;
 @synthesize summarizer;
-
+#pragma mark -
 @end

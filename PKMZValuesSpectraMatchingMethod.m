@@ -8,12 +8,12 @@
 
 #import "PKMZValuesSpectraMatchingMethod.h"
 
-#import "JKLog.h"
+#import "PKLog.h"
 
 @implementation PKMZValuesSpectraMatchingMethod
 
 - (id)init {
-    JKLogEnteringMethod();
+    PKLogEnteringMethod();
     self = [super init];
     if (self != nil) {
        // [self setSettings:[PKMZValuesSpectraMatchingMethod defaultSettings]];
@@ -105,10 +105,10 @@
             // When out of range?!?
             // Keep counting to get us out of it...
             k++; i++; j++;
-           // JKLogDebug(@"This should not happen ever!! i %d j %d k %d massdif %f mass %f masslib %f inten %f intenlib %f count1 %d count2 %d", i,j,k, massDifference, masses[i], libraryEntryMasses[j], intensities[i], libraryEntryIntensities[j], count1, count2);
+           // PKLogDebug(@"This should not happen ever!! i %d j %d k %d massdif %f mass %f masslib %f inten %f intenlib %f count1 %d count2 %d", i,j,k, massDifference, masses[i], libraryEntryMasses[j], intensities[i], libraryEntryIntensities[j], count1, count2);
         }
     } 
-    JKLogDebug(@"score: %g", (1.0f-score/score2)*100.0f);
+    PKLogDebug(@"score: %g", (1.0f-score/score2)*100.0f);
 
     return (1.0f-score/score2)*100.0f;
 }

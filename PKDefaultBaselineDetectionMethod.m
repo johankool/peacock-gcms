@@ -8,13 +8,13 @@
 
 #import "PKDefaultBaselineDetectionMethod.h"
 
-#import "JKLog.h"
+#import "PKLog.h"
 #import "pk_statistics.h"
 
 @implementation PKDefaultBaselineDetectionMethod
 
 - (id)init {
-//    JKLogEnteringMethod();
+//    PKLogEnteringMethod();
     self = [super init];
     if (self != nil) {
         [self setSettings:[PKDefaultBaselineDetectionMethod defaultSettings]];
@@ -28,7 +28,7 @@
 }
 
 - (NSArray *)baselineForChromatogram:(PKChromatogram *)aChromatogram error:(NSError **)error {
-    //JKLogEnteringMethod();
+    //PKLogEnteringMethod();
     // Fall back to default settings when settings are nil
     if (![self settings]) {
         [self setSettings:[PKDefaultBaselineDetectionMethod defaultSettings]];
@@ -116,12 +116,12 @@
     NSMutableArray *newBaseline = [[NSMutableArray alloc] initWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0], @"scan", [NSNumber numberWithFloat:intensity[0]], @"intensity", nil], nil];
     
     for (i = 1; i < count-1; i++) {
-        //   JKLogDebug(@"intensity: %g; minimum: %g; distance: %g; slope: %g; density:%g",intensity[i],minimum[i],distance[i],slope[i],density[i]);
+        //   PKLogDebug(@"intensity: %g; minimum: %g; distance: %g; slope: %g; density:%g",intensity[i],minimum[i],distance[i],slope[i],density[i]);
         if (distance[i] < baselineDistanceThresholdF && (slope[i] > -baselineSlopeThresholdF  && slope[i] < baselineSlopeThresholdF)) {  //   } && density[i] > baselineDensityThresholdF) { 
             [newBaseline addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:i], @"scan", [NSNumber numberWithFloat:intensity[i]], @"intensity", nil]];
         }
     }
-//    JKLogDebug(@"%d baseline points found", [newBaseline count]);
+//    PKLogDebug(@"%d baseline points found", [newBaseline count]);
     return [newBaseline autorelease];
 }
 

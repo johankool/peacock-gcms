@@ -225,7 +225,7 @@ static int   kPaddingLabels             = 4;
     [mutDict setValue:[NSNumber numberWithBool:shouldDrawPeaks] forKey:@"shouldDrawPeaks"];
     [mutDict setValue:[NSNumber numberWithInt:drawingMode] forKey:@"drawingMode"];
     [mutDict autorelease];
-    JKLogDebug(@"%@", [mutDict description]);
+    PKLogDebug(@"%@", [mutDict description]);
     return mutDict;
 }
 
@@ -713,7 +713,7 @@ static int   kPaddingLabels             = 4;
 	if ([[self dataSeries] count] > 0) {
 		for (i=0;i<[[self dataSeries] count]; i++) {
             [line removeAllPoints];
-         //   JKLogDebug(@"legend seriesTitle: %@",[[[self dataSeries] objectAtIndex:i] valueForKey:@"seriesTitle"]);
+         //   PKLogDebug(@"legend seriesTitle: %@",[[[self dataSeries] objectAtIndex:i] valueForKey:@"seriesTitle"]);
             if ([[[[self dataSeries] objectAtIndex:i] verticalScale] floatValue] != 1.0f) {
                 seriesTitle = [NSString stringWithFormat:@"%@ (%.1f%C)",[[[self dataSeries] objectAtIndex:i] valueForKey:@"seriesTitle"],[[[[self dataSeries] objectAtIndex:i] verticalScale] floatValue],0x00D7];                
             } else {
@@ -1043,7 +1043,7 @@ static int   kPaddingLabels             = 4;
 }
 
 - (void)refresh {
-	JKLogDebug(@"Refresh - %@",[self description]);
+	PKLogDebug(@"Refresh - %@",[self description]);
     [self setNeedsDisplay:YES];
 }
 #pragma mark -
@@ -1090,7 +1090,7 @@ static int   kPaddingLabels             = 4;
 - (IBAction)showAll:(id)sender {
     [self setMinimumPixelsPerXUnit:[NSNumber numberWithFloat:0.0f]];
     [self setMinimumPixelsPerYUnit:[NSNumber numberWithFloat:0.0f]];
-//    JKLogDebug(@"self: %@ sender: %@ count: %d",[self description],[sender description],[[self dataSeries] count]);
+//    PKLogDebug(@"self: %@ sender: %@ count: %d",[self description],[sender description],[[self dataSeries] count]);
 	int i, count;
 	NSRect totRect, newRect;
 	PKGraphDataSeries *mgds;
@@ -1148,7 +1148,7 @@ static int   kPaddingLabels             = 4;
         return;
     }
         
-//    JKLogDebug(@"zooming to new rect");
+//    PKLogDebug(@"zooming to new rect");
 	[self zoomToRect:totRect];
     [self setMinimumPixelsPerXUnit:[self pixelsPerXUnit]];
     [self setMinimumPixelsPerYUnit:[self pixelsPerYUnit]];
@@ -1156,7 +1156,7 @@ static int   kPaddingLabels             = 4;
 
 - (void)scaleVertically 
 {
-//    JKLogDebug(@"scaleVertically");
+//    PKLogDebug(@"scaleVertically");
    	int i, count;
 	PKGraphDataSeries *mgds;
 	
@@ -1251,7 +1251,7 @@ static int   kPaddingLabels             = 4;
         [invertMatrix release];
     }
     @catch ( NSException *e ) {
-        JKLogError([e description]);
+        PKLogError([e description]);
     }
     @finally {
         //
@@ -1282,9 +1282,9 @@ static int   kPaddingLabels             = 4;
 //        case JKStackedDrawingMode:
 //            // starts in series number 
 //            seriesNumber = (((aRect.origin.y - [self plottingArea].origin.y)/[self plottingArea].size.height) * [[self dataSeries] count])/1;
-//            JKLogDebug(@"seriesNumber %d",seriesNumber);
+//            PKLogDebug(@"seriesNumber %d",seriesNumber);
 //            aRect.origin.y =  aRect.origin.y - seriesNumber * ([self plottingArea].size.height / [[self dataSeries] count]);
-//            JKLogDebug(@"aRect.origin.y %g", aRect.origin.y);
+//            PKLogDebug(@"aRect.origin.y %g", aRect.origin.y);
 //            break;
 //        case JKNormalDrawingMode:
 //        default:            
@@ -1305,7 +1305,7 @@ static int   kPaddingLabels             = 4;
 		
 	newRect.origin = [[self transformScreenToGraph] transformPoint:aRect.origin];
 	newRect.size = [[self transformScreenToGraph] transformSize:aRect.size];
-//	JKLogDebug(@"zoomToRectInView x %f, y %f, w %f, h %f",newRect.origin.x, newRect.origin.y, newRect.size.width, newRect.size.height);
+//	PKLogDebug(@"zoomToRectInView x %f, y %f, w %f, h %f",newRect.origin.x, newRect.origin.y, newRect.size.width, newRect.size.height);
 	[self zoomToRect:newRect];
 
 }
@@ -1616,7 +1616,7 @@ static int   kPaddingLabels             = 4;
             [self setNeedsDisplayInRect:[self plottingArea]];
             break;
         case JKAddPeakOperation:
-            JKLogDebug(@"peak drag from scan %d to scan %d",[self scanAtPoint:_mouseDownAtPoint],[self scanAtPoint:mouseLocation]);
+            PKLogDebug(@"peak drag from scan %d to scan %d",[self scanAtPoint:_mouseDownAtPoint],[self scanAtPoint:mouseLocation]);
             PKChromatogram *theChromatogram = [self chromatogramAtPoint:_mouseDownAtPoint]; 
             PKPeakRecord *newPeak = [theChromatogram peakFromScan:[self scanAtPoint:_mouseDownAtPoint] toScan:[self scanAtPoint:mouseLocation]];
             [theChromatogram insertObject:newPeak inPeaksAtIndex:[theChromatogram countOfPeaks]];
@@ -1794,7 +1794,7 @@ static int   kPaddingLabels             = 4;
             scan = lroundf( (graphLocation.x - retentionRemainder)/retentionSlope );
          }
     } else {
-//        JKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
+//        PKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
     }
     
     return scan;
@@ -1825,11 +1825,11 @@ static int   kPaddingLabels             = 4;
                     return peak;
                 }                         
             } else {
-//                JKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
+//                PKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
             }
         }
     } else {
-//        JKLogError(@"No chromatogram available");
+//        PKLogError(@"No chromatogram available");
     }
     return peak;
 }
@@ -1873,7 +1873,7 @@ static int   kPaddingLabels             = 4;
         [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"intensity"];
         
     } else {
-//        JKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
+//        PKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
     }
     
     return thePoint;
@@ -1886,7 +1886,7 @@ static int   kPaddingLabels             = 4;
     if ([keyForXValue isEqualToString:@"Mass"]) {
         mass = lroundf(graphLocation.x);
     } else {
-        JKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
+        PKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
     }
     
     return mass;
@@ -1945,6 +1945,7 @@ static int   kPaddingLabels             = 4;
 }
 
 - (NSDictionary *)baselinePointAtPoint:(NSPoint)aPoint {
+#warning [TODO] Incomplete method
     NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:aPoint];
     NSDictionary *baselinePoint = nil;
     PKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
@@ -1969,11 +1970,11 @@ static int   kPaddingLabels             = 4;
 //                    return baselinePoint;
 //                }                         
 //            } else {
-////                JKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
+////                PKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
 //            }
 //        }
 //    } else {
-////        JKLogError(@"No chromatogram available");
+////        PKLogError(@"No chromatogram available");
 //    }
     return baselinePoint;
 }
@@ -2160,7 +2161,7 @@ static int   kPaddingLabels             = 4;
 								 options:(NSKeyValueObservingOptionNew |
 										  NSKeyValueObservingOptionOld)
 								 context:DataSeriesObservationContext];
-//        JKLogDebug(@"count: %d",[[self dataSeries] count]);
+//        PKLogDebug(@"count: %d",[[self dataSeries] count]);
 		//[self startObservingGraphics:[graphicsContainer valueForKeyPath:graphicsKeyPath]];
 		
     }

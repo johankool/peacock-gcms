@@ -246,6 +246,7 @@
         
         return YES;
     }
+    return NO;
 }
 
 - (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id < NSDraggingInfo >)info proposedItem:(id)item proposedChildIndex:(NSInteger)index {
@@ -281,12 +282,12 @@
 }
 
 //- (NSRect)splitView:(RBSplitView*)sender cursorRect:(NSRect)rect forDivider:(unsigned int)divider {
-//    JKLogEnteringMethod();
+//    PKLogEnteringMethod();
 //  //  return [splitterView frame];
 //}
 
 - (unsigned int)splitView:(RBSplitView*)sender dividerForPoint:(NSPoint)point inSubview:(RBSplitSubview*)subview {
-    JKLogEnteringMethod();
+    PKLogEnteringMethod();
     if (NSPointInRect(point, [splitterView frame])) {
         return 1;
     }

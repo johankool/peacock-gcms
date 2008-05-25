@@ -22,7 +22,7 @@
     #import <Cocoa/Cocoa.h>
 
 	#import "AccessorMacros.h"
-	#import "JKLog.h"
+	#import "PKLog.h"
 
 #endif
 

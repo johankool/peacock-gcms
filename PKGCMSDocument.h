@@ -6,7 +6,6 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
-@class BDAlias;
 @class PKChromatogramDataSeries;
 @class PKChromatogram;
 @class JKLibrarySearch;
@@ -83,7 +82,6 @@ typedef enum {
 	NSNumber *retentionIndexRemainder;
     
 	// Search options
-//	BDAlias *libraryAlias; // DEPRECATED
     NSString *libraryConfiguration;
     NSString *searchTemplate;
     JKSearchDirections searchDirection;

@@ -8,7 +8,6 @@
 
 #import "PKMainWindowController.h"
 
-#import "BDAlias.h"
 #import "PKChromatogramDataSeries.h"
 #import "PKAppDelegate.h"
 #import "PKChromatogram.h"
@@ -52,7 +51,6 @@ static void *PeaksObservationContext = (void *)1103;
         showSelectedChromatogramsOnly = YES;
         chromatogramDataSeries = [[NSMutableArray alloc] init];
         hiddenColumnsPeaksTable = [[NSMutableArray alloc] init];
-       // [self setShouldCascadeWindows:NO];
 	}
     return self;
 }
@@ -79,11 +77,10 @@ static void *PeaksObservationContext = (void *)1103;
 }
 
 - (void)windowDidLoad {
-//    JKLogEnteringMethod();
-    
 	// Setup the toolbar after the document nib has been loaded 
     [self setupToolbar];	
 
+    // We are the delegate for these views
     [chromatogramView setDelegate:self];
     [spectrumView setDelegate:self];
     
@@ -169,22 +166,12 @@ static void *PeaksObservationContext = (void *)1103;
     _lastDetailsSplitSubviewDimension = [detailsSplitSubview dimension];
     
     [[[peaksTable tableColumnWithIdentifier:@"id"] headerCell] setImage:[NSImage imageNamed:@"flagged_header"]];
-    // 	[tableView setObligatoryTableColumns:[NSSet setWithObject:[tableView tableColumnWithIdentifier:@"name"]]];
-
-//    [[self window] setFrameFromString:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"mainWindowFrame"]];
     
     [chromatogramView showAll:self];
-
 }
-
-//- (void)windowWillClose:(NSNotification *)aNotification
-//{
-//    [[[NSUserDefaultsController sharedUserDefaultsController] values] setValue:[[self window] stringWithSavedFrame] forKey:@"mainWindowFrame"];
-//}
 #pragma mark -
 
 #pragma mark IBActions
-
 - (IBAction)obtainBaseline:(id)sender {
     if ([[[self document] chromatograms] count] > 1) {
         // Run sheet to get selection
@@ -192,10 +179,10 @@ static void *PeaksObservationContext = (void *)1103;
         [chromatogramSelectionSheetButton setAction:@selector(obtainBaselineForSelectedChromatograms:)];
         [chromatogramSelectionSheetButton setTarget:self];
         [NSApp beginSheet: chromatogramSelectionSheet
-           modalForWindow: [self window]
-            modalDelegate: self
-           didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
-              contextInfo: nil];
+           modalForWindow:[self window]
+            modalDelegate:self
+           didEndSelector:@selector(didEndSheet:returnCode:contextInfo:)
+              contextInfo:nil];
     } else if ([[[self document] chromatograms] count] == 1) {
         NSError *error;
         for (PKChromatogram *chromatogram in [chromatogramsController selectedObjects]) {
@@ -206,20 +193,17 @@ static void *PeaksObservationContext = (void *)1103;
         [NSApp endSheet:chromatogramSelectionSheet];
         [chromatogramView setShouldDrawBaseline:YES];
     }
-   
 }
 
 - (void)obtainBaselineForSelectedChromatograms:(id)sender {
-    JKLogEnteringMethod();
-
     NSError *error;
     for (PKChromatogram *chromatogram in [chromatogramsController selectedObjects]) {
         if (![chromatogram detectBaselineAndReturnError:&error]) {
             [self presentError:error];
         }
     }
-    [NSApp endSheet:chromatogramSelectionSheet];
     [chromatogramView setShouldDrawBaseline:YES];
+    [NSApp endSheet:chromatogramSelectionSheet];
 }
 
 - (IBAction)cancel:(id)sender {
@@ -232,11 +216,11 @@ static void *PeaksObservationContext = (void *)1103;
         [chromatogramSelectionSheetButton setTitle:NSLocalizedString(@"Identify Peaks",@"")];
         [chromatogramSelectionSheetButton setAction:@selector(identifyPeaksForSelectedChromatograms:)];
         [chromatogramSelectionSheetButton setTarget:self];
-        [NSApp beginSheet: chromatogramSelectionSheet
-           modalForWindow: [self window]
-            modalDelegate: self
-           didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
-              contextInfo: nil];
+        [NSApp beginSheet:chromatogramSelectionSheet
+           modalForWindow:[self window]
+            modalDelegate:self
+           didEndSelector:@selector(didEndSheet:returnCode:contextInfo:)
+              contextInfo:nil];
     } else if ([[[self document] chromatograms] count] == 1) {
         NSError *error;
         for (PKChromatogram *chromatogram in [chromatogramsController selectedObjects]) {
@@ -268,12 +252,12 @@ static void *PeaksObservationContext = (void *)1103;
         [chromatogramSelectionSheetButton setAction:@selector(identifyCompoundsForSelectedChromatograms:)];
         [chromatogramSelectionSheetButton setTarget:self];
         [NSApp beginSheet: chromatogramSelectionSheet
-           modalForWindow: [self window]
-            modalDelegate: self
-           didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
-              contextInfo: nil];
+           modalForWindow:[self window]
+            modalDelegate:self
+           didEndSelector:@selector(didEndSheet:returnCode:contextInfo:)
+              contextInfo:nil];
     } else if ([[[self document] chromatograms] count] == 1) {
-        // ensure the chromatogram is selected
+        // Ensure the chromatogram is selected
         [chromatogramsController setSelectedObjects:[chromatogramsController arrangedObjects]];
         [NSThread detachNewThreadSelector:@selector(identifyCompounds) toTarget:self withObject:nil];
     }
@@ -308,10 +292,10 @@ static void *PeaksObservationContext = (void *)1103;
     [chromatogramSelectionSheetButton setAction:@selector(removeSelectedChromatograms:)];
     [chromatogramSelectionSheetButton setTarget:self];
     [NSApp beginSheet: chromatogramSelectionSheet
-       modalForWindow: [self window]
-        modalDelegate: self
-       didEndSelector: @selector(didEndSheet:returnCode:contextInfo:)
-          contextInfo: nil];
+       modalForWindow:[self window]
+        modalDelegate:self
+       didEndSelector:@selector(didEndSheet:returnCode:contextInfo:)
+          contextInfo:nil];
 }
 
 - (void)removeSelectedChromatograms:(id)sender {
@@ -376,75 +360,6 @@ static void *PeaksObservationContext = (void *)1103;
     }
 }
 
-
-//- (IBAction)resetPeaks:(id)sender  
-//{
-//	int i;
-//	int peakCount = [[peakController arrangedObjects] count];
-//	NSMutableArray *array = [NSMutableArray array];
-//	for (i = 0; i < peakCount; i++) {
-//		id object = [[peakController arrangedObjects] objectAtIndex:i];
-//		
-//		// Undo preparation
-//		NSMutableDictionary *mutDict = [NSMutableDictionary dictionary];
-//		[mutDict setObject:object forKey:@"peakrecord"];
-//		[mutDict setValue:[object valueForKey:@"label"] forKey:@"label"];
-//		[mutDict setValue:[object valueForKey:@"score"] forKey:@"score"];
-//		[mutDict setValue:[object valueForKey:@"symbol"] forKey:@"symbol"];
-//		[mutDict setValue:[object libraryHit] forKey:@"libraryHit"];
-//		[mutDict setValue:[object valueForKey:@"identified"] forKey:@"identified"];
-//		[mutDict setValue:[object valueForKey:@"confirmed"] forKey:@"confirmed"];
-//		[array addObject:mutDict];
-//		
-//		// The real thing
-//		[object setValue:@"" forKey:@"label"];
-//		[object setValue:@"" forKey:@"score"];
-//		[object setValue:@"" forKey:@"symbol"];
-//		[object setLibraryHit:[[[JKLibraryEntry alloc] init] autorelease]];
-//		[object setValue:[NSNumber numberWithBool:NO] forKey:@"identified"];
-//		[object setValue:[NSNumber numberWithBool:NO] forKey:@"confirmed"];		
-//	}	
-//	[[[self document] undoManager] registerUndoWithTarget:self
-//												 selector:@selector(undoResetPeaks:)
-//												   object:array];
-//	[[[self document] undoManager] setActionName:NSLocalizedString(@"Reset Peaks",@"")];
-//	
-//}
-//- (void)undoResetPeaks:(NSArray *)array  
-//{
-//	int i;
-//	int peakCount = [[peakController arrangedObjects] count];
-//	NSMutableArray *arrayOut = [NSMutableArray array];
-//	for (i = 0; i < peakCount; i++) {
-//		id object = [[array objectAtIndex:i] objectForKey:@"peakrecord"];
-//		
-//		// Redo preparation
-//		NSMutableDictionary *mutDict = [NSMutableDictionary dictionary];
-//		[mutDict setObject:object forKey:@"peakrecord"];
-//		[mutDict setValue:[object valueForKey:@"label"] forKey:@"label"];
-//		[mutDict setValue:[object valueForKey:@"score"] forKey:@"score"];
-//		[mutDict setValue:[object valueForKey:@"symbol"] forKey:@"symbol"];
-//		[mutDict setValue:[object valueForKey:@"libraryHit"] forKey:@"libraryHit"];
-//		[mutDict setValue:[object valueForKey:@"identified"] forKey:@"identified"];
-//		[mutDict setValue:[object valueForKey:@"confirmed"] forKey:@"confirmed"];
-//		[arrayOut addObject:mutDict];
-//		
-//		// Reading back what was changed
-//		[object setValue:[[array objectAtIndex:i] valueForKey:@"label"] forKey:@"label"];
-//		[object setValue:[[array objectAtIndex:i] valueForKey:@"score"] forKey:@"score"];
-//		[object setValue:[[array objectAtIndex:i] valueForKey:@"symbol"] forKey:@"symbol"];
-//		[object setLibraryHit:[[array objectAtIndex:i] valueForKey:@"libraryHit"]];
-//		[object setValue:[[array objectAtIndex:i] valueForKey:@"identified"] forKey:@"identified"];
-//		[object setValue:[[array objectAtIndex:i] valueForKey:@"confirmed"] forKey:@"confirmed"];
-//		
-//	}	
-//	[[[self document] undoManager] registerUndoWithTarget:self
-//												 selector:@selector(undoResetPeaks:)
-//												   object:arrayOut];
-//	[[[self document] undoManager] setActionName:NSLocalizedString(@"Reset Peaks",@"")];
-//	
-//}
-
 - (IBAction)showPeaksAction:(id)sender {
 	if ([sender tag] == 1) {
 		[self setShowPeaks:JKIdenitifiedPeaks];
@@ -463,8 +378,7 @@ static void *PeaksObservationContext = (void *)1103;
     [chromatogramDataSeries makeObjectsPerformSelector:@selector(setFilterPredicate:) withObject:[self predicateForPeakTypeShow]];
 }
 
--(NSString *)peakTypeShown
-{
+-(NSString *)peakTypeShown {
     // Value used in information field about peaks
     if ([self showPeaks] == JKAllPeaks) {
         return NSLocalizedString(@"", @"Value used in information field about peaks.");
@@ -482,8 +396,7 @@ static void *PeaksObservationContext = (void *)1103;
     return NSLocalizedString(@"",@"Value used in information field about peaks.");
 }
 
-- (NSPredicate *)predicateForPeakTypeShow
-{
+- (NSPredicate *)predicateForPeakTypeShow {
     // Value used in information field about peaks
     if ([self showPeaks] == JKAllPeaks) {
         return nil;
@@ -514,81 +427,12 @@ static void *PeaksObservationContext = (void *)1103;
 	}
 }
 
-//- (void)undoConfirm:(NSArray *)array  
-//{
-//	int i;
-//	int count = [array count];
-//	NSMutableArray *arrayOut = [NSMutableArray array];
-//	for (i = 0; i < count; i++) {
-//		id object = [[array objectAtIndex:i] objectForKey:@"peakrecord"];
-//		
-//		// Redo preparation
-//		NSMutableDictionary *mutDict = [NSMutableDictionary dictionary];
-//		[mutDict setObject:object forKey:@"peakrecord"];
-//		[mutDict setValue:[object valueForKey:@"label"] forKey:@"label"];
-//		[mutDict setValue:[object valueForKey:@"score"] forKey:@"score"];
-//		[mutDict setValue:[object valueForKey:@"symbol"] forKey:@"symbol"];
-//		[mutDict setValue:[object valueForKey:@"libraryHit"] forKey:@"libraryHit"];
-//		[mutDict setValue:[object valueForKey:@"identified"] forKey:@"identified"];
-//		[mutDict setValue:[object valueForKey:@"confirmed"] forKey:@"confirmed"];
-//		[arrayOut addObject:mutDict];
-//		
-//		// Reading back what was changed
-//		[object setValue:[[array objectAtIndex:i] valueForKey:@"label"] forKey:@"label"];
-//		[object setValue:[[array objectAtIndex:i] valueForKey:@"score"] forKey:@"score"];
-//		[object setValue:[[array objectAtIndex:i] valueForKey:@"symbol"] forKey:@"symbol"];
-//		[object setLibraryHit:[[array objectAtIndex:i] valueForKey:@"libraryHit"]];
-//		[object setValue:[[array objectAtIndex:i] valueForKey:@"identified"] forKey:@"identified"];
-//		[object setValue:[[array objectAtIndex:i] valueForKey:@"confirmed"] forKey:@"confirmed"];
-//		
-//	}	
-//	[[[self document] undoManager] registerUndoWithTarget:self
-//												 selector:@selector(undoConfirm:)
-//												   object:arrayOut];
-//	[[[self document] undoManager] setActionName:NSLocalizedString(@"Confirm Library Hit(s)",@"")];
-//	
-//}
-
 - (IBAction)discard:(id)sender {
 	for (PKPeakRecord *peak in [peakController selectedObjects]) {
         [peak discard];
 	}
 }
 
-//- (void)undoDiscard:(NSArray *)array  
-//{
-//	int i;
-//	int count = [array count];
-//	NSMutableArray *arrayOut = [NSMutableArray array];
-//	for (i = 0; i < count; i++) {
-//		id object = [[array objectAtIndex:i] objectForKey:@"peakrecord"];
-//		
-//		// Redo preparation
-//		NSMutableDictionary *mutDict = [NSMutableDictionary dictionary];
-//		[mutDict setObject:object forKey:@"peakrecord"];
-//		[mutDict setValue:[object valueForKey:@"label"] forKey:@"label"];
-//		[mutDict setValue:[object valueForKey:@"score"] forKey:@"score"];
-//		[mutDict setValue:[object valueForKey:@"symbol"] forKey:@"symbol"];
-//		[mutDict setValue:[object valueForKey:@"libraryHit"] forKey:@"libraryHit"];
-//		[mutDict setValue:[object valueForKey:@"identified"] forKey:@"identified"];
-//		[mutDict setValue:[object valueForKey:@"confirmed"] forKey:@"confirmed"];
-//		[arrayOut addObject:mutDict];
-//		
-//		// Reading back what was changed
-//		[object setValue:[[array objectAtIndex:i] valueForKey:@"label"] forKey:@"label"];
-//		[object setValue:[[array objectAtIndex:i] valueForKey:@"score"] forKey:@"score"];
-//		[object setValue:[[array objectAtIndex:i] valueForKey:@"symbol"] forKey:@"symbol"];
-//		[object setLibraryHit:[[array objectAtIndex:i] valueForKey:@"libraryHit"]];
-//		[object setValue:[[array objectAtIndex:i] valueForKey:@"identified"] forKey:@"identified"];
-//		[object setValue:[[array objectAtIndex:i] valueForKey:@"confirmed"] forKey:@"confirmed"];
-//		
-//	}	
-//	[[[self document] undoManager] registerUndoWithTarget:self
-//												 selector:@selector(undoConfirm:)
-//												   object:arrayOut];
-//	[[[self document] undoManager] setActionName:NSLocalizedString(@"Discard Library Hit",@"")];
-//	
-//}
 
 - (IBAction)next:(id)sender {
 	int i;
@@ -609,7 +453,6 @@ static void *PeaksObservationContext = (void *)1103;
 		[peakController setSelectionIndex:[[peakController arrangedObjects] count]-1]; 
 	}
 }
-
 
 
 - (IBAction)other:(id)sender {
@@ -1565,7 +1408,9 @@ boolAccessor(showSelectedChromatogramsOnly, setShowSelectedChromatogramsOnly)
 intAccessor(showPeaks, setShowPeaks)	
 idAccessor(printAccessoryView, setPrintAccessoryView)
 idAccessor(chromatogramDataSeries, setChromatogramDataSeries)
+#pragma mark -
 
+#pragma mark Properties
 @synthesize peakController;
 @synthesize moleculeSplitSubview;
 @synthesize peaksTable;
@@ -1596,4 +1441,6 @@ idAccessor(chromatogramDataSeries, setChromatogramDataSeries)
 @synthesize identifyCompoundBox;
 @synthesize resultsTableScrollView;
 @synthesize progressSheet;
+#pragma mark -
+
 @end

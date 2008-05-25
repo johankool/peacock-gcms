@@ -69,7 +69,7 @@
 
     range->location = 1;
     range->length = numberOfPages;
-//    JKLogDebug(@"knowsPageRange %d", numberOfPages);
+//    PKLogDebug(@"knowsPageRange %d", numberOfPages);
     return YES;
 }
 
@@ -122,7 +122,7 @@
     // Convert height to the scaled view 
     float scale = [[[pi dictionary] objectForKey:NSPrintScalingFactor]
         floatValue];
-//    JKLogDebug(@"calculatePrintHeight %g",pageHeight / scale);
+//    PKLogDebug(@"calculatePrintHeight %g",pageHeight / scale);
     return pageHeight * scale;
 }
 
@@ -140,7 +140,7 @@
     // Convert height to the scaled view 
     float scale = [[[pi dictionary] objectForKey:NSPrintScalingFactor]
         floatValue];
-//    JKLogDebug(@"calculatePrintWidth %g",pageWidth / scale);
+//    PKLogDebug(@"calculatePrintWidth %g",pageWidth / scale);
     return pageWidth * scale;
 }
 

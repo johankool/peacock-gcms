@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AccessorMacros.h"
 
 @interface PKAtom : NSObject <NSCoding> {
     float x;
@@ -30,23 +29,10 @@
 	BOOL exactChangeFlag;
 }
 
-floatAccessor_h(x,setX)
-floatAccessor_h(y,setY)
-floatAccessor_h(z,setZ)
-idAccessor_h(name,setName)
-intAccessor_h(massDifference, setMassDifference)
-intAccessor_h(charge, setCharge)
-intAccessor_h(atomStereoParity, setAtomStereoParity)
-intAccessor_h(hydrogenCount, setHydrogenCount)
-intAccessor_h(stereoCareBox, setStereoCareBox)
-intAccessor_h(valence, setValence)
-intAccessor_h(H0Designator, setH0Designator)
-intAccessor_h(notUsed1, setNotUsed1)
-intAccessor_h(notUsed2, setNotUsed2)
-intAccessor_h(atomAtomMappingNumber, setAtomAtomMappingNumber)
-intAccessor_h(inversionRetentionFlag, setInversionRetentionFlag)
-intAccessor_h(exactChangeFlag, setExactChangeFlag)
-
+@property (copy) NSString *name;
+@property (getter=stereoCareBox,setter=setStereoCareBox:) BOOL stereoCareBox;
+@property (getter=exactChangeFlag,setter=setExactChangeFlag:) BOOL exactChangeFlag;
+@property (getter=H0Designator,setter=setH0Designator:) BOOL H0Designator;
 @property (getter=notUsed1,setter=setNotUsed1:) int notUsed1;
 @property (getter=atomStereoParity,setter=setAtomStereoParity:) int atomStereoParity;
 @property (getter=inversionRetentionFlag,setter=setInversionRetentionFlag:) int inversionRetentionFlag;
@@ -59,4 +45,5 @@ intAccessor_h(exactChangeFlag, setExactChangeFlag)
 @property (getter=massDifference,setter=setMassDifference:) int massDifference;
 @property (getter=z,setter=setZ:) float z;
 @property (getter=y,setter=setY:) float y;
+
 @end

@@ -8,7 +8,6 @@
 
 #import "PKPeakRecord.h"
 
-#import "BDAlias.h"
 #import "PKChromatogram.h"
 #import "PKGCMSDocument.h"
 #import "PKLibraryEntry.h"
@@ -85,7 +84,7 @@
     [libEntry setOwner:[NSString stringWithFormat:@"%@",NSFullUserName()]];
     [libEntry setSource:[[self document] displayName]];
     [libEntry setRetentionIndex:[self retentionIndex]];
-    JKLogDebug([libEntry jcampString]);
+    PKLogDebug([libEntry jcampString]);
     return [libEntry autorelease];
 }
 #pragma mark -
@@ -121,7 +120,7 @@
     if ([coder allowsKeyedCoding]) {
         int version = [coder decodeIntForKey:@"version"];
         if (version < 6) {
-            JKLogWarning(@"Deprecated file format no longer supported.");
+            PKLogWarning(@"Deprecated file format no longer supported.");
         }
         peakID = [coder decodeIntForKey:@"peakID"];
         start = [coder decodeIntForKey:@"start"];
@@ -158,7 +157,7 @@
     
     if (![self identified]) {	
         NSBeep();
-        JKLogWarning(@"Can not confirm a peak that is not identified.");
+        PKLogWarning(@"Can not confirm a peak that is not identified.");
         return NO;
     }
     

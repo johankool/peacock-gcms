@@ -9,7 +9,7 @@
 #import <SenTestingKit/SenTestingKit.h>
 
 #import "AccessorMacros.h"
-#import "JKLog.h"
+#import "PKLog.h"
 #import "PKSpectrum.h"
 
 @interface PKSpectrumTest : SenTestCase {

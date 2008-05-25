@@ -6,9 +6,6 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
-@class BDAlias;
-@class JKPathPopUpButton;
-
 @interface PKPreferencesWindowController : NSWindowController {
 	IBOutlet NSView *generalPreferencesView;
 	IBOutlet NSView *processingPreferencesView;

@@ -16,7 +16,6 @@
 		C709D00A0C465F3200C9C613 /* PKComboBoxCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C709D0080C465F3200C9C613 /* PKComboBoxCell.h */; };
 		C709D00B0C465F3200C9C613 /* PKComboBoxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C709D0090C465F3200C9C613 /* PKComboBoxCell.m */; };
 		C70DB7610957141800C2B386 /* netcdf.h in Headers */ = {isa = PBXBuildFile; fileRef = C7EB17AF0898CF2E007FC2ED /* netcdf.h */; };
-		C70DB7660957141800C2B386 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D430941ED7A005431CD /* Security.framework */; };
 		C70DB8EE09573BEA00C2B386 /* PKRatio.m in Sources */ = {isa = PBXBuildFile; fileRef = C70DB8EC09573BEA00C2B386 /* PKRatio.m */; };
 		C70DC017095B201200C2B386 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C70DC016095B201200C2B386 /* Localizable.strings */; };
 		C70DC01A095B205500C2B386 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C70DC019095B205500C2B386 /* Credits.rtf */; };
@@ -25,15 +24,11 @@
 		C716B4BD0AD6AA8F00DA408E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C716B4AD0AD6AA8F00DA408E /* CoreData.framework */; };
 		C71A0D670CBA8176008D5FB2 /* RBSplitSubview.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6150094DBE3A00C0887E /* RBSplitSubview.m */; };
 		C71A0D680CBA8178008D5FB2 /* RBSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6152094DBE3A00C0887E /* RBSplitView.m */; };
-		C71D9FCC099CD19D007EB10D /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C71D9FCB099CD19D007EB10D /* Growl.framework */; };
-		C71D9FE9099CD291007EB10D /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C71D9FCB099CD19D007EB10D /* Growl.framework */; };
 		C720AB8809EA7B6C007EF860 /* pk_statistics.h in Headers */ = {isa = PBXBuildFile; fileRef = C720AB8609EA7B6C007EF860 /* pk_statistics.h */; };
-		C7213E470D1726DB0062E45B /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
+		C7213E470D1726DB0062E45B /* PKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* PKLog.m */; };
 		C729CAA90A4B45CD00FAB04F /* PKDataModelProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = C729CAA70A4B45CD00FAB04F /* PKDataModelProxy.h */; };
 		C729CAAA0A4B45CD00FAB04F /* PKDataModelProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = C729CAA80A4B45CD00FAB04F /* PKDataModelProxy.m */; };
 		C72C85D7098BF1B800CEF565 /* PKGeneralTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C85D6098BF1B800CEF565 /* PKGeneralTesting.m */; };
-		C7314A3B0D4640CE0093EB47 /* PKRegister.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7314A390D4640CE0093EB47 /* PKRegister.xib */; };
-		C7314C570D465C7D0093EB47 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7314C560D465C7D0093EB47 /* AddressBook.framework */; };
 		C73B27CE0CAD9EF600C09AAE /* PKSummarizer.h in Headers */ = {isa = PBXBuildFile; fileRef = C73B27CC0CAD9EF600C09AAE /* PKSummarizer.h */; };
 		C73B27CF0CAD9EF600C09AAE /* PKSummarizer.m in Sources */ = {isa = PBXBuildFile; fileRef = C73B27CD0CAD9EF600C09AAE /* PKSummarizer.m */; };
 		C73B27D80CB1224100C09AAE /* PKSummaryController.h in Headers */ = {isa = PBXBuildFile; fileRef = C73B27D60CB1224100C09AAE /* PKSummaryController.h */; };
@@ -77,8 +72,6 @@
 		C777A2D70A1DFEE400CF44D9 /* PKMoleculeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C777A2D10A1DFEE400CF44D9 /* PKMoleculeModel.m */; };
 		C778A2CE0D4FD202005C95E0 /* PKAbundanceSpectraMatchingMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D4A5D30D2DB9B500E97AD4 /* PKAbundanceSpectraMatchingMethod.m */; };
 		C77E32B90C0F2CBB00B8A64A /* libraries.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E32B80C0F2CBB00B8A64A /* libraries.png */; };
-		C7834D1B0941ED37005431CD /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D1A0941ED37005431CD /* Carbon.framework */; };
-		C7834D440941ED7A005431CD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D430941ED7A005431CD /* Security.framework */; };
 		C7834D4A0941EDAF005431CD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D490941EDAF005431CD /* libz.dylib */; };
 		C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
@@ -91,7 +84,6 @@
 		C78603010DE88131007138CC /* PKSummary.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78602F70DE88131007138CC /* PKSummary.xib */; };
 		C78603020DE88131007138CC /* PKPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78602F90DE88131007138CC /* PKPreferences.xib */; };
 		C78603070DE88159007138CC /* PKBatchProcess.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78603030DE88159007138CC /* PKBatchProcess.xib */; };
-		C78603080DE88159007138CC /* PKDisplayOptions.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78603050DE88159007138CC /* PKDisplayOptions.xib */; };
 		C78603890DE883B9007138CC /* PKChromatogramTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C73533D10B7A703C00F7634B /* PKChromatogramTest.m */; };
 		C786038A0DE883BA007138CC /* PKSpectrumTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C8508098BE83600CEF565 /* PKSpectrumTest.m */; };
 		C786038B0DE883BF007138CC /* PKAbundanceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C778A2C60D4FCF02005C95E0 /* PKAbundanceTest.m */; };
@@ -99,8 +91,6 @@
 		C78FB8070CE9B73400466731 /* GCMathParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C78FB7FD0CE9B73400466731 /* GCMathParser.m */; };
 		C78FB8090CE9B73400466731 /* ZExpParser.h in Headers */ = {isa = PBXBuildFile; fileRef = C78FB7FF0CE9B73400466731 /* ZExpParser.h */; };
 		C78FB80A0CE9B73400466731 /* ZExpParser.mm in Sources */ = {isa = PBXBuildFile; fileRef = C78FB8000CE9B73400466731 /* ZExpParser.mm */; };
-		C79281D30B9F1CC100EDF996 /* NSEvent+ModifierKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */; };
-		C79281D40B9F1CC200EDF996 /* NSEvent+ModifierKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */; };
 		C798C9EA08E17B5400C6C7D1 /* PKDeletableTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C798C9E908E17B5400C6C7D1 /* PKDeletableTableView.m */; };
 		C799B0AA0ACAB30D00D4FCA4 /* Identify Compounds.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A70ACAB30D00D4FCA4 /* Identify Compounds.tiff */; };
 		C799B0AB0ACAB30D00D4FCA4 /* Identify Peaks.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C799B0A80ACAB30D00D4FCA4 /* Identify Peaks.tiff */; };
@@ -131,13 +121,14 @@
 		C7A7BB600A9DE6E0005E3778 /* layout.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB530A9DE6E0005E3778 /* layout.tiff */; };
 		C7A7BB610A9DE6E0005E3778 /* save_document.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB540A9DE6E0005E3778 /* save_document.tiff */; };
 		C7B9BA2D0AA881AE00250EFE /* view.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7B9BA2C0AA881AE00250EFE /* view.tiff */; };
+		C7BB88310DE8C63C00121E67 /* License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EED10CE211EA008F7BBC /* License.rtf */; };
 		C7BB96C70CE89D82003049F9 /* ratios.pdf in Resources */ = {isa = PBXBuildFile; fileRef = C7BB96C50CE89D82003049F9 /* ratios.pdf */; };
 		C7BC18A80CBBCA5E0037FBA7 /* PKDocumentController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC18A60CBBCA5E0037FBA7 /* PKDocumentController.h */; };
 		C7BC18A90CBBCA5E0037FBA7 /* PKDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC18A70CBBCA5E0037FBA7 /* PKDocumentController.m */; };
 		C7BC19AB0CBBE2D20037FBA7 /* PKWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC19A90CBBE2D20037FBA7 /* PKWindowController.h */; };
 		C7BC19AC0CBBE2D20037FBA7 /* PKWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC19AA0CBBE2D20037FBA7 /* PKWindowController.m */; };
-		C7BC505309A62C930093106E /* JKLog.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC505109A62C930093106E /* JKLog.h */; };
-		C7BC505409A62C930093106E /* JKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* JKLog.m */; };
+		C7BC505309A62C930093106E /* PKLog.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC505109A62C930093106E /* PKLog.h */; };
+		C7BC505409A62C930093106E /* PKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* PKLog.m */; };
 		C7BC7CD40CBB91A0006D121C /* ExceptionHandling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7BC7CD10CBB91A0006D121C /* ExceptionHandling.framework */; };
 		C7BDA6C10AF8B40E003513C7 /* PKFontNameToDisplayNameTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BDA6BF0AF8B40E003513C7 /* PKFontNameToDisplayNameTransformer.m */; };
 		C7BDA6C20AF8B40E003513C7 /* PKFontNameToDisplayNameTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BDA6C00AF8B40E003513C7 /* PKFontNameToDisplayNameTransformer.h */; };
@@ -160,8 +151,6 @@
 		C7D4A5F10D2E14D100E97AD4 /* PKMZValuesSpectraMatchingMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D4A5F00D2E14D100E97AD4 /* PKMZValuesSpectraMatchingMethod.m */; };
 		C7D7D66A0B7203B0004ABEB5 /* NSBezierPath+RoundRect.h in Headers */ = {isa = PBXBuildFile; fileRef = C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */; };
 		C7D7D66B0B7203B0004ABEB5 /* NSBezierPath+RoundRect.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */; };
-		C7E5B1D70A14934200BB2291 /* BDAlias.h in Headers */ = {isa = PBXBuildFile; fileRef = C7E5B1D20A14934200BB2291 /* BDAlias.h */; };
-		C7E5B1D80A14934200BB2291 /* BDAlias.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E5B1D30A14934200BB2291 /* BDAlias.m */; };
 		C7EB18160898CFBD007FC2ED /* MolTypes.c in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F00898CFBC007FC2ED /* MolTypes.c */; };
 		C7EB18170898CFBD007FC2ED /* PKMassWeightController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F40898CFBC007FC2ED /* PKMassWeightController.m */; };
 		C7EB18180898CFBD007FC2ED /* PKGraphDataSeries.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EB17F60898CFBC007FC2ED /* PKGraphDataSeries.m */; };
@@ -187,13 +176,7 @@
 		C7F5D0D00D05794000DCD7C0 /* PKFlipView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5D0CE0D05794000DCD7C0 /* PKFlipView.m */; };
 		C7F8DE170BF0A4B500A34F5D /* flagged_header.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DE130BF0A4B500A34F5D /* flagged_header.tiff */; };
 		C7F8DE180BF0A4B500A34F5D /* flagged.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DE140BF0A4B500A34F5D /* flagged.tiff */; };
-		C7F8DE930BF0CDEE00A34F5D /* AMRemovableTableColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DE8B0BF0CDED00A34F5D /* AMRemovableTableColumn.h */; };
-		C7F8DE940BF0CDEE00A34F5D /* AMRemovableColumnsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8DE8C0BF0CDED00A34F5D /* AMRemovableColumnsTableView.m */; };
-		C7F8DE950BF0CDEE00A34F5D /* AMRemovableTableColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8DE8D0BF0CDED00A34F5D /* AMRemovableTableColumn.m */; };
-		C7F8DE960BF0CDEE00A34F5D /* AMRemovableColumnsTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DE8E0BF0CDED00A34F5D /* AMRemovableColumnsTableView.h */; };
 		C7F8DEA50BF0CE1A00A34F5D /* table.png in Resources */ = {isa = PBXBuildFile; fileRef = C7F8DEA30BF0CE1A00A34F5D /* table.png */; };
-		C7F8DF060BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F8DF020BF0D40F00A34F5D /* DisplayOptionsWindowController.m */; };
-		C7F8DF070BF0D41000A34F5D /* DisplayOptionsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F8DF030BF0D40F00A34F5D /* DisplayOptionsWindowController.h */; };
 		C7FBE1E40AB6F1A4000E7EF2 /* presets.png in Resources */ = {isa = PBXBuildFile; fileRef = C7FBE1E30AB6F1A4000E7EF2 /* presets.png */; };
 /* End PBXBuildFile section */
 
@@ -222,7 +205,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */,
-				C71D9FE9099CD291007EB10D /* Growl.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,7 +251,6 @@
 		C715DEB30A136AD200348AB5 /* PKGCMSDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PKGCMSDocument.h; sourceTree = "<group>"; };
 		C715DECE0A136B2F00348AB5 /* PKGCMSDocument.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PKGCMSDocument.m; sourceTree = "<group>"; };
 		C716B4AD0AD6AA8F00DA408E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		C71D9FCB099CD19D007EB10D /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		C720AB8609EA7B6C007EF860 /* pk_statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pk_statistics.h; sourceTree = "<group>"; };
 		C720AB8709EA7B6C007EF860 /* pk_statistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pk_statistics.m; sourceTree = "<group>"; };
 		C729CAA70A4B45CD00FAB04F /* PKDataModelProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKDataModelProxy.h; sourceTree = "<group>"; };
@@ -280,7 +261,6 @@
 		C72C8508098BE83600CEF565 /* PKSpectrumTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKSpectrumTest.m; sourceTree = "<group>"; };
 		C72C85D5098BF1B800CEF565 /* PKGeneralTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKGeneralTesting.h; sourceTree = "<group>"; };
 		C72C85D6098BF1B800CEF565 /* PKGeneralTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKGeneralTesting.m; sourceTree = "<group>"; };
-		C7314A3A0D4640CE0093EB47 /* PKRegister.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PKRegister.xib; path = English.lproj/PKRegister.xib; sourceTree = "<group>"; };
 		C7314C560D465C7D0093EB47 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = /System/Library/Frameworks/AddressBook.framework; sourceTree = "<absolute>"; };
 		C73533D00B7A703C00F7634B /* PKChromatogramTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKChromatogramTest.h; sourceTree = "<group>"; };
 		C73533D10B7A703C00F7634B /* PKChromatogramTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKChromatogramTest.m; sourceTree = "<group>"; };
@@ -306,7 +286,7 @@
 		C75846130C071ACC00756ED8 /* PKComparableProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKComparableProtocol.h; sourceTree = "<group>"; };
 		C75846610C07268D00756ED8 /* PKLibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PKLibraryEntry.h; sourceTree = "<group>"; };
 		C75846620C07268D00756ED8 /* PKLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PKLibraryEntry.m; sourceTree = "<group>"; };
-		C758C8C40D0EE8CB0068F70A /* Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Notes.txt; sourceTree = SOURCE_ROOT; };
+		C758C8C40D0EE8CB0068F70A /* Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Notes.txt; sourceTree = "<group>"; };
 		C75C65620CFE1A0F003C7700 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = /Users/jkool/Developer/Peacock/trunk/Spotlight/English.lproj/schema.strings; sourceTree = "<absolute>"; };
 		C75C65630CFE1A0F003C7700 /* GetMetadataForFile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = GetMetadataForFile.c; path = Spotlight/GetMetadataForFile.c; sourceTree = SOURCE_ROOT; };
 		C75C65640CFE1A0F003C7700 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = Spotlight/main.c; sourceTree = SOURCE_ROOT; };
@@ -351,14 +331,11 @@
 		C78602F80DE88131007138CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PKSummary.xib; sourceTree = "<group>"; };
 		C78602FA0DE88131007138CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PKPreferences.xib; sourceTree = "<group>"; };
 		C78603040DE88159007138CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PKBatchProcess.xib; sourceTree = "<group>"; };
-		C78603060DE88159007138CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PKDisplayOptions.xib; sourceTree = "<group>"; };
 		C78FB7FC0CE9B73400466731 /* GCMathParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCMathParser.h; sourceTree = "<group>"; };
 		C78FB7FD0CE9B73400466731 /* GCMathParser.m */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GCMathParser.m; path = GCExpressionParser/GCMathParser.m; sourceTree = SOURCE_ROOT; };
 		C78FB7FE0CE9B73400466731 /* Implementation Notes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Implementation Notes"; sourceTree = "<group>"; };
 		C78FB7FF0CE9B73400466731 /* ZExpParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZExpParser.h; path = GCExpressionParser/ZExpParser.h; sourceTree = SOURCE_ROOT; };
 		C78FB8000CE9B73400466731 /* ZExpParser.mm */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = ZExpParser.mm; path = GCExpressionParser/ZExpParser.mm; sourceTree = SOURCE_ROOT; };
-		C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSEvent+ModifierKeys.h"; sourceTree = SOURCE_ROOT; };
-		C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSEvent+ModifierKeys.m"; sourceTree = SOURCE_ROOT; };
 		C79618900C0C75BC00D79FAC /* PKTargetObjectProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKTargetObjectProtocol.h; sourceTree = "<group>"; };
 		C798C9E808E17B5400C6C7D1 /* PKDeletableTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKDeletableTableView.h; sourceTree = "<group>"; };
 		C798C9E908E17B5400C6C7D1 /* PKDeletableTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKDeletableTableView.m; sourceTree = "<group>"; };
@@ -404,8 +381,8 @@
 		C7BC18A70CBBCA5E0037FBA7 /* PKDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKDocumentController.m; sourceTree = SOURCE_ROOT; };
 		C7BC19A90CBBE2D20037FBA7 /* PKWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKWindowController.h; sourceTree = SOURCE_ROOT; };
 		C7BC19AA0CBBE2D20037FBA7 /* PKWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKWindowController.m; sourceTree = SOURCE_ROOT; };
-		C7BC505109A62C930093106E /* JKLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKLog.h; sourceTree = "<group>"; };
-		C7BC505209A62C930093106E /* JKLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKLog.m; sourceTree = "<group>"; };
+		C7BC505109A62C930093106E /* PKLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKLog.h; sourceTree = "<group>"; };
+		C7BC505209A62C930093106E /* PKLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKLog.m; sourceTree = "<group>"; };
 		C7BC7CD10CBB91A0006D121C /* ExceptionHandling.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExceptionHandling.framework; path = /System/Library/Frameworks/ExceptionHandling.framework; sourceTree = "<absolute>"; };
 		C7BDA6BF0AF8B40E003513C7 /* PKFontNameToDisplayNameTransformer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PKFontNameToDisplayNameTransformer.m; sourceTree = "<group>"; };
 		C7BDA6C00AF8B40E003513C7 /* PKFontNameToDisplayNameTransformer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PKFontNameToDisplayNameTransformer.h; sourceTree = "<group>"; };
@@ -435,8 +412,6 @@
 		C7D4A5F00D2E14D100E97AD4 /* PKMZValuesSpectraMatchingMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKMZValuesSpectraMatchingMethod.m; sourceTree = SOURCE_ROOT; };
 		C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+RoundRect.h"; sourceTree = SOURCE_ROOT; };
 		C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+RoundRect.m"; sourceTree = SOURCE_ROOT; };
-		C7E5B1D20A14934200BB2291 /* BDAlias.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BDAlias.h; sourceTree = "<group>"; };
-		C7E5B1D30A14934200BB2291 /* BDAlias.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BDAlias.m; sourceTree = "<group>"; };
 		C7EB17A60898CF2D007FC2ED /* AccessorMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccessorMacros.h; sourceTree = "<group>"; };
 		C7EB17A70898CF2D007FC2ED /* CAtom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAtom.h; sourceTree = "<group>"; };
 		C7EB17A80898CF2D007FC2ED /* CAtom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CAtom.m; sourceTree = "<group>"; };
@@ -480,13 +455,7 @@
 		C7F5E8F408EAA98600AC1068 /* PKManagedLibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKManagedLibraryEntry.m; sourceTree = "<group>"; };
 		C7F8DE130BF0A4B500A34F5D /* flagged_header.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = flagged_header.tiff; sourceTree = "<group>"; };
 		C7F8DE140BF0A4B500A34F5D /* flagged.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = flagged.tiff; sourceTree = "<group>"; };
-		C7F8DE8B0BF0CDED00A34F5D /* AMRemovableTableColumn.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AMRemovableTableColumn.h; sourceTree = "<group>"; };
-		C7F8DE8C0BF0CDED00A34F5D /* AMRemovableColumnsTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AMRemovableColumnsTableView.m; sourceTree = "<group>"; };
-		C7F8DE8D0BF0CDED00A34F5D /* AMRemovableTableColumn.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AMRemovableTableColumn.m; sourceTree = "<group>"; };
-		C7F8DE8E0BF0CDED00A34F5D /* AMRemovableColumnsTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AMRemovableColumnsTableView.h; sourceTree = "<group>"; };
 		C7F8DEA30BF0CE1A00A34F5D /* table.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = table.png; sourceTree = "<group>"; };
-		C7F8DF020BF0D40F00A34F5D /* DisplayOptionsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DisplayOptionsWindowController.m; sourceTree = "<group>"; };
-		C7F8DF030BF0D40F00A34F5D /* DisplayOptionsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DisplayOptionsWindowController.h; sourceTree = "<group>"; };
 		C7FBE1E30AB6F1A4000E7EF2 /* presets.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = presets.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -495,17 +464,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7314C570D465C7D0093EB47 /* AddressBook.framework in Frameworks */,
-				C7834D1B0941ED37005431CD /* Carbon.framework in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				C716B4BD0AD6AA8F00DA408E /* CoreData.framework in Frameworks */,
 				C7BC7CD40CBB91A0006D121C /* ExceptionHandling.framework in Frameworks */,
-				C71D9FCC099CD19D007EB10D /* Growl.framework in Frameworks */,
 				C7EB185B0898D20E007FC2ED /* libnetcdf.a in Frameworks */,
 				C7834D4A0941EDAF005431CD /* libz.dylib in Frameworks */,
-				C7834D440941ED7A005431CD /* Security.framework in Frameworks */,
 				C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */,
-				C70DB7660957141800C2B386 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -555,7 +519,6 @@
 			isa = PBXGroup;
 			children = (
 				C7859A9909CEBCE900351C87 /* Sparkle.framework */,
-				C71D9FCB099CD19D007EB10D /* Growl.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -591,15 +554,13 @@
 			isa = PBXGroup;
 			children = (
 				C78FB7FB0CE9B73400466731 /* GCExpressionParser */,
-				C77E689C0C3A9E910051B016 /* AMRemovableColumns */,
-				C7E5B1C50A14930600BB2291 /* BDAlias */,
 				C773290A08CA612600222B5B /* MolWeight */,
 				C79A6157094DBE4000C0887E /* RBSplitView */,
 				C7EB17A60898CF2D007FC2ED /* AccessorMacros.h */,
 				32DBCF750370BD2300C91783 /* Peacock_Prefix.pch */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
-				C7BC505109A62C930093106E /* JKLog.h */,
-				C7BC505209A62C930093106E /* JKLog.m */,
+				C7BC505109A62C930093106E /* PKLog.h */,
+				C7BC505209A62C930093106E /* PKLog.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -804,19 +765,6 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
-		C77E689C0C3A9E910051B016 /* AMRemovableColumns */ = {
-			isa = PBXGroup;
-			children = (
-				C7F8DE8E0BF0CDED00A34F5D /* AMRemovableColumnsTableView.h */,
-				C7F8DE8C0BF0CDED00A34F5D /* AMRemovableColumnsTableView.m */,
-				C7F8DE8B0BF0CDED00A34F5D /* AMRemovableTableColumn.h */,
-				C7F8DE8D0BF0CDED00A34F5D /* AMRemovableTableColumn.m */,
-				C7F8DF030BF0D40F00A34F5D /* DisplayOptionsWindowController.h */,
-				C7F8DF020BF0D40F00A34F5D /* DisplayOptionsWindowController.m */,
-			);
-			name = AMRemovableColumns;
-			sourceTree = "<group>";
-		};
 		C77E68C60C3A9F0D0051B016 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
@@ -849,15 +797,6 @@
 				C79A6153094DBE3A00C0887E /* RBSplitViewPrivateDefines.h */,
 			);
 			path = RBSplitView;
-			sourceTree = "<group>";
-		};
-		C7E5B1C50A14930600BB2291 /* BDAlias */ = {
-			isa = PBXGroup;
-			children = (
-				C7E5B1D20A14934200BB2291 /* BDAlias.h */,
-				C7E5B1D30A14934200BB2291 /* BDAlias.m */,
-			);
-			name = BDAlias;
 			sourceTree = "<group>";
 		};
 		C7EB17B00898CF2E007FC2ED /* Icons */ = {
@@ -913,7 +852,6 @@
 			isa = PBXGroup;
 			children = (
 				C78603030DE88159007138CC /* PKBatchProcess.xib */,
-				C78603050DE88159007138CC /* PKDisplayOptions.xib */,
 				C78602EB0DE88131007138CC /* PKGCMSDocument.xib */,
 				C79CE6280CF3569200C2D872 /* PKGraphical.xib */,
 				C78602ED0DE88131007138CC /* PKLibrary.xib */,
@@ -923,7 +861,6 @@
 				C78602F50DE88131007138CC /* PKRatios.xib */,
 				C78602F70DE88131007138CC /* PKSummary.xib */,
 				C78602F90DE88131007138CC /* PKPreferences.xib */,
-				C7314A390D4640CE0093EB47 /* PKRegister.xib */,
 			);
 			path = Nibs;
 			sourceTree = "<group>";
@@ -952,8 +889,6 @@
 				C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */,
 				C7C29ABB0B8B67530017B2B2 /* NSCoder+CArrayEncoding.h */,
 				C7C29ABC0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m */,
-				C79281D10B9F1CC100EDF996 /* NSEvent+ModifierKeys.h */,
-				C79281D20B9F1CC100EDF996 /* NSEvent+ModifierKeys.m */,
 				C7C2998E0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.h */,
 				C7C2998F0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.m */,
 				C7490D4B0CAC0B28005DCA39 /* NSString+ModelCompare.h */,
@@ -972,10 +907,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70DB7610957141800C2B386 /* netcdf.h in Headers */,
-				C7BC505309A62C930093106E /* JKLog.h in Headers */,
+				C7BC505309A62C930093106E /* PKLog.h in Headers */,
 				C720AB8809EA7B6C007EF860 /* pk_statistics.h in Headers */,
 				C715DEB40A136AD300348AB5 /* PKGCMSDocument.h in Headers */,
-				C7E5B1D70A14934200BB2291 /* BDAlias.h in Headers */,
 				C777A2C50A1DFEA800CF44D9 /* PKMoleculeView.h in Headers */,
 				C777A2D20A1DFEE400CF44D9 /* PKAtom.h in Headers */,
 				C777A2D40A1DFEE400CF44D9 /* PKBond.h in Headers */,
@@ -990,12 +924,8 @@
 				C7C299900B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.h in Headers */,
 				C7C29ABD0B8B67540017B2B2 /* NSCoder+CArrayEncoding.h in Headers */,
 				C708E90C0B9D953A0085872E /* PKCombinedPeak.h in Headers */,
-				C79281D30B9F1CC100EDF996 /* NSEvent+ModifierKeys.h in Headers */,
 				C7CFFC770BBC0C290060B0C7 /* PKGCMSPrintView.h in Headers */,
 				C7C220650BEB831000510B5B /* PKBooleanToStringTransformer.h in Headers */,
-				C7F8DE930BF0CDEE00A34F5D /* AMRemovableTableColumn.h in Headers */,
-				C7F8DE960BF0CDEE00A34F5D /* AMRemovableColumnsTableView.h in Headers */,
-				C7F8DF070BF0D41000A34F5D /* DisplayOptionsWindowController.h in Headers */,
 				C75846650C07268D00756ED8 /* PKLibraryEntry.h in Headers */,
 				C709D00A0C465F3200C9C613 /* PKComboBoxCell.h in Headers */,
 				C7490D4D0CAC0B29005DCA39 /* PKChromatogram.h in Headers */,
@@ -1125,6 +1055,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7BB88310DE8C63C00121E67 /* License.rtf in Resources */,
 				C70021320CF1CF8200EC976C /* Peacock Test Files in Resources */,
 				C70DC01A095B205500C2B386 /* Credits.rtf in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
@@ -1164,7 +1095,6 @@
 				C74378920CCCA5AF002DF365 /* BannerBackground.tif in Resources */,
 				C7BB96C70CE89D82003049F9 /* ratios.pdf in Resources */,
 				C79CE6290CF3569200C2D872 /* PKGraphical.xib in Resources */,
-				C7314A3B0D4640CE0093EB47 /* PKRegister.xib in Resources */,
 				C78602FB0DE88131007138CC /* PKGCMSDocument.xib in Resources */,
 				C78602FC0DE88131007138CC /* PKLibrary.xib in Resources */,
 				C78602FD0DE88131007138CC /* PKLibraryPanel.xib in Resources */,
@@ -1174,7 +1104,6 @@
 				C78603010DE88131007138CC /* PKSummary.xib in Resources */,
 				C78603020DE88131007138CC /* PKPreferences.xib in Resources */,
 				C78603070DE88159007138CC /* PKBatchProcess.xib in Resources */,
-				C78603080DE88159007138CC /* PKDisplayOptions.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1255,9 +1184,8 @@
 				C798C9EA08E17B5400C6C7D1 /* PKDeletableTableView.m in Sources */,
 				C7713B430950368F00653D2A /* PKBatchProcessWindowController.m in Sources */,
 				C70DB8EE09573BEA00C2B386 /* PKRatio.m in Sources */,
-				C7BC505409A62C930093106E /* JKLog.m in Sources */,
+				C7BC505409A62C930093106E /* PKLog.m in Sources */,
 				C715DECF0A136B2F00348AB5 /* PKGCMSDocument.m in Sources */,
-				C7E5B1D80A14934200BB2291 /* BDAlias.m in Sources */,
 				C777A2C60A1DFEA800CF44D9 /* PKMoleculeView.m in Sources */,
 				C777A2D30A1DFEE400CF44D9 /* PKAtom.m in Sources */,
 				C777A2D50A1DFEE400CF44D9 /* PKBond.m in Sources */,
@@ -1271,12 +1199,8 @@
 				C7C299910B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.m in Sources */,
 				C7C29ABE0B8B67540017B2B2 /* NSCoder+CArrayEncoding.m in Sources */,
 				C708E90D0B9D953A0085872E /* PKCombinedPeak.m in Sources */,
-				C79281D40B9F1CC200EDF996 /* NSEvent+ModifierKeys.m in Sources */,
 				C7CFFC780BBC0C290060B0C7 /* PKGCMSPrintView.m in Sources */,
 				C7C220660BEB831000510B5B /* PKBooleanToStringTransformer.m in Sources */,
-				C7F8DE940BF0CDEE00A34F5D /* AMRemovableColumnsTableView.m in Sources */,
-				C7F8DE950BF0CDEE00A34F5D /* AMRemovableTableColumn.m in Sources */,
-				C7F8DF060BF0D41000A34F5D /* DisplayOptionsWindowController.m in Sources */,
 				C76814070C05E66C00973566 /* PKManagedLibraryEntry.m in Sources */,
 				C76814240C05E6F200973566 /* PKFilteringDNDArrayController.m in Sources */,
 				C75846660C07268D00756ED8 /* PKLibraryEntry.m in Sources */,
@@ -1329,7 +1253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7C589360CFDC48D0009CDD9 /* PKDefaultPlugin.m in Sources */,
-				C7213E470D1726DB0062E45B /* JKLog.m in Sources */,
+				C7213E470D1726DB0062E45B /* PKLog.m in Sources */,
 				C7ECCAA50D2D753100B2DE87 /* PKDefaultBaselineDetectionMethod.m in Sources */,
 				C7ECCAAB0D2D8F7E00B2DE87 /* pk_statistics.m in Sources */,
 				C7D4A56E0D2DA8CE00E97AD4 /* PKDefaultPeakDetectionMethod.m in Sources */,
@@ -1377,14 +1301,6 @@
 				2A37F4BAFDCFA73011CA2CEA /* English */,
 			);
 			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		C7314A390D4640CE0093EB47 /* PKRegister.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C7314A3A0D4640CE0093EB47 /* PKRegister.xib */,
-			);
-			name = PKRegister.xib;
 			sourceTree = "<group>";
 		};
 		C75C65610CFE1A0F003C7700 /* schema.strings */ = {
@@ -1474,14 +1390,6 @@
 				C78603040DE88159007138CC /* English */,
 			);
 			name = PKBatchProcess.xib;
-			sourceTree = "<group>";
-		};
-		C78603050DE88159007138CC /* PKDisplayOptions.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C78603060DE88159007138CC /* English */,
-			);
-			name = PKDisplayOptions.xib;
 			sourceTree = "<group>";
 		};
 		C79CE6280CF3569200C2D872 /* PKGraphical.xib */ = {

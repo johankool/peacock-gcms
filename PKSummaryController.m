@@ -11,13 +11,13 @@
 #import "PKAppDelegate.h"
 #import "PKChromatogram.h"
 #import "PKCombinedPeak.h"
-#import "PKGCMSDocument.h"
-#import "PKMainWindowController.h"
-#import "PKLibraryWindowController.h"
-#import "PKSummarizer.h"
-#import "PKPeakRecord.h"
 #import "PKDocumentController.h"
+#import "PKGCMSDocument.h"
 #import "PKLibrary.h"
+#import "PKLibraryWindowController.h"
+#import "PKMainWindowController.h"
+#import "PKPeakRecord.h"
+#import "PKSummarizer.h"
 //#import "JKSynchroScrollView.h"
 
 #define JKLibraryEntryTableViewDataType @"JKLibraryEntryTableViewDataType"
@@ -65,9 +65,7 @@
     return self;
 }
 
-- (void)windowDidLoad
-{
- //   [tableScrollView setSynchronizedScrollView1:compoundScrollView];
+- (void)windowDidLoad {
     // Drag and drop
 	[tableView registerForDraggedTypes:[NSArray arrayWithObjects:@"JKManagedLibraryEntryURIType", nil]];
 	[tableView setDataSource:self];
@@ -177,24 +175,21 @@
      }
 }
 
-- (void)documentLoaded:(NSNotification *)aNotification
-{
+- (void)documentLoaded:(NSNotification *)aNotification {
     id document = [aNotification object];
-    JKLogDebug(@"Document loaded notification received for %@", [document description]);
+    PKLogDebug(@"Document loaded notification received for %@", [document description]);
     if ([document isKindOfClass:[PKGCMSDocument class]]) {
         if ([tableView columnWithIdentifier:document] == -1)
             [self addTableColumForDocument:document];
     }
 }
 
-- (void)documentUnloaded:(NSNotification *)aNotification
-{
+- (void)documentUnloaded:(NSNotification *)aNotification {
     id object = [aNotification object];
     [tableView removeTableColumn:[tableView tableColumnWithIdentifier:object]];
 }
 
-- (void)addTableColumForDocument:(PKGCMSDocument *)document
-{
+- (void)addTableColumForDocument:(PKGCMSDocument *)document {
     // Setup bindings for Combined peaks
     NSTableColumn *tableColumn = [[NSTableColumn alloc] init];
     [tableColumn setIdentifier:document];
@@ -232,8 +227,7 @@
     [tableColumn release];    
 }
 
-- (void)updateTableColumnBindings
-{
+- (void)updateTableColumnBindings {
     for (NSTableColumn *tableColumn in [tableView tableColumns]) {
         if ([[tableColumn identifier] isKindOfClass:[PKGCMSDocument class]]) {
             NSString *keyPath = [NSString stringWithFormat:@"arrangedObjects.%@.%@",[[tableColumn identifier] uuid],[self keyForValue]];
@@ -268,28 +262,23 @@
     
 }
 
-- (NSString *)keyForValue
-{
+- (NSString *)keyForValue {
     return [[keys objectAtIndex:indexOfKeyForValue] valueForKey:@"key"];
 }
 
-- (int)formatForValue
-{
+- (int)formatForValue {
     return [[[keys objectAtIndex:indexOfKeyForValue] valueForKey:@"format"] intValue];
 }
 
-- (NSArray *)localizedKeysForValue
-{
+- (NSArray *)localizedKeysForValue {
     return [keys valueForKey:@"localized"];
 }
 
-- (int)indexOfKeyForValue
-{
+- (int)indexOfKeyForValue {
     return indexOfKeyForValue;
 }
 
-- (void)setIndexOfKeyForValue:(int)index 
-{
+- (void)setIndexOfKeyForValue:(int)index {
     indexOfKeyForValue = index;
     [self updateTableColumnBindings];
 }
@@ -300,7 +289,7 @@
 	} else if ([sender clickedColumn] == 0) {
 
        [(PKAppDelegate *)[NSApp delegate] editLibrary:self];
-        JKLogDebug(@"label = %@", [[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedColumn]] valueForKey:@"label"]);
+        PKLogDebug(@"label = %@", [[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedColumn]] valueForKey:@"label"]);
 
        [[[[(PKAppDelegate *)[NSApp delegate] library] libraryWindowController] libraryController] setSelectedObjects:[NSArray arrayWithObject:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedColumn]] valueForKey:@"libraryEntry"]]];
 		return;
@@ -360,7 +349,7 @@
                 [(PKPeakRecord *)[[chromatogram peaks] objectAtIndex:iout] addSearchResultForLibraryEntry:(PKManagedLibraryEntry *)[combinedPeak libraryEntry]];
                 [[[document mainWindowController] peakController] setSelectedObjects:[NSArray arrayWithObject:[[chromatogram peaks] objectAtIndex:iout]]];
             } else {
-                JKLogError(@"No peak found in chromatogram. Check baseline and peak detection settings.");
+                PKLogError(@"No peak found in chromatogram. Check baseline and peak detection settings.");
             }
         }
  	}
@@ -382,8 +371,7 @@
     return [sortKeys valueForKey:@"localized"];
 }
 
-- (int)indexOfSortKey
-{
+- (int)indexOfSortKey {
     return indexOfSortKey;
 }
 
@@ -392,17 +380,13 @@
     return sortDirection;
 }
 
-- (void)setIndexOfSortKey:(int)index 
-{
+- (void)setIndexOfSortKey:(int)index {
     sortDirection = (index != indexOfSortKey);
     indexOfSortKey = index;
     [self sortArrangedObjects:self];
 }
 
-- (IBAction)setUniqueSymbols:(id)sender
-{
-/*###381 [cc] warning: ‘JKSummarizer’ may not respond to ‘-setUniqueSymbols’%%%*/
-/*###381 [cc] warning: ‘JKSummarizer’ may not respond to ‘-setUniqueSymbols’%%%*/
+- (IBAction)setUniqueSymbols:(id)sender {
     [[(PKAppDelegate *)[NSApp delegate] summarizer] setUniqueSymbols];
 }
 
@@ -420,8 +404,8 @@
     }
 }
 
-- (BOOL)tableView:(NSTableView *)tv acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation{
-	
+#pragma mark Tableview Delegate Methods
+- (BOOL)tableView:(NSTableView *)tv acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation {
     if (tv == tableView) {
         if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:@"JKManagedLibraryEntryURIType"]]) {
             // Add the library entry to the peak
@@ -451,10 +435,14 @@
 	} 
     return NSDragOperationNone;    
 }
+#pragma mark -
 
+#pragma mark Properties
 @synthesize sortDirection;
 @synthesize combinedPeaksController;
 @synthesize sortKeys;
 @synthesize keys;
 @synthesize tableView;
+#pragma mark -
+
 @end

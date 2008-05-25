@@ -42,7 +42,7 @@
 #pragma mark Importing data
 - (void)setJCAMPString:(NSString *)inString {
     if (!inString || [inString isEqualToString:@""]) {
-        JKLogWarning(@"Empty JCAMPString encountered.");
+        PKLogWarning(@"Empty JCAMPString encountered.");
         return;
     }
 		 needDatapointsRefresh = YES;
@@ -65,7 +65,7 @@
 			[theScanner scanUpToString:@"##" intoString:&scannedString];
             [self setName:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
 		} else {
-			JKLogError(@"ERROR: Required ##TITLE entry not found.");
+			PKLogError(@"ERROR: Required ##TITLE entry not found.");
 		}
 		
 //		// JCAMP-DX
@@ -76,7 +76,7 @@
 //			[theScanner scanUpToString:@"##" intoString:&scannedString];
 //			// Currently ignored, could test JCAMP-DX version here.
 //		} else {
-//			//JKLogWarning(@"WARNING: Required ##JCAMP-DX entry not found.");
+//			//PKLogWarning(@"WARNING: Required ##JCAMP-DX entry not found.");
 //		}
 		
 		
@@ -91,7 +91,7 @@
 			} else {
 			}
 		} else {
-			//JKLogWarning(@"WARNING: Required ##ORIGIN entry not found.");
+			//PKLogWarning(@"WARNING: Required ##ORIGIN entry not found.");
 		}
 	
 		// OWNER
@@ -105,7 +105,7 @@
 			} else {
 			}
 		} else {
-			//JKLogWarning(@"WARNING: Required ##OWNER entry not found.");
+			//PKLogWarning(@"WARNING: Required ##OWNER entry not found.");
 		}
 		
 		// Reading chemical information
@@ -144,7 +144,7 @@
             if ([self validateCASNumber:&cas error:&error]){
                 [self setCASNumber:cas];
             } else {
-                JKLogWarning(@"Invalid CAS Number: %@, not imported.", cas);                
+                PKLogWarning(@"Invalid CAS Number: %@, not imported.", cas);                
             }
 		} else {
 		}
@@ -159,8 +159,8 @@
 			[self setMolString:[scannedString stringByTrimmingCharactersInSet:whiteCharacters]];
 		} else {
 //			molString = [[NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]]] retain];
-//			JKLogDebug([NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]);
-//			JKLogDebug(molString);
+//			PKLogDebug([NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]);
+//			PKLogDebug(molString);
 		}
 		
 		// $EPA MASS SPEC NO
@@ -208,7 +208,7 @@
 			if ([theScanner scanFloat:&scannedFloat]) {
 				[self setRetentionIndex:[NSNumber numberWithFloat:scannedFloat]];
 			} else {
-				JKLogWarning(@"WARNING: Retention index could not be read.");
+				PKLogWarning(@"WARNING: Retention index could not be read.");
 			}
 		} else {
 			[self setRetentionIndex:[NSNumber numberWithFloat:0.0f]];
@@ -343,7 +343,7 @@
 //			[theScanner scanUpToString:@"##" intoString:&scannedString];
 //			scannedString = [scannedString stringByTrimmingCharactersInSet:whiteCharacters];
 //			if (![scannedString isEqualToString:@"MASS SPECTRUM"]) {
-//				JKLogError(@"ERROR: Unsupported ##DATA TYPE \"%@\" found.", scannedString);
+//				PKLogError(@"ERROR: Unsupported ##DATA TYPE \"%@\" found.", scannedString);
 //			}
 //		} 
 //		
@@ -355,7 +355,7 @@
 //			[theScanner scanUpToString:@"##" intoString:&scannedString];
 //			scannedString = [scannedString stringByTrimmingCharactersInSet:whiteCharacters];
 //			if (!([scannedString isEqualToString:@"PEAK TABLE"] | [scannedString isEqualToString:@"XYDATA"])) {
-//				JKLogError(@"ERROR: Unsupported ##DATA CLASS \"%@\" found.", scannedString);
+//				PKLogError(@"ERROR: Unsupported ##DATA CLASS \"%@\" found.", scannedString);
 //			}
 //		}
 
@@ -372,7 +372,7 @@
            // numberOfPoints = scanNumber;
            // [self setNumberOfPoints:scanNumber];
 		} else {
-			JKLogError(@"Couldn't find number of points.");
+			PKLogError(@"Couldn't find number of points.");
 		}	
 		
 		// XYDATA
@@ -384,7 +384,7 @@
 			[theScanner scanUpToString:@"\n" intoString:&scannedString];
 			scannedString = [scannedString stringByTrimmingCharactersInSet:whiteCharacters];
 			if (![scannedString isEqualToString:@"(XY..XY)"]) {
-				JKLogError(@"ERROR: Unsupported ##XYDATA \"%@\" found.", scannedString);
+				PKLogError(@"ERROR: Unsupported ##XYDATA \"%@\" found.", scannedString);
 			}
 		} else {
 			[theScanner setScanLocation:0];
@@ -394,10 +394,10 @@
 				[theScanner scanUpToString:@"\n" intoString:&scannedString];
 				scannedString = [scannedString stringByTrimmingCharactersInSet:whiteCharacters];
 				if (![scannedString isEqualToString:@"(XY..XY)"]) {
-					JKLogError(@"ERROR: Unsupported ##PEAK TABLE \"%@\" found.", scannedString);
+					PKLogError(@"ERROR: Unsupported ##PEAK TABLE \"%@\" found.", scannedString);
 					}
 			} else {
-				JKLogError(@"ERROR: No data found. For Entry\n\n %@",inString);
+				PKLogError(@"ERROR: No data found. For Entry\n\n %@",inString);
 			}
 		}
 		
@@ -599,10 +599,10 @@
     float newIntensity;
     NSMutableSet *datapointsSet = [[NSMutableSet alloc] init];
 	for (j=0; j < numberOfPoints; j++){
-		if (![theScanner scanInt:&massInt]) JKLogError(@"Error during reading library (masses).");
+		if (![theScanner scanInt:&massInt]) PKLogError(@"Error during reading library (masses).");
 		newMass = massInt*1.0f;
 		[theScanner scanUpToCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:NULL];
-		if (![theScanner scanInt:&intensityInt]) JKLogError(@"Error during reading library (intensities).");
+		if (![theScanner scanInt:&intensityInt]) PKLogError(@"Error during reading library (intensities).");
 		newIntensity = intensityInt*1.0f;
         NSManagedObject *newDatapoint = [NSEntityDescription
                                          insertNewObjectForEntityForName:@"PKDatapoint"

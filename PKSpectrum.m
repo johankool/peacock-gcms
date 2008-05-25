@@ -266,7 +266,7 @@
 			
 			k++; j++;
 		} else {
-            JKLogDebug(@"unexpected error in PKSpectrum spectrumByAveragingWithSpectrum");
+            PKLogDebug(@"unexpected error in PKSpectrum spectrumByAveragingWithSpectrum");
             i++; j++;
         };
 	} while (i < count1 && j < count2);
@@ -307,7 +307,7 @@
     NSAssert([self document], @"document is nil?!");
     NSObject <PKSpectraMatchingMethodProtocol> *spectraMatchingObject = [[self document] objectForSpectraMatching:&error];
     if (!spectraMatchingObject) {
-        JKLogError(@"where is my spectraMatchingObject?!");
+        PKLogError(@"where is my spectraMatchingObject?!");
         [[self document] presentError:error];
         [error release];
         return -1.0f;
@@ -320,13 +320,13 @@
     
 //    float oldScore = (float)[self oldScoreComparedTo:libraryEntry usingMethod:scoreBasis penalizingForRententionIndex:penalizeForRetentionIndex];
 //    if (score != oldScore) {
-//        JKLogError(@"Score not calculated consistently: old: %g; plugin: %g", oldScore, score);
+//        PKLogError(@"Score not calculated consistently: old: %g; plugin: %g", oldScore, score);
 //    }
     [error release];
     return score;
 }
 - (float)oldScoreComparedTo:(id <PKComparableProtocol>)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex { // Could be changed to id <protocol> to resolve warning	
-    JKLogWarning(@"DEPRECATED METHOD BEING USED");
+    PKLogWarning(@"DEPRECATED METHOD BEING USED");
 	int i,j,k,count1,count2;
 	float score, score2, score3, maxIntensityLibraryEntry, maxIntensitySpectrum;
 	i=0; j=0; k=0; 
@@ -337,7 +337,7 @@
     NSAssert(maxIntensityLibraryEntry > 0.0f, @"maxIntensityLibraryEntry is 0 or smaller");
 	maxIntensitySpectrum = pk_stats_float_max(intensities,numberOfPoints);;
     NSAssert(maxIntensitySpectrum > 0.0f, @"maxIntensitySpectrum is 0 or smaller");    
-    JKLogDebug(@"maxIntensitySpectrum %g; maxIntensityLibraryEntry %g", maxIntensitySpectrum, maxIntensityLibraryEntry);
+    PKLogDebug(@"maxIntensitySpectrum %g; maxIntensityLibraryEntry %g", maxIntensitySpectrum, maxIntensityLibraryEntry);
 	count1 = [self numberOfPoints];
 	count2 = [libraryEntry numberOfPoints];
 	float *peakMasses = [self masses];
@@ -454,7 +454,7 @@
 					// When out of range?!?
 					// Keep counting to get us out of it...
 					k++; i++; j++;
-					JKLogError(@"This should not happen ever!! i %d j %d k %d massdif %f mass %f masslib %f inten %f intenlib %f count1 %d count2 %d", i,j,k, massDifference, masses[i], libraryEntryMasses[j], intensities[i], libraryEntryIntensities[j], count1, count2);
+					PKLogError(@"This should not happen ever!! i %d j %d k %d massdif %f mass %f masslib %f inten %f intenlib %f count1 %d count2 %d", i,j,k, massDifference, masses[i], libraryEntryMasses[j], intensities[i], libraryEntryIntensities[j], count1, count2);
 				}
                 
                 if ((i >= count1) && (j >= count2)) {
@@ -495,7 +495,7 @@
 					// When out of range?!?
 					// Keep counting to get us out of it...
 					k++; i++; j++;
-					JKLogDebug(@"This should not happen ever!! i %d j %d k %d massdif %f mass %f masslib %f inten %f intenlib %f count1 %d count2 %d", i,j,k, massDifference, masses[i], libraryEntryMasses[j], intensities[i], libraryEntryIntensities[j], count1, count2);
+					PKLogDebug(@"This should not happen ever!! i %d j %d k %d massdif %f mass %f masslib %f inten %f intenlib %f count1 %d count2 %d", i,j,k, massDifference, masses[i], libraryEntryMasses[j], intensities[i], libraryEntryIntensities[j], count1, count2);
 				}
 			} 
 			break;
@@ -531,7 +531,7 @@
 					// When out of range?!? Happens when we have an error reading the data, e.g. a NaN value.
 					// Keep counting to get us out of it...
 					k++; i++; j++;
-					JKLogDebug(@"This should not happen ever!! i %d j %d k %d massdif %f mass %f masslib %f inten %f intenlib %f count1 %d count2 %d", i,j,k, massDifference, masses[i], libraryEntryMasses[j], intensities[i], libraryEntryIntensities[j], count1, count2);
+					PKLogDebug(@"This should not happen ever!! i %d j %d k %d massdif %f mass %f masslib %f inten %f intenlib %f count1 %d count2 %d", i,j,k, massDifference, masses[i], libraryEntryMasses[j], intensities[i], libraryEntryIntensities[j], count1, count2);
 				}
 			}
 			// We penalize for not found libraryentries quite strongly, as those are very bad in a literature search.
@@ -543,10 +543,10 @@
 			//score = score * score3/count1;
 			break;
 		default:
-			JKLogWarning(@"Don't know which formula to use!");
+			PKLogWarning(@"Don't know which formula to use!");
 	}
 	
-//	JKLogDebug(@"returned score %f score = %f score2 = %f", (1.0-score/score2)*100.0, score, score2);
+//	PKLogDebug(@"returned score %f score = %f score2 = %f", (1.0-score/score2)*100.0, score, score2);
 //	if (penalizeForRetentionIndex) {
 //		float retentionIndexDelta, retentionIndexPenalty;
 //		float retentionIndexLibrary = [[libraryEntry retentionIndex] floatValue];
@@ -559,7 +559,7 @@
 //		
 //		return (1.0f-score/score2) * retentionIndexPenalty * 100.0f; 
 //	} else {
-//        JKLogDebug(@"score %g [%d] label %@ score1 %g score2 %g",(1.0f-score/score2)*100.0f, scoreBasis, [libraryEntry model], score, score2);
+//        PKLogDebug(@"score %g [%d] label %@ score1 %g score2 %g",(1.0f-score/score2)*100.0f, scoreBasis, [libraryEntry model], score, score2);
 		return (1.0f-score/score2)*100.0f;			
 //	}
 }
@@ -576,7 +576,7 @@
 
 - (NSNumber *)retentionIndex {
     if (peak) {
-//        JKLogDebug(@"retentionIndex spectrum '%@' = %g", [self model], [[peak retentionIndex] floatValue]);
+//        PKLogDebug(@"retentionIndex spectrum '%@' = %g", [self model], [[peak retentionIndex] floatValue]);
         return [peak retentionIndex];
     } else {
         if ([self document]) {
@@ -585,7 +585,7 @@
             }
         }
     }
-    JKLogError(@"retentionIndex requested for spectrum '%@' without peak, document or recognized model", [self model]);
+    PKLogError(@"retentionIndex requested for spectrum '%@' without peak, document or recognized model", [self model]);
     return nil;
 }
 

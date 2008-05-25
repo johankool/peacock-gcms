@@ -14,8 +14,9 @@
 #import "PKDocumentController.h"
 
 @implementation PKSummarizer
-- (id) init
-{
+
+#pragma mark Intialiazation and deallocation
+- (id)init {
     self = [super init];
     if (self != nil) {
         combinedPeaks = [[NSMutableArray alloc] init];
@@ -30,8 +31,103 @@
     return self;
 }
 
-- (void)setupRatios
-{
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [combinedPeaks release];
+    [ratios release];
+    [super dealloc];
+}
+#pragma mark -
+
+#pragma mark Notification Handlers
+- (void)didConfirmPeak:(NSNotification *)aNotification {
+    PKPeakRecord *peak = [aNotification object];
+    PKCombinedPeak *combinedPeak = [self combinedPeakForPeak:peak];
+    if (!combinedPeak) {
+        combinedPeak = [[PKCombinedPeak alloc] init];
+        NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks count]];
+        [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"combinedPeaks"];
+        [combinedPeaks addObject:combinedPeak];
+        [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"combinedPeaks"];
+        [combinedPeak release];
+    }
+    [combinedPeak addConfirmedPeak:peak];
+}
+
+- (void)didUnconfirmPeak:(NSNotification *)aNotification {
+    PKPeakRecord *peak = [aNotification object];
+    PKCombinedPeak *combinedPeak = [self combinedPeakForPeak:peak];
+    [combinedPeak removeUnconfirmedPeak:peak];
+    if ([combinedPeak countOfPeaks] == 0) {
+        if ([combinedPeaks indexOfObject:combinedPeak] != NSNotFound) {
+            NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks indexOfObject:combinedPeak]];
+            [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];
+            [combinedPeaks removeObject:combinedPeak];
+            [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];            
+        }
+   }
+}
+
+- (void)documentLoaded:(NSNotification *)aNotification {
+    PKGCMSDocument *document = [aNotification object];
+  	for (PKPeakRecord *peak in [document peaks]) {
+        if ([peak confirmed]) {
+            PKCombinedPeak *combinedPeak = [self combinedPeakForPeak:peak];
+            if (!combinedPeak) {
+                combinedPeak = [[PKCombinedPeak alloc] init];
+                NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks count]];
+                [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"combinedPeaks"];
+                [combinedPeaks addObject:combinedPeak];
+                [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"combinedPeaks"];
+                [combinedPeak release];
+            }
+            [combinedPeak addConfirmedPeak:peak];
+        }
+    }
+}
+
+- (void)documentUnloaded:(NSNotification *)aNotification {
+    NSString *key = [[aNotification object] uuid];
+    PKCombinedPeak *combinedPeak;
+    NSMutableArray *objectsToRemove = [NSMutableArray array];
+    for (combinedPeak in combinedPeaks) {
+        [combinedPeak setValue:nil forKey:key];
+        if ([combinedPeak countOfPeaks] == 0) {
+            [objectsToRemove addObject:combinedPeak];
+//            NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks indexOfObject:combinedPeak]];
+//            [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];
+//            [combinedPeaks removeObject:combinedPeak];
+//            [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];            
+        }        
+    }
+   [self willChangeValueForKey:@"combinedPeaks"];
+    [combinedPeaks removeObjectsInArray:objectsToRemove];
+    [self didChangeValueForKey:@"combinedPeaks"];
+}
+#pragma mark -
+
+#pragma mark Helper methods
+- (PKCombinedPeak *)combinedPeakForPeak:(PKPeakRecord *)peak {
+    PKCombinedPeak *combinedPeak;
+    
+    // Check using library hit
+    for (combinedPeak in [self combinedPeaks]) {
+        if ([combinedPeak isCombinedPeakForPeak:peak]) {
+            return combinedPeak;
+        }       
+    }   
+    
+    // Check using peak label
+    for (combinedPeak in [self combinedPeaks]) {
+        if ([combinedPeak isCompound:[peak label]]) {
+            return combinedPeak;
+        }       
+    }    
+    
+    return nil;
+}
+
+- (void)setupRatios {
     [ratios removeAllObjects];
  	NSArray *prefRatios = [[NSUserDefaults standardUserDefaults] valueForKey:@"ratios"];
     NSString *ratioType;
@@ -66,121 +162,9 @@
             [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"ratios"];
         }
     }
- }
-
-- (void)didConfirmPeak:(NSNotification *)aNotification
-{
-    PKPeakRecord *peak = [aNotification object];
-    PKCombinedPeak *combinedPeak = [self combinedPeakForPeak:peak];
-    if (!combinedPeak) {
-        combinedPeak = [[PKCombinedPeak alloc] init];
-        NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks count]];
-        [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"combinedPeaks"];
-        [combinedPeaks addObject:combinedPeak];
-        [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"combinedPeaks"];
-        [combinedPeak release];
-    }
-    [combinedPeak addConfirmedPeak:peak];
 }
 
-- (void)didUnconfirmPeak:(NSNotification *)aNotification
-{
-    PKPeakRecord *peak = [aNotification object];
-    PKCombinedPeak *combinedPeak = [self combinedPeakForPeak:peak];
-    [combinedPeak removeUnconfirmedPeak:peak];
-    if ([combinedPeak countOfPeaks] == 0) {
-        if ([combinedPeaks indexOfObject:combinedPeak] != NSNotFound) {
-            NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks indexOfObject:combinedPeak]];
-            [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];
-            [combinedPeaks removeObject:combinedPeak];
-            [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];            
-        }
-   }
-}
-
-- (void)documentLoaded:(NSNotification *)aNotification
-{
-    PKGCMSDocument *document = [aNotification object];
-  	for (PKPeakRecord *peak in [document peaks]) {
-        if ([peak confirmed]) {
-            PKCombinedPeak *combinedPeak = [self combinedPeakForPeak:peak];
-            if (!combinedPeak) {
-                combinedPeak = [[PKCombinedPeak alloc] init];
-                NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks count]];
-                [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"combinedPeaks"];
-                [combinedPeaks addObject:combinedPeak];
-                [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"combinedPeaks"];
-                [combinedPeak release];
-            }
-            [combinedPeak addConfirmedPeak:peak];
-        }
-    }
-}
-
-- (void)documentUnloaded:(NSNotification *)aNotification
-{
-    NSString *key = [[aNotification object] uuid];
-    PKCombinedPeak *combinedPeak;
-    NSMutableArray *objectsToRemove = [NSMutableArray array];
-    for (combinedPeak in combinedPeaks) {
-        [combinedPeak setValue:nil forKey:key];
-        if ([combinedPeak countOfPeaks] == 0) {
-            [objectsToRemove addObject:combinedPeak];
-//            NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:[combinedPeaks indexOfObject:combinedPeak]];
-//            [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];
-//            [combinedPeaks removeObject:combinedPeak];
-//            [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"combinedPeaks"];            
-        }        
-    }
-   [self willChangeValueForKey:@"combinedPeaks"];
-    [combinedPeaks removeObjectsInArray:objectsToRemove];
-    [self didChangeValueForKey:@"combinedPeaks"];
-}
-
-
-- (PKCombinedPeak *)combinedPeakForPeak:(PKPeakRecord *)peak
-{
-    PKCombinedPeak *combinedPeak;
-    
-    // Check using library hit
-    for (combinedPeak in [self combinedPeaks]) {
-        if ([combinedPeak isCombinedPeakForPeak:peak]) {
-            return combinedPeak;
-        }       
-    }   
-    
-    // Check using peak label
-    for (combinedPeak in [self combinedPeaks]) {
-        if ([combinedPeak isCompound:[peak label]]) {
-            return combinedPeak;
-        }       
-    }    
-    
-    return nil;
-}
-
-- (NSMutableArray *)combinedPeaks {
-	return combinedPeaks;
-}
-
-- (void)setCombinedPeaks:(NSMutableArray *)inValue {
-    [inValue retain];
-    [combinedPeaks release];
-    combinedPeaks = inValue;
-}
-
-- (NSMutableArray *)ratios {
-	return ratios;
-}
-
-- (void)setRatios:(NSMutableArray *)inValue {
-    [inValue retain];
-    [ratios release];
-    ratios = inValue;
-}
-
-- (void)setUniqueSymbols 
-{
+- (void)setUniqueSymbols {
     BOOL groupSymbols = [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"groupSymbols"] intValue];
     int j;
     int compoundCount;
@@ -188,7 +172,7 @@
     PKCombinedPeak *compound;
     NSMutableDictionary *uniqueDict = [NSMutableDictionary dictionary];
     NSMutableArray *uniqueSymbolArray = [NSMutableArray array];
-//    NSMutableArray *peaks = [[statisticsWindowController combinedPeaks] mutableCopy];
+    //    NSMutableArray *peaks = [[statisticsWindowController combinedPeaks] mutableCopy];
     
     // Reset all peaks
     [[[PKDocumentController sharedDocumentController] managedDocuments] makeObjectsPerformSelector:@selector(resetSymbols)];
@@ -250,8 +234,29 @@
             [compound setSymbol:[NSString stringWithFormat:@"%d", j+1]];            
         }
     }
-    
-    
 }
+#pragma mark -
+
+#pragma mark Accessors
+- (NSMutableArray *)combinedPeaks {
+	return combinedPeaks;
+}
+
+- (void)setCombinedPeaks:(NSMutableArray *)inValue {
+    [inValue retain];
+    [combinedPeaks release];
+    combinedPeaks = inValue;
+}
+
+- (NSMutableArray *)ratios {
+	return ratios;
+}
+
+- (void)setRatios:(NSMutableArray *)inValue {
+    [inValue retain];
+    [ratios release];
+    ratios = inValue;
+}
+#pragma mark -
 
 @end

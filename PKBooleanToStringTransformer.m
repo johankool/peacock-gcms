@@ -8,24 +8,23 @@
 
 #import "PKBooleanToStringTransformer.h"
 
-
 @implementation PKBooleanToStringTransformer
 
-+ (Class)transformedValueClass{
++ (Class)transformedValueClass {
     return [NSNumber class];
 }
 
-+ (BOOL)allowsReverseTransformation{
++ (BOOL)allowsReverseTransformation {
     return NO;
 }
 
-- (id)transformedValue:(id)aValue{
+- (id)transformedValue:(id)aValue {
     if (!aValue) {
         return @"-";
     } else if ([aValue intValue] == 0) {
-    	return NSLocalizedString(@"No",@"");
+    	return NSLocalizedString(@"No", @"");
     } else if ([aValue intValue] == 1) {
-     	return NSLocalizedString(@"Yes",@"");
+     	return NSLocalizedString(@"Yes", @"");
     } else {
         return @"-";
     }

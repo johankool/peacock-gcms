@@ -42,7 +42,7 @@
 		// Read line with counters
 		atomsCount = [[[fileArray objectAtIndex:3] substringWithRange:NSMakeRange(0,3)] intValue];
 		bondsCount = [[[fileArray objectAtIndex:3] substringWithRange:NSMakeRange(3,3)] intValue];
-		//JKLogDebug(@"a %d, b %d", atomsCount, bondsCount);
+		//PKLogDebug(@"a %d, b %d", atomsCount, bondsCount);
 		
 		// Read atoms
 		if (lineCount < atomsCount+4) {

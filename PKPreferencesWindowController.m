@@ -8,9 +8,7 @@
 
 #import "PKPreferencesWindowController.h"
 
-#import "BDAlias.h"
 #import "PKAppDelegate.h"
-#import "JKPathPopUpButton.h"
 
 @implementation PKPreferencesWindowController
 
