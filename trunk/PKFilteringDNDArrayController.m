@@ -139,7 +139,7 @@ NSString *MovedRowsType = @"ENTRY_TYPE";
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     NSNumber *idx;
     for (idx in rows) {
-        JKLogDebug([idx description]);
+        PKLogDebug([idx description]);
 		[indexSet addIndex:[idx intValue]];
     }
     return indexSet;

@@ -31,7 +31,7 @@
 #import <SenTestingKit/SenTestingKit.h>
 
 #import "AccessorMacros.h"
-#import "JKLog.h"
+#import "PKLog.h"
 
 @class PKGCMSDocument;
 

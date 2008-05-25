@@ -109,9 +109,9 @@
     NSError *outError;
     NSString *casNumber = [casNumberField stringValue];
     if ([self validateCASNumber:&casNumber error:&outError]) {
-        JKLogDebug([casNumberField stringValue]);
+        PKLogDebug([casNumberField stringValue]);
         NSString *string = [NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-Mass.jdx?JCAMP=C%@&Index=0&Type=Mass",[casNumberField stringValue],[casNumberField stringValue]]]];
-        JKLogDebug(string);
+        PKLogDebug(string);
         if (string && ![string isEqualToString:@""]) {
             PKManagedLibraryEntry *libEntry = [NSEntityDescription insertNewObjectForEntityForName:@"JKManagedLibraryEntry" inManagedObjectContext:[[self document] managedObjectContext]];
             [libEntry setJCAMPString:string];

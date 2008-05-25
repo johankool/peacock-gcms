@@ -1,5 +1,5 @@
 /*
- * JKLog.h
+ * PKLog.h
  *
  * Created by Andy Lee on Wed Jul 10 2002.
  * Copyright (c) 2003, 2004 Andy Lee. All rights reserved.
@@ -10,7 +10,7 @@
 #import <Foundation/Foundation.h>
 
 /*!
-* @header      JKLog
+* @header      PKLog
  * @discussion  Wrappers around NSLog that allow setting of log
  verbosity
  *              levels.
@@ -54,31 +54,31 @@ enum{
 };
 
 /*!
-* @const       JKLogVerbosityUserDefault
+* @const       PKLogVerbosityUserDefault
  * @discussion  For use by NSUserDefaults.  Value is @"JKVerbosity".
  */
-extern const NSString *JKLogVerbosityUserDefault;
+extern const NSString *PKLogVerbosityUserDefault;
 
 /*!
 * @function    JKGetVerbosityLevel
  * @discussion  Returns the verbosity level used by the various
- *              JKLogXXX() functions.
+ *              PKLogXXX() functions.
  */
 extern int JKGetVerbosityLevel();
 
 /*!
 * @function    JKSetVerbosityLevel
  * @discussion  Sets the verbosity level used by the various
- JKLogXXX()
+ PKLogXXX()
  *              functions.
  */
 extern void JKSetVerbosityLevel(int level);
 
 /*!
-* @function    JKLogError
+* @function    PKLogError
  * @discussion  Logs output if verbosity level >= JK_VERBOSITY_ERROR.
  */
-#define JKLogError(format, ...)\
+#define PKLogError(format, ...)\
 if (JKGetVerbosityLevel() >= JK_VERBOSITY_ERROR)\
 {\
 	do {\
@@ -87,11 +87,11 @@ if (JKGetVerbosityLevel() >= JK_VERBOSITY_ERROR)\
 }
 
 /*!
-* @function    JKLogWarning
+* @function    PKLogWarning
  * @discussion  Logs output if verbosity level >=
  JK_VERBOSITY_WARNING.
  */
-#define JKLogWarning(format, ...)\
+#define PKLogWarning(format, ...)\
 if (JKGetVerbosityLevel() >= JK_VERBOSITY_WARNING)\
 {\
 	do {\
@@ -100,10 +100,10 @@ if (JKGetVerbosityLevel() >= JK_VERBOSITY_WARNING)\
 }
 
 /*!
-* @function    JKLogInfo
+* @function    PKLogInfo
  * @discussion  Logs output if verbosity level >= JK_VERBOSITY_INFO.
  */
-#define JKLogInfo(format, ...)\
+#define PKLogInfo(format, ...)\
 if (JKGetVerbosityLevel() >= JK_VERBOSITY_INFO)\
 {\
 	do {\
@@ -112,10 +112,10 @@ if (JKGetVerbosityLevel() >= JK_VERBOSITY_INFO)\
 }
 
 /*!
-* @function    JKLogDebug
+* @function    PKLogDebug
  * @discussion  Logs output if verbosity level >= JK_VERBOSITY_DEBUG.
  */
-#define JKLogDebug(format, ...)\
+#define PKLogDebug(format, ...)\
 if (JKGetVerbosityLevel() >= JK_VERBOSITY_DEBUG)\
 {\
 	do {\
@@ -124,41 +124,41 @@ if (JKGetVerbosityLevel() >= JK_VERBOSITY_DEBUG)\
 }
 
 /*!
-* @function    JKLogMissingOverride
+* @function    PKLogMissingOverride
  * @discussion  Stick this in implementations of abstract methods.
  */
-#define JKLogMissingOverride()\
+#define PKLogMissingOverride()\
 {\
 	if (JKGetVerbosityLevel() >= JK_VERBOSITY_ERROR)\
-		JKLogError(\
+		PKLogError(\
 					 @"%@ must override %@",\
 					 [self class],\
 					 NSStringFromSelector(_cmd));\
 }
 
 /*!
-* @function    JKLogEnteringMethod
+* @function    PKLogEnteringMethod
  * @discussion  Stick this at the beginning of a method to log the fact
  *              that it is being entered.
  */
-#define JKLogEnteringMethod()\
+#define PKLogEnteringMethod()\
 {\
 	if (JKGetVerbosityLevel() >= JK_VERBOSITY_DEBUG)\
-		JKLogDebug(\
+		PKLogDebug(\
 					 @"%@ -- entering %@",\
 					 [self class],\
 					 NSStringFromSelector(_cmd));\
 }
 
 /*!
-* @function    JKLogExitingMethodPrematurely
+* @function    PKLogExitingMethodPrematurely
  * @discussion  Call this to log the fact that you are about to return
  *              from a method prematurely due to an error condition.
  */
-#define JKLogExitingMethodPrematurely(msgString)\
+#define PKLogExitingMethodPrematurely(msgString)\
 {\
 	if (JKGetVerbosityLevel() >= JK_VERBOSITY_ERROR)\
-		JKLogError(\
+		PKLogError(\
 					 @"%@ -- exiting %@ early -- %@",\
 					 [self class],\
 					 NSStringFromSelector(_cmd),\
@@ -166,30 +166,30 @@ if (JKGetVerbosityLevel() >= JK_VERBOSITY_DEBUG)\
 }
 
 /*!
-* @function    JKLogExitingMethod
+* @function    PKLogExitingMethod
  * @discussion  Stick this at the end of a method to log the fact
  that it
  *              is being exited.
  */
-#define JKLogExitingMethod()\
+#define PKLogExitingMethod()\
 {\
 	if (JKGetVerbosityLevel() >= JK_VERBOSITY_DEBUG)\
-		JKLogDebug(\
+		PKLogDebug(\
 					 @"%@ -- exiting %@",\
 					 [self class],\
 					 NSStringFromSelector(_cmd));\
 }
 
 /*!
-* @function    JKLogNondesignatedInitializer
+* @function    PKLogNondesignatedInitializer
  * @discussion  Call this in the implementation of an initializer that
  *              should never be called because it is not the designated
  *              initializer.
  */
-#define JKLogNondesignatedInitializer()\
+#define PKLogNondesignatedInitializer()\
 {\
 	if (JKGetVerbosityLevel() >= JK_VERBOSITY_ERROR)\
-		JKLogError(\
+		PKLogError(\
 					 @"%@ -- '%@' is not the designated initializer",\
 					 [self class],\
 					 NSStringFromSelector(_cmd));\

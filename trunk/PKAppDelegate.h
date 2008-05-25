@@ -6,24 +6,21 @@
 //  Copyright 2003-2007 Johan Kool. All rights reserved.
 //
 
-
-@class PKPreferencesWindowController;
-@class PKPanelController;
-@class PKMassWeightController;
 @class PKBatchProcessWindowController;
+@class PKGraphicalController;
 @class PKLibrary;
 @class PKLibraryEntry;
 @class PKLibraryPanelController;
 @class PKManagedLibraryEntry;
+@class PKMassWeightController;
+@class PKPanelController;
 @class PKPeakRecord;
-@class PKSummaryController;
-@class PKSummarizer;
+@class PKPreferencesWindowController;
 @class PKRatiosController;
-@class PKGraphicalController;
+@class PKSummarizer;
+@class PKSummaryController;
 
-#import <Growl/GrowlApplicationBridge.h>
-
-@interface PKAppDelegate : NSApplication <GrowlApplicationBridgeDelegate> {
+@interface PKAppDelegate : NSApplication {
     IBOutlet NSMenu *showPresetMenu;
     IBOutlet NSMenu *removeChromatogramMenu;
     IBOutlet NSWindow *welcomeWindow;
@@ -54,14 +51,18 @@
 }
 
 
-#pragma mark IBACTIONS
+#pragma mark IBActions
 - (IBAction)openPreferencesWindowAction:(id)sender;
 - (IBAction)showReadMe:(id)sender;
 - (IBAction)showLicense:(id)sender;
+- (IBAction)showOnlineHelp:(id)sender;
+- (IBAction)showProductWebsite:(id)sender;
 - (IBAction)showBatchProcessAction:(id)sender;
 - (IBAction)showStatisticsAction:(id)sender;
 - (IBAction)openTestFile:(id)sender;
+#pragma mark -
 
+#pragma mark Library Management
 - (void)showInFinder;
 - (PKLibrary *)library;
 - (PKLibrary *)libraryForConfiguration:(NSString *)libraryConfiguration;
@@ -73,13 +74,14 @@
 
 - (IBAction)editLibrary:(id)sender;
 - (NSArray *)autocompleteEntries;
-//- (void)setAutocompleteEntries:(NSArray *)aAutocompleteEntries;
-//- (NSArray *)autocompleteEntriesForModel:(NSString *)model;
+#pragma mark -
 
+#pragma mark Summary Management
 - (PKSummaryController *)summaryController;
 - (PKSummarizer *)summarizer;
 - (PKRatiosController *)ratiosController;
 - (PKGraphicalController *)graphicalController;
+#pragma mark -
 
 #pragma mark Plugins
 - (void)loadAllPlugins;
@@ -93,12 +95,11 @@
 - (NSDictionary *)spectraMatchingMethods;
 #pragma mark -
 
-#pragma mark GROWL SUPPORT
-- (NSDictionary *)registrationDictionaryForGrowl;
+#pragma mark Debug
+- (void)printStackTrace:(NSException *)e;
 #pragma mark -
 
-- (void)printStackTrace:(NSException *)e;
-
+#pragma mark Properties
 @property (retain) NSWindowController *preferencesWindowController;
 @property (retain) PKBatchProcessWindowController *batchProcessWindowController;
 @property (retain,getter=summarizer) PKSummarizer *summarizer;
@@ -109,4 +110,6 @@
 @property (retain) PKMassWeightController *mwWindowController;
 @property (retain) NSWindow *welcomeWindow;
 @property (retain) NSMenu *viewColumnsMenu;
+#pragma mark -
+
 @end

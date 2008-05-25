@@ -86,15 +86,15 @@
 
 -(IBAction)printDocument:(id)sender {
     if ([[[documentTabView selectedTabViewItem] identifier] isKindOfClass:[PKGCMSDocument class]]) {
-        JKLogError(@"should not be called?!");
+        PKLogError(@"should not be called?!");
  //       [[[documentTabView selectedTabViewItem] identifier] printDocument:sender];
     } else if ([[[documentTabView selectedTabViewItem] identifier] isEqualToString:@"multiple"]) {
         // Run print dialog for first documetn only, then for all other documents with the same settings
-        JKLogDebug(@"multiple print");
+        PKLogDebug(@"multiple print");
 //        JKGCMSDocument *firstDoc = [[[PKDocumentController sharedDocumentController] managedDocuments] objectAtIndex:0];
 //        [firstDoc printDocumentWithSettings:nil showPrintPanel:YES delegate:self didPrintSelector:@selector(document:didPrint:contextInfo:) contextInfo:[NSNumber numberWithInt:0]];
     } else if ([[[documentTabView selectedTabViewItem] identifier] isEqualToString:@"graphical"]) {
-        JKLogDebug(@"graphical print");
+        PKLogDebug(@"graphical print");
         [[[(PKAppDelegate *)[NSApp delegate] graphicalController] graphView] print:sender];
     } else {
         NSBeep();
@@ -104,7 +104,7 @@
 //- (void)document:(NSDocument *)document didPrint:(BOOL)didPrintSuccessfully  contextInfo: (void *)contextInfo
 //{
 //    if (didPrintSuccessfully) {
-//     	JKLogDebug(@"printed %@ number %d", [document displayName], [contextInfo intValue]);   
+//     	PKLogDebug(@"printed %@ number %d", [document displayName], [contextInfo intValue]);   
 //        if ([contextInfo intValue]+1 < [[[PKDocumentController sharedDocumentController] managedDocuments] count]) {
 //            JKGCMSDocument *nextDoc = [[[PKDocumentController sharedDocumentController] managedDocuments] objectAtIndex:[contextInfo intValue]+1];
 //            [nextDoc printDocumentWithSettings:nil showPrintPanel:NO delegate:self didPrintSelector:@selector(document:didPrint:contextInfo:) contextInfo:[NSNumber numberWithInt:[contextInfo intValue]+1]];

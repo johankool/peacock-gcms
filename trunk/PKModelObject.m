@@ -3,7 +3,7 @@
 //  Peacock
 //
 //  Created by Johan Kool on 22-3-07.
-//  Copyright 2007 __MyCompanyName__. All rights reserved.
+//  Copyright 2007 Johan Kool. All rights reserved.
 //
 
 #import "PKModelObject.h"

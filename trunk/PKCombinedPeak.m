@@ -3,7 +3,7 @@
 //  Peacock
 //
 //  Created by Johan Kool on 6-3-07.
-//  Copyright 2007 __MyCompanyName__. All rights reserved.
+//  Copyright 2007 Johan Kool. All rights reserved.
 //
 
 #import "PKCombinedPeak.h"
@@ -39,7 +39,7 @@
 //            [peak identifyAs:[[peak searchResults] objectAtIndex:0]];
 //            [peak confirm];
 //        } else {
-//            JKLogWarning(@"Could not confirm peak %d in document '%@', no search result available.", [peak peakID], [[peak document] displayName]);
+//            PKLogWarning(@"Could not confirm peak %d in document '%@', no search result available.", [peak peakID], [[peak document] displayName]);
 //        }
 //    }
 }
@@ -131,7 +131,7 @@
                 return YES;
         }
     }
-    JKLogDebug(@"Rejected key: %@", aKey);
+    PKLogDebug(@"Rejected key: %@", aKey);
     return NO;
 }
 

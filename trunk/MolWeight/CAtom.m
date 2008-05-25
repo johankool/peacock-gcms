@@ -97,7 +97,7 @@
             if (multiplicity > 0)
                 //        fprintf(stream,"%hd",multiplicity);
                 str = [str stringByAppendingFormat:@"%hd", multiplicity];
-     //       JKLogDebug(@"atom %@", str);
+     //       PKLogDebug(@"atom %@", str);
             return str; 
         }
 

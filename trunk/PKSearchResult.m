@@ -3,7 +3,7 @@
 //  Peacock
 //
 //  Created by Johan Kool on 24-1-07.
-//  Copyright 2007 __MyCompanyName__. All rights reserved.
+//  Copyright 2007 Johan Kool. All rights reserved.
 //
 
 #import "PKSearchResult.h"
@@ -52,12 +52,12 @@
                 [_libraryHit willAccessValueForKey:nil];
                 return _libraryHit;
             }
-            JKLogDebug(@"Library entry for '%@' not found in current libraries.", [libraryHitURI description]);
+            PKLogDebug(@"Library entry for '%@' not found in current libraries.", [libraryHitURI description]);
         }
         }
         @catch ( NSException *e ) {
             libraryHitURI = nil;
-            JKLogDebug(@"Catched exception.");
+            PKLogDebug(@"Catched exception.");
             NSMutableDictionary *errorDict = [NSMutableDictionary dictionary];
             [errorDict setObject:[e reason] forKey:NSLocalizedDescriptionKey];
             NSError *error = [NSError errorWithDomain:@"Peacock" code:1 userInfo:errorDict];
@@ -71,7 +71,7 @@
     if (jcampString) {
         // The library entry was not found, fall back on the jcamp string representation
         _libraryHit = [[PKLibraryEntry alloc] initWithJCAMPString:jcampString];
-        JKLogDebug(@"Library entry for '%@' not found. Falling back to using JCAMP.", [_libraryHit name]);
+        PKLogDebug(@"Library entry for '%@' not found. Falling back to using JCAMP.", [_libraryHit name]);
         return _libraryHit;
     }
 

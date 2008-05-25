@@ -109,7 +109,7 @@ static void *PropertyObservationContext = (void *)1093;
 		return;
 	}
 	if (count == 1) {
-        JKLogWarning(@"Plotting a one point spectrum");
+        PKLogWarning(@"Plotting a one point spectrum");
 		//return;
 	}
     
@@ -246,7 +246,11 @@ static void *PropertyObservationContext = (void *)1093;
 }
 
 - (NSRect)boundingRect {
-    return [[self plotPath] bounds];
+    if ([self plotPath]) {
+        return [[self plotPath] bounds];
+    } else {
+        return NSZeroRect;
+    }
 	return _boundingRect;
 }
 

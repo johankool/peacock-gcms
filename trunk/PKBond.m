@@ -36,11 +36,12 @@
     return self;
 }
 
-idAccessor(fromAtom,setFromAtom)
-idAccessor(toAtom,setToAtom)
-intAccessor(bondKind,setBondKind)
-intAccessor(bondStereo,setBondStereo)
-intAccessor(notUsed,setNotUsed)
-intAccessor(bondTopology,setBondTopology)
-intAccessor(reactingCenterStatus,setReactingCenterStatus)
+@synthesize fromAtom;
+@synthesize toAtom;
+@synthesize bondKind;
+@synthesize bondStereo;
+@synthesize notUsed;
+@synthesize bondTopology;
+@synthesize reactingCenterStatus;
+
 @end

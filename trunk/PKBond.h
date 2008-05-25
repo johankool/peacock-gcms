@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AccessorMacros.h"
 
 #import "PKAtom.h"
 
@@ -21,19 +20,12 @@
 	int reactingCenterStatus;
 }
 
-
-idAccessor_h(fromAtom,setFromAtom)
-idAccessor_h(toAtom,setToAtom)
-intAccessor_h(bondKind,setBondKind)
-intAccessor_h(bondStereo,setBondStereo)
-intAccessor_h(notUsed,setNotUsed)
-intAccessor_h(bondTopology,setBondTopology)
-intAccessor_h(reactingCenterStatus,setReactingCenterStatus)
-
-
+@property (retain) PKAtom *fromAtom;
+@property (retain) PKAtom *toAtom;
 @property (getter=bondKind,setter=setBondKind:) int bondKind;
 @property (getter=notUsed,setter=setNotUsed:) int notUsed;
 @property (getter=reactingCenterStatus,setter=setReactingCenterStatus:) int reactingCenterStatus;
 @property (getter=bondTopology,setter=setBondTopology:) int bondTopology;
 @property (getter=bondStereo,setter=setBondStereo:) int bondStereo;
+
 @end

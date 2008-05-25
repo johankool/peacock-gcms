@@ -570,7 +570,7 @@ static animationData* currentAnimation = NULL;
 		[coder encodeDouble:fraction forKey:@"fraction"];
 		[coder encodeBool:canCollapse forKey:@"canCollapse"];
 	} else {
-        JKLogDebug(@"No keyed coding please");
+        PKLogDebug(@"No keyed coding please");
 //
 //		[coder encodeObject:identifier];
 //		[coder encodeValueOfObjCType:@encode(typeof(tag)) at:&tag];
@@ -610,7 +610,7 @@ static animationData* currentAnimation = NULL;
 			fraction = [coder decodeDoubleForKey:@"fraction"];
 			canCollapse = [coder decodeBoolForKey:@"canCollapse"];
 		} else {
-            JKLogDebug(@"No keyed coding please");
+            PKLogDebug(@"No keyed coding please");
             return nil;
 //			[self setIdentifier:[coder decodeObject]];
 //			[coder decodeValueOfObjCType:@encode(typeof(tag)) at:&tag];

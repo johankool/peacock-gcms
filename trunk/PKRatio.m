@@ -114,14 +114,14 @@
                 if ([combinedPeak valueForKeyPath:key] != nil) {
                     [_parser evaluate:[NSString stringWithFormat:@"%@=%g", varKey,[[combinedPeak valueForKeyPath:keyPath] doubleValue]]];
                     //[_parser setSymbolValue:[[combinedPeak valueForKeyPath:keyPath] doubleValue] forKey:key];
-                    //JKLogDebug(@"symbol %@ [%@] = %g (%g)", compoundName, varKey, [[combinedPeak valueForKeyPath:keyPath] doubleValue], [_parser symbolValueForKey:varKey]);
+                    //PKLogDebug(@"symbol %@ [%@] = %g (%g)", compoundName, varKey, [[combinedPeak valueForKeyPath:keyPath] doubleValue], [_parser symbolValueForKey:varKey]);
                 }
 			} 
 		}
 	}
 
     double result = [_parser evaluate:_expression];
-    //JKLogDebug(@"%@ = %g ",_expression,result);
+    //PKLogDebug(@"%@ = %g ",_expression,result);
     return result;
 }
 
@@ -136,7 +136,7 @@
                 return YES;
         }
     }
-    JKLogDebug(@"Rejected key: %@", aKey);
+    PKLogDebug(@"Rejected key: %@", aKey);
     return NO;
 }
 

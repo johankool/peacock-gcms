@@ -70,7 +70,7 @@
 			name = [[scannedString stringByTrimmingCharactersInSet:whiteCharacters] retain];
 		} else {
 			name = [[NSString alloc] init];
-			JKLogError(@"ERROR: Required ##TITLE entry not found.");
+			PKLogError(@"ERROR: Required ##TITLE entry not found.");
 		}
 		
 //		// JCAMP-DX
@@ -81,7 +81,7 @@
 //			[theScanner scanUpToString:@"##" intoString:&scannedString];
 //			// Currently ignored, could test JCAMP-DX version here.
 //		} else {
-//			//JKLogWarning(@"WARNING: Required ##JCAMP-DX entry not found.");
+//			//PKLogWarning(@"WARNING: Required ##JCAMP-DX entry not found.");
 //		}
 		
 		
@@ -98,7 +98,7 @@
 			}
 		} else {
 			origin = [[NSString alloc] initWithString:@""];
-			//JKLogWarning(@"WARNING: Required ##ORIGIN entry not found.");
+			//PKLogWarning(@"WARNING: Required ##ORIGIN entry not found.");
 		}
 	
 		// OWNER
@@ -114,7 +114,7 @@
 			}
 		} else {
 			owner = [[NSString alloc] initWithString:@""];
-			//JKLogWarning(@"WARNING: Required ##OWNER entry not found.");
+			//PKLogWarning(@"WARNING: Required ##OWNER entry not found.");
 		}
 		
 		// Reading chemical information
@@ -166,8 +166,8 @@
 		} else {
 			molString = [[NSString alloc] init];
 //			molString = [[NSString stringWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]]] retain];
-//			JKLogDebug([NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]);
-//			JKLogDebug(molString);
+//			PKLogDebug([NSString stringWithFormat:@"http://webbook.nist.gov/cgi/cbook.cgi/%@-2d.mol?Str2File=C%@",[self CASNumber],[self CASNumber]]);
+//			PKLogDebug(molString);
 		}
 		
 		// $EPA MASS SPEC NO
@@ -216,7 +216,7 @@
 			if ([theScanner scanFloat:&scannedFloat]) {
 				retentionIndex = [[NSNumber numberWithFloat:scannedFloat] retain];
 			} else {
-				JKLogWarning(@"WARNING: Retention index could not be read.");
+				PKLogWarning(@"WARNING: Retention index could not be read.");
 			}
 		} else {
 			retentionIndex = [[NSNumber numberWithFloat:0.0f] retain];
@@ -371,7 +371,7 @@
 //			[theScanner scanUpToString:@"##" intoString:&scannedString];
 //			scannedString = [scannedString stringByTrimmingCharactersInSet:whiteCharacters];
 //			if (![scannedString isEqualToString:@"MASS SPECTRUM"]) {
-//				JKLogError(@"ERROR: Unsupported ##DATA TYPE \"%@\" found.", scannedString);
+//				PKLogError(@"ERROR: Unsupported ##DATA TYPE \"%@\" found.", scannedString);
 //			}
 //		} 
 //		
@@ -383,7 +383,7 @@
 //			[theScanner scanUpToString:@"##" intoString:&scannedString];
 //			scannedString = [scannedString stringByTrimmingCharactersInSet:whiteCharacters];
 //			if (!([scannedString isEqualToString:@"PEAK TABLE"] | [scannedString isEqualToString:@"XYDATA"])) {
-//				JKLogError(@"ERROR: Unsupported ##DATA CLASS \"%@\" found.", scannedString);
+//				PKLogError(@"ERROR: Unsupported ##DATA CLASS \"%@\" found.", scannedString);
 //			}
 //		}
 
@@ -396,7 +396,7 @@
 				numberOfPoints = 0;
 			}
 		} else {
-			JKLogError(@"Couldn't find number of points.");
+			PKLogError(@"Couldn't find number of points.");
 		}	
 		
 		// XYDATA
@@ -408,7 +408,7 @@
 			[theScanner scanUpToString:@"\n" intoString:&scannedString];
 			scannedString = [scannedString stringByTrimmingCharactersInSet:whiteCharacters];
 			if (![scannedString isEqualToString:@"(XY..XY)"]) {
-				JKLogError(@"ERROR: Unsupported ##XYDATA \"%@\" found.", scannedString);
+				PKLogError(@"ERROR: Unsupported ##XYDATA \"%@\" found.", scannedString);
 			}
 		} else {
 			[theScanner setScanLocation:0];
@@ -418,10 +418,10 @@
 				[theScanner scanUpToString:@"\n" intoString:&scannedString];
 				scannedString = [scannedString stringByTrimmingCharactersInSet:whiteCharacters];
 				if (![scannedString isEqualToString:@"(XY..XY)"]) {
-					JKLogError(@"ERROR: Unsupported ##PEAK TABLE \"%@\" found.", scannedString);
+					PKLogError(@"ERROR: Unsupported ##PEAK TABLE \"%@\" found.", scannedString);
 					}
 			} else {
-				JKLogError(@"ERROR: No data found. For Entry\n\n %@",inString);
+				PKLogError(@"ERROR: No data found. For Entry\n\n %@",inString);
 			}
 		}
 		
@@ -529,7 +529,7 @@
 }
 
 - (NSUndoManager *)undoManager {
-//    JKLogDebug(@"undoManager %@ document %@", [[self document] undoManager], [self document]);
+//    PKLogDebug(@"undoManager %@ document %@", [[self document] undoManager], [self document]);
 	return [[self document] undoManager];
 }
 
@@ -821,11 +821,11 @@ idAccessor(library, setLibrary)
 	intensities = (float *) realloc(intensities, numberOfPoints*sizeof(float));
 	
 	for (j=0; j < numberOfPoints; j++){
-		if (![theScanner2 scanInt:&massInt]) JKLogError(@"Error during reading library (masses).");
+		if (![theScanner2 scanInt:&massInt]) PKLogError(@"Error during reading library (masses).");
 		//				NSAssert(massInt > 0, @"massInt");
 		masses[j] = massInt*1.0f;
 		[theScanner2 scanUpToCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:NULL];
-		if (![theScanner2 scanInt:&intensityInt]) JKLogError(@"Error during reading library (intensities).");
+		if (![theScanner2 scanInt:&intensityInt]) PKLogError(@"Error during reading library (intensities).");
 		//				NSAssert(intensityInt > 0, @"intensityInt");
 		intensities[j] = intensityInt*1.0f;
 	}

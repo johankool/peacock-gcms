@@ -8,7 +8,6 @@
 
 #import "PKBatchProcessWindowController.h"
 
-#import "Growl/GrowlApplicationBridge.h"
 #import "PKGCMSDocument.h"
 #import "PKMainWindowController.h"
 #import "PKDocumentController.h"
@@ -94,7 +93,7 @@
         [[PKDocumentController sharedDocumentController] showDocument:document];
 //		[[self window] makeKeyAndOrderFront:self];
 		if (document == nil) {
-			JKLogError(@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]);
+			PKLogError(@"ERROR: File at %@ could not be opened.",[[files objectAtIndex:i] valueForKey:@"path"]);
 			errorOccurred = YES;
 			[fileProgressIndicator setDoubleValue:(i+1)*8.0];
 			continue;	
@@ -147,7 +146,7 @@
 			path = [[[files objectAtIndex:i] valueForKey:@"path"] stringByDeletingPathExtension];
 			path = [path stringByAppendingPathExtension:@"peacock"];
 			if (![document saveToURL:[NSURL fileURLWithPath:path] ofType:@"Peacock File" forSaveOperation:NSSaveAsOperation error:&error]) {
-				JKLogError(@"ERROR: File at %@ could not be saved as Peacock File.",[[files objectAtIndex:i] valueForKey:@"path"]);
+				PKLogError(@"ERROR: File at %@ could not be saved as Peacock File.",[[files objectAtIndex:i] valueForKey:@"path"]);
 				errorOccurred = YES;
 			}
 			[fileProgressIndicator incrementBy:1.0];
@@ -172,7 +171,7 @@
 				[[[document mainWindowController] peakController] setFilterPredicate:nil]; 
 			}
 			if (![document saveToURL:[NSURL fileURLWithPath:path] ofType:@"Tab Delimited Text File" forSaveOperation:NSSaveToOperation error:&error]) {
-				JKLogError(@"ERROR: File at %@ could not be saved as Tab Delimited Text File.",[[files objectAtIndex:i] valueForKey:@"path"]);				
+				PKLogError(@"ERROR: File at %@ could not be saved as Tab Delimited Text File.",[[files objectAtIndex:i] valueForKey:@"path"]);				
 				errorOccurred = YES;
 			}
 			[fileProgressIndicator incrementBy:1.0];
@@ -222,7 +221,7 @@
              [chromatogramView setNeedsDisplay:YES];
              [chromatogramView setLabelFont:[NSFont systemFontOfSize:8.0]];
 			if (![pdfData writeToFile:path atomically:YES]) {
-				JKLogError(@"ERROR: File at %@ could not be saved as PDF File.",[[files objectAtIndex:i] valueForKey:@"path"]);				
+				PKLogError(@"ERROR: File at %@ could not be saved as PDF File.",[[files objectAtIndex:i] valueForKey:@"path"]);				
 				errorOccurred = YES;
 			}
 			[fileProgressIndicator incrementBy:1.0];
@@ -246,9 +245,7 @@
 
 	// This way we don't get bolded text!
 	[NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];
-	
-	[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Batch Process Finished",@"") description:NSLocalizedString(@"Peacock finished processing your data.",@"") notificationName:@"Batch Process Finished" iconData:nil priority:0 isSticky:NO clickContext:nil];
-	
+		
 	if (errorOccurred) {
 		NSRunCriticalAlertPanel(NSLocalizedString(@"Error(s) during batch processing",@""),NSLocalizedString(@"One or more errors occurred during batch processing your files. The console.log available from the Console application contains more details about the error. Common errors include files moved after being added to the list and full disks.",@""),NSLocalizedString(@"OK",@""),nil,nil);
 	}

@@ -8,7 +8,7 @@
 
 #import "PKDefaultPlugin.h"
 
-#import "JKLog.h"
+#import "PKLog.h"
 #import "PKDefaultBaselineDetectionMethod.h"
 #import "PKDefaultPeakDetectionMethod.h"
 #import "PKAbundanceSpectraMatchingMethod.h"
@@ -19,7 +19,7 @@
 - (id)init {
     self = [super init];
     if (self != nil) {
-//        JKLogDebug(@"init");
+//        PKLogDebug(@"init");
     }
     return self;
 }
@@ -61,7 +61,7 @@
  @result     Returns an object that implements the method. Returns nil in case of an error.
  */
 - (id)sharedObjectForMethod:(NSString *)methodName {
-//    JKLogEnteringMethod();
+//    PKLogEnteringMethod();
     if ([methodName isEqualToString:@"Default Baseline Detection Method"]) {
         return [[[PKDefaultBaselineDetectionMethod alloc] init] autorelease];
     } else if ([methodName isEqualToString:@"Default Peak Detection Method"]) {

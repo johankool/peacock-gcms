@@ -7,7 +7,6 @@
 //
 
 #import "PKAtom.h"
-#import "AccessorMacros.h"
 
 @implementation PKAtom
 
@@ -54,22 +53,21 @@
     return self;
 }
 
-
-floatAccessor(x,setX)
-floatAccessor(y,setY)
-floatAccessor(z,setZ)
-idAccessor(name,setName)
-intAccessor(massDifference, setMassDifference)
-intAccessor(charge, setCharge)
-intAccessor(atomStereoParity, setAtomStereoParity)
-intAccessor(hydrogenCount, setHydrogenCount)
-intAccessor(stereoCareBox, setStereoCareBox)
-intAccessor(valence, setValence)
-intAccessor(H0Designator, setH0Designator)
-intAccessor(notUsed1, setNotUsed1)
-intAccessor(notUsed2, setNotUsed2)
-intAccessor(atomAtomMappingNumber, setAtomAtomMappingNumber)
-intAccessor(inversionRetentionFlag, setInversionRetentionFlag)
-intAccessor(exactChangeFlag, setExactChangeFlag)
+@synthesize x;
+@synthesize y;
+@synthesize z;
+@synthesize name;
+@synthesize massDifference;
+@synthesize charge;
+@synthesize atomStereoParity;
+@synthesize hydrogenCount;
+@synthesize stereoCareBox;
+@synthesize valence;
+@synthesize H0Designator;
+@synthesize notUsed1;
+@synthesize notUsed2;
+@synthesize atomAtomMappingNumber;
+@synthesize inversionRetentionFlag;
+@synthesize exactChangeFlag;
 
 @end
