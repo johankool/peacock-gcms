@@ -58,10 +58,13 @@
         @catch ( NSException *e ) {
             libraryHitURI = nil;
             PKLogDebug(@"Catched exception.");
-            NSMutableDictionary *errorDict = [NSMutableDictionary dictionary];
-            [errorDict setObject:[e reason] forKey:NSLocalizedDescriptionKey];
-            NSError *error = [NSError errorWithDomain:@"Peacock" code:1 userInfo:errorDict];
-            [[[self peak] document] presentError:error];
+            // If the exception is because the library hit cannot be found, ignor error, fallback on JCAMP string instead
+            if (![[e name] isEqualToString:NSObjectInaccessibleException]) {
+                NSMutableDictionary *errorDict = [NSMutableDictionary dictionary];
+                [errorDict setObject:[e reason] forKey:NSLocalizedDescriptionKey];
+                NSError *error = [NSError errorWithDomain:@"Peacock" code:1 userInfo:errorDict];
+                [[NSApp delegate] presentError:error];
+            }
         }
         
         @finally {
