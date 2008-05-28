@@ -16,6 +16,7 @@
 }
 
 - (IBAction)changeAutoSaveAction:(id)sender;
+- (IBAction)changeLogLevelAction:(id)sender;
 - (IBAction)showInFinder:(id)sender;
 - (IBAction)reloadLibrary:(id)sender;
 

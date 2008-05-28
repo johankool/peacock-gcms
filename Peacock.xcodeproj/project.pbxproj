@@ -122,6 +122,7 @@
 		C7A7BB610A9DE6E0005E3778 /* save_document.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB540A9DE6E0005E3778 /* save_document.tiff */; };
 		C7B9BA2D0AA881AE00250EFE /* view.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7B9BA2C0AA881AE00250EFE /* view.tiff */; };
 		C7BB88310DE8C63C00121E67 /* License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EED10CE211EA008F7BBC /* License.rtf */; };
+		C7BB89C00DE9AA9100121E67 /* JKLibrary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C7BB89BF0DE9AA9100121E67 /* JKLibrary.xcdatamodeld */; };
 		C7BB96C70CE89D82003049F9 /* ratios.pdf in Resources */ = {isa = PBXBuildFile; fileRef = C7BB96C50CE89D82003049F9 /* ratios.pdf */; };
 		C7BC18A80CBBCA5E0037FBA7 /* PKDocumentController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7BC18A60CBBCA5E0037FBA7 /* PKDocumentController.h */; };
 		C7BC18A90CBBCA5E0037FBA7 /* PKDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC18A70CBBCA5E0037FBA7 /* PKDocumentController.m */; };
@@ -168,7 +169,6 @@
 		C7EB185B0898D20E007FC2ED /* libnetcdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7EB17AE0898CF2E007FC2ED /* libnetcdf.a */; };
 		C7ECCAA50D2D753100B2DE87 /* PKDefaultBaselineDetectionMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C7ECCAA40D2D753100B2DE87 /* PKDefaultBaselineDetectionMethod.m */; };
 		C7ECCAAB0D2D8F7E00B2DE87 /* pk_statistics.m in Sources */ = {isa = PBXBuildFile; fileRef = C720AB8709EA7B6C007EF860 /* pk_statistics.m */; };
-		C7EF71380CD9408300A9F1EF /* JKLibrary.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */; };
 		C7F0D0560B11D9030046F994 /* PKMassWeightController.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D0550B11D9030046F994 /* PKMassWeightController.h */; };
 		C7F0D3B30B1497D40046F994 /* NSTableView+Copying.h in Headers */ = {isa = PBXBuildFile; fileRef = C7F0D3B10B1497D40046F994 /* NSTableView+Copying.h */; };
 		C7F0D3B40B1497D40046F994 /* NSTableView+Copying.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F0D3B20B1497D40046F994 /* NSTableView+Copying.m */; };
@@ -768,7 +768,7 @@
 		C77E68C60C3A9F0D0051B016 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
-				C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */,
+				C7BB89BF0DE9AA9100121E67 /* JKLibrary.xcdatamodeld */,
 				C747ED320ABF43C6001F98AF /* Peacock Test Files */,
 				C7C21FC50A5060E2006E82FD /* Peacock.sdef */,
 			);
@@ -1218,7 +1218,7 @@
 				C7BC18A90CBBCA5E0037FBA7 /* PKDocumentController.m in Sources */,
 				C7BC19AC0CBBE2D20037FBA7 /* PKWindowController.m in Sources */,
 				C7BF0DCC0CBE5D15003BEC49 /* PKRatiosController.m in Sources */,
-				C7EF71380CD9408300A9F1EF /* JKLibrary.xcdatamodel in Sources */,
+				C7BB89C00DE9AA9100121E67 /* JKLibrary.xcdatamodeld in Sources */,
 				C78FB8070CE9B73400466731 /* GCMathParser.m in Sources */,
 				C78FB80A0CE9B73400466731 /* ZExpParser.mm in Sources */,
 				C74A28260CEE51C100FFB61F /* PKLibraryPanelController.m in Sources */,
@@ -1696,6 +1696,19 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C7BB89BF0DE9AA9100121E67 /* JKLibrary.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */,
+			);
+			currentVersion = C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */;
+			path = JKLibrary.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 }

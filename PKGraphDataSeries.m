@@ -209,7 +209,7 @@ static void *ArrayObservationContext = (void *)1092;
             _highestY = 0.0f;
 			for (i=0; i<count; i++) {    
                 pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue],
-                                           [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]+[verticalOffset floatValue]);
+                                           [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]);
                 if ([self oldTrans]) {
                     pointInScreen = [[self oldTrans] transformPoint:pointInUnits];
                     NSRect pointRect = NSMakeRect(pointInScreen.x-1.5f, pointInScreen.y-1.5f, 3.0f, 3.0f);
@@ -238,12 +238,12 @@ static void *ArrayObservationContext = (void *)1092;
 		case 1: // Line
 				// Creeer het pad.
 			[bezierpath moveToPoint:NSMakePoint([[[[self dataArray] objectAtIndex:0] valueForKey:keyForXValue] floatValue],
-												[[[[self dataArray] objectAtIndex:0] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]+[verticalOffset floatValue])];
+												[[[[self dataArray] objectAtIndex:0] valueForKey:keyForYValue] floatValue])];
 			
 			// We zouden eigenlijk moet controleren of de x- en y-waarden beschikbaar zijn.
 			for (i=1; i<count; i++) {
 				pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue],
-										   [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]+[verticalOffset floatValue]);
+										   [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]);
 				[bezierpath lineToPoint:pointInUnits];
 			}
 				break;
@@ -252,7 +252,7 @@ static void *ArrayObservationContext = (void *)1092;
 				// We zouden eigenlijk moet controleren of de x- en y-waarden beschikbaar zijn.
 			for (i=0; i<count; i++) {
 				pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], 0.0);
-				pointInUnits2 = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]*[verticalScale floatValue]+[verticalOffset floatValue]);
+				pointInUnits2 = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyForXValue] floatValue], [[[[self dataArray] objectAtIndex:i] valueForKey:keyForYValue] floatValue]);
 				[bezierpath moveToPoint:pointInUnits];
 				[bezierpath lineToPoint:pointInUnits2];
 			}
@@ -602,6 +602,19 @@ static void *ArrayObservationContext = (void *)1092;
         [inValue retain];
         [verticalScale autorelease];
         verticalScale = inValue;
+        _needsReconstructingPlotPath = YES;
+        [_graphView setNeedsDisplayInRect:[_graphView plottingArea]];
+    }
+}
+
+- (NSNumber *)verticalOffset {
+	return verticalOffset;
+}
+- (void)setVerticalOffset:(NSNumber *)inValue {
+    if (inValue != verticalOffset) {
+        [inValue retain];
+        [verticalOffset autorelease];
+        verticalOffset = inValue;
         _needsReconstructingPlotPath = YES;
         [_graphView setNeedsDisplayInRect:[_graphView plottingArea]];
     }

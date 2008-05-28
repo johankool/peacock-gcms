@@ -206,6 +206,42 @@ static void *PeaksObservationContext = (void *)1103;
     [NSApp endSheet:chromatogramSelectionSheet];
 }
 
+
+- (IBAction)removeBaseline:(id)sender {
+    if ([[[self document] chromatograms] count] > 1) {
+        // Run sheet to get selection
+        [chromatogramSelectionSheetButton setTitle:NSLocalizedString(@"Remove Baseline",@"")];
+        [chromatogramSelectionSheetButton setAction:@selector(removeBaselineForSelectedChromatograms:)];
+        [chromatogramSelectionSheetButton setTarget:self];
+        [NSApp beginSheet: chromatogramSelectionSheet
+           modalForWindow:[self window]
+            modalDelegate:self
+           didEndSelector:@selector(didEndSheet:returnCode:contextInfo:)
+              contextInfo:nil];
+    } else if ([[[self document] chromatograms] count] == 1) {
+        NSError *error;
+        for (PKChromatogram *chromatogram in [chromatogramsController selectedObjects]) {
+            [chromatogram setBaselinePoints:[NSMutableArray array]];
+        }
+        [NSApp endSheet:chromatogramSelectionSheet];
+        
+        // Actually not the responsibility of this method, but I'm being lazy
+        [chromatogramView setNeedsDisplay:YES];
+     }
+}
+
+- (void)removeBaselineForSelectedChromatograms:(id)sender {
+    NSError *error;
+    for (PKChromatogram *chromatogram in [chromatogramsController selectedObjects]) {
+        [chromatogram setBaselinePoints:[NSMutableArray array]];
+    }
+    [NSApp endSheet:chromatogramSelectionSheet];
+    
+    // Actually not the responsibility of this method, but I'm being lazy
+    [chromatogramView setNeedsDisplay:YES];
+}
+
+
 - (IBAction)cancel:(id)sender {
     [NSApp endSheet:chromatogramSelectionSheet];
 }
@@ -419,10 +455,9 @@ static void *PeaksObservationContext = (void *)1103;
 		if ([peak identified]) {
 			[peak confirm];
 		} else if ([[searchResultsController selectedObjects] count] == 1) {
-			[peak identifyAsSearchResult:[[searchResultsController selectedObjects] objectAtIndex:0]];
-			[peak confirm];
+			[peak identifyAndConfirmAsSearchResult:[[searchResultsController selectedObjects] objectAtIndex:0]];
 		} else {
-            [peak confirm];
+            NSBeep();
         }
 	}
 }
@@ -536,8 +571,7 @@ static void *PeaksObservationContext = (void *)1103;
 
 - (IBAction)resultDoubleClicked:(id)sender{
 	PKPeakRecord *selectedPeak = [[peakController selectedObjects] objectAtIndex:0];
-	[selectedPeak identifyAsSearchResult:[[searchResultsController selectedObjects] objectAtIndex:0]];
-	[selectedPeak confirm];
+	[selectedPeak identifyAndConfirmAsSearchResult:[[searchResultsController selectedObjects] objectAtIndex:0]];
 }
 
 - (IBAction)showPreset:(id)sender{

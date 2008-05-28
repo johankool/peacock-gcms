@@ -287,11 +287,32 @@
 	if (([sender clickedRow] == -1) && ([sender clickedColumn] == -1)) {
 		return;
 	} else if ([sender clickedColumn] == 0) {
+        // Show the library window
+        [(PKAppDelegate *)[NSApp delegate] editLibrary:self];
+        
+        // Wait until window is displayed
+//        while (![[[[(PKAppDelegate *)[NSApp delegate] library] libraryWindowController] window] isMainWindow]) {
+//            sleep(10);
+//            PKLogDebug(@"sleep 10");
+//        }
+        
+        
+        // See which library entry is associated with the double clicked cell
+        id lookedForLibEntry = [[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:@"libraryEntry"];
+        // PKLogDebug(@"libEntry = %@ with mocID %@", lookedForLibEntry, [lookedForLibEntry objectID]);
+        
+        // Select the library entry in the library's array controller
+        NSArrayController *libraryArrayController = [[[(PKAppDelegate *)[NSApp delegate] library] libraryWindowController] libraryController];
+        NSArray *libEntries = [libraryArrayController arrangedObjects];
+        if ([libEntries containsObject:lookedForLibEntry]) {
+            [libraryArrayController setSelectedObjects:[NSArray arrayWithObject:lookedForLibEntry]];
+            NSTableView *libraryTableView = [[[(PKAppDelegate *)[NSApp delegate] library] libraryWindowController] tableView];
+            [libraryTableView scrollRowToVisible:[libraryTableView selectedRow]];
+        } else {
+            // Race condition causes this failure. Can't change the selection when the arraycontroller is being inited. Waiting doesn't work?!
+            PKLogError(@"Library Entry not found. Try again... ");
+        }
 
-       [(PKAppDelegate *)[NSApp delegate] editLibrary:self];
-        PKLogDebug(@"label = %@", [[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedColumn]] valueForKey:@"label"]);
-
-       [[[[(PKAppDelegate *)[NSApp delegate] library] libraryWindowController] libraryController] setSelectedObjects:[NSArray arrayWithObject:[[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedColumn]] valueForKey:@"libraryEntry"]]];
 		return;
     } else if ([sender clickedRow] == -1) {
         // A column was double clicked
@@ -429,8 +450,10 @@
 - (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op {
     if (tv == tableView) {
         if ([[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:@"JKManagedLibraryEntryURIType"]]) {
-			[tv setDropRow:row dropOperation:NSTableViewDropOn];
-			return NSDragOperationMove;
+            if (row < [[combinedPeaksController arrangedObjects] count]) {
+                [tv setDropRow:row dropOperation:NSTableViewDropOn];
+                return NSDragOperationMove;
+            }
 		}
 	} 
     return NSDragOperationNone;    
