@@ -395,6 +395,7 @@
 									</object>
 									<string key="NSFrameSize">{209, 34}</string>
 									<reference key="NSSuperview" ref="389278755"/>
+									<reference key="NSNextKeyView" ref="408822341"/>
 									<reference key="NSDocView" ref="408822341"/>
 									<reference key="NSBGColor" ref="657315769"/>
 									<object class="NSCursor" key="NSCursor">
@@ -427,6 +428,7 @@
 							</object>
 							<string key="NSFrame">{{20, 18}, {209, 34}}</string>
 							<reference key="NSSuperview" ref="61912255"/>
+							<reference key="NSNextKeyView" ref="444534049"/>
 							<int key="NSsFlags">0</int>
 							<reference key="NSVScroller" ref="347530300"/>
 							<reference key="NSHScroller" ref="947518277"/>

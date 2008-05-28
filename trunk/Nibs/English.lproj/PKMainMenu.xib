@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="1315"/>
+			<integer value="1895"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1159,6 +1159,14 @@
 									<string key="NSTitle">Detect Baseline</string>
 									<string key="NSKeyEquiv">b</string>
 									<int key="NSKeyEquivModMask">1572864</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="205655280"/>
+									<reference key="NSMixedImage" ref="458711301"/>
+								</object>
+								<object class="NSMenuItem" id="657163654">
+									<reference key="NSMenu" ref="273466197"/>
+									<string key="NSTitle">Remove Baseline</string>
+									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="205655280"/>
 									<reference key="NSMixedImage" ref="458711301"/>
@@ -3324,6 +3332,14 @@ ZSBDb21wdXRlciwgSW5jLiwgMjAwNQAAAAA</bytes>
 					</object>
 					<int key="connectionID">1894</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">removeBaseline:</string>
+						<reference key="source" ref="279478811"/>
+						<reference key="destination" ref="657163654"/>
+					</object>
+					<int key="connectionID">1896</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -4393,6 +4409,7 @@ ZSBDb21wdXRlciwgSW5jLiwgMjAwNQAAAAA</bytes>
 							<reference ref="251345450"/>
 							<reference ref="752819794"/>
 							<reference ref="976469648"/>
+							<reference ref="657163654"/>
 						</object>
 						<reference key="parent" ref="937653318"/>
 					</object>
@@ -4908,6 +4925,11 @@ ZSBDb21wdXRlciwgSW5jLiwgMjAwNQAAAAA</bytes>
 						<reference key="object" ref="591895257"/>
 						<reference key="parent" ref="460408077"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1895</int>
+						<reference key="object" ref="657163654"/>
+						<reference key="parent" ref="273466197"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -5165,6 +5187,8 @@ ZSBDb21wdXRlciwgSW5jLiwgMjAwNQAAAAA</bytes>
 					<string>1891.ImportedFromIB2</string>
 					<string>1892.IBPluginDependency</string>
 					<string>1892.ImportedFromIB2</string>
+					<string>1895.IBPluginDependency</string>
+					<string>1895.ImportedFromIB2</string>
 					<string>29.IBEditorWindowLastContentRect</string>
 					<string>29.IBPluginDependency</string>
 					<string>29.ImportedFromIB2</string>
@@ -5444,7 +5468,7 @@ ZSBDb21wdXRlciwgSW5jLiwgMjAwNQAAAAA</bytes>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<string>{{266, 604}, {230, 63}}</string>
+					<string>{{266, 584}, {230, 83}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{361, 894}, {230, 63}}</string>
@@ -5610,6 +5634,8 @@ ZSBDb21wdXRlciwgSW5jLiwgMjAwNQAAAAA</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -5842,7 +5868,7 @@ ZSBDb21wdXRlciwgSW5jLiwgMjAwNQAAAAA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1894</int>
+			<int key="maxID">1896</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -6223,12 +6249,14 @@ ZSBDb21wdXRlciwgSW5jLiwgMjAwNQAAAAA</bytes>
 							<string>obtainBaselineForSelectedChromatograms:</string>
 							<string>other:</string>
 							<string>previous:</string>
+							<string>removeBaseline:</string>
 							<string>renumberPeaks:</string>
 							<string>showMassChromatogram:</string>
 							<string>showSelectedChromatogramsOnlyAction:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

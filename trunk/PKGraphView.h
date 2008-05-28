@@ -159,6 +159,7 @@ typedef enum {
 
 #pragma mark HELPER ROUTINES
 - (void)calculateCoordinateConversions;
+- (NSAffineTransform *)transformForDataSeriesAtIndex:(int)index;
 - (void)scaleVertically;
 - (void)zoomToRect:(NSRect)rect;
 - (void)zoomToRectInView:(NSRect)aRect;
@@ -175,6 +176,7 @@ typedef enum {
 - (int)scanAtPoint:(NSPoint)aPoint;
 - (PKPeakRecord *)peakAtPoint:(NSPoint)aPoint;
 - (PKChromatogram *)chromatogramAtPoint:(NSPoint)aPoint;
+- (int)dataSeriesIndexAtPoint:(NSPoint)aPoint;
 - (NSMutableDictionary *)pointAtPoint:(NSPoint)aPoint;
 - (int)massAtPoint:(NSPoint)aPoint;
 - (NSDictionary *)baselinePointAtPoint:(NSPoint)aPoint;

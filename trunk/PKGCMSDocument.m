@@ -255,6 +255,7 @@ int const JKGCMSDocument_Version = 7;
         [unarchiver setClass:[PKPeakRecord class] forClassName:@"JKPeakRecord"];
         [unarchiver setClass:[PKSearchResult class] forClassName:@"JKSearchResult"];
         [unarchiver setClass:[PKManagedLibraryEntry class] forClassName:@"JKManagedLibraryEntry"];
+        [unarchiver setClass:[PKLibraryEntry class] forClassName:@"JKLibraryEntry"];
         [unarchiver setClass:[PKArrayEncodingObject class] forClassName:@"ArrayEncodingObject"];
         
         [unarchiver setDelegate:self];
@@ -924,8 +925,8 @@ int const JKGCMSDocument_Version = 7;
     [chromatogram setTime:times withCount:num_scan];
     [chromatogram setTotalIntensity:intensities withCount:num_scan];
     
-    // Obtain the baseline
-    [chromatogram detectBaselineAndReturnError:nil];
+//    // Obtain the baseline
+//    [chromatogram detectBaselineAndReturnError:nil];
     
     // Clean up
     free(massValues);

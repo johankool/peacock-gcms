@@ -14,7 +14,7 @@
 
 @implementation PKCombinedPeak
 
-#pragma mark INIT
+#pragma mark Initialization & deallocation
 - (id)init {
 	if ((self = [super init]) != nil) {
 		peaks = [[NSMutableDictionary alloc] init];
@@ -28,23 +28,9 @@
     [peaks release];
     [super dealloc];
 }
+#pragma mark -
 
-#pragma mark ACTIONS
-- (void)confirm {
-//	for (PKPeakRecord *peak in [[self peaks] allValues]) {
-//        [peak confirm]
-//        if ([peak identified] | [peak confirmed]) {
-//            [peak confirm];
-//        } else if ([[peak searchResults] count] > 0) {
-//            [peak identifyAs:[[peak searchResults] objectAtIndex:0]];
-//            [peak confirm];
-//        } else {
-//            PKLogWarning(@"Could not confirm peak %d in document '%@', no search result available.", [peak peakID], [[peak document] displayName]);
-//        }
-//    }
-}
-
-#pragma mark CALCULATED ACCESSORS
+#pragma mark Calculated Accessors
 - (NSNumber *)certainty {
     int count = 0;
 	for (PKPeakRecord *peak in [[self peaks] allValues]) {
@@ -118,9 +104,24 @@
     // Calculate deviation
     return [NSNumber numberWithFloat:sqrtf(sum/([self countOfPeaks]-1))];		
 }
+#pragma mark -
 
+#pragma mark Actions
+- (void)addConfirmedPeak:(PKPeakRecord *)aPeak {
+    NSString *documentKey = [[aPeak document] uuid];
+    NSAssert([aPeak document], @"No document set for peak.");
+    NSAssert(documentKey, @"UUID of document is not set.");
+    [self setValue:aPeak forKey:documentKey];
+}
 
-#pragma mark SPECIAL ACCESSORS
+- (void)removeUnconfirmedPeak:(PKPeakRecord *)aPeak {
+    NSString *documentKey = [[aPeak document] uuid];
+    NSAssert(documentKey, @"UUID of document is not set.");
+    [self setValue:nil forKey:documentKey];
+}
+#pragma mark -
+
+#pragma mark Helper methods
 - (BOOL)isValidDocumentKey:(NSString *)aKey {
     NSArray *documents = [[NSDocumentController sharedDocumentController] documents];
     NSDocument *aDocument;
@@ -135,19 +136,6 @@
     return NO;
 }
 
-- (void)addConfirmedPeak:(PKPeakRecord *)aPeak {
-    NSString *documentKey = [[aPeak document] uuid];
-    NSAssert([aPeak document], @"No document set for peak.");
-    NSAssert(documentKey, @"UUID of document is not set.");
-    [self setValue:aPeak forKey:documentKey];
-}
-
-- (void)removeUnconfirmedPeak:(PKPeakRecord *)aPeak {
-    NSString *documentKey = [[aPeak document] uuid];
-    NSAssert(documentKey, @"UUID of document is not set.");
-    [self setValue:nil forKey:documentKey];
-}
-
 - (BOOL)isCombinedPeakForPeak:(PKPeakRecord *)aPeak {
     if ([self libraryEntry] && [aPeak libraryHit]) {
         return ([self libraryEntry] == [aPeak libraryHit]);
@@ -157,9 +145,7 @@
 }
 
 - (BOOL)isCompound:(NSString *)compoundString {
-//    compoundString = [compoundString lowercaseString];
-    
-//    if ([[[self label] lowercaseString] isEqualToString:compoundString]) {
+
     if ([[self label] isEqualToString:compoundString]) {
         return YES;
     }
@@ -168,7 +154,6 @@
         NSArray *synonymsArray = [[self libraryEntry] synonymsArray];
 
         for (NSString *synonym in synonymsArray) {
-//            if ([[synonym lowercaseString] isEqualToString:compoundString]) {
             if ([synonym isEqualToString:compoundString]) {
                 return YES;
             }
@@ -177,7 +162,9 @@
     
     return NO;    
  }
+#pragma mark -
 
+#pragma mark Key Value Coding "abuse"
 - (id)valueForUndefinedKey:(NSString *)key {
     if ([self isValidDocumentKey:key]) {
         return [peaks objectForKey:key];
@@ -187,8 +174,8 @@
 }
 
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {
+    // Peaks from documents are stored using their documents uuid
      if ([self isValidDocumentKey:key]) {
-
         if (value) {
             [peaks setObject:value forKey:key];            
             if ([value libraryHit] && ![self libraryEntry]) {
@@ -207,9 +194,9 @@
         [super setValue:value forUndefinedKey:key];
     }
 }
+#pragma mark -
 
-#pragma mark ACCESSORS
-
+#pragma mark Accessors
 - (NSString *)label {
     if ([self libraryEntry]) {
         return [[self libraryEntry] name];
@@ -247,91 +234,44 @@
     }
 }
 
-//- (int)index {
-//	return index;
-//}
-//- (void)setIndex:(int)aIndex {
-//	index = aIndex;
-//}
-//
-
-//- (NSNumber *)retentionIndex {
-//	return retentionIndex;
-//}
-//- (void)setRetentionIndex:(NSNumber *)aRetentionIndex {
-//	[retentionIndex autorelease];
-//	retentionIndex = [aRetentionIndex retain];
-//}
-
-//- (NSString *)model {
-//	return model;
-//}
-//- (void)setModel:(NSString *)aModel {
-//	[model autorelease];
-//	model = [aModel retain];
-//}
-
 - (NSString *)group {
-	return group;
+    if ([self libraryEntry]) {
+        if ([[self libraryEntry] group])
+            return [[self libraryEntry] group];
+    }
+	return @"X";
 }
-- (void)setGroup:(NSString *)aGroup {
-   if (aGroup != group) {        
-       [group autorelease];
-       group = [aGroup retain];
-       
-//        // Set group also for all peaks' libraryhits
-//        for (PKPeakRecord *peak in [[self peaks] allValues]) {
-//            [[peak libraryHit] setGroup:group];
-//        }
-//        [[self libraryEntry] setGroup:group];
-    }    
+
+- (void)setGroup:(NSString *)newGroup {
+    PKLogDebug(@"setting group for %@ to %@, but actually is %@", [self label], newGroup, [self group]);
 }
-//- (PKSpectrum *)spectrum {
-//	return spectrum;
-//}
-//- (void)setSpectrum:(PKSpectrum *)aSpectrum {
-//	[spectrum autorelease];
-//	spectrum = [aSpectrum retain];
-//}
+
 - (PKLibraryEntry *)libraryEntry {
 	return libraryEntry;
 }
 - (void)setLibraryEntry:(PKLibraryEntry *)aLibraryEntry {
+    BOOL result;
+    
     if (libraryEntry != aLibraryEntry) {
-        [libraryEntry autorelease];
-        libraryEntry = [aLibraryEntry retain];
+        result = YES;
         
-        // Set libraryEntry also for all peaks
+        // Set aLibraryEntry first for all peaks
         if (libraryEntry) {
             for (PKPeakRecord *peak in [[self peaks] allValues]) {
-                if (libraryEntry != [peak libraryHit]) {
-                    PKSearchResult *searchResult = [peak addSearchResultForLibraryEntry:(PKManagedLibraryEntry *)libraryEntry];
-                    [peak identifyAsSearchResult:searchResult];
-                    [peak confirm];
+                if (aLibraryEntry != [peak libraryHit]) {
+                    PKSearchResult *searchResult = [peak addSearchResultForLibraryEntry:(PKManagedLibraryEntry *)aLibraryEntry];
+                    result = [peak identifyAndConfirmAsSearchResult:searchResult];
                 }
             }            
-        }            
+        }     
         
-        
-        if ([libraryEntry group]) {
-            [self setGroup:[libraryEntry group]];
+        // Only set for combined peak if succesful set for all peaks
+        if (result) {
+            [libraryEntry autorelease];
+            libraryEntry = [aLibraryEntry retain];
         }
-        if ([libraryEntry symbol]) {
-            [self setSymbol:[libraryEntry symbol]];
-        }        
-        if ([libraryEntry name]) {
-            [self setLabel:[libraryEntry name]];
-        }        
     }
 }
-
-- (BOOL)unknownCompound {
-	return unknownCompound;
-}
-- (void)setUnknownCompound:(BOOL)aUnknownCompound {
-	unknownCompound = aUnknownCompound;
-}
-
 
 // Mutable To-Many relationship peaks
 - (NSMutableDictionary *)peaks {

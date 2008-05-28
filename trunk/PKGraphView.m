@@ -297,32 +297,23 @@ static int   kPaddingLabels             = 4;
 
 #pragma mark Drawing Routines
 - (void)drawRect:(NSRect)rect {
-        
-//    NSRect currentFrame = [self plottingArea];
-//    if ( [NSGraphicsContext currentContextDrawingToScreen] ) {
-//        // Draw screen-only elements here
-//    } else {
-//        // Draw printer-only elements here
-//        NSSize paperSize = [[NSPrintInfo sharedPrintInfo] paperSize];
-//        NSRect paperRect = NSMakeRect(0.0f, 0.0f, paperSize.width, paperSize.height);
-//        [self setPlottingArea:NSIntersectionRect([self plottingArea], paperRect)];
-//        // set maxim etc.?
-//    }
     // Draw common elements here
+    
+    // Calculate transforms
     [self calculateCoordinateConversions];
 
-	// Fancy schaduw effecten...
+	// Fancy shadow effects...
 	NSShadow *noShadow = [[NSShadow alloc] init];
 	NSShadow *shadow = [[NSShadow alloc] init];
 	[shadow setShadowBlurRadius:10];
 	[shadow setShadowOffset:NSMakeSize(6,-6)];
 		
-	// Achtergrondkleur
+	// Background colour
 	[noShadow set];
 	[[self backColor] set];
 	[[NSBezierPath bezierPathWithRect:[self bounds]] fill];
 
-	// Achtergrondkleur plottingArea (met schaduw)
+	// Background colour plottingArea (with shadow)
 	// Draw shadow with focusring color if firstResponder
 	if (([[self window] isKeyWindow]) && ([[self window] firstResponder] == self) && ([[NSGraphicsContext currentContext] isDrawingToScreen])) {
 		[shadow setShadowColor:[NSColor keyboardFocusIndicatorColor]];
@@ -337,7 +328,7 @@ static int   kPaddingLabels             = 4;
 	if (NSIntersectsRect([self plottingArea],rect))
 		[[NSBezierPath bezierPathWithRect:[self plottingArea]] fill];
 	
-	// Frame om plottingArea	
+	// Frame around plottingArea	
 	[noShadow set];
 	[[self frameColor] set];
 	if (NSIntersectsRect([self plottingArea],rect))
@@ -367,35 +358,17 @@ static int   kPaddingLabels             = 4;
             [self drawLabels];
         
         
-        // In plaats van een loop kunnen we ook deze convenient method gebruiken om iedere dataserie zich te laten tekenen.
         //NSAssert([[self dataSeries] count] >= 1, @"No dataSeries to draw.");
         int dataSeriesCount;
         int i;
         id object;
-        switch (drawingMode) {
-        case JKStackedDrawingMode:
-            dataSeriesCount = [[self dataSeries] count];
-            for (i = 0; i < dataSeriesCount; i++) {
-                object = [[self dataSeries] objectAtIndex:i];
-                if ([object respondsToSelector:@selector(plotDataWithTransform:inView:)]) {
-                    NSAffineTransform *transform = [[NSAffineTransform alloc] init];
-                    [transform translateXBy:0.0 yBy:i*([self plottingArea].size.height/dataSeriesCount)];
-                //    [transform scaleXBy:1.0 yBy:1.0/dataSeriesCount];
-                    [transform prependTransform:[self transformGraphToScreen]];
-                    [object plotDataWithTransform:transform inView:self];
-                    [transform release];
-                }
+        
+        dataSeriesCount = [[self dataSeries] count];
+        for (i = 0; i < dataSeriesCount; i++) {
+            object = [[self dataSeries] objectAtIndex:i];
+            if ([object respondsToSelector:@selector(plotDataWithTransform:inView:)]) {
+                [object plotDataWithTransform:[self transformForDataSeriesAtIndex:i] inView:self];
             }
-                
-            break;
-        case JKNormalDrawingMode:
-        default:
-             for (object in [self dataSeries]) {
-                if ([object respondsToSelector:@selector(plotDataWithTransform:inView:)]) {
-                    [object plotDataWithTransform:[self transformGraphToScreen] inView:self];
-                }
-            }  
-            break;
         }
         
         // Draw line for selected scan
@@ -452,19 +425,6 @@ static int   kPaddingLabels             = 4;
 
 	[shadow release];
 	[noShadow release];
-    
-//    if ( [NSGraphicsContext currentContextDrawingToScreen] ) {
-//        // Draw screen-only elements here
-//    } else {
-//        // Draw printer-only elements here
-//          [self setPlottingArea:currentFrame];
-//        
-//    }
-//    
-    //    [[NSColor redColor] set];
-//    NSSize paperSize = [[NSPrintInfo sharedPrintInfo] paperSize];
-//    NSRect paperRect = NSMakeRect(0.0f, 0.0f, paperSize.width, paperSize.height);
-//    [[NSBezierPath bezierPathWithRect:paperRect] stroke];
 }
 
 - (void)drawGrid {
@@ -1189,30 +1149,6 @@ static int   kPaddingLabels             = 4;
      
     [self setNeedsDisplay:YES];
 }
-//- (void)showMagnifyingGlass:(NSEvent *)theEvent  
-//{
-//	NSPoint mouseLocation = [theEvent locationInWindow];
-//		NSWindow *magnifyingGlassWindow = [[NSWindow alloc] initWithContentRect:NSMakeRect(mouseLocation.x,mouseLocation.y-250,250,250) styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
-//    [magnifyingGlassWindow setBackgroundColor: [NSColor clearColor]];
-//    [magnifyingGlassWindow setLevel: NSTornOffMenuWindowLevel];
-//    [magnifyingGlassWindow setAlphaValue:1.0];
-//    [magnifyingGlassWindow setOpaque:YES];
-//    [magnifyingGlassWindow setHasShadow: YES];
-//		
-////	NSImageView *magnifiedView = [[NSImageView alloc] initWithFrame:[magnifyingGlassWindow frame]];
-////	NSImage *magnifiedImage = [[NSImage alloc] init];
-//	
-//	MyGraphView *aView = [[MyGraphView alloc] init];
-//	[magnifyingGlassWindow setContentView:aView];
-//	[aView lockFocus];
-//		// In plaats van een loop kunnen we ook deze convenient method gebruiken om iedere dataserie zich te laten tekenen.
-//	[[self dataSeries] makeObjectsPerformSelector:@selector(plotDataWithTransform:) withObject:[self transformGraphToScreen]];
-//	[aView unlockFocus];
-////	[magnifiedImage addRepresentation:[NSPDFImageRep imageRepWithData:[self dataWithPDFInsideRect:[magnifyingGlassWindow frame]]]];
-////	[magnifiedView setImage:magnifiedImage];
-//	[[self window] addChildWindow:magnifyingGlassWindow ordered:NSWindowAbove];
-//	[magnifyingGlassWindow orderFront:self];
-//}
 #pragma mark -
 
 #pragma mark Helper Routines
@@ -1256,6 +1192,36 @@ static int   kPaddingLabels             = 4;
     @finally {
         //
     }
+}
+
+- (NSAffineTransform *)transformForDataSeriesAtIndex:(int)index {
+    int dataSeriesCount;
+    NSAffineTransform *transform = nil;
+    PKGraphDataSeries *aDataSeries = [[self dataSeries] objectAtIndex:index];
+
+    switch (drawingMode) {
+        case JKStackedDrawingMode:
+            dataSeriesCount = [[self dataSeries] count];
+            transform = [[NSAffineTransform alloc] init];
+            [transform translateXBy:0.0 yBy:index*([self plottingArea].size.height/dataSeriesCount)];
+            [transform prependTransform:[self transformGraphToScreen]];
+            [transform scaleXBy:1.0 yBy:[[aDataSeries verticalScale] floatValue]];
+            [transform translateXBy:0.0 yBy:[[aDataSeries verticalOffset] floatValue]];
+            return [transform autorelease];
+
+            break;
+        case JKNormalDrawingMode:
+        default:
+            transform = [[NSAffineTransform alloc] init];
+            [transform prependTransform:[self transformGraphToScreen]];
+            [transform scaleXBy:1.0 yBy:[[aDataSeries verticalScale] floatValue]];
+            [transform translateXBy:0.0 yBy:[[aDataSeries verticalOffset] floatValue]];
+            return [transform autorelease]; // Returning a copy to prevent the receiver from mucking around with ours
+            break;
+    }
+    
+    // Not that we'd ever get here...
+    return [[[self transformGraphToScreen] copy] autorelease];
 }
 
 - (float)unitsPerMajorGridLine:(float)pixelsPerUnit {
@@ -1828,6 +1794,29 @@ static int   kPaddingLabels             = 4;
 //                PKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
             }
         }
+        
+        // Second best guess
+        // assumes peaks are ordered properly
+        for (i=0; i < peaksCount; i++) {
+            peak = [[chromatogram peaks] objectAtIndex:i];
+            if ([keyForXValue isEqualToString:@"Scan"]) {
+                if ([peak start] >= graphLocation.x) {
+                    return peak;
+                } 
+            } else if ([keyForXValue isEqualToString:@"Retention Index"]) {
+                if ([peak start] *retentionSlope +retentionRemainder >= graphLocation.x) {
+                    return peak;
+                } 
+            } else if ([keyForXValue isEqualToString:@"Time"]) {
+                if ([[peak valueForKey:@"startTime"] floatValue] >= graphLocation.x) {
+                    return peak;
+                }                         
+            } else {
+                //                PKLogError(@"Unexpected keyForXValue '%@'", keyForXValue);
+            }
+        }
+        
+        
     } else {
 //        PKLogError(@"No chromatogram available");
     }
@@ -1836,7 +1825,13 @@ static int   kPaddingLabels             = 4;
 
 - (NSMutableDictionary *)pointAtPoint:(NSPoint)aPoint {
     int scan = NSNotFound;
-    NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:aPoint];
+    //NSPoint graphLocation = [[self transformScreenToGraph] transformPoint:aPoint];
+    
+    NSAffineTransform *transform = [self transformForDataSeriesAtIndex:[self dataSeriesIndexAtPoint:aPoint]];
+    [transform invert];
+    NSPoint graphLocation = [transform transformPoint:aPoint];
+    
+
     NSMutableDictionary *thePoint = [NSMutableDictionary dictionaryWithCapacity:3];
     
     if ([keyForXValue isEqualToString:@"Scan"]) {
@@ -1846,9 +1841,12 @@ static int   kPaddingLabels             = 4;
         PKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
         if (chromatogram) {
             [thePoint setValue:[NSNumber numberWithFloat:[[self chromatogramAtPoint:aPoint] timeForScan:scan]] forKey:@"Time"];
+            
+        } else {
+            [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"Total Intensity"];
+            [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"intensity"];
         }
-        [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"Total Intensity"];
-        [thePoint setValue:[NSNumber numberWithFloat:graphLocation.y] forKey:@"intensity"];
+
     } else if ([keyForXValue isEqualToString:@"Retention Index"]) {
         PKChromatogram *chromatogram = [self chromatogramAtPoint:aPoint];
         if (chromatogram) {
@@ -1892,56 +1890,46 @@ static int   kPaddingLabels             = 4;
     return mass;
 }
 
-- (PKChromatogram *)chromatogramAtPoint:(NSPoint)aPoint {
+- (PKChromatogram *)chromatogramAtPoint:(NSPoint)aPoint {  
+    int dataSerieIndex = [self dataSeriesIndexAtPoint:aPoint];
+    if ([[[self dataSeries] objectAtIndex:dataSerieIndex] isMemberOfClass:[PKChromatogramDataSeries class]]) {
+        return [[[self dataSeries] objectAtIndex:dataSerieIndex] chromatogram];
+    }
+    return nil;
+}
+
+- (int)dataSeriesIndexAtPoint:(NSPoint)aPoint {
     PKChromatogram *chromatogram = nil;
     int i, count, dataSerieIndex;
     float dataSerieHeight;
-
+    
     count = [[self dataSeries] count];
     if (count > 0) {
-        switch (drawingMode) {
-            case JKStackedDrawingMode:
-                // Does a bezierpath contain the point?
-                for (i = 0; i < count; i++) {
-                    NSAffineTransform *transform = [[NSAffineTransform alloc] init];
-                    [transform translateXBy:0.0 yBy:i*([self plottingArea].size.height/count)];
-                    [transform prependTransform:[self transformGraphToScreen]];
-                    NSBezierPath *bezierPath = [[[[[self dataSeries] objectAtIndex:i] plotPath] copy] autorelease];
-                    [bezierPath transformUsingAffineTransform:transform];
-                    [transform release];
-                    
-                    if ([bezierPath containsPoint:aPoint]) {
-                        return [[self dataSeries] objectAtIndex:i];
-                    }
-                } 
-                // or else, is it in a bounding rect
-                for (i = 0; i < count; i++) {
-                    NSRect rect = [[[self dataSeries] objectAtIndex:i] boundingRect];
-                    if (NSPointInRect(aPoint, rect)) {
-                        return [[self dataSeries] objectAtIndex:i];
-                    }
-                } 
-                // When outside any rect, use fall back
-                dataSerieHeight = [self plottingArea].size.height/count;
-                dataSerieIndex = floor((aPoint.y-[self plottingArea].origin.y)/dataSerieHeight);
-                if ((dataSerieIndex < 0) || (dataSerieIndex >= count)) {
-                    dataSerieIndex = 0;
-                }
-                if ([[[self dataSeries] objectAtIndex:dataSerieIndex] isMemberOfClass:[PKChromatogramDataSeries class]]) {
-                    chromatogram = [[[self dataSeries] objectAtIndex:dataSerieIndex] chromatogram];                
-                }                
-                
-                break;
-            case JKNormalDrawingMode:
-            default:
-                if ([[[self dataSeries] objectAtIndex:0] isMemberOfClass:[PKChromatogramDataSeries class]]) {
-                    chromatogram = [[[self dataSeries] objectAtIndex:0] chromatogram];                
-                }
-                
-                break;
+        // Does a bezierpath contain the point?
+        for (i = 0; i < count; i++) {
+            NSBezierPath *bezierPath = [[[[[self dataSeries] objectAtIndex:i] plotPath] copy] autorelease];
+            [bezierPath transformUsingAffineTransform:[self transformForDataSeriesAtIndex:i]];
+
+            if ([bezierPath containsPoint:aPoint]) {
+                return i;
+            }
         } 
-    }
-    return chromatogram;
+        // or else, is it in a bounding rect
+        for (i = 0; i < count; i++) {
+            NSRect rect = [[[self dataSeries] objectAtIndex:i] boundingRect];
+            if (NSPointInRect(aPoint, rect)) {
+                return i;
+            }
+        } 
+        // When outside any rect, use fall back
+        dataSerieHeight = [self plottingArea].size.height/count;
+        dataSerieIndex = floor((aPoint.y-[self plottingArea].origin.y)/dataSerieHeight);
+        if ((dataSerieIndex < 0) || (dataSerieIndex >= count)) {
+            dataSerieIndex = 0;
+        }
+        return dataSerieIndex;              
+    } 
+    return NSNotFound;
 }
 
 - (NSDictionary *)baselinePointAtPoint:(NSPoint)aPoint {
@@ -2967,7 +2955,7 @@ static int   kPaddingLabels             = 4;
 	return shouldDrawBaseline;
 }
 - (void)setShouldDrawBaseline:(BOOL)inValue {
-    if (shouldDrawBaseline != inValue) {
+//    if (shouldDrawBaseline != inValue) {
         shouldDrawBaseline = inValue;
 
         int i,count = [[self dataSeries] count];
@@ -2975,15 +2963,14 @@ static int   kPaddingLabels             = 4;
             [[[self dataSeries] objectAtIndex:i] setShouldDrawBaseline:inValue];
         }
         [self setNeedsDisplayInRect:[self plottingArea]];        
-        [self setNeedsDisplayInRect:[self plottingArea]];        
-    }
+//    }
 }
 
 - (BOOL)shouldDrawPeaks {
 	return shouldDrawPeaks;
 }
 - (void)setShouldDrawPeaks:(BOOL)inValue {
-    if (shouldDrawPeaks != inValue) {
+//    if (shouldDrawPeaks != inValue) {
         shouldDrawPeaks = inValue;
         
         int i,count = [[self dataSeries] count];
@@ -2991,7 +2978,7 @@ static int   kPaddingLabels             = 4;
             [[[self dataSeries] objectAtIndex:i] setShouldDrawPeaks:inValue];
         }
         [self setNeedsDisplayInRect:[self plottingArea]];        
-    }
+//    }
 }
 
 - (int)selectedScan {

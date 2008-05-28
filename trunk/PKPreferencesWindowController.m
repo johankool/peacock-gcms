@@ -12,31 +12,30 @@
 
 @implementation PKPreferencesWindowController
 
-#pragma mark INITIALIZATION
-
+#pragma mark Initialization & deallocation
 - (id)init {
     self = [super initWithWindowNibName:@"PKPreferences"];
     return self;
 }
 
-- (void)windowDidLoad{
+- (void)windowDidLoad {
     [[self window] setShowsResizeIndicator:NO];
     [[self window] setDelegate:self];
     
 	// Create a new toolbar instance, and attach it to our document window 
-    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier: @"nl.johankool.Peacock.preferences.toolbar"] autorelease];
+    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:@"nl.johankool.Peacock.preferences.toolbar"] autorelease];
     
-    // Set up toolbar properties: Allow customization, give a default display mode, and remember state in user defaults 
-    [toolbar setAllowsUserCustomization: NO];
-    [toolbar setAutosavesConfiguration: NO];
-    [toolbar setDisplayMode: NSToolbarDisplayModeIconAndLabel];
-    [toolbar setSizeMode: NSToolbarSizeModeRegular];
+    // Set up toolbar properties:Allow customization, give a default display mode, and remember state in user defaults 
+    [toolbar setAllowsUserCustomization:NO];
+    [toolbar setAutosavesConfiguration:NO];
+    [toolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
+    [toolbar setSizeMode:NSToolbarSizeModeRegular];
     
     // We are the delegate
-    [toolbar setDelegate: self];
+    [toolbar setDelegate:self];
 	
     // Attach the toolbar to the document window 
-    [[self window] setToolbar: toolbar];
+    [[self window] setToolbar:toolbar];
 	
 	// Set an initial state
 	[toolbar setSelectedItemIdentifier:@"general"];
@@ -45,6 +44,7 @@
     [toolbar setVisible:YES];
 }
 
+#pragma mark Actions
 - (IBAction)changeAutoSaveAction:(id)sender {
     if([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSave"] boolValue] == YES) {
         [[NSDocumentController sharedDocumentController] setAutosavingDelay:[[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"autoSaveDelay"] intValue]*60];
@@ -57,34 +57,32 @@
     JKSetVerbosityLevel([sender selectedTag]);
 }
 
-- (IBAction)showInFinder:(id)sender
-{
+- (IBAction)showInFinder:(id)sender {
     [(PKAppDelegate *)[NSApp delegate] showInFinder];
 }
 
-- (IBAction)reloadLibrary:(id)sender
-{
+- (IBAction)reloadLibrary:(id)sender {
     [(PKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:@""]; // force empty
     [(PKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"libraryConfiguration"]];
 }
+#pragma mark -
 
-#pragma mark TOOLBAR
-
-- (NSToolbarItem *) toolbar: (NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted {
-    // Required delegate method:  Given an item identifier, this method returns an item 
+#pragma mark Toolbar
+- (NSToolbarItem *) toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted {
+    // Required delegate method: Given an item identifier, this method returns an item 
     // The toolbar will use this method to obtain toolbar items that can be displayed in the customization sheet, or in the toolbar itself 
-    NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+    NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdent] autorelease];
     NSString *itemLabel = NSLocalizedString(itemIdent, @"String for toolbar label");
-    [toolbarItem setLabel: itemLabel];
-    [toolbarItem setPaletteLabel: itemLabel];
+    [toolbarItem setLabel:itemLabel];
+    [toolbarItem setPaletteLabel:itemLabel];
        
     // Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
-    [toolbarItem setToolTip: itemLabel];
-    [toolbarItem setImage: [NSImage imageNamed:itemIdent]];
+    [toolbarItem setToolTip:itemLabel];
+    [toolbarItem setImage:[NSImage imageNamed:itemIdent]];
     
     // Tell the item what message to send when it is clicked 
-    [toolbarItem setTarget: self];
-    [toolbarItem setAction: @selector(changePanes:)];
+    [toolbarItem setTarget:self];
+    [toolbarItem setAction:@selector(changePanes:)];
     
     return toolbarItem;
 }
@@ -142,28 +140,30 @@
 	return [NSArray arrayWithObjects:@"general", @"processing", @"presets", @"ratios", @"libraries", nil];
 }
 
-- (NSArray*) toolbarSelectableItemIdentifiers: (NSToolbar *) toolbar {
+- (NSArray*) toolbarSelectableItemIdentifiers:(NSToolbar *) toolbar {
 	return [self toolbarDefaultItemIdentifiers:toolbar];
 }
 
-- (NSArray*) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar {
+- (NSArray*) toolbarAllowedItemIdentifiers:(NSToolbar *) toolbar {
 	return [self toolbarDefaultItemIdentifiers:toolbar];
 }
+#pragma mark -
 
-
-# pragma mark WINDOW MANAGEMENT
-- (BOOL)windowShouldZoom:(NSWindow *)sender toFrame:(NSRect)newFrame
-{
+# pragma mark Window Management
+- (BOOL)windowShouldZoom:(NSWindow *)sender toFrame:(NSRect)newFrame {
     return NO;
 }
 - (void)awakeFromNib {
     [[self window] center];
 }
+#pragma mark -
 
+#pragma mark Properties
 @synthesize searchTemplatesPreferencesView;
 @synthesize generalPreferencesView;
 @synthesize presetsPreferencesView;
 @synthesize displayPreferencesView;
 @synthesize ratiosPreferencesView;
 @synthesize processingPreferencesView;
+
 @end

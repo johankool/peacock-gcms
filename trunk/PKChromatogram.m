@@ -612,7 +612,9 @@
  	} 
     return self;
 }
+#pragma mark -
 
+#pragma mark <#label#>
 - (NSString *)legendEntry {
     return model;
 }

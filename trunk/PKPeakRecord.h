@@ -43,6 +43,7 @@
 - (BOOL)confirm;
 - (void)discard;
 - (BOOL)identifyAsSearchResult:(PKSearchResult *)searchResult;
+- (BOOL)identifyAndConfirmAsSearchResult:(PKSearchResult *)searchResult;
 - (PKSearchResult *)addSearchResultForLibraryEntry:(PKManagedLibraryEntry *)aLibraryEntry;
 - (PKSearchResult *)addSearchResult:(PKSearchResult *)searchResult;
 - (PKLibraryEntry *)libraryEntryRepresentation;

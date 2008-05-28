@@ -8,6 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="700"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3090,7 +3091,7 @@
 				<string key="NSExtension">NSResponder</string>
 			</object>
 			<object class="NSCustomView" id="25410301">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3618,14 +3619,7 @@
 										<reference ref="460683223"/>
 										<string>.</string>
 										<reference ref="734262897"/>
-										<object class="NSDecimalNumberPlaceholder" id="1053608395">
-											<int key="NS.exponent">-12</int>
-											<int key="NS.length">1</int>
-											<bool key="NS.negative">NO</bool>
-											<bool key="NS.compact">YES</bool>
-											<int key="NS.mantissa.bo">1</int>
-											<bytes key="NS.mantissa">AQAAAAAAAAAAAAAAAAAAAA</bytes>
-										</object>
+										<real value="0.000000e+00" id="826913356"/>
 										<string>-#,##0.00</string>
 										<string>#,##0.00</string>
 										<reference ref="5"/>
@@ -3638,7 +3632,7 @@
 								<reference key="NS.zero" ref="306890357"/>
 								<reference key="NS.nil" ref="612027434"/>
 								<reference key="NS.nan" ref="506865536"/>
-								<reference key="NS.min" ref="1053608395"/>
+								<reference key="NS.min" ref="826913356"/>
 								<reference key="NS.max" ref="599542724"/>
 								<nil key="NS.rounding"/>
 								<string key="NS.decimal">,</string>
@@ -5112,6 +5106,7 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{229, 640}</string>
+				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 				<string key="NSExtension">NSResponder</string>
 			</object>
@@ -11682,6 +11677,7 @@
 					<string>69.ImportedFromIB2</string>
 					<string>70.IBPluginDependency</string>
 					<string>70.ImportedFromIB2</string>
+					<string>700.IBEditorWindowLastContentRect</string>
 					<string>700.IBPluginDependency</string>
 					<string>700.ImportedFromIB2</string>
 					<string>700.editorWindowContentRectSynchronizationRect</string>
@@ -12252,6 +12248,7 @@
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
+					<string>{{147, 72}, {229, 640}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{227, 170}, {229, 640}}</string>
@@ -12560,13 +12557,6 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">JKSourceTableView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
@@ -12580,7 +12570,7 @@
 							<string>RBSplitView</string>
 						</object>
 					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="110589815">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">RBSplitView/RBSplitView.h</string>
 					</object>
@@ -12680,6 +12670,14 @@
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">PKPanelController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">PKPanelController</string>
+					<string key="superclassName">NSWindowController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
 					</object>
@@ -12694,7 +12692,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">RBSplitSubview</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="960865839">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">RBSplitView/RBSplitViewPrivateDefines.h</string>
 					</object>
@@ -12714,20 +12712,15 @@
 						<string key="NS.key.0">delegate</string>
 						<string key="NS.object.0">id</string>
 					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">RBSplitView/RBSplitView.h</string>
-					</object>
+					<reference key="sourceIdentifier" ref="110589815"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">RBSplitView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">RBSplitView/RBSplitViewPrivateDefines.h</string>
-					</object>
+					<reference key="sourceIdentifier" ref="960865839"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">RBSplitView</string>
+					<string key="superclassName">RBSplitSubview</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
@@ -12736,7 +12729,7 @@
 			</object>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
-		<string key="IBDocument.LastKnownRelativeProjectPath">../../../Peacock.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">../../Peacock.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 	</data>
 </archive>

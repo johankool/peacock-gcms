@@ -93,6 +93,7 @@ enum JKPeakSelection {
 
 #pragma mark IBACTIONS
 - (IBAction)obtainBaseline:(id)sender;
+- (IBAction)removeBaseline:(id)sender;
 - (void)obtainBaselineForSelectedChromatograms:(id)sender;
 - (IBAction)identifyPeaks:(id)sender;
 - (void)identifyPeaksForSelectedChromatograms:(id)sender;

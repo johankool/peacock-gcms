@@ -31,4 +31,5 @@
 - (void)setName:(NSString *)inValue;
 - (NSString *)valueType;
 - (void)setValueType:(NSString *)inValue;
+
 @end

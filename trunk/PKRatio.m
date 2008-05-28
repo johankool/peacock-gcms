@@ -194,9 +194,8 @@
 }
 
 #pragma mark Encoding
-
 - (void)encodeWithCoder:(NSCoder *)coder{
-    if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
+    if ([coder allowsKeyedCoding]) { // Assuming 10.2 is quite safe!!
         [coder encodeInt:2 forKey:@"version"];
 		[coder encodeObject:name forKey:@"name"];
 		[coder encodeObject:formula forKey:@"formula"];
@@ -206,7 +205,7 @@
 }
 
 - (id)initWithCoder:(NSCoder *)coder{
-    if ( [coder allowsKeyedCoding] ) {
+    if ([coder allowsKeyedCoding]) {
         // Can decode keys in any order
         int version = [coder decodeIntForKey:@"version"];
 		name = [[coder decodeObjectForKey:@"name"] retain];

@@ -74,9 +74,10 @@
     [baselineRight release];
     [super dealloc];
 }
+#pragma mark -
 
--(PKLibraryEntry *)libraryEntryRepresentation
-{
+#pragma mark Library
+-(PKLibraryEntry *)libraryEntryRepresentation {
     PKLibraryEntry *libEntry = [[PKLibraryEntry alloc] init];
     [libEntry setName:[self label]];
     [libEntry setModel:[self model]];
@@ -139,7 +140,7 @@
         flagged = [coder decodeBoolForKey:@"flagged"]; 
        
         // Bug workaround for having multiple search results for confirmed peaks 
-        if (confirmed && identifiedSearchResult) {
+        if (confirmed && identifiedSearchResult && [searchResults count] > 1) {
             [self setSearchResults:[NSMutableArray arrayWithObject:identifiedSearchResult]];
         }
   	} else {
@@ -151,116 +152,6 @@
 #pragma mark -
 
 #pragma mark Actions
-- (BOOL)confirm {
-//    BOOL result;
-    int answer;
-    
-    if (![self identified]) {	
-        NSBeep();
-        PKLogWarning(@"Can not confirm a peak that is not identified.");
-        return NO;
-    }
-    
-    if (![[[self chromatogram] model] isEqualToModelString:[[identifiedSearchResult libraryHit] model]] && ![[[identifiedSearchResult libraryHit] model] isEqualToString:@""] && identifiedSearchResult) {   
-        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Model mismatch occurred",@""), NSLocalizedString(@"The model of the peak is different from the library entry. Are you sure you want to assign this library entry to this peak?",@""), NSLocalizedString(@"Assign",@""), NSLocalizedString(@"Cancel",@""),nil); // NSLocalizedString(@"Move Peak to Model",@"")
-        if (answer == NSOKButton) {
-            // Continue
-        } else if (answer == NSCancelButton) {
-            // Cancel
-            return NO;
-//        } else {
-//            // Move peak to chromatogram of the model in the libraryentry
-//            PKChromatogram *targetChrom = nil;
-//            if ([[self document] addChromatogramForModel:[[identifiedSearchResult libraryHit] model]]) {
-//                targetChrom = [[self document] chromatogramForModel:[[identifiedSearchResult libraryHit] model]];
-//                [targetChrom obtainBaseline];
-//            } else {
-//                targetChrom = [[self document] chromatogramForModel:[[identifiedSearchResult libraryHit] model]];
-//            }
-//            PKChromatogram *oldChrom = [self chromatogram];
-//            [targetChrom insertObject:self inPeaksAtIndex:[targetChrom countOfPeaks]];
-//            [oldChrom removeObjectFromPeaksAtIndex:[[oldChrom peaks] indexOfObject:self]];
-        }
-    }
-    
-    // check if there is already a peak with the same label
-    if ([[[self chromatogram] document] hasPeakConfirmedAs:[identifiedSearchResult libraryHit] notBeing:self]) {
-        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Library hit already assigned",@""),NSLocalizedString(@"There is already a confirmed peak with the same library hit. Usually only one peak should be assigned to a library entry. What action do you want to take?",@""), NSLocalizedString(@"Assign to This Peak Only",@""), NSLocalizedString(@"Cancel",@""), NSLocalizedString(@"Assign to Both Peaks",@""));
-        if (answer == NSOKButton) {
-            // Assign to This Peak Only
-            [[[self chromatogram] document] unconfirmPeaksConfirmedAs:[identifiedSearchResult libraryHit] notBeing:self];
-        } else if (answer == NSCancelButton) {
-            // Cancel
-            return NO;
-        } else {      
-            // Assign to Both Peaks
-        }        
-    }
-        
-//    // check if other peak with same top scan and offer to delete those
-//    if ([[[self chromatogram] document] hasPeakAtTopScan:[self top] notBeing:self]) {
-//        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Remove peaks in other models?",@""), NSLocalizedString(@"One or more peaks with the same top scan were found in other models. Most likely you want to identify and confirm a peak in one model only. Do you want to remove the peaks in the other models?",@""), NSLocalizedString(@"Delete",@""), NSLocalizedString(@"Keep",@""),nil);
-//        if (answer == NSOKButton) {
-//            // Delete
-//            [[[self chromatogram] document] removePeaksAtTopScan:[self top] notBeing:self];
-//        } else if (answer == NSCancelButton) {
-//            // Keep
-//        }     
-//    }
-    
-	if ([self identified]) {		
-		[self setConfirmed:YES];
-        [self setSearchResults:[NSMutableArray arrayWithObject:identifiedSearchResult]];
-        if (![[self undoManager] isUndoing]) {
-            [[self undoManager] setActionName:NSLocalizedString(@"Confirm Library Hit",@"Confirm Library Hit")];
-        }
-		return YES;		
-    }
-    
-    return NO;
-    
-//    else if ([searchResults count] > 0) {
-//        result = [self identifyAsSearchResult:[searchResults objectAtIndex:0]];
-//        if (result) {
-//            [self setConfirmed:YES];
-//            [self setSearchResults:[NSMutableArray arrayWithObject:identifiedSearchResult]];
-//            if (![[self undoManager] isUndoing]) {
-//                [[self undoManager] setActionName:NSLocalizedString(@"Confirm Library Hit",@"Confirm Library Hit")];
-//            }                
-//        }
-//        return result;
-//	} else {
-//        // Allow this to mark a peak as confirmed with having the proper library entry
-//        JKManagedLibraryEntry *managedLibEntry = [(JKAppDelegate *)[NSApp delegate] addLibraryEntryBasedOnPeak:self];
-//        if (managedLibEntry) {
-//            result = [self identifyAsLibraryEntry:[JKLibraryEntry libraryEntryWithJCAMPString:[managedLibEntry jcampString]]];
-//            if (result) {
-//                [self setConfirmed:YES]; 
-//                [self setSearchResults:[NSMutableArray arrayWithObject:identifiedSearchResult]];
-//            }
-//        } else {
-//            [self setConfirmed:YES];
-//            result = YES;
-//        }
-//        
-//        if (![[self undoManager] isUndoing]) {
-//            [[self undoManager] setActionName:NSLocalizedString(@"Confirm Library Hit",@"Confirm Library Hit")];
-//        }        
-//        return result;
-//	}
-}
-
-- (void)discard {
-    [self setIdentified:NO];
-	[self setConfirmed:NO];
-	[self setLabel:@""];
-	[self setSymbol:@""];
-	[self setIdentifiedSearchResult:nil];
-    if (![[self undoManager] isUndoing]) {
-        [[self undoManager] setActionName:NSLocalizedString(@"Discard Library Hit",@"Discard Library Hit")];
-    }    
-}
-
 - (PKSearchResult *)addSearchResult:(PKSearchResult *)searchResult {
 	if (![searchResults containsObject:searchResult]) {
         // Loop through searchResults and make sure we not already have a search result like this one
@@ -268,10 +159,6 @@
         BOOL foundMatch = NO;
         
         for (aSearchResult in searchResults) {
-//        	if ([[searchResult libraryHit] isCompound:[[aSearchResult libraryHit] name]]) {
-//                foundMatch = YES;
-//                searchResult = aSearchResult;
-//            }
         	if ([searchResult libraryHit] == [aSearchResult libraryHit]) {
                 foundMatch = YES;
                 searchResult = aSearchResult;
@@ -317,6 +204,112 @@
     return YES;
 }
 
+- (BOOL)identifyAndConfirmAsSearchResult:(PKSearchResult *)searchResult {
+    // Different from calling first identifyAs.. and confirm because will get back to previous state when confirmation is cancelled
+    int answer;
+    
+    // Check if models match
+    if (![[[self chromatogram] model] isEqualToModelString:[[searchResult libraryHit] model]] && ![[[searchResult libraryHit] model] isEqualToString:@""] && searchResult) {   
+        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Model mismatch occurred",@""), NSLocalizedString(@"The model of the peak is different from the library entry. Are you sure you want to assign this library entry to this peak?",@""), NSLocalizedString(@"Assign",@""), NSLocalizedString(@"Cancel",@""),nil);
+        if (answer == NSOKButton) {
+            // Continue
+        } else if (answer == NSCancelButton) {
+            // Cancel
+            return NO;
+        }
+    }
+    
+    // Check if there is already a peak with the same label
+    if ([[[self chromatogram] document] hasPeakConfirmedAs:[searchResult libraryHit] notBeing:self]) {
+        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Library hit already assigned",@""),NSLocalizedString(@"There is already a confirmed peak with the same library hit. Usually only one peak should be assigned to a library entry. What action do you want to take?",@""), NSLocalizedString(@"Assign to This Peak Only",@""), NSLocalizedString(@"Cancel",@""), NSLocalizedString(@"Assign to Both Peaks",@""));
+        if (answer == NSOKButton) {
+            // Assign to This Peak Only
+            [[[self chromatogram] document] unconfirmPeaksConfirmedAs:[searchResult libraryHit] notBeing:self];
+        } else if (answer == NSCancelButton) {
+            // Cancel
+            return NO;
+        } else {      
+            // Assign to Both Peaks
+        }        
+    }
+    
+    if (![self identifyAsSearchResult:searchResult]) {
+        return NO;
+    }
+    
+    [self setConfirmed:YES];
+    
+    // Remove all other search results
+    [self setSearchResults:[NSMutableArray arrayWithObject:identifiedSearchResult]];
+    
+    if (![[self undoManager] isUndoing]) {
+        [[self undoManager] setActionName:NSLocalizedString(@"Identify and Confirm Library Hit",@"Identify and Confirm Library Hit")];
+    }
+    
+    return YES;		
+    
+}
+
+- (BOOL)confirm {
+    int answer;
+    
+    // Check if peak is identified
+    if (![self identified]) {	
+        NSBeep();
+        PKLogWarning(@"Can not confirm a peak that is not identified.");
+        return NO;
+    }
+    
+    // Check if models match
+    if (![[[self chromatogram] model] isEqualToModelString:[[identifiedSearchResult libraryHit] model]] && ![[[identifiedSearchResult libraryHit] model] isEqualToString:@""] && identifiedSearchResult) {   
+        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Model mismatch occurred",@""), NSLocalizedString(@"The model of the peak is different from the library entry. Are you sure you want to assign this library entry to this peak?",@""), NSLocalizedString(@"Assign",@""), NSLocalizedString(@"Cancel",@""),nil);
+        if (answer == NSOKButton) {
+            // Continue
+        } else if (answer == NSCancelButton) {
+            // Cancel
+            return NO;
+        }
+    }
+    
+    // Check if there is already a peak with the same label
+    if ([[[self chromatogram] document] hasPeakConfirmedAs:[identifiedSearchResult libraryHit] notBeing:self]) {
+        answer = NSRunCriticalAlertPanel(NSLocalizedString(@"Library hit already assigned",@""),NSLocalizedString(@"There is already a confirmed peak with the same library hit. Usually only one peak should be assigned to a library entry. What action do you want to take?",@""), NSLocalizedString(@"Assign to This Peak Only",@""), NSLocalizedString(@"Cancel",@""), NSLocalizedString(@"Assign to Both Peaks",@""));
+        if (answer == NSOKButton) {
+            // Assign to This Peak Only
+            [[[self chromatogram] document] unconfirmPeaksConfirmedAs:[identifiedSearchResult libraryHit] notBeing:self];
+        } else if (answer == NSCancelButton) {
+            // Cancel
+            return NO;
+        } else {      
+            // Assign to Both Peaks
+        }        
+    }
+    
+    [self setConfirmed:YES];
+    
+    // Remove all other search results
+    [self setSearchResults:[NSMutableArray arrayWithObject:identifiedSearchResult]];
+    
+    if (![[self undoManager] isUndoing]) {
+        [[self undoManager] setActionName:NSLocalizedString(@"Confirm Library Hit",@"Confirm Library Hit")];
+    }
+    
+    return YES;		
+}
+
+- (void)discard {
+    [self setIdentified:NO];
+	[self setConfirmed:NO];
+	[self setLabel:@""];
+	[self setSymbol:@""];
+	[self setIdentifiedSearchResult:nil];
+    if (![[self undoManager] isUndoing]) {
+        [[self undoManager] setActionName:NSLocalizedString(@"Discard Library Hit",@"Discard Library Hit")];
+    }    
+}
+#pragma mark -
+
+#pragma mark Helper methods
 - (BOOL)isCompound:(NSString *)compoundString
 {
     compoundString = [compoundString lowercaseString];
@@ -342,8 +335,7 @@
 #pragma mark -
 
 #pragma mark PKTargetObjectProtocol
-- (NSDictionary *)substitutionVariables
-{
+- (NSDictionary *)substitutionVariables {
     int maximumMass = lroundf(pk_stats_float_max([[self spectrum] masses],[[self spectrum] numberOfPoints]));
     return [NSDictionary dictionaryWithObjectsAndKeys:
         [self model], @"model",
@@ -353,14 +345,6 @@
         [NSNumber numberWithInt:[self top]], @"scan",
         [NSNumber numberWithInt:[[self topTime] intValue]], @"time",
         nil];
-    //@"model",
-    //@"retentionIndex",
-    //@"label",
-    //@"maximumMass"
-    //@"maximumMassPlus50"
-    //@"maximumMassMinus50"
-    //@"scan"
-    //@"time"
 }
 #pragma mark -
 
