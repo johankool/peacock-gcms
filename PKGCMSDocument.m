@@ -32,6 +32,7 @@ NSString *const JKGCMSDocument_DocumentActivateNotification   = @"JKGCMSDocument
 NSString *const JKGCMSDocument_DocumentLoadedNotification     = @"JKGCMSDocument_DocumentLoadedNotification";
 NSString *const JKGCMSDocument_DocumentUnloadedNotification     = @"JKGCMSDocument_DocumentUnloadedNotification";
 int const JKGCMSDocument_Version = 7;
+int const kBatchSize = 5000;
 //static void *DocumentObservationContext = (void *)1100;
 
 @implementation PKGCMSDocument
@@ -1016,7 +1017,7 @@ int const JKGCMSDocument_Version = 7;
     if (plugIn) {
         NSObject <PKSpectraMatchingMethodProtocol> *object = [plugIn sharedObjectForMethod:spectraMatchingMethod];
         if (object) {
-            PKLogInfo(@"spectraMatchingObject is %@", object);
+            //PKLogInfo(@"spectraMatchingObject is %@", object);
             return object;
         } else {
             // Error 801
@@ -1093,54 +1094,7 @@ int const JKGCMSDocument_Version = 7;
         progressIndicator = [mainWindowController progressIndicator];
         progressText = [mainWindowController progressText];
     }
-    
-	[progressIndicator setDoubleValue:0.0];
-	[progressIndicator setIndeterminate:YES];
-	[progressIndicator startAnimation:self];
-	    
-    // Get library entries
-    [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:NSLocalizedString(@"Fetching Library Entries",@"") waitUntilDone:NO];
-    
-    PKLibrary *aLibrary = [[NSApp delegate] libraryForConfiguration:[self libraryConfiguration]];
-    refetchNeeded = [aLibrary requiresObjectForPredicateForSearchTemplate:[self searchTemplate]];
-    if (!refetchNeeded) {
-        libraryEntries = [aLibrary libraryEntriesWithPredicate:[aLibrary predicateForSearchTemplate:[self searchTemplate] andObject:nil]];  
-        if (!libraryEntries) {
-            // Error 303
-            // No Library Entries
-            NSString *errorString = NSLocalizedString(@"No Library Entries", @"error 303: No Library Entries");
-            NSString *recoverySuggestionString = NSLocalizedString(@"Ensure that the used library configuration and template will yield library entries.", @"error 303: No Library Entries recovery suggestion");
-            NSDictionary *userInfoDict =
-            [NSDictionary dictionaryWithObjectsAndKeys:errorString, NSLocalizedDescriptionKey, recoverySuggestionString, NSLocalizedRecoverySuggestionErrorKey, nil];
-            NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
-                                                           code:303
-                                                       userInfo:userInfoDict] autorelease];
-            *error = anError;
-            return NO;
-        }
-        entriesCount = [libraryEntries count];
-    }    
 
-    // Get Spectra Matching Object from Plugin
-    NSObject <PKSpectraMatchingMethodProtocol> *spectraMatchingObject = [self objectForSpectraMatching:error];
-    if (!spectraMatchingObject) {
-        // Error 810
-        // Spectra Matching Method could not be loaded
-        NSString *errorString = NSLocalizedString(@"Spectra Matching Method could not be loaded", @"error 810: Spectra Matching Method could not be loaded");
-        NSString *recoverySuggestionString = NSLocalizedString(@"Ensure that the plugins are installed properly.", @"error 810: Spectra Matching Method could not be loaded recovery suggestion");
-        NSDictionary *userInfoDict =
-        [NSDictionary dictionaryWithObjectsAndKeys:errorString, NSLocalizedDescriptionKey, recoverySuggestionString, NSLocalizedRecoverySuggestionErrorKey, nil];
-        NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
-                                                       code:810
-                                                   userInfo:userInfoDict] autorelease];
-        *error = anError;
-        
-        return NO;
-    }
-    // Restore method settings
-    [spectraMatchingObject setSettings:[self spectraMatchingSettingsForMethod:spectraMatchingMethod]];
-    [spectraMatchingObject prepareForAction];
-    
 	// Loop through inPeaks(=combined spectra) and determine score
     chromatogramCount = [someChromatograms count];
 	[progressIndicator setIndeterminate:NO];
@@ -1153,51 +1107,21 @@ int const JKGCMSDocument_Version = 7;
         peaksCount = [[chromatogramToSearch peaks] count];
         for (k = 0; k < peaksCount; k++) {
             peak = [[chromatogramToSearch peaks] objectAtIndex:k];
-            if (refetchNeeded) {
-                libraryEntries = [aLibrary libraryEntriesWithPredicate:[aLibrary predicateForSearchTemplate:[self searchTemplate] andObject:peak]];
-                if (!libraryEntries) {
-                    continue;
-                }                
-                entriesCount = [libraryEntries count];                
-            }
-            PKSpectrum *peakSpectrum = nil;
-            if (spectrumToUse == PKSpectrumSearchSpectrum) {
-                peakSpectrum = [peak spectrum];
-            } else if (spectrumToUse == JKCombinedSpectrumSearchSpectrum) {
-                peakSpectrum = [peak combinedSpectrum];
-            } else {
-                PKLogError(@"spectrumToUse has unexpected value.");
-            }
             
-            for (libraryEntry in libraryEntries) {
-//                score = [peakSpectrum scoreComparedTo:libraryEntry];    
-                score = [spectraMatchingObject matchingScoreForSpectrum:peakSpectrum comparedToLibraryEntry:libraryEntry error:error];
-
-                
-                if (score >= minimumScoreSearchResultsF) {
-                    PKSearchResult *searchResult = [[PKSearchResult alloc] init];
-                    [searchResult setScore:[NSNumber numberWithFloat:score]];
-                    [searchResult setLibraryHit:libraryEntry];
-                    [searchResult setPeak:peak];
-//                    [searchResult setType:spectrumToUse];
-                    [peak addSearchResult:searchResult];
-                    [searchResult release];
-                }
-            }
+            abortAction = ![self performForwardSearchLibraryForPeak:peak error:error];
+            
             [progressIndicator incrementBy:(k*1.0/peaksCount)/chromatogramCount];
-
+            
+            if(abortAction){
+                PKLogInfo(@"Identifying Compounds Search Aborted by User at entry %d/%d peak %d/%d.",j,entriesCount, k, peaksCount);
+                _isBusy = NO;
+                break;
+            } 
         }
-        if(abortAction){
-			PKLogInfo(@"Identifying Compounds Search Aborted by User at entry %d/%d peak %d/%d.",j,entriesCount, k, peaksCount);
-            _isBusy = NO;
-			break;
-		}       
+      
         [progressIndicator setDoubleValue:1.0*chromatogramCount];
     }
-    
-    // Notify the Spectra Matching Object that we are done
-    [spectraMatchingObject cleanUpAfterAction];
-	
+ 	
 	if (mainWindowController)
 		[[mainWindowController chromatogramView] setNeedsDisplay:YES];
 	
@@ -1266,10 +1190,41 @@ int const JKGCMSDocument_Version = 7;
     [progressIndicator setIndeterminate:NO];
 	[progressIndicator setMaxValue:[libraryEntries count]*1.0];
 
-    for (libraryEntry in libraryEntries) {
-        [libraryEntry willAccessValueForKey:nil];
-/*###1265 [cc] warning: type 'JKManagedLibraryEntry *' does not conform to the 'PKComparableProtocol' protocol%%%*/
-/*###1265 [cc] warning: type 'JKManagedLibraryEntry *' does not conform to the 'PKComparableProtocol' protocol%%%*/
+    int i, batchSize, count = [libraryEntries count];
+
+    // Preparation for a batch fetch request
+    NSManagedObjectContext *moc = [aLibrary managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"JKManagedLibraryEntry" inManagedObjectContext:moc];
+    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+    [request setEntity:entityDescription];
+    [request setReturnsObjectsAsFaults:NO];
+    [request setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObject:@"datapoints"]];
+    
+    NSAutoreleasePool *loopPool;
+    NSArray *unfaultedEntries;
+    NSMutableArray *searchResults = [NSMutableArray array];
+    
+    // Loop over the library entries
+    for (i = 0; i < count; i++) {
+        
+        if (i == 0 || i % kBatchSize == 0) {
+            loopPool = [[NSAutoreleasePool alloc] init];
+            
+            batchSize = kBatchSize;
+            if (count - (i+batchSize) < 0) {
+                batchSize = count-i;
+            }
+            
+            // Batch fault next 1000 (kBatchSize) (or what remains)
+            unfaultedEntries = [libraryEntries subarrayWithRange:NSMakeRange(i, batchSize)];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self IN %@", unfaultedEntries];
+            [request setPredicate:predicate];
+            
+            unfaultedEntries = [moc executeFetchRequest:request error:error];
+        }
+        
+        libraryEntry = [libraryEntries objectAtIndex:i];
+ 
         score = [spectraMatchingObject matchingScoreForSpectrum:peakSpectrum comparedToLibraryEntry:libraryEntry error:nil]; 
                     
         if (score >= minimumScoreSearchResultsF) {
@@ -1279,25 +1234,62 @@ int const JKGCMSDocument_Version = 7;
             [searchResult setPeak:aPeak];
 //            [searchResult setType:spectrumToUse];
             [aPeak addSearchResult:searchResult];
+            [searchResults addObject:libraryEntry];
             [searchResult release];
         }
-        
-        if(abortAction) { 
-            // Restore default library (otherwise dragging from libpanel doesn't work)
-            [(PKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
 
-            return YES;
+        if (i == count-1 || i % kBatchSize == kBatchSize-1) {
+            //PKLogDebug(@"i %d; faulting", i);
+
+            for (PKManagedLibraryEntry *entry in unfaultedEntries) {
+                if (![searchResults containsObject:entry]) {
+                    for (NSManagedObject *datapoint in entry.datapoints) {
+   //                     [moc refreshObject: mergeChanges:NO];
+//                        [moc refreshObject:[datapoint valueForKey:@"intensity"] mergeChanges:NO];
+ //                       id mass = [datapoint valueForKey:@"mass"];
+//                        id intensity = [datapoint valueForKey:@"intensity"];
+                       [moc refreshObject:datapoint mergeChanges:NO];
+ //                       if (mass) {
+//                            [mass release];
+//                        }
+//                        if (intensity) {
+//                            [intensity release];
+//                            NSLog(@"Blerwer");
+//                        }
+                    }
+                    [moc refreshObject:entry mergeChanges:NO];                    
+                }
+            }
+            
+            [loopPool release];
+            [progressIndicator setDoubleValue:1.0*i];
+            
+            if(abortAction) { 
+                // Restore default library (otherwise dragging from libpanel doesn't work)
+               // [(PKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
+                
+                // Error 400
+                // Spectra Matching Method could not be loaded
+                NSString *errorString = NSLocalizedString(@"User Aborted Action", @"error 400: User aborted action");
+                NSString *recoverySuggestionString = NSLocalizedString(@"You clicked the 'Stop' button to abort the running operation.", @"error 400: User aborted action recovery suggestion");
+                NSDictionary *userInfoDict =
+                [NSDictionary dictionaryWithObjectsAndKeys:errorString, NSLocalizedDescriptionKey, recoverySuggestionString, NSLocalizedRecoverySuggestionErrorKey, nil];
+                NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
+                                                               code:400
+                                                           userInfo:userInfoDict] autorelease];
+                *error = anError;
+                return NO;
+            }
+
         }
-        [progressIndicator performSelectorOnMainThread:@selector(incrementBy:) withObject:[NSNumber numberWithDouble:1.0] waitUntilDone:NO];
-//        [progressIndicator incrementBy:1.0];
     }
-
+    
     // Notify the Spectra Matching Object that we are done
     [spectraMatchingObject cleanUpAfterAction];
     
     // Restore default library (otherwise dragging from libpanel doesn't work)
-    [(PKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:@""];
-    [(PKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
+//    [(PKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:@""];
+//    [(PKAppDelegate *)[NSApp delegate] loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultConfiguration"]];
 //    _isBusy = NO;
 	return YES;
 }
@@ -1396,9 +1388,6 @@ int const JKGCMSDocument_Version = 7;
 		maximumScore = 0.0f;
 		maximumIndex = -1;
         libraryEntry = [libraryEntries objectAtIndex:j]; // can also be a spectrum!!
- 
-/*###1391 [cc] warning: receiver ‘JKManagedLibraryEntry’ is a forward class and corresponding @interface may not exist%%%*/
-/*###1391 [cc] warning: receiver ‘JKManagedLibraryEntry’ is a forward class and corresponding @interface may not exist%%%*/
         if ([libraryEntry isKindOfClass:[PKManagedLibraryEntry class]]) {
             [progressText performSelectorOnMainThread:@selector(setStringValue:) withObject:[NSString stringWithFormat:NSLocalizedString(@"Matching Library Entry '%@'",@""),[libraryEntry name]] waitUntilDone:NO];            
             [libraryEntry willAccessValueForKey:nil];
@@ -1464,8 +1453,6 @@ int const JKGCMSDocument_Version = 7;
 
 		for (k = 0; k < peaksCount; k++) {
  //           if (fabsf([[[[chromatogramToSearch peaks] objectAtIndex:k] retentionIndex] floatValue] - [[libraryEntry retentionIndex] floatValue]) < aMaximumRetentionIndexDifference) {
-/*###1456 [cc] warning: type 'JKManagedLibraryEntry *' does not conform to the 'PKComparableProtocol' protocol%%%*/
-/*###1456 [cc] warning: type 'JKManagedLibraryEntry *' does not conform to the 'PKComparableProtocol' protocol%%%*/
                 score = [spectraMatchingObject matchingScoreForSpectrum:[[[chromatogramToSearch peaks] objectAtIndex:k] spectrum] comparedToLibraryEntry:libraryEntry error:error];
 
                 if (score >= maximumScore) {

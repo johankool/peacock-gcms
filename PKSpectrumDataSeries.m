@@ -65,6 +65,13 @@ static void *PropertyObservationContext = (void *)1093;
 }
 
 - (void)dealloc {
+    [self setSeriesTitle:nil];
+    [self setKeyForXValue:nil];
+    [self setKeyForYValue:nil];
+    [self setKeyForXValue:nil];
+    [self setKeyForYValue:nil];
+    [self setSeriesColor:nil];
+    
     [spectrum release];
     [super dealloc];
 }

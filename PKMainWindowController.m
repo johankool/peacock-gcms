@@ -634,10 +634,11 @@ static void *PeaksObservationContext = (void *)1103;
     
     PKPeakRecord *peak;
     peak = [[peakController selectedObjects] objectAtIndex:0];
-    NSError *error;
+    NSError *error;// = [[NSError alloc] init];
     if (![(PKGCMSDocument *)[self document] performForwardSearchLibraryForPeak:peak error:&error]) {
         [self presentError:error];
     }	
+    //[error release];
     [self observeValueForKeyPath:@"selection.searchResults" ofObject:peakController change:nil context:PeaksObservationContext];
     //    [resultsTable reloadData];
     [NSApp performSelectorOnMainThread:@selector(endSheet:) withObject:progressSheet waitUntilDone:NO];

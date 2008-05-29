@@ -170,6 +170,11 @@
     
     NSSortDescriptor *sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"score" ascending:NO] autorelease];
     [searchResults sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+ //   // Max 50 search results.
+//    if ([searchResults count] > 50) {
+//        [self removeObjectFromSearchResultsAtIndex:50];
+//    }
+//        [searchResults removeObjectsInRange:NSMakeRange(50, [searchResults count]-50)];
     
     if ((searchResult == [searchResults objectAtIndex:0]) && ([[searchResult score] floatValue] >= [[[self document] markAsIdentifiedThreshold] floatValue])) {
         [self identifyAsSearchResult:searchResult];
