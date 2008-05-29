@@ -290,13 +290,9 @@
         // Show the library window
         [(PKAppDelegate *)[NSApp delegate] editLibrary:self];
         
-        // Wait until window is displayed
-//        while (![[[[(PKAppDelegate *)[NSApp delegate] library] libraryWindowController] window] isMainWindow]) {
-//            sleep(10);
-//            PKLogDebug(@"sleep 10");
-//        }
-        
-        
+        // We should wait until window is displayed, but how?!
+        // Everything signals to early that the window is done and loaded
+     
         // See which library entry is associated with the double clicked cell
         id lookedForLibEntry = [[[combinedPeaksController arrangedObjects] objectAtIndex:[sender clickedRow]] valueForKey:@"libraryEntry"];
         // PKLogDebug(@"libEntry = %@ with mocID %@", lookedForLibEntry, [lookedForLibEntry objectID]);

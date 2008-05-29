@@ -256,7 +256,7 @@
 		C729CAA70A4B45CD00FAB04F /* PKDataModelProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKDataModelProxy.h; sourceTree = "<group>"; };
 		C729CAA80A4B45CD00FAB04F /* PKDataModelProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKDataModelProxy.m; sourceTree = "<group>"; };
 		C72C8500098BE74300CEF565 /* Unit Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C72C8501098BE74400CEF565 /* Unit Testing-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Unit Testing-Info.plist"; sourceTree = "<group>"; };
+		C72C8501098BE74400CEF565 /* Unit Testing-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Unit Testing-Info.plist"; sourceTree = "<group>"; };
 		C72C8507098BE83600CEF565 /* PKSpectrumTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKSpectrumTest.h; sourceTree = "<group>"; };
 		C72C8508098BE83600CEF565 /* PKSpectrumTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKSpectrumTest.m; sourceTree = "<group>"; };
 		C72C85D5098BF1B800CEF565 /* PKGeneralTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKGeneralTesting.h; sourceTree = "<group>"; };

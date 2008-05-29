@@ -47,6 +47,8 @@
 - (void)datapointsRefresh;
 #pragma mark -
 
+@property (retain) NSSet *datapoints;
+
 #pragma mark Accessors (NSManagedObject style)
 - (NSString *)name;
 - (void)setName:(NSString *)newName;

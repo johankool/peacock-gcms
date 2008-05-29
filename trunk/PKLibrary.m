@@ -416,8 +416,7 @@
     }
     
 }
-- (NSPredicate *)predicateForSearchTemplate:(NSString *)searchTemplateName andObject:(id <PKTargetObjectProtocol>)targetObject
-{    
+- (NSPredicate *)predicateForSearchTemplate:(NSString *)searchTemplateName andObject:(id <PKTargetObjectProtocol>)targetObject {    
     // Get search template
     NSArray *searchTemplates = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"searchTemplates"];
     NSDictionary *searchTemplate;
@@ -431,7 +430,7 @@
         return nil;
     
     NSString *searchTemplateString = [searchTemplate valueForKey:@"searchTemplate"];
-    PKLogDebug(@"%@: %@",searchTemplateName, searchTemplateString);
+    // PKLogDebug(@"%@: %@",searchTemplateName, searchTemplateString);
     
     // Substitute values for targetSpectrum
     NSPredicate *predicate = [NSPredicate predicateWithFormat:searchTemplateString];
@@ -444,31 +443,21 @@
     return [predicate predicateWithSubstitutionVariables:substitutionDictionary];
 }
 
-- (NSArray *)libraryEntriesWithPredicate:(NSPredicate *)predicate
-{
+- (NSArray *)libraryEntriesWithPredicate:(NSPredicate *)predicate {
 	NSManagedObjectContext *moc = [self managedObjectContext];
-//    NSAssert([[moc registeredObjects] count] > 0, @"No registeredObjects in managedObjectContext?!");
-//    PKLogDebug(@"%d registeredObjects in managedObjectContext?!",[[moc registeredObjects] count]); // EXPENSIVE LOG!!
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"JKManagedLibraryEntry" inManagedObjectContext:moc];
     NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
     [request setEntity:entityDescription];
-//    [request setReturnsObjectsAsFaults:NO];
-    
-    //    // Set example predicate and sort orderings...
-    //    NSNumber *minimumSalary = ...;
-    //    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-    //        @"(lastName LIKE[c] 'Worsley') AND (salary > %@)", minimumSalary];
+        
     if (predicate)
         [request setPredicate:predicate];
-    
-//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"massWeight" ascending:YES];
-//    [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-//    [sortDescriptor release];
-    
+       
     NSError *error = [[NSError alloc] init];
+
+   // PKLogInfo(@"Fetching %d library entries", [moc countForFetchRequest:request error:&error]);
+
     NSArray *array = [moc executeFetchRequest:request error:&error];
-    if (array == nil)
-    {
+    if (!array) {
         // Deal with error...
         PKLogError(@"No library entries were found.");
         [self willPresentError:error];

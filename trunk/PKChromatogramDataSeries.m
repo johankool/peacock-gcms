@@ -172,48 +172,6 @@ static void *PropertyObservationContext = (void *)1093;
 	[bezierpath release];
 }
 
-//- (void)constructPlotPathOld {
-//	int i, count;
-//	NSPoint pointInUnits;
-//	NSBezierPath *bezierpath = [[NSBezierPath alloc] init];
-//	
-//	count = [[self dataArray] count];
-//	if (count <= 0) {	
-//		return;
-//	}
-//	
-//    NSString *keyToUseX;
-//    NSString *keyToUseY;
-//    float retentionSlope, retentionRemainder;
-//    
-//    if ([keyForXValue isEqualToString:NSLocalizedString(@"Retention Index", @"")]) {
-//        keyToUseX = [NSString stringWithString:NSLocalizedString(@"Scan", @"")];
-//        keyToUseY = [NSString stringWithString:NSLocalizedString(keyForYValue, @"")];
-//        retentionSlope = [[[chromatogram document] retentionIndexSlope] floatValue];
-//        retentionRemainder = [[[chromatogram document] retentionIndexRemainder] floatValue];
-//    } else {
-//        keyToUseX = [NSString stringWithString:NSLocalizedString(keyForXValue, @"")];
-//        keyToUseY = [NSString stringWithString:NSLocalizedString(keyForYValue, @"")];
-//        retentionSlope = 1.0f;
-//        retentionRemainder = 0.0f;
-//    }
-//    
-//    // Creeer het pad.
-//    [bezierpath moveToPoint:NSMakePoint([[[[self dataArray] objectAtIndex:0] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
-//                                        [[[[self dataArray] objectAtIndex:0] valueForKey:keyToUseY] floatValue]*[verticalScale floatValue]+[verticalOffset floatValue])];
-//    
-//    // We zouden eigenlijk moet controleren of de x- en y-waarden beschikbaar zijn.
-//    for (i=1; i<count; i++) {
-//        pointInUnits = NSMakePoint([[[[self dataArray] objectAtIndex:i] valueForKey:keyToUseX] floatValue] * retentionSlope + retentionRemainder,
-//                                   [[[[self dataArray] objectAtIndex:i] valueForKey:keyToUseY] floatValue]*[verticalScale floatValue]+[verticalOffset floatValue]);
-//        [bezierpath lineToPoint:pointInUnits];
-//    }
-//    
-//    [self setPlotPath:bezierpath];
-//	
-//	[bezierpath release];
-//}
-
 - (NSBezierPath *)baselineBezierPath {
 	int i, count;
 	NSPoint pointInUnits;

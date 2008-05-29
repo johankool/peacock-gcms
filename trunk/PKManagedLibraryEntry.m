@@ -15,6 +15,8 @@
 
 @implementation PKManagedLibraryEntry
 
+@dynamic datapoints;
+
 #pragma mark Initialization & deallocation
 - (id)init {
 	self = [super init];
@@ -639,18 +641,42 @@
 
 - (void)datapointsRefresh {
     int i = 0;
-    [self willAccessValueForKey:@"datapoints"];
-    numberOfPoints = [[self valueForKey:@"datapoints"] count];
+//    [self willAccessValueForKey:@"datapoints"];
+    numberOfPoints = [self.datapoints count];
     masses = (float *)realloc(masses, numberOfPoints*sizeof(float));
     intensities = (float *)realloc(intensities, numberOfPoints*sizeof(float));
     maxIntensity = 0.0f;
-    NSSet *datapoints = [self valueForKey:@"datapoints"];
-    NSSortDescriptor *massDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"mass"
+    
+    
+ //   NSManagedObjectContext *moc = [self managedObjectContext];
+//    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"PKDatapoint" inManagedObjectContext:moc];
+//    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+//    [request setEntity:entityDescription];
+//    [request setReturnsObjectsAsFaults:NO];
+//    
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self IN %@", self.datapoints];
+//    [request setPredicate:predicate];
+//    
+    NSSortDescriptor *massDescriptor = [[NSSortDescriptor alloc] initWithKey:@"mass"
                                                                     ascending:YES
-                                                                     selector:@selector(compare:)] autorelease];
-                                                         
-    NSArray *descriptors = [NSArray arrayWithObject:massDescriptor];
-    NSArray *dataarray = [[datapoints allObjects] sortedArrayUsingDescriptors:descriptors];
+                                                                     selector:@selector(compare:)];
+    
+    NSArray *descriptors = [[NSArray  alloc] initWithObjects:massDescriptor, nil];
+//    [request setSortDescriptors:descriptors];
+//        
+//    NSError *error = [[NSError alloc] init];
+//    NSArray *dataarray = [moc executeFetchRequest:request error:&error];
+    
+    NSArray *dataarray = [[NSArray alloc] initWithArray:[[self.datapoints allObjects] sortedArrayUsingDescriptors:descriptors]];
+    if (!dataarray)
+    {
+        // Deal with error...
+        PKLogError(@"No datapoints were found.");
+       // [self willPresentError:error];
+    }
+//    [error release];
+    
+    //NSSet *datapoints = [self valueForKey:@"datapoints"];
     for (id point in dataarray) {
         masses[i] = [[point valueForKey:@"mass"] floatValue];    
         intensities[i] = [[point valueForKey:@"intensity"] floatValue];    
@@ -658,11 +684,24 @@
             maxIntensity = intensities[i];
         i++;
     }
-    [self didAccessValueForKey:@"datapoints"];
-
+ //   [self didAccessValueForKey:@"datapoints"];
+    [dataarray release];
+    [massDescriptor release];
+    [descriptors release];
+    
     needDatapointsRefresh = NO;
 }
 
+//- (void)willTurnIntoFault {
+////    for (NSManagedObject *entry in self.datapoints) {
+////        [[self managedObjectContext] refreshObject:entry mergeChanges:NO];
+////    }
+//    needDatapointsRefresh = YES;
+//    numberOfPoints = 0;
+//    masses = (float *)realloc(masses, numberOfPoints*sizeof(float));
+//    intensities = (float *)realloc(intensities, numberOfPoints*sizeof(float));
+//}
+//
 - (float)maxIntensity {
     if (needDatapointsRefresh) {
         [self datapointsRefresh];
