@@ -29,6 +29,7 @@
 		C729CAA90A4B45CD00FAB04F /* PKDataModelProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = C729CAA70A4B45CD00FAB04F /* PKDataModelProxy.h */; };
 		C729CAAA0A4B45CD00FAB04F /* PKDataModelProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = C729CAA80A4B45CD00FAB04F /* PKDataModelProxy.m */; };
 		C72C85D7098BF1B800CEF565 /* PKGeneralTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C85D6098BF1B800CEF565 /* PKGeneralTesting.m */; };
+		C731E3FF0DEF81E0000B1734 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C73B27CE0CAD9EF600C09AAE /* PKSummarizer.h in Headers */ = {isa = PBXBuildFile; fileRef = C73B27CC0CAD9EF600C09AAE /* PKSummarizer.h */; };
 		C73B27CF0CAD9EF600C09AAE /* PKSummarizer.m in Sources */ = {isa = PBXBuildFile; fileRef = C73B27CD0CAD9EF600C09AAE /* PKSummarizer.m */; };
 		C73B27D80CB1224100C09AAE /* PKSummaryController.h in Headers */ = {isa = PBXBuildFile; fileRef = C73B27D60CB1224100C09AAE /* PKSummaryController.h */; };
@@ -55,6 +56,7 @@
 		C75C65A40CFE21EE003C7700 /* GetMetadataForFile.c in Sources */ = {isa = PBXBuildFile; fileRef = C75C65630CFE1A0F003C7700 /* GetMetadataForFile.c */; };
 		C75C66FE0CFE23AD003C7700 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		C75C67120CFE249A003C7700 /* Default Plugin.peacock-plugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7C589230CFDC4250009CDD9 /* Default Plugin.peacock-plugin */; };
+		C762DC2C0DEF4D8200214C4D /* NSManagedObject+DatapointAccessors.h in Headers */ = {isa = PBXBuildFile; fileRef = C762DC2B0DEF4D8200214C4D /* NSManagedObject+DatapointAccessors.h */; };
 		C76814070C05E66C00973566 /* PKManagedLibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F5E8F408EAA98600AC1068 /* PKManagedLibraryEntry.m */; };
 		C76814240C05E6F200973566 /* PKFilteringDNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AD38AC08B2A0D600A0F4BE /* PKFilteringDNDArrayController.m */; };
 		C7713B430950368F00653D2A /* PKBatchProcessWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7713B420950368F00653D2A /* PKBatchProcessWindowController.m */; };
@@ -73,7 +75,6 @@
 		C778A2CE0D4FD202005C95E0 /* PKAbundanceSpectraMatchingMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D4A5D30D2DB9B500E97AD4 /* PKAbundanceSpectraMatchingMethod.m */; };
 		C77E32B90C0F2CBB00B8A64A /* libraries.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E32B80C0F2CBB00B8A64A /* libraries.png */; };
 		C7834D4A0941EDAF005431CD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D490941EDAF005431CD /* libz.dylib */; };
-		C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C78602FB0DE88131007138CC /* PKGCMSDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78602EB0DE88131007138CC /* PKGCMSDocument.xib */; };
 		C78602FC0DE88131007138CC /* PKLibrary.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78602ED0DE88131007138CC /* PKLibrary.xib */; };
@@ -293,6 +294,7 @@
 		C75C65660CFE1A0F003C7700 /* schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = schema.xml; path = Spotlight/schema.xml; sourceTree = SOURCE_ROOT; };
 		C75C65700CFE1DA0003C7700 /* Peacock.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Peacock.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		C75C65710CFE1DA0003C7700 /* Spotlight-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Spotlight-Info.plist"; sourceTree = SOURCE_ROOT; };
+		C762DC2B0DEF4D8200214C4D /* NSManagedObject+DatapointAccessors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+DatapointAccessors.h"; sourceTree = "<group>"; };
 		C765B8AA0C23237A00C4F153 /* factoranalysis.R */ = {isa = PBXFileReference; explicitFileType = text.script; fileEncoding = 7; path = factoranalysis.R; sourceTree = "<group>"; };
 		C7680FBE0C035C4800973566 /* JKLibrary.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = JKLibrary.xcdatamodel; sourceTree = "<group>"; };
 		C7713B410950368F00653D2A /* PKBatchProcessWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKBatchProcessWindowController.h; sourceTree = "<group>"; };
@@ -464,12 +466,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C731E3FF0DEF81E0000B1734 /* Sparkle.framework in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				C716B4BD0AD6AA8F00DA408E /* CoreData.framework in Frameworks */,
 				C7BC7CD40CBB91A0006D121C /* ExceptionHandling.framework in Frameworks */,
 				C7EB185B0898D20E007FC2ED /* libnetcdf.a in Frameworks */,
 				C7834D4A0941EDAF005431CD /* libz.dylib in Frameworks */,
-				C7859AAC09CEBCE900351C87 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -885,6 +887,7 @@
 		C7F3EE900CE1F929008F7BBC /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				C762DC2B0DEF4D8200214C4D /* NSManagedObject+DatapointAccessors.h */,
 				C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */,
 				C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */,
 				C7C29ABB0B8B67530017B2B2 /* NSCoder+CArrayEncoding.h */,
@@ -944,6 +947,7 @@
 				C79CE62E0CF356CD00C2D872 /* PKGraphicalController.h in Headers */,
 				C7C588DC0CFD6DD10009CDD9 /* PKPluginProtocol.h in Headers */,
 				C7F5D0CF0D05794000DCD7C0 /* PKFlipView.h in Headers */,
+				C762DC2C0DEF4D8200214C4D /* NSManagedObject+DatapointAccessors.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1635,7 +1639,7 @@
 					ppc,
 					i386,
 				);
-				DEAD_CODE_STRIPPING = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = Frameworks;
 				GCC_DEBUGGING_SYMBOLS = default;

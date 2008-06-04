@@ -12,6 +12,7 @@
 #import "CFragment.h"
 #import "pk_statistics.h"
 #import "PKAppDelegate.h"
+#import "NSManagedObject+DatapointAccessors.h"
 
 @implementation PKManagedLibraryEntry
 
@@ -640,56 +641,34 @@
 }
 
 - (void)datapointsRefresh {
-    int i = 0;
-//    [self willAccessValueForKey:@"datapoints"];
-    numberOfPoints = [self.datapoints count];
+    [self willAccessValueForKey:@"datapoints"];
+    
+    NSSet *datapointsSet = self.datapoints;
+    numberOfPoints = [datapointsSet count];
     masses = (float *)realloc(masses, numberOfPoints*sizeof(float));
     intensities = (float *)realloc(intensities, numberOfPoints*sizeof(float));
     maxIntensity = 0.0f;
-    
-    
- //   NSManagedObjectContext *moc = [self managedObjectContext];
-//    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"PKDatapoint" inManagedObjectContext:moc];
-//    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-//    [request setEntity:entityDescription];
-//    [request setReturnsObjectsAsFaults:NO];
-//    
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self IN %@", self.datapoints];
-//    [request setPredicate:predicate];
-//    
-    NSSortDescriptor *massDescriptor = [[NSSortDescriptor alloc] initWithKey:@"mass"
-                                                                    ascending:YES
-                                                                     selector:@selector(compare:)];
-    
+      
+    NSSortDescriptor *massDescriptor = [[NSSortDescriptor alloc] initWithKey:@"mass" ascending:YES selector:@selector(compare:)];
     NSArray *descriptors = [[NSArray  alloc] initWithObjects:massDescriptor, nil];
-//    [request setSortDescriptors:descriptors];
-//        
-//    NSError *error = [[NSError alloc] init];
-//    NSArray *dataarray = [moc executeFetchRequest:request error:&error];
-    
-    NSArray *dataarray = [[NSArray alloc] initWithArray:[[self.datapoints allObjects] sortedArrayUsingDescriptors:descriptors]];
-    if (!dataarray)
-    {
-        // Deal with error...
-        PKLogError(@"No datapoints were found.");
-       // [self willPresentError:error];
-    }
-//    [error release];
-    
-    //NSSet *datapoints = [self valueForKey:@"datapoints"];
-    for (id point in dataarray) {
-        masses[i] = [[point valueForKey:@"mass"] floatValue];    
-        intensities[i] = [[point valueForKey:@"intensity"] floatValue];    
+
+    NSArray *dataarray = [[NSArray alloc] initWithArray:[[datapointsSet allObjects] sortedArrayUsingDescriptors:descriptors]];
+  
+    int i = 0;
+    for (NSManagedObject *point in dataarray) {
+        masses[i] = point.mass;
+        intensities[i] = point.intensity;    
         if (intensities[i] > maxIntensity)
             maxIntensity = intensities[i];
         i++;
     }
- //   [self didAccessValueForKey:@"datapoints"];
+    
     [dataarray release];
     [massDescriptor release];
     [descriptors release];
     
     needDatapointsRefresh = NO;
+    [self didAccessValueForKey:@"datapoints"];
 }
 
 //- (void)willTurnIntoFault {
