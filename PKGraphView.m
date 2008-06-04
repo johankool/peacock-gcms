@@ -1518,9 +1518,13 @@ static int   kPaddingLabels             = 4;
 	NSPoint mouseLocation = [self convertPoint:[theEvent locationInWindow] fromView:nil];
     PKPeakRecord *selectedPeak = nil;
     PKChromatogram *selectedChromatogram;
+/*###1521 [cc] warning: unused variable ‘selectedBaselinePoint’%%%*/
+/*###1521 [cc] warning: unused variable ‘selectedBaselinePoint’%%%*/
     NSDictionary *selectedBaselinePoint = nil;
 //    int selectedScan = NSNotFound;
     int selectedPeakIndex = NSNotFound;
+/*###1524 [cc] warning: unused variable ‘selectedBaselinePointIndex’%%%*/
+/*###1524 [cc] warning: unused variable ‘selectedBaselinePointIndex’%%%*/
     int selectedBaselinePointIndex = NSNotFound;
     
     switch (_startedOperation) {
@@ -1898,6 +1902,8 @@ static int   kPaddingLabels             = 4;
 }
 
 - (int)dataSeriesIndexAtPoint:(NSPoint)aPoint {
+/*###1901 [cc] warning: unused variable ‘chromatogram’%%%*/
+/*###1901 [cc] warning: unused variable ‘chromatogram’%%%*/
     PKChromatogram *chromatogram = nil;
     int i, count, dataSerieIndex;
     float dataSerieHeight;
