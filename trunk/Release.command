@@ -80,7 +80,7 @@ read -p "Press enter key to continue..."
 # Create DMG file (alternative method)
 echo
 echo "Creating DMG file"
-dmgcanvas -t Peacock.dmgCanvas -o ~/Releases/Peacock-releases/Peacock_$VERSION.dmg
+dmgcanvas -t Peacock.dmgCanvas -o ~/Developer/Releases/Peacock-releases/Peacock_$VERSION.dmg
 echo
 read -p "Press enter key to continue..."
 
