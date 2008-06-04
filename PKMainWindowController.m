@@ -219,7 +219,7 @@ static void *PeaksObservationContext = (void *)1103;
            didEndSelector:@selector(didEndSheet:returnCode:contextInfo:)
               contextInfo:nil];
     } else if ([[[self document] chromatograms] count] == 1) {
-        NSError *error;
+
         for (PKChromatogram *chromatogram in [chromatogramsController selectedObjects]) {
             [chromatogram setBaselinePoints:[NSMutableArray array]];
         }
@@ -231,7 +231,6 @@ static void *PeaksObservationContext = (void *)1103;
 }
 
 - (void)removeBaselineForSelectedChromatograms:(id)sender {
-    NSError *error;
     for (PKChromatogram *chromatogram in [chromatogramsController selectedObjects]) {
         [chromatogram setBaselinePoints:[NSMutableArray array]];
     }

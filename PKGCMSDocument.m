@@ -24,6 +24,7 @@
 #import "PKPluginProtocol.h"
 #import "PKSearchResult.h"
 #import "PKSpectrum.h"
+#import "NSManagedObject+DatapointAccessors.h"
 #import "netcdf.h"
 #import "pk_statistics.h"
 
@@ -1076,15 +1077,12 @@ int const kBatchSize = 5000;
 
 - (BOOL)performForwardSearchForChromatograms:(NSArray *)someChromatograms error:(NSError **)error {
     _isBusy = YES;
-	NSArray *libraryEntries = nil;
-    PKLibraryEntry *libraryEntry = nil;
     PKPeakRecord *peak = nil;
     PKChromatogram *chromatogramToSearch = nil;
 	int j,k,l;
 	int entriesCount, chromatogramCount, peaksCount;
-	float score;
-    float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];
-    BOOL refetchNeeded = YES;
+
+    
     
 	[self setAbortAction:NO];
     NSProgressIndicator *progressIndicator = nil;
@@ -1203,12 +1201,12 @@ int const kBatchSize = 5000;
     NSAutoreleasePool *loopPool;
     NSArray *unfaultedEntries;
     NSMutableArray *searchResults = [NSMutableArray array];
-    
+    loopPool = [[NSAutoreleasePool alloc] init];
     // Loop over the library entries
     for (i = 0; i < count; i++) {
         
         if (i == 0 || i % kBatchSize == 0) {
-            loopPool = [[NSAutoreleasePool alloc] init];
+           
             
             batchSize = kBatchSize;
             if (count - (i+batchSize) < 0) {
@@ -1241,27 +1239,19 @@ int const kBatchSize = 5000;
         if (i == count-1 || i % kBatchSize == kBatchSize-1) {
             //PKLogDebug(@"i %d; faulting", i);
 
+            // This makes faults out of the entries we don't need anymore
+            // We need to do this to clear up some memory
             for (PKManagedLibraryEntry *entry in unfaultedEntries) {
                 if (![searchResults containsObject:entry]) {
+                    // Oddly, it seems like our datapoints stick around unfaulted when faulting the lib entry, so we do it "by hand"
                     for (NSManagedObject *datapoint in entry.datapoints) {
-   //                     [moc refreshObject: mergeChanges:NO];
-//                        [moc refreshObject:[datapoint valueForKey:@"intensity"] mergeChanges:NO];
- //                       id mass = [datapoint valueForKey:@"mass"];
-//                        id intensity = [datapoint valueForKey:@"intensity"];
-                       [moc refreshObject:datapoint mergeChanges:NO];
- //                       if (mass) {
-//                            [mass release];
-//                        }
-//                        if (intensity) {
-//                            [intensity release];
-//                            NSLog(@"Blerwer");
-//                        }
+                         [moc refreshObject:datapoint mergeChanges:NO];
                     }
                     [moc refreshObject:entry mergeChanges:NO];                    
                 }
             }
             
-            [loopPool release];
+            [loopPool drain];
             [progressIndicator setDoubleValue:1.0*i];
             
             if(abortAction) { 
@@ -1283,7 +1273,7 @@ int const kBatchSize = 5000;
 
         }
     }
-    
+    [loopPool release];
     // Notify the Spectra Matching Object that we are done
     [spectraMatchingObject cleanUpAfterAction];
     

@@ -179,7 +179,7 @@ typedef enum {
 - (int)dataSeriesIndexAtPoint:(NSPoint)aPoint;
 - (NSMutableDictionary *)pointAtPoint:(NSPoint)aPoint;
 - (int)massAtPoint:(NSPoint)aPoint;
-- (NSDictionary *)baselinePointAtPoint:(NSPoint)aPoint;
+//- (NSDictionary *)baselinePointAtPoint:(NSPoint)aPoint;
 
 #pragma mark MOUSE
 - (void)setCursorForOperation:(JKOperations)operation;

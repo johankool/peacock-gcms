@@ -830,47 +830,47 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
 
 #pragma mark Exception Handling
 //
-// Disabled, because it can be very noisy
+// Disable ?, because it can be very noisy
 //
-//- (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldHandleException:(NSException *)exception mask:(unsigned int)aMask {
-//    if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue] >= JK_VERBOSITY_DEBUG) {
-//        [self printStackTrace:exception];
-//        return YES;
-//    } else {
-//        return NO;
-//    }
-//}
-//
-//- (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldLogException:(NSException *)exception mask:(unsigned int)mask {
-//    if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue] >= JK_VERBOSITY_DEBUG) {
-//        [self printStackTrace:exception];
-//        return YES;
-//    } else {
-//        return NO;
-//    }
-//}
-//
-//- (void)printStackTrace:(NSException *)e {
-//    NSString *stack = [[e userInfo] objectForKey:NSStackTraceKey];
-//    if (stack) {
-//        NSTask *ls = [[NSTask alloc] init];
-//        NSString *pid = [[NSNumber numberWithInt:[[NSProcessInfo processInfo] processIdentifier]] stringValue];
-//        NSMutableArray *args = [NSMutableArray arrayWithCapacity:20];
-//        
-//        [args addObject:@"-p"];
-//        [args addObject:pid];
-//        [args addObjectsFromArray:[stack componentsSeparatedByString:@"  "]];
-//        // Note: function addresses are separated by double spaces, not a single space.
-//        
-//        [ls setLaunchPath:@"/usr/bin/atos"];
-//        [ls setArguments:args];
-//        [ls launch];
-//        [ls release];
-//        
-//    } else {
-//        PKLogDebug(@"No stack trace available.");
-//    }
-//}
+- (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldHandleException:(NSException *)exception mask:(unsigned int)aMask {
+    if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue] >= JK_VERBOSITY_DEBUG) {
+        [self printStackTrace:exception];
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+- (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldLogException:(NSException *)exception mask:(unsigned int)mask {
+    if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue] >= JK_VERBOSITY_DEBUG) {
+        [self printStackTrace:exception];
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+- (void)printStackTrace:(NSException *)e {
+    NSString *stack = [[e userInfo] objectForKey:NSStackTraceKey];
+    if (stack) {
+        NSTask *ls = [[NSTask alloc] init];
+        NSString *pid = [[NSNumber numberWithInt:[[NSProcessInfo processInfo] processIdentifier]] stringValue];
+        NSMutableArray *args = [NSMutableArray arrayWithCapacity:20];
+        
+        [args addObject:@"-p"];
+        [args addObject:pid];
+        [args addObjectsFromArray:[stack componentsSeparatedByString:@"  "]];
+        // Note: function addresses are separated by double spaces, not a single space.
+        
+        [ls setLaunchPath:@"/usr/bin/atos"];
+        [ls setArguments:args];
+        [ls launch];
+        [ls release];
+        
+    } else {
+        PKLogDebug(@"No stack trace available.");
+    }
+}
 #pragma mark -
 
 #pragma mark Properties

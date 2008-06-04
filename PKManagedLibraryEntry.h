@@ -47,7 +47,7 @@
 - (void)datapointsRefresh;
 #pragma mark -
 
-@property (retain) NSSet *datapoints;
+@property (retain, nonatomic) NSSet *datapoints;
 
 #pragma mark Accessors (NSManagedObject style)
 - (NSString *)name;
@@ -94,3 +94,5 @@
 - (void)setSynonyms:(NSString *)newsynonyms;
 
 @end
+
+

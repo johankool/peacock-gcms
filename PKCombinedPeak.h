@@ -45,8 +45,9 @@
 - (NSString *)symbol;
 - (void)setSymbol:(NSString *)label;      
 
-- (NSNumber *)retentionIndex;
+//- (NSNumber *)retentionIndex;
 - (NSString *)group;
+- (void)setGroup:(NSString *)newGroup;
 
 - (PKLibraryEntry *)libraryEntry;
 - (void)setLibraryEntry:(PKLibraryEntry *)libraryEntry;
