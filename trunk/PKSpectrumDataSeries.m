@@ -110,9 +110,11 @@ static void *PropertyObservationContext = (void *)1093;
 	int i, count;
 	NSPoint pointInUnits, pointInUnits2;
 	NSBezierPath *bezierpath = [[NSBezierPath alloc] init];
-	
+	    
 	count = [[self dataArray] count];
 	if (count <= 0) {	
+        [self setPlotPath:bezierpath];
+        [bezierpath release];
 		return;
 	}
 	if (count == 1) {

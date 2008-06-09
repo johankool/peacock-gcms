@@ -643,18 +643,29 @@
 - (void)datapointsRefresh {
     [self willAccessValueForKey:@"datapoints"];
     
-    NSSet *datapointsSet = self.datapoints;
-    numberOfPoints = [datapointsSet count];
+    numberOfPoints = [self.datapoints count];
     masses = (float *)realloc(masses, numberOfPoints*sizeof(float));
     intensities = (float *)realloc(intensities, numberOfPoints*sizeof(float));
     maxIntensity = 0.0f;
-      
+    
+    NSManagedObjectContext *moc = [self managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"PKDatapoint" inManagedObjectContext:moc];
+    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+    [request setEntity:entityDescription];
+    [request setReturnsObjectsAsFaults:NO];
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self IN %@", self.datapoints];
+    [request setPredicate:predicate];
+    
     NSSortDescriptor *massDescriptor = [[NSSortDescriptor alloc] initWithKey:@"mass" ascending:YES selector:@selector(compare:)];
     NSArray *descriptors = [[NSArray alloc] initWithObjects:massDescriptor, nil];
 
-    NSArray *dataarray = [[NSArray alloc] initWithArray:[[datapointsSet allObjects] sortedArrayUsingDescriptors:descriptors]];
+    [request setSortDescriptors:descriptors];
+        
+    NSError *error = [[NSError alloc] init];
+    NSArray *dataarray = [moc executeFetchRequest:request error:&error];
+    [error release];
 
-#warning WAAAYYY to slow, back to batch-fetch!!
     int i = 0;
     for (NSManagedObject *point in dataarray) {
         masses[i] = [[point valueForKey:@"mass"] floatValue]; //point.mass;
@@ -664,7 +675,7 @@
         i++;
     }
     
-    [dataarray release];
+//    [dataarray release];
     [massDescriptor release];
     [descriptors release];
     
@@ -672,16 +683,16 @@
     [self didAccessValueForKey:@"datapoints"];
 }
 
-//- (void)willTurnIntoFault {
-////    for (NSManagedObject *entry in self.datapoints) {
-////        [[self managedObjectContext] refreshObject:entry mergeChanges:NO];
-////    }
-//    needDatapointsRefresh = YES;
-//    numberOfPoints = 0;
-//    masses = (float *)realloc(masses, numberOfPoints*sizeof(float));
-//    intensities = (float *)realloc(intensities, numberOfPoints*sizeof(float));
-//}
-//
+- (void)willTurnIntoFault {
+//    for (NSManagedObject *entry in self.datapoints) {
+//        [[self managedObjectContext] refreshObject:entry mergeChanges:NO];
+//    }
+    needDatapointsRefresh = YES;
+    numberOfPoints = 0;
+    masses = (float *)realloc(masses, numberOfPoints*sizeof(float));
+    intensities = (float *)realloc(intensities, numberOfPoints*sizeof(float));
+}
+
 - (float)maxIntensity {
     if (needDatapointsRefresh) {
         [self datapointsRefresh];
