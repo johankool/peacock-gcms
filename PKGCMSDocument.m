@@ -1196,7 +1196,7 @@ int const kBatchSize = 5000;
     NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
     [request setEntity:entityDescription];
     [request setReturnsObjectsAsFaults:NO];
-    [request setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObject:@"datapoints"]];
+//    [request setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObject:@"datapoints"]];
     
     NSAutoreleasePool *loopPool;
     NSArray *unfaultedEntries;

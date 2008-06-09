@@ -335,6 +335,8 @@ static int   kPaddingLabels             = 4;
 		[[NSBezierPath bezierPathWithRect:[self plottingArea]] stroke];
 
     if ([[self dataSeries] count] == 0) {
+        [noShadow release];
+        [shadow release];
         return;
     }
     // Draw plotting inside the plotting area

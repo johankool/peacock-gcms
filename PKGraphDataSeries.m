@@ -46,6 +46,10 @@ static void *ArrayObservationContext = (void *)1092;
     if (observeData) {
         [self stopObservingData:[self dataArray]];
     }
+    [self setAcceptableKeysForLabel:nil];
+    [self setAcceptableKeysForXValue:nil];
+    [self setAcceptableKeysForYValue:nil];
+    [self setOldData:nil];
     
     [seriesTitle release];
     [keyForXValue release];
