@@ -10,7 +10,7 @@
 		};
 	};
 	2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
-		activeBuildConfigurationName = Debug;
+		activeBuildConfigurationName = Release;
 		activeExecutable = C7EB17970898CF04007FC2ED /* Peacock */;
 		activeTarget = 8D15AC270486D014006FF6A4 /* Peacock */;
 		addToTargets = (
@@ -1346,6 +1346,10 @@
 			C7B590670DFD30FC001A4358 = C7B590670DFD30FC001A4358 /* PBXTextBookmark */;
 			C7B590680DFD30FD001A4358 = C7B590680DFD30FD001A4358 /* PBXTextBookmark */;
 			C7B590710DFD3103001A4358 = C7B590710DFD3103001A4358 /* PBXTextBookmark */;
+			C7B590D70DFD6176001A4358 /* PlistBookmark */ = C7B590D70DFD6176001A4358 /* PlistBookmark */;
+			C7B590D80DFD6176001A4358 /* PlistBookmark */ = C7B590D80DFD6176001A4358 /* PlistBookmark */;
+			C7B590DE0DFD617D001A4358 /* PlistBookmark */ = C7B590DE0DFD617D001A4358 /* PlistBookmark */;
+			C7B590DF0DFD617F001A4358 /* PlistBookmark */ = C7B590DF0DFD617F001A4358 /* PlistBookmark */;
 			C7BB87340DE889A000121E67 = C7BB87340DE889A000121E67 /* PBXTextBookmark */;
 			C7BB87350DE889A000121E67 = C7BB87350DE889A000121E67 /* PBXTextBookmark */;
 			C7BB87360DE889A000121E67 = C7BB87360DE889A000121E67 /* PBXTextBookmark */;
@@ -14188,6 +14192,50 @@
 		rType = 0;
 		vrLen = 825;
 		vrLoc = 25790;
+	};
+	C7B590D70DFD6176001A4358 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/trunk/Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	C7B590D80DFD6176001A4358 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/trunk/Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	C7B590DE0DFD617D001A4358 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/trunk/Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	C7B590DF0DFD617F001A4358 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Volumes/Macintosh HD/Users/jkool/Developer/Peacock/trunk/Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
 	};
 	C7BB34FC0D1AEE310065B99C /* Errors */ = {
 		uiCtxt = {
