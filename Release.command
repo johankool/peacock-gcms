@@ -1,7 +1,10 @@
 #!/bin/sh
 cd "`dirname \"$0\"`"
 
+echo
 echo "Peacock Release Script"
+echo "----------------------"
+echo
 
 # Update to latest build
 echo
@@ -14,6 +17,8 @@ read -p "Press enter key to continue when done..."
 echo
 echo "Checking status working directory"
 svn status
+echo
+echo "If there are any files listed, use ctrl-C to abort the release."
 echo
 read -p "Press enter key to continue when done..."
 
@@ -28,7 +33,6 @@ PREVIOUSSUBVERSIONVERSION=`curl -s $SUFEEDURL | grep -o "sparkle:version=\W\w*\W
 echo "Previous SVN version = $PREVIOUSSUBVERSIONVERSION"
 echo
 read -p "Press enter key to continue..."
-#read -p 'Previous SVN version (e.g. 88) : ' PREVIOUSSUBVERSIONVERSION
 
 # Create release notes for Credits.rtf
 echo
@@ -54,12 +58,12 @@ echo "Current SVN version = $SUBVERSIONVERSION"
 echo
 read -p "Press enter key to continue..."
 
-# # Check status
-# echo
-# echo "Checking status working directory"
-# svn status
-# echo
-# read -p "Press enter key to continue when done..."
+# Check status
+echo
+echo "Checking status working directory"
+svn status
+echo
+read -p "Press enter key to continue when done..."
 
 # Build Release
 echo
@@ -68,15 +72,6 @@ xcodebuild -configuration Release | grep "warning"|"error"
 echo
 read -p "Press enter key to continue..."
 
-# # Create DMG file
-# echo
-# echo "Launching DMG Packager"
-# open -a ~/Applications/DMG\ Packager.app
-# echo
-# echo "Next click 'Package DMG'"
-# echo
-# read -p "Press enter key to continue when done..."
-
 # Create DMG file (alternative method)
 echo
 echo "Creating DMG file"
@@ -84,12 +79,15 @@ dmgcanvas -t Peacock.dmgCanvas -o ~/Developer/Releases/Peacock-releases/Peacock_
 echo
 read -p "Press enter key to continue..."
 
-# Rename file and get some info
+# Determine DSA signature and file length
 echo
 echo "Determining DSA signature for file"
 DSA=`openssl dgst -sha1 -binary < ~/Developer/Releases/Peacock-releases/Peacock_$VERSION.dmg | openssl dgst -dss1 -sign dsa_priv.pem | openssl enc -base64`
-#MD5=`md5 ~/Developer/Releases/Peacock-releases/Peacock_$VERSION.dmg | sed 's/^.*= //'`
+echo "DSA signature = $DSA"
 LENGTH=`ls -l ~/Developer/Releases/Peacock-releases/Peacock_$VERSION.dmg | sed 's/.* jkool *//' | sed 's/ .*//'`
+echo "Length = $LENGTH bytes"
+echo
+read -p "Press enter key to continue..."
 
 # Upload to website
 echo
