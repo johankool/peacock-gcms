@@ -650,14 +650,15 @@
     maxIntensity = 0.0f;
       
     NSSortDescriptor *massDescriptor = [[NSSortDescriptor alloc] initWithKey:@"mass" ascending:YES selector:@selector(compare:)];
-    NSArray *descriptors = [[NSArray  alloc] initWithObjects:massDescriptor, nil];
+    NSArray *descriptors = [[NSArray alloc] initWithObjects:massDescriptor, nil];
 
     NSArray *dataarray = [[NSArray alloc] initWithArray:[[datapointsSet allObjects] sortedArrayUsingDescriptors:descriptors]];
-  
+
+#warning WAAAYYY to slow, back to batch-fetch!!
     int i = 0;
     for (NSManagedObject *point in dataarray) {
-        masses[i] = point.mass;
-        intensities[i] = point.intensity;    
+        masses[i] = [[point valueForKey:@"mass"] floatValue]; //point.mass;
+        intensities[i] = [[point valueForKey:@"intensity"] floatValue];    
         if (intensities[i] > maxIntensity)
             maxIntensity = intensities[i];
         i++;

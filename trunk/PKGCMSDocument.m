@@ -1205,7 +1205,7 @@ int const kBatchSize = 5000;
     // Loop over the library entries
     for (i = 0; i < count; i++) {
         
-        if (i == 0 || i % kBatchSize == 0) {
+        if (i % kBatchSize == 0) {
            
             
             batchSize = kBatchSize;
@@ -1236,7 +1236,7 @@ int const kBatchSize = 5000;
             [searchResult release];
         }
 
-        if (i == count-1 || i % kBatchSize == kBatchSize-1) {
+        if (i % batchSize == batchSize-1) {
             //PKLogDebug(@"i %d; faulting", i);
 
             // This makes faults out of the entries we don't need anymore
