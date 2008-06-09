@@ -190,12 +190,6 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
     // Custom level debug verbosity
     JKSetVerbosityLevel([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue]);
     
-#ifndef DEBUG
-    // High level debug verbosity always during debug
-    JKSetVerbosityLevel(JK_VERBOSITY_ALL);
-    PKLogDebug(@"Peacock is now running in Debug mode");
-#endif
-
 #warning [BUG] Auto-save disabled
     // Auto-save doesn't seem to work because it seems to get confused about the file-type it should use to save the file
     

@@ -124,8 +124,6 @@ static struct init s_MathFunctions[]=
 
 - (const char*)		expressionCString
 {
-/*###127 [cc] warning: ‘cString’ is deprecated (declared at /System/Library/Frameworks/Foundation.framework/Headers/NSString.h:345)%%%*/
-/*###127 [cc] warning: ‘cString’ is deprecated (declared at /System/Library/Frameworks/Foundation.framework/Headers/NSString.h:345)%%%*/
 	return [[self expression] cStringUsingEncoding:NSASCIIStringEncoding];
 }
 
@@ -137,8 +135,6 @@ static struct init s_MathFunctions[]=
 	p = [self getSymbol:key];
 	
 	if ( p == NULL )
-/*###138 [cc] warning: ‘cString’ is deprecated (declared at /System/Library/Frameworks/Foundation.framework/Headers/NSString.h:345)%%%*/
-/*###138 [cc] warning: ‘cString’ is deprecated (declared at /System/Library/Frameworks/Foundation.framework/Headers/NSString.h:345)%%%*/
 		p = [self initSymbol:[key cStringUsingEncoding:NSASCIIStringEncoding] ofType:VAR];
 
 	if ( p )
@@ -161,8 +157,6 @@ static struct init s_MathFunctions[]=
 
 - (symbol*)			getSymbol:(NSString*) key
 {
-/*###160 [cc] warning: ‘cString’ is deprecated (declared at /System/Library/Frameworks/Foundation.framework/Headers/NSString.h:345)%%%*/
-/*###160 [cc] warning: ‘cString’ is deprecated (declared at /System/Library/Frameworks/Foundation.framework/Headers/NSString.h:345)%%%*/
 	return [self getSymbolForCString:[key cStringUsingEncoding:NSASCIIStringEncoding]];
 }
 
