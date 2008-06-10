@@ -633,7 +633,7 @@ static void *PeaksObservationContext = (void *)1103;
     
     PKPeakRecord *peak;
     peak = [[peakController selectedObjects] objectAtIndex:0];
-    NSError *error;// = [[NSError alloc] init];
+    NSError *error;// = nil;
     if (![(PKGCMSDocument *)[self document] performForwardSearchLibraryForPeak:peak error:&error]) {
         [self presentError:error];
     }	

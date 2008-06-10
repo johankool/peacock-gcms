@@ -83,7 +83,7 @@
 	[fileProgressIndicator setMaxValue:filesCount*8.0];
 	[fileProgressIndicator setDoubleValue:0.0];
 	
-	NSError *error = [[NSError alloc] init];
+	NSError *error = nil;
 	PKGCMSDocument *document;
     PKGraphView *chromatogramView;
 	NSString *path;

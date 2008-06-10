@@ -694,7 +694,7 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
     pathEnum = [bundlePaths objectEnumerator]; 
     while (currPath = [pathEnum nextObject]) { 
         currBundle = [NSBundle bundleWithPath:currPath]; 
-        NSError *error = [[NSError alloc] init];
+        NSError *error = nil;
         if (![currBundle loadAndReturnError:&error]) {
             [self presentError:error];
             continue;

@@ -302,7 +302,7 @@
 }
 //#pragma mark optimization_level 3
 - (float)scoreComparedTo:(id <PKComparableProtocol>)libraryEntry usingMethod:(int)scoreBasis penalizingForRententionIndex:(BOOL)penalizeForRetentionIndex { // Could be changed to id <protocol> to resolve warning	
-    NSError *error = [[NSError alloc] init];
+    NSError *error = nil;
 
     NSAssert([self document], @"document is nil?!");
     NSObject <PKSpectraMatchingMethodProtocol> *spectraMatchingObject = [[self document] objectForSpectraMatching:&error];

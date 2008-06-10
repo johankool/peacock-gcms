@@ -17,7 +17,7 @@
 - (void) setUp
 {
     // Create data structures here.
-    NSError *error = [[NSError alloc] init];
+    NSError *error = nil;
 	BOOL result;
 	
 	// Open CDF document
@@ -77,7 +77,7 @@
     [PeacockDocument addChromatogramForModel:@"100"];
     PKChromatogram *chrom100 = [PeacockDocument chromatogramForModel:@"100"];
     STAssertNotNil(chrom100, @"Could not get m/z 100 chromatogram");
-    NSError *error = [[NSError alloc] init];
+    NSError *error = nil;
     BOOL result = [chrom100 detectBaselineAndReturnError:&error];
     [error release];
     STAssertTrue(result, @"Could not detect baseline");
@@ -88,7 +88,7 @@
     [PeacockDocument addChromatogramForModel:@"100"];
     PKChromatogram *chrom100 = [PeacockDocument chromatogramForModel:@"100"];
     STAssertNotNil(chrom100, @"Could not get m/z 100 chromatogram");
-    NSError *error = [[NSError alloc] init];
+    NSError *error = nil;
     BOOL result = [chrom100 detectPeaksAndReturnError:&error];
     [error release];
     STAssertTrue(result, @"Could not detect baseline");

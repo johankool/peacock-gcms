@@ -452,7 +452,7 @@
     if (predicate)
         [request setPredicate:predicate];
        
-    NSError *error = [[NSError alloc] init];
+    NSError *error = nil;
 
    // PKLogInfo(@"Fetching %d library entries", [moc countForFetchRequest:request error:&error]);
 
