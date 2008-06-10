@@ -305,16 +305,19 @@
 								<string>1058C7A8FEA54F5311CA2CBB</string>
 								<string>19C28FB0FE9D524F11CA2CBB</string>
 								<string>1C37FBAC04509CD000000102</string>
+								<string>C7AA75F40DFF2BA300BA5307</string>
 								<string>1C37FAAC04509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>0</integer>
+									<integer>178</integer>
+									<integer>176</integer>
+									<integer>175</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {185, 624}}</string>
+							<string>{{0, 1952}, {185, 624}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -357,7 +360,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C7AA75E00DFF1AB800BA5307</string>
+										<string>C7AA75FA0DFF2CD100BA5307</string>
 										<key>history</key>
 										<array>
 											<string>C7AD47DF0D8DBBA50091E3E8</string>
@@ -498,7 +501,6 @@
 											<string>C762DA470DEEE7A100214C4D</string>
 											<string>C762DA840DEEFA0500214C4D</string>
 											<string>C762DA9A0DEEFF0000214C4D</string>
-											<string>C762DACF0DEF014100214C4D</string>
 											<string>C762DB570DEF1D1500214C4D</string>
 											<string>C762DBC90DEF255D00214C4D</string>
 											<string>C762DBDD0DEF26F500214C4D</string>
@@ -523,7 +525,8 @@
 											<string>C7AA75D60DFF1AB500BA5307</string>
 											<string>C7AA75D70DFF1AB500BA5307</string>
 											<string>C7AA75D80DFF1AB500BA5307</string>
-											<string>C7AA75DE0DFF1AB500BA5307</string>
+											<string>C7AA75EB0DFF1FED00BA5307</string>
+											<string>C7AA75F60DFF2C6700BA5307</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -695,6 +698,8 @@
 											<string>C7AA75DB0DFF1AB500BA5307</string>
 											<string>C7AA75DC0DFF1AB500BA5307</string>
 											<string>C7AA75DD0DFF1AB500BA5307</string>
+											<string>C7AA75ED0DFF1FED00BA5307</string>
+											<string>C7AA75EE0DFF1FED00BA5307</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -731,7 +736,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {377, -27}}</string>
+										<string>{{10, 27}, {892, 268}}</string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -880,6 +885,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXProjectModuleGUID</key>
@@ -1016,7 +1023,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>234822328.66253701</real>
+	<real>234826961.791446</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
