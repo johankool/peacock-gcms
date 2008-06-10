@@ -254,8 +254,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -358,10 +356,6 @@
 										<string>C7FAB8900D82ED6C007A1DE4</string>
 										<key>PBXProjectModuleLabel</key>
 										<string>PKRatiosController.m</string>
-										<key>_historyCapacity</key>
-										<integer>0</integer>
-										<key>bookmark</key>
-										<string>C7AA75AC0DFF18CE00BA5307</string>
 										<key>history</key>
 										<array>
 											<string>C7AD47DF0D8DBBA50091E3E8</string>
@@ -528,7 +522,6 @@
 											<string>C7AA75960DFF187300BA5307</string>
 											<string>C7AA75970DFF187300BA5307</string>
 											<string>C7AA75980DFF187300BA5307</string>
-											<string>C7AA75A30DFF18C400BA5307</string>
 										</array>
 										<key>nextStack</key>
 										<array>
@@ -699,15 +692,7 @@
 											<string>C762DC350DEF4ECA00214C4D</string>
 											<string>C731E4B70DF74328000B1734</string>
 											<string>C762DAB60DEF009700214C4D</string>
-											<string>C7AA755C0DFF153700BA5307</string>
-											<string>C7AA755D0DFF153700BA5307</string>
 											<string>C7AA756D0DFF15E300BA5307</string>
-											<string>C7AA759A0DFF187300BA5307</string>
-											<string>C7AA759B0DFF187300BA5307</string>
-											<string>C7AA759C0DFF187300BA5307</string>
-											<string>C7AA759D0DFF187300BA5307</string>
-											<string>C7AA759E0DFF187300BA5307</string>
-											<string>C7AA759F0DFF187300BA5307</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -746,7 +731,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {892, 184}}</string>
+										<string>{{10, 27}, {377, -27}}</string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -768,6 +753,8 @@
 									<string>PBXProjectFindModule</string>
 								</dict>
 								<dict>
+									<key>BecomeActive</key>
+									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXCVSModuleFilterTypeKey</key>
@@ -801,7 +788,9 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {892, 184}}</string>
+										<string>{{10, 27}, {892, 268}}</string>
+										<key>RubberWindowFrame</key>
+										<string>-1 95 1099 683 0 0 1280 778 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXCVSModule</string>
@@ -822,8 +811,6 @@
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {892, 268}}</string>
-										<key>RubberWindowFrame</key>
-										<string>-1 95 1099 683 0 0 1280 778 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>
@@ -851,11 +838,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>C7AA75630DFF154700BA5307</string>
+				<string>C7AA75CA0DFF19C700BA5307</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>C7AA75640DFF154700BA5307</string>
+				<string>C7AA75CB0DFF19C700BA5307</string>
 				<string>C7FAB88F0D82ED6C007A1DE4</string>
-				<string>C7AA75650DFF154700BA5307</string>
+				<string>C7AA75CC0DFF19C700BA5307</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -1027,7 +1014,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>234821838.356958</real>
+	<real>234822087.923103</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
@@ -1042,8 +1029,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>C7AA757B0DFF168100BA5307</string>
-		<string>C7AA757C0DFF168100BA5307</string>
 		<string>/Users/jkool/Developer/Peacock/trunk/Peacock.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
