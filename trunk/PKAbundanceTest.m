@@ -22,7 +22,7 @@
 - (void)testCalculations {
     PKAbundanceSpectraMatchingMethod *matchObject = [[PKAbundanceSpectraMatchingMethod alloc] init];
     STAssertNotNil(matchObject, @"Could not init PKAbundanceSpectraMatchingMethod.");
-    NSError *error = [[NSError alloc] init];
+    NSError *error = nil;
     PKSpectrum *spectrum = [[PKSpectrum alloc] init];
     PKManagedLibraryEntry *libraryEntry = [[PKManagedLibraryEntry alloc] init];
     CGFloat result = [matchObject matchingScoreForSpectrum:spectrum comparedToLibraryEntry:libraryEntry error:&error];

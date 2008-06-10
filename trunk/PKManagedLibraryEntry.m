@@ -662,7 +662,7 @@
 
     [request setSortDescriptors:descriptors];
         
-    NSError *error = [[NSError alloc] init];
+    NSError *error = nil;
     NSArray *dataarray = [moc executeFetchRequest:request error:&error];
     [error release];
 
@@ -684,14 +684,7 @@
 }
 
 - (void)willTurnIntoFault {
-    // Forcefully faulting, we *NEED* that memory back!
-    for (NSManagedObject *entry in self.datapoints) {
-//        [[entry valueForKey:@"mass"] release];
-//        [[entry valueForKey:@"intensity"] release];
-//        [[self managedObjectContext] refreshObject:[entry valueForKey:@"mass"] mergeChanges:NO];
-//        [[self managedObjectContext] refreshObject:[entry valueForKey:@"intensity"] mergeChanges:NO];
-        [[self managedObjectContext] refreshObject:entry mergeChanges:NO];
-    }
+    // Reduce allocated memory
     needDatapointsRefresh = YES;
     numberOfPoints = 0;
     masses = (float *)realloc(masses, numberOfPoints*sizeof(float));

@@ -489,7 +489,7 @@ int const kBatchSize = 5000;
 #pragma mark IBActions
 - (IBAction)openNext:(id)sender {
 	NSArray *content = [[NSFileManager defaultManager] directoryContentsAtPath:[[self fileName] stringByDeletingLastPathComponent]];
-	NSError *error = [[NSError alloc] init];
+	NSError *error = nil;
 	BOOL openNext = NO;
 	for (id loopItem in content) {
 		if (openNext) {

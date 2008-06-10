@@ -168,7 +168,7 @@
 
 - (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
     if (returnCode == NSOKButton) {
-        NSError *error = [[[NSError alloc] init] autorelease];
+        NSError *error = nil;
         if (![self writeToURL:[sheet URL] ofType:@"public.text" error:&error]) {
             [self presentError:error];
         }
@@ -348,7 +348,19 @@
             [document addChromatogramForModel:model];
             PKChromatogram *chromatogram = [document chromatogramForModel:model];
             NSAssert(chromatogram, @"No chromatogram for requested model returned.");
-            [chromatogram detectPeaksAndReturnError:nil];
+            NSError *error = nil;
+            if ([chromatogram countOfBaselinePoints] < 2) {
+                [chromatogram detectBaselineAndReturnError:&error];
+            }
+            if (error) {
+                [self presentError:error];
+                return;
+            }
+            [chromatogram detectPeaksAndReturnError:&error];
+            if (error) {
+                [self presentError:error];
+                return;
+            }
             [chromatogramsController setSelectedObjects:[NSArray arrayWithObject:chromatogram]];
             // Find peak closest to averageRetentionTime
             float retTime = [[combinedPeak averageRetentionIndex] floatValue];

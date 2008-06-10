@@ -104,7 +104,7 @@
 
 - (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
     if (returnCode == NSOKButton) {
-        NSError *error = [[[NSError alloc] init] autorelease];
+        NSError *error = nil;
         if (![self writeToURL:[sheet URL] ofType:@"public.text" error:&error]) {
             [self presentError:error];
         }
