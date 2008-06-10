@@ -188,27 +188,6 @@
 	<string>http://peacock.johankool.nl/peacock.xml</string>
 	<key>SUScheduledCheckInterval</key>
 	<integer>86400</integer>
-	<key>SUExpectsDSASignature</key>
-	<true/>
-	<key>SUPublicDSAKey</key>
-	<string>MIIDPDCCAi4GByqGSM44BAEwggIhAoIBAQDzmSSB6Ex8wFj2go4K2quXiXg9KHQ+
-	TGAZWoNvrhHhUWCbVNBaD4j1h+JxHq0wY6PhU0LGCeymLLufu1Z2keCGY6OWTqYb
-	MpkELF6uJL+wQBv3p3NPtAzhIu96Q7qhSxrYvGOe3WrjsQOp1wc8Xt0KR+NQ5wBb
-	5GUW6eaY2Irc23LuNGXRWOS7EUawQAA3x9yIhYJtfq4ABFvRZXLEj+KBiJ2+HL4g
-	LAkZxVk2jpG2qiZOuAagmOIpzwfX5IKmaXRPNdBEgT3XZ/+QF6Ztbw8B2iHaRJ45
-	E6VgYPXO8xx85QdQ6Nsdk/HWQ8Viw7k+gH/YRJngrlqOaOCLZhJLBK1/AhUAxwuz
-	1UQJW3+gXuzdFFU4Yy9TCKcCggEBAJxIWuMY3c0LV+5Jxw2iVfzGEF5M6cNTVnWJ
-	SkA1JCGwhp2HBvyiiB+oEx/DCnf6h2ZNSGmOIc5Z2VEFhO0xuv0hH+0MpoWys8vS
-	Q3C2YfbpbV3xEoByoNaTv9HJFDbCBXQT2EEf0mddrXncMDGPaDYiXDrKKMx8UtHz
-	uHQYCu6jJKtXBYPCZv/5EzzhNEiG6hegLggAaEn7npaFCbfcw4gLBQjcOdxsfsNI
-	gjS31Fv+LeSIROtFJUrQBpW+SflAk4ubdgydSvVRfrOnkIt4SRj9Aq2C5THLjPD0
-	4IXncVH5xIp3vm8MB74yyoP56I0Ok6l7IZ0jx/Ik3k9EtEXZKMMDggEGAAKCAQEA
-	x0hp4pJWv3PaWsYn8ll8XFV0xWql1qdE3b4sEts6ARYD6jdK1yelzONVGApHpT8b
-	wD1uUAgZMbGOKtSxbhKDmGXI9wBuMisKRi5DAz9mpexIY0QnY6UgGtKx7souPhwq
-	LjISHIIMBMLBCJYf6VllzMDD9gOLlAWMAyCxCLKKCs/pnlU+OfgaWwljtxpwYxhI
-	j0YYbQNGdMaAKjbbSINDUEqNRBqn46PY9A/D7XsM6AQ9XSw7IvAWtcWayk0gT9N4
-	SDqn8ZfDFx2NFOSVF9Ok/nHek9KgJjQWgzadv7YkmvsqQ+6UqkoDZZPXNilGXWVv
-	G0d3yja05ajgQkTsWpZQHA==</string>
 	<key>SmartCrashReports_CommentsTemplate</key>
 	<string>Please include your e-mail address if you wish to be contacted in regard to this crash.</string>
 	<key>SmartCrashReports_CompanyName</key>

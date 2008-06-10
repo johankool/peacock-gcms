@@ -474,6 +474,22 @@
 			C7AA75DE0DFF1AB500BA5307 /* PlistBookmark */ = C7AA75DE0DFF1AB500BA5307 /* PlistBookmark */;
 			C7AA75DF0DFF1AB800BA5307 /* PlistBookmark */ = C7AA75DF0DFF1AB800BA5307 /* PlistBookmark */;
 			C7AA75E00DFF1AB800BA5307 /* PlistBookmark */ = C7AA75E00DFF1AB800BA5307 /* PlistBookmark */;
+			C7AA75E70DFF1B3000BA5307 /* PlistBookmark */ = C7AA75E70DFF1B3000BA5307 /* PlistBookmark */;
+			C7AA75E80DFF1B3100BA5307 /* PlistBookmark */ = C7AA75E80DFF1B3100BA5307 /* PlistBookmark */;
+			C7AA75E90DFF1B3100BA5307 /* PlistBookmark */ = C7AA75E90DFF1B3100BA5307 /* PlistBookmark */;
+			C7AA75EA0DFF1FE000BA5307 /* PlistBookmark */ = C7AA75EA0DFF1FE000BA5307 /* PlistBookmark */;
+			C7AA75EB0DFF1FED00BA5307 /* PBXTextBookmark */ = C7AA75EB0DFF1FED00BA5307 /* PBXTextBookmark */;
+			C7AA75EC0DFF1FED00BA5307 /* PlistBookmark */ = C7AA75EC0DFF1FED00BA5307 /* PlistBookmark */;
+			C7AA75ED0DFF1FED00BA5307 /* PlistBookmark */ = C7AA75ED0DFF1FED00BA5307 /* PlistBookmark */;
+			C7AA75EE0DFF1FED00BA5307 /* PBXTextBookmark */ = C7AA75EE0DFF1FED00BA5307 /* PBXTextBookmark */;
+			C7AA75EF0DFF1FED00BA5307 /* PlistBookmark */ = C7AA75EF0DFF1FED00BA5307 /* PlistBookmark */;
+			C7AA75F30DFF2BA300BA5307 /* PlistBookmark */ = C7AA75F30DFF2BA300BA5307 /* PlistBookmark */;
+			C7AA75F50DFF2BA300BA5307 /* PlistBookmark */ = C7AA75F50DFF2BA300BA5307 /* PlistBookmark */;
+			C7AA75F60DFF2C6700BA5307 /* PlistBookmark */ = C7AA75F60DFF2C6700BA5307 /* PlistBookmark */;
+			C7AA75F70DFF2C7500BA5307 /* PlistBookmark */ = C7AA75F70DFF2C7500BA5307 /* PlistBookmark */;
+			C7AA75F90DFF2CD100BA5307 /* PlistBookmark */ = C7AA75F90DFF2CD100BA5307 /* PlistBookmark */;
+			C7AA75FA0DFF2CD100BA5307 /* PlistBookmark */ = C7AA75FA0DFF2CD100BA5307 /* PlistBookmark */;
+			C7AA75FB0DFF2CF900BA5307 /* PlistBookmark */ = C7AA75FB0DFF2CF900BA5307 /* PlistBookmark */;
 			C7AD47C80D8DB78D0091E3E8 = C7AD47C80D8DB78D0091E3E8 /* PBXTextBookmark */;
 			C7AD47CB0D8DB78D0091E3E8 = C7AD47CB0D8DB78D0091E3E8 /* PBXTextBookmark */;
 			C7AD47DA0D8DB8040091E3E8 = C7AD47DA0D8DB8040091E3E8 /* PBXTextBookmark */;
@@ -4058,6 +4074,194 @@
 		rLen = 0;
 		rLoc = 2147483647;
 	};
+	C7AA75E70DFF1B3000BA5307 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleShortVersionString,
+		);
+		name = /Users/jkool/Developer/Peacock/trunk/Info.plist;
+		rLen = 4;
+		rLoc = 0;
+	};
+	C7AA75E80DFF1B3100BA5307 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleShortVersionString,
+		);
+		name = /Users/jkool/Developer/Peacock/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	C7AA75E90DFF1B3100BA5307 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleShortVersionString,
+		);
+		name = /Users/jkool/Developer/Peacock/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	C7AA75EA0DFF1FE000BA5307 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleShortVersionString,
+		);
+		name = /Users/jkool/Developer/Peacock/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	C7AA75EB0DFF1FED00BA5307 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7BB34FC0D1AEE310065B99C /* Errors */;
+		name = "Errors: 25";
+		rLen = 0;
+		rLoc = 1236;
+		rType = 0;
+		vrLen = 624;
+		vrLoc = 1098;
+	};
+	C7AA75EC0DFF1FED00BA5307 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleShortVersionString,
+		);
+		name = /Users/jkool/Developer/Peacock/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	C7AA75ED0DFF1FED00BA5307 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleShortVersionString,
+		);
+		name = /Users/jkool/Developer/Peacock/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	C7AA75EE0DFF1FED00BA5307 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7BB34FC0D1AEE310065B99C /* Errors */;
+		name = "Errors: 25";
+		rLen = 0;
+		rLoc = 1236;
+		rType = 0;
+		vrLen = 624;
+		vrLoc = 1098;
+	};
+	C7AA75EF0DFF1FED00BA5307 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleShortVersionString,
+		);
+		name = /Users/jkool/Developer/Peacock/trunk/Info.plist;
+		rLen = 4;
+		rLoc = 0;
+	};
+	C7AA75F30DFF2BA300BA5307 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleShortVersionString,
+		);
+		name = /Users/jkool/Developer/Peacock/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	C7AA75F50DFF2BA300BA5307 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleShortVersionString,
+		);
+		name = /Users/jkool/Developer/Peacock/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	C7AA75F60DFF2C6700BA5307 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			SmartCrashReports_CommentsTemplate,
+		);
+		name = /Users/jkool/Developer/Peacock/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	C7AA75F70DFF2C7500BA5307 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			SmartCrashReports_CommentsTemplate,
+		);
+		name = /Users/jkool/Developer/Peacock/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	C7AA75F90DFF2CD100BA5307 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			SmartCrashReports_CommentsTemplate,
+		);
+		name = /Users/jkool/Developer/Peacock/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	C7AA75FA0DFF2CD100BA5307 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			SmartCrashReports_CommentsTemplate,
+		);
+		name = /Users/jkool/Developer/Peacock/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	C7AA75FB0DFF2CF900BA5307 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			NSHumanReadableCopyright,
+		);
+		name = /Users/jkool/Developer/Peacock/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
 	C7AD38AB08B2A0D600A0F4BE /* PKFilteringDNDArrayController.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1012, 392}}";
@@ -4180,9 +4384,9 @@
 	};
 	C7BB34FC0D1AEE310065B99C /* Errors */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 770}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 770}}";
 			sepNavSelRange = "{1236, 0}";
-			sepNavVisRange = "{1098, 765}";
+			sepNavVisRange = "{1098, 624}";
 			sepNavWindowFrame = "{{896, 115}, {733, 771}}";
 		};
 	};
