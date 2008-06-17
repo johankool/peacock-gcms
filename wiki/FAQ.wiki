@@ -1,0 +1,49 @@
+#summary Frequently asked questions answered.
+#labels Featured
+
+= FAQ =
+
+== Data ==
+
+*How do I get my GC/MS data into Peacock?*
+
+You need to export your data as AIA NetCDF files from your acquisition software or use 3rd part software such as [http://www.palisade-ms.com/masstransit.htm MASSTransit] from Palisade Mass Spectrometry to convert your files.
+
+Some software packages that come with GC/MS machines include a tool for this. For example MassLab ships with a DBRIDGE executable. The export method for HP ChemStation is described in [http://www.massfinder.com/MassFinderChemStation.pdf this tutorial]. You might want to check if such a tool is included with or incorporated into the software currently used with your GC/MS.
+
+*Which file formats are supported?*
+
+Only AIA NetCDF for data files.
+
+== Library ==
+
+*How can I use a library with Peacock?*
+
+Peacock can import and edit libraries that are in the JCAMP-DX format. In order to use your library for compound identification you need to save it in Peacock's native library file format using the Save-as command. This is needed to allow better performance as JCAMP-DX is a very lose file format making it expensive to parse. Libraries need to be stored in the folder "~/Library/Application Support/Peacock/Libraries/". Peacock's library file format is subject to change, so keep a copy of your libraries in JCAMP-DX around.
+
+*Which library file formats are supported?*
+
+Peacock should parse JCAMP-DX as well as the HP variant of JCAMP-DX correctly. Note that this file format is poorly defined. If you have trouble reading a certain JCAMP file, please sent me a sample file.
+
+*Are there any tools that I can use to convert other library formats into JCAMP-DX?*
+
+There are some tools available to convert between library formats. Some software packages that come with GC/MS machines include a tool for this. For example MassLab ships with a DBRIDGE executable. The export method for HP ChemStation is described in [http://www.massfinder.com/MassFinderChemStation.pdf this tutorial]. You might want to check if such a tool is included with or incorporated into the software currently used with your GC/MS.
+
+The commercial (Windows based) software [http://www.palisade-ms.com/masstransit.htm MASSTransit] from Palisade Mass Spectrometry is capable of converting many library formats to amongst others JCAMP-DX. Only suitable for user libraries of up to 1,000 entries.
+
+[http://chemdata.nist.gov/mass-spc/Srch_v1.7/index.html=VERSION_1.7_UPGRADE LIB2NIST] (Windows based) can export HP-JCAMP formatted libraries which can be read by Peacock. It can only convert libraries consisting of less than 65,535 entries. [http://chemdata.nist.gov/mass-spc/Srch_v1.7/lib2nist.zip download]
+
+*Are there any free GC/MS libraries?*
+
+The [http://www.ualberta.ca/~gjones/mslib.htm AAFS Drug Library] is made available by dr. Graham Jones. It is a compilation of over 2300 pure drug spectra and/or GC breakdown products, including many replicate entries. This drug library contains spectra for several hundred different substances. A copy of this library is included in the Peacock distribution as one of the test files.
+
+== Other Operating Systems  ==
+
+*Can you release a version for Mac OS X 10.4.x or earlier?*
+
+Due to technological developments in Mac OS X 10.5 of which are taken advantage in Peacock, it is not possible to compile a version of Peacock compatible with earlier versions of Mac OS X. The development resources that are needed to write a version for 10.3 are beyond my spare time. [http://peacock.johankool.nl/releases/Peacock_0.23.dmg Version 0.23] is the last version that can be used under Mac OS X 10.4.
+
+*Can you release a version for Windows or Linux?*
+
+This is unlike to become possible in the near future. Initiatives such as [http://www.cocotron.org/ Cocotron] might make this possible at some point, but this not currently a viable method of releasing a version of Peacock for any other platform than Mac OS X.
+
