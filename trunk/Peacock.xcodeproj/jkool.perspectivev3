@@ -234,10 +234,13 @@
 				<string>NSToolbarFlexibleSpaceItem</string>
 				<string>buildOrClean</string>
 				<string>build-and-goOrGo</string>
+				<string>debugger-enable-breakpoints</string>
 				<string>com.apple.ide.PBXToolbarStopButton</string>
-				<string>get-info</string>
+				<string>show-inspector</string>
 				<string>toggle-editor</string>
+				<string>Quick Model</string>
 				<string>NSToolbarFlexibleSpaceItem</string>
+				<string>researchAssistant</string>
 				<string>com.apple.pbx.toolbar.searchfield</string>
 			</array>
 			<key>ControllerClassBaseName</key>
@@ -298,6 +301,7 @@
 								<string>C77E68C60C3A9F0D0051B016</string>
 								<string>C7EB17F90898CFBC007FC2ED</string>
 								<string>C7EB18070898CFBD007FC2ED</string>
+								<string>C72C85C8098BF12600CEF565</string>
 								<string>2A37F4C3FDCFA73011CA2CEA</string>
 								<string>1058C7A8FEA54F5311CA2CBB</string>
 								<string>19C28FB0FE9D524F11CA2CBB</string>
@@ -313,7 +317,7 @@
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {185, 624}}</string>
+							<string>{{0, 1838}, {185, 624}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -330,7 +334,7 @@
 							<real>185</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>-1 345 1099 683 0 0 1680 1028 </string>
+						<string>-1 95 1099 683 0 0 1280 778 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -358,7 +362,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C7D36C060E08225600D56E1B</string>
+										<string>C722E90D0E087D7F009EA848</string>
 										<key>history</key>
 										<array>
 											<string>C75D7D260DA26E2C0082D3AE</string>
@@ -522,7 +526,7 @@
 											<string>C78B31FF0E01C89D00D5961F</string>
 											<string>C78B32280E01CE5C00D5961F</string>
 											<string>C78B32290E01CE5C00D5961F</string>
-											<string>C78B32370E01CE6700D5961F</string>
+											<string>C722E8F90E082CB7009EA848</string>
 										</array>
 										<key>nextStack</key>
 										<array>
@@ -705,7 +709,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {892, 421}}</string>
 								<key>RubberWindowFrame</key>
-								<string>-1 345 1099 683 0 0 1680 1028 </string>
+								<string>-1 95 1099 683 0 0 1280 778 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -728,7 +732,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {892, 189}}</string>
+										<string>{{10, 27}, {377, -27}}</string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -787,7 +791,7 @@
 										<key>Frame</key>
 										<string>{{10, 27}, {892, 189}}</string>
 										<key>RubberWindowFrame</key>
-										<string>-1 345 1099 683 0 0 1680 1028 </string>
+										<string>-1 95 1099 683 0 0 1280 778 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXCVSModule</string>
@@ -835,11 +839,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>C7D36C070E08225600D56E1B</string>
+				<string>C722E90E0E087D7F009EA848</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>C7D36C080E08225600D56E1B</string>
+				<string>C722E90F0E087D7F009EA848</string>
 				<string>C7FAB88F0D82ED6C007A1DE4</string>
-				<string>C7D36C090E08225600D56E1B</string>
+				<string>C722E9100E087D7F009EA848</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -1009,7 +1013,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>235414102.314935</real>
+	<real>235437439.76473799</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
@@ -1027,7 +1031,7 @@
 		<string>/Users/jkool/Developer/peacock-gcms/Peacock.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>-1 345 1099 683 0 0 1680 1028 </string>
+	<string>-1 95 1099 683 0 0 1280 778 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
