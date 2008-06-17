@@ -1,6 +1,9 @@
 #summary List of shortcuts that can be used in Peacock
 #labels Featured,Documentation
 
+== Summary table ==
+Double clicking on a column will bring front the measurement. Double clicking a cell with a value in it will show the peak in the measurement, and double clicking an empty cell will attempt to find the compound in the measurement. Double clicking the compound name will show the related entry in the library.
+
 == Graph views ==
 In any of the views showing chromatograms or spectra you can use these shortcuts.
 
