@@ -1,0 +1,22 @@
+#summary Documentation on the usage of Peacock
+
+= Introduction =
+
+Here is a quick overview of what you can do with Peacock:
+  * Read NetCDF GC/MS files
+  * Identify peaks in chromatograms
+  * Identify compounds associated with peaks
+  * Make a summary of all your analyses
+  * Read common GC/MS files
+
+== Read NetCDF GC/MS files ==
+There are two formal formats for the exchange of data-files containing GC/MS data. JCAMP-DX is the oldest format, but is much less commonly used in comparison to the AIA format. The JCAMP-DX format is however still often used for constructing libraries. Peacock supports the JCAMP-DX format for libraries, but not for data files for this reason. The AIA format is based on the NetCDF file format. NetCDF is a file format that allows for archiving large amount of data in an efficient manner. The library provided by Unidata for this file format can be used to efficiently retrieve data from NetCDF files. The AIA format specifies the way data is stored in the NetCDF file format. Peacock links against the NetCDF library for this purpose. Most, if not all, packages that are in use nowadays in combination with GC/MS measurements have the option to export, and often also import, of AIA data files.
+
+== Identify peaks in chromatograms ==
+Peacock implements an algorithm that recognizes the baseline of the TIC chromatogram of a GC/MS measurement. The baseline is used to determine what can be recognized as peaks. Also for the calculation of the height and surface of the peak, it is essential to determine the baseline accurately.
+
+== Identify compounds associated with peaks ==
+After recognizing the locations of peaks in the chromatogram, Peacock can next determine the associated representative spectrum for those peaks. By matching the spectra versus library entries the compounds associated with a peak can be determined. Peacock supports libraries in the common JCAMP-DX format.
+
+== Make a summary of all your analyses ==
+It is often very interesting to compare several measurements from e.g. a series of samples to find out where the chromatograms differ. This is often indicative of interesting chemical processes. Peacock assists in highlighting these differences with its summary functionality. It can create an summary showing which peaks occur in the various samples. Because often ratios are more informative for the changes in samples, there is also a possibility to preset ratios to be calculated for all samples.
