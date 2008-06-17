@@ -196,9 +196,9 @@
                 [uniqueSymbolArray addObject:[[compound libraryEntry] symbol]];
                 continue;
             }
-            if (![compound group] || [[compound group] isEqualToString:@""]) {
-                [compound setGroup:@"X"];
-            }
+            //if (![compound group] || [[compound group] isEqualToString:@""]) {
+            //    [compound setGroup:@"X"];
+            //}
             
             // replace odd characters
             // ensure symbol starts with letter
@@ -214,6 +214,7 @@
                 countForGroup = [NSNumber numberWithInt:[countForGroup intValue]+1];
             }
             [uniqueDict setValue:countForGroup forKey:[compound group]];
+            
             if ([[[compound group] substringFromIndex:[[compound group] length]-1] rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].length == 1) { // group ends with a number
                 if ([countForGroup intValue] == 1) {
                     [compound setSymbol:[NSString stringWithFormat:@"%@", [compound group]]];              

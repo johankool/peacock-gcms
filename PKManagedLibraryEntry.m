@@ -420,7 +420,7 @@
     } else {
         [outStr appendFormat:@"##TITLE= %@\r\n", [self name]];	        
     }
-	[outStr appendString:@"##JCAMP-DX= 4.24 $$ Peacock 0.27\r\n"];	
+	[outStr appendString:@"##JCAMP-DX= 4.24 $$ Peacock 0.28\r\n"];	
 	[outStr appendString:@"##DATA TYPE= MASS SPECTRUM\r\n"];	
 	[outStr appendString:@"##DATA CLASS= PEAK TABLE\r\n"];	
 	if ([[self origin] isNotEqualTo:@""]) {
