@@ -3,7 +3,7 @@
  *  Peacock
  *
  *  Created by Johan Kool on 10-4-06.
- *  Copyright 2006-2007 Johan Kool. All rights reserved.
+ *  Copyright 2006-2007 Johan Kool.
  *
  */
 

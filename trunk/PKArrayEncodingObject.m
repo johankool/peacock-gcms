@@ -2,7 +2,7 @@
 //  ArrayEncodingObject.m
 //
 //  Created by Johan Kool on 20-2-07.
-//  Copyright 2007 Duncan Champney & Johan Kool. All rights reserved.
+//  Copyright 2007 Duncan Champney & Johan Kool.
 //
 
 #import "PKArrayEncodingObject.h"
