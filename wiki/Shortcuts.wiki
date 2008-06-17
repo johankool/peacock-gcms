@@ -1,0 +1,53 @@
+#summary List of shortcuts that can be used in Peacock
+#labels Featured,Documentation
+
+== Graph views ==
+In any of the views showing chromatograms or spectra you can use these shortcuts.
+
+|| *Key* || *Description*||
+|| a || Zoom view to fit all data ||
+|| b || Toggle display baseline ||
+|| f || Toggle display frame ||
+|| g || Toggle display grid ||
+|| l || Toggle display legend ||
+|| m || Toggle display major tickmarks ||
+|| n || Toggle display minor tickmarks ||
+|| p || Toggle display peaks ||
+|| x || Toggle display axes ||
+|| z || Zoom out ||
+|| ↓ || Select next peak ||
+|| ↑ || Select previous peak ||
+|| → || Select next scan ||
+|| ← || Select previous scan ||
+|| ⌥↑ || Pan upwards ||
+|| ⌥↓ || Pan downwards ||
+|| ⌥← || Pan to the left ||
+|| ⌥→ || Pan to the right ||
+|| ⌦ or  ⌫ || Delete selected peaks ||
+
+
+
+|| *Modifier* || *Description* ||
+|| _Single click_ || ||
+|| none || Select peak ||
+|| ⇧ || Select peak series ||
+|| ⌘ || Select additional peak ||
+|| ⌥ || Zoom in ||
+|| ⌥⇧ || Zoom out ||
+|| ⌥⌘ || Add peak ||      
+|| ⌃ || Show contextual menu ||      
+|| ⌃⇧ || - ||   
+|| ⌃⌘ || Add baseline point ||       
+||_Double click_ || ||
+|| none || Select scan ||
+|| ⌥⇧ || Zoom view to fit all data ||
+|| _Drag within graph area_ || ||
+|| none || Pan ||
+|| ⌥ || Zoom in ||
+|| ⌥⌘ || Add peak ||
+|| _Drag outside graph area_ || ||
+|| none || Pan in one direction only ||
+|| ⌥ || Zoom in in one direction only ||
+|| _Scrollwheel_ || ||
+|| none || Pan ||
+|| ⌥ || Zoom ||
