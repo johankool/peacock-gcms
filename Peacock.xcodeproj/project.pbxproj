@@ -148,6 +148,7 @@
 		C7C589360CFDC48D0009CDD9 /* PKDefaultPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C7C589350CFDC48D0009CDD9 /* PKDefaultPlugin.m */; };
 		C7CFFC770BBC0C290060B0C7 /* PKGCMSPrintView.h in Headers */ = {isa = PBXBuildFile; fileRef = C7CFFC750BBC0C290060B0C7 /* PKGCMSPrintView.h */; };
 		C7CFFC780BBC0C290060B0C7 /* PKGCMSPrintView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7CFFC760BBC0C290060B0C7 /* PKGCMSPrintView.m */; };
+		C7D36C170E08262800D56E1B /* GPL-3.0.txt in Resources */ = {isa = PBXBuildFile; fileRef = C7D36C160E08262800D56E1B /* GPL-3.0.txt */; };
 		C7D4A56E0D2DA8CE00E97AD4 /* PKDefaultPeakDetectionMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D4A56D0D2DA8CE00E97AD4 /* PKDefaultPeakDetectionMethod.m */; };
 		C7D4A5D40D2DB9B500E97AD4 /* PKAbundanceSpectraMatchingMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D4A5D30D2DB9B500E97AD4 /* PKAbundanceSpectraMatchingMethod.m */; };
 		C7D4A5F10D2E14D100E97AD4 /* PKMZValuesSpectraMatchingMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D4A5F00D2E14D100E97AD4 /* PKMZValuesSpectraMatchingMethod.m */; };
@@ -406,6 +407,7 @@
 		C7C589350CFDC48D0009CDD9 /* PKDefaultPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKDefaultPlugin.m; sourceTree = "<group>"; };
 		C7CFFC750BBC0C290060B0C7 /* PKGCMSPrintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKGCMSPrintView.h; sourceTree = "<group>"; };
 		C7CFFC760BBC0C290060B0C7 /* PKGCMSPrintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKGCMSPrintView.m; sourceTree = "<group>"; };
+		C7D36C160E08262800D56E1B /* GPL-3.0.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "GPL-3.0.txt"; path = "/Users/jkool/Developer/peacock-gcms/Text/GPL-3.0.txt"; sourceTree = "<absolute>"; };
 		C7D4A56C0D2DA8CE00E97AD4 /* PKDefaultPeakDetectionMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKDefaultPeakDetectionMethod.h; sourceTree = SOURCE_ROOT; };
 		C7D4A56D0D2DA8CE00E97AD4 /* PKDefaultPeakDetectionMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKDefaultPeakDetectionMethod.m; sourceTree = SOURCE_ROOT; };
 		C7D4A5D20D2DB9B500E97AD4 /* PKAbundanceSpectraMatchingMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKAbundanceSpectraMatchingMethod.h; sourceTree = SOURCE_ROOT; };
@@ -870,6 +872,7 @@
 		C7EB18070898CFBD007FC2ED /* Text */ = {
 			isa = PBXGroup;
 			children = (
+				C7D36C160E08262800D56E1B /* GPL-3.0.txt */,
 				C758C8C40D0EE8CB0068F70A /* Notes.txt */,
 				C7BB34FC0D1AEE310065B99C /* Errors */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
@@ -1108,6 +1111,7 @@
 				C78603010DE88131007138CC /* PKSummary.xib in Resources */,
 				C78603020DE88131007138CC /* PKPreferences.xib in Resources */,
 				C78603070DE88159007138CC /* PKBatchProcess.xib in Resources */,
+				C7D36C170E08262800D56E1B /* GPL-3.0.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

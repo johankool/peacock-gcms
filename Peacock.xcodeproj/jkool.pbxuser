@@ -10,6 +10,7 @@
 		};
 	};
 	2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
+		activeArchitecture = i386;
 		activeBuildConfigurationName = Debug;
 		activeExecutable = C7EB17970898CF04007FC2ED /* Peacock */;
 		activeTarget = 8D15AC270486D014006FF6A4 /* Peacock */;
@@ -21,17 +22,17 @@
 			C78DF4D60A3EB4F50001D828 /* _NSKVODeallocateLog */,
 			C76D5BDD0C2ACB6F0070D270 /* -[_NSZombie forward::] */,
 			C726DF9B0CEB6BCF005664B0 /* objc_exception_throw */,
-			C71928870CEDD844003A3045 /* PKSearchResult.m:9 */,
-			C71929580CEDFD9C003A3045 /* PKSearchResult.m:9 */,
-			C795D9230CF467E6006CF960 /* PKDocumentController.m:340 */,
+			C71928870CEDD844003A3045 /* PKSearchResult.m:22 */,
+			C71929580CEDFD9C003A3045 /* PKSearchResult.m:22 */,
+			C795D9230CF467E6006CF960 /* PKDocumentController.m:353 */,
 			C742D90C0D0DA650006705DB /* NSKVODeallocateBreak */,
 			C7D4A6FF0D2EDB4B00E97AD4 /* PKMZValuesSpectraMatchingMethod.m:11 */,
 			C7AD8D620D4788C900694EDE /* PKAbundanceSpectraMatchingMethod.m:11 */,
 			C7AD8D960D478C7100694EDE /* PKAbundanceSpectraMatchingMethod.m:11 */,
 			C7FD979C0D573E8400C96A3D /* PKAbundanceSpectraMatchingMethod.m:11 */,
-			C7FD97A10D5740CE00C96A3D /* PKSpectrum.m:9 */,
+			C7FD97A10D5740CE00C96A3D /* PKSpectrum.m:22 */,
 			C7FD97A30D5740DB00C96A3D /* PKAbundanceSpectraMatchingMethod.m:193 */,
-			C78B63BB0D5B474B00BCDD85 /* NSString+ModelCompare.m:22 */,
+			C78B63BB0D5B474B00BCDD85 /* NSString+ModelCompare.m:35 */,
 			C762DB730DEF1EE000214C4D /* NSInvalidArgumentException */,
 		);
 		codeSenseManager = C7EB17A50898CF22007FC2ED /* Code sense */;
@@ -227,8 +228,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 235412727;
-			PBXWorkspaceStateSaveDate = 235412727;
+			PBXPerProjectTemplateStateSaveDate = 235414090;
+			PBXWorkspaceStateSaveDate = 235414090;
 		};
 		perUserProjectItems = {
 			C70BAA180DE84F9B0022991C = C70BAA180DE84F9B0022991C /* PBXTextBookmark */;
@@ -401,14 +402,14 @@
 			C78B31FA0E01C89D00D5961F = C78B31FA0E01C89D00D5961F /* PBXTextBookmark */;
 			C78B31FB0E01C89D00D5961F = C78B31FB0E01C89D00D5961F /* PBXTextBookmark */;
 			C78B31FC0E01C89D00D5961F = C78B31FC0E01C89D00D5961F /* PBXTextBookmark */;
-			C78B31FE0E01C89D00D5961F = C78B31FE0E01C89D00D5961F /* PlistBookmark */;
+			C78B31FE0E01C89D00D5961F = C78B31FE0E01C89D00D5961F /* PBXBookmark */;
 			C78B31FF0E01C89D00D5961F = C78B31FF0E01C89D00D5961F /* PBXTextBookmark */;
 			C78B32010E01C89D00D5961F = C78B32010E01C89D00D5961F /* PBXTextBookmark */;
 			C78B32020E01C89D00D5961F = C78B32020E01C89D00D5961F /* PBXTextBookmark */;
 			C78B32030E01C89D00D5961F = C78B32030E01C89D00D5961F /* PBXTextBookmark */;
 			C78B32040E01C89D00D5961F = C78B32040E01C89D00D5961F /* PBXTextBookmark */;
 			C78B32050E01C89D00D5961F = C78B32050E01C89D00D5961F /* PBXTextBookmark */;
-			C78B32070E01C89D00D5961F = C78B32070E01C89D00D5961F /* PlistBookmark */;
+			C78B32070E01C89D00D5961F = C78B32070E01C89D00D5961F /* PBXBookmark */;
 			C78B32080E01C89D00D5961F = C78B32080E01C89D00D5961F /* PBXTextBookmark */;
 			C78B32280E01CE5C00D5961F = C78B32280E01CE5C00D5961F /* PBXTextBookmark */;
 			C78B32290E01CE5C00D5961F = C78B32290E01CE5C00D5961F /* PBXTextBookmark */;
@@ -573,6 +574,7 @@
 			C7BB8C120DEDA79500121E67 = C7BB8C120DEDA79500121E67 /* PBXTextBookmark */;
 			C7BB8C680DEDEF1E00121E67 = C7BB8C680DEDEF1E00121E67 /* PBXTextBookmark */;
 			C7BB8C780DEDEFB700121E67 = C7BB8C780DEDEFB700121E67 /* PBXTextBookmark */;
+			C7D36C060E08225600D56E1B /* PBXTextBookmark */ = C7D36C060E08225600D56E1B /* PBXTextBookmark */;
 			C7FA44700DCD14080097BB2D = C7FA44700DCD14080097BB2D /* PBXTextBookmark */;
 			C7FB2D4A0DC0AB2A009052EB = C7FB2D4A0DC0AB2A009052EB /* PBXTextBookmark */;
 			C7FB2D4B0DC0AB2A009052EB = C7FB2D4B0DC0AB2A009052EB /* PBXTextBookmark */;
@@ -583,18 +585,18 @@
 	};
 	2A37F4B0FDCFA73011CA2CEA /* main.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {697, 518}}";
-			sepNavSelRange = "{229, 0}";
-			sepNavVisRange = "{0, 289}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 404}}";
+			sepNavSelRange = "{108, 0}";
+			sepNavVisRange = "{0, 948}";
 			sepNavVisRect = "{{0, 0}, {1017, 637}}";
 			sepNavWindowFrame = "{{15, -4}, {628, 831}}";
 		};
 	};
 	2A37F4BAFDCFA73011CA2CEA /* English */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1026, 5606}}";
-			sepNavSelRange = "{998, 0}";
-			sepNavVisRect = "{{0, 3}, {1026, 432}}";
+			sepNavIntBoundsRect = "{{0, 0}, {845, 6138}}";
+			sepNavSelRange = "{816, 0}";
+			sepNavVisRect = "{{0, 0}, {845, 404}}";
 			sepNavWindowFrame = "{{15, 7}, {950, 820}}";
 		};
 	};
@@ -615,20 +617,20 @@
 	};
 	8D15AC360486D014006FF6A4 /* Info.plist */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {729, 4130}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 4228}}";
 			sepNavSelRange = "{6060, 0}";
-			sepNavVisRange = "{7448, 669}";
+			sepNavVisRange = "{0, 832}";
 			sepNavVisRect = "{{0, 0}, {1427, 658}}";
 			sepNavWindowFrame = "{{843, 212}, {801, 816}}";
 		};
 	};
 	C708E90A0B9D953A0085872E /* PKCombinedPeak.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {831, 840}}";
-			sepNavSelRange = "{1267, 0}";
-			sepNavVisRange = "{681, 787}";
+			sepNavIntBoundsRect = "{{0, 0}, {673, 840}}";
+			sepNavSelRange = "{1266, 0}";
+			sepNavVisRange = "{201, 1261}";
 			sepNavVisRect = "{{0, 72}, {1427, 658}}";
-			sepNavWindowFrame = "{{710, 56}, {732, 722}}";
+			sepNavWindowFrame = "{{1110, 306}, {732, 722}}";
 		};
 	};
 	C708E90B0B9D953A0085872E /* PKCombinedPeak.m */ = {
@@ -661,7 +663,7 @@
 		fRef = C773669508E02D87002B72F1 /* PKChromatogramDataSeries.m */;
 		name = "PKChromatogramDataSeries.m: 282";
 		rLen = 0;
-		rLoc = 217;
+		rLoc = 855;
 		rType = 0;
 		vrLen = 1563;
 		vrLoc = 11098;
@@ -671,7 +673,7 @@
 		fRef = C7490D450CAC0B28005DCA39 /* PKModelObject.h */;
 		name = "PKModelObject.h: 31";
 		rLen = 0;
-		rLoc = 538;
+		rLoc = 1181;
 		rType = 0;
 		vrLen = 545;
 		vrLoc = 0;
@@ -681,7 +683,7 @@
 		fRef = C7EB17EA0898CF2F007FC2ED /* PKSpectrum.h */;
 		name = "PKSpectrum.h: 63";
 		rLen = 0;
-		rLoc = 2037;
+		rLoc = 2675;
 		rType = 0;
 		vrLen = 934;
 		vrLoc = 0;
@@ -691,7 +693,7 @@
 		fRef = C7752C360B6778DA0010EE72 /* PKSearchResult.h */;
 		name = "PKSearchResult.h: 36";
 		rLen = 0;
-		rLoc = 724;
+		rLoc = 1367;
 		rType = 0;
 		vrLen = 731;
 		vrLoc = 0;
@@ -701,7 +703,7 @@
 		fRef = C708E90A0B9D953A0085872E /* PKCombinedPeak.h */;
 		name = "JKCombinedPeak.h: 61";
 		rLen = 0;
-		rLoc = 185;
+		rLoc = 828;
 		rType = 0;
 		vrLen = 704;
 		vrLoc = 762;
@@ -711,7 +713,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* PKGCMSDocument.m */;
 		name = "JKGCMSDocument.m: 773";
 		rLen = 0;
-		rLoc = 179;
+		rLoc = 817;
 		rType = 0;
 		vrLen = 1111;
 		vrLoc = 42174;
@@ -721,7 +723,7 @@
 		fRef = C7EB17CE0898CF2E007FC2ED /* PKAppDelegate.h */;
 		name = "PKAppDelegate.h: 113";
 		rLen = 0;
-		rLoc = 3813;
+		rLoc = 5110;
 		rType = 0;
 		vrLen = 1001;
 		vrLoc = 0;
@@ -731,9 +733,9 @@
 		fRef = C777A2CE0A1DFEE400CF44D9 /* PKBond.h */;
 		name = "JKBond.h: 19";
 		rLen = 7;
-		rLoc = 322;
+		rLoc = 960;
 		rType = 0;
-		vrLen = 1020;
+		vrLen = 783;
 		vrLoc = 36;
 	};
 	C70BAA600DE855BF0022991C /* PBXTextBookmark */ = {
@@ -741,7 +743,7 @@
 		fRef = C708E90B0B9D953A0085872E /* PKCombinedPeak.m */;
 		name = "JKCombinedPeak.m: 299";
 		rLen = 0;
-		rLoc = 169;
+		rLoc = 812;
 		rType = 0;
 		vrLen = 32;
 		vrLoc = 7858;
@@ -761,7 +763,7 @@
 		fRef = C715DEB30A136AD200348AB5 /* PKGCMSDocument.h */;
 		name = "PKGCMSDocument.h: 294";
 		rLen = 0;
-		rLoc = 10209;
+		rLoc = 10847;
 		rType = 0;
 		vrLen = 889;
 		vrLoc = 318;
@@ -771,7 +773,7 @@
 		fRef = C7490D450CAC0B28005DCA39 /* PKModelObject.h */;
 		name = "PKModelObject.h: 31";
 		rLen = 0;
-		rLoc = 538;
+		rLoc = 1181;
 		rType = 0;
 		vrLen = 545;
 		vrLoc = 0;
@@ -781,7 +783,7 @@
 		fRef = C7EB17EA0898CF2F007FC2ED /* PKSpectrum.h */;
 		name = "PKSpectrum.h: 63";
 		rLen = 0;
-		rLoc = 2037;
+		rLoc = 2675;
 		rType = 0;
 		vrLen = 934;
 		vrLoc = 0;
@@ -791,7 +793,7 @@
 		fRef = C7752C360B6778DA0010EE72 /* PKSearchResult.h */;
 		name = "PKSearchResult.h: 36";
 		rLen = 0;
-		rLoc = 724;
+		rLoc = 1367;
 		rType = 0;
 		vrLen = 731;
 		vrLoc = 0;
@@ -801,7 +803,7 @@
 		fRef = C7BF0DC80CBE5D15003BEC49 /* PKRatiosController.m */;
 		name = "JKRatiosController.m: 75";
 		rLen = 15;
-		rLoc = 2825;
+		rLoc = 3468;
 		rType = 0;
 		vrLen = 1318;
 		vrLoc = 2172;
@@ -811,7 +813,7 @@
 		fRef = C7EB17DE0898CF2E007FC2ED /* PKPanelController.h */;
 		name = "PKPanelController.h: 74";
 		rLen = 0;
-		rLoc = 2235;
+		rLoc = 2873;
 		rType = 0;
 		vrLen = 950;
 		vrLoc = 0;
@@ -821,7 +823,7 @@
 		fRef = C75846610C07268D00756ED8 /* PKLibraryEntry.h */;
 		name = "PKLibraryEntry.h: 85";
 		rLen = 0;
-		rLoc = 2655;
+		rLoc = 3293;
 		rType = 0;
 		vrLen = 1133;
 		vrLoc = 0;
@@ -831,7 +833,7 @@
 		fRef = C777A2C40A1DFEA800CF44D9 /* PKMoleculeView.m */;
 		name = "JKMoleculeView.m: 490";
 		rLen = 0;
-		rLoc = 214;
+		rLoc = 852;
 		rType = 0;
 		vrLen = 994;
 		vrLoc = 16226;
@@ -841,7 +843,7 @@
 		fRef = C7EB17DE0898CF2E007FC2ED /* PKPanelController.h */;
 		name = "PKPanelController.h: 74";
 		rLen = 0;
-		rLoc = 2235;
+		rLoc = 2873;
 		rType = 0;
 		vrLen = 950;
 		vrLoc = 0;
@@ -861,7 +863,7 @@
 		fRef = C74A28230CEE51C100FFB61F /* PKLibraryPanelController.h */;
 		name = "PKLibraryPanelController.h: 35";
 		rLen = 0;
-		rLoc = 951;
+		rLoc = 1594;
 		rType = 0;
 		vrLen = 949;
 		vrLoc = 0;
@@ -871,7 +873,7 @@
 		fRef = C7EB17D80898CF2E007FC2ED /* PKLibraryWindowController.h */;
 		name = "PKLibraryWindowController.h: 43";
 		rLen = 0;
-		rLoc = 1443;
+		rLoc = 2081;
 		rType = 0;
 		vrLen = 1033;
 		vrLoc = 0;
@@ -891,7 +893,7 @@
 		fRef = C7EB17E80898CF2F007FC2ED /* PKPreferencesWindowController.h */;
 		name = "PKPreferencesWindowController.h: 32";
 		rLen = 0;
-		rLoc = 986;
+		rLoc = 1624;
 		rType = 0;
 		vrLen = 984;
 		vrLoc = 0;
@@ -901,7 +903,7 @@
 		fRef = C70DB8EB09573BEA00C2B386 /* PKRatio.h */;
 		name = "PKRatio.h: 35";
 		rLen = 0;
-		rLoc = 791;
+		rLoc = 1429;
 		rType = 0;
 		vrLen = 790;
 		vrLoc = 0;
@@ -911,7 +913,7 @@
 		fRef = C7BF0DC70CBE5D15003BEC49 /* PKRatiosController.h */;
 		name = "PKRatiosController.h: 25";
 		rLen = 0;
-		rLoc = 557;
+		rLoc = 1200;
 		rType = 0;
 		vrLen = 557;
 		vrLoc = 0;
@@ -921,7 +923,7 @@
 		fRef = C73B27CC0CAD9EF600C09AAE /* PKSummarizer.h */;
 		name = "PKSummarizer.h: 27";
 		rLen = 0;
-		rLoc = 569;
+		rLoc = 1212;
 		rType = 0;
 		vrLen = 569;
 		vrLoc = 0;
@@ -931,7 +933,7 @@
 		fRef = C73B27D60CB1224100C09AAE /* PKSummaryController.h */;
 		name = "JKSummaryController.h: 21";
 		rLen = 0;
-		rLoc = 551;
+		rLoc = 1194;
 		rType = 0;
 		vrLen = 944;
 		vrLoc = 0;
@@ -941,7 +943,7 @@
 		fRef = C7EB17EB0898CF2F007FC2ED /* PKSpectrum.m */;
 		name = "PKSpectrum.m: 11";
 		rLen = 0;
-		rLoc = 204;
+		rLoc = 842;
 		rType = 0;
 		vrLen = 1113;
 		vrLoc = 0;
@@ -951,7 +953,7 @@
 		fRef = C7713B420950368F00653D2A /* PKBatchProcessWindowController.m */;
 		name = "JKBatchProcessWindowController.m: 88";
 		rLen = 35;
-		rLoc = 2512;
+		rLoc = 3150;
 		rType = 0;
 		vrLen = 694;
 		vrLoc = 0;
@@ -961,7 +963,7 @@
 		fRef = C777A2C30A1DFEA800CF44D9 /* PKMoleculeView.h */;
 		name = "PKMoleculeView.h: 61";
 		rLen = 0;
-		rLoc = 1765;
+		rLoc = 2403;
 		rType = 0;
 		vrLen = 751;
 		vrLoc = 0;
@@ -971,7 +973,7 @@
 		fRef = C777A2D00A1DFEE400CF44D9 /* PKMoleculeModel.h */;
 		name = "PKMoleculeModel.h: 31";
 		rLen = 0;
-		rLoc = 626;
+		rLoc = 1264;
 		rType = 0;
 		vrLen = 626;
 		vrLoc = 0;
@@ -981,7 +983,7 @@
 		fRef = C7CFFC750BBC0C290060B0C7 /* PKGCMSPrintView.h */;
 		name = "PKGCMSPrintView.h: 35";
 		rLen = 0;
-		rLoc = 815;
+		rLoc = 1458;
 		rType = 0;
 		vrLen = 815;
 		vrLoc = 0;
@@ -991,7 +993,7 @@
 		fRef = C729CAA70A4B45CD00FAB04F /* PKDataModelProxy.h */;
 		name = "PKDataModelProxy.h: 24";
 		rLen = 0;
-		rLoc = 447;
+		rLoc = 1085;
 		rType = 0;
 		vrLen = 447;
 		vrLoc = 0;
@@ -1001,7 +1003,7 @@
 		fRef = C709D0080C465F3200C9C613 /* PKComboBoxCell.h */;
 		name = "PKComboBoxCell.h: 17";
 		rLen = 0;
-		rLoc = 213;
+		rLoc = 856;
 		rType = 0;
 		vrLen = 213;
 		vrLoc = 0;
@@ -1041,7 +1043,7 @@
 		fRef = C7C589340CFDC48D0009CDD9 /* PKDefaultPlugin.h */;
 		name = "PKDefaultPlugin.h: 11";
 		rLen = 29;
-		rLoc = 175;
+		rLoc = 818;
 		rType = 0;
 		vrLen = 474;
 		vrLoc = 0;
@@ -1051,7 +1053,7 @@
 		fRef = C7C588DB0CFD6DD10009CDD9 /* PKPluginProtocol.h */;
 		name = "PKPluginProtocol.h: 123";
 		rLen = 160;
-		rLoc = 4173;
+		rLoc = 4152;
 		rType = 0;
 		vrLen = 1021;
 		vrLoc = 3573;
@@ -1071,7 +1073,7 @@
 		fRef = C7EB17D40898CF2E007FC2ED /* PKLibrary.h */;
 		name = "PKLibrary.h: 29";
 		rLen = 0;
-		rLoc = 909;
+		rLoc = 1547;
 		rType = 0;
 		vrLen = 663;
 		vrLoc = 0;
@@ -1091,7 +1093,7 @@
 		fRef = C777A2CC0A1DFEE400CF44D9 /* PKAtom.h */;
 		name = "PKAtom.h: 63";
 		rLen = 0;
-		rLoc = 1859;
+		rLoc = 2497;
 		rType = 0;
 		vrLen = 866;
 		vrLoc = 0;
@@ -1101,7 +1103,7 @@
 		fRef = C7CFFC750BBC0C290060B0C7 /* PKGCMSPrintView.h */;
 		name = "PKGCMSPrintView.h: 35";
 		rLen = 0;
-		rLoc = 815;
+		rLoc = 1458;
 		rType = 0;
 		vrLen = 815;
 		vrLoc = 0;
@@ -1111,7 +1113,7 @@
 		fRef = C729CAA70A4B45CD00FAB04F /* PKDataModelProxy.h */;
 		name = "PKDataModelProxy.h: 24";
 		rLen = 0;
-		rLoc = 447;
+		rLoc = 1085;
 		rType = 0;
 		vrLen = 447;
 		vrLoc = 0;
@@ -1121,7 +1123,7 @@
 		fRef = C709D0080C465F3200C9C613 /* PKComboBoxCell.h */;
 		name = "PKComboBoxCell.h: 17";
 		rLen = 0;
-		rLoc = 213;
+		rLoc = 856;
 		rType = 0;
 		vrLen = 213;
 		vrLoc = 0;
@@ -1141,7 +1143,7 @@
 		fRef = C7C299890B8B48CC0017B2B2 /* PKArrayEncodingObject.m */;
 		name = "ArrayEncodingObject.m: 18";
 		rLen = 9;
-		rLoc = 392;
+		rLoc = 371;
 		rType = 0;
 		vrLen = 1194;
 		vrLoc = 144;
@@ -1161,7 +1163,7 @@
 		fRef = C7C220620BEB831000510B5B /* PKBooleanToStringTransformer.m */;
 		name = "BooleanToStringTransformer.m: 28";
 		rLen = 0;
-		rLoc = 598;
+		rLoc = 1241;
 		rType = 0;
 		vrLen = 639;
 		vrLoc = 0;
@@ -1171,7 +1173,7 @@
 		fRef = C798C9E808E17B5400C6C7D1 /* PKDeletableTableView.h */;
 		name = "DeleteTableView.h: 9";
 		rLen = 0;
-		rLoc = 193;
+		rLoc = 831;
 		rType = 0;
 		vrLen = 962;
 		vrLoc = 0;
@@ -1181,7 +1183,7 @@
 		fRef = C798C9E908E17B5400C6C7D1 /* PKDeletableTableView.m */;
 		name = "DeleteTableView.m: 48";
 		rLen = 0;
-		rLoc = 1330;
+		rLoc = 1968;
 		rType = 0;
 		vrLen = 1147;
 		vrLoc = 3258;
@@ -1201,7 +1203,7 @@
 		fRef = C7C589340CFDC48D0009CDD9 /* PKDefaultPlugin.h */;
 		name = "PKDefaultPlugin.h: 11";
 		rLen = 29;
-		rLoc = 175;
+		rLoc = 818;
 		rType = 0;
 		vrLen = 474;
 		vrLoc = 0;
@@ -1211,7 +1213,7 @@
 		fRef = C7C588DB0CFD6DD10009CDD9 /* PKPluginProtocol.h */;
 		name = "PKPluginProtocol.h: 123";
 		rLen = 0;
-		rLoc = 4275;
+		rLoc = 4254;
 		rType = 0;
 		vrLen = 1201;
 		vrLoc = 26;
@@ -1231,7 +1233,7 @@
 		fRef = C7AD38AB08B2A0D600A0F4BE /* PKFilteringDNDArrayController.h */;
 		name = "PKFilteringDNDArrayController.h: 28";
 		rLen = 0;
-		rLoc = 1025;
+		rLoc = 1663;
 		rType = 0;
 		vrLen = 977;
 		vrLoc = 0;
@@ -1241,7 +1243,7 @@
 		fRef = C7EB17F40898CFBC007FC2ED /* PKMassWeightController.m */;
 		name = "MWController.m: 64";
 		rLen = 35;
-		rLoc = 1964;
+		rLoc = 2599;
 		rType = 0;
 		vrLen = 624;
 		vrLoc = 1623;
@@ -1251,7 +1253,7 @@
 		fRef = C720AB8609EA7B6C007EF860 /* pk_statistics.h */;
 		name = "pk_statistics.h: 20";
 		rLen = 0;
-		rLoc = 518;
+		rLoc = 497;
 		rType = 0;
 		vrLen = 647;
 		vrLoc = 0;
@@ -1261,7 +1263,7 @@
 		fRef = C720AB8609EA7B6C007EF860 /* pk_statistics.h */;
 		name = "jk_statistics.h: 20";
 		rLen = 0;
-		rLoc = 518;
+		rLoc = 497;
 		rType = 0;
 		vrLen = 647;
 		vrLoc = 0;
@@ -1271,7 +1273,7 @@
 		fRef = C7EB17F40898CFBC007FC2ED /* PKMassWeightController.m */;
 		name = "MWController.m: 64";
 		rLen = 35;
-		rLoc = 1964;
+		rLoc = 2599;
 		rType = 0;
 		vrLen = 624;
 		vrLoc = 1623;
@@ -1281,7 +1283,7 @@
 		fRef = C7F0D0550B11D9030046F994 /* PKMassWeightController.h */;
 		name = "PKMassWeightController.h: 31";
 		rLen = 0;
-		rLoc = 776;
+		rLoc = 1410;
 		rType = 0;
 		vrLen = 645;
 		vrLoc = 0;
@@ -1291,7 +1293,7 @@
 		fRef = C720AB8709EA7B6C007EF860 /* pk_statistics.m */;
 		name = "jk_statistics.m: 74";
 		rLen = 0;
-		rLoc = 1310;
+		rLoc = 1289;
 		rType = 0;
 		vrLen = 507;
 		vrLoc = 1239;
@@ -1301,7 +1303,7 @@
 		fRef = C720AB8709EA7B6C007EF860 /* pk_statistics.m */;
 		name = "pk_statistics.m: 74";
 		rLen = 0;
-		rLoc = 1310;
+		rLoc = 1289;
 		rType = 0;
 		vrLen = 569;
 		vrLoc = 1010;
@@ -1311,7 +1313,7 @@
 		fRef = C7490D4C0CAC0B28005DCA39 /* NSString+ModelCompare.m */;
 		name = "NSString+ModelCompare.m: 10";
 		rLen = 0;
-		rLoc = 185;
+		rLoc = 828;
 		rType = 0;
 		vrLen = 663;
 		vrLoc = 0;
@@ -1321,7 +1323,7 @@
 		fRef = C72C8508098BE83600CEF565 /* PKSpectrumTest.m */;
 		name = "JKSpectrumTest.m: 219";
 		rLen = 0;
-		rLoc = 7401;
+		rLoc = 8039;
 		rType = 0;
 		vrLen = 1422;
 		vrLoc = 6348;
@@ -1371,7 +1373,7 @@
 		fRef = C7F5D0CD0D05794000DCD7C0 /* PKFlipView.h */;
 		name = "PKFlipView.h: 15";
 		rLen = 0;
-		rLoc = 192;
+		rLoc = 835;
 		rType = 0;
 		vrLen = 198;
 		vrLoc = 0;
@@ -1381,7 +1383,7 @@
 		fRef = C7F5D0CE0D05794000DCD7C0 /* PKFlipView.m */;
 		name = "PKFlipView.m: 25";
 		rLen = 0;
-		rLoc = 399;
+		rLoc = 1042;
 		rType = 0;
 		vrLen = 502;
 		vrLoc = 183;
@@ -1401,7 +1403,7 @@
 		fRef = C7F5D0CD0D05794000DCD7C0 /* PKFlipView.h */;
 		name = "PKFlipView.h: 15";
 		rLen = 0;
-		rLoc = 192;
+		rLoc = 835;
 		rType = 0;
 		vrLen = 198;
 		vrLoc = 0;
@@ -1411,7 +1413,7 @@
 		fRef = C7F5D0CE0D05794000DCD7C0 /* PKFlipView.m */;
 		name = "PKFlipView.m: 25";
 		rLen = 0;
-		rLoc = 399;
+		rLoc = 1042;
 		rType = 0;
 		vrLen = 502;
 		vrLoc = 183;
@@ -1421,7 +1423,7 @@
 		fRef = C7AD38AC08B2A0D600A0F4BE /* PKFilteringDNDArrayController.m */;
 		name = "PKFilteringDNDArrayController.m: 24";
 		rLen = 20;
-		rLoc = 623;
+		rLoc = 1261;
 		rType = 0;
 		vrLen = 852;
 		vrLoc = 79;
@@ -1431,7 +1433,7 @@
 		fRef = C74A28230CEE51C100FFB61F /* PKLibraryPanelController.h */;
 		name = "PKLibraryPanelController.h: 25";
 		rLen = 0;
-		rLoc = 601;
+		rLoc = 1244;
 		rType = 0;
 		vrLen = 783;
 		vrLoc = 168;
@@ -1485,7 +1487,7 @@
 		fRef = C7AD38AC08B2A0D600A0F4BE /* PKFilteringDNDArrayController.m */;
 		name = "FilteringDNDArrayController.m: 24";
 		rLen = 20;
-		rLoc = 623;
+		rLoc = 1261;
 		rType = 0;
 		vrLen = 1001;
 		vrLoc = 3;
@@ -1515,9 +1517,9 @@
 		fRef = C7490D710CAC0CA4005DCA39 /* pk_statistics.c */;
 		name = "jk_statistics.c: 41";
 		rLen = 44;
-		rLoc = 652;
+		rLoc = 631;
 		rType = 0;
-		vrLen = 484;
+		vrLen = 477;
 		vrLoc = 343;
 	};
 	C7105F3C0DA4F15B00271B6C /* PBXTextBookmark */ = {
@@ -1525,7 +1527,7 @@
 		fRef = C75846620C07268D00756ED8 /* PKLibraryEntry.m */;
 		name = "JKLibraryEntry.m: 638";
 		rLen = 0;
-		rLoc = 262;
+		rLoc = 900;
 		rType = 0;
 		vrLen = 596;
 		vrLoc = 25708;
@@ -1535,7 +1537,7 @@
 		fRef = C75846610C07268D00756ED8 /* PKLibraryEntry.h */;
 		name = "JKLibraryEntry.h: 50";
 		rLen = 0;
-		rLoc = 1682;
+		rLoc = 2320;
 		rType = 0;
 		vrLen = 999;
 		vrLoc = 1314;
@@ -1545,7 +1547,7 @@
 		fRef = C7BC19AA0CBBE2D20037FBA7 /* PKWindowController.m */;
 		name = "PKWindowController.m: 14";
 		rLen = 0;
-		rLoc = 178;
+		rLoc = 821;
 		rType = 0;
 		vrLen = 1446;
 		vrLoc = 6445;
@@ -1555,7 +1557,7 @@
 		fRef = C7EB17DF0898CF2E007FC2ED /* PKPanelController.m */;
 		name = "JKPanelController.m: 320";
 		rLen = 0;
-		rLoc = 179;
+		rLoc = 817;
 		rType = 0;
 		vrLen = 1969;
 		vrLoc = 11434;
@@ -1565,7 +1567,7 @@
 		fRef = C7BC18A70CBBCA5E0037FBA7 /* PKDocumentController.m */;
 		name = "PKDocumentController.m: 92";
 		rLen = 0;
-		rLoc = 181;
+		rLoc = 824;
 		rType = 0;
 		vrLen = 662;
 		vrLoc = 3754;
@@ -1575,7 +1577,7 @@
 		fRef = C7EB17DF0898CF2E007FC2ED /* PKPanelController.m */;
 		name = "JKPanelController.m: 320";
 		rLen = 0;
-		rLoc = 179;
+		rLoc = 817;
 		rType = 0;
 		vrLen = 1969;
 		vrLoc = 11434;
@@ -1585,7 +1587,7 @@
 		fRef = C7752C370B6778DA0010EE72 /* PKSearchResult.m */;
 		name = "JKSearchResult.m: 152";
 		rLen = 0;
-		rLoc = 5418;
+		rLoc = 6061;
 		rType = 0;
 		vrLen = 1600;
 		vrLoc = 3973;
@@ -1595,7 +1597,7 @@
 		fRef = C7BC18A60CBBCA5E0037FBA7 /* PKDocumentController.h */;
 		name = "PKDocumentController.h: 27";
 		rLen = 0;
-		rLoc = 651;
+		rLoc = 1294;
 		rType = 0;
 		vrLen = 499;
 		vrLoc = 3;
@@ -1648,7 +1650,7 @@
 			sepNavWindowFrame = "{{429, 59}, {782, 773}}";
 		};
 	};
-	C71928870CEDD844003A3045 /* PKSearchResult.m:9 */ = {
+	C71928870CEDD844003A3045 /* PKSearchResult.m:22 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -1660,12 +1662,12 @@
 		functionName = "-setLibraryHit:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 9;
+		lineNumber = 22;
 		location = Peacock;
 		modificationTime = 234821288.089704;
 		state = 2;
 	};
-	C71929580CEDFD9C003A3045 /* PKSearchResult.m:9 */ = {
+	C71929580CEDFD9C003A3045 /* PKSearchResult.m:22 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -1677,14 +1679,14 @@
 		functionName = "-libraryHit";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 9;
+		lineNumber = 22;
 		location = Peacock;
 		modificationTime = 234821288.08992;
 		state = 2;
 	};
 	C720AB8609EA7B6C007EF860 /* pk_statistics.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 339}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 404}}";
 			sepNavSelRange = "{518, 0}";
 			sepNavVisRange = "{0, 647}";
 			sepNavVisRect = "{{0, 0}, {899, 491}}";
@@ -1692,9 +1694,9 @@
 	};
 	C720AB8709EA7B6C007EF860 /* pk_statistics.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 1540}}";
-			sepNavSelRange = "{1317, 0}";
-			sepNavVisRange = "{1010, 569}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 1708}}";
+			sepNavSelRange = "{1310, 0}";
+			sepNavVisRange = "{0, 496}";
 			sepNavVisRect = "{{0, 0}, {724, 434}}";
 			sepNavWindowFrame = "{{15, -5}, {891, 832}}";
 		};
@@ -1716,9 +1718,9 @@
 	};
 	C729CAA70A4B45CD00FAB04F /* PKDataModelProxy.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 482}}";
-			sepNavSelRange = "{447, 0}";
-			sepNavVisRange = "{0, 447}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 518}}";
+			sepNavSelRange = "{1106, 0}";
+			sepNavVisRange = "{0, 995}";
 			sepNavVisRect = "{{0, 0}, {899, 491}}";
 		};
 	};
@@ -1789,7 +1791,7 @@
 		fRef = C7490D4A0CAC0B28005DCA39 /* PKGraphView.m */;
 		name = "PKGraphView.m: 1520";
 		rLen = 0;
-		rLoc = 74892;
+		rLoc = 75526;
 		rType = 0;
 		vrLen = 1659;
 		vrLoc = 74633;
@@ -2083,9 +2085,9 @@
 	};
 	C7490D4A0CAC0B28005DCA39 /* PKGraphView.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1150, 44618}}";
-			sepNavSelRange = "{20600, 0}";
-			sepNavVisRange = "{19668, 2152}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 43176}}";
+			sepNavSelRange = "{109, 0}";
+			sepNavVisRange = "{0, 1001}";
 			sepNavVisRect = "{{0, 23548}, {1427, 658}}";
 			sepNavWindowFrame = "{{653, 242}, {1010, 774}}";
 		};
@@ -2109,9 +2111,9 @@
 	};
 	C7490D710CAC0CA4005DCA39 /* pk_statistics.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 728}}";
-			sepNavSelRange = "{105, 0}";
-			sepNavVisRange = "{0, 466}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 700}}";
+			sepNavSelRange = "{130, 0}";
+			sepNavVisRange = "{0, 520}";
 		};
 	};
 	C74A28230CEE51C100FFB61F /* PKLibraryPanelController.h */ = {
@@ -2132,7 +2134,7 @@
 	};
 	C75846130C071ACC00756ED8 /* PKComparableProtocol.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 482}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 404}}";
 			sepNavSelRange = "{380, 0}";
 			sepNavVisRange = "{0, 380}";
 			sepNavVisRect = "{{0, 0}, {899, 491}}";
@@ -2158,9 +2160,9 @@
 	};
 	C758C8C40D0EE8CB0068F70A /* Notes.txt */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {831, 1218}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 1358}}";
 			sepNavSelRange = "{2803, 4}";
-			sepNavVisRange = "{2268, 947}";
+			sepNavVisRange = "{0, 1226}";
 		};
 	};
 	C75AA5D00DEEAD3400260137 /* PBXTextBookmark */ = {
@@ -2168,7 +2170,7 @@
 		fRef = C75846620C07268D00756ED8 /* PKLibraryEntry.m */;
 		name = "PKLibraryEntry.m: 9";
 		rLen = 0;
-		rLoc = 179;
+		rLoc = 817;
 		rType = 0;
 		vrLen = 1360;
 		vrLoc = 31109;
@@ -2217,7 +2219,7 @@
 		fRef = C7C299880B8B48CC0017B2B2 /* PKArrayEncodingObject.h */;
 		name = "ArrayEncodingObject.h: 24";
 		rLen = 9;
-		rLoc = 497;
+		rLoc = 476;
 		rType = 0;
 		vrLen = 874;
 		vrLoc = 0;
@@ -2295,7 +2297,7 @@
 		fRef = C7752C370B6778DA0010EE72 /* PKSearchResult.m */;
 		name = "PKSearchResult.m: 94";
 		rLen = 40;
-		rLoc = 2849;
+		rLoc = 3492;
 		rType = 0;
 		vrLen = 1308;
 		vrLoc = 1512;
@@ -2305,7 +2307,7 @@
 		fRef = C773669708E02D87002B72F1 /* PKSpectrumDataSeries.m */;
 		name = "PKSpectrumDataSeries.m: 199";
 		rLen = 0;
-		rLoc = 6190;
+		rLoc = 6828;
 		rType = 0;
 		vrLen = 566;
 		vrLoc = 2465;
@@ -2315,7 +2317,7 @@
 		fRef = C773669708E02D87002B72F1 /* PKSpectrumDataSeries.m */;
 		name = "PKSpectrumDataSeries.m: 70";
 		rLen = 0;
-		rLoc = 1960;
+		rLoc = 2598;
 		rType = 0;
 		vrLen = 1005;
 		vrLoc = 1101;
@@ -2325,7 +2327,7 @@
 		fRef = C7EB17D50898CF2E007FC2ED /* PKLibrary.m */;
 		name = "PKLibrary.m: 433";
 		rLen = 0;
-		rLoc = 19016;
+		rLoc = 19654;
 		rType = 0;
 		vrLen = 906;
 		vrLoc = 19902;
@@ -2335,7 +2337,7 @@
 		fRef = C7F5E8F408EAA98600AC1068 /* PKManagedLibraryEntry.m */;
 		name = "PKManagedLibraryEntry.m: 696";
 		rLen = 0;
-		rLoc = 27230;
+		rLoc = 27868;
 		rType = 0;
 		vrLen = 653;
 		vrLoc = 27523;
@@ -2345,7 +2347,7 @@
 		fRef = C7BC18A70CBBCA5E0037FBA7 /* PKDocumentController.m */;
 		name = "PKDocumentController.m: 249";
 		rLen = 0;
-		rLoc = 8093;
+		rLoc = 8736;
 		rType = 0;
 		vrLen = 1252;
 		vrLoc = 6266;
@@ -2370,7 +2372,7 @@
 		fRef = C773669508E02D87002B72F1 /* PKChromatogramDataSeries.m */;
 		name = "PKChromatogramDataSeries.m: 209";
 		rLen = 0;
-		rLoc = 7117;
+		rLoc = 7755;
 		rType = 0;
 		vrLen = 1174;
 		vrLoc = 7348;
@@ -2380,7 +2382,7 @@
 		fRef = C7EB17F60898CFBC007FC2ED /* PKGraphDataSeries.m */;
 		name = "PKGraphDataSeries.m: 43";
 		rLen = 0;
-		rLoc = 1319;
+		rLoc = 1957;
 		rType = 0;
 		vrLen = 821;
 		vrLoc = 826;
@@ -2400,7 +2402,7 @@
 		fRef = C73533D10B7A703C00F7634B /* PKChromatogramTest.m */;
 		name = "PKChromatogramTest.m: 82";
 		rLen = 99;
-		rLoc = 2730;
+		rLoc = 3373;
 		rType = 0;
 		vrLen = 1315;
 		vrLoc = 2606;
@@ -2410,7 +2412,7 @@
 		fRef = C7EB17F60898CFBC007FC2ED /* PKGraphDataSeries.m */;
 		name = "PKGraphDataSeries.m: 43";
 		rLen = 0;
-		rLoc = 1319;
+		rLoc = 1957;
 		rType = 0;
 		vrLen = 821;
 		vrLoc = 826;
@@ -2430,7 +2432,7 @@
 		fRef = C778A2C60D4FCF02005C95E0 /* PKAbundanceTest.m */;
 		name = "PKAbundanceTest.m: 29";
 		rLen = 58;
-		rLoc = 1002;
+		rLoc = 1640;
 		rType = 0;
 		vrLen = 990;
 		vrLoc = 134;
@@ -2440,16 +2442,16 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* PKMainWindowController.m */;
 		name = "PKMainWindowController.m: 222";
 		rLen = 0;
-		rLoc = 9624;
+		rLoc = 10262;
 		rType = 0;
 		vrLen = 1268;
 		vrLoc = 8935;
 	};
 	C762DC2B0DEF4D8200214C4D /* NSManagedObject+DatapointAccessors.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {488, 303}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 404}}";
 			sepNavSelRange = "{22, 0}";
-			sepNavVisRange = "{0, 270}";
+			sepNavVisRange = "{0, 249}";
 		};
 	};
 	C762DC300DEF4ECA00214C4D /* PBXTextBookmark */ = {
@@ -2457,7 +2459,7 @@
 		fRef = C7F5E8F308EAA98600AC1068 /* PKManagedLibraryEntry.h */;
 		name = "PKManagedLibraryEntry.h: 98";
 		rLen = 0;
-		rLoc = 2799;
+		rLoc = 3437;
 		rType = 0;
 		vrLen = 762;
 		vrLoc = 3;
@@ -2487,7 +2489,7 @@
 		fRef = C7490D490CAC0B28005DCA39 /* PKGraphView.h */;
 		name = "PKGraphView.h: 182";
 		rLen = 0;
-		rLoc = 4999;
+		rLoc = 5637;
 		rType = 0;
 		vrLen = 987;
 		vrLoc = 4541;
@@ -2497,7 +2499,7 @@
 		fRef = C708E90A0B9D953A0085872E /* PKCombinedPeak.h */;
 		name = "PKCombinedPeak.h: 51";
 		rLen = 0;
-		rLoc = 1267;
+		rLoc = 1910;
 		rType = 0;
 		vrLen = 742;
 		vrLoc = 726;
@@ -2526,7 +2528,7 @@
 		fRef = C7EB17D50898CF2E007FC2ED /* PKLibrary.m */;
 		name = "JKLibrary.m: 441";
 		rLen = 0;
-		rLoc = 202;
+		rLoc = 840;
 		rType = 0;
 		vrLen = 1490;
 		vrLoc = 19193;
@@ -2546,7 +2548,7 @@
 		fRef = C7EB17D90898CF2E007FC2ED /* PKLibraryWindowController.m */;
 		name = "JKLibraryWindowController.m: 119";
 		rLen = 0;
-		rLoc = 4989;
+		rLoc = 5627;
 		rType = 0;
 		vrLen = 1778;
 		vrLoc = 3973;
@@ -2556,7 +2558,7 @@
 		fRef = C72C85D5098BF1B800CEF565 /* PKGeneralTesting.h */;
 		name = "PKGeneralTesting.h: 44";
 		rLen = 0;
-		rLoc = 995;
+		rLoc = 1633;
 		rType = 0;
 		vrLen = 600;
 		vrLoc = 390;
@@ -2611,7 +2613,7 @@
 		fRef = C72C85D5098BF1B800CEF565 /* PKGeneralTesting.h */;
 		name = "PKGeneralTesting.h: 44";
 		rLen = 0;
-		rLoc = 995;
+		rLoc = 1633;
 		rType = 0;
 		vrLen = 600;
 		vrLoc = 390;
@@ -2631,7 +2633,7 @@
 		fRef = C73533D10B7A703C00F7634B /* PKChromatogramTest.m */;
 		name = "JKChromatogramTest.m: 86";
 		rLen = 0;
-		rLoc = 2912;
+		rLoc = 3555;
 		rType = 0;
 		vrLen = 1337;
 		vrLoc = 2368;
@@ -2641,7 +2643,7 @@
 		fRef = C72C8507098BE83600CEF565 /* PKSpectrumTest.h */;
 		name = "JKSpectrumTest.h: 13";
 		rLen = 0;
-		rLoc = 234;
+		rLoc = 872;
 		rType = 0;
 		vrLen = 586;
 		vrLoc = 0;
@@ -2707,9 +2709,9 @@
 	};
 	C7713B410950368F00653D2A /* PKBatchProcessWindowController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 658}}";
-			sepNavSelRange = "{1363, 0}";
-			sepNavVisRange = "{179, 1184}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 840}}";
+			sepNavSelRange = "{2022, 0}";
+			sepNavVisRange = "{0, 967}";
 			sepNavVisRect = "{{0, 35}, {899, 491}}";
 		};
 	};
@@ -2903,7 +2905,7 @@
 		fRef = C72C85D6098BF1B800CEF565 /* PKGeneralTesting.m */;
 		name = "PKGeneralTesting.m: 84";
 		rLen = 0;
-		rLoc = 377;
+		rLoc = 1015;
 		rType = 0;
 		vrLen = 747;
 		vrLoc = 3;
@@ -2940,7 +2942,7 @@
 		fRef = C72C8508098BE83600CEF565 /* PKSpectrumTest.m */;
 		name = "PKSpectrumTest.m: 17";
 		rLen = 47;
-		rLoc = 278;
+		rLoc = 916;
 		rType = 0;
 		vrLen = 325;
 		vrLoc = 0;
@@ -2950,7 +2952,7 @@
 		fRef = C72C8507098BE83600CEF565 /* PKSpectrumTest.h */;
 		name = "PKSpectrumTest.h: 15";
 		rLen = 0;
-		rLoc = 260;
+		rLoc = 898;
 		rType = 0;
 		vrLen = 659;
 		vrLoc = 24;
@@ -2970,7 +2972,7 @@
 		fRef = C7EB17F50898CFBC007FC2ED /* PKGraphDataSeries.h */;
 		name = "PKGraphDataSeries.h: 134";
 		rLen = 0;
-		rLoc = 3913;
+		rLoc = 4551;
 		rType = 0;
 		vrLen = 929;
 		vrLoc = 3035;
@@ -2980,7 +2982,7 @@
 		fRef = C778A2C60D4FCF02005C95E0 /* PKAbundanceTest.m */;
 		name = "PKAbundanceTest.m: 13";
 		rLen = 0;
-		rLoc = 241;
+		rLoc = 879;
 		rType = 0;
 		vrLen = 723;
 		vrLoc = 0;
@@ -2990,7 +2992,7 @@
 		fRef = C7490D480CAC0B28005DCA39 /* PKPeakRecord.m */;
 		name = "JKPeakRecord.m: 1002";
 		rLen = 0;
-		rLoc = 40090;
+		rLoc = 40728;
 		rType = 0;
 		vrLen = 1969;
 		vrLoc = 216;
@@ -3000,7 +3002,7 @@
 		fRef = C7490D470CAC0B28005DCA39 /* PKPeakRecord.h */;
 		name = "JKPeakRecord.h: 46";
 		rLen = 0;
-		rLoc = 180;
+		rLoc = 818;
 		rType = 0;
 		vrLen = 812;
 		vrLoc = 302;
@@ -3027,7 +3029,7 @@
 		fRef = C7490D490CAC0B28005DCA39 /* PKGraphView.h */;
 		name = "PKGraphView.h: 131";
 		rLen = 0;
-		rLoc = 177;
+		rLoc = 815;
 		rType = 0;
 		vrLen = 714;
 		vrLoc = 3802;
@@ -3037,7 +3039,7 @@
 		fRef = C7490D4A0CAC0B28005DCA39 /* PKGraphView.m */;
 		name = "PKGraphView.m: 1437";
 		rLen = 0;
-		rLoc = 246;
+		rLoc = 880;
 		rType = 0;
 		vrLen = 1254;
 		vrLoc = 57458;
@@ -3047,7 +3049,7 @@
 		fRef = C7490D420CAC0B28005DCA39 /* PKChromatogram.h */;
 		name = "JKChromatogram.h: 65";
 		rLen = 0;
-		rLoc = 179;
+		rLoc = 817;
 		rType = 0;
 		vrLen = 715;
 		vrLoc = 170;
@@ -3057,7 +3059,7 @@
 		fRef = C7490D430CAC0B28005DCA39 /* PKChromatogram.m */;
 		name = "JKChromatogram.m: 852";
 		rLen = 0;
-		rLoc = 207;
+		rLoc = 845;
 		rType = 0;
 		vrLen = 751;
 		vrLoc = 32448;
@@ -3067,7 +3069,7 @@
 		fRef = C7D4A5EF0D2E14D100E97AD4 /* PKMZValuesSpectraMatchingMethod.h */;
 		name = "PKMZValuesSpectraMatchingMethod.h: 14";
 		rLen = 0;
-		rLoc = 323;
+		rLoc = 961;
 		rType = 0;
 		vrLen = 332;
 		vrLoc = 0;
@@ -3119,24 +3121,17 @@
 		path = "/Users/jkool/Developer/Peacock/trunk/Peacock Test Files/Test Library.jdx";
 		sourceTree = "<absolute>";
 	};
-	C78B31FE0E01C89D00D5961F /* PlistBookmark */ = {
-		isa = PlistBookmark;
+	C78B31FE0E01C89D00D5961F /* PBXBookmark */ = {
+		isa = PBXBookmark;
 		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-			CFBundleShortVersionString,
-		);
 		name = /Users/jkool/Developer/Peacock/trunk/Info.plist;
-		rLen = 0;
-		rLoc = 2147483647;
 	};
 	C78B31FF0E01C89D00D5961F /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = C7490D480CAC0B28005DCA39 /* PKPeakRecord.m */;
 		name = "PKPeakRecord.m: 269";
 		rLen = 70;
-		rLoc = 11394;
+		rLoc = 12032;
 		rType = 0;
 		vrLen = 1145;
 		vrLoc = 10702;
@@ -3146,7 +3141,7 @@
 		fRef = C7D4A5EF0D2E14D100E97AD4 /* PKMZValuesSpectraMatchingMethod.h */;
 		name = "PKMZValuesSpectraMatchingMethod.h: 14";
 		rLen = 0;
-		rLoc = 323;
+		rLoc = 961;
 		rType = 0;
 		vrLen = 332;
 		vrLoc = 0;
@@ -3198,24 +3193,17 @@
 		path = "/Users/jkool/Developer/Peacock/trunk/Peacock Test Files/Test Library.jdx";
 		sourceTree = "<absolute>";
 	};
-	C78B32070E01C89D00D5961F /* PlistBookmark */ = {
-		isa = PlistBookmark;
+	C78B32070E01C89D00D5961F /* PBXBookmark */ = {
+		isa = PBXBookmark;
 		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
-		fallbackIsa = PBXBookmark;
-		isK = 0;
-		kPath = (
-			CFBundleShortVersionString,
-		);
 		name = /Users/jkool/Developer/Peacock/trunk/Info.plist;
-		rLen = 0;
-		rLoc = 2147483647;
 	};
 	C78B32080E01C89D00D5961F /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = C7490D480CAC0B28005DCA39 /* PKPeakRecord.m */;
 		name = "PKPeakRecord.m: 269";
 		rLen = 70;
-		rLoc = 11394;
+		rLoc = 12032;
 		rType = 0;
 		vrLen = 1145;
 		vrLoc = 10702;
@@ -3225,7 +3213,7 @@
 		fRef = C73B27D70CB1224100C09AAE /* PKSummaryController.m */;
 		name = "PKSummaryController.m: 419";
 		rLen = 16;
-		rLoc = 1643;
+		rLoc = 2286;
 		rType = 0;
 		vrLen = 555;
 		vrLoc = 1248;
@@ -3235,7 +3223,7 @@
 		fRef = C708E90B0B9D953A0085872E /* PKCombinedPeak.m */;
 		name = "PKCombinedPeak.m: 237";
 		rLen = 19;
-		rLoc = 6489;
+		rLoc = 7132;
 		rType = 0;
 		vrLen = 659;
 		vrLoc = 6142;
@@ -3245,7 +3233,7 @@
 		fRef = C73B27CD0CAD9EF600C09AAE /* PKSummarizer.m */;
 		name = "PKSummarizer.m: 167";
 		rLen = 27;
-		rLoc = 6618;
+		rLoc = 7261;
 		rType = 0;
 		vrLen = 1712;
 		vrLoc = 7977;
@@ -3255,7 +3243,7 @@
 		fRef = C73B27D70CB1224100C09AAE /* PKSummaryController.m */;
 		name = "PKSummaryController.m: 372";
 		rLen = 0;
-		rLoc = 20052;
+		rLoc = 20695;
 		rType = 0;
 		vrLen = 1548;
 		vrLoc = 19259;
@@ -3265,7 +3253,7 @@
 		fRef = C708E90B0B9D953A0085872E /* PKCombinedPeak.m */;
 		name = "PKCombinedPeak.m: 237";
 		rLen = 19;
-		rLoc = 6489;
+		rLoc = 7132;
 		rType = 0;
 		vrLen = 684;
 		vrLoc = 6329;
@@ -3275,7 +3263,7 @@
 		fRef = C73B27D70CB1224100C09AAE /* PKSummaryController.m */;
 		name = "PKSummaryController.m: 419";
 		rLen = 16;
-		rLoc = 1643;
+		rLoc = 2286;
 		rType = 0;
 		vrLen = 555;
 		vrLoc = 1248;
@@ -3285,7 +3273,7 @@
 		fRef = C708E90B0B9D953A0085872E /* PKCombinedPeak.m */;
 		name = "PKCombinedPeak.m: 237";
 		rLen = 19;
-		rLoc = 6489;
+		rLoc = 7132;
 		rType = 0;
 		vrLen = 659;
 		vrLoc = 6142;
@@ -3295,7 +3283,7 @@
 		fRef = C708E90B0B9D953A0085872E /* PKCombinedPeak.m */;
 		name = "PKCombinedPeak.m: 245";
 		rLen = 0;
-		rLoc = 6725;
+		rLoc = 7368;
 		rType = 0;
 		vrLen = 1147;
 		vrLoc = 5839;
@@ -3304,7 +3292,7 @@
 		isa = PBXTextBookmark;
 		fRef = C708E90A0B9D953A0085872E /* PKCombinedPeak.h */;
 		rLen = 0;
-		rLoc = 1468;
+		rLoc = 2111;
 		rType = 0;
 	};
 	C78B32350E01CE5D00D5961F /* PBXTextBookmark */ = {
@@ -3312,7 +3300,7 @@
 		fRef = C708E90B0B9D953A0085872E /* PKCombinedPeak.m */;
 		name = "PKCombinedPeak.m: 245";
 		rLen = 0;
-		rLoc = 6725;
+		rLoc = 7368;
 		rType = 0;
 		vrLen = 1147;
 		vrLoc = 5839;
@@ -3322,7 +3310,7 @@
 		fRef = C73B27CD0CAD9EF600C09AAE /* PKSummarizer.m */;
 		name = "PKSummarizer.m: 216";
 		rLen = 0;
-		rLoc = 9340;
+		rLoc = 9983;
 		rType = 0;
 		vrLen = 757;
 		vrLoc = 10062;
@@ -3332,12 +3320,12 @@
 		fRef = C708E90A0B9D953A0085872E /* PKCombinedPeak.h */;
 		name = "PKCombinedPeak.h: 49";
 		rLen = 0;
-		rLoc = 1266;
+		rLoc = 1909;
 		rType = 0;
 		vrLen = 1284;
 		vrLoc = 178;
 	};
-	C78B63BB0D5B474B00BCDD85 /* NSString+ModelCompare.m:22 */ = {
+	C78B63BB0D5B474B00BCDD85 /* NSString+ModelCompare.m:35 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -3349,7 +3337,7 @@
 		functionName = "-cleanupModelString";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 22;
+		lineNumber = 35;
 		location = Peacock;
 		modificationTime = 234821288.090865;
 		state = 2;
@@ -3373,7 +3361,7 @@
 		fRef = C7EB17CF0898CF2E007FC2ED /* PKAppDelegate.m */;
 		name = "JKAppDelegate.m: 525";
 		rLen = 0;
-		rLoc = 208;
+		rLoc = 1505;
 		rType = 0;
 		vrLen = 2267;
 		vrLoc = 25197;
@@ -3383,38 +3371,38 @@
 		fRef = C7EB17D40898CF2E007FC2ED /* PKLibrary.h */;
 		name = "JKLibrary.h: 17";
 		rLen = 0;
-		rLoc = 179;
+		rLoc = 817;
 		rType = 0;
 		vrLen = 993;
 		vrLoc = 0;
 	};
 	C78FB7FC0CE9B73400466731 /* GCMathParser.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 714}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 714}}";
 			sepNavSelRange = "{194, 12}";
-			sepNavVisRange = "{39, 766}";
+			sepNavVisRange = "{0, 622}";
 			sepNavWindowFrame = "{{15, 74}, {1033, 949}}";
 		};
 	};
 	C78FB7FD0CE9B73400466731 /* GCMathParser.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {831, 3010}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 2982}}";
 			sepNavSelRange = "{2368, 0}";
-			sepNavVisRange = "{2228, 427}";
+			sepNavVisRange = "{2143, 516}";
 		};
 	};
 	C78FB7FE0CE9B73400466731 /* Implementation Notes */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {831, 2058}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 2128}}";
 			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{3215, 785}";
+			sepNavVisRange = "{0, 856}";
 		};
 	};
 	C78FB7FF0CE9B73400466731 /* ZExpParser.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {904, 1764}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 1778}}";
 			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{1403, 665}";
+			sepNavVisRange = "{0, 488}";
 		};
 	};
 	C78FB8000CE9B73400466731 /* ZExpParser.mm */ = {
@@ -3424,7 +3412,7 @@
 			sepNavVisRange = "{0, 648}";
 		};
 	};
-	C795D9230CF467E6006CF960 /* PKDocumentController.m:340 */ = {
+	C795D9230CF467E6006CF960 /* PKDocumentController.m:353 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -3436,7 +3424,7 @@
 		functionName = "-document:shouldClose:contextInfo:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 340;
+		lineNumber = 353;
 		location = Peacock;
 		modificationTime = 234821288.090037;
 		state = 2;
@@ -3529,7 +3517,7 @@
 		fRef = C7CFFC760BBC0C290060B0C7 /* PKGCMSPrintView.m */;
 		name = "JKGCMSPrintView.m: 264";
 		rLen = 0;
-		rLoc = 9656;
+		rLoc = 10299;
 		rType = 0;
 		vrLen = 764;
 		vrLoc = 0;
@@ -3539,7 +3527,7 @@
 		fRef = C7EB17DD0898CF2E007FC2ED /* PKMainWindowController.m */;
 		name = "JKMainWindowController.m: 1471";
 		rLen = 0;
-		rLoc = 179;
+		rLoc = 817;
 		rType = 0;
 		vrLen = 1628;
 		vrLoc = 45101;
@@ -3549,7 +3537,7 @@
 		fRef = C7EB17DC0898CF2E007FC2ED /* PKMainWindowController.h */;
 		name = "JKMainWindowController.h: 61";
 		rLen = 0;
-		rLoc = 307;
+		rLoc = 945;
 		rType = 0;
 		vrLen = 888;
 		vrLoc = 1943;
@@ -3559,7 +3547,7 @@
 		fRef = C73B27D70CB1224100C09AAE /* PKSummaryController.m */;
 		name = "PKSummaryController.m: 349";
 		rLen = 14;
-		rLoc = 18835;
+		rLoc = 19478;
 		rType = 0;
 		vrLen = 1015;
 		vrLoc = 18539;
@@ -3569,7 +3557,7 @@
 		fRef = C7490D430CAC0B28005DCA39 /* PKChromatogram.m */;
 		name = "PKChromatogram.m: 811";
 		rLen = 14;
-		rLoc = 29713;
+		rLoc = 30351;
 		rType = 0;
 		vrLen = 872;
 		vrLoc = 29213;
@@ -3579,7 +3567,7 @@
 		fRef = C72C85D6098BF1B800CEF565 /* PKGeneralTesting.m */;
 		name = "PKGeneralTesting.m: 91";
 		rLen = 0;
-		rLoc = 377;
+		rLoc = 1015;
 		rType = 0;
 		vrLen = 1122;
 		vrLoc = 3269;
@@ -3589,7 +3577,7 @@
 		fRef = C7EB17CF0898CF2E007FC2ED /* PKAppDelegate.m */;
 		name = "PKAppDelegate.m: 697";
 		rLen = 3;
-		rLoc = 34078;
+		rLoc = 35375;
 		rType = 0;
 		vrLen = 820;
 		vrLoc = 33561;
@@ -3599,7 +3587,7 @@
 		fRef = C7713B420950368F00653D2A /* PKBatchProcessWindowController.m */;
 		name = "PKBatchProcessWindowController.m: 86";
 		rLen = 3;
-		rLoc = 2480;
+		rLoc = 3118;
 		rType = 0;
 		vrLen = 531;
 		vrLoc = 12702;
@@ -3609,7 +3597,7 @@
 		fRef = C715DECE0A136B2F00348AB5 /* PKGCMSDocument.m */;
 		name = "PKGCMSDocument.m: 492";
 		rLen = 3;
-		rLoc = 23828;
+		rLoc = 24466;
 		rType = 0;
 		vrLen = 685;
 		vrLoc = 23167;
@@ -3619,7 +3607,7 @@
 		fRef = C7F5E8F408EAA98600AC1068 /* PKManagedLibraryEntry.m */;
 		name = "PKManagedLibraryEntry.m: 423";
 		rLen = 0;
-		rLoc = 16372;
+		rLoc = 17010;
 		rType = 0;
 		vrLen = 915;
 		vrLoc = 15850;
@@ -3736,7 +3724,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {831, 770}}";
 			sepNavSelRange = "{1236, 0}";
-			sepNavVisRange = "{1098, 624}";
+			sepNavVisRange = "{1238, 625}";
 			sepNavWindowFrame = "{{896, 115}, {733, 771}}";
 		};
 	};
@@ -4091,7 +4079,7 @@
 		fRef = C7EB17E90898CF2F007FC2ED /* PKPreferencesWindowController.m */;
 		name = "PKPreferencesWindowController.m: 12";
 		rLen = 0;
-		rLoc = 238;
+		rLoc = 876;
 		rType = 0;
 		vrLen = 537;
 		vrLoc = 0;
@@ -4101,7 +4089,7 @@
 		fRef = C7C299890B8B48CC0017B2B2 /* PKArrayEncodingObject.m */;
 		name = "PKArrayEncodingObject.m: 18";
 		rLen = 9;
-		rLoc = 392;
+		rLoc = 371;
 		rType = 0;
 		vrLen = 1034;
 		vrLoc = 0;
@@ -4111,7 +4099,7 @@
 		fRef = C7C299880B8B48CC0017B2B2 /* PKArrayEncodingObject.h */;
 		name = "PKArrayEncodingObject.h: 34";
 		rLen = 0;
-		rLoc = 876;
+		rLoc = 855;
 		rType = 0;
 		vrLen = 876;
 		vrLoc = 0;
@@ -4121,9 +4109,9 @@
 		fRef = C777A2CD0A1DFEE400CF44D9 /* PKAtom.m */;
 		name = "PKAtom.m: 14";
 		rLen = 0;
-		rLoc = 227;
+		rLoc = 865;
 		rType = 0;
-		vrLen = 1417;
+		vrLen = 1146;
 		vrLoc = 1307;
 	};
 	C7BB888A0DE8C9FB00121E67 /* PBXTextBookmark */ = {
@@ -4141,7 +4129,7 @@
 		fRef = C777A2CD0A1DFEE400CF44D9 /* PKAtom.m */;
 		name = "PKAtom.m: 11";
 		rLen = 0;
-		rLoc = 183;
+		rLoc = 821;
 		rType = 0;
 		vrLen = 1243;
 		vrLoc = 0;
@@ -4151,7 +4139,7 @@
 		fRef = C7713B410950368F00653D2A /* PKBatchProcessWindowController.h */;
 		name = "PKBatchProcessWindowController.h: 47";
 		rLen = 0;
-		rLoc = 1363;
+		rLoc = 2001;
 		rType = 0;
 		vrLen = 1184;
 		vrLoc = 179;
@@ -4161,7 +4149,7 @@
 		fRef = C777A2CE0A1DFEE400CF44D9 /* PKBond.h */;
 		name = "PKBond.h: 9";
 		rLen = 0;
-		rLoc = 176;
+		rLoc = 814;
 		rType = 0;
 		vrLen = 819;
 		vrLoc = 0;
@@ -4171,7 +4159,7 @@
 		fRef = C73B27CC0CAD9EF600C09AAE /* PKSummarizer.h */;
 		name = "PKSummarizer.h: 27";
 		rLen = 0;
-		rLoc = 569;
+		rLoc = 1212;
 		rType = 0;
 		vrLen = 569;
 		vrLoc = 0;
@@ -4181,7 +4169,7 @@
 		fRef = C7BC19AA0CBBE2D20037FBA7 /* PKWindowController.m */;
 		name = "PKWindowController.m: 20";
 		rLen = 0;
-		rLoc = 349;
+		rLoc = 992;
 		rType = 0;
 		vrLen = 1398;
 		vrLoc = 14398;
@@ -4201,7 +4189,7 @@
 		fRef = C777A2CF0A1DFEE400CF44D9 /* PKBond.m */;
 		name = "PKBond.m: 45";
 		rLen = 0;
-		rLoc = 1310;
+		rLoc = 1948;
 		rType = 0;
 		vrLen = 1127;
 		vrLoc = 190;
@@ -4211,7 +4199,7 @@
 		fRef = C773669408E02D87002B72F1 /* PKChromatogramDataSeries.h */;
 		name = "PKChromatogramDataSeries.h: 15";
 		rLen = 0;
-		rLoc = 319;
+		rLoc = 957;
 		rType = 0;
 		vrLen = 1066;
 		vrLoc = 166;
@@ -4221,7 +4209,7 @@
 		fRef = C7EB17EB0898CF2F007FC2ED /* PKSpectrum.m */;
 		name = "PKSpectrum.m: 24";
 		rLen = 0;
-		rLoc = 475;
+		rLoc = 1113;
 		rType = 0;
 		vrLen = 1246;
 		vrLoc = 82;
@@ -4231,7 +4219,7 @@
 		fRef = C777A2C40A1DFEA800CF44D9 /* PKMoleculeView.m */;
 		name = "PKMoleculeView.m: 11";
 		rLen = 0;
-		rLoc = 214;
+		rLoc = 852;
 		rType = 0;
 		vrLen = 680;
 		vrLoc = 11006;
@@ -4251,7 +4239,7 @@
 		fRef = C7EB17D90898CF2E007FC2ED /* PKLibraryWindowController.m */;
 		name = "PKLibraryWindowController.m: 138";
 		rLen = 69;
-		rLoc = 5852;
+		rLoc = 6490;
 		rType = 0;
 		vrLen = 2114;
 		vrLoc = 4779;
@@ -4261,7 +4249,7 @@
 		fRef = C7CFFC760BBC0C290060B0C7 /* PKGCMSPrintView.m */;
 		name = "PKGCMSPrintView.m: 9";
 		rLen = 0;
-		rLoc = 143;
+		rLoc = 786;
 		rType = 0;
 		vrLen = 934;
 		vrLoc = 0;
@@ -4281,7 +4269,7 @@
 		fRef = C798C9E908E17B5400C6C7D1 /* PKDeletableTableView.m */;
 		name = "PKDeletableTableView.m: 9";
 		rLen = 0;
-		rLoc = 181;
+		rLoc = 819;
 		rType = 0;
 		vrLen = 948;
 		vrLoc = 0;
@@ -4291,7 +4279,7 @@
 		fRef = C79CE62D0CF356CD00C2D872 /* PKGraphicalController.m */;
 		name = "PKGraphicalController.m: 69";
 		rLen = 2;
-		rLoc = 2088;
+		rLoc = 2731;
 		rType = 0;
 		vrLen = 1008;
 		vrLoc = 0;
@@ -4301,7 +4289,7 @@
 		fRef = C74A28240CEE51C100FFB61F /* PKLibraryPanelController.m */;
 		name = "PKLibraryPanelController.m: 126";
 		rLen = 21;
-		rLoc = 4225;
+		rLoc = 4868;
 		rType = 0;
 		vrLen = 1540;
 		vrLoc = 2198;
@@ -4321,7 +4309,7 @@
 		fRef = C715DEB30A136AD200348AB5 /* PKGCMSDocument.h */;
 		name = "PKGCMSDocument.h: 85";
 		rLen = 0;
-		rLoc = 2248;
+		rLoc = 2886;
 		rType = 0;
 		vrLen = 789;
 		vrLoc = 1903;
@@ -4341,7 +4329,7 @@
 		fRef = C79CE62D0CF356CD00C2D872 /* PKGraphicalController.m */;
 		name = "PKGraphicalController.m: 69";
 		rLen = 2;
-		rLoc = 2088;
+		rLoc = 2731;
 		rType = 0;
 		vrLen = 1008;
 		vrLoc = 0;
@@ -4351,7 +4339,7 @@
 		fRef = C798C9E808E17B5400C6C7D1 /* PKDeletableTableView.h */;
 		name = "PKDeletableTableView.h: 9";
 		rLen = 20;
-		rLoc = 181;
+		rLoc = 819;
 		rType = 0;
 		vrLen = 872;
 		vrLoc = 348;
@@ -4361,7 +4349,7 @@
 		fRef = C777A2CF0A1DFEE400CF44D9 /* PKBond.m */;
 		name = "PKBond.m: 45";
 		rLen = 0;
-		rLoc = 1310;
+		rLoc = 1948;
 		rType = 0;
 		vrLen = 923;
 		vrLoc = 394;
@@ -4371,7 +4359,7 @@
 		fRef = C7490D4B0CAC0B28005DCA39 /* NSString+ModelCompare.h */;
 		name = "NSString+ModelCompare.h: 15";
 		rLen = 0;
-		rLoc = 290;
+		rLoc = 933;
 		rType = 0;
 		vrLen = 298;
 		vrLoc = 0;
@@ -4381,7 +4369,7 @@
 		fRef = C7490D4C0CAC0B28005DCA39 /* NSString+ModelCompare.m */;
 		name = "NSString+ModelCompare.m: 10";
 		rLen = 0;
-		rLoc = 185;
+		rLoc = 828;
 		rType = 0;
 		vrLen = 896;
 		vrLoc = 0;
@@ -4401,7 +4389,7 @@
 		fRef = C7490D4B0CAC0B28005DCA39 /* NSString+ModelCompare.h */;
 		name = "NSString+ModelCompare.h: 15";
 		rLen = 0;
-		rLoc = 290;
+		rLoc = 933;
 		rType = 0;
 		vrLen = 298;
 		vrLoc = 0;
@@ -4421,7 +4409,7 @@
 		fRef = C7C220610BEB831000510B5B /* PKBooleanToStringTransformer.h */;
 		name = "PKBooleanToStringTransformer.h: 17";
 		rLen = 0;
-		rLoc = 242;
+		rLoc = 885;
 		rType = 0;
 		vrLen = 242;
 		vrLoc = 0;
@@ -4431,7 +4419,7 @@
 		fRef = C7C220620BEB831000510B5B /* PKBooleanToStringTransformer.m */;
 		name = "PKBooleanToStringTransformer.m: 10";
 		rLen = 0;
-		rLoc = 185;
+		rLoc = 828;
 		rType = 0;
 		vrLen = 611;
 		vrLoc = 36;
@@ -4441,7 +4429,7 @@
 		fRef = C7490D420CAC0B28005DCA39 /* PKChromatogram.h */;
 		name = "PKChromatogram.h: 14";
 		rLen = 0;
-		rLoc = 296;
+		rLoc = 934;
 		rType = 0;
 		vrLen = 896;
 		vrLoc = 870;
@@ -4451,7 +4439,7 @@
 		fRef = C773669408E02D87002B72F1 /* PKChromatogramDataSeries.h */;
 		name = "PKChromatogramDataSeries.h: 15";
 		rLen = 0;
-		rLoc = 319;
+		rLoc = 957;
 		rType = 0;
 		vrLen = 1007;
 		vrLoc = 225;
@@ -4461,7 +4449,7 @@
 		fRef = C7EB17E80898CF2F007FC2ED /* PKPreferencesWindowController.h */;
 		name = "PKPreferencesWindowController.h: 19";
 		rLen = 0;
-		rLoc = 588;
+		rLoc = 1226;
 		rType = 0;
 		vrLen = 986;
 		vrLoc = 0;
@@ -4471,7 +4459,7 @@
 		fRef = C7EB17E90898CF2F007FC2ED /* PKPreferencesWindowController.m */;
 		name = "PKPreferencesWindowController.m: 56";
 		rLen = 43;
-		rLoc = 1907;
+		rLoc = 2545;
 		rType = 0;
 		vrLen = 1117;
 		vrLoc = 330;
@@ -4481,7 +4469,7 @@
 		fRef = C7BF0DC70CBE5D15003BEC49 /* PKRatiosController.h */;
 		name = "PKRatiosController.h: 25";
 		rLen = 0;
-		rLoc = 557;
+		rLoc = 1200;
 		rType = 0;
 		vrLen = 557;
 		vrLoc = 0;
@@ -4491,7 +4479,7 @@
 		fRef = C70DB8EB09573BEA00C2B386 /* PKRatio.h */;
 		name = "PKRatio.h: 34";
 		rLen = 0;
-		rLoc = 785;
+		rLoc = 1423;
 		rType = 0;
 		vrLen = 759;
 		vrLoc = 32;
@@ -4501,7 +4489,7 @@
 		fRef = C70DB8EC09573BEA00C2B386 /* PKRatio.m */;
 		name = "PKRatio.m: 107";
 		rLen = 8;
-		rLoc = 3357;
+		rLoc = 3995;
 		rType = 0;
 		vrLen = 1402;
 		vrLoc = 3054;
@@ -4521,7 +4509,7 @@
 		fRef = C70DB8EC09573BEA00C2B386 /* PKRatio.m */;
 		name = "PKRatio.m: 107";
 		rLen = 8;
-		rLoc = 3357;
+		rLoc = 3995;
 		rType = 0;
 		vrLen = 1402;
 		vrLoc = 3054;
@@ -4551,7 +4539,7 @@
 		fRef = C7490D470CAC0B28005DCA39 /* PKPeakRecord.h */;
 		name = "PKPeakRecord.h: 45";
 		rLen = 22;
-		rLoc = 968;
+		rLoc = 1606;
 		rType = 0;
 		vrLen = 774;
 		vrLoc = 529;
@@ -4561,7 +4549,7 @@
 		fRef = C7EB17D80898CF2E007FC2ED /* PKLibraryWindowController.h */;
 		name = "PKLibraryWindowController.h: 17";
 		rLen = 9;
-		rLoc = 468;
+		rLoc = 1106;
 		rType = 0;
 		vrLen = 783;
 		vrLoc = 0;
@@ -4571,7 +4559,7 @@
 		fRef = C7EB17CE0898CF2E007FC2ED /* PKAppDelegate.h */;
 		name = "PKAppDelegate.h: 116";
 		rLen = 0;
-		rLoc = 3813;
+		rLoc = 5110;
 		rType = 0;
 		vrLen = 862;
 		vrLoc = 169;
@@ -4581,7 +4569,7 @@
 		fRef = C73B27D60CB1224100C09AAE /* PKSummaryController.h */;
 		name = "PKSummaryController.h: 42";
 		rLen = 0;
-		rLoc = 1180;
+		rLoc = 1823;
 		rType = 0;
 		vrLen = 891;
 		vrLoc = 187;
@@ -4591,7 +4579,7 @@
 		fRef = C773669608E02D87002B72F1 /* PKSpectrumDataSeries.h */;
 		name = "PKSpectrumDataSeries.h: 36";
 		rLen = 0;
-		rLoc = 879;
+		rLoc = 1517;
 		rType = 0;
 		vrLen = 797;
 		vrLoc = 82;
@@ -4601,7 +4589,7 @@
 		fRef = C7EB17F50898CFBC007FC2ED /* PKGraphDataSeries.h */;
 		name = "PKGraphDataSeries.h: 55";
 		rLen = 13;
-		rLoc = 1472;
+		rLoc = 2110;
 		rType = 0;
 		vrLen = 1100;
 		vrLoc = 2864;
@@ -4611,7 +4599,7 @@
 		fRef = C773669608E02D87002B72F1 /* PKSpectrumDataSeries.h */;
 		name = "PKSpectrumDataSeries.h: 36";
 		rLen = 0;
-		rLoc = 879;
+		rLoc = 1517;
 		rType = 0;
 		vrLen = 797;
 		vrLoc = 82;
@@ -4621,7 +4609,7 @@
 		fRef = C7BC18A60CBBCA5E0037FBA7 /* PKDocumentController.h */;
 		name = "PKDocumentController.h: 18";
 		rLen = 0;
-		rLoc = 439;
+		rLoc = 1082;
 		rType = 0;
 		vrLen = 803;
 		vrLoc = 3;
@@ -4631,7 +4619,7 @@
 		fRef = C7EB17DC0898CF2E007FC2ED /* PKMainWindowController.h */;
 		name = "PKMainWindowController.h: 96";
 		rLen = 0;
-		rLoc = 2573;
+		rLoc = 3211;
 		rType = 0;
 		vrLen = 1107;
 		vrLoc = 2326;
@@ -4641,7 +4629,7 @@
 		fRef = C7F0D0550B11D9030046F994 /* PKMassWeightController.h */;
 		name = "PKMassWeightController.h: 31";
 		rLen = 0;
-		rLoc = 776;
+		rLoc = 1410;
 		rType = 0;
 		vrLen = 776;
 		vrLoc = 0;
@@ -4651,7 +4639,7 @@
 		fRef = C7F5E8F308EAA98600AC1068 /* PKManagedLibraryEntry.h */;
 		name = "PKManagedLibraryEntry.h: 50";
 		rLen = 0;
-		rLoc = 1294;
+		rLoc = 1932;
 		rType = 0;
 		vrLen = 834;
 		vrLoc = 684;
@@ -4692,16 +4680,16 @@
 	};
 	C7BC505109A62C930093106E /* PKLog.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 1470}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 2828}}";
 			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 625}";
+			sepNavVisRange = "{0, 764}";
 			sepNavVisRect = "{{0, 37}, {899, 467}}";
 			sepNavWindowFrame = "{{15, 7}, {950, 820}}";
 		};
 	};
 	C7BC505209A62C930093106E /* PKLog.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 362}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 404}}";
 			sepNavSelRange = "{400, 0}";
 			sepNavVisRange = "{0, 400}";
 			sepNavVisRect = "{{0, 0}, {899, 467}}";
@@ -4709,17 +4697,17 @@
 	};
 	C7BDA6BF0AF8B40E003513C7 /* PKFontNameToDisplayNameTransformer.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 980}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 1092}}";
 			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 772}";
+			sepNavVisRange = "{0, 701}";
 			sepNavVisRect = "{{0, 0}, {899, 491}}";
 		};
 	};
 	C7BDA6C00AF8B40E003513C7 /* PKFontNameToDisplayNameTransformer.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 644}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 630}}";
 			sepNavSelRange = "{2527, 0}";
-			sepNavVisRange = "{0, 1994}";
+			sepNavVisRange = "{0, 1477}";
 			sepNavVisRect = "{{0, 0}, {899, 491}}";
 		};
 	};
@@ -4746,25 +4734,25 @@
 	};
 	C7C220610BEB831000510B5B /* PKBooleanToStringTransformer.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 432}}";
-			sepNavSelRange = "{242, 0}";
-			sepNavVisRange = "{0, 242}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 420}}";
+			sepNavSelRange = "{906, 0}";
+			sepNavVisRange = "{0, 906}";
 			sepNavVisRect = "{{0, 0}, {899, 491}}";
 		};
 	};
 	C7C220620BEB831000510B5B /* PKBooleanToStringTransformer.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 476}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 476}}";
 			sepNavSelRange = "{185, 0}";
-			sepNavVisRange = "{36, 611}";
+			sepNavVisRange = "{36, 605}";
 			sepNavVisRect = "{{0, 0}, {899, 491}}";
 		};
 	};
 	C7C299880B8B48CC0017B2B2 /* PKArrayEncodingObject.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 509}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 476}}";
 			sepNavSelRange = "{876, 0}";
-			sepNavVisRange = "{0, 876}";
+			sepNavVisRange = "{0, 670}";
 			sepNavVisRect = "{{0, 0}, {1427, 658}}";
 		};
 	};
@@ -4779,7 +4767,7 @@
 	};
 	C7C2998E0B8B4B0F0017B2B2 /* NSKeyedArchiver+CArrayEncoding.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 424}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 404}}";
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRange = "{0, 1400}";
 			sepNavVisRect = "{{0, 0}, {899, 491}}";
@@ -4795,7 +4783,7 @@
 	};
 	C7C29ABB0B8B67530017B2B2 /* NSCoder+CArrayEncoding.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 350}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 404}}";
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRange = "{0, 1137}";
 			sepNavVisRect = "{{0, 0}, {966, 553}}";
@@ -4812,9 +4800,9 @@
 	};
 	C7C588DB0CFD6DD10009CDD9 /* PKPluginProtocol.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 2702}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 2870}}";
 			sepNavSelRange = "{4173, 160}";
-			sepNavVisRange = "{3573, 1021}";
+			sepNavVisRange = "{0, 627}";
 			sepNavWindowFrame = "{{507, 61}, {638, 771}}";
 		};
 	};
@@ -4859,6 +4847,23 @@
 			sepNavVisRect = "{{0, 2268}, {1017, 596}}";
 		};
 	};
+	C7D36C060E08225600D56E1B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C73B27CD0CAD9EF600C09AAE /* PKSummarizer.m */;
+		name = "PKSummarizer.m: 216";
+		rLen = 0;
+		rLoc = 9983;
+		rType = 0;
+		vrLen = 757;
+		vrLoc = 10062;
+	};
+	C7D36C160E08262800D56E1B /* GPL-3.0.txt */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {831, 9464}}";
+			sepNavSelRange = "{33028, 771}";
+			sepNavVisRange = "{32750, 1448}";
+		};
+	};
 	C7D4A56C0D2DA8CE00E97AD4 /* PKDefaultPeakDetectionMethod.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1016, 534}}";
@@ -4882,9 +4887,9 @@
 	};
 	C7D4A5D30D2DB9B500E97AD4 /* PKAbundanceSpectraMatchingMethod.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1016, 3430}}";
-			sepNavSelRange = "{1607, 130}";
-			sepNavVisRange = "{841, 1600}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 3612}}";
+			sepNavSelRange = "{2266, 130}";
+			sepNavVisRange = "{0, 956}";
 			sepNavWindowFrame = "{{301, 59}, {733, 773}}";
 		};
 	};
@@ -4934,7 +4939,7 @@
 	};
 	C7D7D6680B7203AF004ABEB5 /* NSBezierPath+RoundRect.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {831, 409}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 404}}";
 			sepNavSelRange = "{62, 23}";
 			sepNavVisRange = "{0, 296}";
 			sepNavVisRect = "{{0, 0}, {899, 491}}";
@@ -4942,9 +4947,9 @@
 	};
 	C7D7D6690B7203AF004ABEB5 /* NSBezierPath+RoundRect.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {758, 518}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 476}}";
 			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 1594}";
+			sepNavVisRange = "{0, 1445}";
 			sepNavVisRect = "{{0, 13}, {899, 491}}";
 		};
 	};
@@ -5057,9 +5062,9 @@
 	};
 	C7EB17A60898CF2D007FC2ED /* AccessorMacros.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1016, 1568}}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 1596}}";
 			sepNavSelRange = "{1186, 27}";
-			sepNavVisRange = "{659, 904}";
+			sepNavVisRange = "{0, 925}";
 			sepNavVisRect = "{{0, 161}, {899, 491}}";
 			sepNavWindowFrame = "{{38, 264}, {750, 542}}";
 		};
@@ -5122,18 +5127,18 @@
 	};
 	C7EB17CE0898CF2E007FC2ED /* PKAppDelegate.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 1344}}";
-			sepNavSelRange = "{3813, 0}";
-			sepNavVisRange = "{169, 862}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 1918}}";
+			sepNavSelRange = "{139, 26}";
+			sepNavVisRange = "{0, 1337}";
 			sepNavVisRect = "{{0, 148}, {1426, 551}}";
 			sepNavWindowFrame = "{{15, 7}, {950, 820}}";
 		};
 	};
 	C7EB17CF0898CF2E007FC2ED /* PKAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {831, 12782}}";
-			sepNavSelRange = "{34078, 22}";
-			sepNavVisRange = "{33561, 820}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 12530}}";
+			sepNavSelRange = "{109, 719}";
+			sepNavVisRange = "{0, 1056}";
 			sepNavVisRect = "{{0, 6074}, {1426, 551}}";
 			sepNavWindowFrame = "{{248, 56}, {950, 776}}";
 		};
@@ -5270,9 +5275,9 @@
 	};
 	C7EB17F40898CFBC007FC2ED /* PKMassWeightController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 1400}}";
-			sepNavSelRange = "{1944, 35}";
-			sepNavVisRange = "{1623, 624}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 1582}}";
+			sepNavSelRange = "{109, 0}";
+			sepNavVisRange = "{0, 954}";
 			sepNavVisRect = "{{0, 294}, {899, 491}}";
 			sepNavWindowFrame = "{{15, 7}, {950, 820}}";
 		};
@@ -5336,9 +5341,9 @@
 	};
 	C7F0D0550B11D9030046F994 /* PKMassWeightController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1012, 434}}";
-			sepNavSelRange = "{776, 0}";
-			sepNavVisRange = "{0, 776}";
+			sepNavIntBoundsRect = "{{0, 0}, {831, 616}}";
+			sepNavSelRange = "{108, 0}";
+			sepNavVisRange = "{0, 1069}";
 			sepNavVisRect = "{{0, 0}, {1017, 637}}";
 		};
 	};
@@ -5436,7 +5441,7 @@
 		modificationTime = 234821288.09051;
 		state = 2;
 	};
-	C7FD97A10D5740CE00C96A3D /* PKSpectrum.m:9 */ = {
+	C7FD97A10D5740CE00C96A3D /* PKSpectrum.m:22 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -5448,7 +5453,7 @@
 		functionName = "-oldScoreComparedTo:usingMethod:penalizingForRententionIndex:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 9;
+		lineNumber = 22;
 		location = Peacock;
 		modificationTime = 234821288.090629;
 		state = 2;
