@@ -237,13 +237,10 @@
 - (NSString *)group {
     if ([self libraryEntry]) {
         if ([[self libraryEntry] group])
-            return [[self libraryEntry] group];
+            if (![[[self libraryEntry] group] isEqualToString:@""])
+                return [[self libraryEntry] group];
     }
 	return @"X";
-}
-
-- (void)setGroup:(NSString *)newGroup {
-    PKLogDebug(@"setting group for %@ to %@, but actually is %@", [self label], newGroup, [self group]);
 }
 
 - (PKLibraryEntry *)libraryEntry {

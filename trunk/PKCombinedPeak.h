@@ -47,7 +47,6 @@
 
 //- (NSNumber *)retentionIndex;
 - (NSString *)group;
-- (void)setGroup:(NSString *)newGroup;
 
 - (PKLibraryEntry *)libraryEntry;
 - (void)setLibraryEntry:(PKLibraryEntry *)libraryEntry;
