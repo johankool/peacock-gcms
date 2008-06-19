@@ -125,12 +125,22 @@
     NSAssert([aPeak document], @"No document set for peak.");
     NSAssert(documentKey, @"UUID of document is not set.");
     [self setValue:aPeak forKey:documentKey];
+    // Set the symbol for the peak
+    if ([self symbol] && ![[self symbol] isEqualToString:@""]) {
+        if (![aPeak symbol] || [[aPeak symbol] isEqualToString:@""]) {
+            [aPeak setSymbol:[self symbol]];
+        }
+    }
 }
 
 - (void)removeUnconfirmedPeak:(PKPeakRecord *)aPeak {
     NSString *documentKey = [[aPeak document] uuid];
     NSAssert(documentKey, @"UUID of document is not set.");
     [self setValue:nil forKey:documentKey];
+    // Remove the symbol for the peak, but if don't have one, preserve it
+    if ([self symbol] && ![[self symbol] isEqualToString:@""]) {
+        [aPeak setSymbol:@""];
+    }
 }
 #pragma mark -
 

@@ -25,6 +25,7 @@
 #import "CFragment.h"
 #import "pk_statistics.h"
 #import "PKAppDelegate.h"
+#import "PKLibraryEntry.h"
 #import "NSManagedObject+DatapointAccessors.h"
 
 @implementation PKManagedLibraryEntry
@@ -1187,7 +1188,7 @@
 
 #pragma mark Encoding
 - (void)encodeWithCoder:(NSCoder *)coder{
-    if ( [coder allowsKeyedCoding] ) { // Assuming 10.2 is quite safe!!
+    if ([coder allowsKeyedCoding]) {
         [coder encodeInt:2 forKey:@"version"];
 		[coder encodeObject:[self jcampString] forKey:@"jcampString"];
     } 
@@ -1199,7 +1200,9 @@
 		int version = [coder decodeIntForKey:@"version"];
 		needDatapointsRefresh = YES;
 		if (version >= 2) {
-            return [[NSApp delegate] addLibraryEntryBasedOnJCAMPString:[coder decodeObjectForKey:@"jcampString"]];
+            PKLogDebug(@"PKLibraryEntry returned instead of PKManagedLibraryEntry, likely because it was not found in the current Peacock libraries.");
+            return [[PKLibraryEntry alloc] initWithJCAMPString:[coder decodeObjectForKey:@"jcampString"]];
+            //return [[NSApp delegate] addLibraryEntryBasedOnJCAMPString:[coder decodeObjectForKey:@"jcampString"]];
         } else  {
             return nil;
 		}
