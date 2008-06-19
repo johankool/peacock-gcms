@@ -10,6 +10,7 @@
 		};
 	};
 	2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
+		activeArchitecture = i386;
 		activeBuildConfigurationName = Debug;
 		activeExecutable = C7EB17970898CF04007FC2ED /* Peacock */;
 		activeTarget = 8D15AC270486D014006FF6A4 /* Peacock */;
@@ -227,8 +228,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 235437419;
-			PBXWorkspaceStateSaveDate = 235437419;
+			PBXPerProjectTemplateStateSaveDate = 235587562;
+			PBXWorkspaceStateSaveDate = 235587562;
 		};
 		perUserProjectItems = {
 			C70BAA180DE84F9B0022991C = C70BAA180DE84F9B0022991C /* PBXTextBookmark */;
@@ -324,7 +325,7 @@
 			C715989F0DDDCAE800374F96 = C715989F0DDDCAE800374F96 /* PBXTextBookmark */;
 			C71598A00DDDCAE800374F96 = C71598A00DDDCAE800374F96 /* PBXTextBookmark */;
 			C722E8F90E082CB7009EA848 = C722E8F90E082CB7009EA848 /* PBXTextBookmark */;
-			C722E90D0E087D7F009EA848 /* PBXTextBookmark */ = C722E90D0E087D7F009EA848 /* PBXTextBookmark */;
+			C722E90D0E087D7F009EA848 = C722E90D0E087D7F009EA848 /* PBXTextBookmark */;
 			C731E4230DF025C2000B1734 = C731E4230DF025C2000B1734 /* PBXTextBookmark */;
 			C731E4800DF73FA0000B1734 = C731E4800DF73FA0000B1734 /* PBXTextBookmark */;
 			C731E4B70DF74328000B1734 = C731E4B70DF74328000B1734 /* XDModelBookmark */;
@@ -553,6 +554,8 @@
 			C7BB8C680DEDEF1E00121E67 = C7BB8C680DEDEF1E00121E67 /* PBXTextBookmark */;
 			C7BB8C780DEDEFB700121E67 = C7BB8C780DEDEFB700121E67 /* PBXTextBookmark */;
 			C7D36C060E08225600D56E1B = C7D36C060E08225600D56E1B /* PBXTextBookmark */;
+			C7E97D480E0AC80D0044D9E4 /* PBXTextBookmark */ = C7E97D480E0AC80D0044D9E4 /* PBXTextBookmark */;
+			C7E97D490E0AC80D0044D9E4 /* PBXTextBookmark */ = C7E97D490E0AC80D0044D9E4 /* PBXTextBookmark */;
 			C7FA44700DCD14080097BB2D = C7FA44700DCD14080097BB2D /* PBXTextBookmark */;
 			C7FB2D4A0DC0AB2A009052EB = C7FB2D4A0DC0AB2A009052EB /* PBXTextBookmark */;
 			C7FB2D4B0DC0AB2A009052EB = C7FB2D4B0DC0AB2A009052EB /* PBXTextBookmark */;
@@ -1477,7 +1480,7 @@
 		rLen = 44;
 		rLoc = 631;
 		rType = 0;
-		vrLen = 477;
+		vrLen = 456;
 		vrLoc = 343;
 	};
 	C7105F3C0DA4F15B00271B6C /* PBXTextBookmark */ = {
@@ -2089,9 +2092,9 @@
 	};
 	C7490D710CAC0CA4005DCA39 /* pk_statistics.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {831, 700}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1019, 700}}";
 			sepNavSelRange = "{130, 0}";
-			sepNavVisRange = "{0, 520}";
+			sepNavVisRange = "{0, 601}";
 		};
 	};
 	C74A28230CEE51C100FFB61F /* PKLibraryPanelController.h */ = {
@@ -4717,6 +4720,26 @@
 		state = 2;
 		symbolName = "[NSException raise]";
 	};
+	C7E97D480E0AC80D0044D9E4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7490D710CAC0CA4005DCA39 /* pk_statistics.c */;
+		name = "pk_statistics.c: 10";
+		rLen = 0;
+		rLoc = 130;
+		rType = 0;
+		vrLen = 601;
+		vrLoc = 0;
+	};
+	C7E97D490E0AC80D0044D9E4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C7490D710CAC0CA4005DCA39 /* pk_statistics.c */;
+		name = "pk_statistics.c: 10";
+		rLen = 0;
+		rLoc = 130;
+		rType = 0;
+		vrLen = 601;
+		vrLoc = 0;
+	};
 	C7EB17970898CF04007FC2ED /* Peacock */ = {
 		isa = PBXExecutable;
 		activeArgIndices = (
@@ -4802,7 +4825,7 @@
 		isSCMEnabled = 1;
 		scmConfiguration = {
 			SubversionToolPath = /usr/local/bin/svn;
-			repositoryName = Peacock;
+			repositoryName = "Peacock GCMS";
 		};
 		scmType = scm.subversion;
 	};

@@ -23,7 +23,7 @@
 #import "AccessorMacros.h"
 #import "PKMoleculeModel.h"
 
-#import <LinkBack/LinkBack.h>
+//#import <LinkBack/LinkBack.h>
 
 @interface PKMoleculeView : NSView <NSCoding> {
     float margin, scaleFactor;

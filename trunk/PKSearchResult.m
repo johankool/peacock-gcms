@@ -144,6 +144,7 @@
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
+    _libraryHit = nil;
     if ([coder allowsKeyedCoding]) {
         int version = [coder decodeIntForKey:@"version"];
         if (version < 2) {

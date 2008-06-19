@@ -161,11 +161,11 @@
 		[toolbarItem setAction: @selector(saveDocument:)];
     }  else if ([itemIdent isEqual: @"Identify Baseline Item Identifier"]) {
 		// Set the text label to be displayed in the toolbar and customization palette 
-		[toolbarItem setLabel:NSLocalizedString(@"Identify Baseline",@"")];
-		[toolbarItem setPaletteLabel:NSLocalizedString(@"Identify Baseline",@"")];
+		[toolbarItem setLabel:NSLocalizedString(@"Detect Baseline",@"")];
+		[toolbarItem setPaletteLabel:NSLocalizedString(@"Detect Baseline",@"")];
 		
 		// Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
-		[toolbarItem setToolTip:NSLocalizedString(@"Identify the baseline in your chromatogram",@"")];
+		[toolbarItem setToolTip:NSLocalizedString(@"Detect the baseline in your chromatogram",@"")];
 		[toolbarItem setImage: [NSImage imageNamed: @"Identify Baseline"]];
 		
 		// Tell the item what message to send when it is clicked 
@@ -173,11 +173,11 @@
 		[toolbarItem setAction: @selector(obtainBaseline:)];
     }   else if ([itemIdent isEqual: @"Identify Peaks Item Identifier"]) {
 		// Set the text label to be displayed in the toolbar and customization palette 
-		[toolbarItem setLabel:NSLocalizedString(@"Identify Peaks",@"")];
-		[toolbarItem setPaletteLabel:NSLocalizedString(@"Identify Peaks",@"")];
+		[toolbarItem setLabel:NSLocalizedString(@"Detect Peaks",@"")];
+		[toolbarItem setPaletteLabel:NSLocalizedString(@"Detect Peaks",@"")];
 		
 		// Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
-		[toolbarItem setToolTip:NSLocalizedString(@"Identify the peaks in your chromatogram",@"")];
+		[toolbarItem setToolTip:NSLocalizedString(@"Detect the peaks in your chromatogram",@"")];
 		[toolbarItem setImage: [NSImage imageNamed: @"Identify Peaks"]];
 		
 		// Tell the item what message to send when it is clicked 
