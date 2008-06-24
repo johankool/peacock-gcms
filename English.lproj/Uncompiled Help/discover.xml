@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page>
+<!--
+		Tags are what identifies a page. Any page can have more than one tag,
+		and the same tag can appear in more than one page. 
+		
+		Links are specified as tags, so if you want to directly link to
+		a certain page, make sure it's the only page using that tag.
+		
+		Having the same tag on more than one page is useful for index 
+		purposes. E.g., tag all pages related to printing as 'printing'
+		and make an index entry that points to the tag 'printing'.
+		You'll get a nice page that lists all pages having 'printing'.
+		
+		A few tags are fixed, such as 'access' for the access page, plus 
+		'xa' through 'xz' and 'xall' for the index pages.
+	-->
+        <tag>discover</tag>
+<!--
+		The title of that page. May appear on other pages as well,
+		when referencing this page in <related> sections or on the
+		access page.
+	-->
+        <title>Discover Peacock</title>
+<!--
+		Links to pages that are related to this page. Related pages
+		are specified by one of their tags in the tag= attribute.
+		
+		Optional.
+	-->
+        <related>
+                <item tag="detect"/>
+                <item tag="problems"/>
+        </related>
+<!--
+		The content of this help page. You can use simple HTML such as
+		<p> for paragraphs, <b> for bold, <i> for italics, <img> for
+		images and <ul>/<li> for lists. Special tags are:
+		
+		<link href=""> for an internal link to the help page
+			having the specified tag
+			
+		<taskbox title=""> for a bordered, titled box. See
+			problems.xml for an example.
+	-->
+        <content>
+                <p><b>Sample App</b> is a <link tag="problems">great</link> application!
+		</p>
+                <ul>
+                        <li>foo</li>
+                        <li>bar</li>
+                </ul>
+        </content>
+</page>

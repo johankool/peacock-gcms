@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page>
+        <tag>detectpeaks</tag>
+        <tag>detect</tag>
+        <tag>peaks</tag>
+        <tag>baseline</tag>
+        
+        <title>Detecting Peaks</title>
+        <content>
+                <p>Once you are satisfied with the baseline for the chromatogram you can detect peaks in it.</p>
+                <taskbox title="Steps to detect peaks">
+                        <ol>
+                                <li>Ensure that you are satisfied with the current baseline</li>
+                                <li>Set your preferred settings in the "Processing"-pane of the inspector</li>
+                                <li>Click on the "Detect Peaks" toolbar icon or choose the menu-item "Process" : "Detect Peaks"</li>
+                        </ol>
+                </taskbox>
+                <!-- <preftable>
+                        <tr>
+                                <preference>Threshold</preference>
+                                <explanation></explanation>
+                        </tr>
+                </preftable> -->
+        </content>
+</page>

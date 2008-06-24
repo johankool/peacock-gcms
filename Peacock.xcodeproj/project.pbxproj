@@ -24,6 +24,17 @@
 		C716B4BD0AD6AA8F00DA408E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C716B4AD0AD6AA8F00DA408E /* CoreData.framework */; };
 		C71A0D670CBA8176008D5FB2 /* RBSplitSubview.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6150094DBE3A00C0887E /* RBSplitSubview.m */; };
 		C71A0D680CBA8178008D5FB2 /* RBSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6152094DBE3A00C0887E /* RBSplitView.m */; };
+		C71A98840E1114B80094D987 /* access.xml in Resources */ = {isa = PBXBuildFile; fileRef = C71A98790E1114B80094D987 /* access.xml */; };
+		C71A98850E1114B80094D987 /* detectbaseline.xml in Resources */ = {isa = PBXBuildFile; fileRef = C71A987A0E1114B80094D987 /* detectbaseline.xml */; };
+		C71A98860E1114B80094D987 /* detectpeaks.xml in Resources */ = {isa = PBXBuildFile; fileRef = C71A987B0E1114B80094D987 /* detectpeaks.xml */; };
+		C71A98870E1114B90094D987 /* discover.xml in Resources */ = {isa = PBXBuildFile; fileRef = C71A987C0E1114B80094D987 /* discover.xml */; };
+		C71A98880E1114B90094D987 /* AppIcon16.png in Resources */ = {isa = PBXBuildFile; fileRef = C71A987E0E1114B80094D987 /* AppIcon16.png */; };
+		C71A98890E1114B90094D987 /* AppIcon32.png in Resources */ = {isa = PBXBuildFile; fileRef = C71A987F0E1114B80094D987 /* AppIcon32.png */; };
+		C71A988A0E1114B90094D987 /* identifycompounds.xml in Resources */ = {isa = PBXBuildFile; fileRef = C71A98800E1114B80094D987 /* identifycompounds.xml */; };
+		C71A988B0E1114B90094D987 /* index.xml in Resources */ = {isa = PBXBuildFile; fileRef = C71A98810E1114B80094D987 /* index.xml */; };
+		C71A988C0E1114B90094D987 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C71A98820E1114B80094D987 /* Info.plist */; };
+		C71A988D0E1114B90094D987 /* problems.xml in Resources */ = {isa = PBXBuildFile; fileRef = C71A98830E1114B80094D987 /* problems.xml */; };
+		C71A99560E11150B0094D987 /* Peacock Help in Resources */ = {isa = PBXBuildFile; fileRef = C71A98EF0E11150B0094D987 /* Peacock Help */; };
 		C720AB8809EA7B6C007EF860 /* pk_statistics.h in Headers */ = {isa = PBXBuildFile; fileRef = C720AB8609EA7B6C007EF860 /* pk_statistics.h */; };
 		C7213E470D1726DB0062E45B /* PKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* PKLog.m */; };
 		C729CAA90A4B45CD00FAB04F /* PKDataModelProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = C729CAA70A4B45CD00FAB04F /* PKDataModelProxy.h */; };
@@ -253,6 +264,17 @@
 		C715DEB30A136AD200348AB5 /* PKGCMSDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PKGCMSDocument.h; sourceTree = "<group>"; };
 		C715DECE0A136B2F00348AB5 /* PKGCMSDocument.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PKGCMSDocument.m; sourceTree = "<group>"; };
 		C716B4AD0AD6AA8F00DA408E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		C71A98790E1114B80094D987 /* access.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = access.xml; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/access.xml"; sourceTree = "<absolute>"; };
+		C71A987A0E1114B80094D987 /* detectbaseline.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = detectbaseline.xml; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/detectbaseline.xml"; sourceTree = "<absolute>"; };
+		C71A987B0E1114B80094D987 /* detectpeaks.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = detectpeaks.xml; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/detectpeaks.xml"; sourceTree = "<absolute>"; };
+		C71A987C0E1114B80094D987 /* discover.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = discover.xml; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/discover.xml"; sourceTree = "<absolute>"; };
+		C71A987E0E1114B80094D987 /* AppIcon16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon16.png; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/gfx/AppIcon16.png"; sourceTree = "<absolute>"; };
+		C71A987F0E1114B80094D987 /* AppIcon32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon32.png; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/gfx/AppIcon32.png"; sourceTree = "<absolute>"; };
+		C71A98800E1114B80094D987 /* identifycompounds.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = identifycompounds.xml; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/identifycompounds.xml"; sourceTree = "<absolute>"; };
+		C71A98810E1114B80094D987 /* index.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = index.xml; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/index.xml"; sourceTree = "<absolute>"; };
+		C71A98820E1114B80094D987 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/Info.plist"; sourceTree = "<absolute>"; };
+		C71A98830E1114B80094D987 /* problems.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = problems.xml; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/problems.xml"; sourceTree = "<absolute>"; };
+		C71A98F00E11150B0094D987 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = "/Users/jkool/Developer/peacock-gcms/English.lproj/Peacock Help"; sourceTree = "<absolute>"; };
 		C720AB8609EA7B6C007EF860 /* pk_statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pk_statistics.h; sourceTree = "<group>"; };
 		C720AB8709EA7B6C007EF860 /* pk_statistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pk_statistics.m; sourceTree = "<group>"; };
 		C729CAA70A4B45CD00FAB04F /* PKDataModelProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKDataModelProxy.h; sourceTree = "<group>"; };
@@ -316,7 +338,6 @@
 		C777A2D10A1DFEE400CF44D9 /* PKMoleculeModel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PKMoleculeModel.m; sourceTree = "<group>"; };
 		C778A2C50D4FCF02005C95E0 /* PKAbundanceTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKAbundanceTest.h; sourceTree = "<group>"; };
 		C778A2C60D4FCF02005C95E0 /* PKAbundanceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKAbundanceTest.m; sourceTree = "<group>"; };
-		C77C583009800FAD002E7796 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = "English.lproj/Peacock Help"; sourceTree = "<group>"; };
 		C77E2FBD0C0EF20C00B8A64A /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
 		C77E2FC00C0EF21700B8A64A /* minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minus.png; sourceTree = "<group>"; };
 		C77E32B80C0F2CBB00B8A64A /* libraries.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = libraries.png; sourceTree = "<group>"; };
@@ -591,6 +612,33 @@
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
+		};
+		C71A98780E1114B80094D987 /* Uncompiled Help */ = {
+			isa = PBXGroup;
+			children = (
+				C71A98790E1114B80094D987 /* access.xml */,
+				C71A987A0E1114B80094D987 /* detectbaseline.xml */,
+				C71A987B0E1114B80094D987 /* detectpeaks.xml */,
+				C71A987C0E1114B80094D987 /* discover.xml */,
+				C71A987D0E1114B80094D987 /* gfx */,
+				C71A98800E1114B80094D987 /* identifycompounds.xml */,
+				C71A98810E1114B80094D987 /* index.xml */,
+				C71A98820E1114B80094D987 /* Info.plist */,
+				C71A98830E1114B80094D987 /* problems.xml */,
+			);
+			name = "Uncompiled Help";
+			path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help";
+			sourceTree = "<absolute>";
+		};
+		C71A987D0E1114B80094D987 /* gfx */ = {
+			isa = PBXGroup;
+			children = (
+				C71A987E0E1114B80094D987 /* AppIcon16.png */,
+				C71A987F0E1114B80094D987 /* AppIcon32.png */,
+			);
+			name = gfx;
+			path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/gfx";
+			sourceTree = "<absolute>";
 		};
 		C72C85C8098BF12600CEF565 /* Tests */ = {
 			isa = PBXGroup;
@@ -872,11 +920,12 @@
 		C7EB18070898CFBD007FC2ED /* Text */ = {
 			isa = PBXGroup;
 			children = (
+				C71A98780E1114B80094D987 /* Uncompiled Help */,
 				C7D36C160E08262800D56E1B /* GPL-3.0.txt */,
+				C71A98EF0E11150B0094D987 /* Peacock Help */,
 				C758C8C40D0EE8CB0068F70A /* Notes.txt */,
 				C7BB34FC0D1AEE310065B99C /* Errors */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
-				C77C582F09800FAD002E7796 /* Peacock Help */,
 				C70DC019095B205500C2B386 /* Credits.rtf */,
 				C7F3EED10CE211EA008F7BBC /* License.rtf */,
 				C70DC016095B201200C2B386 /* Localizable.strings */,
@@ -1062,6 +1111,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C71A99560E11150B0094D987 /* Peacock Help in Resources */,
 				C7BB88310DE8C63C00121E67 /* License.rtf in Resources */,
 				C70021320CF1CF8200EC976C /* Peacock Test Files in Resources */,
 				C70DC01A095B205500C2B386 /* Credits.rtf in Resources */,
@@ -1112,6 +1162,16 @@
 				C78603020DE88131007138CC /* PKPreferences.xib in Resources */,
 				C78603070DE88159007138CC /* PKBatchProcess.xib in Resources */,
 				C7D36C170E08262800D56E1B /* GPL-3.0.txt in Resources */,
+				C71A98840E1114B80094D987 /* access.xml in Resources */,
+				C71A98850E1114B80094D987 /* detectbaseline.xml in Resources */,
+				C71A98860E1114B80094D987 /* detectpeaks.xml in Resources */,
+				C71A98870E1114B90094D987 /* discover.xml in Resources */,
+				C71A98880E1114B90094D987 /* AppIcon16.png in Resources */,
+				C71A98890E1114B90094D987 /* AppIcon32.png in Resources */,
+				C71A988A0E1114B90094D987 /* identifycompounds.xml in Resources */,
+				C71A988B0E1114B90094D987 /* index.xml in Resources */,
+				C71A988C0E1114B90094D987 /* Info.plist in Resources */,
+				C71A988D0E1114B90094D987 /* problems.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1311,21 +1371,20 @@
 			name = Credits.rtf;
 			sourceTree = "<group>";
 		};
+		C71A98EF0E11150B0094D987 /* Peacock Help */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C71A98F00E11150B0094D987 /* English */,
+			);
+			name = "Peacock Help";
+			sourceTree = "<group>";
+		};
 		C75C65610CFE1A0F003C7700 /* schema.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				C75C65620CFE1A0F003C7700 /* English */,
 			);
 			name = schema.strings;
-			sourceTree = "<group>";
-		};
-		C77C582F09800FAD002E7796 /* Peacock Help */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C77C583009800FAD002E7796 /* English */,
-			);
-			name = "Peacock Help";
-			path = ..;
 			sourceTree = "<group>";
 		};
 		C78602EB0DE88131007138CC /* PKGCMSDocument.xib */ = {

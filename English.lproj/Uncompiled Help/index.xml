@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+<!--
+		A list of index entries.
+		
+		Each entry has a tag= attribute that specifies the tag that the
+		entry refers to, and a title under which the entry appears.
+	-->
+        <entry tag="problems">problems</entry>
+        <entry tag="detect">detect</entry>
+        <entry tag="baseline">baseline</entry>
+        <entry tag="peaks">peaks</entry>
+        <entry tag="compounds">compounds</entry>
+        <entry tag="detectpeaks">detect peaks</entry>
+        <entry tag="detectbaseline">detect baseline</entry>
+</index>
