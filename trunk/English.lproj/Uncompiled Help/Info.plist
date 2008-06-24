@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AppIcon</key>
+	<string>AppIcon32.png</string>
+	<key>AppName</key>
+	<string>Peacock</string>
+	<key>AppleTitle</key>
+	<string>Peacock Help</string>
+	<key>HelpIcon</key>
+	<string>AppIcon16.png</string>
+	<key>Language</key>
+	<string>en</string>
+	<key>Website</key>
+	<string>http://peacock.johankool.nl/</string>
+</dict>
+</plist>

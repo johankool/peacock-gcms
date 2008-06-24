@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<access>
+<!-- 
+		Items you specify under main appear on the left
+		side of the access page as a link to the page tagged
+		with the href= value. The title of the link will be
+		the title of the page (as specified in the page's xml file)
+		and the line below that will be the content of the <item>
+	-->
+        <main>
+                <item href="discover">Learn how to use Peacock to get the most out of your data.</item>
+                <item href="problems">Trouble? Check here for answers.</item>
+        </main>
+<!--
+		Items you specify under featured appear on the right
+		side of the access page as a link to the page tagged
+		with the href= value.
+	-->
+        <featured>
+                <item href="detectbaseline"/>
+                <item href="detectpeaks"/>
+                <item href="identifycompounds"/>
+        </featured>
+</access>

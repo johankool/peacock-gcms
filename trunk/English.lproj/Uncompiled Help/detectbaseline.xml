@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page>
+        <tag>detectbaseline</tag>
+        <tag>detect</tag>
+        <tag>baseline</tag>
+        
+        <title>Detect Baseline</title>
+        <content>
+                <p>...</p>
+                <taskbox title="Steps to detect a baseline">
+                        <ol>
+                                <li>Set your preferred settings in the "Processing"-pane of the inspector</li>
+                                <li>Click on the "Detect Baseline" toolbar icon or choose the menu-item "Process" : "Detect Baseline"</li>
+                        </ol>
+                </taskbox>
+                <!-- <preftable>
+                        <tr>
+                                <preference>Threshold</preference>
+                                <explanation></explanation>
+                        </tr>
+                </preftable> -->
+        </content>
+</page>

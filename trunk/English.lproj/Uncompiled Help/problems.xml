@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page>
+	<!--
+		See discover.xml for comments
+	-->
+	
+	<tag>problems</tag>
+	<title>Solving Problems</title>
+	
+	<content>
+		<p>There are no problems with Sample App.</p>
+		<p>Really. Well, almost.</p>
+		<taskbox title="Kinds of problems">
+			<ol>
+				<li>Sample App doesn't open</li>
+				<ul>
+					<li>Whatever</li>
+					<li>Wherever</li>
+				</ul>
+				<li>Sample App quits after launch</li>
+				<li>Sample App doesn't work on Windows Vista</li>
+			</ol>
+		</taskbox>
+		
+		<preftable>
+			<tr>
+				<preference>Foo bar</preference>
+				<explanation>Muh gnaa</explanation>
+			</tr>
+			<tr>
+				<preference>Foo bar</preference>
+				<explanation>Muh gnaa</explanation>
+			</tr>
+		</preftable>
+	</content>
+</page>
