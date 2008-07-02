@@ -264,16 +264,16 @@
 		C715DEB30A136AD200348AB5 /* PKGCMSDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PKGCMSDocument.h; sourceTree = "<group>"; };
 		C715DECE0A136B2F00348AB5 /* PKGCMSDocument.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PKGCMSDocument.m; sourceTree = "<group>"; };
 		C716B4AD0AD6AA8F00DA408E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		C71A98790E1114B80094D987 /* access.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = access.xml; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/access.xml"; sourceTree = "<absolute>"; };
-		C71A987A0E1114B80094D987 /* detectbaseline.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = detectbaseline.xml; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/detectbaseline.xml"; sourceTree = "<absolute>"; };
-		C71A987B0E1114B80094D987 /* detectpeaks.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = detectpeaks.xml; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/detectpeaks.xml"; sourceTree = "<absolute>"; };
-		C71A987C0E1114B80094D987 /* discover.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = discover.xml; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/discover.xml"; sourceTree = "<absolute>"; };
-		C71A987E0E1114B80094D987 /* AppIcon16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon16.png; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/gfx/AppIcon16.png"; sourceTree = "<absolute>"; };
-		C71A987F0E1114B80094D987 /* AppIcon32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon32.png; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/gfx/AppIcon32.png"; sourceTree = "<absolute>"; };
-		C71A98800E1114B80094D987 /* identifycompounds.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = identifycompounds.xml; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/identifycompounds.xml"; sourceTree = "<absolute>"; };
-		C71A98810E1114B80094D987 /* index.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = index.xml; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/index.xml"; sourceTree = "<absolute>"; };
-		C71A98820E1114B80094D987 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/Info.plist"; sourceTree = "<absolute>"; };
-		C71A98830E1114B80094D987 /* problems.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = problems.xml; path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/problems.xml"; sourceTree = "<absolute>"; };
+		C71A98790E1114B80094D987 /* access.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = access.xml; sourceTree = "<group>"; };
+		C71A987A0E1114B80094D987 /* detectbaseline.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = detectbaseline.xml; sourceTree = "<group>"; };
+		C71A987B0E1114B80094D987 /* detectpeaks.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = detectpeaks.xml; sourceTree = "<group>"; };
+		C71A987C0E1114B80094D987 /* discover.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = discover.xml; sourceTree = "<group>"; };
+		C71A987E0E1114B80094D987 /* AppIcon16.png */ = {isa = PBXFileReference; explicitFileType = image.png; name = AppIcon16.png; path = "English.lproj/Uncompiled Help/gfx/AppIcon16.png"; sourceTree = SOURCE_ROOT; };
+		C71A987F0E1114B80094D987 /* AppIcon32.png */ = {isa = PBXFileReference; explicitFileType = image.png; name = AppIcon32.png; path = "English.lproj/Uncompiled Help/gfx/AppIcon32.png"; sourceTree = SOURCE_ROOT; };
+		C71A98800E1114B80094D987 /* identifycompounds.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = identifycompounds.xml; sourceTree = "<group>"; };
+		C71A98810E1114B80094D987 /* index.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = index.xml; sourceTree = "<group>"; };
+		C71A98820E1114B80094D987 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C71A98830E1114B80094D987 /* problems.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = problems.xml; sourceTree = "<group>"; };
 		C71A98F00E11150B0094D987 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = "/Users/jkool/Developer/peacock-gcms/English.lproj/Peacock Help"; sourceTree = "<absolute>"; };
 		C720AB8609EA7B6C007EF860 /* pk_statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pk_statistics.h; sourceTree = "<group>"; };
 		C720AB8709EA7B6C007EF860 /* pk_statistics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pk_statistics.m; sourceTree = "<group>"; };
@@ -627,8 +627,8 @@
 				C71A98830E1114B80094D987 /* problems.xml */,
 			);
 			name = "Uncompiled Help";
-			path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help";
-			sourceTree = "<absolute>";
+			path = "English.lproj/Uncompiled Help";
+			sourceTree = SOURCE_ROOT;
 		};
 		C71A987D0E1114B80094D987 /* gfx */ = {
 			isa = PBXGroup;
@@ -636,9 +636,8 @@
 				C71A987E0E1114B80094D987 /* AppIcon16.png */,
 				C71A987F0E1114B80094D987 /* AppIcon32.png */,
 			);
-			name = gfx;
-			path = "/Users/jkool/Developer/peacock-gcms/Text/Uncompiled Help/gfx";
-			sourceTree = "<absolute>";
+			path = gfx;
+			sourceTree = "<group>";
 		};
 		C72C85C8098BF12600CEF565 /* Tests */ = {
 			isa = PBXGroup;
