@@ -649,9 +649,9 @@ idAccessor(library, setLibrary)
 
 #pragma mark Validation
 - (BOOL)validateCASNumber:(id *)ioValue error:(NSError **)outError {
-    if (*ioValue == nil) {
+    if (*ioValue == nil || [*ioValue isEqualToString:@""]) {
         return YES;
-    }
+    }    
     
     // Only numbers and hyphen allowed
     NSString *fixedString = [*ioValue stringByTrimmingCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"1234567890-"] invertedSet]];

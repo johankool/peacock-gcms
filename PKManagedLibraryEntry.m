@@ -701,8 +701,8 @@
     // Reduce allocated memory
     needDatapointsRefresh = YES;
     numberOfPoints = 0;
-    masses = (float *)realloc(masses, numberOfPoints*sizeof(float));
-    intensities = (float *)realloc(intensities, numberOfPoints*sizeof(float));
+//    masses = (float *)realloc(masses, numberOfPoints*sizeof(float));
+//    intensities = (float *)realloc(intensities, numberOfPoints*sizeof(float));
 }
 
 - (float)maxIntensity {
@@ -1186,25 +1186,29 @@
 }
 #pragma mark -
 
-#pragma mark Encoding
-- (void)encodeWithCoder:(NSCoder *)coder{
-    if ([coder allowsKeyedCoding]) {
-        [coder encodeInt:2 forKey:@"version"];
-		[coder encodeObject:[self jcampString] forKey:@"jcampString"];
-    } 
-    return;
-}
-
+//#pragma mark Encoding
+//- (void)encodeWithCoder:(NSCoder *)coder{
+//    if ([coder allowsKeyedCoding]) {
+//        [coder encodeInt:2 forKey:@"version"];
+//		[coder encodeObject:[self jcampString] forKey:@"jcampString"];
+//    } 
+//    return;
+//}
+//
 - (id)initWithCoder:(NSCoder *)coder{
-    if ( [coder allowsKeyedCoding] ) {
+    if ( [coder allowsKeyedCoding] ) {        
 		int version = [coder decodeIntForKey:@"version"];
 		needDatapointsRefresh = YES;
 		if (version >= 2) {
-            PKLogDebug(@"PKLibraryEntry returned instead of PKManagedLibraryEntry, likely because it was not found in the current Peacock libraries.");
-            return [[PKLibraryEntry alloc] initWithJCAMPString:[coder decodeObjectForKey:@"jcampString"]];
-            //return [[NSApp delegate] addLibraryEntryBasedOnJCAMPString:[coder decodeObjectForKey:@"jcampString"]];
+            NSString *jcampString = [coder decodeObjectForKey:@"jcampString"];
+            id libEntry = [[[NSApp delegate] addLibraryEntryBasedOnJCAMPString:jcampString] retain];
+            if (!libEntry) {
+                libEntry = [[PKLibraryEntry alloc] initWithJCAMPString:jcampString];
+            }
+            return libEntry;
         } else  {
-            return nil;
+            PKLogError(@"Unexpected coding version: unsupported file format");
+            return self;
 		}
      } 
     return self;

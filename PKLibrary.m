@@ -470,7 +470,7 @@
    // PKLogInfo(@"Fetching %d library entries", [moc countForFetchRequest:request error:&error]);
 
     NSArray *array = [moc executeFetchRequest:request error:&error];
-    if (!array) {
+    if (error) {
         // Deal with error...
         PKLogError(@"No library entries were found.");
         [self willPresentError:error];

@@ -646,11 +646,16 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
 
 - (PKManagedLibraryEntry *)addLibraryEntryBasedOnJCAMPString:(NSString *)jcampString {
     NSString *path = nil;
+    NSString *defaultLibrary = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibraryForNewEntries"];
     PKManagedLibraryEntry *libEntry = nil;
-    int answer = NSRunAlertPanel(NSLocalizedString(@"Unknown library entry encountered",@""),NSLocalizedString(@"The document refers to a library entry that is not or no longer in you libraries. Should it be added to your default library?",@""),@"Add to Library",@"Cancel",nil);
+    PKLibraryEntry *tempLibEntry = [[PKLibraryEntry alloc] initWithJCAMPString:jcampString];
+    int answer = NSRunAlertPanel([NSString stringWithFormat:NSLocalizedString(@"No entry for '%@' in library",@""), [tempLibEntry name]],
+                                 [NSString stringWithFormat:NSLocalizedString(@"The document refers to a library entry (CAS No.: %@) that is not or no longer in the current active libraries. Do you want to store the library entry in the default library (%@)? ",@""), [tempLibEntry CASNumber], defaultLibrary],
+                                 NSLocalizedString(@"Add Library Entry",@""),
+                                 NSLocalizedString(@"Cancel",@"") ,nil);
+    [tempLibEntry release];
+    
     if (answer == NSOKButton) {
-        libEntry = [NSEntityDescription insertNewObjectForEntityForName:@"JKManagedLibraryEntry" inManagedObjectContext:[library managedObjectContext]];
-        NSString *defaultLibrary = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibraryForNewEntries"];
         NSArray *searchpaths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
         if ([searchpaths count] > 0) {
             // look for the Peacock support folder (and create if not there)
@@ -658,7 +663,10 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
         } else {
             return nil;
         }      
-        PKLogInfo(@"Saving new library entry to %@", path);
+        PKLogDebug(@"Saving new library entry to %@", path);
+        libEntry = [NSEntityDescription insertNewObjectForEntityForName:@"JKManagedLibraryEntry" inManagedObjectContext:[library managedObjectContext]];
+        [libEntry setJCAMPString:jcampString];
+
         if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
             id persistentStore = [[[library managedObjectContext] persistentStoreCoordinator] persistentStoreForURL:[NSURL fileURLWithPath:path]];
             if (persistentStore) {
@@ -667,12 +675,13 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
         } else {
             PKLogError(@"Saving new library entry to '%@' failed. No such library exists.", path);
         }
-        [libEntry setJCAMPString:jcampString];
         return libEntry;     
     } else {
         return nil;
     }
 }
+
+
 
 - (IBAction)editLibrary:(id)sender {
     [self loadLibraryForConfiguration:[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"libraryConfiguration"]];
@@ -684,6 +693,25 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
     }
     [[self library] setFileName:NSLocalizedString(@"Peacock Library",@"")];
     [[self library] showWindows];
+}
+
+- (PKManagedLibraryEntry *)libraryEntryForCASNumber:(NSString *)CASNumber {
+    if (!CASNumber || [CASNumber isEqualToString:@""]) {
+        return nil;
+    }
+    NSLog(@"CAS: %@", CASNumber);
+    
+    // CASNumber should be valid!!
+    // Note that this returns the first match only and ignores that a compound may occur more than once in a library
+    NSArray *libraryEntries = [library libraryEntries];
+    
+    for (PKManagedLibraryEntry *managedLibEntry in libraryEntries) {
+    	if ([[managedLibEntry CASNumber] isEqualToString:CASNumber]) {
+            NSLog(@"Found %@", [managedLibEntry name]);
+            return managedLibEntry;
+        }
+    }
+    return nil;
 }
 
 - (PKManagedLibraryEntry *)libraryEntryForName:(NSString *)compoundString {
@@ -856,23 +884,23 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
 //
 // Disable ?, because it can be very noisy
 //
-- (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldHandleException:(NSException *)exception mask:(unsigned int)aMask {
-    if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue] >= JK_VERBOSITY_DEBUG) {
-        [self printStackTrace:exception];
-        return YES;
-    } else {
-        return NO;
-    }
-}
-
-- (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldLogException:(NSException *)exception mask:(unsigned int)mask {
-    if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue] >= JK_VERBOSITY_DEBUG) {
-        [self printStackTrace:exception];
-        return YES;
-    } else {
-        return NO;
-    }
-}
+//- (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldHandleException:(NSException *)exception mask:(unsigned int)aMask {
+//    if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue] >= JK_VERBOSITY_DEBUG) {
+//        [self printStackTrace:exception];
+//        return YES;
+//    } else {
+//        return NO;
+//    }
+//}
+//
+//- (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldLogException:(NSException *)exception mask:(unsigned int)mask {
+//    if ([[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"JKVerbosity"] intValue] >= JK_VERBOSITY_DEBUG) {
+//        [self printStackTrace:exception];
+//        return YES;
+//    } else {
+//        return NO;
+//    }
+//}
 
 - (void)printStackTrace:(NSException *)e {
     NSString *stack = [[e userInfo] objectForKey:NSStackTraceKey];

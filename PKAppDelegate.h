@@ -97,7 +97,7 @@
 - (PKManagedLibraryEntry *)addLibraryEntryBasedOnPeak:(PKPeakRecord *)aPeak;
 - (PKManagedLibraryEntry *)addLibraryEntryBasedOnJCAMPString:(NSString *)jcampString;
 - (PKManagedLibraryEntry *)libraryEntryForName:(NSString *)compoundString;
-
+- (PKManagedLibraryEntry *)libraryEntryForCASNumber:(NSString *)CASNumber;
 - (IBAction)editLibrary:(id)sender;
 - (NSArray *)autocompleteEntries;
 #pragma mark -
