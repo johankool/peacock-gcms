@@ -57,40 +57,55 @@
     
     if (libraryHitURI) {
         @try {
-        NSManagedObjectContext *moc = [[[NSApp delegate] library] managedObjectContext];
-        NSManagedObjectID *mid = [[moc persistentStoreCoordinator] managedObjectIDForURIRepresentation:libraryHitURI];
-        if (mid) {
-            _libraryHit = [[moc objectWithID:mid] retain];
-            if (_libraryHit) {
-                [_libraryHit willAccessValueForKey:nil];
-                return _libraryHit;
+            NSManagedObjectContext *moc = [[[NSApp delegate] library] managedObjectContext];
+            NSManagedObjectID *mid = [[moc persistentStoreCoordinator] managedObjectIDForURIRepresentation:libraryHitURI];
+            if (mid) {
+                _libraryHit = [[moc objectWithID:mid] retain];
+                if (_libraryHit) {
+                    [_libraryHit willAccessValueForKey:nil];
+                    return _libraryHit;
+                }
+                PKLogDebug(@"Library entry for '%@' not found in current libraries.", [libraryHitURI description]);
             }
-            PKLogDebug(@"Library entry for '%@' not found in current libraries.", [libraryHitURI description]);
         }
-        }
-        @catch ( NSException *e ) {
-            libraryHitURI = nil;
-            PKLogDebug(@"Catched exception.");
+        @catch (NSException *e) {
+            PKLogDebug(@"Catched exception: %@",[e reason]);
             // If the exception is because the library hit cannot be found, ignor error, fallback on JCAMP string instead
             if (![[e name] isEqualToString:NSObjectInaccessibleException]) {
                 NSMutableDictionary *errorDict = [NSMutableDictionary dictionary];
                 [errorDict setObject:[e reason] forKey:NSLocalizedDescriptionKey];
                 NSError *error = [NSError errorWithDomain:@"Peacock" code:1 userInfo:errorDict];
                 [[NSApp delegate] presentError:error];
+            } else {
+
             }
         }
         
         @finally {
-         }
+        }
     } 
     
     if (jcampString) {
         // The library entry was not found, fall back on the jcamp string representation
-        _libraryHit = [[PKLibraryEntry alloc] initWithJCAMPString:jcampString];
-        PKLogDebug(@"Library entry for '%@' not found. Falling back to using JCAMP.", [_libraryHit name]);
+        PKLibraryEntry *libEntry = [[PKLibraryEntry alloc] initWithJCAMPString:jcampString];
+        // See if we can find one like it in the library
+        NSString *CASNumber = [libEntry CASNumber];
+        NSError *error = nil;
+        if (CASNumber && ![CASNumber isEqualToString:@""] && [libEntry validateCASNumber:&CASNumber error:&error]) {
+            _libraryHit = [[[NSApp delegate] libraryEntryForCASNumber:CASNumber] retain];
+        } 
+        if (!_libraryHit) {
+            // Ask the user if he wants to add it to his library
+            _libraryHit = [[[NSApp delegate] addLibraryEntryBasedOnJCAMPString:jcampString] retain];
+            if (!_libraryHit) {
+                _libraryHit = [[PKLibraryEntry alloc] initWithJCAMPString:jcampString];
+            }
+        }
+        [libEntry release];
         return _libraryHit;
     }
 
+    PKLogError(@"No library entry found.");
 	return nil;
 }
 
@@ -126,10 +141,9 @@
 
 - (void)encodeWithCoder:(NSCoder *)coder {
     if ([coder allowsKeyedCoding]) {
-        [coder encodeInt:3 forKey:@"version"];
+        [coder encodeInt:4 forKey:@"version"];
 		[coder encodeObject:score forKey:@"score"]; 
-		[coder encodeObject:[self libraryHit] forKey:@"libraryHit"]; 
-		//[coder encodeObject:[[self libraryHit] jcampString] forKey:@"jcampString"]; 
+		[coder encodeObject:[[self libraryHit] jcampString] forKey:@"jcampString"]; 
         // If the library entry has gained a permanentID in between the assignment, we want to get it and use it.
         if (!libraryHitURI && [_libraryHit isKindOfClass:[PKManagedLibraryEntry class]]) {
             if (![[_libraryHit objectID] isTemporaryID]) {
@@ -150,28 +164,20 @@
         if (version < 2) {
             score = [[coder decodeObjectForKey:@"score"] retain]; 
             peak = [[coder decodeObjectForKey:@"peak"] retain]; 
-            // See if we can find the library entry in the current library and get hold of the URI
-            PKLibraryEntry *someLibraryHit = [coder decodeObjectForKey:@"libraryHit"]; 
-            id matchedLibraryHit = [(PKAppDelegate *)[NSApp delegate] libraryEntryForName:[someLibraryHit name]];
-            if (matchedLibraryHit) {
-                [self setLibraryHit:matchedLibraryHit];
-            } else {
-                jcampString = [[someLibraryHit jcampString] retain];
-            }
-         } else if (version ==2) {
+            jcampString = [[[coder decodeObjectForKey:@"libraryHit"] jcampString] retain];
+            [self libraryHit]; // Causes faults to fire, which we want...
+         } else if (version == 2 | version >= 4) {
             score = [[coder decodeObjectForKey:@"score"] retain]; 
             jcampString = [[coder decodeObjectForKey:@"jcampString"] retain]; 
             peak = [[coder decodeObjectForKey:@"peak"] retain];
             libraryHitURI = [[coder decodeObjectForKey:@"libraryHitURI"] retain];
             [self libraryHit]; // Causes faults to fire, which we want...
-         } else {
+         } else if (version == 3) {
              score = [[coder decodeObjectForKey:@"score"] retain]; 
              peak = [[coder decodeObjectForKey:@"peak"] retain];
              libraryHitURI = [[coder decodeObjectForKey:@"libraryHitURI"] retain];
+             jcampString = [[[coder decodeObjectForKey:@"libraryHit"] jcampString] retain];
              [self libraryHit]; // Causes faults to fire, which we want...
-             if (!_libraryHit) {
-                 _libraryHit = [[coder decodeObjectForKey:@"libraryHit"] retain];
-             }
          }
     } 
     return self;

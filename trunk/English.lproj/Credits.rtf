@@ -3,7 +3,6 @@
 {\colortbl;\red255\green255\blue255;\red128\green128\blue128;}
 {\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc2\leveljcn2\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid0\'02\'05.;}{\levelnumbers\'01;}}{\listname ;}\listid1}}
 {\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
-\vieww9000\viewh8400\viewkind0
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
 
 \f0\fs36 \cf2 Proudly presenting the peaks...
@@ -24,6 +23,8 @@ Engineering, Human Interface Design, & Documentation:
 \b0 \
 	Please e-mail your bugreports to\
 	{\field{\*\fldinst{HYPERLINK "mailto:peacock@johankool.nl?subject=%5BPeacock%20Bugreport%5D%20"}}{\fldrslt peacock@johankool.nl}}\
+   	or file an issue at:\
+    	{\field{\*\fldinst{HYPERLINK "http://peacock-gcms.googlecode.com/"}}{\fldrslt http://peacock-gcms.googlecode.com/}}\
 \
 
 \b With special thanks to:
@@ -42,531 +43,451 @@ Engineering, Human Interface Design, & Documentation:
 \b More information:
 \b0 \
 	{\field{\*\fldinst{HYPERLINK "http://peacock.johankool.nl/"}}{\fldrslt http://peacock.johankool.nl/}}\
+    \
+
+\b Source code:
+\b0 \
+	{\field{\*\fldinst{HYPERLINK "http://peacock-gcms.googlecode.com/"}}{\fldrslt http://peacock-gcms.googlecode.com/}}\
 	\
 
 \b Release notes:
 \b0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\li560\fi-560\ql\qnatural
 
-\i \cf0 	Version 0.27 (267) (di, 10 jun 2008 23:46)\
+\i \cf0 Version 0.27 (267) (di, 10 jun 2008 23:46)\
 \
 
-\i0 	Changes in this build:\
-	- [FIX] Crash when double clicking empty cell in summary\
-	- [FIX] Crash during faulting by CoreData of library entries\
-	- [FIX] Few minor changes to error handling\
-	- [FIX] Removed signed updates due to problems with Sparkle
+\i0 Changes in this build:\
+- [FIX] Crash when double clicking empty cell in summary\
+- [FIX] Crash during faulting by CoreData of library entries\
+- [FIX] Few minor changes to error handling\
+- [FIX] Removed signed updates due to problems with Sparkle
 \i \
 \
-	Version 0.26 (260) (ma, 9 jun 2008 15:03)\
+Version 0.26 (260) (ma, 9 jun 2008 15:03)\
 \
 
-\i0 	Changes in this build:\
-	- [FIX] Double clicking empty cell in Summary failed if library-entry had no model set, now using model of 1st peak instead if absent\
-	- [NEW] CAS Numbers are now checked on validity.\
-	- [FIX] Fixed bug where some files failed to open under certain conditions\
-	- [FIX] Library reload\
-	- [FIX] Spectrum data points table now sorted properly\
-	- [FIX] Memory leak in comparing models fixed\
-	- [NEW] Measurements can be reordered in the sidebar\
-	- [FIX] Baselinepoints can be added manually again\
-	- [FIX] Panning in one direction works\
-	- [FIX] Redrawing issues during pan\
-	- [FIX] Dragging now properly limited to bounds\
-	- [FIX] Better detection of object below a mouse click\
-	- [FIX] Removed dead code and a few lesser used features (e.g. Growl notification)\
-	- [FIX] Changed exception handling for missing library entries\
-	- [NEW] Manual insert baseline points (ctrl+cmd+click)\
-	- [NEW] Reset baseline\
-	- [NEW] Double clicking compound name shows library entry\
-	- [FIX] Scaling and selecting closer tied, which should improve selecting\
-	- [FIX] Forward search much faster\
-	- [FIX] Memory leak in spectrum drawing fixed\
-	- [NEW] Updated Sparkle framework\
-	- [NEW] Updated Sparkle framework\
-	- [FIX] Few minor memory leaks\
-	- [NEW] Requiring securely signed updates\
+\i0 Changes in this build:\
+- [FIX] Double clicking empty cell in Summary failed if library-entry had no model set, now using model of 1st peak instead if absent\
+- [NEW] CAS Numbers are now checked on validity.\
+- [FIX] Fixed bug where some files failed to open under certain conditions\
+- [FIX] Library reload\
+- [FIX] Spectrum data points table now sorted properly\
+- [FIX] Memory leak in comparing models fixed\
+- [NEW] Measurements can be reordered in the sidebar\
+- [FIX] Baselinepoints can be added manually again\
+- [FIX] Panning in one direction works\
+- [FIX] Redrawing issues during pan\
+- [FIX] Dragging now properly limited to bounds\
+- [FIX] Better detection of object below a mouse click\
+- [FIX] Removed dead code and a few lesser used features (e.g. Growl notification)\
+- [FIX] Changed exception handling for missing library entries\
+- [NEW] Manual insert baseline points (ctrl+cmd+click)\
+- [NEW] Reset baseline\
+- [NEW] Double clicking compound name shows library entry\
+- [FIX] Scaling and selecting closer tied, which should improve selecting\
+- [FIX] Forward search much faster\
+- [FIX] Memory leak in spectrum drawing fixed\
+- [NEW] Updated Sparkle framework\
+- [NEW] Updated Sparkle framework\
+- [FIX] Few minor memory leaks\
+- [NEW] Requiring securely signed updates\
 
 \i \
-	Version 0.25 (223) (zo, 16 mrt 2008 20:59)\
+Version 0.25 (223) (zo, 16 mrt 2008 20:59)\
 \
 
-\i0 	Changes in this build:\
-	- [FIX] "Multiplying" search results\
-	- [FIX] Autocomplete doesn't work\
-	- [FIX] Calculating ratios much faster\
-	- [FIX] Changing library configuration now handled better\
-	- [FIX] Chromatograms for mass values "100-101" and "100+101" now properly seen as the same\
-	- [FIX] Combined peaks with zero peaks assigned are now removed from the Summary\
-	- [FIX] Deleting chromatograms and peaks now works properly again\
-	- [FIX] Drag-'n-drop works again for search results\
-	- [FIX] Exception on mutating array during loop\
-	- [FIX] Exception raised during Identify compounds\
-	- [FIX] Failing drag for library entry\
-	- [FIX] Fixed exception raised when using Identify compounds and the currently selected chromatogram was used.\
-	- [FIX] Inspector doesn't always update properly when opening first document\
-	- [FIX] JKSearchResult should not use jcampString to encode library entry?\
-	- [FIX] Legend entries, esp. for library entries are wrong\
-	- [FIX] Library editor: point table\
-	- [FIX] Library is not Intel/PPC-proof\
-	- [FIX] Library panels drags do not always work after library configuration changed\
-	- [FIX] Library-popup should be hidden in library file windows\
-	- [FIX] Memory usage reduced\
-	- [FIX] Opening certain files caused an exception, which is now handled\
-	- [FIX] Setting "Sample Description" and "Sample Code" not possible\
-	- [FIX] Settings not available to plugin methods (temporary fix only)\
-	- [FIX] Should only show chromatograms of selected peaks in collapsed mode\
-	- [FIX] Some Collection was mutated while being enumerated bugs\
-	- [FIX] Warning for peak at the same scan removed (can be valid, and to annoying)\
-	- [NEW] Baseline and peak detection and spectra matching methods moved to plugin\
-	- [NEW] First start of plug-in structure implemented\
-	- [NEW] Graphical overview more suitable for creating and exporting figures\
-	- [NEW] Library editor got a makeover\
-	- [NEW] Line thickness and title of dataseries can now be changed\
-	\
-
-\i 	Version 0.24 (189) (wo, 21 nov 2007 21:47)\
+\i0 Changes in this build:\
+- [FIX] "Multiplying" search results\
+- [FIX] Autocomplete doesn't work\
+- [FIX] Calculating ratios much faster\
+- [FIX] Changing library configuration now handled better\
+- [FIX] Chromatograms for mass values "100-101" and "100+101" now properly seen as the same\
+- [FIX] Combined peaks with zero peaks assigned are now removed from the Summary\
+- [FIX] Deleting chromatograms and peaks now works properly again\
+- [FIX] Drag-'n-drop works again for search results\
+- [FIX] Exception on mutating array during loop\
+- [FIX] Exception raised during Identify compounds\
+- [FIX] Failing drag for library entry\
+- [FIX] Fixed exception raised when using Identify compounds and the currently selected chromatogram was used.\
+- [FIX] Inspector doesn't always update properly when opening first document\
+- [FIX] JKSearchResult should not use jcampString to encode library entry?\
+- [FIX] Legend entries, esp. for library entries are wrong\
+- [FIX] Library editor: point table\
+- [FIX] Library is not Intel/PPC-proof\
+- [FIX] Library panels drags do not always work after library configuration changed\
+- [FIX] Library-popup should be hidden in library file windows\
+- [FIX] Memory usage reduced\
+- [FIX] Opening certain files caused an exception, which is now handled\
+- [FIX] Setting "Sample Description" and "Sample Code" not possible\
+- [FIX] Settings not available to plugin methods (temporary fix only)\
+- [FIX] Should only show chromatograms of selected peaks in collapsed mode\
+- [FIX] Some Collection was mutated while being enumerated bugs\
+- [FIX] Warning for peak at the same scan removed (can be valid, and to annoying)\
+- [NEW] Baseline and peak detection and spectra matching methods moved to plugin\
+- [NEW] First start of plug-in structure implemented\
+- [NEW] Graphical overview more suitable for creating and exporting figures\
+- [NEW] Library editor got a makeover\
+- [NEW] Line thickness and title of dataseries can now be changed\
 \
 
-\i0 	Changes in this build:\
-	- [NEW] Summary done automatically\
-	- [FIX] Backward search no longer shows chromatogram selection sheet\
-	- [NEW] All-in-one window\
-	- [NEW] Summary keeps up-to-date automatically\
-	- [FIX] Better handling of mouse events\
-	- [NEW] Source list has new look\
-	- [FIX] Backward search no longer asks for chromatograms to use\
-	- [FIX] Smarter zoom\
-	- [FIX] All-in-one window handles documents better\
-	- [FIX] Faster forward search\
-	- [NEW] UTI support\
-	- [FIX] Changed library format for better performance\
-	- [FIX] Libraries now only loaded when needed\
-	- [NEW] Flagged peaks are marked in Summary\
-	- [NEW] Symbols can be set for peaks in all open documents\
-	- [FIX] Searching for a library entry without a set model  now works\
-	- [FIX] Intel/PPC compatability\
-	- [NEW] Using Obj-C 2.0 fast enumeration\
-	- [NEW] Using Ojc-C 2.0 properties\
-	- [NEW] Renamed some classes to use the prefix PK\
-	- [NEW] Nibs now localizable (moved to English.lproj)\
-	- [NEW] Settings for graphs can be stored and restored\
-	- [NEW] Export for summary\
-	- [NEW] Ratios can now be used with mathematical expressions\
-	- [FIX] Better checking for compound synonyms\
-	- [NEW] Ratios export\
-	- [FIX] Better all-in-one window handling for enabling menuitems/controls\
-	- [FIX] More Objc-C 2.0\
-	- [NEW] Library hits are now linked to the current library entries\
-	- [NEW] Using Xib files, should resolve subversion troubles\
-	- [NEW] Library Panel\
-	- [NEW] Mass weight now also shown in search results\
-	- [FIX] Drag-'n-drop of library hits more intuitive\
-	- [FIX] Graphical overview functionality restored\
-	- [NEW] Using (prettier) outline view for navigational pane\
-	- [FIX] Zoom is no longer reset when selecting another peak in the same chromatogram\
-
-\i \
-	Version 0.23 (117) (Fri, 22 Jun 2007 18:06)\
+\i Version 0.24 (189) (wo, 21 nov 2007 21:47)\
 \
 
-\i0 	Changes in this build:\
-	- [FIX] Allow drag for search results\
-	- [FIX] Library entries can no longer be dragged onto peaks from different model\
-	- [FIX] Warning if peaks are identified in more than one model\
-	- [FIX] Warning if library entry used in more than one peak\
-	- [FIX] Editing symbol in details\
-	- [FIX] Identified/confirmed now with proper text labels\
-	- [FIX] Confirm/discard buttons disabled on empty selection\
-	- [FIX] Discard button disposes of search results\
-	- [FIX] Discard button added to details view\
-	- [FIX] Chromatogram should show only peaks for selected predicate\
-	- [FIX] You can now set the value to be used for a ratio\
-	- [NEW] Informational text on peaks\
-	- [FIX] Peak ID's are smarter, removed peak ID's are now reused\
-	- [NEW] Peaks can be flagged for follow up\
-	- [NEW] Option to show flagged peaks only\
-	- [FIX] Easier interface to delete chromatograms\
-	- [FIX] Deleting peaks works again\
-	- [FIX] Better interface for view options tables\
-	- [FIX] Minor cleanup menu\
-	- [FIX] Models such as 91-92 and 91+92 are now interpreted as equal\
-	- [FIX] Peak ID's no longer similar on Identify Peaks\
-	- [NEW] Dragging library entries into search results is now possible\
-	- [FIX] Manually added peak is now selected after insertion\
-	- [FIX] Alert on deleting a confirmed peak\
-	- [FIX] Remove Unidentified Peaks only removes peaks without any changes to it, so also peaks with a custom label are left in place\
-	- [NEW] Libraries are now Core Data based, allowing for much large databases to be used\
-	- [FIX] Tickmarks now display properly\
-	- [NEW] JKLibraryEntry & JKManagedLibraryEntry\
-	- [NEW] Libraries preference pane\
-	- [NEW] Search Templates\
-	- [NEW] Identify Compound per peak\
-	- [FIX] Some GUI glitches fixed on width of splitviews\
-	- [NEW] Some preferences panes can now be resized\
-	- [NEW] Factor Analysis in statistics document\
-	- [NEW] Info inspector for combined peaks\
-	- [FIX] No more flashing windows when running Statistical Analysis\
-	- [NEW] Printing from statistics window\
+\i0 Changes in this build:\
+- [NEW] Summary done automatically\
+- [FIX] Backward search no longer shows chromatogram selection sheet\
+- [NEW] All-in-one window\
+- [NEW] Summary keeps up-to-date automatically\
+- [FIX] Better handling of mouse events\
+- [NEW] Source list has new look\
+- [FIX] Backward search no longer asks for chromatograms to use\
+- [FIX] Smarter zoom\
+- [FIX] All-in-one window handles documents better\
+- [FIX] Faster forward search\
+- [NEW] UTI support\
+- [FIX] Changed library format for better performance\
+- [FIX] Libraries now only loaded when needed\
+- [NEW] Flagged peaks are marked in Summary\
+- [NEW] Symbols can be set for peaks in all open documents\
+- [FIX] Searching for a library entry without a set model  now works\
+- [FIX] Intel/PPC compatability\
+- [NEW] Using Obj-C 2.0 fast enumeration\
+- [NEW] Using Ojc-C 2.0 properties\
+- [NEW] Renamed some classes to use the prefix PK\
+- [NEW] Nibs now localizable (moved to English.lproj)\
+- [NEW] Settings for graphs can be stored and restored\
+- [NEW] Export for summary\
+- [NEW] Ratios can now be used with mathematical expressions\
+- [FIX] Better checking for compound synonyms\
+- [NEW] Ratios export\
+- [FIX] Better all-in-one window handling for enabling menuitems/controls\
+- [FIX] More Objc-C 2.0\
+- [NEW] Library hits are now linked to the current library entries\
+- [NEW] Using Xib files, should resolve subversion troubles\
+- [NEW] Library Panel\
+- [NEW] Mass weight now also shown in search results\
+- [FIX] Drag-'n-drop of library hits more intuitive\
+- [FIX] Graphical overview functionality restored\
+- [NEW] Using (prettier) outline view for navigational pane\
+- [FIX] Zoom is no longer reset when selecting another peak in the same chromatogram\
 
 \i \
-	Version 0.22 (97) (Tue, 1 May 2007 13:00)\
+Version 0.23 (117) (Fri, 22 Jun 2007 18:06)\
+\
 
-\i0 		\
+\i0 Changes in this build:\
+- [FIX] Allow drag for search results\
+- [FIX] Library entries can no longer be dragged onto peaks from different model\
+- [FIX] Warning if peaks are identified in more than one model\
+- [FIX] Warning if library entry used in more than one peak\
+- [FIX] Editing symbol in details\
+- [FIX] Identified/confirmed now with proper text labels\
+- [FIX] Confirm/discard buttons disabled on empty selection\
+- [FIX] Discard button disposes of search results\
+- [FIX] Discard button added to details view\
+- [FIX] Chromatogram should show only peaks for selected predicate\
+- [FIX] You can now set the value to be used for a ratio\
+- [NEW] Informational text on peaks\
+- [FIX] Peak ID's are smarter, removed peak ID's are now reused\
+- [NEW] Peaks can be flagged for follow up\
+- [NEW] Option to show flagged peaks only\
+- [FIX] Easier interface to delete chromatograms\
+- [FIX] Deleting peaks works again\
+- [FIX] Better interface for view options tables\
+- [FIX] Minor cleanup menu\
+- [FIX] Models such as 91-92 and 91+92 are now interpreted as equal\
+- [FIX] Peak ID's no longer similar on Identify Peaks\
+- [NEW] Dragging library entries into search results is now possible\
+- [FIX] Manually added peak is now selected after insertion\
+- [FIX] Alert on deleting a confirmed peak\
+- [FIX] Remove Unidentified Peaks only removes peaks without any changes to it, so also peaks with a custom label are left in place\
+- [NEW] Libraries are now Core Data based, allowing for much large databases to be used\
+- [FIX] Tickmarks now display properly\
+- [NEW] JKLibraryEntry & JKManagedLibraryEntry\
+- [NEW] Libraries preference pane\
+- [NEW] Search Templates\
+- [NEW] Identify Compound per peak\
+- [FIX] Some GUI glitches fixed on width of splitviews\
+- [NEW] Some preferences panes can now be resized\
+- [NEW] Factor Analysis in statistics document\
+- [NEW] Info inspector for combined peaks\
+- [FIX] No more flashing windows when running Statistical Analysis\
+- [NEW] Printing from statistics window\
 
-\i 	
-\i0 Changes in this build:
+\i \
+Version 0.22 (97) (Tue, 1 May 2007 13:00)\
+    
+\i0 \
+Changes in this build:
 \i \
 
-\i0 	- [FIX] Combining peaks now takes model into account\
-	- [FIX] Different colours for multiple chromatograms\
-	- [FIX] Editing peak tables is now also undoable\
-	- [FIX] Finding moved files for statistics more reliable\
-	- [FIX] Memory leaks \
-	- [FIX] Optimization for baselineValueAtScan\
-	- [FIX] Optimization for obtainBaseline\
-	- [FIX] Optimizations/fixes for backward search\
-	- [FIX] Retention indexes missed a number formatter causing difficulties saving libraries\
-	- [FIX] Statistics documents can be saved\
-	- [NEW] Added group and synonyms fields to library entry\
-	- [NEW] Combining combined peaks now possible\
-	- [NEW] Document list\
-	- [NEW] Extra columns for additional data in tabular view\
-	- [NEW] JKCombinedPeak\
-	- [NEW] More options for values displayed in tabular statistics\
-	- [NEW] Option to change the value displayed in tabular statistics using contextual menu\
-	- [NEW] Option to search for missing peaks in combined peak\
-	- [NEW] Option to show only chromatograms for selected peaks\
-	- [NEW] Option-click removes peak from combined peak\
-	- [NEW] Preference to set log level\
-	- [NEW] Preparation of fix for exchanging Peacock files between Intel and PPC\
-	- [NEW] Printing chromatogram and spectrum now supported\
-	- [NEW] Printing of peak list can now be done\
-	- [NEW] Renaming combined peak forward to peaks
+\i0 - [FIX] Combining peaks now takes model into account\
+- [FIX] Different colours for multiple chromatograms\
+- [FIX] Editing peak tables is now also undoable\
+- [FIX] Finding moved files for statistics more reliable\
+- [FIX] Memory leaks \
+- [FIX] Optimization for baselineValueAtScan\
+- [FIX] Optimization for obtainBaseline\
+- [FIX] Optimizations/fixes for backward search\
+- [FIX] Retention indexes missed a number formatter causing difficulties saving libraries\
+- [FIX] Statistics documents can be saved\
+- [NEW] Added group and synonyms fields to library entry\
+- [NEW] Combining combined peaks now possible\
+- [NEW] Document list\
+- [NEW] Extra columns for additional data in tabular view\
+- [NEW] JKCombinedPeak\
+- [NEW] More options for values displayed in tabular statistics\
+- [NEW] Option to change the value displayed in tabular statistics using contextual menu\
+- [NEW] Option to search for missing peaks in combined peak\
+- [NEW] Option to show only chromatograms for selected peaks\
+- [NEW] Option-click removes peak from combined peak\
+- [NEW] Preference to set log level\
+- [NEW] Preparation of fix for exchanging Peacock files between Intel and PPC\
+- [NEW] Printing chromatogram and spectrum now supported\
+- [NEW] Printing of peak list can now be done\
+- [NEW] Renaming combined peak forward to peaks
 \i \
 \
-	Version 0.21 (81) (Fri, 9 Feb 2007 19:00)\
+Version 0.21 (81) (Fri, 9 Feb 2007 19:00)\
 
-\i0 	\
-    	
-\b Note:
+\i0 \
+
+\i     
+\i0\b Note:
 \b0  You can again open earlier Peacock-documents with this build.\
-	\
-
-\i 	
-\i0 Changes in this build:
-\i \
-
-\i0 	- [FIX] Batch works again\
-	- [FIX] Better baseline estimates for new peaks\
-	- [FIX] Bug in subtracting spectra fixed\
-	- [FIX] Cdf-files can no longer be added to statistics as such files don't make sense there\
-	- [FIX] Error in averaging spectra fixed\
-	- [FIX] Export summary now works properly if some metadata is absent\
-	- [FIX] Files saved with older versions of Peacock can now be read again\
-	- [FIX] Fixed rounding error in getting scan for time\
-	- [FIX] Improved details view for peaks\
-	- [FIX] Legend drawing\
-	- [FIX] Library editor layout changed\
-	- [FIX] Library editor shows spectrum of selection again\
-	- [FIX] normalizedHeight and normalizedSurface can be calculated again\
-	- [FIX] Older baselines now imported correctly\
-	- [FIX] Some display options for graphs didn't update immediately when changed\
-	- [FIX] Statistics works again\
-	- [NEW] Edited values for peaks are now validated\
-	- [NEW] Mol files can be dropped in library editor\
-	- [NEW] More informative legend in graphical comparison\
-	- [NEW] More test cases for JKSpectrum\
-	- [NEW] Option in Inspector to toggle between Stack and Overlay drawing modes\
-
-\i \
-	Version 0.20 (70) (Wed, 31 Jan 2007 17:00)\
-
-\i0 	\
-    	
-\b Warning:
-\b0  The file format used in this build has changed. You cannot open earlier Peacock-document with this build. This issue might get resolved in a next build.\
-	\
-
-\i 	
-\i0 Changes in this build:
-\i \
-
-\i0 	- [CHANGED] No dropshadow during batch pdf-creation\
-	- [CHANGED] Update copyright for 2007\
-	- [FIXED] Remapped some keyboard shortcuts\
-	- [FIXED] Select scan works again\
-	- [FIXED] Show combined/normalized spectra works\
-	- [FIXED] UTF-8 encoding now recognized for libraries\
-	- [NEW] Backward search by model\
-	- [NEW] Baseline and peaks per chromatogram\
-	- [NEW] Baseline points can be added (command double click)\
-	- [NEW] Can now mark peaks as confirmed without a library hit\
-	- [NEW] Forward search implemented\
-	- [NEW] Peaks can be combined\
-	- [NEW] Stack display of chromatograms\
-
-\i \
-	Version 0.19 (50) (Thu, 9 Nov 2006 17:00)\
-
-\i0 \
-
-\i 	
-\i0 Changes in this build:\
-	- [FIXED] Axis labels spaced correctly now\
-	- [FIXED] Chromatograms can now be properly displayed with time on the x-axis\
-	- [FIXED] Getting scan with time on x-axis now works correctly\
-	- [FIXED] Gridcolor is now actually used\
-	- [FIXED] Inspector now disables panes correctly\
-	- [FIXED] Now use correct control colors\
-	- [FIXED] Restructured panel\
-	- [NEW] Graphviews can now resize plottingarea\
-	- [NEW] Label font can be customized\
-	- [NEW] New option in the inspector to turn of drop shadows\
-
-\i \
-	Version 0.18 (44) (Fri, 29 Sep 2006 15:00)\
-
-\i0 \
-
-\i 	
-\i0 Changes in this build:\
-    	- [FIXED] Changed numbering scheme from 0.1.x to 0.x\
-	- [FIXED] All enabled settings for statistical analysis are now honoured\
-	- [FIXED] Autosaving no longer fails for changed netcdf files\
-	- [FIXED] Background color and alignment for structural formula\
-	- [FIXED] Bug allowing graphs to switch place in other contexts than the Comparison window\
-	- [FIXED] Changed default preferences\
-	- [FIXED] Crash on opening incomplete library files\
-	- [FIXED] Cursor changes in graphs\
-	- [FIXED] Draw left/bottom or horizontal/vertical axes separately\
-	- [FIXED] Fit to view for spectra\
-	- [FIXED] Focus ring now implemented as different color for shadow \
-	- [FIXED] Labels for spectra now placed properly\
-	- [FIXED] Large values (>10^6) for labels now written using scientific notation\
-	- [FIXED] Legend resizes smarter\
-	- [FIXED] Log entry on KVODeallocation when closing document\
-	- [FIXED] Match threshold setting for statistical analysis is now honoured\
-	- [FIXED] No longer automatically sets baseline\
-	- [FIXED] Optimized redrawing of graphs\
-	- [FIXED] Peak filling drawn by default (toggle using 'p')\
-	- [FIXED] Resizing splitview in Library document\
-	- [FIXED] Toolbar now visible by default\
-	- [FIXED] Undo support for changes in library entries\
-	- [FIXED] Undo support for changes in peak label and symbol\
-	- [FIXED] Warns for empty baseline on Identify Peaks\
-	- [NEW] Added UTI information to Info.plist\
-	- [NEW] Autohide of info, search results and structural formula\
-	- [NEW] Automatic hide/show for details on peak and search results\
-	- [NEW] Fetch library entries from online source using CAS number of compound\
-	- [NEW] Frame with tickmarks\
-	- [NEW] Select scan (double click on chromatogram)\
-	- [NEW] Support for reading HP JCAMP library files\
-	- [NEW] Toolbar icon for Identify Baseline\
-	- [NEW] Toolbar icons for Processes\
-	- [NEW] UTI defintions for documents\
-	- [NEW] Welcome dialog offering to copy and open test files\
-	
-\i 	\
-	Version 0.1.7 (30) (Wed, 13 Sep 2006 14:00)\
-
-\i0 \
-
-\i 	
-\i0 Changes in this build:\
-	- [FIXED] Undo for baseline points\
-	- [NEW] Icon for presets\
-	- [FIXED] Combined chromatograms for masses\
-	- [NEW] Icon for presets\
-	- [NEW] Preference to periodically save changes to disk to be restored after crash or other unexpected quit\
 \
+Changes in this build:
+\i \
 
-\i 	
-\i0 Feedback is always welcome.\
+\i0 - [FIX] Batch works again\
+- [FIX] Better baseline estimates for new peaks\
+- [FIX] Bug in subtracting spectra fixed\
+- [FIX] Cdf-files can no longer be added to statistics as such files don't make sense there\
+- [FIX] Error in averaging spectra fixed\
+- [FIX] Export summary now works properly if some metadata is absent\
+- [FIX] Files saved with older versions of Peacock can now be read again\
+- [FIX] Fixed rounding error in getting scan for time\
+- [FIX] Improved details view for peaks\
+- [FIX] Legend drawing\
+- [FIX] Library editor layout changed\
+- [FIX] Library editor shows spectrum of selection again\
+- [FIX] normalizedHeight and normalizedSurface can be calculated again\
+- [FIX] Older baselines now imported correctly\
+- [FIX] Some display options for graphs didn't update immediately when changed\
+- [FIX] Statistics works again\
+- [NEW] Edited values for peaks are now validated\
+- [NEW] Mol files can be dropped in library editor\
+- [NEW] More informative legend in graphical comparison\
+- [NEW] More test cases for JKSpectrum\
+- [NEW] Option in Inspector to toggle between Stack and Overlay drawing modes\
 
 \i \
-	Version 0.1.6 (Wed, 24 May 2006 17:00)\
+Version 0.20 (70) (Wed, 31 Jan 2007 17:00)\
 
 \i0 \
 
-\i 	
-\i0\b Apology:\
+\i     
+\i0\b Warning:
+\b0  The file format used in this build has changed. You cannot open earlier Peacock-document with this build. This issue might get resolved in a next build.\
+\
+Changes in this build:
+\i \
 
-\i\b0 	
-\i0 The previous build (0.1.5) had a bug preventing opening saved files. The issue is resolved in this build.\
+\i0 - [CHANGED] No dropshadow during batch pdf-creation\
+- [CHANGED] Update copyright for 2007\
+- [FIXED] Remapped some keyboard shortcuts\
+- [FIXED] Select scan works again\
+- [FIXED] Show combined/normalized spectra works\
+- [FIXED] UTF-8 encoding now recognized for libraries\
+- [NEW] Backward search by model\
+- [NEW] Baseline and peaks per chromatogram\
+- [NEW] Baseline points can be added (command double click)\
+- [NEW] Can now mark peaks as confirmed without a library hit\
+- [NEW] Forward search implemented\
+- [NEW] Peaks can be combined\
+- [NEW] Stack display of chromatograms\
+
+\i \
+Version 0.19 (50) (Thu, 9 Nov 2006 17:00)\
+
+\i0 \
+Changes in this build:\
+- [FIXED] Axis labels spaced correctly now\
+- [FIXED] Chromatograms can now be properly displayed with time on the x-axis\
+- [FIXED] Getting scan with time on x-axis now works correctly\
+- [FIXED] Gridcolor is now actually used\
+- [FIXED] Inspector now disables panes correctly\
+- [FIXED] Now use correct control colors\
+- [FIXED] Restructured panel\
+- [NEW] Graphviews can now resize plottingarea\
+- [NEW] Label font can be customized\
+- [NEW] New option in the inspector to turn of drop shadows\
+
+\i \
+Version 0.18 (44) (Fri, 29 Sep 2006 15:00)\
+
+\i0 \
+Changes in this build:\
+
+\i     
+\i0 - [FIXED] Changed numbering scheme from 0.1.x to 0.x\
+- [FIXED] All enabled settings for statistical analysis are now honoured\
+- [FIXED] Autosaving no longer fails for changed netcdf files\
+- [FIXED] Background color and alignment for structural formula\
+- [FIXED] Bug allowing graphs to switch place in other contexts than the Comparison window\
+- [FIXED] Changed default preferences\
+- [FIXED] Crash on opening incomplete library files\
+- [FIXED] Cursor changes in graphs\
+- [FIXED] Draw left/bottom or horizontal/vertical axes separately\
+- [FIXED] Fit to view for spectra\
+- [FIXED] Focus ring now implemented as different color for shadow \
+- [FIXED] Labels for spectra now placed properly\
+- [FIXED] Large values (>10^6) for labels now written using scientific notation\
+- [FIXED] Legend resizes smarter\
+- [FIXED] Log entry on KVODeallocation when closing document\
+- [FIXED] Match threshold setting for statistical analysis is now honoured\
+- [FIXED] No longer automatically sets baseline\
+- [FIXED] Optimized redrawing of graphs\
+- [FIXED] Peak filling drawn by default (toggle using 'p')\
+- [FIXED] Resizing splitview in Library document\
+- [FIXED] Toolbar now visible by default\
+- [FIXED] Undo support for changes in library entries\
+- [FIXED] Undo support for changes in peak label and symbol\
+- [FIXED] Warns for empty baseline on Identify Peaks\
+- [NEW] Added UTI information to Info.plist\
+- [NEW] Autohide of info, search results and structural formula\
+- [NEW] Automatic hide/show for details on peak and search results\
+- [NEW] Fetch library entries from online source using CAS number of compound\
+- [NEW] Frame with tickmarks\
+- [NEW] Select scan (double click on chromatogram)\
+- [NEW] Support for reading HP JCAMP library files\
+- [NEW] Toolbar icon for Identify Baseline\
+- [NEW] Toolbar icons for Processes\
+- [NEW] UTI defintions for documents\
+- [NEW] Welcome dialog offering to copy and open test files\
+
+\i     \
+Version 0.1.7 (30) (Wed, 13 Sep 2006 14:00)\
+
+\i0 \
+Changes in this build:\
+- [FIXED] Undo for baseline points\
+- [NEW] Icon for presets\
+- [FIXED] Combined chromatograms for masses\
+- [NEW] Icon for presets\
+- [NEW] Preference to periodically save changes to disk to be restored after crash or other unexpected quit\
+\
+Feedback is always welcome.\
+
+\i \
+Version 0.1.6 (Wed, 24 May 2006 17:00)\
+
+\i0 \
+
+\b Apology:\
+
+\b0 The previous build (0.1.5) had a bug preventing opening saved files. The issue is resolved in this build.\
 
 \b \
+Warning:\
 
-\i\b0 	
-\i0\b Warning:\
-
-\i\b0 	
-\i0 The file format has changed in this build. You will no longer be able to open Peacock files saved with earlier versions\
+\b0 The file format has changed in this build. You will no longer be able to open Peacock files saved with earlier versions\
+\
+Changes in this build:\
+- opening and saving Peacock files\
+- search algorithm\
+- a few other miscellaneous improvements\
+\
+Feedback is always welcome.\
 \
 
-\i 	
-\i0 Changes in this build:\
-
-\i 	
-\i0 - opening and saving Peacock files\
-
-\i 	
-\i0 - search algorithm\
-
-\i 	
-\i0 - a few other miscellaneous improvements\
-\
-
-\i 	
-\i0 Feedback is always welcome.\
-\
-
-\i 	Version 0.1.5 (Mon, 22 May 2006 18:00)\
+\i Version 0.1.5 (Mon, 22 May 2006 18:00)\
 
 \i0 \
 
-\i 	
-\i0\b Warning:\
+\b Warning:\
 
-\i\b0 	
-\i0 The file format used to store search results has changed in this build. You will no longer be able to open Peacock files saved with earlier versions.\
+\b0 The file format used to store search results has changed in this build. You will no longer be able to open Peacock files saved with earlier versions.\
 \
-
-\i 	
-\i0 Changes in this build:\
-
-\i 	
-\i0 - restructured internals\
-
-\i 	
-\i0 - file format changed\
-
-\i 	
-\i0 - improved inspector\
-
-\i 	
-\i0 - improved preferences\
-
-\i 	
-\i0 - improved library editor\
-
-\i 	
-\i0 - improved search algorithm\
-
-\i 	
-\i0 - restructured menubar\
-
-\i 	
-\i0 - other miscellaneous improvements\
+Changes in this build:\
+- restructured internals\
+- file format changed\
+- improved inspector\
+- improved preferences\
+- improved library editor\
+- improved search algorithm\
+- restructured menubar\
+- other miscellaneous improvements\
 \
-
-\i 	
-\i0 Feedback is always welcome.\
+Feedback is always welcome.\
 
 \i \
-	Version 0.1.4 (Fri, 14 Apr 2006 23:59)\
+Version 0.1.4 (Fri, 14 Apr 2006 23:59)\
 
 \i0 \
-
-\i 	
-\i0 Changes in this build:\
-
-\i 	
-\i0 - much faster statistical analysis\
-
-\i 	
-\i0 - other miscellaneous improvements\
+Changes in this build:\
+- much faster statistical analysis\
+- other miscellaneous improvements\
 \
-
-\i 	
-\i0 Feedback is always welcome. This build works on Intel-based Macs too.\
+Feedback is always welcome. This build works on Intel-based Macs too.\
 
 \i \
-	Version 0.1.3 (Fri, 17 Mar 2006 23:59)\
+Version 0.1.3 (Fri, 17 Mar 2006 23:59)\
 
 \i0 \
-
-\i 	
-\i0 Changes in this build:\
-
-\i 	
-\i0 - statistical analysis\
-
-\i 	
-\i0 - other improvements\
+Changes in this build:\
+- statistical analysis\
+- other improvements\
 \
-
-\i 	
-\i0 Feedback is always welcome. This build is not tested on Intel-based Macs.\
+Feedback is always welcome. This build is not tested on Intel-based Macs.\
 
 \i \
-	Version 0.1.2 (Fri, 03 Mar 2006 18:00)\
+Version 0.1.2 (Fri, 03 Mar 2006 18:00)\
 \
-	
+
 \i0 Changes in this build:\
-
-\i 	
-\i0 - re-enabled Growl\
-
-\i 	
-\i0 - updated Sparkle (update checking engine)\
-
-\i 	
-\i0 - using floats instead of doubles\
-
-\i 	
-\i0 - changes to inspector\
-
-\i 	
-\i0 - numerous other improvements\
+- re-enabled Growl\
+- updated Sparkle (update checking engine)\
+- using floats instead of doubles\
+- changes to inspector\
+- numerous other improvements\
 \
-
-\i 	
-\i0 Feedback is always welcome. This build is not tested on Intel-based Macs.
+Feedback is always welcome. This build is not tested on Intel-based Macs.
 \i \
 \
-	Version 0.1.1 (Wed, 25 Jan 2006 12:00)\
+Version 0.1.1 (Wed, 25 Jan 2006 12:00)\
 \
-	
+
 \i0 Changes in this build:\
-
-\i 	
-\i0 - universal binary\
-
-\i 	
-\i0 - temporarily disabled Growl and Smart Crash Reports\
-
-\i 	
-\i0 - menus for Spectrum and Summary now functional\
-
-\i 	
-\i0 - Summary tableviews have better synchronized scrolling\
+- universal binary\
+- temporarily disabled Growl and Smart Crash Reports\
+- menus for Spectrum and Summary now functional\
+- Summary tableviews have better synchronized scrolling\
+\
+Feedback is always welcome. This build is not tested on Intel-based Macs.\
 \
 
-\i 	
-\i0 Feedback is always welcome. This build is not tested on Intel-based Macs.\
-\
-
-\i 	Version 0.1.0 (Thu, 19 Jan 2006 17:00)\
+\i Version 0.1.0 (Thu, 19 Jan 2006 17:00)\
 
 \i0 \
-
-\i 	
-\i0 First public release.\
+First public release.\
 		\
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
 
 \b \cf0 Legal notice:
 \b0 \
-	Copyright 2003-2008 Johan Kool\
+\pard\tx480\pardeftab480\ql\qnatural\pardirnatural
+\cf0 Copyright (c) 2003-2008 Johan Kool\
 \
-This software is developed by Johan Kool.\
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\
 \
-Access and use of this software shall impose the following obligations and understandings on the user. The user is granted the right, without any fee or cost, to use, copy and distribute this software, and any derivative works thereof, and its supporting documentation for any purpose whatsoever, provided that this entire notice appears in all copies of the software, derivative works and supporting documentation. Further, Johan Kool requests that the user credit Johan Kool in any publications that result from the use of this software or in any product that includes this software. The name Johan Kool, however, may not be used in any advertising or publicity to endorse or promote any products or commercial entity unless specific written permission is obtained from Johan Kool. The user also understands that Johan Kool is not obligated to provide the user with any support, consulting, training or assistance of any kind with regard to the use, operation and performance of this software nor to provide the user with any updates, revisions, new versions or "bug fixes."\
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\
 \
-THIS SOFTWARE IS PROVIDED BY JOHAN KOOL "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL JOHAN KOOL BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE ACCESS, USE OR PERFORMANCE OF THIS SOFTWARE.\
+You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.\
 \
-Copyright 1993-1999 University Corporation for Atmospheric Research/Unidata\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 Copyright 1993-1999 University Corporation for Atmospheric Research/Unidata\
 \
 Portions (NetCDF) of this software were developed by the Unidata Program at the University Corporation for Atmospheric Research.\
 \

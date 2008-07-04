@@ -61,7 +61,7 @@
 //- (NSNumber *)retentionIndex;
 - (NSString *)group;
 
-- (PKLibraryEntry *)libraryEntry;
+- (PKLibraryEntry *)libraryEntry; // OR PKManagedLibraryEntry!!
 - (void)setLibraryEntry:(PKLibraryEntry *)libraryEntry;
 
 
