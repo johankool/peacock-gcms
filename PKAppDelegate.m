@@ -185,6 +185,8 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
         
         [[NSExceptionHandler defaultExceptionHandler] setDelegate:self];
         [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:NSHandleOtherExceptionMask];
+        _addAllEntries = NO;
+        _addNoEntries = NO;
 	}
 	return self;
 }
@@ -648,12 +650,24 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
     NSString *path = nil;
     NSString *defaultLibrary = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKey:@"defaultLibraryForNewEntries"];
     PKManagedLibraryEntry *libEntry = nil;
-    PKLibraryEntry *tempLibEntry = [[PKLibraryEntry alloc] initWithJCAMPString:jcampString];
-    int answer = NSRunAlertPanel([NSString stringWithFormat:NSLocalizedString(@"No entry for '%@' in library",@""), [tempLibEntry name]],
-                                 [NSString stringWithFormat:NSLocalizedString(@"The document refers to a library entry (CAS No.: %@) that is not or no longer in the current active libraries. Do you want to store the library entry in the default library (%@)? ",@""), [tempLibEntry CASNumber], defaultLibrary],
-                                 NSLocalizedString(@"Add Library Entry",@""),
-                                 NSLocalizedString(@"Cancel",@"") ,nil);
-    [tempLibEntry release];
+    int answer;
+    if (!_addAllEntries && !_addNoEntries) {
+        PKLibraryEntry *tempLibEntry = [[PKLibraryEntry alloc] initWithJCAMPString:jcampString];
+        answer = NSRunAlertPanel([NSString stringWithFormat:NSLocalizedString(@"No entry for '%@' in library",@""), [tempLibEntry name]],
+                                     [NSString stringWithFormat:NSLocalizedString(@"The document refers to a library entry (CAS No.: %@) that is not or no longer in the current active libraries. Do you want to store the library entry in the default library (%@)? ",@""), [tempLibEntry CASNumber], defaultLibrary],
+                                     NSLocalizedString(@"Add Library Entry",@""),
+                                     NSLocalizedString(@"Cancel",@""), NSLocalizedString(@"Add No Entries",@""), nil);
+        [tempLibEntry release];
+    } else if (_addAllEntries) {
+        answer = NSOKButton;
+    } else if (_addNoEntries) {
+        answer = NSCancelButton;
+    }
+
+    if (answer == -1) {
+        _addNoEntries = YES;
+        answer = NSCancelButton;
+    }
     
     if (answer == NSOKButton) {
         NSArray *searchpaths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
@@ -676,7 +690,7 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
             PKLogError(@"Saving new library entry to '%@' failed. No such library exists.", path);
         }
         return libEntry;     
-    } else {
+    } else if (answer == NSCancelButton) {
         return nil;
     }
 }
@@ -699,7 +713,6 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
     if (!CASNumber || [CASNumber isEqualToString:@""]) {
         return nil;
     }
-    NSLog(@"CAS: %@", CASNumber);
     
     // CASNumber should be valid!!
     // Note that this returns the first match only and ignores that a compound may occur more than once in a library
@@ -707,7 +720,6 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
     
     for (PKManagedLibraryEntry *managedLibEntry in libraryEntries) {
     	if ([[managedLibEntry CASNumber] isEqualToString:CASNumber]) {
-            NSLog(@"Found %@", [managedLibEntry name]);
             return managedLibEntry;
         }
     }

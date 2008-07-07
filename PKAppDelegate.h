@@ -74,6 +74,10 @@
     NSMutableDictionary *baselineDetectionMethods;
     NSMutableDictionary *peakDetectionMethods;
     NSMutableDictionary *spectraMatchingMethods;
+    
+    
+    BOOL _addAllEntries;
+    BOOL _addNoEntries;
 }
 
 
