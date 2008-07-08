@@ -173,7 +173,8 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
         // Create and register font name value transformer
         NSValueTransformer *transformer = [[PKBooleanToStringTransformer alloc] init];
         [NSValueTransformer setValueTransformer:transformer forName:@"BooleanToStringTransformer"];
-                
+        [transformer release];
+        
         availableDictionaries = [[NSMutableArray alloc] init];
         autocompleteEntries = [[NSArray alloc] init];
         libraryConfigurationLoaded = [@"" retain];
@@ -661,6 +662,8 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
     } else if (_addAllEntries) {
         answer = NSOKButton;
     } else if (_addNoEntries) {
+        answer = NSCancelButton;
+    } else {
         answer = NSCancelButton;
     }
 

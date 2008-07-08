@@ -561,8 +561,9 @@
         return nil;
     }
 	atom = [[CFragment alloc] initFromString:[inString cStringUsingEncoding:NSASCIIStringEncoding]:NULL];
-	
-	return [NSNumber numberWithFloat:[atom calculateWeight]];
+	float weight = [atom calculateWeight];
+ //   [atom release]; CFragment is NOT a NSObject
+	return [NSNumber numberWithFloat:weight];
 }
 
 - (NSString *)legendEntry {
@@ -1186,7 +1187,7 @@
 }
 #pragma mark -
 
-//#pragma mark Encoding
+#pragma mark Encoding
 //- (void)encodeWithCoder:(NSCoder *)coder{
 //    if ([coder allowsKeyedCoding]) {
 //        [coder encodeInt:2 forKey:@"version"];
@@ -1205,14 +1206,14 @@
             PKLibraryEntry *libEntry = [[PKLibraryEntry alloc] initWithJCAMPString:jcampString];
             // See if we can find one like it in the library
             NSString *CASNumber = [libEntry CASNumber];
-            PKLogDebug(@"will look for %@", CASNumber);
+ //           PKLogDebug(@"will look for %@", CASNumber);
             NSError *error = nil;
             if (CASNumber && ![CASNumber isEqualToString:@""] && [libEntry validateCASNumber:&CASNumber error:&error]) {
                 libraryHit = [[[NSApp delegate] libraryEntryForCASNumber:CASNumber] retain];
             } 
             if (!libraryHit) {
                 // Ask the user if he wants to add it to his library
-                PKLogDebug(@"will ask %@", CASNumber);
+   //             PKLogDebug(@"will ask %@", CASNumber);
                 libraryHit = [[[NSApp delegate] addLibraryEntryBasedOnJCAMPString:jcampString] retain];
                 if (!libraryHit) {
                     libraryHit = [libEntry retain];

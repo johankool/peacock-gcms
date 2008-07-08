@@ -98,10 +98,12 @@
             [object cleanUpAfterAction];
             if (newBaseline) {
                 [self setBaselinePoints:newBaseline];
+                [newBaseline release];
                 // Save method settings on success
                 [[self document] setBaselineDetectionSettings:[object settings] forMethod:baselineDetectionMethod];
                 return YES;
             } else {
+                [newBaseline release];
                 return NO;
             }
          } else {

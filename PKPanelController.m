@@ -72,6 +72,7 @@ static PKPanelController *theSharedController;
         // Create and register font name value transformer
         NSValueTransformer *transformer = [[PKFontNameToDisplayNameTransformer alloc] init];
         [NSValueTransformer setValueTransformer:transformer forName:@"FontNameToDisplayNameTransformer"];
+        [transformer release];
         
     }
 	
