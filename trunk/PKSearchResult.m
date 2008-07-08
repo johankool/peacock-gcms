@@ -66,7 +66,13 @@
                     return _libraryHit;
                 }
                 PKLogDebug(@"Library entry for '%@' not found in current libraries.", [libraryHitURI description]);
+            } else {   
+//                PKLogDebug(@"No NSManagedObjectID for '%@'  found in:", [libraryHitURI description]);
+//                for (id store in [[moc persistentStoreCoordinator] persistentStores]) {
+//                    PKLogDebug(@"%@ (%@)", [store identifier], [store URL]);
+//                }
             }
+
         }
         @catch (NSException *e) {
             PKLogDebug(@"Catched exception: %@",[e reason]);
@@ -91,14 +97,29 @@
         // See if we can find one like it in the library
         NSString *CASNumber = [libEntry CASNumber];
         NSError *error = nil;
+        id matchedLibraryHit = nil;
         if (CASNumber && ![CASNumber isEqualToString:@""] && [libEntry validateCASNumber:&CASNumber error:&error]) {
-            _libraryHit = [[[NSApp delegate] libraryEntryForCASNumber:CASNumber] retain];
+            matchedLibraryHit = [[NSApp delegate] libraryEntryForCASNumber:CASNumber];
+            if (matchedLibraryHit) {
+                [self setLibraryHit:matchedLibraryHit]; 
+            }
         } 
+        NSString *name = [libEntry name];
+        if (!_libraryHit) {
+            if (name && ![name isEqualToString:@""]) {
+                matchedLibraryHit = [[NSApp delegate] libraryEntryForName:name];
+                if (matchedLibraryHit) {
+                    [self setLibraryHit:matchedLibraryHit]; 
+                }
+            } 
+        }
         if (!_libraryHit) {
             // Ask the user if he wants to add it to his library
-            _libraryHit = [[[NSApp delegate] addLibraryEntryBasedOnJCAMPString:jcampString] retain];
-            if (!_libraryHit) {
+            id addedLibraryHit = [[[NSApp delegate] addLibraryEntryBasedOnJCAMPString:jcampString] retain];
+            if (!addedLibraryHit) {
                 _libraryHit = [[PKLibraryEntry alloc] initWithJCAMPString:jcampString];
+            } else {
+                [self setLibraryHit:addedLibraryHit];
             }
         }
         [libEntry release];
