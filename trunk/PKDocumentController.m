@@ -62,7 +62,7 @@
         [managedDocuments addObject:document];
         [documentTableView reloadItem:managedDocuments reloadChildren:YES];
         [documentTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[documentTableView rowForItem:document]] byExtendingSelection:NO];
-        
+        [newTabViewItem release];
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
         [center postNotificationName:@"JKGCMSDocument_DocumentActivateNotification" object:document];
      }

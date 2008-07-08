@@ -588,7 +588,7 @@
     }
 	atom = [[CFragment alloc] initFromString:[inString cStringUsingEncoding:NSASCIIStringEncoding]:NULL];
 	float result = [atom calculateWeight];
-  //[atom release];
+ //   [atom release]; CFragment is NOT a NSObject
 	return [NSNumber numberWithFloat:result];
 }
 

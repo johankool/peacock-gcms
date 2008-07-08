@@ -202,7 +202,9 @@
     [searchResult setPeak:self];
     [searchResult setLibraryHit:aLibraryEntry];
     [searchResult setScore:[NSNumber numberWithFloat:[[self spectrum] scoreComparedTo:aLibraryEntry]]];
-    return [self addSearchResult:searchResult];
+    PKSearchResult *resultingSearchResult = [self addSearchResult:searchResult];
+    [searchResult release];
+    return resultingSearchResult;
 }
 
 - (BOOL)identifyAsSearchResult:(PKSearchResult *)searchResult {
@@ -588,9 +590,8 @@
             [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Label",@"Change Peak Label")];
         }
         
-        [inValue copy];
         [label autorelease];
-        label = inValue;   
+        label = [inValue copy];   
         
         if (!identifiedSearchResult) {
             if (!identifiedSearchResult) {
@@ -638,9 +639,9 @@
         if (![[self undoManager] isUndoing]) {
             [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Symbol",@"Change Peak Symbol")];
         }
-        [inValue copy];
+     
         [symbol autorelease];
-        symbol = inValue;        
+        symbol = [inValue copy];   
     }
 }
 
@@ -657,9 +658,8 @@
             [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Left Baseline",@"Change Peak Left Baseline")];
         }
         
-        [inValue copy];
         [baselineLeft autorelease];
-        baselineLeft = inValue;        
+        baselineLeft = [inValue copy];        
     }
 }
 
@@ -705,10 +705,9 @@
         if (![[self undoManager] isUndoing]) {
             [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Right Baseline",@"Change Peak Right Baseline")];
         }
-        
-        [inValue copy];
+
         [baselineRight autorelease];
-        baselineRight = inValue;        
+        baselineRight = [inValue copy];        
     }
 }
 

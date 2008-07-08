@@ -200,6 +200,7 @@ int const kBatchSize = 5000;
 			NSFileWrapper *fileWrapperForData = [[NSFileWrapper alloc] initRegularFileWithContents:data];
 			[fileWrapperForData setPreferredFilename:@"peacock-data"];
 			[peacockFileWrapper addFileWrapper:fileWrapperForData];
+            [fileWrapperForData release];
 //            PKLogDebug(@"Saving time 6b: %g", [date timeIntervalSinceNow]);
 
 			// NetCDF file should not have changed!
@@ -215,6 +216,7 @@ int const kBatchSize = 5000;
 			NSAssert(fileWrapperForData != nil, @"fileWrapperForData = nil!");
 			[fileWrapperForData setPreferredFilename:@"peacock-data"];
 			[fileWrappers setObject:fileWrapperForData forKey:@"peacock-data"];	
+            [fileWrapperForData release];
 //            PKLogDebug(@"Saving time 6a: %g", [date timeIntervalSinceNow]);
 
 			NSFileWrapper *fileWrapperForNetCDF = [[NSFileWrapper alloc] initWithPath:absolutePathToNetCDF];
@@ -222,12 +224,14 @@ int const kBatchSize = 5000;
 			[fileWrapperForNetCDF setPreferredFilename:@"netcdf"];
 			[fileWrappers setObject:fileWrapperForNetCDF forKey:@"netcdf"];		
  //           PKLogDebug(@"Saving time 7a: %g", [date timeIntervalSinceNow]);
-
-			peacockFileWrapper = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:fileWrappers];			
+            [fileWrapperForNetCDF release];
+            
+			peacockFileWrapper = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:fileWrappers];	
+            [fileWrappers release];
 		}
 //        PKLogDebug(@"Saving time 8: %g", [date timeIntervalSinceNow]);
 
-		return peacockFileWrapper;	
+		return [peacockFileWrapper autorelease];	
 		
 	} else if ([aType isEqualToString:@"Tab Delimited Text File"] || [aType isEqualToString:@"public.plain-text"]) {
 		NSFileWrapper *fileWrapperForData = [[NSFileWrapper alloc] initRegularFileWithContents:[[self exportTabDelimitedText] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];
@@ -253,8 +257,11 @@ int const kBatchSize = 5000;
         
         result = [self readNetCDFFile:[[absoluteURL path] stringByAppendingPathComponent:@"netcdf"] error:outError];
 		if (result) {
-			peacockFileWrapper = wrapper;
+            [wrapper autorelease];
+			peacockFileWrapper = [wrapper retain];
 		} else {
+            [wrapper release];
+			peacockFileWrapper = nil;
             PKLogError(@"No NetCDF file found at '%@'.",[[absoluteURL path] stringByAppendingPathComponent:@"netcdf"]);
             return NO;
         }
@@ -592,9 +599,8 @@ int const kBatchSize = 5000;
             [[self undoManager] setActionName:NSLocalizedString(@"Change Baseline Detection Method", @"Undo for Change Baseline Detection Method")];
         }
         
-        [methodName copy];
         [baselineDetectionMethod autorelease];
-        baselineDetectionMethod = methodName;   
+        baselineDetectionMethod = [methodName copy];   
 	}
 }
 - (BOOL)validateBaselineDetectionMethod:(id *)ioValue error:(NSError **)outError {
@@ -640,9 +646,8 @@ int const kBatchSize = 5000;
             [[self undoManager] setActionName:NSLocalizedString(@"Change Peak Detection Method", @"Undo for Change Peak Detection Method")];
         }
         
-        [methodName copy];
         [peakDetectionMethod autorelease];
-        peakDetectionMethod = methodName;   
+        peakDetectionMethod = [methodName copy];   
 	}
 }
 - (BOOL)validatePeakDetectionMethod:(id *)ioValue error:(NSError **)outError {
@@ -688,9 +693,8 @@ int const kBatchSize = 5000;
             [[self undoManager] setActionName:NSLocalizedString(@"Change Spectra Matching Method", @"Undo for Change Spectra Matching Method")];
         }
         
-        [methodName copy];
         [spectraMatchingMethod autorelease];
-        spectraMatchingMethod = methodName;   
+        spectraMatchingMethod = [methodName copy];   
 	}
 }
 - (BOOL)validateSpectraMatchingMethod:(id *)ioValue error:(NSError **)outError {

@@ -168,9 +168,11 @@ static void *PeaksObservationContext = (void *)1103;
     NSTabViewItem *detailsTabViewItem = [[NSTabViewItem alloc] initWithIdentifier:@"details"];
     [detailsTabViewItem setView:detailsTabViewItemView];
     [detailsTabView addTabViewItem:detailsTabViewItem];
+    [detailsTabViewItem release];
     NSTabViewItem *searchResultsTabViewItem = [[NSTabViewItem alloc] initWithIdentifier:@"searchResults"];
     [searchResultsTabViewItem setView:searchResultsTabViewItemView];
     [detailsTabView addTabViewItem:searchResultsTabViewItem];
+    [searchResultsTabViewItem release];
 
 // Commented out because already hidden by default and relative expensive in this method    
 //    [moleculeSplitSubview setHidden:YES];
@@ -351,6 +353,7 @@ static void *PeaksObservationContext = (void *)1103;
     NSMutableIndexSet *indexes = [[chromatogramsController selectionIndexes] mutableCopy];
     [indexes removeIndex:0];
     [chromatogramsController removeObjectsAtArrangedObjectIndexes:indexes];
+    [indexes release];
     [NSApp endSheet:chromatogramSelectionSheet];
 }
 
