@@ -1211,6 +1211,12 @@
             if (CASNumber && ![CASNumber isEqualToString:@""] && [libEntry validateCASNumber:&CASNumber error:&error]) {
                 libraryHit = [[[NSApp delegate] libraryEntryForCASNumber:CASNumber] retain];
             } 
+            NSString *name = [libEntry name];
+            if (!libraryHit) {
+                if (name && ![name isEqualToString:@""]) {
+                    libraryHit = [[[NSApp delegate] libraryEntryForName:name] retain];
+                } 
+            }
             if (!libraryHit) {
                 // Ask the user if he wants to add it to his library
    //             PKLogDebug(@"will ask %@", CASNumber);
