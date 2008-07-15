@@ -63,7 +63,11 @@
                 _libraryHit = [[moc objectWithID:mid] retain];
                 if (_libraryHit) {
                     [_libraryHit willAccessValueForKey:nil];
-                    return _libraryHit;
+                    if ([_libraryHit isFault]) {
+                        PKLogError(@"Unexpected fault for library hit");
+                    } else {
+                        return _libraryHit;
+                    }
                 }
                 PKLogDebug(@"Library entry for '%@' not found in current libraries.", [libraryHitURI description]);
             } else {   

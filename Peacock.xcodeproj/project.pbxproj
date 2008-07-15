@@ -24,16 +24,6 @@
 		C716B4BD0AD6AA8F00DA408E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C716B4AD0AD6AA8F00DA408E /* CoreData.framework */; };
 		C71A0D670CBA8176008D5FB2 /* RBSplitSubview.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6150094DBE3A00C0887E /* RBSplitSubview.m */; };
 		C71A0D680CBA8178008D5FB2 /* RBSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A6152094DBE3A00C0887E /* RBSplitView.m */; };
-		C71A98840E1114B80094D987 /* access.xml in Resources */ = {isa = PBXBuildFile; fileRef = C71A98790E1114B80094D987 /* access.xml */; };
-		C71A98850E1114B80094D987 /* detectbaseline.xml in Resources */ = {isa = PBXBuildFile; fileRef = C71A987A0E1114B80094D987 /* detectbaseline.xml */; };
-		C71A98860E1114B80094D987 /* detectpeaks.xml in Resources */ = {isa = PBXBuildFile; fileRef = C71A987B0E1114B80094D987 /* detectpeaks.xml */; };
-		C71A98870E1114B90094D987 /* discover.xml in Resources */ = {isa = PBXBuildFile; fileRef = C71A987C0E1114B80094D987 /* discover.xml */; };
-		C71A98880E1114B90094D987 /* AppIcon16.png in Resources */ = {isa = PBXBuildFile; fileRef = C71A987E0E1114B80094D987 /* AppIcon16.png */; };
-		C71A98890E1114B90094D987 /* AppIcon32.png in Resources */ = {isa = PBXBuildFile; fileRef = C71A987F0E1114B80094D987 /* AppIcon32.png */; };
-		C71A988A0E1114B90094D987 /* identifycompounds.xml in Resources */ = {isa = PBXBuildFile; fileRef = C71A98800E1114B80094D987 /* identifycompounds.xml */; };
-		C71A988B0E1114B90094D987 /* index.xml in Resources */ = {isa = PBXBuildFile; fileRef = C71A98810E1114B80094D987 /* index.xml */; };
-		C71A988C0E1114B90094D987 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C71A98820E1114B80094D987 /* Info.plist */; };
-		C71A988D0E1114B90094D987 /* problems.xml in Resources */ = {isa = PBXBuildFile; fileRef = C71A98830E1114B80094D987 /* problems.xml */; };
 		C71A99560E11150B0094D987 /* Peacock Help in Resources */ = {isa = PBXBuildFile; fileRef = C71A98EF0E11150B0094D987 /* Peacock Help */; };
 		C720AB8809EA7B6C007EF860 /* pk_statistics.h in Headers */ = {isa = PBXBuildFile; fileRef = C720AB8609EA7B6C007EF860 /* pk_statistics.h */; };
 		C7213E470D1726DB0062E45B /* PKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BC505209A62C930093106E /* PKLog.m */; };
@@ -285,7 +275,6 @@
 		C72C8508098BE83600CEF565 /* PKSpectrumTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKSpectrumTest.m; sourceTree = "<group>"; };
 		C72C85D5098BF1B800CEF565 /* PKGeneralTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKGeneralTesting.h; sourceTree = "<group>"; };
 		C72C85D6098BF1B800CEF565 /* PKGeneralTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKGeneralTesting.m; sourceTree = "<group>"; };
-		C7314C560D465C7D0093EB47 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = /System/Library/Frameworks/AddressBook.framework; sourceTree = "<absolute>"; };
 		C731E4950DF74182000B1734 /* JKLibrary.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = JKLibrary.xcdatamodel; sourceTree = "<group>"; };
 		C73533D00B7A703C00F7634B /* PKChromatogramTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKChromatogramTest.h; sourceTree = "<group>"; };
 		C73533D10B7A703C00F7634B /* PKChromatogramTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKChromatogramTest.m; sourceTree = "<group>"; };
@@ -526,7 +515,6 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C7314C560D465C7D0093EB47 /* AddressBook.framework */,
 				C7BC7CD10CBB91A0006D121C /* ExceptionHandling.framework */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
@@ -1161,16 +1149,6 @@
 				C78603020DE88131007138CC /* PKPreferences.xib in Resources */,
 				C78603070DE88159007138CC /* PKBatchProcess.xib in Resources */,
 				C7D36C170E08262800D56E1B /* GPL-3.0.txt in Resources */,
-				C71A98840E1114B80094D987 /* access.xml in Resources */,
-				C71A98850E1114B80094D987 /* detectbaseline.xml in Resources */,
-				C71A98860E1114B80094D987 /* detectpeaks.xml in Resources */,
-				C71A98870E1114B90094D987 /* discover.xml in Resources */,
-				C71A98880E1114B90094D987 /* AppIcon16.png in Resources */,
-				C71A98890E1114B90094D987 /* AppIcon32.png in Resources */,
-				C71A988A0E1114B90094D987 /* identifycompounds.xml in Resources */,
-				C71A988B0E1114B90094D987 /* index.xml in Resources */,
-				C71A988C0E1114B90094D987 /* Info.plist in Resources */,
-				C71A988D0E1114B90094D987 /* problems.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
