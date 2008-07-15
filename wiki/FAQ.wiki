@@ -43,6 +43,8 @@ The [http://www.ualberta.ca/~gjones/mslib.htm AAFS Drug Library] is made availab
 
 Due to technological developments in Mac OS X 10.5 of which are taken advantage in Peacock, it is not possible to compile a version of Peacock compatible with earlier versions of Mac OS X. The development resources that are needed to write a version for 10.3 are beyond my spare time. [http://peacock-gcms.googlecode.com/files/Peacock_0.23.dmg Version 0.23] is the last version that can be used under Mac OS X 10.4.
 
+As an alternative you could consider using [http://www.mt-se.com/xhr_1.html Xhromatogram] by Mark Tracy. Xhromatogram 0.10 and newer can be used on Mac OS X 10.4 and later. Xhromatogram 0.8.4 can be used with earlier versions of Mac OS X. Xhromatogram is however limited in features compared to Peacock. 
+
 *Can you release a version for Windows or Linux?*
 
 This is unlike to become possible in the near future. Initiatives such as [http://www.cocotron.org/ Cocotron] might make this possible at some point, but this not currently a viable method of releasing a version of Peacock for any other platform than Mac OS X.
