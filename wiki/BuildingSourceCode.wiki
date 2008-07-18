@@ -1,0 +1,33 @@
+#summary Describes how to obtain the source code and build Peacock.
+#labels Phase-Implementation
+
+= Introduction =
+
+This page describes how to obtain the source code and build Peacock.
+
+= Requirements =
+
+In order to build Peacock you will need to have the following:
+  * Mac OS X 10.5.4 or newer
+  * Developer Tools installed (Xcode, Interface Builder)
+  * a Subversion client
+  * [http://code.google.com/p/helpgenerator/ helpgenerator]
+  * [http://www.brockerhoff.net/src/RBSplitView.ibplugin.zip RBSplitView plugin]
+
+= Build Instructions =
+
+== Install requirements ==
+
+Before continuing make sure you have all of the above requirements installed on your computer.
+
+== Obtaining Source Code ==
+
+Follow  the instructions [http://code.google.com/p/peacock-gcms/source/checkout here] to obtain the source code.
+
+== Create Help Files ==
+
+Use the helpgenerator application to create the help files from the skeleton help files.
+
+== Build ==
+
+In Xcode, press "Build".
