@@ -79,15 +79,14 @@
 
         }
         @catch (NSException *e) {
-            PKLogDebug(@"Catched exception: %@",[e reason]);
+            PKLogDebug(@"Catched exception: %@\nreason: %@\njcamp: %@",[e name], [e reason], jcampString);
             // If the exception is because the library hit cannot be found, ignor error, fallback on JCAMP string instead
             if (![[e name] isEqualToString:NSObjectInaccessibleException]) {
-                NSMutableDictionary *errorDict = [NSMutableDictionary dictionary];
-                [errorDict setObject:[e reason] forKey:NSLocalizedDescriptionKey];
-                NSError *error = [NSError errorWithDomain:@"Peacock" code:1 userInfo:errorDict];
-                [[NSApp delegate] presentError:error];
+                @throw e;
             } else {
-
+               // We should eat the exception!!
+                libraryHitURI = nil;
+                _libraryHit = nil;
             }
         }
         
