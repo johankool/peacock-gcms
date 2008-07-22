@@ -295,13 +295,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>31</integer>
-									<integer>1</integer>
+									<integer>97</integer>
+									<integer>96</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 1160}, {185, 863}}</string>
+							<string>{{0, 0}, {185, 863}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -329,8 +329,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -348,7 +346,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C78CC1FD0E363B6100DA5398</string>
+										<string>C78CC2040E3643EC00DA5398</string>
 										<key>history</key>
 										<array>
 											<string>C7AED3560E2CFDD6008D332F</string>
@@ -424,8 +422,6 @@
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {1222, 207}}</string>
-										<key>RubberWindowFrame</key>
-										<string>-1 106 1429 922 0 0 1680 1028 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -447,6 +443,8 @@
 									<string>PBXProjectFindModule</string>
 								</dict>
 								<dict>
+									<key>BecomeActive</key>
+									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXCVSModuleFilterTypeKey</key>
@@ -455,7 +453,7 @@
 										<dict>
 											<key>PBXCVSModuleTreeModuleColumnWidthsKey</key>
 											<array>
-												<real>575</real>
+												<real>591</real>
 												<real>56</real>
 												<real>63</real>
 												<real>60</real>
@@ -481,6 +479,8 @@
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {1222, 207}}</string>
+										<key>RubberWindowFrame</key>
+										<string>-1 106 1429 922 0 0 1680 1028 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXCVSModule</string>
@@ -702,7 +702,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>238435169.58250299</real>
+	<real>238437356.96450299</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>

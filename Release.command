@@ -24,11 +24,15 @@ read -p "Press enter key to continue when done..."
 
 # Get some info
 echo
-VERSION=`defaults read /Users/jkool/Developer/peacock-gcms/Info CFBundleShortVersionString`
+CODEPATH=`pwd`
+echo "Path to source code folder = $CODEPATH"
+RELEASEPATH="~/Developer/Releases/Peacock-releases"
+echo "Path to release folder = $RELEASEPATH"
+VERSION=`defaults read $CODEPATH/Info CFBundleShortVersionString`
 echo "Release version = $VERSION"
 SUBVERSIONVERSION=`svn info -r HEAD | grep "Revision" | sed 's/Revision: //'`
 echo "Current SVN version = $SUBVERSIONVERSION"
-SUFEEDURL=`defaults read /Users/jkool/Developer/peacock-gcms/Info SUFeedURL`
+SUFEEDURL=`defaults read $CODEPATH/Info SUFeedURL`
 PREVIOUSSUBVERSIONVERSION=`curl -s $SUFEEDURL | grep -o "sparkle:version=\W\w*\W" | tail -1 | sed 's/sparkle:version="//' | sed 's/"//'`
 echo "Previous SVN version = $PREVIOUSSUBVERSIONVERSION"
 echo
@@ -75,16 +79,16 @@ read -p "Press enter key to continue..."
 # Create DMG file (alternative method)
 echo
 echo "Creating DMG file"
-dmgcanvas -t Peacock.dmgCanvas -o ~/Developer/Releases/Peacock-releases/Peacock_$VERSION.dmg
+dmgcanvas -t Peacock.dmgCanvas -o $RELEASEPATH/Peacock_$VERSION.dmg
 echo
 read -p "Press enter key to continue..."
 
 # Determine DSA signature and file length
 echo
 echo "Determining DSA signature for file"
-DSA=`openssl dgst -sha1 -binary < ~/Developer/Releases/Peacock-releases/Peacock_$VERSION.dmg | openssl dgst -dss1 -sign dsa_priv.pem | openssl enc -base64`
+DSA=`openssl dgst -sha1 -binary < $RELEASEPATH/Peacock_$VERSION.dmg | openssl dgst -dss1 -sign dsa_priv.pem | openssl enc -base64`
 echo "DSA signature = $DSA"
-LENGTH=`ls -l ~/Developer/Releases/Peacock-releases/Peacock_$VERSION.dmg | sed 's/.* jkool *//' | sed 's/ .*//'`
+LENGTH=`ls -l $RELEASEPATH/Peacock_$VERSION.dmg | sed 's/.* jkool *//' | sed 's/ .*//'`
 echo "Length = $LENGTH bytes"
 echo
 read -p "Press enter key to continue..."
@@ -95,7 +99,7 @@ echo "Launching Transmit"
 open -a /Applications/Transmit.app
 echo
 echo "Upload file to website."
-open ~/Developer/Releases/Peacock-releases/
+open $RELEASEPATH
 echo
 read -p "Press enter key to continue when done..."
 
