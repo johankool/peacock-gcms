@@ -1,6 +1,8 @@
 #!/bin/sh
 cd "`dirname \"$0\"`"
 
+REPOSITORYPATH=`/Users/jkool/Developer/peacock-gcms/`
+
 echo
 echo "Peacock Release Script"
 echo "----------------------"
@@ -24,11 +26,11 @@ read -p "Press enter key to continue when done..."
 
 # Get some info
 echo
-VERSION=`defaults read /Users/jkool/Developer/Peacock/trunk/Info CFBundleShortVersionString`
+VERSION=`defaults read $REPOSITORYPATHInfo CFBundleShortVersionString`
 echo "Release version = $VERSION"
 SUBVERSIONVERSION=`svn info -r HEAD | grep "Revision" | sed 's/Revision: //'`
 echo "Current SVN version = $SUBVERSIONVERSION"
-SUFEEDURL=`defaults read /Users/jkool/Developer/Peacock/trunk/Info SUFeedURL`
+SUFEEDURL=`defaults read $REPOSITORYPATHInfo SUFeedURL`
 PREVIOUSSUBVERSIONVERSION=`curl -s $SUFEEDURL | grep -o "sparkle:version=\W\w*\W" | tail -1 | sed 's/sparkle:version="//' | sed 's/"//'`
 echo "Previous SVN version = $PREVIOUSSUBVERSIONVERSION"
 echo
