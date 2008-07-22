@@ -136,6 +136,9 @@ int const kBatchSize = 5000;
     if (mainWindowController) {
         [mainWindowController release];
     }
+    if (peacockFileWrapper) {
+        [peacockFileWrapper release];
+    }
     [super dealloc];
 }
 #pragma mark -
@@ -192,10 +195,10 @@ int const kBatchSize = 5000;
 //        PKLogDebug(@"Saving time 4: %g", [date timeIntervalSinceNow]);
 		[archiver release];
 		
-		if (peacockFileWrapper) {
+		if (peacockFileWrapper && [peacockFileWrapper isKindOfClass:[NSFileWrapper class]]) {
 			// This is when we save back to a peacock file
 //            PKLogDebug(@"Saving time 5b: %g", [date timeIntervalSinceNow]);
-
+//            PKLogDebug(@"filewrapper: %@", peacockFileWrapper);
 			[peacockFileWrapper removeFileWrapper:[[peacockFileWrapper fileWrappers] valueForKey:@"peacock-data"]];
 			NSFileWrapper *fileWrapperForData = [[NSFileWrapper alloc] initRegularFileWithContents:data];
 			[fileWrapperForData setPreferredFilename:@"peacock-data"];
@@ -230,7 +233,9 @@ int const kBatchSize = 5000;
             [fileWrappers release];
 		}
 //        PKLogDebug(@"Saving time 8: %g", [date timeIntervalSinceNow]);
-
+        
+        [peacockFileWrapper retain]; // We need this because we want to reuse it the next time we save!
+        
 		return [peacockFileWrapper autorelease];	
 		
 	} else if ([aType isEqualToString:@"Tab Delimited Text File"] || [aType isEqualToString:@"public.plain-text"]) {
