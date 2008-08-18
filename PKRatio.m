@@ -111,13 +111,16 @@
 
 
 - (double)calculateRatioForKey:(NSString *)key inCombinedPeaksArray:(NSArray *)combinedPeaks {
-    
     // Set variables
     for (NSString *varKey in [_varKeys allKeys]) {
         NSString *compoundName = [_varKeys objectForKey:varKey];
-        
         // Set to 0 as default value
-        [_parser evaluate:[NSString stringWithFormat:@"%@=0", varKey]];
+        @try {
+            [_parser evaluate:[NSString stringWithFormat:@"%@=0", varKey]];
+        }
+        @catch (NSException *e) {
+            PKLogDebug(@"Exception: %@ in ratio %@", e, name);
+        }
         //[_parser setSymbolValue:0.0 forKey:key]; // This doesn't seem to be working properly, the above alternative does, but is supposed to be slower
         
 		// Find concentration in combinedPeaksArray
@@ -125,7 +128,12 @@
             if ([combinedPeak isCompound:compoundName]) {
 				NSString *keyPath =[NSString stringWithFormat:@"%@.%@", key, valueType];
                 if ([combinedPeak valueForKeyPath:key] != nil) {
-                    [_parser evaluate:[NSString stringWithFormat:@"%@=%g", varKey,[[combinedPeak valueForKeyPath:keyPath] doubleValue]]];
+                    @try {
+                        [_parser evaluate:[NSString stringWithFormat:@"%@=%g", varKey,[[combinedPeak valueForKeyPath:keyPath] doubleValue]]]; 
+                    }
+                    @catch (NSException *e) {
+                        PKLogDebug(@"Exception: %@ in ratio %@", e, name);
+                    }
                     //[_parser setSymbolValue:[[combinedPeak valueForKeyPath:keyPath] doubleValue] forKey:key];
                     //PKLogDebug(@"symbol %@ [%@] = %g (%g)", compoundName, varKey, [[combinedPeak valueForKeyPath:keyPath] doubleValue], [_parser symbolValueForKey:varKey]);
                 }
@@ -133,9 +141,19 @@
 		}
 	}
 
-    double result = [_parser evaluate:_expression];
-    //PKLogDebug(@"%@ = %g ",_expression,result);
-    return result;
+    double result = NAN;
+    @try {
+         result = [_parser evaluate:_expression];
+    }
+    
+    @catch (NSException *e) {
+        PKLogDebug(@"Exception: %@ in ratio %@", e, name);
+        result = NAN;
+    }
+    
+    @finally {
+        return result;
+    }
 }
 
 - (BOOL)isValidDocumentKey:(NSString *)aKey
