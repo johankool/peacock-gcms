@@ -49,36 +49,61 @@
         NSMutableString *outString = [[NSMutableString alloc] init];
         PKGCMSDocument* document;
         
+//        // Data for each doc in a column
+//        // File name
+//        [outString appendString:@"Filename"];
+//        for (document in [[PKDocumentController sharedDocumentController] managedDocuments]) {
+//            [outString appendFormat:@"\t%@", [document displayName]];
+//        }
+//        [outString appendString:@"\n"];
+//        
+//        // Sample code
+//        [outString appendString:@"Code"];
+//        for (document in [[PKDocumentController sharedDocumentController] managedDocuments]) {
+//            [outString appendFormat:@"\t%@", [document sampleCode]];
+//        }
+//        [outString appendString:@"\n"];
+//        
+//        // Sample description
+//        [outString appendString:@"Description"];
+//        for (document in [[PKDocumentController sharedDocumentController] managedDocuments]) {
+//            [outString appendFormat:@"\t%@", [document sampleDescription]];
+//        }
+//        [outString appendString:@"\n"];
+//        
+//        // Values
+//        PKRatio *ratio;
+//        NSString *format = @"\t%@";
+//        for (ratio in [ratiosController arrangedObjects]) {
+//            [outString appendFormat:@"%@", [ratio name]];
+//            for (document in [[PKDocumentController sharedDocumentController] managedDocuments]) {
+//                [outString appendFormat:format, [ratio valueForKey:[document uuid]]];
+//            }
+//            [outString appendString:@"\n"];
+//        }
+        
+        // Data for each doc in a row
         // File name
         [outString appendString:@"Filename"];
-        for (document in [[PKDocumentController sharedDocumentController] managedDocuments]) {
-            [outString appendFormat:@"\t%@", [document displayName]];
-        }
-        [outString appendString:@"\n"];
-        
-        // Sample code
-        [outString appendString:@"Code"];
-        for (document in [[PKDocumentController sharedDocumentController] managedDocuments]) {
-            [outString appendFormat:@"\t%@", [document sampleCode]];
-        }
-        [outString appendString:@"\n"];
-        
-        // Sample description
-        [outString appendString:@"Description"];
-        for (document in [[PKDocumentController sharedDocumentController] managedDocuments]) {
-            [outString appendFormat:@"\t%@", [document sampleDescription]];
-        }
-        [outString appendString:@"\n"];
-        
-        // Values
+        [outString appendString:@"\tCode"];
+        [outString appendString:@"\tDescription"];
         PKRatio *ratio;
-        NSString *format = @"\t%@";
         for (ratio in [ratiosController arrangedObjects]) {
-            [outString appendFormat:@"%@", [ratio name]];
-            for (document in [[PKDocumentController sharedDocumentController] managedDocuments]) {
-                [outString appendFormat:format, [ratio valueForKey:[document uuid]]];
+            [outString appendFormat:@"\t%@", [ratio name]];
+        }
+        [outString appendString:@"\n"];
+        
+        for (document in [[PKDocumentController sharedDocumentController] managedDocuments]) {
+            [outString appendFormat:@"%@", [document displayName]];
+            [outString appendFormat:@"\t%@", [document sampleCode]];
+            [outString appendFormat:@"\t%@", [document sampleDescription]];
+            // Values
+            PKRatio *ratio;
+            NSString *format = @"\t%@";
+            for (ratio in [ratiosController arrangedObjects]) {
+                 [outString appendFormat:format, [ratio valueForKey:[document uuid]]];
             }
-            [outString appendString:@"\n"];
+            [outString appendString:@"\n"];            
         }
         
         return [outString writeToURL:absoluteURL atomically:YES encoding:NSUTF8StringEncoding error:outError];
@@ -111,7 +136,7 @@
         
         fileName = [NSString stringWithFormat:NSLocalizedString(@"Exported Ratios for %@ to %@.txt", @""), firstDoc, lastDoc];
     }
-    
+ //   [sp setAllowedFileTypes:[NSArray arrayWithObjects:@"txt", @"txt2", nil]];
     [sp beginSheetForDirectory:nil file:fileName modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
