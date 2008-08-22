@@ -340,7 +340,7 @@
 		C78602F80DE88131007138CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PKSummary.xib; sourceTree = "<group>"; };
 		C78602FA0DE88131007138CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PKPreferences.xib; sourceTree = "<group>"; };
 		C78603040DE88159007138CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PKBatchProcess.xib; sourceTree = "<group>"; };
-		C7895B7B0E5F62B5009C2085 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		C7895B7B0E5F62B5009C2085 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		C78FB7FC0CE9B73400466731 /* GCMathParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCMathParser.h; sourceTree = "<group>"; };
 		C78FB7FD0CE9B73400466731 /* GCMathParser.m */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GCMathParser.m; path = GCExpressionParser/GCMathParser.m; sourceTree = SOURCE_ROOT; };
 		C78FB7FE0CE9B73400466731 /* Implementation Notes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Implementation Notes"; sourceTree = "<group>"; };
