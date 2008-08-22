@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <page>
-        <tag>detectbaseline</tag>
+        <tag>detect_baseline</tag>
+        
         <tag>detect</tag>
         <tag>baseline</tag>
         
         <title>Detect Baseline</title>
         <content>
-                <p>...</p>
+                <p>A baseline indicates the level below which signal is considered noise.</p>
                 <taskbox title="Steps to detect a baseline">
                         <ol>
                                 <li>Set your preferred settings in the "Processing"-pane of the inspector</li>

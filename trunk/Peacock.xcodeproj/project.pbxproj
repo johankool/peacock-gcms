@@ -997,6 +997,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C7EB179C0898CF22007FC2ED /* Build configuration list for PBXNativeTarget "Peacock" */;
 			buildPhases = (
+				C7BFC5C50E5DB7E600F16290 /* ShellScript */,
 				8D15AC2B0486D014006FF6A4 /* Resources */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
@@ -1202,6 +1203,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		C7BFC5C50E5DB7E600F16290 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/tcsh;
+			shellScript = "/Users/jkool/Developer/helpgenerator-read-only/build/Release/Help\\ Generator.app/Contents/MacOS/Help\\ Generator /Users/jkool/Developer/peacock-gcms/English.lproj/Uncompiled\\ Help /Users/jkool/Developer/peacock-gcms/English.lproj\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
