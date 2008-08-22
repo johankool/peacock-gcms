@@ -19,8 +19,9 @@
 		with the href= value.
 	-->
         <featured>
-                <item href="detectbaseline"/>
-                <item href="detectpeaks"/>
-                <item href="identifycompounds"/>
+                <item href="shortcuts"/>
+                <item href="detect_baseline"/>
+                <item href="detect_peaks"/>
+                <item href="identify_compounds"/>
         </featured>
 </access>

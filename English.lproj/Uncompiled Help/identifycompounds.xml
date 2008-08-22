@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <page>
+        <tag>identify_compounds</tag>
+
         <tag>detect</tag>
         <tag>peaks</tag>
-        <tag>baseline</tag>
         <tag>compounds</tag>
-        <tag>peaks</tag>
                         
         <title>Identify Compounds</title>
         <content>
-                <p>...</p>
-                <taskbox title="Steps to detect peaks">
+                <taskbox title="Steps to identify compounds">
                         <ol>
-                                <li>Ensure that you are satisfied with the current baseline</li>
                                 <li>Set your preferred settings in the "Processing"-pane of the inspector</li>
-                                <li>Click on the "Detect Peaks" toolbar icon or choose the menu-item "Process" : "Detect Peaks"</li>
+                                <li>Click on the "Identify Compounds" toolbar icon or choose the menu-item "Process" : "Identify Compounds"</li>
                         </ol>
                 </taskbox>
                 <!-- <preftable>

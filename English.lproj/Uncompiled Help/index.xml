@@ -11,6 +11,7 @@
         <entry tag="baseline">baseline</entry>
         <entry tag="peaks">peaks</entry>
         <entry tag="compounds">compounds</entry>
-        <entry tag="detectpeaks">detect peaks</entry>
-        <entry tag="detectbaseline">detect baseline</entry>
+        <entry tag="detect_peaks">detect peaks</entry>
+        <entry tag="detect_baseline">detect baseline</entry>
+        <entry tag="identify_compounds">identify compounds</entry>
 </index>

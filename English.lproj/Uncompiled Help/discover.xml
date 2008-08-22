@@ -44,11 +44,6 @@
 			problems.xml for an example.
 	-->
         <content>
-                <p><b>Sample App</b> is a <link tag="problems">great</link> application!
-		</p>
-                <ul>
-                        <li>foo</li>
-                        <li>bar</li>
-                </ul>
+                <p>This is a placeholder page.</p>
         </content>
 </page>
