@@ -369,32 +369,34 @@ static NSString * LIBRARY_EXTENSION = @"peacock-library";
 }
 
 - (IBAction)openTestFile:(id)sender {
-    // Copies test files to the desktop for users wanting to explore Peacock without data at hand
-    NSString *desktopDirectory;
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
-    if ([paths count] > 0)  {
-        desktopDirectory = [paths objectAtIndex:0];
-    } else {
-        PKLogError(@"Cannot locate desktop directory");
-        return;
-    }
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://code.google.com/p/peacock-gcms/downloads/list"]];
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[desktopDirectory stringByAppendingPathComponent:@"Peacock Test Files"]]) {
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[[desktopDirectory stringByAppendingPathComponent:@"Peacock Test Files"] stringByAppendingPathComponent:@"Test File.cdf"]]) {
-            [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[desktopDirectory stringByAppendingPathComponent:@"Peacock Test Files"] stringByAppendingPathComponent:@"Test File.cdf"]] display:YES error:NULL];
-            [welcomeWindow orderOut:self];
-            return;
-        }
-        
-        NSRunAlertPanel(@"Folder already exists",@"A folder with the name \"Peacock Test Files\" already exists on your desktop.",@"OK",nil,nil);
-        return;
-    }
-    if (![[NSFileManager defaultManager] copyPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Peacock Test Files"] toPath:[desktopDirectory stringByAppendingPathComponent:@"Peacock Test Files"] handler:nil]) {
-         NSRunAlertPanel(@"Error during copying of folder",@"An error occurred during the copying of the folder with the name \"Peacock Test Files\" to your desktop.",@"OK",nil,nil);
-    }
-    
-    [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[desktopDirectory stringByAppendingPathComponent:@"Peacock Test Files"] stringByAppendingPathComponent:@"Test File.cdf"]] display:YES error:NULL];
-    
+//    // Copies test files to the desktop for users wanting to explore Peacock without data at hand
+//    NSString *desktopDirectory;
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
+//    if ([paths count] > 0)  {
+//        desktopDirectory = [paths objectAtIndex:0];
+//    } else {
+//        PKLogError(@"Cannot locate desktop directory");
+//        return;
+//    }
+//    
+//    if ([[NSFileManager defaultManager] fileExistsAtPath:[desktopDirectory stringByAppendingPathComponent:@"Peacock Test Files"]]) {
+//        if ([[NSFileManager defaultManager] fileExistsAtPath:[[desktopDirectory stringByAppendingPathComponent:@"Peacock Test Files"] stringByAppendingPathComponent:@"Test File.cdf"]]) {
+//            [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[desktopDirectory stringByAppendingPathComponent:@"Peacock Test Files"] stringByAppendingPathComponent:@"Test File.cdf"]] display:YES error:NULL];
+//            [welcomeWindow orderOut:self];
+//            return;
+//        }
+//        
+//        NSRunAlertPanel(@"Folder already exists",@"A folder with the name \"Peacock Test Files\" already exists on your desktop.",@"OK",nil,nil);
+//        return;
+//    }
+//    if (![[NSFileManager defaultManager] copyPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Peacock Test Files"] toPath:[desktopDirectory stringByAppendingPathComponent:@"Peacock Test Files"] handler:nil]) {
+//         NSRunAlertPanel(@"Error during copying of folder",@"An error occurred during the copying of the folder with the name \"Peacock Test Files\" to your desktop.",@"OK",nil,nil);
+//    }
+//    
+//    [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[desktopDirectory stringByAppendingPathComponent:@"Peacock Test Files"] stringByAppendingPathComponent:@"Test File.cdf"]] display:YES error:NULL];
+//    
     [welcomeWindow orderOut:self];
 }
 

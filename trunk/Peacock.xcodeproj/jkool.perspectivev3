@@ -312,11 +312,14 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>198</integer>
+									<integer>141</integer>
+									<integer>135</integer>
+									<integer>128</integer>
+									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 2878}, {238, 624}}</string>
+							<string>{{0, 2156}, {238, 624}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -349,7 +352,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>C7FAB88F0D82ED6C007A1DE4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>jkool.perspectivev3</string>
+								<string>PKAppDelegate.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -357,11 +360,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>C7FAB8900D82ED6C007A1DE4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>jkool.perspectivev3</string>
+										<string>PKAppDelegate.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C7BFC8010E5F016100F16290</string>
+										<string>C7BFC82F0E5F0E8300F16290</string>
 										<key>history</key>
 										<array>
 											<string>C7BFC5910E5DB69300F16290</string>
@@ -384,7 +387,8 @@
 											<string>C7BFC7CA0E5EFFE200F16290</string>
 											<string>C7BFC7CB0E5EFFE200F16290</string>
 											<string>C7BFC7E30E5F005100F16290</string>
-											<string>C7BFC7FC0E5F011000F16290</string>
+											<string>C7BFC80D0E5F067100F16290</string>
+											<string>C7BFC82C0E5F0E7700F16290</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -534,6 +538,7 @@
 											<string>C7BFC7D50E5EFFE200F16290</string>
 											<string>C7BFC7D60E5EFFE200F16290</string>
 											<string>C7BFC7E60E5F005100F16290</string>
+											<string>C7BFC80F0E5F067100F16290</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -547,23 +552,21 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1020, 343}}</string>
+								<string>{{0, 0}, {1020, 471}}</string>
 								<key>RubberWindowFrame</key>
 								<string>2 94 1280 683 0 0 1280 778 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>343pt</string>
+							<string>471pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
-							<string>294pt</string>
+							<string>166pt</string>
 							<key>Tabs</key>
 							<array>
 								<dict>
-									<key>BecomeActive</key>
-									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXProjectModuleGUID</key>
@@ -575,8 +578,6 @@
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {1020, 267}}</string>
-										<key>RubberWindowFrame</key>
-										<string>2 94 1280 683 0 0 1280 778 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -598,6 +599,8 @@
 									<string>PBXProjectFindModule</string>
 								</dict>
 								<dict>
+									<key>BecomeActive</key>
+									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXCVSModuleFilterTypeKey</key>
@@ -606,7 +609,7 @@
 										<dict>
 											<key>PBXCVSModuleTreeModuleColumnWidthsKey</key>
 											<array>
-												<real>389</real>
+												<real>373</real>
 												<real>56</real>
 												<real>63</real>
 												<real>60</real>
@@ -631,7 +634,9 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1020, 267}}</string>
+										<string>{{10, 27}, {1020, 139}}</string>
+										<key>RubberWindowFrame</key>
+										<string>2 94 1280 683 0 0 1280 778 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXCVSModule</string>
@@ -651,7 +656,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1020, 267}}</string>
+										<string>{{10, 27}, {1020, 139}}</string>
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>
@@ -855,7 +860,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>241107297.35464701</real>
+	<real>241110659.17736799</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>

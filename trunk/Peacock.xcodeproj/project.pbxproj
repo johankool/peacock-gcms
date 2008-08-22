@@ -10,7 +10,6 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		C70021320CF1CF8200EC976C /* Peacock Test Files in Resources */ = {isa = PBXBuildFile; fileRef = C747ED320ABF43C6001F98AF /* Peacock Test Files */; };
 		C708E90C0B9D953A0085872E /* PKCombinedPeak.h in Headers */ = {isa = PBXBuildFile; fileRef = C708E90A0B9D953A0085872E /* PKCombinedPeak.h */; };
 		C708E90D0B9D953A0085872E /* PKCombinedPeak.m in Sources */ = {isa = PBXBuildFile; fileRef = C708E90B0B9D953A0085872E /* PKCombinedPeak.m */; };
 		C709D00A0C465F3200C9C613 /* PKComboBoxCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C709D0080C465F3200C9C613 /* PKComboBoxCell.h */; };
@@ -1101,7 +1100,6 @@
 			files = (
 				C71A99560E11150B0094D987 /* Peacock Help in Resources */,
 				C7BB88310DE8C63C00121E67 /* License.rtf in Resources */,
-				C70021320CF1CF8200EC976C /* Peacock Test Files in Resources */,
 				C70DC01A095B205500C2B386 /* Credits.rtf in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
 				C7EB182B0898CFBD007FC2ED /* periodic.table in Resources */,

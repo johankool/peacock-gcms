@@ -85,9 +85,9 @@ read -p "Press enter key to continue..."
 
 # Determine DSA signature and file length
 echo
-echo "Determining DSA signature for file"
-DSA=`openssl dgst -sha1 -binary < $RELEASEPATH/Peacock_$VERSION.dmg | openssl dgst -dss1 -sign dsa_priv.pem | openssl enc -base64`
-echo "DSA signature = $DSA"
+# echo "Determining DSA signature for file"
+# DSA=`openssl dgst -sha1 -binary < $RELEASEPATH/Peacock_$VERSION.dmg | openssl dgst -dss1 -sign dsa_priv.pem | openssl enc -base64`
+# echo "DSA signature = $DSA"
 LENGTH=`ls -l $RELEASEPATH/Peacock_$VERSION.dmg | sed 's/.* jkool *//' | sed 's/ .*//'`
 echo "Length = $LENGTH bytes"
 echo
@@ -117,20 +117,10 @@ echo "	<p><b>Stay up-to-date:</b></br />"
 echo "	Feedback is always welcome. You can now also subscribe to a mailing list to stay up-to-date on the latest news regarding Peacock. More information on the website: <a href=\"http://peacock.johankool.nl\">http://peacock.johankool.nl/</a>."
 echo "	</p>	]]></description>"
 echo "	<pubDate>"`date "+%a, %e %b %Y %H:%M:%S %Z"`"</pubDate>"
-echo "	<enclosure sparkle:shortVersionString=\""$VERSION"\" sparkle:version=\""$SUBVERSIONVERSION"\" sparkle:dsaSignature=\""$DSA"\" url=\"http://peacock.johankool.nl/releases/Peacock_"$VERSION".dmg\" length=\""$LENGTH"\" type=\"application/octet-stream\"/>"
+echo "	<enclosure sparkle:shortVersionString=\""$VERSION"\" sparkle:version=\""$SUBVERSIONVERSION"\" url=\"http://peacock.johankool.nl/releases/Peacock_"$VERSION".dmg\" length=\""$LENGTH"\" type=\"application/octet-stream\"/>"
 echo "</item>"
 echo
 echo "Copy the above to peacock.xml"
-echo
-read -p "Press enter key to continue when done..."
-
-# Write Announcement mail
-echo
-echo "Sent Announcement Mail"
-echo
-echo "Release notes for E-mail:"
-echo "Changes in this build:"
-tee < temp_release_notes | grep -e "\[" | sed 's/^/- /'
 echo
 read -p "Press enter key to continue when done..."
 
@@ -149,12 +139,6 @@ echo "</ul>"
 echo "<p>Feedback is always welcome.</p>"
 echo
 read -p "Press enter key to continue when done..."
-
-# Update version number in registration form on website
-# echo
-# echo "Update version number in registration form on website"
-# echo
-# echo "version in http://peacock.johankool.nl/registration/Config.php needs updating"
 
 # Cleanup
 echo
