@@ -29,7 +29,6 @@
 		C729CAA90A4B45CD00FAB04F /* PKDataModelProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = C729CAA70A4B45CD00FAB04F /* PKDataModelProxy.h */; };
 		C729CAAA0A4B45CD00FAB04F /* PKDataModelProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = C729CAA80A4B45CD00FAB04F /* PKDataModelProxy.m */; };
 		C72C85D7098BF1B800CEF565 /* PKGeneralTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C85D6098BF1B800CEF565 /* PKGeneralTesting.m */; };
-		C731E3FF0DEF81E0000B1734 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C731E4960DF74182000B1734 /* JKLibrary.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = C731E4950DF74182000B1734 /* JKLibrary.xcdatamodel */; };
 		C73B27CE0CAD9EF600C09AAE /* PKSummarizer.h in Headers */ = {isa = PBXBuildFile; fileRef = C73B27CC0CAD9EF600C09AAE /* PKSummarizer.h */; };
 		C73B27CF0CAD9EF600C09AAE /* PKSummarizer.m in Sources */ = {isa = PBXBuildFile; fileRef = C73B27CD0CAD9EF600C09AAE /* PKSummarizer.m */; };
@@ -76,7 +75,6 @@
 		C778A2CE0D4FD202005C95E0 /* PKAbundanceSpectraMatchingMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D4A5D30D2DB9B500E97AD4 /* PKAbundanceSpectraMatchingMethod.m */; };
 		C77E32B90C0F2CBB00B8A64A /* libraries.png in Resources */ = {isa = PBXBuildFile; fileRef = C77E32B80C0F2CBB00B8A64A /* libraries.png */; };
 		C7834D4A0941EDAF005431CD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7834D490941EDAF005431CD /* libz.dylib */; };
-		C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7859A9909CEBCE900351C87 /* Sparkle.framework */; };
 		C78602FB0DE88131007138CC /* PKGCMSDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78602EB0DE88131007138CC /* PKGCMSDocument.xib */; };
 		C78602FC0DE88131007138CC /* PKLibrary.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78602ED0DE88131007138CC /* PKLibrary.xib */; };
 		C78602FD0DE88131007138CC /* PKLibraryPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78602EF0DE88131007138CC /* PKLibraryPanel.xib */; };
@@ -89,6 +87,7 @@
 		C78603890DE883B9007138CC /* PKChromatogramTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C73533D10B7A703C00F7634B /* PKChromatogramTest.m */; };
 		C786038A0DE883BA007138CC /* PKSpectrumTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C72C8508098BE83600CEF565 /* PKSpectrumTest.m */; };
 		C786038B0DE883BF007138CC /* PKAbundanceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C778A2C60D4FCF02005C95E0 /* PKAbundanceTest.m */; };
+		C7895B7C0E5F62B5009C2085 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7895B7B0E5F62B5009C2085 /* Sparkle.framework */; };
 		C78FB8060CE9B73400466731 /* GCMathParser.h in Headers */ = {isa = PBXBuildFile; fileRef = C78FB7FC0CE9B73400466731 /* GCMathParser.h */; };
 		C78FB8070CE9B73400466731 /* GCMathParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C78FB7FD0CE9B73400466731 /* GCMathParser.m */; };
 		C78FB8090CE9B73400466731 /* ZExpParser.h in Headers */ = {isa = PBXBuildFile; fileRef = C78FB7FF0CE9B73400466731 /* ZExpParser.h */; };
@@ -206,7 +205,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C7859AAD09CEBD2400351C87 /* Sparkle.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,7 +331,6 @@
 		C7834D3C0941ED5C005431CD /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		C7834D430941ED7A005431CD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		C7834D490941EDAF005431CD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
-		C7859A9909CEBCE900351C87 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		C78602EC0DE88131007138CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PKGCMSDocument.xib; sourceTree = "<group>"; };
 		C78602EE0DE88131007138CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PKLibrary.xib; sourceTree = "<group>"; };
 		C78602F00DE88131007138CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PKLibraryPanel.xib; sourceTree = "<group>"; };
@@ -343,6 +340,7 @@
 		C78602F80DE88131007138CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PKSummary.xib; sourceTree = "<group>"; };
 		C78602FA0DE88131007138CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PKPreferences.xib; sourceTree = "<group>"; };
 		C78603040DE88159007138CC /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PKBatchProcess.xib; sourceTree = "<group>"; };
+		C7895B7B0E5F62B5009C2085 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		C78FB7FC0CE9B73400466731 /* GCMathParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCMathParser.h; sourceTree = "<group>"; };
 		C78FB7FD0CE9B73400466731 /* GCMathParser.m */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GCMathParser.m; path = GCExpressionParser/GCMathParser.m; sourceTree = SOURCE_ROOT; };
 		C78FB7FE0CE9B73400466731 /* Implementation Notes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Implementation Notes"; sourceTree = "<group>"; };
@@ -477,12 +475,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C731E3FF0DEF81E0000B1734 /* Sparkle.framework in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				C716B4BD0AD6AA8F00DA408E /* CoreData.framework in Frameworks */,
 				C7BC7CD40CBB91A0006D121C /* ExceptionHandling.framework in Frameworks */,
 				C7EB185B0898D20E007FC2ED /* libnetcdf.a in Frameworks */,
 				C7834D4A0941EDAF005431CD /* libz.dylib in Frameworks */,
+				C7895B7C0E5F62B5009C2085 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,7 +528,7 @@
 		1058C7A8FEA54F5311CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C7859A9909CEBCE900351C87 /* Sparkle.framework */,
+				C7895B7B0E5F62B5009C2085 /* Sparkle.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
