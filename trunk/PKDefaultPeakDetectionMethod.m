@@ -61,7 +61,8 @@
         NSError *anError = [[[NSError alloc] initWithDomain:@"Peacock"
                                                        code:300
                                                    userInfo:userInfoDict] autorelease];
-        *error = anError;             
+        if (error)
+            *error = anError;             
         
         return nil;
         //        answer = NSRunInformationalAlertPanel(NSLocalizedString(@"No Baseline Set",@""),NSLocalizedString(@"No baseline have yet been identified in the chromatogram. Use the 'Identify Baseline' option first.",@""),NSLocalizedString(@"OK",@"OK"),nil,nil);

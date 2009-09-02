@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 44;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -121,6 +121,7 @@
 		C7A7BB5F0A9DE6E0005E3778 /* warning.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB520A9DE6E0005E3778 /* warning.tiff */; };
 		C7A7BB600A9DE6E0005E3778 /* layout.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB530A9DE6E0005E3778 /* layout.tiff */; };
 		C7A7BB610A9DE6E0005E3778 /* save_document.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7A7BB540A9DE6E0005E3778 /* save_document.tiff */; };
+		C7B1F60A0E5F85B300366B02 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7895B7B0E5F62B5009C2085 /* Sparkle.framework */; };
 		C7B9BA2D0AA881AE00250EFE /* view.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C7B9BA2C0AA881AE00250EFE /* view.tiff */; };
 		C7BB88310DE8C63C00121E67 /* License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C7F3EED10CE211EA008F7BBC /* License.rtf */; };
 		C7BB96C70CE89D82003049F9 /* ratios.pdf in Resources */ = {isa = PBXBuildFile; fileRef = C7BB96C50CE89D82003049F9 /* ratios.pdf */; };
@@ -205,6 +206,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				C7B1F60A0E5F85B300366B02 /* Sparkle.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1077,7 +1079,7 @@
 				BuildIndependentTargetsInParallel = YES;
 			};
 			buildConfigurationList = C7EB17A00898CF22007FC2ED /* Build configuration list for PBXProject "Peacock" */;
-			compatibilityVersion = "Xcode 3.0";
+			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* Peacock */;
 			projectDirPath = "";
@@ -1680,21 +1682,20 @@
 				ARCHS = "$(NATIVE_ARCH)";
 				FRAMEWORK_SEARCH_PATHS = Frameworks;
 				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 			};
 			name = Debug;
 		};
 		C7EB17A20898CF22007FC2ED /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = Frameworks;
 				GCC_DEBUGGING_SYMBOLS = default;
 				GCC_PREFIX_HEADER = Peacock_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;

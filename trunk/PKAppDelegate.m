@@ -796,6 +796,7 @@ NSString *appSupportSubpath = @"Peacock/PlugIns";
                      error = [[[NSError alloc] initWithDomain:@"Peacock" code:800 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Plugin failed to initialize", NSLocalizedDescriptionKey, @"", NSLocalizedFailureReasonErrorKey, @"", NSLocalizedRecoverySuggestionErrorKey, nil]] autorelease];
                     [self presentError:error];
                 }
+                [currInstance release];
             } else {
                 error = [[[NSError alloc] initWithDomain:@"Peacock" code:801 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Invalid Plugin", NSLocalizedDescriptionKey, @"", NSLocalizedFailureReasonErrorKey, @"This plugin is not recognized by Peacock.", NSLocalizedRecoverySuggestionErrorKey, nil]] autorelease];
                 [self presentError:error];

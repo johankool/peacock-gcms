@@ -292,7 +292,7 @@
     }
     [textStorage addLayoutManager:layoutManager];
     [layoutManager release];
-    
+    [textStorage release];
 }
 
 - (void)drawRect:(NSRect)rect {
