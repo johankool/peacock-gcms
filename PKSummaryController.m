@@ -92,7 +92,7 @@
 
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError {
     if ([typeName isEqualToString:@"public.text"]) {
-        NSMutableString *outString = [[NSMutableString alloc] init];
+        NSMutableString *outString = [NSMutableString string];
         PKGCMSDocument* document;
         
         // File name

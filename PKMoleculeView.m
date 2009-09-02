@@ -622,6 +622,7 @@ floatAccessor(textHeight, setTextHeight)
             if (moleculeStringContainer) {
                 [moleculeStringContainer setValue:molString forKeyPath:moleculeStringKeyPath];
             }
+            [newModel release];
         }
     } else if ([[pboard types] containsObject:NSStringPboardType] ) {
         NSString *molString = [pboard stringForType:NSStringPboardType];
@@ -633,6 +634,7 @@ floatAccessor(textHeight, setTextHeight)
         if (moleculeStringContainer) {
             [moleculeStringContainer setValue:molString forKeyPath:moleculeStringKeyPath];
         }
+        [newModel release];
     }
 
     _isTargettedForDrop = NO;

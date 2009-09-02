@@ -1379,7 +1379,7 @@ int const kBatchSize = 5000;
 	[progressIndicator setIndeterminate:YES];
 	[progressIndicator startAnimation:self];
     	
-    NSMutableArray *searchChromatograms = [[self chromatograms] mutableCopy];
+    NSMutableArray *searchChromatograms = [[[self chromatograms] mutableCopy] autorelease];
     NSMutableArray *newChromatograms = [NSMutableArray array];
 	float minimumScoreSearchResultsF = [minimumScoreSearchResults floatValue];
 	// Loop through inPeaks(=combined spectra) and determine score

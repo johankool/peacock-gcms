@@ -100,8 +100,8 @@
     while ((!iFinished) || (!jFinished)) {
         // If we go beyond the bounds, we get unexpected results, so make sure we are within the bounds.
         if ((i >= count1) && (j >= count2)) {
-            iFinished = YES;
-            jFinished = YES;
+//            iFinished = YES;
+//            jFinished = YES;
             break;
         } else if (i >= count1) {
             iFinished = YES;

@@ -173,6 +173,7 @@
             [newRatio setValueType:ratioType];
             [ratios addObject:newRatio];
             [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:@"ratios"];
+            [newRatio release];
         }
     }
 }
